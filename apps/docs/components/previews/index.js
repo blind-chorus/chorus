@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { asset } from '../../lib/asset';
 import { Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FormField, List, NavigationBar, TabBar, Thumbnail } from '@blind-chorus/ui';
 import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, MenuIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, SearchIcon, StarIcon } from '@blind-chorus/ui/icons';
 import { SpecIcon } from './SpecIcon';
@@ -850,18 +851,18 @@ export const PREVIEWS = {
   /* Thumbnail — small-rung circular image. */
   'thumbnail/default': {
     states: false,
-    render: () => <Thumbnail size={48} src="/placeholder.png" alt="Channel" />,
+    render: () => <Thumbnail size={48} src={asset("/placeholder.png")} alt="Channel" />,
   },
   'thumbnail/with-update-dot': {
     states: false,
-    render: () => <Thumbnail size={48} src="/placeholder.png" alt="Channel" updateDot />,
+    render: () => <Thumbnail size={48} src={asset("/placeholder.png")} alt="Channel" updateDot />,
   },
   'thumbnail/with-logo-badge': {
     states: false,
     render: () => (
       <Thumbnail
         size={48}
-        src="/placeholder.png"
+        src={asset("/placeholder.png")}
         alt="Channel"
         logoBadge={{ src: '/placeholder_logo.png', alt: 'Workspace' }}
       />
@@ -872,7 +873,7 @@ export const PREVIEWS = {
     render: () => (
       <Thumbnail
         size={48}
-        src="/placeholder.png"
+        src={asset("/placeholder.png")}
         alt="Channel"
         updateDot
         logoBadge={{ src: '/placeholder_logo.png', alt: 'Workspace' }}
@@ -883,12 +884,12 @@ export const PREVIEWS = {
     states: false,
     render: () => (
       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-        <Thumbnail size={48} src="/placeholder.png" alt="Channel A" updateDot />
-        <Thumbnail size={40} src="/placeholder.png" alt="Channel B" updateDot />
-        <Thumbnail size={32} src="/placeholder.png" alt="Channel C" updateDot />
-        <Thumbnail size={24} src="/placeholder.png" alt="Channel D" updateDot />
-        <Thumbnail size={20} src="/placeholder.png" alt="Channel E" updateDot />
-        <Thumbnail size={16} src="/placeholder.png" alt="Channel F" updateDot />
+        <Thumbnail size={48} src={asset("/placeholder.png")} alt="Channel A" updateDot />
+        <Thumbnail size={40} src={asset("/placeholder.png")} alt="Channel B" updateDot />
+        <Thumbnail size={32} src={asset("/placeholder.png")} alt="Channel C" updateDot />
+        <Thumbnail size={24} src={asset("/placeholder.png")} alt="Channel D" updateDot />
+        <Thumbnail size={20} src={asset("/placeholder.png")} alt="Channel E" updateDot />
+        <Thumbnail size={16} src={asset("/placeholder.png")} alt="Channel F" updateDot />
       </div>
     ),
   },
@@ -1337,7 +1338,7 @@ export const PREVIEWS = {
           variant="home"
           title={
             <img
-              src="/logotype.svg"
+              src={asset("/logotype.svg")}
               alt="Chorus"
               className="chorus-brand-logotype"
               style={{ height: 24, width: 'auto', display: 'block' }}

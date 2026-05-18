@@ -2,6 +2,7 @@ import './globals.css';
 import '@blind-chorus/ui/styles.css';
 import localFont from 'next/font/local';
 import { loadTokens, tokensAsCss } from '../lib/tokens';
+import { asset } from '../lib/asset';
 import { TokenChipCopy } from '../components/TokenChipCopy';
 
 const pretendard = localFont({
@@ -16,8 +17,8 @@ export const metadata = {
   description: 'Chorus — the design system behind our product.',
   icons: {
     icon: [
-      { url: '/logo.svg', media: '(prefers-color-scheme: light)' },
-      { url: '/logo-dark.svg', media: '(prefers-color-scheme: dark)' },
+      { url: asset('/logo.svg'), media: '(prefers-color-scheme: light)' },
+      { url: asset('/logo-dark.svg'), media: '(prefers-color-scheme: dark)' },
     ],
   },
 };
