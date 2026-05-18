@@ -305,10 +305,14 @@ for (const group of NAV) {
   }
 }
 
+function normalize(p) {
+  return p && p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p;
+}
+
 export function findToc(pathname) {
-  return NAV_BY_HREF.get(pathname)?.toc ?? [];
+  return NAV_BY_HREF.get(normalize(pathname))?.toc ?? [];
 }
 
 export function findNavLabel(pathname) {
-  return NAV_BY_HREF.get(pathname)?.label ?? null;
+  return NAV_BY_HREF.get(normalize(pathname))?.label ?? null;
 }

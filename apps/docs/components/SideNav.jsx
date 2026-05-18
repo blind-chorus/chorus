@@ -7,8 +7,12 @@ import { ExpandIcon } from '@blind-chorus/ui/icons';
 import { NAV } from '../lib/nav';
 import { useMobileNav } from './MobileNav';
 
+function normalize(p) {
+  return p && p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p;
+}
+
 function isActive(pathname, href) {
-  return pathname === href;
+  return normalize(pathname) === normalize(href);
 }
 
 /* Single chevron — visual state cue only, never an interactive surface.
