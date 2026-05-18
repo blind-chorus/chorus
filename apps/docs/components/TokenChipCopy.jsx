@@ -23,7 +23,11 @@ export function TokenChipCopy() {
       // swallow navigation clicks; only intercept when the chip itself is
       // the click target.
       if (chip.closest('a[href]')) return;
-      const text = chip.textContent?.trim();
+      // Prefer `data-token` when present — the markdown renderer trims
+      // shared namespace prefixes off chips inside tables for visual
+      // density and stashes the full token name in this attribute so
+      // copy still lands the canonical reference.
+      const text = chip.dataset.token || chip.textContent?.trim();
       if (!text) return;
       const flash = () => {
         chip.setAttribute('data-copied', 'true');

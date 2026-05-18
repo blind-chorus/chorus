@@ -2,8 +2,6 @@
 
 A focused, opt-in interruption — a centred card over a scrim that asks the user to make a single decision before continuing. Reach for Dialog when the surface needs an explicit commit / dismiss pair and the answer fits in a short title plus one supporting paragraph.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md). Action buttons delegate to [Button](../button/button.md). This file documents only Dialog-specific composition.
-
 ## Default
 
 A confirmation-style dialog with title, body, and stacked primary / tertiary actions. No image, so the text left-aligns.

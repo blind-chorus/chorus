@@ -2,8 +2,6 @@
 
 A circular image — the unit used to identify a channel, a feed author, or any small-rung image inside a denser composition. Two optional badges ride on the container without changing its footprint: an **update dot** at the top-right, and a **logo badge** at the bottom-right. A pure visual primitive — it carries no label of its own.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md). Thumbnail does not own a state-overlay contract; when wrapped in an interactive container, that container drives state and the image sits under the focus ring.
-
 ## Default
 
 The base form — image only, no badges.

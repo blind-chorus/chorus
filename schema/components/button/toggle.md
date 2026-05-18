@@ -2,8 +2,6 @@
 
 Commit-and-record action — a Toolbar-footprint button with two states. **Inactive** invites the commit (`primary` fill); **active** records it (`surfaceContainerHigh` + hairline `outlineVariant`). Use for reversible actions that persist across views — follows, subscriptions, joins.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) — color quartets, state overlays, focus ring composition. Cross-family contract lives in [`button.md`](./button.md). Visual chrome (sizing, padding, radius, label rung, icon size, state overlays) mirrors [Toolbar Button](./toolbar.md) and [Filter chip](../chip/filter.md) verbatim — only the container/label pair differs.
-
 ## Inactive
 
 The at-rest urging form — `primary` fill, no border. Reach for this whenever the action is offered but not yet taken.
@@ -51,7 +49,7 @@ import { CheckedIcon } from '@blind-chorus/ui/icons';
 
 ### Focus indicator
 
-Three-layer ring over the `sys.state.focus` overlay. Both forms take the same ring; the case below shows inactive. See [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Both forms take the same standard ring; the case below shows inactive. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
 
 ```preview
 button/toggle/focused
@@ -94,8 +92,6 @@ A single visual variant — the inactive/active toggle is expressed as a state o
 
 ## States
 
-States compose with the active container/label pair via [DESIGN.md → State overlays](../../DESIGN.md#state-overlays) — **label color** over **container color** at the state's opacity.
-
 | State      | Overlay opacity            | Additional                                                                 |
 |------------|----------------------------|-----------------------------------------------------------------------------|
 | `default`  | —                          | Container + label at rest.                                                  |
@@ -105,4 +101,4 @@ States compose with the active container/label pair via [DESIGN.md → State ove
 
 ## Focus indicator
 
-Accessibility indicator over any lifecycle state. Three-layer ring over the `sys.state.focus` (12%) overlay; `position: absolute` pseudo-element so it never affects layout. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Standard ring drawn as a `position: absolute` pseudo-element so it never affects layout. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).

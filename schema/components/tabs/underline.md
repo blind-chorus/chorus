@@ -2,8 +2,6 @@
 
 The canonical content-section switcher — a horizontal row of tabs anchored above a panel of content, with a single 2px `onSurface` indicator that slides between the active tab's bottom edge on selection. Use this when moving between *peer panels* of the same surface. For in-place mode changes, reach for [Segmented](./segmented.md).
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) and the cross-sub Tabs contract in [`tabs.md`](./tabs.md).
-
 ## Default
 
 The headline form — three peer panels switched by a tab row. The row is **Adaptive** (see [Behavior → Adaptive width](#adaptive-width)).
@@ -127,8 +125,6 @@ A single fixed rung. The 40px footprint stays constant across breakpoints.
 
 ## States
 
-States compose with the active label color via the [State overlays](../../DESIGN.md#state-overlays) rule.
-
 | State      | Overlay opacity            | Additional                                                                 |
 |------------|----------------------------|-----------------------------------------------------------------------------|
 | `default`  | —                          | Container + label at rest.                                                  |
@@ -139,7 +135,7 @@ States compose with the active label color via the [State overlays](../../DESIGN
 
 ## Focus indicator
 
-**Composition: Inward** (see [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition)) — the row is a horizontal scroller, so an outward ring would clip. Three-layer ring paints as inset shadows inside the tab's bounding box: `sys.color.focus` 2px outer (depth 0..2px), `sys.color.focusInset` 1px counter (depth 2..3px). Drawn on a `::after` overlay so the ring sits above the state-overlay tint and underline indicator, and focus never shifts a tab. Trigger: `:focus-visible`.
+**Composition: Inward** (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)) — the row is a horizontal scroller, so an outward ring would clip. The ring paints as inset shadows inside the tab's bounding box, drawn on a `::after` overlay so it sits above the state-overlay tint and underline indicator. Focus never shifts a tab. Trigger: `:focus-visible`.
 
 ## Behavior
 

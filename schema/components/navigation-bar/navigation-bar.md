@@ -2,14 +2,12 @@
 
 The top app bar — a horizontal strip pinned to the top of a screen that names the screen and exposes its highest-priority actions. Three sub-flavors share this contract: **Home** (landing-screen bar), **Page** (drill-in bar with centred title), and **Search** (search-page bar with a bare-text input). All three sit at 16px inline / 8px block padding and delegate icon slots to [Icon Button](../button/icon.md).
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md). Per-sub anatomy (slot order, title alignment, height) lives in the sibling specs below.
-
 ## Cross-sub contract
 
 - **Container.** Horizontal strip with **16px inline + 8px block padding** (`sys.layout.container.md` × `sys.layout.container.xs`), `surface` fill, **min-height 56**. Inter-slot gap is `sys.layout.inline.xl` (16).
 - **Slots.** A **leading** slot (icon), a **centre slot** (title text on Home/Page; bare input on Search), and a **trailing** slot (one or more icons on Home; a single button / link / icon on Page; conditional clear (×) on Search). Titles truncate with ellipsis; Search input never reflows its leading edge.
-- **Icon slots are [Icon Buttons](../button/icon.md).** Every icon slot renders as a 40 × 40 transparent capsule hosting a 24px (`sys.icon.lg`) glyph, with overlays composed via [State overlays](../../DESIGN.md#state-overlays).
-- **State recipes.** Default / hovered / pressed / disabled / focused on icon slots compose via [State overlays](../../DESIGN.md#state-overlays). The title is not interactive.
+- **Icon slots are [Icon Buttons](../button/icon.md).** Every icon slot renders as a 40 × 40 transparent capsule hosting a 24px (`sys.icon.lg`) glyph.
+- **Title is not interactive.**
 - **Accessibility.** Bar exposes `role="banner"` (Home, as main banner) or no implicit role (Page — page chrome). Icon slots carry `aria-label`; the page's `<h1>` lives in the page body.
 
 ## Sub-components

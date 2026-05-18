@@ -2,8 +2,6 @@
 
 The rounded-rectangle tab row — each tab a self-contained chip with a required leading icon and label. Shares its visual chrome with [Segmented](./segmented.md) and [Filter chip](../chip/filter.md) verbatim — **the single divergence is the corner radius**, which steps from `sys.radius.full` (capsule) to `sys.radius.md` (8). Reads as a soft rounded rectangle rather than a pill.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) and the cross-sub Tabs contract in [`tabs.md`](./tabs.md).
-
 ## Default
 
 The bare headline form — labels carry the meaning, no glyphs.
@@ -138,8 +136,6 @@ A single fixed rung. Every dimension other than the corner radius matches [Segme
 
 ## States
 
-States compose with the active container/label pair via the [State overlays](../../DESIGN.md#state-overlays) rule.
-
 | State      | Overlay opacity            | Additional                                                                 |
 |------------|----------------------------|-----------------------------------------------------------------------------|
 | `default`  | —                          | Container + label at rest.                                                  |
@@ -150,4 +146,4 @@ States compose with the active container/label pair via the [State overlays](../
 
 ## Focus indicator
 
-Accessibility indicator composing over any lifecycle state. Three-layer ring (2px `sys.color.focus` outside a 1px `sys.color.focusInset` counter-ring) layers over `sys.state.focus` (12%); see [Focus ring composition](../../DESIGN.md#focus-ring-composition). Trigger: `:focus-visible`.
+Standard ring (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)). Trigger: `:focus-visible`.

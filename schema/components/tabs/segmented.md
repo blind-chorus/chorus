@@ -2,8 +2,6 @@
 
 The inline view-mode toggle — a row of mutually-exclusive selectors for in-place mode changes (List ↔ Grid, Day ↔ Week ↔ Month). For panel-switching navigation, reach for [Underline](./underline.md) instead.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) and the cross-sub Tabs contract in [`tabs.md`](./tabs.md). **Delegates its segment chrome to [Filter chip](../chip/filter.md)** — every visual property of a segment (fill, label, border, radius, overlays, focus ring, selected fill) is the chip's. This sub adds only the row container and single-select semantics enforced by the Tabs context.
-
 ## Default
 
 The headline form — a 2-segment List / Grid view toggle.
@@ -81,7 +79,7 @@ import { Tabs, Tab } from '@blind-chorus/ui';
 
 Each segment renders with `chorus-chip chorus-chip--filter` — see [Filter chip](../chip/filter.md) for the full visual contract. Selected segment swaps from the unselected pair (`surfaceContainerHigh` + `outlineVariant` border + `onSurface` label) to the selected pair (`inverseSurface` fill + `inverseOnSurface` label, border `transparent` with 1px width held so footprint stays).
 
-State overlays inherit from the chip verbatim. The three-layer focus ring is re-anchored as an inset overlay on a `::after` layer — the segmented row is a horizontal scroller, so the chip's default outward ring would clip.
+Chip behaviour inherited verbatim — except the focus ring, which is re-anchored as an inset overlay on a `::after` layer (the segmented row is a horizontal scroller, so the chip's default outward ring would clip).
 
 ## Sizes
 
@@ -97,7 +95,7 @@ Row container only — segment-internal sizing (min-height, padding, radius, typ
 
 ## States
 
-Delegates to [Filter chip](../chip/filter.md) — segment chrome and all state overlays compose identically.
+Delegates to [Filter chip](../chip/filter.md) — segment chrome composes identically.
 
 | State      | Overlay opacity            | Additional                                                                 |
 |------------|----------------------------|-----------------------------------------------------------------------------|
@@ -109,4 +107,4 @@ Delegates to [Filter chip](../chip/filter.md) — segment chrome and all state o
 
 ## Focus indicator
 
-**Composition: Inward** (see [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition)) — the row is a horizontal scroller, so an outward ring would clip at the top and bottom edges. The three-layer ring paints as inset shadows inside the segment's bounding box: `sys.color.focus` 2px outer (depth 0..2px), `sys.color.focusInset` 1px counter (depth 2..3px), layered over `sys.state.focus`. Drawn on a `::after` so the ring never shifts a segment or the row. Trigger: `:focus-visible`.
+**Composition: Inward** (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)) — the row is a horizontal scroller, so an outward ring would clip at the top and bottom edges. The ring paints as inset shadows inside the segment's bounding box, drawn on a `::after` so it never shifts a segment or the row. Trigger: `:focus-visible`.

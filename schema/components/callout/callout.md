@@ -2,8 +2,6 @@
 
 An in-body explanation block — a tinted card sitting within the reading flow with a short paragraph and an optional follow-through link. Reach for Callout when a passage needs a brief aside the reader can scan or skip, not for a decision (use Dialog or Bottom Sheet) or an alert.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md). This file documents Callout-specific composition.
-
 ## Info
 
 The primary-tinted appearance with body and a follow-through link. Both the body and the action paint in the primary family, so the whole callout reads as one "highlighted block" at a glance.

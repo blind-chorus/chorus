@@ -2,13 +2,10 @@
 
 A horizontal row of mutually-exclusive selections — exactly one tab is active at a time, and selecting one swaps the surrounding panel of content. Two sub-flavors share this contract: **Underline** is the canonical content-section switcher; **Segmented** is the inline view-mode toggle whose chrome delegates to [Filter chip](../chip/filter.md).
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) — color quartets, state overlays, focus ring composition. Per-sub anatomy (slots, sizes, indicator chrome) lives in the sibling specs below.
-
 ## Cross-sub contract
 
 - **Selection model.** Single-select — exactly one Tab is active. The `Tabs` container owns the controlled `value`; selecting fires `onChange(value)`. For multi-select, reach for [Filter chips](../chip/filter.md) instead.
 - **Slots.** Each Tab carries a required **label** and an optional **leadingIcon** sized to the active sub's icon rung. No trailing slot.
-- **State recipes.** Default / hovered / pressed / selected / disabled / focused compose via the [State overlays](../../DESIGN.md#state-overlays) rule. Focus ring follows [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition).
 - **Selected as a state, not a variant.** A Tab's selected appearance is a state — the same element flips into and out of it as the parent's `value` changes.
 - **Accessibility.** Container exposes `role="tablist"` with caller-supplied `aria-label`; each Tab exposes `role="tab"` + `aria-selected`. Keyboard nav (←/→, Home/End) is handled by the container.
 

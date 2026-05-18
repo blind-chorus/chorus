@@ -1208,7 +1208,7 @@ strong code {
 
 .icon-catalog-import {
   font-family: var(--sys-typo-mono-family);
-  font-size: 12px;
+  font-size: var(--sys-typo-label-sm-size);
   color: var(--sys-color-onSurfaceVariant);
   white-space: nowrap;
   overflow: hidden;
@@ -1216,76 +1216,12 @@ strong code {
   display: block;
 }
 
-/* Keyword search for the All icons catalog. The field stretches across
-   the full content column above the table; the clear-button is an inset
-   glyph that appears once the query is non-empty. */
+/* Keyword search wrapper for the All icons catalog — the field itself is a
+   <FormField variant="search"> from @blind-chorus/ui; this rule just owns the
+   block-level margin above the table. */
 .icon-catalog-search {
   display: block;
   margin: var(--sys-layout-stack-md) 0;
-}
-
-.icon-catalog-search-field {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.icon-catalog-search-input {
-  width: 100%;
-  height: 40px;
-  padding: 0 36px 0 12px;
-  border: 1px solid var(--sys-color-outline);
-  border-radius: var(--sys-radius-md);
-  background: var(--sys-color-surface);
-  color: var(--sys-color-onSurface);
-  font-family: inherit;
-  font-size: 14px;
-  line-height: 20px;
-  box-sizing: border-box;
-}
-
-.icon-catalog-search-input::placeholder {
-  color: var(--sys-color-onSurfaceVariant);
-}
-
-.icon-catalog-search-input:focus-visible {
-  outline: var(--sys-borderWidth-thin) solid var(--sys-color-focus);
-  outline-offset: 2px;
-  border-color: var(--sys-color-primary);
-}
-
-/* The browser ships a default ✕ on `<input type="search">` in some UAs;
-   the docs custom button supersedes it for a token-driven affordance. */
-.icon-catalog-search-input::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.icon-catalog-search-clear {
-  position: absolute;
-  right: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  appearance: none;
-  background: transparent;
-  border: 0;
-  padding: 4px;
-  cursor: pointer;
-  color: var(--sys-color-onSurfaceVariant);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--sys-radius-sm);
-}
-
-.icon-catalog-search-clear:hover {
-  color: var(--sys-color-onSurface);
-}
-
-.icon-catalog-search-clear:focus-visible {
-  outline: var(--sys-borderWidth-thin) solid var(--sys-color-focus);
-  outline-offset: 2px;
 }
 
 .icon-catalog-empty {
@@ -1689,33 +1625,10 @@ strong code {
 }
 
 
-/* Three-layer focus ring per DESIGN.md → "Focus ring composition":
-   a 1px `color.focusInset` counter-ring flush against a 2px `color.focus`
-   outer ring. The inverse-toned counter-ring sits BETWEEN the control and
-   the outer ring so the indicator stays legible against a same-toned
-   surface (white-on-white or black-on-black is impossible — the
-   one-pixel counter-ring guarantees an edge without inflating the ring
-   past 3px outward).
-
-   Layered shadow, button-edge outward:
-     0 .. 1px : color.focusInset  (inner counter-ring; first in shadow list
-                                   so it paints on top of focus's inner 1px)
-     1 .. 3px : color.focus       (outer ring, ref.borderWidth.thin = 2px;
-                                   second in list, only its outer 2px sliver
-                                   is visible because focusInset covers the
-                                   inner 1px)
-
-   The fill layer (`state.focus` = 12% foreground over container) is applied
-   per-variant via `background: color-mix(...)` on `:focus-visible`.
-
-   NOTE: The shadow declarations are written *inline* in the
-   `.chorus-button--standard:focus-visible` rule below rather than via `var(--focus-ring)`
-   — Chrome has a quirk where a stylesheet `box-shadow: var(--multi-shadow)`
-   expansion can compute to zero spreads while the same expansion set inline
-   works correctly. Until that quirk is gone, components must inline the
-   literal composition (see also: `feedback_state_recipes_from_design_md`
-   memory — focus rings come from DESIGN.md, never improvise). */
-
+/* Focus ring — composed per DESIGN.md → "Focus ring composition". The
+   actual rule lives in packages/ui (see chorus-button focus-visible);
+   docs chrome consumes the system-level `var(--focus-ring)` token, applied
+   to .side-nav-group-toggle:focus-visible and .component-preview-codepanel-toggle:focus-visible above. */
 
 .rule-list {
   margin: 0;
@@ -1727,7 +1640,12 @@ strong code {
   margin-top: var(--sys-layout-stack-sm);
 }
 
-.rule-list li {
+/* Shared card chrome: rule-list items and guidelines-grid items are both
+   "peer cards within a section" — same padding, border, radius, fill,
+   body-sm typography. Authored once so a chrome tweak (e.g. radius) is a
+   single-source edit across both surfaces. */
+.rule-list li,
+.guidelines-item {
   padding: var(--sys-layout-container-sm);
   border: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
   border-radius: var(--sys-radius-lg);
@@ -1779,7 +1697,10 @@ ol.rule-list {
 
 ol.rule-list > li {
   position: relative;
-  padding-left: calc(var(--sys-layout-container-sm) + 16px + var(--sys-layout-inline-md));
+  /* `--chip-size` (16px / ref.space.200) mirrors the chip's own width
+     below — keeps the indent math single-sourced from the chip diameter. */
+  --chip-size: var(--ref-space-200);
+  padding-left: calc(var(--sys-layout-container-sm) + var(--chip-size) + var(--sys-layout-inline-md));
   counter-increment: ol-rule-list;
   --chip-top-inset: var(--sys-layout-container-sm);
 }
@@ -1791,7 +1712,7 @@ ol.rule-list > li {
    reads as a continuation of the lead-in line, not as indented chrome. */
 .rule-list li ol.rule-list > li {
   --chip-top-inset: 0px;
-  padding-left: calc(16px + var(--sys-layout-inline-md));
+  padding-left: calc(var(--chip-size) + var(--sys-layout-inline-md));
 }
 
 .rule-list li ol.rule-list > li::before {
@@ -1801,13 +1722,13 @@ ol.rule-list > li {
 ol.rule-list > li::before {
   content: counter(ol-rule-list);
   position: absolute;
-  top: calc(var(--chip-top-inset) + (var(--sys-typo-body-sm-size) * var(--sys-typo-body-sm-line) - 16px) / 2);
+  top: calc(var(--chip-top-inset) + (var(--sys-typo-body-sm-size) * var(--sys-typo-body-sm-line) - var(--chip-size)) / 2);
   left: var(--sys-layout-container-sm);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 16px;
-  height: 16px;
+  width: var(--chip-size);
+  height: var(--chip-size);
   border-radius: var(--sys-radius-full);
   background: var(--sys-color-focus);
   font-size: var(--sys-typo-label-sm-size);
@@ -1849,17 +1770,7 @@ ol.rule-list > li::before {
   color: var(--sys-color-error);
 }
 
-.guidelines-item {
-  padding: var(--sys-layout-container-sm);
-  border: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
-  border-radius: var(--sys-radius-lg);
-  background: var(--sys-color-surfaceContainer);
-  font-size: var(--sys-typo-body-sm-size);
-  font-weight: var(--sys-typo-body-sm-weight);
-  line-height: var(--sys-typo-body-sm-line);
-  letter-spacing: var(--sys-typo-body-sm-tracking);
-  color: var(--sys-color-onSurface);
-}
+/* Chrome shared with .rule-list li above (see consolidated rule). */
 
 @media (max-width: 799px) {
   .guidelines-grid {
@@ -2012,8 +1923,8 @@ ol.rule-list > li::before {
 }
 
 .focus-ring-layer--state {
-  right: 16px;
-  bottom: 16px;
+  right: var(--ref-space-200);
+  bottom: var(--ref-space-200);
   background: var(--sys-color-onPrimary);
 }
 

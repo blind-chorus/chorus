@@ -10,7 +10,7 @@
  *   schema/tokens/resolved.web.json       (web-breakpoint overrides, light theme; sparse)
  *   schema/tokens/resolved.web.dark.json  (web-breakpoint overrides, dark theme; sparse)
  *
- * External tools (Claude Design, Figma plugin, AI agents) read these instead of
+ * External tools (Claude Design, AI agents, design plugins) read these instead of
  * the source three-tier files — they don't have to know about `{ref.palette.blue.500}`
  * dereferencing or the `$theme.dark` / `$responsive.web` overlay model.
  *

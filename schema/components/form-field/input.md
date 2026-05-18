@@ -2,8 +2,6 @@
 
 The single-line text field — a bordered, transparent-fill box for short values. An optional label and either helper text or a `maxLength` count compose it into a labeled group; the `error` appearance re-tones fill / text / stroke to the error family.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md). Cross-family contract lives in [`form-field.md`](./form-field.md).
-
 ## Default
 
 The neutral at-rest field — transparent fill, hairline `outlineVariant` stroke, placeholder in the faint `outline` colour. Type into the live specimen to see the full lifecycle — placeholder → value, stroke steps up, trailing clear ("×") appears at the right edge.
@@ -148,7 +146,7 @@ All borders below are an inset `box-shadow`, never a `border` — every row chan
 
 ## Focus indicator
 
-The keyboard-focus visual composes over whichever lifecycle state the field is in. Three-layer ring (2px `sys.color.focus` outside 1px `sys.color.focusInset`) on a `position: absolute` pseudo-element — never affects layout. Suppressed while `disabled`. Trigger: `:focus-visible`.
+Standard ring on a `position: absolute` pseudo-element — never affects layout. Suppressed while `disabled`. Trigger: `:focus-visible`.
 
 ## Behavior
 

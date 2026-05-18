@@ -2,8 +2,6 @@
 
 The search-shaped single-line field — a sibling of [Input](./input.md) with a leading `SearchIcon` and a `sys.radius.full` pill corner. Box, stroke, placeholder rule, clear button, error re-tone, and focus ring are inherited from Input unchanged. **Bare box only — no `label`, `helper`, or `maxLength`.**
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md). Cross-family contract lives in [`form-field.md`](./form-field.md); shared anatomy / state rules live in the sibling [Input](./input.md) spec — this page documents only search-specific deltas.
-
 ## Default
 
 The neutral at-rest search bar — transparent fill, hairline `outlineVariant` stroke, `SearchIcon` at the left, placeholder in the faint `outline` colour. Type into the live specimen and the placeholder gives way to full-strength `onSurface` text, the stroke steps to its `active` treatment, and the trailing clear ("×") button appears at the right edge — the whole lifecycle on one preview.
@@ -85,7 +83,7 @@ Identical to Input — see [Input → States](./input.md#states). The leading gl
 
 ## Focus indicator
 
-Composition: Outward (see [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition)). Two-layer ring on a `position: absolute` `::after` overlay, sits above the `active` border. Trigger: `:focus-visible`.
+Composition: Outward (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)). On a `position: absolute` `::after` overlay, sits above the `active` border. Trigger: `:focus-visible`.
 
 ## Behavior
 

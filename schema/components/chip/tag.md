@@ -2,8 +2,6 @@
 
 The informational chip — square-cornered label naming attached metadata. Use for taxonomy on rows, cards, or profiles. Shorter than Filter (24 vs 32 min-height) with `sys.radius.sm` corners and a `secondaryContainer` fill because it is not a tap target.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) — color quartets, state overlays, focus ring composition. Cross-family Chip contract lives in [`chip.md`](./chip.md). Live previews render below each section so the spec and its live behaviour sit side by side.
-
 ## Default
 
 `secondaryContainer` fill, label-only. Reads as attached metadata against the surrounding surface.
@@ -66,7 +64,7 @@ import { Chip } from '@blind-chorus/ui';
 
 ### Focus indicator
 
-Three-layer ring over the `sys.state.focus` overlay. Only the **dismissable** tag is focusable; the case below shows that form. See [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Only the **dismissable** tag is focusable; the case below shows that form. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
 
 ```preview
 chip/tag/focused
@@ -115,7 +113,7 @@ Single visual variant — Tag does not toggle. The container/label binding is th
 
 ## States
 
-States compose with the container/label pair via [DESIGN.md → State overlays](../../DESIGN.md#state-overlays). Tag is interactive only when `trailingIcon` carries a click target; otherwise the chip is presentational and the chip body takes no state.
+Tag is interactive only when `trailingIcon` carries a click target; otherwise the chip is presentational and the chip body takes no state.
 
 | State      | Overlay opacity            | Additional                                                                 |
 |------------|----------------------------|-----------------------------------------------------------------------------|
@@ -126,4 +124,4 @@ States compose with the container/label pair via [DESIGN.md → State overlays](
 
 ## Focus indicator
 
-Accessibility indicator over any lifecycle state, on the dismissable form only. Three-layer ring over the `sys.state.focus` (12%) overlay. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Standard ring on the dismissable form only. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).

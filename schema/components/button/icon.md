@@ -2,8 +2,6 @@
 
 The icon-only commit surface — circular transparent target carrying a single glyph. Use when the control's identity is the glyph ([Navigation Bar](../navigation-bar/navigation-bar.md) search/chat, [Dialog](../dialog/dialog.md) dismiss, feed-row "⋯"). Two rungs: `large` 40 × 40 for page chrome and `medium` 32 × 32 for inside-control density.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) — color quartets, state overlays, focus ring composition. Cross-family contract lives in [`button.md`](./button.md). Live previews render below each section so the spec and its live behaviour sit side by side.
-
 ## Default
 
 Transparent capsule with a single glyph. `large` (40 × 40 / 24-glyph) is the default; flip Size to `medium` (32 × 32 / 16-glyph) for the dense inside-control rung.
@@ -38,7 +36,7 @@ import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-chorus/ui/icons';
 
 ### Focus indicator
 
-Three-layer ring over the `sys.state.focus` overlay. See [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Standard ring (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)).
 
 ```preview
 button/icon/focused
@@ -63,7 +61,6 @@ import { SearchIcon } from '@blind-chorus/ui/icons';
 | Icon color            | `sys.color.onSurface`                                   |
 | Hover background      | `sys.color.onSurface` at `sys.state.hover` (8%) opacity |
 | Pressed background    | `sys.color.onSurface` at `sys.state.pressed` (16%) opacity |
-| Focus ring            | Standard three-layer ring — see [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition) |
 
 ## Sizes
 
@@ -78,7 +75,7 @@ Two rungs, largest → smallest. Padding is the single sizing token — `sys.lay
 
 ## States
 
-States compose with the icon color via [DESIGN.md → State overlays](../../DESIGN.md#state-overlays) — the **icon color** paints over the transparent container at the state's opacity.
+The overlay paints the **icon color** over the transparent container at the state's opacity.
 
 | State      | Overlay opacity            | Additional                                                                 |
 |------------|----------------------------|-----------------------------------------------------------------------------|
@@ -89,7 +86,7 @@ States compose with the icon color via [DESIGN.md → State overlays](../../DESI
 
 ## Focus indicator
 
-Accessibility indicator over any lifecycle state. Three-layer ring over the `sys.state.focus` (12%) overlay. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Standard ring (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)). Trigger: `:focus-visible`.
 
 ## Behavior
 

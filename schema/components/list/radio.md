@@ -40,7 +40,7 @@ const [value, setValue] = useState('week');
 
 ## States
 
-Default / hovered / pressed / disabled compose via the family-wide [State overlays](../../DESIGN.md#state-overlays). **Selected** is unique to this sub — the leading indicator switches to `RadioFillIcon` in `primary`; row foreground unchanged.
+**Selected** is unique to this sub — the leading indicator switches to `RadioFillIcon` in `primary`; row foreground unchanged.
 
 | State      | Overlay opacity      | Additional |
 |------------|----------------------|------------|

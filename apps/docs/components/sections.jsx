@@ -4,6 +4,7 @@ import { asset } from '../lib/asset';
 import { groupByPrefix, toCssVarName } from '../lib/tokens';
 import { slugify as slugifyTitle } from '../lib/slugify';
 import { SemTable } from './SemTable';
+import { TokenChip, TokenTrimScope } from './TokenTrim';
 
 // Render the inline-markdown subset DESIGN.md uses inside table Role cells:
 // `code`, **strong**. No links / lists / nesting — keep it small.
@@ -16,14 +17,10 @@ function renderInline(text) {
       return <strong key={i}>{part.slice(2, -2)}</strong>;
     }
     if (part.startsWith('`') && part.endsWith('`')) {
-      return <code key={i} className="token-chip">{part.slice(1, -1)}</code>;
+      return <TokenChip key={i}>{part.slice(1, -1)}</TokenChip>;
     }
     return <Fragment key={i}>{part}</Fragment>;
   });
-}
-
-function TokenChip({ children }) {
-  return <code className="token-chip">{children}</code>;
 }
 
 // Render the DESIGN.md "Value" column as a meta line. Falls back to base
@@ -75,27 +72,32 @@ function RoleTableHead({ tokenLabel = 'Token', roleLabel = 'Role', previewLabel 
 // Role-table — token + prose + chip preview, three columns, header visible.
 // `head` accepts either JSX (custom head) or an options object spread into
 // the default `<RoleTableHead>`. `head={null}` suppresses the head.
-function RoleTable({ title, head, children }) {
+// `tokens` (optional) is an explicit list of fully-qualified token names
+// rendered inside this table; when present, chips matching the list have
+// their shared namespace prefix trimmed at display time. See TokenTrim.
+function RoleTable({ title, head, tokens, children }) {
   let headEl;
   if (head === null) headEl = null;
   else if (head == null) headEl = <RoleTableHead />;
   else if (typeof head === 'object' && !head.type) headEl = <RoleTableHead {...head} />;
   else headEl = head;
-  return (
+  const table = (
     <SemTable className="role-table">
       {title ? <div className="sem-table-title">{title}</div> : null}
       {headEl}
       <div className="sem-table-body">{children}</div>
     </SemTable>
   );
+  return tokens ? <TokenTrimScope tokens={tokens}>{table}</TokenTrimScope> : table;
 }
 
 // Equal-column table — N columns share the row at 1:1:...:1, head visible.
 // Use for DESIGN.md tables whose columns carry equal weight (need/token/value
 // lookups, axis comparisons) rather than the token-vs-prose proportions of
 // RoleTable. The CSS variable `--equal-cols` drives the grid.
-function EqualTable({ headers, rows }) {
-  return (
+// `tokens` (optional) — see RoleTable.
+function EqualTable({ headers, rows, tokens }) {
+  const table = (
     <SemTable className="equal-cols" style={{ '--equal-cols': headers.length }}>
       <div className="sem-table-head">
         {headers.map((h, i) => (
@@ -113,6 +115,7 @@ function EqualTable({ headers, rows }) {
       </div>
     </SemTable>
   );
+  return tokens ? <TokenTrimScope tokens={tokens}>{table}</TokenTrimScope> : table;
 }
 
 function RefAndValue({ refPath, value }) {
@@ -356,8 +359,12 @@ function SystemRow({ tokens, name, role }) {
 }
 
 function SystemTable({ tokens, title, rows }) {
+  // Each row renders `<TokenChip>$sys.color.{name}</TokenChip>` — feed those
+  // names to the trim scope so the chips render as `$primary` / `$onPrimary`
+  // / etc. instead of all repeating `$sys.color.`.
+  const chipTokens = rows.map((r) => `$sys.color.${r.name}`);
   return (
-    <RoleTable title={title}>
+    <RoleTable title={title} tokens={chipTokens}>
       {rows.map(r => (
         <SystemRow key={r.name} tokens={tokens} name={r.name} role={r.role} />
       ))}
@@ -774,7 +781,10 @@ function TypographyLetterSpacing({ tokens }) {
       <ProseSection>
         <p>Mapping into <code>typo.*</code>: display → <code>tight</code>, heading → <code>snug</code>, body / reading → <code>normal</code>, small UI labels → <code>wide</code>, uppercase overlines → <code>wider</code>.</p>
       </ProseSection>
-      <RoleTable head={{ showChip: false }}>
+      <RoleTable
+        head={{ showChip: false }}
+        tokens={LETTER_SPACING_ROWS.map(({ name }) => `ref.letterSpacing.${name}`)}
+      >
         {LETTER_SPACING_ROWS.map(({ name, role }) => {
           const token = tokens[`ref.letterSpacing.${name}`];
           if (!token) return null;
@@ -909,7 +919,7 @@ function SpacingReferenceScale({ tokens }) {
         <p>The <code>ref.space.*</code> rungs that materialize the spacing binding of the <a href={asset("/spacing#base-unit-ladder")}>base-unit ladder</a>. The ladder partitions naturally into bands: <strong>0</strong> is reset, <strong>25–75</strong> are sub-base hairlines, <strong>100–300</strong> are control-and-content rhythm, <strong>400–1000</strong> are page-and-section framing. <code>ref.space.100</code> (base) and <code>ref.space.200</code> (default) are the two anchor steps the rest of the system aligns against.</p>
         <p>Each rung carries a <code>$multiplier</code> (× the 8px base), a <code>$rem</code> value, and a pixel <code>$value</code>. The rem convention is the <strong>browser-default <code>1rem = 16px</code></strong> — same convention as <code>ref.fontSize.*</code>, so the same px lands at the same rem across both scales (<code>ref.space.200</code> = <code>ref.fontSize.200</code> = 16px = <code>1rem</code>). The pixel column is what tokens compile to in CSS; consumers that want a value that respects the user&apos;s browser font-size preference can emit <code>$rem</code> instead.</p>
       </ProseSection>
-      <RoleTable>
+      <RoleTable tokens={items.map(([key]) => `ref.space.${key}`)}>
         {items.map(([key, token]) => {
           const varName = toCssVarName(`ref.space.${key}`);
           return (
@@ -958,7 +968,7 @@ function SpacingAxes() {
       <ProseSection title="Four orthogonal axes">
         <p>Ordered by spatial scope from outermost to innermost: <code>page</code> → <code>container</code> → <code>stack</code> → <code>inline</code>. Each axis owns one specific spatial relationship and is applied by exactly one kind of element. Axes never substitute for each other: page gutter is not container padding, vertical sibling gap is not horizontal. <code>page</code> and <code>container</code> stack: a card inside a page is inset from the viewport by <code>page</code> padding plus its own <code>container</code> padding. Every axis carries an internal T-shirt scale; steps above <code>md</code> (i.e. <code>lg</code>, <code>xl</code>, <code>2xl</code>, <code>3xl</code>) carry a mobile→web step-up baked into the token, while <code>md</code> and below stay constant.</p>
       </ProseSection>
-      <RoleTable>
+      <RoleTable tokens={LAYOUT_AXES_ROWS.map((r) => r.name)}>
         {LAYOUT_AXES_ROWS.map(row => (
           <div key={row.name} className="sem-row">
             <div className="sem-cell sem-cell-token"><TokenChip>{row.name}</TokenChip></div>
@@ -1035,7 +1045,7 @@ function LayoutAxisSection({ tokens, prefix, id, title, description, scaleHeadin
           {scaleBody ? <p>{scaleBody}</p> : null}
         </ProseSection>
       ) : null}
-      <RoleTable>
+      <RoleTable tokens={items.map(([key]) => `sys.${prefix}.${key}`)}>
         {items.map(([key, token]) => {
           const varName = toCssVarName(`sys.${prefix}.${key}`);
           return (
@@ -1138,7 +1148,7 @@ function RadiusScale({ tokens }) {
           <li><strong>Surface band</strong> — <code>lg</code> / <code>xl</code> / <code>2xl</code>. Larger corners for content containers. <strong><code>xl</code> (16px)</strong> is the default surface radius. A button (<code>radius.md</code>, 8px) inside a card (<code>radius.xl</code>, 16px) reads as <em>inside</em> the card rather than floating on top — the size difference does the work.</li>
         </ul>
       </ProseSection>
-      <RoleTable>
+      <RoleTable tokens={scaleItems.map(([key]) => `sys.radius.${key}`)}>
         {scaleItems.map(([key, token]) => (
           <div key={key} className="sem-row">
             <TokenHead name={`sys.radius.${key}`} value={formatTokenValue(token)} />
@@ -1394,7 +1404,7 @@ export function StateLayer({ tokens }) {
         <ProseSection title="Scope">
           <p>Apply to any control the user can hover, focus, press, or drag: buttons, chips, list items, menu items, tabs, switches, checkboxes, icon buttons, draggable cards. Do not apply to static surfaces (page background, plain text, dividers) — they have no interaction to signal.</p>
         </ProseSection>
-        <RoleTable>
+        <RoleTable tokens={STATE_ROWS.map(({ name }) => `$sys.state.${name}`)}>
           {STATE_ROWS.map(({ name, role }) => {
             const token = tokens[`sys.state.${name}`];
             if (!token) return null;

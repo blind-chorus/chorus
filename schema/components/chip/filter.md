@@ -2,8 +2,6 @@
 
 The selectable chip — capsule-shaped toggle for refining a set. **Unselected** is a transparent hairline-outlined pill; **selected** swaps to an inverse fill. Optional leading and trailing icons compose around the label without changing footprint.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) — color quartets, state overlays, focus ring composition. Cross-family Chip contract lives in [`chip.md`](./chip.md). Live previews render below each section so the spec and its live behaviour sit side by side.
-
 ## Default
 
 At-rest form — transparent fill with a hairline `outlineVariant` stroke. Use in rows of choices the user hasn't acted on yet.
@@ -100,7 +98,7 @@ import { Chip } from '@blind-chorus/ui';
 
 ### Focus indicator
 
-Three-layer ring over the `sys.state.focus` overlay. Both selection states take the same ring; the case below shows unselected. See [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Both selection states take the same standard ring; the case below shows unselected. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
 
 ```preview
 chip/filter/focused
@@ -152,8 +150,6 @@ A single visual variant — the selected/unselected toggle is a state on the sam
 
 ## States
 
-States compose with the active container/label pair via [DESIGN.md → State overlays](../../DESIGN.md#state-overlays) — **label color** over **container color** at the state's opacity.
-
 | State      | Overlay opacity            | Additional                                                                 |
 |------------|----------------------------|-----------------------------------------------------------------------------|
 | `default`  | —                          | Container + label at rest.                                                  |
@@ -163,4 +159,4 @@ States compose with the active container/label pair via [DESIGN.md → State ove
 
 ## Focus indicator
 
-Accessibility indicator over any lifecycle state. Three-layer ring over the `sys.state.focus` (12%) overlay; `position: absolute` pseudo-element so it never affects layout. Inside a [Tabs](../tabs/segmented.md) row the same layer is re-anchored inward. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Standard ring drawn as a `position: absolute` pseudo-element so it never affects layout. Inside a [Tabs](../tabs/segmented.md) row the same layer is re-anchored inward. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).

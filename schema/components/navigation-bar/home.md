@@ -2,8 +2,6 @@
 
 The landing-screen top bar — anchored to the top of a tab root (a feed, an inbox, a profile). A leading menu glyph + left-aligned page name occupy the start; up to three action icons (search, chat, profile) sit at the trailing edge. The title carries the system's largest page-level type rung (`typo.heading.lg`, 24/Semibold).
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) and the cross-sub Navigation Bar contract in [`navigation-bar.md`](./navigation-bar.md).
-
 ## Default
 
 The canonical Home bar — menu glyph, brand logotype at 24px tall, and three trailing actions (search, chat, profile).
@@ -135,7 +133,7 @@ A single fixed rung.
 
 ## States
 
-The bar itself has no interactive state. Icon slots carry default / hovered / pressed / disabled via [State overlays](../../DESIGN.md#state-overlays). The title carries no states.
+The bar itself has no interactive state. Icon slots inherit [Icon Button](../button/icon.md) states. The title carries no states.
 
 ## Focus indicator
 

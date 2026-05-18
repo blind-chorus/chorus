@@ -2,8 +2,6 @@
 
 Floating action button — surface-elevated commit anchored to the canvas, reachable while content scrolls (mobile list canvases, drawing surfaces, feeds). Independent contract from standard [Button](./button.md): single fixed sizing rung, label and icon both optional (at least one present), pill geometry (`sys.radius.full`), floating elevation (`sys.elevation.floating`).
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) — color quartets, state overlays, focus ring composition. Cross-family Button contract lives in [`button.md`](./button.md). Live previews render below each section so the spec and its live behaviour sit side by side.
-
 ## Primary
 
 The default FAB — brand-red fill anchoring the canvas's headline action.
@@ -97,7 +95,7 @@ import { AddIcon } from '@blind-chorus/ui/icons';
 
 ### Focus indicator
 
-Three-layer ring over the `sys.state.focus` overlay, with the FAB's floating elevation stacked underneath. See [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Standard ring with the FAB's floating elevation stacked underneath. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
 
 ```preview
 button/fab/focused
@@ -150,10 +148,10 @@ Single fixed rung — no size axis; same control on every viewport.
 
 ## States
 
-States compose with the container/label pair via [State overlays](../../DESIGN.md#state-overlays). The focus ring is a `position: absolute` pseudo-element stacked above the FAB's `box-shadow` so the floating elevation survives focus.
+The focus ring is a `position: absolute` pseudo-element stacked above the FAB's `box-shadow` so the floating elevation survives focus.
 
 **No disabled state.** If the action isn't available, hide the FAB rather than render it dimmed.
 
 ## Focus indicator
 
-Accessibility indicator over any lifecycle state. **Composition: Outward** — three-layer ring (2px `sys.color.focus` outside 1px `sys.color.focusInset` counter) over the `sys.state.focus` overlay, on a `::after` overlay above the FAB's `box-shadow`. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+**Composition: Outward** — standard ring on a `::after` overlay above the FAB's `box-shadow`. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).

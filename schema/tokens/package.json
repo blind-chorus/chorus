@@ -2,7 +2,7 @@
   "name": "@blind-chorus/tokens",
   "version": "0.2.0",
   "description": "Chorus design tokens — three-tier source (reference / system / component), dereferenced `resolved.*.json` bundles, and a ready-to-import `tokens.css` that emits every token as a CSS custom property. Regenerate with `npm run build:tokens`.",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "author": "chorus",
   "repository": {
     "type": "git",

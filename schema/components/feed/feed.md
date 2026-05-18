@@ -2,8 +2,6 @@
 
 A vertically-stacked content card — the unit of a scrolling feed. Composes a flag, an author row, a body block (title + clamped excerpt + optional thumbnail), optional inline modules (poll, citation, mention), and an engagement footer. Every block beyond the author row is optional.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md). The avatar delegates to [Thumbnail](../thumbnail/thumbnail.md) at the 32 rung; the flag delegates to [Tag](../chip/tag.md).
-
 ## Default
 
 The base composition — channel header, title, two-line body, thumbnail, mention, and engagement footer. No `flag` in the default.

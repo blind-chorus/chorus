@@ -2,8 +2,6 @@
 
 A small red count pill attached to a host label — a channel entry, a list row, a thumbnail corner — reporting how many unread or new items wait behind that target. Always anchored to something; never appears in isolation and never carries an interactive affordance.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md). Badge does not own state overlays or a focus ring — those belong to the host.
-
 ## Default
 
 The headline form — a short numeric count sitting next to its host label. Toggle Size to switch rungs; medium is the default.

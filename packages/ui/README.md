@@ -4,7 +4,7 @@ React component library for the Chorus design system. Ships prebuilt ESM + CJS b
 
 The component contract (anatomy, slots, token bindings) lives in `schema/components/<family>/<sub>.spec.json` in the [Chorus monorepo](https://github.com/blind-chorus/chorus). This package is the React reference implementation of that contract.
 
-> **License:** UNLICENSED (proprietary). Distribution is restricted; see the repo for terms.
+> **License:** MIT. See [`LICENSE`](../../LICENSE).
 
 ## Install
 

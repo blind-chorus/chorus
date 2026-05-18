@@ -2,8 +2,6 @@
 
 The link-shaped commit surface — reads as text at rest, paints a button-like hover overlay and standard focus ring when interacted with. Use inline next to typographic content where the action commits ("Skip"/"Done" on a [Page](../navigation-bar/page.md) bar, "Edit" beside a row title). For navigation use the bare [Text link](../../DESIGN.md#text-links).
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) — color quartets, state overlays, focus ring composition. Cross-family contract lives in [`button.md`](./button.md). Live previews render below each section so the spec and its live behaviour sit side by side.
-
 ## Primary
 
 `primary`-coloured label in a transparent capsule.
@@ -74,7 +72,7 @@ import { Button } from '@blind-chorus/ui';
 
 ### Focus indicator
 
-Three-layer ring over the `sys.state.focus` overlay.
+Standard ring.
 
 ```preview
 button/text/focused
@@ -111,7 +109,6 @@ A **destructive** flavor swaps the label to the `error` family across both appea
 | Icon color            | `currentColor` (inherits the label colour — see below)  |
 | Hover background      | label color at `sys.state.hover` (8%) opacity           |
 | Pressed background    | label color at `sys.state.pressed` (16%) opacity        |
-| Focus ring            | Standard three-layer ring — see [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition) |
 
 Icon glyphs inherit the label colour via `currentColor`. The capsule appears only on hover/pressed/focus.
 
@@ -131,7 +128,7 @@ Three rungs, largest → smallest. `medium` (default) matches [Icon Button](./ic
 
 ## States
 
-States compose with the label color via [DESIGN.md → State overlays](../../DESIGN.md#state-overlays) — the **label color** paints over the **container** (transparent → surface beneath) at the state's opacity.
+The overlay paints the **label color** over the transparent container at the state's opacity.
 
 | State      | Overlay opacity            | Additional                                                                 |
 |------------|----------------------------|-----------------------------------------------------------------------------|
@@ -142,7 +139,7 @@ States compose with the label color via [DESIGN.md → State overlays](../../DES
 
 ## Focus indicator
 
-Accessibility indicator over any lifecycle state. Three-layer ring (2px `sys.color.focus` outside a 1px `sys.color.focusInset` counter) over the `sys.state.focus` (12%) overlay. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Standard ring (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)). Trigger: `:focus-visible`.
 
 ## Behavior
 

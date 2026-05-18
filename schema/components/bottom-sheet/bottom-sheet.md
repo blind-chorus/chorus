@@ -2,8 +2,6 @@
 
 An edge-anchored interruption — a panel that rises from the bottom of the viewport, sits over a scrim, and holds richer content than a Dialog can. Reach for Bottom Sheet when the answer needs more vertical room than a centred card affords but is still a single dismissable decision.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) — color quartets, state overlays, type scale, surface ladder, edge-anchored radius rule. Action buttons delegate to [Button](../button/button.md). This file documents only Bottom Sheet-specific composition.
-
 ## Default
 
 An information-style sheet — title, body paragraph, and a stacked primary / secondary action pair.

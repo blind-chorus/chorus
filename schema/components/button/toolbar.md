@@ -2,8 +2,6 @@
 
 Dense inline action — a 32-tall capsule for toolbars, table-row actions, and inline menu triggers where the standard [Button](./button.md) would crowd. Chrome shared with [Filter chip](../chip/filter.md) and [Tabs Segmented](../tabs/segmented.md) so a mixed row reads at one density; divergence is intent (Toolbar fires actions, Filter toggles selection, Segmented enforces single-select).
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) — color quartets, state overlays, focus ring composition. Cross-family contract lives in [`button.md`](./button.md). Live previews render below each section so the spec and its live behaviour sit side by side.
-
 ## Primary
 
 The single-commit form — `primary` fill, `onPrimary` label. Reach for it when the Toolbar Button IS the surface's commit affordance.
@@ -112,7 +110,7 @@ import { AddIcon, CheckedIcon } from '@blind-chorus/ui/icons';
 
 ### Focus indicator
 
-Three-layer ring over the `sys.state.focus` overlay; the hairline stroke is kept underneath. See [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Hairline stroke is kept underneath the standard ring (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)).
 
 ```preview
 button/toolbar/focused
@@ -162,7 +160,7 @@ A single fixed 32px footprint across breakpoints.
 
 ## States
 
-States compose with the container/label pair via [DESIGN.md → State overlays](../../DESIGN.md#state-overlays). The focus ring is a `position: absolute` pseudo-element so it never affects layout.
+The focus ring is a `position: absolute` pseudo-element so it never affects layout.
 
 | State      | Overlay opacity            | Additional                                                                 |
 |------------|----------------------------|-----------------------------------------------------------------------------|
@@ -173,4 +171,4 @@ States compose with the container/label pair via [DESIGN.md → State overlays](
 
 ## Focus indicator
 
-Accessibility indicator over any lifecycle state. Three-layer ring over the `sys.state.focus` (12%) overlay; hairline stroke kept underneath. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Standard ring with hairline stroke kept underneath (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)). Trigger: `:focus-visible`.

@@ -2,8 +2,6 @@
 
 The drill-in top bar — anchored to every screen one step inside a flow. The page name sits centred; a leading slot (typically a back-arrow icon) and a trailing slot (a [Toolbar Button](../button/toolbar.md), text link, or single icon) flank it. Title type drops from Home's `typo.heading.lg` to `typo.heading.sm` (16/Semibold).
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) and the cross-sub Navigation Bar contract in [`navigation-bar.md`](./navigation-bar.md).
-
 ## Default
 
 A drill-in bar with back-arrow leading and a **primary**-toned "Save" [Toolbar Button](../button/toolbar.md) trailing.

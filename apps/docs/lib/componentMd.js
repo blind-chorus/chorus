@@ -5,14 +5,14 @@ import { slugify } from './slugify';
 
      - title:        the text after the single leading `# `.
      - description:  the first paragraph between `# Title` and the first `##`
-                     or `>` callout. May be undefined if the file has none.
-     - body:         everything from the `>` callout (if present) or the first
-                     `##` heading onward, intact, ready to feed to react-markdown.
+                     heading. May be undefined if the file has none.
+     - body:         everything from the first `##` heading onward, intact,
+                     ready to feed to react-markdown.
 
    Authoring contract enforced by `schema/components/README.md`:
      - exactly one `# ` heading, on the first non-blank line;
-     - exactly one description paragraph between `#` and the first `##` / `>`;
-     - `>` callouts only used for the leading "Inherits …" block.
+     - exactly one description paragraph between `#` and the first `##`;
+     - no leading `>` callout (deferral to DESIGN.md is global).
 
    The split is line-based (no markdown AST) because the contract is small
    enough to express directly, and we want this to run on every page render. */

@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "name": "@blind-chorus/design-system",
   "version": "0.0.0",
-  "description": "Machine-readable inventory of the Chorus design system. External consumers (Claude Design, the docs site, the Figma plugin, AI agents) MUST read this file as the single entry point — never crawl schema/ to infer the system's shape. The file is hand-authored and kept in lock-step with schema/components/<family>/ folders; any new family or sub-component lands here before it lands anywhere else.",
+  "description": "Machine-readable inventory of the Chorus design system. External consumers (Claude Design, the docs site, AI agents, design-tool plugins) MUST read this file as the single entry point — never crawl schema/ to infer the system's shape. The file is hand-authored and kept in lock-step with schema/components/<family>/ folders; any new family or sub-component lands here before it lands anywhere else.",
   "agentEntrypoint": "../AGENTS.md",
   "catalog": "catalog.md",
   "design": "DESIGN.md",

@@ -2,8 +2,6 @@
 
 The standard inline action surface. Two independent axes: **size** (`large` / `medium` / `small`) chosen by the surrounding surface, **appearance** (`primary` / `secondary` / `outlined` / `tertiary`) by the action's emphasis.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md). This page is the **standard Button** — see [Sub-components](#sub-components) for other forms.
-
 ## Primary
 
 The single highest-emphasis action on a view. Use **one per view** — Save, Continue, Confirm, Submit.
@@ -156,7 +154,7 @@ import { Button } from '@blind-chorus/ui';
 
 ### Focus indicator
 
-Three-layer keyboard-focus ring — 2px `sys.color.focus` outside a 1px `sys.color.focusInset` counter, layered over the `sys.state.focus` (12%) overlay. See [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Standard keyboard-focus ring (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)).
 
 ```preview
 button/focused
@@ -206,8 +204,6 @@ The standard Button does not carry a trailing icon.
 
 ## States
 
-States compose with the appearance's container/label pair via [DESIGN.md → State overlays](../../DESIGN.md#state-overlays). The overlay paints the **label color** over the **container color** at the state's opacity.
-
 | State      | Overlay opacity            | Additional                                                                 |
 |------------|----------------------------|-----------------------------------------------------------------------------|
 | `default`  | —                          | Container + label at rest.                                                  |
@@ -217,7 +213,7 @@ States compose with the appearance's container/label pair via [DESIGN.md → Sta
 
 ## Focus indicator
 
-Accessibility indicator (not a lifecycle state) composed over any state. 2px `sys.color.focus` outside a 1px `sys.color.focusInset` counter, over the `sys.state.focus` (12%) overlay. Drawn as a `position: absolute` pseudo-element so it never affects layout. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Standard ring (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)) drawn as a `position: absolute` pseudo-element so it never affects layout. Trigger: `:focus-visible`.
 
 ## Optical alignment
 

@@ -2,8 +2,6 @@
 
 A horizontal strip of channel entry points — each item routes to a channel or company page. Composes a [Thumbnail](../thumbnail/thumbnail.md) (optional `updateDot`) and a single-line label; an optional trailing action lives at the end.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md). Each item delegates its avatar to [Thumbnail](../thumbnail/thumbnail.md) and is an anchor (`<a href>`) — navigation, not selection. This file documents Channel Rail-specific composition.
-
 ## Default
 
 A four-channel rail with a trailing "View all" action.
@@ -90,7 +88,7 @@ The trailing action is a `small` Text Button (rendered as `<a>` when `href` is s
 
 ## Focus indicator
 
-Three-layer ring (2px `sys.color.focus` outside 1px `sys.color.focusInset`) painted around the item's outer edge over `sys.state.focus` (12%). Trigger: `:focus-visible`.
+Standard ring painted around the item's outer edge (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)). Trigger: `:focus-visible`.
 
 ## Behavior
 

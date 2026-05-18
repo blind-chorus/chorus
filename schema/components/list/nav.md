@@ -36,7 +36,7 @@ import { List } from '@blind-chorus/ui';
 
 ## States
 
-Default / hovered / pressed / disabled compose via the family-wide [State overlays](../../DESIGN.md#state-overlays) on the row foreground. No `selected` state.
+No `selected` state.
 
 ## Focus indicator
 

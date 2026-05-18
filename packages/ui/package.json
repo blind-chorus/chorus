@@ -2,7 +2,7 @@
   "name": "@blind-chorus/ui",
   "version": "0.2.0",
   "description": "Chorus React components. Source-distributed (no prebuilt dist) — consumers compile JSX themselves and import `@blind-chorus/tokens/tokens.css` + `@blind-chorus/ui/styles.css` once at the app entry. The contract every component honors lives in schema/components/<family>/<sub>.spec.json; see schema/manifest.json for the inventory.",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "author": "chorus",
   "repository": {
     "type": "git",

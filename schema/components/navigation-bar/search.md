@@ -2,8 +2,6 @@
 
 The search top bar — anchored to a dedicated search page reached from a [Home](./home.md) or [Page](./page.md) bar's search trigger. The bar owns the entire search affordance: leading back-arrow Icon Button, a single bare-text input filling the row, and a conditional trailing clear (×). Drops the centred title slot — the input *is* the focus.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) and the cross-sub Navigation Bar contract in [`navigation-bar.md`](./navigation-bar.md).
-
 ## Default
 
 The bar at rest. Type into the input to watch the placeholder ↔ value colour swap and the clear (×) reveal.

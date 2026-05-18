@@ -2,8 +2,6 @@
 
 The **bottom tab bar** — a horizontal strip pinned to the bottom of the app that exposes top-level destinations (Home / Company / Explore / Jobs / Notifications) in one tap. Each item stacks a 24px glyph above a 10/Regular label; the active item shows the filled companion glyph at `onSurface` while inactive items render the outline at `onSurfaceVariant`. An item may opt into `appearance="primary"` to render a tile-shaped commit affordance — the conventional **Create** entry at the trailing end.
 
-> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md). Companion chrome to the [Navigation Bar](../navigation-bar/navigation-bar.md): top bar names the screen, bottom bar switches destinations.
-
 ## Default
 
 The canonical five-destination bar. First item is active.
@@ -163,7 +161,7 @@ The container has no interactive state. Each item carries the lifecycle below �
 
 ## Focus indicator
 
-**Composition: Inward** (see [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition)) — adjacent items are flush under `flex: 1 1 0`, so outward would overlap the neighbour. Three-layer ring paints as inset shadows flush at the slot edge: `sys.color.focus` 2px outer (depth 0..2px), `sys.color.focusInset` 1px counter (depth 2..3px). State layer beneath is `onSurface` at `sys.state.focus` (12%). Single-focus — at most one item holds the ring at a time. Trigger: `:focus-visible`.
+**Composition: Inward** (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)) — adjacent items are flush under `flex: 1 1 0`, so outward would overlap the neighbour. The ring paints as inset shadows flush at the slot edge; state layer beneath is `onSurface`. Single-focus — at most one item holds the ring at a time. Trigger: `:focus-visible`.
 
 ## Behavior
 

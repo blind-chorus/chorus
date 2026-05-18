@@ -35,7 +35,7 @@ import { List } from '@blind-chorus/ui';
 
 ## States
 
-Default / hovered / pressed / disabled compose via the family-wide [State overlays](../../DESIGN.md#state-overlays) on the row foreground. No `selected` state — selection belongs to the [Radio sub](./radio.md).
+No `selected` state — selection belongs to the [Radio sub](./radio.md).
 
 ## Focus indicator
 
