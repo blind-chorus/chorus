@@ -1,0 +1,26 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "form-field",
+  "name": "FormField",
+  "description": "Single-line text-entry family. `input` is the default labeled text field with optional helper / count; `search` is a bare pill-shaped variant with a leading search glyph.",
+  "useCases": [
+    "single-line text input",
+    "labeled text field",
+    "search input",
+    "bare search pill"
+  ],
+  "spec": "form-field.md",
+  "subcomponents": [
+    {
+      "slug": "input",
+      "spec": "input.spec.json",
+      "md": "input.md",
+      "default": true
+    },
+    {
+      "slug": "search",
+      "spec": "search.spec.json",
+      "md": "search.md"
+    }
+  ]
+}

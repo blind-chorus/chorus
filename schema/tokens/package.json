@@ -1,0 +1,42 @@
+{
+  "name": "@blind-chorus/tokens",
+  "version": "0.1.0",
+  "description": "Chorus design tokens — three-tier source (reference / system / component), dereferenced `resolved.*.json` bundles, and a ready-to-import `tokens.css` that emits every token as a CSS custom property. Regenerate with `npm run build:tokens`.",
+  "license": "UNLICENSED",
+  "author": "chorus",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blind-chorus/chorus.git",
+    "directory": "schema/tokens"
+  },
+  "homepage": "https://github.com/blind-chorus/chorus#readme",
+  "bugs": "https://github.com/blind-chorus/chorus/issues",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    "./reference.json": "./reference.json",
+    "./system.json": "./system.json",
+    "./component.json": "./component.json",
+    "./resolved.light.json": "./resolved.light.json",
+    "./resolved.dark.json": "./resolved.dark.json",
+    "./resolved.web.json": "./resolved.web.json",
+    "./resolved.web.dark.json": "./resolved.web.dark.json",
+    "./tokens.css": "./tokens.css",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "node build-resolved.mjs"
+  },
+  "files": [
+    "*.json",
+    "tokens.css",
+    "build-resolved.mjs",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com"
+  }
+}

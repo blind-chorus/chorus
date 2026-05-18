@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://chorus.design/schema/family.schema.json",
+  "title": "Chorus family root spec",
+  "description": "Machine-readable root for a component family. One file per family at schema/components/<family>/<family>.spec.json. Declares the family's identity, taxonomy axes (form / flavor / variant), and the list of sub-components — so external consumers do not have to crawl the family's prose .md to discover its structure. A family root MUST exist whether the family is single-spec (badge, callout, …) or sub-component (button, tabs, …); single-spec families simply list a single sub-component or none. Sub-component style details live in the matching <sub>.spec.json, not here.",
+  "type": "object",
+  "required": ["family", "name", "description", "subcomponents"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "family": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "kebab-case family slug. Matches the folder name under schema/components/ and the `family` key in each sub-spec."
+    },
+    "name": {
+      "type": "string",
+      "description": "PascalCase family name (`Button`, `Tabs`, `FormField`). The umbrella React export name."
+    },
+    "description": {
+      "type": "string",
+      "description": "One-paragraph family-level role summary — the cross-sub-component intent."
+    },
+    "spec": {
+      "type": "string",
+      "description": "Relative path to the family's authoring .md (`button.md`, `tabs.md`, …). Optional but recommended so consumers can link back to the prose."
+    },
+    "subcomponents": {
+      "type": "array",
+      "description": "Ordered list of sub-components in the family. The first entry is the canonical default (the form a consumer reaches for when they say \"a Button\" / \"a Chip\" / \"Tabs\"). Single-spec families list exactly one entry whose slug matches the family slug.",
+      "items": {
+        "type": "object",
+        "required": ["slug"],
+        "properties": {
+          "slug": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$",
+            "description": "kebab-case sub-component slug. Resolves to <slug>.md and (when present) <slug>.spec.json in the same folder."
+          },
+          "spec": {
+            "type": "string",
+            "description": "Relative path to <slug>.spec.json. Omit only while the sub-component is documented in prose but does not yet have a machine-readable spec — flag this case explicitly with `\"specMissing\": true` so it shows up in audits."
+          },
+          "md": {
+            "type": "string",
+            "description": "Relative path to <slug>.md. Optional for single-spec families where the family .md is also the sub-component .md."
+          },
+          "default": {
+            "type": "boolean",
+            "description": "Marks the canonical default form. Exactly one sub-component per family should set this to true."
+          },
+          "specMissing": {
+            "type": "boolean",
+            "description": "Set to true when the sub-component is intentionally md-only at this point in time. Surfaces in audits as work-to-do."
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "axes": {
+      "type": "object",
+      "description": "Family-level taxonomy axes that cut across sub-components. The keys are axis names (`form`, `flavor`, `variant`, `appearance`, …); each value lists the canonical enum members. Use this to declare cross-cutting modifiers that aren't visible in a single sub-spec — e.g. button's `flavor: [default, destructive]`.",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    },
+    "useCases": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Free-form intent strings an agent can match against natural-language requests. Used by the catalog (schema/catalog.md) and by intent-driven pickers (Lovable / v0 / Cursor). Examples for `button`: ['primary commit', 'inline action', 'save and continue']. Keep entries short and concrete — synonyms, not full sentences."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional free-form note for downstream consumers (e.g. \"chip and toolbar share the same visual chrome — contract divergence is intent only\")."
+    }
+  },
+  "additionalProperties": true
+}

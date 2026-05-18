@@ -1,0 +1,74 @@
+{
+  "sys.typo.display.lg.size": {
+    "$value": "80px",
+    "$type": "dimension"
+  },
+  "sys.typo.heading.lg.size": {
+    "$value": "32px",
+    "$type": "dimension"
+  },
+  "sys.layout.page.lg": {
+    "$value": "40px",
+    "$type": "dimension"
+  },
+  "sys.layout.page.xl": {
+    "$value": "64px",
+    "$type": "dimension"
+  },
+  "sys.layout.container.lg": {
+    "$value": "32px",
+    "$type": "dimension"
+  },
+  "sys.layout.container.xl": {
+    "$value": "40px",
+    "$type": "dimension"
+  },
+  "sys.layout.container.2xl": {
+    "$value": "64px",
+    "$type": "dimension"
+  },
+  "sys.layout.container.3xl": {
+    "$value": "80px",
+    "$type": "dimension"
+  },
+  "sys.layout.stack.lg": {
+    "$value": "32px",
+    "$type": "dimension"
+  },
+  "sys.layout.stack.xl": {
+    "$value": "40px",
+    "$type": "dimension"
+  },
+  "sys.layout.stack.2xl": {
+    "$value": "48px",
+    "$type": "dimension"
+  },
+  "sys.layout.stack.3xl": {
+    "$value": "64px",
+    "$type": "dimension"
+  },
+  "sys.layout.inline.lg": {
+    "$value": "16px",
+    "$type": "dimension"
+  },
+  "sys.layout.inline.xl": {
+    "$value": "24px",
+    "$type": "dimension"
+  },
+  "sys.layout.inline.2xl": {
+    "$value": "32px",
+    "$type": "dimension"
+  },
+  "sys.typo.display.lg": {
+    "$value": {
+      "size": "80px"
+    },
+    "$type": "typography"
+  },
+  "sys.typo.heading.lg": {
+    "$value": {
+      "size": "32px"
+    },
+    "$type": "typography"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Badge",
+  "family": "badge",
+  "description": "Numeric count indicator. Attaches to a host label (channel name, list row, thumbnail corner) to surface the unread or update count for that target.",
+  "element": "span",
+  "props": {
+    "size": {
+      "type": "literal",
+      "values": [
+        "medium",
+        "small"
+      ],
+      "default": "medium"
+    },
+    "count": {
+      "type": "number",
+      "optional": true,
+      "description": "If provided, the badge formats the value: 1–99 render as the literal number, 100+ renders as `99+`. Pass children instead for non-numeric content (e.g. `NEW`)."
+    },
+    "children": {
+      "type": "node",
+      "optional": true,
+      "description": "Custom label, overrides count formatting."
+    }
+  },
+  "slots": {
+    "label": {
+      "required": true,
+      "description": "Short single-line label — typically a 1–2 digit count or the literal `99+` overflow.",
+      "accepts": [
+        "text"
+      ]
+    }
+  },
+  "appearance": {
+    "background": "sys.color.brand",
+    "label": "sys.color.onBrand",
+    "radius": "sys.radius.full"
+  },
+  "sizes": {
+    "medium": {
+      "minHeight": "ref.space.250",
+      "minWidth": "ref.space.250",
+      "paddingBlock": "0px",
+      "paddingInline": "ref.space.75",
+      "labelTypo": "sys.typo.label.sm"
+    },
+    "small": {
+      "minHeight": "ref.space.200",
+      "minWidth": "ref.space.200",
+      "paddingBlock": "0px",
+      "paddingInline": "sys.layout.container.2xs",
+      "labelTypo": "sys.typo.caption.sm"
+    }
+  }
+}

@@ -1,0 +1,2858 @@
+/* ============================================================
+   How this stylesheet uses CSS custom properties.
+
+   Every rule below is plain, static CSS — it cannot read the
+   machine-readable component specs (`schema/components/<x>/<x>.spec.json`).
+   So each component selector consumes a set of *local* custom properties
+   named `--<component>-*` (`--button-standard-gap`, `--chip-padding-inline`,
+   `--field-slot-gap`, `--button-standard-focus-outer-color`, …). These are NOT
+   design tokens and never appear in `schema/tokens/*.json` — they are
+   indirection plumbing. The chain is:
+
+     • the *token* is `sys.*` / `ref.*` — defined in schema/tokens/*.json,
+       documented in schema/DESIGN.md and the component's spec `## Anatomy` / `## Sizes`
+       / bindings table;
+     • the *binding* (which token a given slot uses) lives in the
+       component's `.spec.json`;
+     • the React component (packages/ui/src/...) reads that binding and
+       emits it at render time as an inline custom property, e.g.
+       `style={{ '--button-standard-gap': 'var(--sys-layout-inline-md)' }}` (see
+       `tokenToCss` in spec-utils.js);
+     • this stylesheet then just says `gap: var(--button-standard-gap)` — "use
+       whatever the component handed me".
+
+   Why the extra hop instead of writing `var(--sys-layout-inline-md)`
+   straight into the rule:
+     1. It keeps the *binding* in the `.spec.json` (the contract every
+        other consumer — Figma plugin, agents — reads), not scattered
+        across CSS rules.
+     2. Per-variant / per-state values (`--chip-bg` flipping between
+        `surfaceContainerHigh` and `inverseSurface`, etc.) are expressed
+        by class / pseudo-class rules setting the local var once, instead
+        of duplicating the `sys.*` reference in every rule.
+     3. The local var is also the documented override seam for a
+        consumer that needs to nudge one instance.
+
+   There is no `comp.*` token tier in use — it is reserved but kept
+   intentionally empty; everything is expressed via `sys.*` / `ref.*`,
+   and the `--<component>-*` vars point straight at those values. If a
+   component ever needs a binding `sys.*` can't express, the order is:
+   write it in the spec md → add a `comp.*` token to schema/tokens →
+   reference `var(--comp-…)` here. (See schema/components/README.md.)
+
+   Drift guard: no tooling enforces that the values a component sets for
+   its `--<component>-*` vars match its `.spec.json`. The spec md / json
+   is the contract; this stylesheet and the React component must follow
+   it; a review of any component change checks the three agree. Where
+   this file *also* sets per-variant defaults for those vars (e.g.
+   `.chorus-chip--filter { --chip-bg: … }`, so static markup works
+   without React), those literals must be kept in sync with the spec by
+   hand.
+
+   ── A control's edge stroke is an inset box-shadow, NOT a `border`. ──
+   Every interactive control here sets `border: none` and draws its
+   visible edge stroke as `box-shadow: inset 0 0 0 <width> <colour>` (the
+   `--<component>-border-*` plumbing vars carry the width/colour). A
+   box-shadow is paint, not layout, so the stroke costs the box model
+   zero in every state: an `outlined` Button is the same size as a filled
+   one; a Chip / Tab is the same footprint selected or not; a Form field
+   stepping its stroke from `hairline` to `thin` on `active` keeps its
+   exact height (content + padding) and never shifts the caret. Same
+   reasoning as the focus ring being an `::after` overlay layer. NEVER
+   reach for `border:` on a control box — neither the stroke's presence,
+   nor a state changing it, nor a width step may ever reflow a layout.
+   (Structural row dividers — `.chorus-…__divider` etc. — are layout and
+   a real `border` / inset shadow there is fine; this rule is the
+   control's *own* edge stroke.) See schema/DESIGN.md → "Border & Stroke".
+============================================================ */
+
+/* ============================================================
+   Form-element font inheritance reset.
+
+   `<button>`, `<input>`, `<select>`, `<textarea>` ship with their
+   own user-agent `font-family` (system-ui / "Arial" on most
+   platforms) and *do not* inherit from `<body>`. Without this
+   reset, every Chorus control built on those tags renders in the
+   host browser's UI font instead of the product face (Pretendard),
+   even when the host page sets Pretendard on `<body>`. This is the
+   single most common regression source for "why is my button in
+   Arial?" — so the reset sits at the top of the stylesheet so it
+   applies to every consumer of `@blind-chorus/ui` automatically and any
+   new button-based component picks up the right family by default,
+   without each component having to repeat `font-family: inherit`.
+
+   We only touch `font-family` (not the `font` shorthand) so the
+   form element keeps its own default `font-size` / weight ramp
+   when a component doesn't explicitly set them. */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+.chorus-button--standard {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--button-standard-gap);
+  padding: var(--button-standard-padding-block) var(--button-standard-padding-inline);
+  min-height: var(--button-standard-min-height);
+  min-width: var(--button-standard-min-width);
+  border-radius: var(--button-standard-radius);
+  background: var(--button-standard-bg);
+  color: var(--button-standard-label);
+  /* No `border` property — the appearance's stroke (1px for `outlined`,
+     0 for the filled appearances) is an inset `box-shadow`, so it never
+     touches the box model: an outlined button is exactly the same size as
+     a filled one (no `+2px`), and the label sits in the same place. See
+     DESIGN.md → Border & Stroke. */
+  border: none;
+  box-shadow: inset 0 0 0 var(--button-standard-border-width) var(--button-standard-border-color);
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  user-select: none;
+  transition: background 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+.chorus-button--standard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 120ms ease;
+}
+
+.chorus-button--standard:hover::before,
+.chorus-button--standard[data-force-state="hovered"]::before  { opacity: var(--button-standard-overlay-hover); }
+
+.chorus-button--standard:active::before,
+.chorus-button--standard[data-force-state="pressed"]::before  { opacity: var(--button-standard-overlay-pressed); }
+
+.chorus-button--standard:focus-visible::before,
+.chorus-button--standard[data-force-state="focused"]::before  { opacity: var(--button-standard-overlay-focus); }
+
+/* Focus ring — a dedicated overlay layer (`::after`), never an `outline` /
+   `box-shadow` on the button itself. Because the pseudo-element is
+   `position: absolute`, the ring is out of flow: it contributes nothing
+   to layout, so neither the button, a button group's gap, nor any
+   sibling shifts when focus arrives. The two-layer composition is
+   DESIGN.md's canonical recipe, painted *outward* via stacked box-shadows
+   (1px `focusInset` counter-ring at 0→1px, then the 2px `focus` stroke
+   visible at 1→3px). Sits at `z-index: 2`, above the state-overlay
+   `::before` (z-index 0) and the label / icon (z-index 1). */
+.chorus-button--standard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: none;
+  transition: box-shadow 120ms ease;
+}
+
+.chorus-button--standard:focus-visible::after,
+.chorus-button--standard[data-force-state="focused"]::after {
+  box-shadow:
+    0 0 0 var(--button-standard-focus-inset-width) var(--button-standard-focus-inset-color),
+    0 0 0 calc(var(--button-standard-focus-outer-width) + var(--button-standard-focus-inset-width)) var(--button-standard-focus-outer-color);
+}
+
+.chorus-button--standard:disabled::after { box-shadow: none; }
+
+.chorus-button--standard__label,
+.chorus-button--standard__icon {
+  position: relative;
+  z-index: 1;
+}
+
+.chorus-button--standard__icon {
+  display: inline-flex;
+  width: var(--button-standard-icon-size);
+  height: var(--button-standard-icon-size);
+}
+
+.chorus-button--standard__icon > * {
+  width: 100%;
+  height: 100%;
+}
+
+.chorus-button--standard--full-width {
+  width: 100%;
+}
+
+.chorus-button--standard--truncate .chorus-button--standard__label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.chorus-button--standard:disabled {
+  opacity: var(--button-standard-disabled-opacity);
+  cursor: not-allowed;
+}
+
+.chorus-button--standard:disabled::before {
+  opacity: 0;
+}
+
+/* ============================================================
+   FAB
+============================================================ */
+.chorus-button--fab {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--button-fab-slot-gap);
+  min-height: var(--button-fab-min-height);
+  min-width: var(--button-fab-min-height);
+  padding: var(--button-fab-padding);
+  border-radius: var(--button-fab-radius);
+  background: var(--button-fab-bg);
+  color: var(--button-fab-label);
+  border: 0;
+  box-shadow: var(--button-fab-elevation);
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  user-select: none;
+  transition: background 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+.chorus-button--fab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 120ms ease;
+}
+
+.chorus-button--fab:hover::before,
+.chorus-button--fab[data-force-state="hovered"]::before { opacity: var(--button-fab-overlay-hover); }
+
+.chorus-button--fab:active::before,
+.chorus-button--fab[data-force-state="pressed"]::before { opacity: var(--button-fab-overlay-pressed); }
+
+.chorus-button--fab:focus-visible::before,
+.chorus-button--fab[data-force-state="focused"]::before { opacity: var(--button-fab-overlay-focus); }
+
+/* Focus ring — dedicated overlay layer (`::after`), so it never affects
+   layout (the FAB's footprint is fixed; nothing reflows on focus) and
+   never collides with the FAB's own `box-shadow` (the floating
+   elevation, which stays untouched underneath). Canonical two-layer
+   composition, painted outward; `z-index: 2`, above the overlay
+   `::before` (z-index 0) and the label / icon (z-index 1). */
+.chorus-button--fab::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: none;
+  transition: box-shadow 120ms ease;
+}
+
+.chorus-button--fab:focus-visible::after,
+.chorus-button--fab[data-force-state="focused"]::after {
+  box-shadow:
+    0 0 0 var(--button-fab-focus-inset-width) var(--button-fab-focus-inset-color),
+    0 0 0 calc(var(--button-fab-focus-outer-width) + var(--button-fab-focus-inset-width)) var(--button-fab-focus-outer-color);
+}
+
+.chorus-button--fab__icon,
+.chorus-button--fab__label {
+  position: relative;
+  z-index: 1;
+}
+
+.chorus-button--fab__icon {
+  display: inline-flex;
+  width: var(--button-fab-icon-size);
+  height: var(--button-fab-icon-size);
+  flex: 0 0 auto;
+}
+
+.chorus-button--fab__icon > * {
+  width: 100%;
+  height: 100%;
+}
+
+.chorus-button--fab__label {
+  padding: var(--button-fab-label-inset);
+}
+
+/* ============================================================
+   Chip (Filter / Tag) — also used by CompactButton
+
+   Default CSS variable values are set per-variant class so static
+   markup like `<span class="chorus-chip chorus-chip--filter">` works
+   without React setting inline vars. The Chip / CompactButton
+   components also set these inline (same values) for explicitness.
+============================================================ */
+/* Shared chip defaults — label-slot inset, state overlays, focus ring,
+   disabled opacity, and label typography are identical across every
+   variant, so they live on `.chorus-chip` instead of being repeated in
+   each variant block. Variant blocks below only declare what diverges:
+   container color pair (bg / label / border), min-height, padding, and
+   radius. */
+.chorus-chip {
+  --chip-label-inset: var(--sys-layout-container-2xs);
+  --chip-slot-gap: 0;
+  --chip-icon-size: var(--sys-icon-md);
+  --chip-overlay-hover: var(--sys-state-hover);
+  --chip-overlay-pressed: var(--sys-state-pressed);
+  --chip-overlay-focus: var(--sys-state-focus);
+  --chip-disabled-opacity: var(--sys-state-disabled);
+  --chip-focus-outer-width: var(--sys-borderWidth-thin);
+  --chip-focus-outer-color: var(--sys-color-focus);
+  --chip-focus-inset-width: var(--sys-borderWidth-hairline);
+  --chip-focus-inset-color: var(--sys-color-focusInset);
+  font-size: var(--sys-typo-label-sm-size);
+  font-weight: var(--sys-typo-label-sm-weight);
+  line-height: var(--sys-typo-label-sm-line);
+  letter-spacing: var(--sys-typo-label-sm-tracking);
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--chip-slot-gap);
+  min-height: var(--chip-min-height);
+  padding: var(--chip-padding-block) var(--chip-padding-inline);
+  border-radius: var(--chip-radius);
+  background: var(--chip-bg);
+  color: var(--chip-label);
+  /* No `border` property — the 1px stroke is an inset `box-shadow`, so it
+     never touches the box model: the chip's footprint is exactly
+     `content + padding` in every variant and selection state, and only
+     the stroke *color* changes (to `transparent` where the chip should
+     read borderless). Were this a real `border`, toggling its colour to
+     `transparent` would still keep its 1px box, but a future width change
+     would jitter a chip row — so we just never let the border into the
+     box model at all. See DESIGN.md → Border & Stroke. */
+  border: none;
+  box-shadow: inset 0 0 0 var(--sys-borderWidth-hairline) var(--chip-border-color);
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  user-select: none;
+  transition: background 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+.chorus-chip--filter {
+  --chip-bg: var(--sys-color-surfaceContainerHigh);
+  --chip-label: var(--sys-color-onSurface);
+  --chip-border-color: var(--sys-color-outlineVariant);
+  /* 32 capsule — anatomy contract, not a spacing token. */
+  --chip-min-height: 32px;
+  --chip-padding-block: var(--sys-layout-container-2xs);
+  --chip-padding-inline: var(--sys-layout-container-sm);
+  --chip-radius: var(--sys-radius-full);
+}
+
+.chorus-chip--filter.is-selected {
+  --chip-bg: var(--sys-color-inverseSurface);
+  --chip-label: var(--sys-color-inverseOnSurface);
+  --chip-border-color: transparent;
+}
+
+/* Toolbar Button → primary appearance — overrides only the colour pair
+   the chip plumbing exposes (`--chip-bg` / `--chip-label` / border).
+   Geometry, padding, radius, focus ring, and state overlays still come
+   from `.chorus-chip--filter` above — primary is a re-tone, not a
+   re-shape. State overlays paint `--chip-label` (now `onPrimary`) over
+   the primary fill at the standard hover / pressed / focus opacities,
+   so the recipe falls out of the same chip CSS without a per-state
+   override. */
+.chorus-chip--filter.chorus-button--toolbar--primary {
+  --chip-bg: var(--sys-color-primary);
+  --chip-label: var(--sys-color-onPrimary);
+  --chip-border-color: transparent;
+}
+
+/* Action Toggle — same 32px-capsule geometry as Filter; only the
+   container pair flips between primary (inactive) and the Filter
+   unselected chrome (active). The 1px hairline border is always present
+   (transparent while inactive), so the chip never changes width when it
+   toggles. */
+.chorus-chip--toggle {
+  --chip-bg: var(--sys-color-primary);
+  --chip-label: var(--sys-color-onPrimary);
+  --chip-border-color: transparent;
+  /* 32 capsule — same geometry as Filter, anatomy contract. */
+  --chip-min-height: 32px;
+  --chip-padding-block: var(--sys-layout-container-2xs);
+  --chip-padding-inline: var(--sys-layout-container-sm);
+  --chip-radius: var(--sys-radius-full);
+}
+
+.chorus-chip--toggle.is-selected {
+  --chip-bg: var(--sys-color-surfaceContainerHigh);
+  --chip-label: var(--sys-color-onSurface);
+  --chip-border-color: var(--sys-color-outlineVariant);
+}
+
+.chorus-chip--tag {
+  --chip-bg: var(--sys-color-secondaryContainer);
+  --chip-label: var(--sys-color-onSecondaryContainer);
+  --chip-border-color: transparent;
+  /* 24 capsule — Tag rung, anatomy contract. */
+  --chip-min-height: 24px;
+  --chip-padding-block: var(--sys-layout-container-2xs);
+  --chip-padding-inline: var(--sys-layout-container-xs);
+  --chip-radius: var(--sys-radius-sm);
+}
+
+/* Icon-only Compact — when the chip carries no label slot, shrink the
+   inline padding and lock the width to the min-height so the glyph
+   centers in a clean square (32 × 32 for Compact) instead of the
+   labeled 40-ish-wide capsule. Filter / action-toggle / tag always
+   render a label by contract, so this rule effectively only fires for
+   the Compact icon-only form. */
+.chorus-chip:not(:has(.chorus-chip__label)) {
+  padding-inline: var(--sys-layout-container-xs);
+  width: var(--chip-min-height);
+}
+
+.chorus-chip[data-non-interactive="true"],
+span.chorus-chip {
+  cursor: default;
+}
+
+.chorus-chip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 120ms ease;
+}
+
+.chorus-chip:hover:not(:disabled)::before,
+.chorus-chip[data-force-state="hovered"]::before { opacity: var(--chip-overlay-hover); }
+
+.chorus-chip:active:not(:disabled)::before,
+.chorus-chip[data-force-state="pressed"]::before { opacity: var(--chip-overlay-pressed); }
+
+.chorus-chip:focus-visible::before,
+.chorus-chip[data-force-state="focused"]::before { opacity: var(--chip-overlay-focus); }
+
+/* Focus ring — dedicated overlay layer (`::after`), `position: absolute`
+   so it's out of flow: a focused chip never widens, and a chip group's
+   4px gap never shifts. Canonical two-layer composition, painted outward;
+   `z-index: 2`, above the overlay `::before` (z-index 0) and the label /
+   icon (z-index 1). Inside a Tabs row the ring is re-anchored *inward*
+   (the row is a scroller — see the Segmented override below). */
+.chorus-chip::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: none;
+  transition: box-shadow 120ms ease;
+}
+
+.chorus-chip:focus-visible::after,
+.chorus-chip[data-force-state="focused"]::after {
+  box-shadow:
+    0 0 0 var(--chip-focus-inset-width) var(--chip-focus-inset-color),
+    0 0 0 calc(var(--chip-focus-outer-width) + var(--chip-focus-inset-width)) var(--chip-focus-outer-color);
+}
+
+.chorus-chip:disabled::after { box-shadow: none; }
+
+.chorus-chip__label,
+.chorus-chip__icon {
+  position: relative;
+  z-index: 1;
+}
+
+.chorus-chip__label {
+  padding: 0 var(--chip-label-inset);
+  white-space: nowrap;
+}
+
+.chorus-chip__icon {
+  display: inline-flex;
+  width: var(--chip-icon-size);
+  height: var(--chip-icon-size);
+  flex: 0 0 auto;
+}
+
+.chorus-chip__icon > * {
+  width: 100%;
+  height: 100%;
+}
+
+.chorus-chip:disabled {
+  opacity: var(--chip-disabled-opacity);
+  cursor: not-allowed;
+}
+
+.chorus-chip:disabled::before {
+  opacity: 0;
+}
+
+/* ============================================================
+   Badge — numeric count pill attached to a host label.
+   Single-digit content collapses to a perfect circle because
+   `min-width = min-height` and `radius.full` resolves to a
+   circle on any square. Two+ characters stretch the badge into
+   a capsule via `padding-inline`.
+============================================================ */
+.chorus-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: var(--badge-min-height);
+  min-width: var(--badge-min-width);
+  padding: var(--badge-padding-block) var(--badge-padding-inline);
+  border-radius: var(--badge-radius);
+  background: var(--badge-bg);
+  color: var(--badge-label);
+  white-space: nowrap;
+  user-select: none;
+  flex: 0 0 auto;
+}
+
+/* ============================================================
+   Tabs — Underline / Segmented (shared `.chorus-tab` item)
+============================================================ */
+.chorus-tabs {
+  display: flex;
+  align-items: stretch;
+}
+
+.chorus-tab {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  user-select: none;
+  font: inherit;
+  color: inherit;
+  padding: 0;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.chorus-tab__icon,
+.chorus-tab__label {
+  position: relative;
+  z-index: 1;
+}
+
+.chorus-tab__icon {
+  display: inline-flex;
+  width: var(--tabs-icon-size);
+  height: var(--tabs-icon-size);
+  flex: 0 0 auto;
+}
+
+.chorus-tab__icon > * {
+  width: 100%;
+  height: 100%;
+}
+
+.chorus-tab__label {
+  white-space: nowrap;
+}
+
+.chorus-tab:disabled {
+  opacity: var(--tabs-disabled-opacity);
+  cursor: not-allowed;
+  outline: none;
+  box-shadow: none;
+}
+
+/* ----- Underline ----- */
+/* Divider is painted as an `inset box-shadow` rather than a
+   `border-bottom` so it lives **inside** the row's box. The selected
+   indicator (`.chorus-tabs__indicator`, `bottom: 0`) then paints on
+   top of the divider at the active tab's x-range without needing to
+   overhang the row's bottom edge. Why this matters: when
+   `overflow-x: auto` is on the row (every non-fullWidth case), the
+   browser silently coerces `overflow-y` to `auto` too — any
+   negative-offset child like a `bottom: -1px` indicator gets clipped
+   by half, so the indicator visually thins to 1px in overflow modes
+   while reading at full 2px in fullWidth mode. Painting the divider
+   inside + anchoring the indicator at `bottom: 0` keeps the
+   thickness consistent across every variant. */
+.chorus-tabs--underline {
+  gap: var(--tabs-inter-tab-gap);
+  padding: 0 var(--tabs-container-padding-inline);
+  box-shadow: inset 0 calc(-1 * var(--tabs-divider-width)) 0 var(--tabs-divider-color);
+  /* Anchor the sliding indicator (`.chorus-tabs__indicator`) — it
+     positions absolutely against this row's content origin so it
+     scrolls with the tabs and tracks the selected tab's `offsetLeft`. */
+  position: relative;
+  scrollbar-width: none;
+}
+
+/* Adaptive width terminal layouts. The row carries `data-fit` written
+   by `useAdaptiveFit` after measuring Σ(tab.intrinsicWidth) vs
+   `clientWidth`. Two terminal modes:
+
+     • `data-fit="scroll"` — tabs hold their content width and the row
+       scrolls horizontally. The trailing Edge fade paints when there's
+       still content past the right edge (driven by `data-overflow-end`
+       from `useScrollOverflow`).
+     • `data-fit="stretch"` — tabs share the row's width equally; the
+       row never overflows so `overflow-x` is visible and the scroll
+       container collapses to its natural height. */
+.chorus-tabs--underline[data-fit="scroll"] {
+  overflow-x: auto;
+}
+
+.chorus-tabs--underline[data-fit="stretch"] {
+  overflow-x: visible;
+}
+
+.chorus-tabs--underline[data-fit="stretch"] .chorus-tab--underline {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.chorus-tabs--underline::-webkit-scrollbar {
+  display: none;
+}
+
+/* Edge fade — trailing-edge `mask-image` linear-gradient that fades the
+   rightmost `--tabs-fade-width` of the row to transparent when there's
+   still content past the visible viewport. Shared across all three
+   variants (underline / rounded / segmented). The `data-overflow-end`
+   flag is toggled by `useScrollOverflow` (shared hook); when items
+   fit, no mask paints so the cue never lies about scroll state. */
+.chorus-tabs--underline[data-overflow-end="true"],
+.chorus-tabs--segmented[data-overflow-end="true"] {
+  mask-image: linear-gradient(
+    to right,
+    black calc(100% - var(--tabs-fade-width)),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    black calc(100% - var(--tabs-fade-width)),
+    transparent 100%
+  );
+}
+
+.chorus-tab--underline {
+  min-height: var(--tabs-tab-min-height);
+  padding: var(--tabs-tab-padding-block) var(--tabs-tab-padding-inline);
+  gap: var(--tabs-slot-gap);
+  color: var(--tabs-label-unselected);
+  /* Default: hold natural content width — never shrink to fit, so the
+     row overflows and scrolls instead of compressing labels. */
+  flex: 0 0 auto;
+}
+
+.chorus-tab--underline::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 120ms ease;
+}
+
+.chorus-tab--underline.is-selected {
+  color: var(--tabs-label-selected);
+}
+
+/* Single sliding indicator anchored to the bottom of the tab row. Its
+   `transform` (translateX) and `width` are written by `useSlidingIndicator`
+   to match the currently-selected tab's `offsetLeft` / `offsetWidth`,
+   so a selection change animates the bar from the old tab to the new
+   one rather than snapping a per-tab indicator on/off. The indicator
+   sits inside the scrollable row, so it scrolls with the content and
+   stays aligned with its tab without extra bookkeeping. */
+.chorus-tabs__indicator {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: var(--tabs-indicator-height);
+  width: 0;
+  background: var(--tabs-indicator-color);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(0);
+  transition: transform 220ms ease, width 220ms ease;
+}
+
+.chorus-tab--underline:hover:not(:disabled)::before,
+.chorus-tab--underline[data-force-state="hovered"]::before { opacity: var(--tabs-overlay-hover); }
+
+.chorus-tab--underline:active:not(:disabled)::before,
+.chorus-tab--underline[data-force-state="pressed"]::before { opacity: var(--tabs-overlay-pressed); }
+
+.chorus-tab--underline:focus-visible::before,
+.chorus-tab--underline[data-force-state="focused"]::before { opacity: var(--tabs-overlay-focus); }
+
+/* Focus ring — a separate top layer (`::after`), not an `outline` /
+   `box-shadow` on the tab itself. Why a layer:
+     • Layout-safe — the pseudo-element is `position: absolute`, so the
+       ring contributes nothing to flow; no gap or sibling ever shifts
+       when a tab takes focus.
+     • Clip-safe — the Tabs row is a horizontal scroller (`overflow-x:
+       auto`, which coerces `overflow-y: auto`), so an *outward* ring is
+       sliced off at the row's top / bottom edge. The ring is drawn
+       *inside* the tab via stacked inset box-shadows, so nothing clips it.
+     • Layer-safe — an `outline` painted over the tab box covers the inset
+       counter-ring; here the two layers (2px `focus` stroke over a 1px
+       `focusInset` counter-ring) are explicit and both visible.
+   Sits at `z-index: 2`, above the state-overlay `::before` (z-index 0)
+   and the label / icon (z-index 1). The tab's own `::before` already
+   owns the focus *overlay* tint; this `::after` owns the *ring*. */
+.chorus-tab--underline::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: none;
+  transition: box-shadow 120ms ease;
+}
+
+.chorus-tab--underline:focus-visible::after,
+.chorus-tab--underline[data-force-state="focused"]::after {
+  box-shadow:
+    inset 0 0 0 var(--tabs-focus-outer-width) var(--tabs-focus-outer-color),
+    inset 0 0 0 calc(var(--tabs-focus-outer-width) + var(--tabs-focus-inset-width)) var(--tabs-focus-inset-color);
+}
+
+/* ----- Segmented ----- */
+/* Segmented Tabs container — segments themselves render as `chorus-chip
+   chorus-chip--filter` (delegated to Filter chip), so this rule only
+   handles row-level layout: transparent fill, horizontal padding,
+   fixed inter-segment gap, and `overflow-x: auto` so a row that
+   exceeds its surrounding column scrolls instead of compressing the
+   segments. */
+.chorus-tabs--segmented {
+  display: flex;
+  align-items: center;
+  gap: var(--tabs-inter-segment-gap);
+  padding: var(--tabs-container-padding-block) var(--tabs-container-padding-inline);
+  background: transparent;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.chorus-tabs--segmented::-webkit-scrollbar {
+  display: none;
+}
+
+.chorus-tabs--segmented .chorus-chip {
+  flex: 0 0 auto;
+}
+
+/* Segmented / Rounded segments delegate their chrome to Filter chip,
+   whose `::after` focus-ring layer is drawn *outward* (see the Chip
+   block). Inside a Tabs row that ring would be sliced off at the row's
+   top / bottom edge (`overflow-x: auto`, which coerces `overflow-y:
+   auto`) and could overlap the neighbouring segment, so re-anchor the
+   same `::after` layer *inward* — same layout-safe pseudo-element, same
+   two visible layers, just tucked inside the segment instead of outside.
+   (The `::after` element itself — position / inset / z-index / radius —
+   comes from `.chorus-chip::after`; only the focused box-shadow flips
+   from outward to inset here.) */
+.chorus-tabs--segmented .chorus-chip:focus-visible::after,
+.chorus-tabs--segmented .chorus-chip[data-force-state="focused"]::after {
+  box-shadow:
+    inset 0 0 0 var(--chip-focus-outer-width) var(--chip-focus-outer-color),
+    inset 0 0 0 calc(var(--chip-focus-outer-width) + var(--chip-focus-inset-width)) var(--chip-focus-inset-color);
+}
+
+/* ----- Rounded (chip-delegated) -----
+   Rounded Tabs share Segmented's container chrome and per-tab chip
+   delegation verbatim. The single divergence is the chip's corner
+   radius, expressed as a `.chorus-chip--rounded` modifier that steps
+   `--chip-radius` from `full` (capsule) to `md` (8). */
+.chorus-chip--rounded {
+  --chip-radius: var(--sys-radius-md);
+}
+
+/* ============================================================
+   Feed
+============================================================ */
+.chorus-feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-md);
+  padding: var(--sys-layout-container-lg) var(--sys-layout-container-md);
+  background: var(--sys-color-surface);
+  color: var(--sys-color-onSurface);
+  width: 100%;
+  /* Max-width is a layout-contract literal (matches the Feed family's
+     "single column, mobile-first card" rule). Anatomy contract, not a
+     layout token — see DESIGN.md → "No raw numeric or color literals". */
+  max-width: 480px;
+  box-sizing: border-box;
+}
+
+.chorus-feed__flag {
+  font-size: var(--sys-typo-label-sm-size);
+  font-weight: var(--sys-typo-label-sm-weight);
+  line-height: var(--sys-typo-label-sm-line);
+  letter-spacing: var(--sys-typo-label-sm-tracking);
+  color: var(--sys-color-brand);
+  text-transform: uppercase;
+}
+
+.chorus-feed__header {
+  display: flex;
+  gap: var(--sys-layout-inline-md);
+  align-items: center;
+}
+
+.chorus-feed__header-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.chorus-feed__channel-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-md);
+  min-width: 0;
+}
+
+/* The channel name is its own link to the channel page. Rendered as an
+   anchor — same `onSurface` tone as before so the header reads as one
+   continuous metadata line at rest, no `text-decoration` so the row
+   does not gain a phantom underline rail. Hover paints the underline
+   on the link itself; focus uses the same hairline outline rhythm as
+   the Follow toggle next to it. */
+.chorus-feed__channel {
+  font-size: var(--sys-typo-label-sm-size);
+  font-weight: var(--sys-typo-label-sm-weight);
+  line-height: var(--sys-typo-label-sm-line);
+  color: var(--sys-color-onSurface);
+  text-decoration: none;
+}
+.chorus-feed__channel:hover { text-decoration: underline; }
+.chorus-feed__channel:focus-visible {
+  outline: var(--sys-borderWidth-hairline) solid var(--sys-color-focus);
+  outline-offset: var(--sys-layout-inline-xs);
+  border-radius: var(--sys-radius-xs);
+}
+
+.chorus-feed__timestamp {
+  font-size: var(--sys-typo-caption-md-size);
+  font-weight: var(--sys-typo-caption-md-weight);
+  line-height: var(--sys-typo-caption-md-line);
+  /* One tonal step further than meta — the timestamp recedes more than
+     the author metadata, per the header hierarchy: channel name leads,
+     timestamp whispers. */
+  color: var(--sys-color-outline);
+}
+
+.chorus-feed__dot {
+  color: var(--sys-color-outline);
+}
+
+.chorus-feed__follow {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--sys-typo-label-sm-size);
+  font-weight: var(--sys-typo-label-sm-weight);
+  line-height: var(--sys-typo-label-sm-line);
+  color: var(--sys-color-primary);
+}
+
+.chorus-feed__follow[aria-pressed="true"] {
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.chorus-feed__follow:focus-visible {
+  outline: var(--sys-borderWidth-hairline) solid var(--sys-color-focus);
+  outline-offset: var(--sys-layout-inline-xs);
+  border-radius: var(--sys-radius-xs);
+}
+
+.chorus-feed__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: var(--sys-typo-caption-md-size);
+  font-weight: var(--sys-typo-caption-md-weight);
+  line-height: var(--sys-typo-caption-md-line);
+  color: var(--sys-color-onSurfaceVariant);
+  min-width: 0;
+}
+
+.chorus-feed__meta-sep { margin: 0 var(--sys-layout-inline-sm); }
+
+/* Each meta item (Company / Job Function / Username) is its own link
+   to a filtered surface, so the meta row is a row of independent
+   affordances — not one tap-anywhere block. Inherits the row's
+   `onSurfaceVariant` tone at rest; hover paints the underline on
+   the link alone (the middot separator stays unstyled). */
+.chorus-feed__meta-link {
+  color: inherit;
+  text-decoration: none;
+}
+.chorus-feed__meta-link:hover { text-decoration: underline; }
+.chorus-feed__meta-link:focus-visible {
+  outline: var(--sys-borderWidth-hairline) solid var(--sys-color-focus);
+  outline-offset: var(--sys-layout-inline-xs);
+  border-radius: var(--sys-radius-xs);
+}
+
+.chorus-feed__post {
+  display: flex;
+  gap: var(--sys-layout-inline-md);
+  align-items: flex-start;
+}
+
+.chorus-feed__post-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-xs);
+}
+
+/* Bound to `heading.md` (20 / Semibold) per the Feed spec. Doubled-class
+   specificity (0,2,0) so the rule wins against any ambient
+   `.page-content h3` style when the title is rendered as an <h3>. Same
+   guard the ChannelList label uses. */
+.chorus-feed .chorus-feed__title {
+  margin: 0;
+  font-size: var(--sys-typo-heading-md-size);
+  font-weight: var(--sys-typo-heading-md-weight);
+  line-height: var(--sys-typo-heading-md-line);
+  letter-spacing: var(--sys-typo-heading-md-tracking);
+  color: var(--sys-color-onSurface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chorus-feed__body {
+  margin: 0;
+  font-size: var(--sys-typo-body-sm-size);
+  font-weight: var(--sys-typo-body-sm-weight);
+  line-height: var(--sys-typo-body-sm-line);
+  color: var(--sys-color-onSurfaceVariant);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 80px thumbnail rung is an anatomy slot dimension — the Feed family's
+   fixed post-thumbnail footprint. Same exception kind as Thumbnail's 48
+   rung; not a layout decision, not a token. */
+.chorus-feed__thumbnail {
+  flex: 0 0 80px;
+  width: 80px;
+  height: 80px;
+  border-radius: var(--sys-radius-md);
+  background: var(--sys-color-surfaceContainerHigh);
+  position: relative;
+  overflow: hidden;
+}
+
+.chorus-feed__thumbnail img,
+.chorus-feed__thumbnail-fallback {
+  width: 100%; height: 100%; display: block;
+  background: linear-gradient(135deg, var(--sys-color-placeholderImage-start) 0%, var(--sys-color-placeholderImage-end) 100%);
+  object-fit: cover;
+}
+
+/* Multiple-images badge — pinned to the thumbnail's top-right corner
+   with a 4 inset from both the top and the right (`sys.layout.container.2xs`).
+   The glyph is `MultipleIcon` rendered at the 16 anatomy rung
+   (`sys.icon.sm`) and forced to fully-opaque white (`ref.palette.white.1000`)
+   so the badge stays legible against any user-supplied imagery in any
+   theme — surface-toned would invert in dark mode and disappear on a
+   bright photo. Shown only when 2+ images attach to the post. */
+.chorus-feed__thumbnail-stack {
+  position: absolute;
+  top: var(--sys-layout-container-2xs);
+  right: var(--sys-layout-container-2xs);
+  width: var(--sys-icon-md);
+  height: var(--sys-icon-md);
+  /* ref-tier white is intentional: badge must stay legible on any user-supplied
+     photo in any theme — see feed.spec.json `thumbnailMultipleBadge.colorReason`. */
+  color: var(--ref-palette-white-1000);
+  display: inline-flex;
+  pointer-events: none;
+}
+
+.chorus-feed__thumbnail-stack svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.chorus-feed__poll {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-lg);
+  padding: var(--sys-layout-container-sm) var(--sys-layout-container-md);
+  /* Touch-target floor — same 48 rung used by List rows, kept as an
+     intrinsic anatomy dimension (not a layout token). */
+  min-height: 48px;
+  background: var(--sys-color-surfaceVariant);
+  border-radius: var(--sys-radius-md);
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
+}
+
+.chorus-feed__poll-title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-sm);
+}
+.chorus-feed__poll-glyph { color: var(--sys-color-brand); display: inline-flex; }
+.chorus-feed__poll-label { color: var(--sys-color-brand); font-weight: 700; }
+.chorus-feed__poll-divider {
+  width: var(--sys-borderWidth-hairline);
+  align-self: stretch;
+  background: var(--sys-color-outlineVariant);
+}
+.chorus-feed__poll-participants { color: var(--sys-color-onSurface); }
+.chorus-feed__poll-participants strong { font-weight: 700; }
+
+.chorus-feed__citation {
+  /* Citation is one bordered surface: the hero and the text column sit
+     flush against each other, with no gap and no container padding —
+     the inner padding lives on the text column instead, so the hero
+     can bleed to the citation's outer edge. The card's 8px outer
+     radius (`radius.md`) clips both children via `overflow: hidden`. */
+  display: flex;
+  gap: 0;
+  align-items: stretch;
+  padding: 0;
+  background: var(--sys-color-surfaceContainer);
+  border-radius: var(--sys-radius-md);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+
+.chorus-feed__citation-hero {
+  /* 120px-wide hero on the leading edge. Width is the only intrinsic
+     dimension the hero contributes — height comes entirely from the
+     flex stretch against the text column, so a tall body produces a
+     tall hero and a short body produces a short hero. The inner image
+     is absolutely positioned so its 1:1 (or any other) intrinsic ratio
+     never drives the citation's height. */
+  flex: 0 0 120px;
+  width: 120px;
+  align-self: stretch;
+  background: linear-gradient(135deg, var(--sys-color-placeholderImage-start) 0%, var(--sys-color-placeholderImage-end) 100%);
+  overflow: hidden;
+  position: relative;
+}
+.chorus-feed__citation-hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.chorus-feed__citation-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--sys-layout-stack-xs);
+  padding: var(--sys-layout-container-sm);
+  min-width: 0;
+  flex: 1 1 auto;
+  background: var(--sys-color-surfaceVariant);
+}
+
+/* All text inside the citation surface sits at the caption.md rung —
+   title, source name, anything else added here in the future.
+   Hierarchy comes from weight and color, not type-size. */
+.chorus-feed__citation,
+.chorus-feed__citation * {
+  font-size: var(--sys-typo-caption-md-size);
+}
+
+.chorus-feed__citation-title {
+  font-weight: var(--sys-typo-label-sm-weight);
+  line-height: var(--sys-typo-label-sm-line);
+  color: var(--sys-color-onSurface);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.chorus-feed__citation-source {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-sm);
+  color: var(--sys-color-onSurfaceVariant);
+}
+/* Source mark is a 16×16 brand badge — `icon.sm` anatomy rung with
+   `radius.sm` (4px) so it reads as a chip-adjacent badge, not a tag. */
+.chorus-feed__citation-source-icon {
+  width: var(--sys-icon-md); height: var(--sys-icon-md);
+  flex: 0 0 var(--sys-icon-md);
+  border-radius: var(--sys-radius-sm);
+  background: var(--sys-color-onSurface);
+  color: var(--sys-color-surface);
+  display: inline-flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.chorus-feed__citation-source-icon svg { width: var(--sys-typo-caption-md-size); height: var(--sys-typo-caption-md-size); }
+.chorus-feed__citation-source-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.chorus-feed__mention {
+  font-style: italic;
+  font-size: var(--sys-typo-body-sm-size);
+  color: var(--sys-color-primary);
+  text-decoration: none;
+}
+
+/* Engagement footer — a row of `xsmall` Text Buttons (Likes / Comments)
+   plus a `Views` counter rendered as a non-interactive `<span>`. The
+   gap follows the Text Button **group** rule for the `xsmall` rung
+   (`sys.layout.inline.lg` = 12px); the three counters read as one
+   visual unit even though only Likes and Comments commit. Text
+   Button applies optical alignment by default, so the chrome-to-
+   chrome gap IS the visible label-to-label distance. */
+.chorus-feed__engagement {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-lg);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+/* Active toggle — the brand-tone variant of the Like counter. We
+   override `--button-text-label` directly rather than reaching for
+   Text Button's `primary` appearance because Feed's active-like
+   colour is `sys.color.brand` (the same role the editorial `flag`
+   slot rides), not the interactive `sys.color.primary`. Selector
+   doubles the class (specificity 0,2,0) so it wins against the
+   `.chorus-button--text--appearance-secondary` rule that declares
+   `--button-text-label` later in the cascade. The Heart glyph re-
+   tones automatically via the Text Button `currentColor` contract,
+   and the hover / pressed / focus overlays inherit from
+   `--button-text-label` so the state feedback stays in lockstep. */
+.chorus-button--text.chorus-feed__like--active {
+  --button-text-label: var(--sys-color-brand);
+}
+
+/* Views — the static sibling of the two Text Buttons in the engagement
+   row. Mirrors the `xsmall` Text Button's at-rest visual contract
+   (4 × 8 padding, 12-text, 16-glyph, 4px gap) so the three counters
+   read at one density. Same margin compensation as Text Button's
+   optical-alignment default: the chrome's contribution to the
+   layout box is cancelled so Views aligns with its Text Button
+   siblings in the row — without it the static span would claim 24
+   layout-px against the Text Buttons' 16, and `align-items: center`
+   on the row would stretch the row to the larger value. No
+   `cursor`/`:hover`/`:focus` rules because Views is a metric
+   display, not an action. */
+.chorus-feed__views {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-sm);
+  padding: var(--sys-layout-container-2xs) var(--sys-layout-container-xs);
+  margin: calc(-1 * var(--sys-layout-container-2xs)) calc(-1 * var(--sys-layout-container-xs));
+  font-size: var(--sys-typo-label-sm-size);
+  font-weight: var(--sys-typo-label-sm-weight);
+  line-height: var(--sys-typo-label-sm-line);
+  color: var(--sys-color-onSurfaceVariant);
+}
+.chorus-feed__views-icon {
+  display: inline-flex;
+  width: var(--sys-icon-md);
+  height: var(--sys-icon-md);
+  flex: 0 0 auto;
+}
+.chorus-feed__views-icon svg { width: 100%; height: 100%; }
+
+/* ============================================================
+   Thumbnail
+============================================================ */
+.chorus-thumbnail {
+  position: relative;
+  display: inline-block;
+  width: var(--thumb-size);
+  height: var(--thumb-size);
+  flex: 0 0 auto;
+  vertical-align: middle;
+}
+
+.chorus-thumbnail__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--sys-radius-full);
+  background: var(--sys-color-surfaceContainerHigh);
+  overflow: hidden;
+}
+
+.chorus-thumbnail__image > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.chorus-thumbnail__dot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--thumb-dot-size);
+  height: var(--thumb-dot-size);
+  border-radius: var(--sys-radius-full);
+  background: var(--sys-color-brand);
+  /* Hairline surface halo that carves the dot out of the host image —
+     same treatment the logo badge uses, so both corner overlays sit
+     above the image with a visible 1px gap from the photo. Painted as a
+     box-shadow so the dot's bounding footprint never changes. */
+  box-shadow: 0 0 0 var(--sys-borderWidth-hairline) var(--sys-color-surface);
+  pointer-events: none;
+}
+
+.chorus-thumbnail__badge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: var(--sys-icon-md);
+  height: var(--sys-icon-md);
+  border-radius: var(--sys-radius-full);
+  background: var(--sys-color-surface);
+  /* Hairline halo via box-shadow so the badge does not enlarge the
+     bounding box — the halo paints over the host image's edge without
+     shifting the badge's `icon.sm` footprint. */
+  box-shadow: 0 0 0 var(--sys-borderWidth-hairline) var(--sys-color-surface);
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chorus-thumbnail__badge > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--sys-radius-full);
+}
+
+.chorus-thumbnail__badge:empty {
+  background: var(--sys-color-surfaceContainerHigh);
+}
+
+/* List — vertical row stack. The row is the interactive surface;
+   leading and trailing slots are decorative. Inter-row divider is a
+   hairline `outlineVariant`, not a layout gap — the contract is
+   "flush rows separated by a rule", not "rows with breathing room". */
+.chorus-list {
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  border-radius: 0;
+  width: 100%;
+  /* Anatomy max-width — Feed/List family contract for the mobile
+     column. Not a layout token. */
+  max-width: 480px;
+  box-sizing: border-box;
+}
+
+.chorus-list__row {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-md);
+  padding: var(--sys-layout-container-sm) var(--sys-layout-container-md);
+  /* Touch-target floor — the row's minimum tap height. Anatomy
+     dimension, not a layout token. */
+  min-height: 48px;
+  box-sizing: border-box;
+  cursor: pointer;
+  color: var(--sys-color-onSurface);
+  position: relative;
+  isolation: isolate;
+}
+
+/* Inter-row divider — inset from the leading edge by the row's inline
+   padding (container.md) so the rule reads as separating *content*,
+   not the container. The last row omits the divider via
+   :not(:last-child). */
+.chorus-list__row:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: var(--sys-layout-container-md);
+  right: 0;
+  bottom: 0;
+  height: var(--sys-borderWidth-hairline);
+  background: var(--sys-color-outlineVariant);
+  pointer-events: none;
+}
+
+.chorus-list__row:hover {
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-hover) * 100%), transparent);
+}
+
+.chorus-list__row:active {
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-pressed) * 100%), transparent);
+}
+
+/* Focus indicator — inward composition per DESIGN.md → Focus ring
+   composition (rows tile the column flush, separated only by a hairline
+   divider; an outward ring would overlap the divider and the neighbour
+   row). Painted on a dedicated `::before` overlay because `::after` is
+   already taken by the inter-row divider. */
+.chorus-list__row::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--sys-radius-xs);
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: none;
+  transition: box-shadow 120ms ease;
+}
+
+.chorus-list__row:focus-visible::before,
+.chorus-list__row[data-force-state="focused"]::before {
+  box-shadow:
+    inset 0 0 0 var(--sys-borderWidth-thin) var(--sys-color-focus),
+    inset 0 0 0 calc(var(--sys-borderWidth-thin) + var(--sys-borderWidth-hairline)) var(--sys-color-focusInset);
+}
+
+.chorus-list__row:focus-visible {
+  outline: none;
+}
+
+.chorus-list__row.is-disabled {
+  cursor: not-allowed;
+  opacity: var(--sys-state-disabled);
+}
+
+.chorus-list__leading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.chorus-list__label-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.chorus-list__label {
+  font-size: var(--sys-typo-body-md-size);
+  line-height: var(--sys-typo-body-md-line);
+  color: var(--sys-color-onSurface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chorus-list__supporting {
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
+  color: var(--sys-color-onSurfaceVariant);
+  margin-top: var(--sys-layout-stack-3xs);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chorus-list__trailing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sys-color-onSurfaceVariant);
+  flex: 0 0 auto;
+}
+
+/* `nav` variant auto-renders a right-pointing chevron at the trailing
+   edge — visual cue that the row routes the user further. Glyph is
+   `ExpandIcon` (chevron-down) rotated -90deg, the same reuse the side
+   navigation uses; rendering it inline avoids forking the library for a
+   one-off "chevron-right" icon. */
+.chorus-list__nav-chevron svg {
+  transform: rotate(-90deg);
+}
+
+/* Radio indicator — RadioIcon (outline) at rest, RadioFillIcon (filled)
+   when selected. Both glyphs ship from `@blind-chorus/ui/icons`; the indicator
+   only sets the foreground color so the icon picks the right tone via
+   `currentColor`. */
+.chorus-list__radio {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sys-color-onSurface);
+  transition: color 120ms ease;
+}
+
+/* ChannelRail — horizontal strip of channel entry points. The outer
+   nav holds the container padding (12 block / 16 inline) and lays out
+   the scrollable track + a sticky trailing action on a single row. The
+   track owns the horizontal scroll; the trailing action sits outside
+   the scroll viewport so "View all" stays anchored to the rail's right
+   edge regardless of how far the user scrolls the avatars. */
+.chorus-channel-rail {
+  background: var(--sys-color-surface);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--sys-layout-container-sm) var(--sys-layout-container-md);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sys-layout-inline-xl);
+  overflow: hidden;
+}
+
+.chorus-channel-rail__track {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sys-layout-inline-md);
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Edge fade — a trailing-edge linear-gradient mask that fades the
+   rightmost 48px of the track to transparent, signalling "more items
+   live past the edge" without a visible scrollbar or chevron. The
+   48 is anatomy (the fade tail length), not a spacing token. The cue
+   is **conditional**: ChannelRail's shared `useScrollOverflow` hook
+   (same hook Tabs uses) toggles `data-overflow-end` on the track when
+   its scroll width exceeds the visible width. When content fits, the
+   attribute is `"false"` and no mask paints — the rail never carries
+   a permanent decoration that lies about its scroll state. */
+.chorus-channel-rail__track[data-overflow-end="true"] {
+  -webkit-mask-image: linear-gradient(to right, black 0, black calc(100% - 48px), transparent 100%);
+          mask-image: linear-gradient(to right, black 0, black calc(100% - 48px), transparent 100%);
+}
+
+.chorus-channel-rail__track::-webkit-scrollbar {
+  display: none;
+}
+
+.chorus-channel-rail__item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sys-layout-stack-xs);
+  flex: 0 0 auto;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  border-radius: var(--sys-radius-md);
+}
+
+/* Text-link hover (see DESIGN.md → "Text links"): the rail item is a
+   text-link affordance — its label is the only typographic surface, so
+   hover paints a 1px same-color underline rather than flipping the
+   label to `color.primary`. Color change on hover competes with the
+   surrounding type hierarchy and reads as a category shift, not as
+   interaction feedback.
+
+   The underline lives on the label span, NOT the wrapping `<a>` — any
+   ambient `a:hover { text-decoration: underline }` from the host app
+   (the docs site's `.page-content a:hover` is the canonical case)
+   would otherwise stack a second underline on top, doubling the
+   visual stroke. Suppress the anchor-level decoration on hover so
+   only the label span's controlled 1px line renders. */
+.chorus-channel-rail__item:hover {
+  text-decoration: none;
+}
+
+.chorus-channel-rail__item:hover .chorus-channel-rail__label {
+  text-decoration: underline;
+  text-decoration-thickness: var(--sys-borderWidth-hairline);
+  text-underline-offset: var(--sys-layout-inline-xs);
+}
+
+.chorus-channel-rail__item:focus-visible {
+  outline: var(--sys-borderWidth-hairline) solid var(--sys-color-focus);
+  outline-offset: var(--sys-layout-inline-xs);
+}
+
+.chorus-channel-rail__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 48px;
+}
+
+/* Channel label — column width = avatar rung (48) + a small overhang
+   (inline.sm = 4) so long names truncate without pushing neighbours.
+   Composed value, derived from anatomy + a layout token. */
+.chorus-channel-rail__label {
+  width: calc(48px + 2 * var(--sys-layout-inline-sm));
+  font-size: var(--sys-typo-label-sm-size);
+  line-height: var(--sys-typo-label-sm-line);
+  color: var(--sys-color-onSurface);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Trailing action ("View all", "Manage") — rendered as a `small` Text
+   Button (`primary`); Text Button's optical-alignment default puts
+   the label's text edge at the rail's trailing content edge. Lives
+   outside the scrollable track to stay pinned to the rail's right
+   edge; `align-self: center` anchors it vertically against the avatar
+   row. The Text Button handles every other visual concern (label
+   rung, hover overlay, focus ring); this rule only keeps the flex
+   sizing and vertical anchor. */
+.chorus-channel-rail__trailing {
+  flex: 0 0 auto;
+  align-self: center;
+}
+
+/* ChannelList — a swipeable pager of channel recommendations. The outer
+   surface block lays a header (section label + optional trailing link)
+   above a horizontal pager of three-row pages. The pager bleeds 16px
+   past the container's right padding so the next-page peek isn't
+   clipped; with gap = inline.xl (16 mobile / 24 web) and a page basis
+   that subtracts that gap and an inline.md (8) peek, exactly 8px of
+   the next page surfaces at the trailing edge regardless of viewport. */
+.chorus-channel-list {
+  background: var(--sys-color-surface);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--sys-layout-container-lg) var(--sys-layout-container-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-lg);
+}
+
+.chorus-channel-list__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sys-layout-inline-md);
+}
+
+/* Specificity bumped to (0,2,0) so the rule wins against ambient
+   `.page-content h3` style in the docs site without falling back to
+   `!important`. The component should be paint-stable wherever it
+   embeds; this is the cheapest guard. */
+.chorus-channel-list .chorus-channel-list__label {
+  margin: 0;
+  font-size: var(--sys-typo-heading-md-size);
+  line-height: var(--sys-typo-heading-md-line);
+  font-weight: var(--sys-typo-heading-md-weight);
+  letter-spacing: var(--sys-typo-heading-md-tracking);
+  color: var(--sys-color-onSurface);
+}
+
+
+/* Pager — horizontal scroll with mandatory snap. The negative right
+   margin (= container.md inline padding) bleeds the scroll viewport to
+   the surface edge so the next-page peek isn't visually cropped. The
+   peek width is pinned to inline.md (8) by composing the page basis
+   from the gap + the peek; both terms are tokens, so the geometry
+   holds across the responsive token shift on web. */
+.chorus-channel-list__pager {
+  display: flex;
+  gap: var(--sys-layout-inline-xl);
+  margin-right: calc(-1 * var(--sys-layout-container-md));
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chorus-channel-list__pager::-webkit-scrollbar {
+  display: none;
+}
+
+.chorus-channel-list__page {
+  flex: 0 0 calc(100% - var(--sys-layout-inline-xl) - var(--sys-layout-inline-md));
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-sm);
+  scroll-snap-align: start;
+  min-width: 0;
+}
+
+/* Row anchors the divider's left edge to the text column — avatar
+   width (48, the Thumbnail rung) plus the inter-slot gap (inline.lg).
+   The line spans from there to the row's right edge, sitting in the
+   row's stack.sm bottom padding. Applies to every row in the page —
+   including the last — for an even rhythm. */
+.chorus-channel-list__row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-lg);
+  min-width: 0;
+  padding-bottom: var(--sys-layout-stack-sm);
+}
+
+.chorus-channel-list__row::after {
+  content: '';
+  position: absolute;
+  left: calc(48px + var(--sys-layout-inline-lg));
+  right: 0;
+  bottom: 0;
+  height: var(--sys-borderWidth-hairline);
+  background: var(--sys-color-outlineVariant);
+}
+
+.chorus-channel-list__row--pad {
+  visibility: hidden;
+  height: 48px;
+}
+
+.chorus-channel-list__row--pad::after {
+  display: none;
+}
+
+.chorus-channel-list__avatar {
+  flex: 0 0 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chorus-channel-list__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-3xs);
+}
+
+.chorus-channel-list__name,
+.chorus-channel-list__followers,
+.chorus-channel-list__description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+.chorus-channel-list__name {
+  font-size: var(--sys-typo-label-md-size);
+  line-height: var(--sys-typo-label-md-line);
+  font-weight: var(--sys-typo-label-md-weight);
+  color: var(--sys-color-onSurface);
+}
+
+.chorus-channel-list__followers {
+  font-size: var(--sys-typo-caption-md-size);
+  line-height: var(--sys-typo-caption-md-line);
+  font-weight: var(--sys-typo-caption-md-weight);
+  color: var(--sys-color-onSurface);
+}
+
+.chorus-channel-list__description {
+  font-size: var(--sys-typo-caption-md-size);
+  line-height: var(--sys-typo-caption-md-line);
+  font-weight: var(--sys-typo-caption-md-weight);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.chorus-channel-list__action {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ============================================================
+   Callout — in-body explanation block (info / neutral)
+============================================================ */
+.chorus-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sys-layout-stack-xs);
+  padding: var(--sys-layout-container-sm);
+  border-radius: var(--sys-radius-md);
+}
+
+.chorus-callout--info {
+  background: var(--sys-color-primaryContainer);
+  color: var(--sys-color-onPrimaryContainer);
+}
+
+/* Neutral binds to `secondaryContainer` (not `surfaceVariant`) so the
+   callout stays visible on raised surfaces in dark mode. The two roles
+   are identical in light (`neutral.100`) but diverge in dark:
+   `surfaceVariant` = `neutral.800` (collides with `surfaceContainerHigh`
+   on Dialog / Bottom Sheet / raised cards), while `secondaryContainer`
+   = `neutral.700` — one tonal step clear of the surface ladder. */
+.chorus-callout--neutral {
+  background: var(--sys-color-secondaryContainer);
+  color: var(--sys-color-onSecondaryContainer);
+}
+
+/* 32 × 32 leading icon slot. Anatomy contract — the callout's
+   illustration footprint, top-aligned via the container's
+   `align-items: flex-start`. The slot is a full-radius circle that
+   clips its contents (the imagery is typically a vector mark with
+   no intrinsic shape, so the callout imposes the circle). */
+.chorus-callout__icon {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  display: block;
+  border-radius: var(--sys-radius-full);
+  overflow: hidden;
+}
+
+.chorus-callout__icon img,
+.chorus-callout__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.chorus-callout__content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-xs);
+}
+
+.chorus-callout__body {
+  margin: 0;
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
+  font-weight: var(--sys-typo-body-sm-weight);
+  color: inherit;
+}
+
+/* Action link sits as a block child below the body. Inherits the
+   callout's foreground in `info` (the tint is already an "actionable
+   blue") and steps to `primary` in `neutral` so the link reads as the
+   only interactive affordance on an otherwise quiet surface. */
+.chorus-callout__action {
+  font-size: var(--sys-typo-label-md-size);
+  line-height: var(--sys-typo-label-md-line);
+  font-weight: var(--sys-typo-label-md-weight);
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.chorus-callout--neutral .chorus-callout__action {
+  color: var(--sys-color-primary);
+}
+
+.chorus-bottom-sheet__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: var(--ref-palette-black-600);
+}
+
+.chorus-bottom-sheet__scrim--inline {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  min-height: 100%;
+  padding-top: var(--sys-layout-container-2xl);
+}
+
+.chorus-bottom-sheet__card {
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--sys-color-surfaceContainerHigh);
+  color: var(--sys-color-onSurface);
+  border-top-left-radius: var(--sys-radius-xl);
+  border-top-right-radius: var(--sys-radius-xl);
+  box-shadow: var(--sys-elevation-sheet);
+}
+
+.chorus-bottom-sheet__scrim--inline .chorus-bottom-sheet__card {
+  max-height: none;
+}
+
+/* 48 × 4px handle pill is an anatomy contract — not a layout token,
+   because the handle is a fixed grabber chip, not a content slot. */
+.chorus-bottom-sheet__handle {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 4px;
+  margin: var(--sys-layout-container-xs) auto;
+  border-radius: var(--sys-radius-full);
+  background: color-mix(in srgb, var(--sys-color-onSurfaceVariant) 40%, transparent);
+}
+
+.chorus-bottom-sheet__content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: var(--sys-layout-container-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-md);
+}
+
+.chorus-bottom-sheet__title {
+  margin: 0;
+  font-size: var(--sys-typo-heading-lg-size);
+  line-height: var(--sys-typo-heading-lg-line);
+  font-weight: var(--sys-typo-heading-lg-weight);
+  letter-spacing: var(--sys-typo-heading-lg-tracking);
+  color: var(--sys-color-onSurface);
+}
+
+.chorus-bottom-sheet__body {
+  margin: 0;
+  font-size: var(--sys-typo-body-md-size);
+  line-height: var(--sys-typo-body-md-line);
+  font-weight: var(--sys-typo-body-md-weight);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.chorus-bottom-sheet__actions {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-xs);
+  padding: var(--sys-layout-container-md);
+  background: var(--sys-color-surfaceContainerHigh);
+  transition: box-shadow 120ms ease-out;
+}
+
+/* When the content slot overflows, the actions footer lifts off the
+   scrolling content with a subtle upward shadow — signals that the
+   commit area is pinned above the page rather than part of the scroll
+   region. The shadow disappears when the content fits. */
+.chorus-bottom-sheet__actions.is-elevated {
+  box-shadow: 0 -2px 6px var(--ref-palette-black-50), 0 -8px 16px var(--ref-palette-black-200);
+}
+
+.chorus-dialog__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 40px scrim ↔ card gutter is an anatomy contract — not a layout
+     token, because the page gutter never reaches into a modal. */
+  padding: 40px;
+  background: var(--ref-palette-black-600);
+}
+
+.chorus-dialog__scrim--inline {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  min-height: 100%;
+  padding: var(--sys-layout-container-2xl) 40px;
+}
+
+/* 480px max-width is an anatomy contract — not a layout token. */
+.chorus-dialog__card {
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: start;
+  padding: var(--sys-layout-container-lg);
+  background: var(--sys-color-surfaceContainerHigh);
+  color: var(--sys-color-onSurface);
+  border-radius: var(--sys-radius-xl);
+  box-shadow: var(--sys-elevation-overlay);
+}
+
+.chorus-dialog__card--with-image {
+  align-items: center;
+  text-align: center;
+}
+
+.chorus-dialog__title {
+  margin: 0;
+  font-size: var(--sys-typo-heading-sm-size);
+  line-height: var(--sys-typo-heading-sm-line);
+  font-weight: var(--sys-typo-heading-sm-weight);
+  letter-spacing: var(--sys-typo-heading-sm-tracking);
+  color: var(--sys-color-onSurface);
+}
+
+.chorus-dialog__image {
+  margin-top: var(--sys-layout-stack-md);
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--sys-radius-lg);
+}
+
+.chorus-dialog__body {
+  margin: var(--sys-layout-stack-md) 0 0 0;
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
+  font-weight: var(--sys-typo-body-sm-weight);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.chorus-dialog__actions {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: var(--sys-layout-stack-xs);
+  margin-top: var(--sys-layout-stack-md);
+}
+
+/* ============================================================
+   Form field — Input
+
+   The wrapper carries the field anatomy (border / fill / radius /
+   padding / overlay / focus ring); the <input> inside is chromeless and
+   only supplies the editable text. Interactive feedback states:
+     :hover        → border re-tones to `outline`
+     :active       → border re-tones to `outline` + a state overlay (`state.pressed`)
+     :focus-within → the `active` border re-tone — high-contrast `onSurface`,
+                     stepped to a 2px (`thin`) weight; the field is the live editing target
+   The accessibility focus ring is NOT part of that feedback set: it shows
+   in the docs preview only when `data-force-state="focused"` is picked
+   (real apps still get it via the platform's `:focus-visible`, but the
+   docs specimen keeps the preview's State control as the single source).
+   The docs preview mirrors every state via `data-force-state`.
+
+   The border NEVER touches the box model. There is no `border` property —
+   the visible stroke is an *inset `box-shadow`* on the wrapper (1px
+   `hairline` at rest / hover, 2px `thin` while active), so it costs zero
+   layout in every state: the field's height is exactly `content + padding`
+   (24px line-box + 2 × 8px = 40px = the `min-height` floor — no `+2px`
+   border to push it to 42), and going active / focused never moves the
+   field's footprint or the caret by a pixel. `box-sizing: border-box` is
+   set explicitly for the same robustness even though `border-width` is 0.
+============================================================ */
+.chorus-field {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--field-slot-gap);
+  min-height: var(--field-min-height);
+  padding: var(--field-padding-block) var(--field-padding-inline);
+  border-radius: var(--field-radius);
+  background: var(--field-bg);
+  color: var(--field-text);
+  border: none;
+  box-shadow: inset 0 0 0 var(--field-border-width) var(--field-border);
+  font-size: var(--sys-typo-body-md-size);
+  font-weight: var(--sys-typo-body-md-weight);
+  line-height: var(--sys-typo-body-md-line);
+  letter-spacing: var(--sys-typo-body-md-tracking);
+  cursor: text;
+  position: relative;
+  isolation: isolate;
+  transition: box-shadow 120ms ease, background 120ms ease;
+}
+
+/* State-overlay layer — a translucent wash of the field's foreground over
+   its fill, painted at the press opacity on `:active`. Sits below the
+   text/clear slots (z-index) and is fully transparent at rest. */
+.chorus-field::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 120ms ease;
+}
+
+/* Hover / pressed re-tone the 1px stroke to `borderHover` (`outline`,
+   or `error` on the error appearance). `:active` also lights the
+   state-overlay `::before`. */
+.chorus-field:hover,
+.chorus-field[data-force-state="hovered"],
+.chorus-field[data-force-state="pressed"],
+.chorus-field:not(.is-disabled):active {
+  box-shadow: inset 0 0 0 var(--field-border-width) var(--field-border-hover);
+}
+
+.chorus-field:not(.is-disabled):active::before,
+.chorus-field[data-force-state="pressed"]::before {
+  opacity: var(--field-overlay-pressed);
+}
+
+/* Active = the live editing state — the stroke re-tones to the
+   high-contrast `onSurface` (or `error`) and steps to its 2px (`thin`)
+   weight. It is still just an inset `box-shadow`, so the box model never
+   changes: the field's footprint, caret, and text position are pixel-
+   stable as it goes active. Fires on any way of entering the field. */
+.chorus-field:focus-within,
+.chorus-field[data-force-state="active"],
+.chorus-field[data-force-state="focused"] {
+  box-shadow: inset 0 0 0 var(--field-active-stroke) var(--field-border-active);
+}
+
+/* Accessibility focus ring — a dedicated overlay layer (`::after`),
+   `position: absolute` so it never affects layout: a focused field never
+   widens and never nudges a sibling. Canonical two-layer composition,
+   painted outward from the field's edge; sits at `z-index: 2`, above the
+   state-overlay `::before` (z-index 0) and the input / clear slots
+   (z-index 1). `inset: 0` because the field has no `border` — the padding
+   box is the visible edge. In the docs specimen it appears only when the
+   State control forces `focused`; real apps add it on `:focus-visible`. */
+.chorus-field::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: none;
+  transition: box-shadow 120ms ease;
+}
+
+.chorus-field[data-force-state="focused"]::after {
+  box-shadow:
+    0 0 0 var(--field-focus-inset-width) var(--field-focus-inset-color),
+    0 0 0 calc(var(--field-focus-outer-width) + var(--field-focus-inset-width)) var(--field-focus-outer-color);
+}
+
+.chorus-field.is-disabled {
+  background: var(--field-bg-disabled);
+  opacity: var(--field-disabled-opacity);
+  cursor: not-allowed;
+  /* Hold the rest stroke even if the disabled field is hovered. */
+  box-shadow: inset 0 0 0 var(--field-border-width) var(--field-border);
+}
+
+.chorus-field.is-disabled::before,
+.chorus-field.is-disabled::after {
+  box-shadow: none;
+  opacity: 0;
+}
+
+/* Leading slot — Search bar's decorative SearchIcon pinned at the inner-
+   left edge. Inherits the field's text colour so it re-tones with the
+   container on the error appearance. Sized to `--field-icon-size` (16px,
+   `sys.icon.md`) to match the trailing clear button's footprint, so the
+   left/right affixes balance around the input column. */
+.chorus-field__leading {
+  display: inline-flex;
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: var(--field-icon-size);
+  height: var(--field-icon-size);
+  color: var(--sys-color-onSurfaceVariant);
+  pointer-events: none;
+}
+
+.chorus-field--error .chorus-field__leading {
+  color: var(--field-text);
+}
+
+.chorus-field__leading > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.chorus-field__input {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+.chorus-field__input::placeholder {
+  color: var(--field-placeholder);
+  opacity: 1;
+}
+
+.chorus-field__input:disabled {
+  cursor: not-allowed;
+}
+
+/* Clear button — rendered into the DOM by React whenever the field
+   holds a non-empty value (and isn't disabled), but kept `display: none`
+   until the box is focused. So it only ever shows in the `active` state
+   *and* with text to clear; an unfocused field with a value, or any
+   empty / disabled field, has no clear button visible. CSS-gated focus
+   visibility avoids a separate React focus-tracking state. */
+.chorus-field__clear {
+  display: none;
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: var(--field-icon-size);
+  height: var(--field-icon-size);
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--sys-color-onSurfaceVariant);
+  border-radius: var(--sys-radius-full);
+  cursor: pointer;
+}
+
+.chorus-field:focus-within .chorus-field__clear,
+.chorus-field[data-force-state="active"] .chorus-field__clear,
+.chorus-field[data-force-state="focused"] .chorus-field__clear {
+  display: inline-flex;
+}
+
+.chorus-field--error .chorus-field__clear {
+  color: var(--field-text);
+}
+
+.chorus-field__clear > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Focus ring — dedicated overlay layer (`::after`), `position: absolute`
+   so it never affects the field's layout. Canonical two-layer ring,
+   outward; `z-index: 2`, above the 16px glyph. */
+.chorus-field__clear::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: none;
+  transition: box-shadow 120ms ease;
+}
+
+.chorus-field__clear:focus-visible::after {
+  box-shadow:
+    0 0 0 var(--sys-borderWidth-hairline) var(--sys-color-focusInset),
+    0 0 0 calc(var(--sys-borderWidth-thin) + var(--sys-borderWidth-hairline)) var(--sys-color-focus);
+}
+
+/* ============================================================
+   Form field — Input group (label + box + helper/count)
+
+   The bare `.chorus-field--input` renders alone when the consumer
+   passes no `label` / `helper` / `maxLength`. When any of those are
+   present, the React component wraps the box in `.chorus-field-group`
+   — a `display: flex` column at `groupGap` between rungs, holding a
+   label above and an assistive-text or character-count rung below.
+   `helper` and `maxLength` are mutually exclusive (the component
+   chooses count if both are given); the count is right-aligned via
+   `align-self`, the helper sits at the left.
+============================================================ */
+.chorus-field-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--field-group-gap);
+}
+
+.chorus-field-group .chorus-field {
+  align-self: stretch;
+}
+
+.chorus-field-group__label {
+  font-size: var(--sys-typo-label-md-size);
+  font-weight: var(--sys-typo-label-md-weight);
+  line-height: var(--sys-typo-label-md-line);
+  letter-spacing: var(--sys-typo-label-md-tracking);
+  color: var(--sys-color-onSurface);
+}
+
+.chorus-field-group__helper {
+  font-size: var(--sys-typo-body-sm-size);
+  font-weight: var(--sys-typo-body-sm-weight);
+  line-height: var(--sys-typo-body-sm-line);
+  letter-spacing: var(--sys-typo-body-sm-tracking);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.chorus-field-group__count {
+  align-self: flex-end;
+  font-size: var(--sys-typo-body-sm-size);
+  font-weight: var(--sys-typo-body-sm-weight);
+  line-height: var(--sys-typo-body-sm-line);
+  letter-spacing: var(--sys-typo-body-sm-tracking);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+/* Current-count number — same body.sm size, label.md weight so the
+   live count reads bolder than the `/max` suffix. */
+.chorus-field-group__count-current {
+  font-weight: var(--sys-typo-label-md-weight);
+  color: var(--sys-color-onSurface);
+}
+
+/* Error appearance — re-tone the helper / count so the bottom rung
+   reads in the same error family as the field box above. */
+.chorus-field-group--error .chorus-field-group__helper,
+.chorus-field-group--error .chorus-field-group__count,
+.chorus-field-group--error .chorus-field-group__count-current {
+  color: var(--sys-color-error);
+}
+
+/* Disabled — dim the label / helper / count to match the 40% the box
+   already applies to itself. Box and group bits use the same
+   `--field-disabled-opacity` independently (no compounding). */
+.chorus-field-group.is-disabled .chorus-field-group__label,
+.chorus-field-group.is-disabled .chorus-field-group__helper,
+.chorus-field-group.is-disabled .chorus-field-group__count {
+  opacity: var(--field-disabled-opacity);
+}
+
+/* ============================================================
+   NavigationBar — top app bar (Home + Page sub-variants)
+   ============================================================
+   Both sub-variants share a 56-min-height strip with 16px inline +
+   16px block padding over `sys.color.surface`. Home left-aligns its
+   24/Semibold title with optional leading menu + up to three trailing
+   icon actions. Page renders a three-column grid (leading / centred
+   16/Semibold title / trailing) so the title centres on the row
+   regardless of which side slots are populated.
+
+   Icon slots delegate to Button variant="toolbar-button" (= Filter
+   chip), so the bar inherits the system's icon-only hit target,
+   hover overlay, and focus-ring composition without duplicating
+   chrome. */
+
+.chorus-navigation-bar {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 56px;
+  padding: var(--sys-layout-container-xs) var(--sys-layout-container-md);
+  background: var(--sys-color-surface);
+  color: var(--sys-color-onSurface);
+}
+
+.chorus-navigation-bar--home {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-xl);
+}
+
+.chorus-navigation-bar--home .chorus-navigation-bar__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  font-size: var(--sys-typo-heading-lg-size);
+  line-height: var(--sys-typo-heading-lg-line);
+  font-weight: var(--sys-typo-heading-lg-weight);
+  letter-spacing: var(--sys-typo-heading-lg-tracking);
+  color: var(--sys-color-onSurface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+
+/* Page — three columns sized `1fr auto 1fr`. The two side columns are
+   *equal-width regions* of the bar (each takes half the leftover space),
+   so the centre `auto` column — the title — always sits at the bar's
+   geometric horizontal centre regardless of how wide each side slot's
+   content actually is. A 40px back arrow paired with a 80px primary
+   "Save" Toolbar Button still leaves the title perfectly centred against
+   the page container; the side slots simply anchor at the start / end
+   of their respective halves. The trailing column collapses to zero
+   width when its slot is empty (no content + no padding from the slot
+   wrapper), which keeps a leading-only or title-only bar centred against
+   the same axis as a fully-occupied bar. Truncation: the title is
+   `auto`-sized so it grows to its natural width before the side columns
+   start to give space; if the title is too long for the bar, ellipsis
+   kicks in (safety net — page names should be authored concise). */
+.chorus-navigation-bar--page {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--sys-layout-inline-xl);
+}
+
+.chorus-navigation-bar--page .chorus-navigation-bar__title {
+  margin: 0;
+  font-size: var(--sys-typo-heading-sm-size);
+  line-height: var(--sys-typo-heading-sm-line);
+  font-weight: var(--sys-typo-heading-sm-weight);
+  letter-spacing: var(--sys-typo-heading-sm-tracking);
+  color: var(--sys-color-onSurface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  min-width: 0;
+}
+
+/* Slot wrappers sit on either side of the title. Both sides pin to
+   `flex: 0 0 auto` (Home) / grid auto-sizing (Page) so the icon
+   capsules never shrink below their natural footprint — otherwise the
+   title's `min-width: 0` lets it claim the row and visually pushes
+   the leading capsule's content under the title's first character.
+   Only the title element carries `min-width: 0`; side slots do not. */
+/* Slot wrappers hold one or more Icon Buttons (Home trailing carries
+   up to three). Gap follows the canonical Icon Button group rule —
+   `sys.layout.inline.xl` (16) on every rung — which is the chrome-
+   to-chrome distance and also (because Icon Button applies optical
+   alignment by default) the visible glyph-to-glyph distance. A
+   single-button slot (Page leading, Search leading, Page trailing)
+   has no second item, so the gap is inert. See
+   schema/components/button/icon-button.md → Group. */
+.chorus-navigation-bar__slot {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-xl);
+  flex: 0 0 auto;
+}
+
+.chorus-navigation-bar--page .chorus-navigation-bar__slot--leading {
+  justify-content: flex-start;
+}
+
+.chorus-navigation-bar--page .chorus-navigation-bar__slot--trailing {
+  justify-content: flex-end;
+}
+
+.chorus-navigation-bar--home .chorus-navigation-bar__slot--trailing {
+  justify-content: flex-end;
+}
+
+/* Search — three-column grid like Page (leading / centre / trailing).
+   The centre slot is a bare single-line input — no border, no fill, no
+   inset stroke — so the bar carries the search affordance via the
+   placeholder + page context, not via a pill chrome. The trailing
+   column is omitted from the DOM when the value is empty; when present
+   it auto-sizes to the 40 × 40 clear capsule, and grid auto-placement
+   reflows the input column to fill the freed space without moving its
+   leading edge — keeping the caret pixel-stable as the clear button
+   comes and goes. */
+.chorus-navigation-bar--search {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sys-layout-inline-xl);
+  /* 1px bottom divider — inset box-shadow so the stroke never reflows
+     the row or shifts the input's caret position. Unique to Search; the
+     bare input has no chrome of its own and the divider terminates the
+     bar against the results list below. */
+  box-shadow: inset 0 -1px 0 var(--sys-color-outlineVariant);
+}
+
+.chorus-navigation-bar--search .chorus-navigation-bar__slot--leading {
+  justify-content: flex-start;
+}
+
+.chorus-navigation-bar--search .chorus-navigation-bar__slot--trailing {
+  justify-content: flex-end;
+}
+
+/* Bare input — no border / background / inset stroke. Type rung body.md
+   (16/Regular). Caret picks up `sys.color.primary` so the active state
+   reads against the surface fill. Placeholder picks up `sys.color.outline`;
+   value text picks up `sys.color.onSurface`. */
+.chorus-navigation-bar__search-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--sys-color-onSurface);
+  caret-color: var(--sys-color-onSurface);
+  font-family: inherit;
+  font-size: var(--sys-typo-body-md-size);
+  line-height: var(--sys-typo-body-md-line);
+  font-weight: var(--sys-typo-body-md-weight);
+  letter-spacing: var(--sys-typo-body-md-tracking);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.chorus-navigation-bar__search-input::placeholder {
+  color: var(--sys-color-outline);
+  opacity: 1;
+}
+
+/* Suppress the WebKit "search" input chrome — its built-in clear glyph
+   competes with our explicit trailing CloseCircleFillIcon button, and
+   its decorative styling doesn't follow our token palette. */
+.chorus-navigation-bar__search-input::-webkit-search-cancel-button,
+.chorus-navigation-bar__search-input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.chorus-navigation-bar__search-input:disabled {
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   Icon Button — Button sub-component (variant="icon-button")
+   ============================================================
+   The icon-only commit surface used wherever a control's identity is
+   the glyph itself: Navigation Bar action slots, dialog dismiss,
+   feed-row "More". Sized by padding (no `width` / `height`) so the
+   40 × 40 footprint falls out of `8 (padding) + 24 (glyph) + 8` and
+   re-flows automatically if the icon token changes. Transparent at
+   rest; hover / pressed paint `sys.state.*` overlays of `onSurface`;
+   focus composes the standard three-layer ring (`sys.color.focus`
+   outside `sys.color.focusInset`). */
+.chorus-button--icon {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sys-layout-container-xs);
+  /* Optical alignment is the default — the capsule is transparent at
+     rest, so the visible glyph (not the chrome) is the layout edge.
+     Pulling the button by its full padding on every side cancels the
+     chrome's contribution to the layout box: the glyph occupies the
+     button's effective footprint, and the hover capsule paints
+     **outside** that footprint on interaction (which doubles as a
+     hit-zone enlargement). Consumers don't opt in; alignment with
+     surrounding content "just works". See
+     schema/components/button/icon-button.md → Behavior. */
+  margin: calc(-1 * var(--sys-layout-container-xs));
+  border: none;
+  background: transparent;
+  color: var(--sys-color-onSurface);
+  border-radius: var(--sys-radius-full);
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  transition: background 120ms ease;
+  --button-icon-glyph: var(--sys-icon-lg);
+}
+
+.chorus-button--icon--medium {
+  --button-icon-glyph: var(--sys-icon-md);
+}
+
+.chorus-button--icon:hover,
+.chorus-button--icon[data-force-state="hovered"] {
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-hover) * 100%), transparent);
+}
+
+.chorus-button--icon:active,
+.chorus-button--icon[data-force-state="pressed"] {
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-pressed) * 100%), transparent);
+}
+
+.chorus-button--icon:focus-visible,
+.chorus-button--icon[data-force-state="focused"] {
+  outline: var(--sys-borderWidth-thin) solid var(--sys-color-focus);
+  outline-offset: calc(-1 * var(--sys-borderWidth-thin));
+  box-shadow: inset 0 0 0 var(--sys-borderWidth-hairline) var(--sys-color-focusInset);
+}
+
+.chorus-button--icon[data-force-state="focused"] {
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-focus) * 100%), transparent);
+}
+
+.chorus-button--icon:disabled,
+.chorus-button--icon[data-force-state="disabled"] {
+  opacity: var(--sys-state-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.chorus-button--icon__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-icon-glyph);
+  height: var(--button-icon-glyph);
+}
+
+.chorus-button--icon__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ============================================================
+   Text Button — Button sub-component (variant="text-button")
+   ============================================================
+   The link-shaped commit surface — `primary`-coloured 16/Semibold
+   label that reads as inline type at rest (transparent capsule, no
+   border, no underline) and paints a button-like state overlay on
+   hover / pressed. Diverges from the bare Text-link contract in two
+   places: hover paints a tinted background rather than a 1px
+   underline, and focus composes the standard three-layer ring. The
+   40 min-height lines Text Button up with Icon Button so a row
+   mixing the two (Navigation Bar Page trailing slot) reads at one
+   density. Renders as <a> when `href` is given, <button> otherwise. */
+.chorus-button--text {
+  /* Per-size plumbing — appearance + size modifiers override these. */
+  --button-text-label: var(--sys-color-primary);
+  --button-text-min-height: 40px;
+  --button-text-padding-block: var(--sys-layout-container-xs);
+  --button-text-padding-inline: var(--sys-layout-container-xs);
+  --button-text-icon-size: var(--sys-icon-md);
+  --button-text-font-size: var(--sys-typo-heading-sm-size);
+  --button-text-font-line: var(--sys-typo-heading-sm-line);
+  --button-text-font-weight: var(--sys-typo-heading-sm-weight);
+  --button-text-font-tracking: var(--sys-typo-heading-sm-tracking);
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sys-layout-inline-sm);
+  min-height: var(--button-text-min-height);
+  padding: var(--button-text-padding-block) var(--button-text-padding-inline);
+  /* Optical alignment is the default — the capsule is transparent at
+     rest, so the visible label (not the chrome) is the layout edge.
+     Pulling the button by its full padding on every side cancels the
+     chrome's contribution to the layout box: the label occupies the
+     button's effective footprint, and the hover capsule paints
+     **outside** that footprint on interaction. Consumers don't opt
+     in; alignment with surrounding content "just works". The size
+     modifiers below override `--button-text-padding-block` /
+     `--button-text-padding-inline`, so this expression resolves
+     per-rung automatically. See
+     schema/components/button/text-button.md → Behavior. */
+  margin: calc(-1 * var(--button-text-padding-block)) calc(-1 * var(--button-text-padding-inline));
+  border: none;
+  background: transparent;
+  color: var(--button-text-label);
+  border-radius: var(--sys-radius-full);
+  font-size: var(--button-text-font-size);
+  line-height: var(--button-text-font-line);
+  font-weight: var(--button-text-font-weight);
+  letter-spacing: var(--button-text-font-tracking);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  transition: background 120ms ease;
+}
+
+/* Appearance modifiers — only the label colour token changes; state
+   overlays follow because they mix from `--button-text-label`. */
+.chorus-button--text--appearance-primary   { --button-text-label: var(--sys-color-primary); }
+.chorus-button--text--appearance-secondary { --button-text-label: var(--sys-color-onSurfaceVariant); }
+
+/* Size modifiers — pair min-height + padding + typo + icon footprint. */
+.chorus-button--text--size-medium {
+  --button-text-min-height: 40px;
+  --button-text-padding-block: var(--sys-layout-container-xs);
+  --button-text-padding-inline: var(--sys-layout-container-xs);
+  --button-text-icon-size: var(--sys-icon-md);
+  --button-text-font-size: var(--sys-typo-heading-sm-size);
+  --button-text-font-line: var(--sys-typo-heading-sm-line);
+  --button-text-font-weight: var(--sys-typo-heading-sm-weight);
+  --button-text-font-tracking: var(--sys-typo-heading-sm-tracking);
+}
+.chorus-button--text--size-small {
+  --button-text-min-height: 32px;
+  --button-text-padding-block: var(--sys-layout-container-2xs);
+  --button-text-padding-inline: var(--sys-layout-container-xs);
+  --button-text-icon-size: var(--sys-icon-md);
+  --button-text-font-size: var(--sys-typo-label-md-size);
+  --button-text-font-line: var(--sys-typo-label-md-line);
+  --button-text-font-weight: var(--sys-typo-label-md-weight);
+  --button-text-font-tracking: var(--sys-typo-label-md-tracking);
+}
+.chorus-button--text--size-xsmall {
+  --button-text-min-height: 24px;
+  --button-text-padding-block: var(--sys-layout-container-2xs);
+  --button-text-padding-inline: var(--sys-layout-container-xs);
+  --button-text-icon-size: var(--sys-icon-md);
+  --button-text-font-size: var(--sys-typo-label-sm-size);
+  --button-text-font-line: var(--sys-typo-label-sm-line);
+  --button-text-font-weight: var(--sys-typo-label-sm-weight);
+  --button-text-font-tracking: var(--sys-typo-label-sm-tracking);
+}
+
+
+/* Icon slot — footprint follows `--button-text-icon-size`, currentColor
+   inheritance so the glyph re-tones with the label on the destructive
+   flavor and on disabled. Anchored as a flex item so the gap lives on
+   the parent. */
+.chorus-button--text__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: var(--button-text-icon-size);
+  height: var(--button-text-icon-size);
+  color: currentColor;
+}
+.chorus-button--text__icon > svg {
+  width: 100%;
+  height: 100%;
+}
+.chorus-button--text__label {
+  display: inline-block;
+  min-width: 0;
+}
+
+.chorus-button--text:hover,
+.chorus-button--text[data-force-state="hovered"] {
+  background: color-mix(in srgb, var(--button-text-label) calc(var(--sys-state-hover) * 100%), transparent);
+  text-decoration: none;
+}
+
+.chorus-button--text:active,
+.chorus-button--text[data-force-state="pressed"] {
+  background: color-mix(in srgb, var(--button-text-label) calc(var(--sys-state-pressed) * 100%), transparent);
+}
+
+.chorus-button--text:focus-visible,
+.chorus-button--text[data-force-state="focused"] {
+  outline: var(--sys-borderWidth-thin) solid var(--sys-color-focus);
+  outline-offset: calc(-1 * var(--sys-borderWidth-thin));
+  box-shadow: inset 0 0 0 var(--sys-borderWidth-hairline) var(--sys-color-focusInset);
+}
+
+.chorus-button--text[data-force-state="focused"] {
+  background: color-mix(in srgb, var(--button-text-label) calc(var(--sys-state-focus) * 100%), transparent);
+}
+
+.chorus-button--text:disabled,
+.chorus-button--text[aria-disabled="true"],
+.chorus-button--text[data-force-state="disabled"] {
+  opacity: var(--sys-state-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* TabBar — bottom-anchored primary navigation. A horizontal row of icon +
+   label items over a `surface` fill at a 56 min-height.
+
+   Distribution is a capped equal-width split plus optical alignment.
+   Every item uses `flex: 1 1 0` with `max-width: 80px`, so items grow
+   from a zero basis at the same rate up to an 80-wide cap. Once every
+   item has hit the cap, the row's leftover inline space is handed to
+   the container's `justify-content: space-evenly`, which paints start
+   padding, the gap between adjacent items, and end padding as the
+   same visible whitespace — the optical-alignment rule that keeps
+   icon centres evenly placed across the row regardless of viewport
+   width. Labels that exceed their slot truncate with an ellipsis. */
+.chorus-tab-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 56px;
+  padding: 0;
+  background: var(--sys-color-surface);
+  color: var(--sys-color-onSurface);
+  /* Top hairline divider — separates the bar from the scrolling content
+     above it without introducing a layout border that could nudge the
+     56-tall row off-pixel. Painted as an inset shadow so the bar's flex
+     geometry is untouched. */
+  box-shadow: inset 0 var(--sys-borderWidth-hairline) 0 0 var(--sys-color-outlineVariant);
+}
+
+.chorus-tab-bar__item {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sys-layout-stack-3xs);
+  /* Equal-width slot. `flex: 1 1 0` makes every item grow from a zero
+     basis at the same rate, so each item gets exactly the same fraction
+     of the row's inline space regardless of label length. `min-width: 0`
+     lets the label's ellipsis truncation actually take effect inside
+     the slot (without it, `white-space: nowrap` text would push the
+     item's intrinsic min-content size and break the equal split). */
+  flex: 1 1 0;
+  max-width: 80px;
+  min-width: 0;
+  box-sizing: border-box;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: var(--sys-layout-container-2xs) 0;
+  margin: 0;
+  font: inherit;
+  text-decoration: none;
+  color: var(--sys-color-onSurfaceVariant);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chorus-tab-bar__item[aria-current="page"].is-active,
+.chorus-tab-bar__item.is-active {
+  color: var(--sys-color-onSurface);
+}
+
+.chorus-tab-bar__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--sys-icon-lg);
+  height: var(--sys-icon-lg);
+  color: currentColor;
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.chorus-tab-bar__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* State layer — fills the whole item slot as a rounded rectangle so
+   the hover / pressed / focus visual reads as the same surface as the
+   item's hit area. Painted on a `::before` pseudo behind the glyph
+   (`z-index: -1`) so the overlay tint sits under the icon + label
+   without recolouring them. */
+.chorus-tab-bar__item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--sys-radius-md);
+  background: transparent;
+  pointer-events: none;
+  z-index: -1;
+  transition: background 120ms ease;
+}
+
+.chorus-tab-bar__item:hover::before,
+.chorus-tab-bar__item[data-force-state="hovered"]::before {
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-hover) * 100%), transparent);
+}
+
+.chorus-tab-bar__item:active::before,
+.chorus-tab-bar__item[data-force-state="pressed"]::before {
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-pressed) * 100%), transparent);
+}
+
+.chorus-tab-bar__item[data-force-state="focused"]::before {
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-focus) * 100%), transparent);
+}
+
+/* Focus ring — three-layer composition rings the item flush at the
+   slot edge. We can't ring outward (adjacent items are flush under
+   `flex: 1 1 0`, so an outward stroke would overlap its neighbour),
+   so the standard composition is painted as `inset` shadows on the
+   ::after that covers the slot exactly. Layering reads from the slot
+   edge inward: `focus` (the 2px outer stroke) sits at the edge, then
+   `focusInset` (the 1px counter-ring) sits just inside — **focus
+   outer, inset inner**, never reversed. The ring is constrained
+   strictly inside the slot's bounding box. */
+.chorus-tab-bar__item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--sys-radius-md);
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: none;
+  transition: box-shadow 120ms ease;
+}
+
+.chorus-tab-bar__item:focus-visible::after,
+.chorus-tab-bar__item[data-force-state="focused"]::after {
+  box-shadow:
+    inset 0 0 0 var(--sys-borderWidth-thin) var(--sys-color-focus),
+    inset 0 0 0 calc(var(--sys-borderWidth-thin) + var(--sys-borderWidth-hairline)) var(--sys-color-focusInset);
+}
+
+/* Label fills the item's slot up to its natural text width and
+   truncates with an ellipsis when the slot is narrower than the
+   label. `max-width: 100%` + `min-width: 0` (on the item) lets the
+   `text-overflow: ellipsis` rule actually fire — without `min-width:
+   0` on the flex item, the label's intrinsic content width would
+   block the slot from shrinking and the bar would never truncate. */
+.chorus-tab-bar__label {
+  max-width: 100%;
+  font-family: var(--sys-typo-fontFamily-sans);
+  font-size: var(--sys-typo-caption-sm-size);
+  line-height: var(--sys-typo-caption-sm-line);
+  font-weight: var(--sys-typo-caption-sm-weight);
+  letter-spacing: var(--sys-typo-caption-sm-tracking);
+  color: currentColor;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  z-index: 1;
+}
+
+/* Primary appearance — the "Create" / "Compose" commit affordance.
+   Paints the glyph in `sys.color.brand` (the editorial/brand accent
+   the system reserves for commit affordances that should read as the
+   product's voice, not a generic call-to-action). Pair with a
+   filled-tile icon (AddSquareFillIcon / ComposeFillIcon) so the
+   icon's own shape provides the tile and the brand fill paints it as
+   the commit colour. The item width stays at the standard icon
+   footprint so the row's optical alignment is unaffected. */
+.chorus-tab-bar__item--primary {
+  color: var(--sys-color-brand);
+}
+
+.chorus-tab-bar__item:focus-visible {
+  outline: none;
+}
+
+.chorus-tab-bar__item:disabled,
+.chorus-tab-bar__item[aria-disabled="true"] {
+  opacity: var(--sys-state-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+

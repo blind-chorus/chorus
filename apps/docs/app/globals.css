@@ -1,0 +1,2201 @@
+:root {
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --site-nav-height: 60px;
+  /* Contrast foregrounds for overlay palette swatches (neutral.50 / neutral.900). */
+  --ref-palette-fg-light: #f9fafb;
+  --ref-palette-fg-dark: #111827;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--sys-color-surface);
+  font-family: var(--font-pretendard), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  font-size: var(--sys-typo-body-md-size);
+  font-weight: var(--sys-typo-body-md-weight);
+  line-height: var(--sys-typo-body-md-line);
+  letter-spacing: var(--sys-typo-body-md-tracking);
+  color: var(--sys-color-onSurface);
+  -webkit-font-smoothing: antialiased;
+}
+
+code {
+  font-family: var(--font-mono);
+}
+
+/* ========== Nav bar ========== */
+
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+  background: color-mix(in srgb, var(--sys-color-surface) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.site-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* Pin the inner height to the `--site-nav-height` token (minus the 1px
+     border-bottom) so consumers that offset by the var — the side-nav
+     drawer, the page-nav sticky anchor — sit flush against the nav's
+     bottom edge instead of leaving a sub-pixel gap. */
+  min-height: calc(var(--site-nav-height) - var(--sys-borderWidth-hairline));
+  padding: var(--sys-layout-container-sm) var(--sys-layout-page-md);
+}
+
+.site-nav-lead {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-md);
+}
+
+/* Selectors are scoped to `.site-nav` so they outweigh the later `.btn`
+   `display: inline-flex` declaration. */
+.site-nav .site-nav-menu {
+  display: inline-flex;
+}
+
+@media (min-width: 1100px) {
+  .site-nav .site-nav-menu {
+    display: none;
+  }
+}
+
+.site-nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-md);
+  font-size: var(--sys-typo-label-md-size);
+  font-weight: var(--sys-typo-label-md-weight);
+  line-height: var(--sys-typo-label-md-line);
+  letter-spacing: var(--sys-typo-label-md-tracking);
+  color: var(--sys-color-onSurface);
+  text-decoration: none;
+}
+
+.site-nav-brand:hover {
+  color: var(--sys-color-primary);
+}
+
+.site-nav-brand-mark {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* ========== Button (shared chrome for icon + text actions) ========== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sys-layout-inline-md);
+  padding: var(--sys-layout-container-xs) var(--sys-layout-container-md);
+  border: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+  border-radius: var(--sys-radius-md);
+  background: var(--sys-color-surface);
+  font-family: inherit;
+  font-size: var(--sys-typo-label-md-size);
+  font-weight: var(--sys-typo-label-md-weight);
+  line-height: var(--sys-typo-label-md-line);
+  letter-spacing: var(--sys-typo-label-md-tracking);
+  text-align: center;
+  text-decoration: none;
+  color: var(--sys-color-onSurface);
+  cursor: pointer;
+  appearance: none;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.btn:hover {
+  background: color-mix(in srgb, var(--sys-color-onSurface) 8%, transparent);
+}
+
+.btn--icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+}
+
+.btn svg {
+  width: var(--sys-icon-md);
+  height: var(--sys-icon-md);
+}
+
+.btn--block {
+  display: flex;
+  width: 100%;
+}
+
+/* ========== Page nav (in-page section list) ========== */
+/* The aside is absolutely pinned to the right of main so it doesn't
+   affect main's centering; the inner list is sticky on scroll. */
+.page-nav {
+  display: none;
+}
+
+/* Desktop ≥1500px (laptop → desktop) — surface the in-page nav once
+   there's enough viewport for a third column beside main + side-nav. */
+@media (min-width: 1500px) {
+  .page-nav {
+    position: absolute;
+    top: var(--sys-layout-container-3xl);
+    left: 100%;
+    z-index: 5;
+    display: block;
+    width: 200px;
+    height: 100%;
+  }
+
+  .page-nav-list {
+    position: sticky;
+    top: calc(var(--site-nav-height) + var(--sys-layout-stack-xl));
+  }
+}
+
+.page-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-2xs);
+  margin: 0;
+  padding: 0;
+  border-left: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+  list-style: none;
+}
+
+.page-nav-link {
+  position: relative;
+  display: block;
+  padding: var(--ref-space-75) var(--ref-space-200);
+  font-size: var(--sys-typo-label-sm-size);
+  font-weight: var(--sys-typo-label-sm-weight);
+  line-height: var(--sys-typo-label-sm-line);
+  letter-spacing: var(--sys-typo-label-sm-tracking);
+  text-decoration: none;
+  color: var(--sys-color-onSurfaceVariant);
+  transition: color 150ms ease;
+}
+
+.page-nav-link:hover {
+  color: var(--sys-color-onSurface);
+}
+
+/* Active link — accent bar marks the selection; the label's color stays
+   on the surface ramp. Side-nav additionally fills the active row with
+   the canonical "selected list row" pair from DESIGN.md §Color
+   (`primaryContainer` + `onPrimaryContainer`, tuned to clear AA), so
+   the side-nav label inherits its contrast from the token contract.
+   Page-nav stays bar-only — on the bare `surface` the active row tracks
+   scroll position inside the page body, where a tinted label or filled
+   row would compete with content; the `primary` accent bar alone is the
+   selection cue and the label lifts to `onSurface` for emphasis. */
+.page-nav-link.is-active {
+  color: var(--sys-color-primary);
+}
+
+/* Active fill — primaryContainer / onPrimaryContainer canonical pair, used
+   for every link surface in the side-nav (item link, group link, sub-link
+   via `.side-nav-link`). The shared declaration lets the visuals stay
+   identical without copy-pasting per row type. */
+.side-nav-link.is-active,
+.side-nav-group-link.is-active {
+  background: var(--sys-color-primaryContainer);
+  color: var(--sys-color-onPrimaryContainer);
+}
+
+/* Hover on an already-active row composes the canonical state-layer over
+   the active fill: 8% `onPrimaryContainer` over `primaryContainer` (per
+   §8.1 — state.hover is the surface's foreground tinted at 8%). The label
+   keeps `onPrimaryContainer`; without this rule the base hover overlay
+   declared later in the file wins on cascade order and would repaint the
+   text to `onSurface`. */
+.side-nav-link.is-active:hover,
+.side-nav-group-link.is-active:hover {
+  background: color-mix(in srgb, var(--sys-color-onPrimaryContainer) 8%, var(--sys-color-primaryContainer));
+  color: var(--sys-color-onPrimaryContainer);
+}
+
+/* Active accent bar — sits flush to the LEFT of the divider line so the
+   2px width is fully visible against contrasting backgrounds in both
+   navs. Centering the bar on the divider (left: -1px) caused the inner
+   1px to blend with the side-nav active fill (`primaryContainer`),
+   making the marker read as 1px there while the page-nav (no fill)
+   still read as 2px. Color follows the surface the bar sits on: side-nav
+   bars sit on the `primaryContainer` active fill so they paint with the
+   paired `onPrimaryContainer`; page-nav bars sit on bare `surface` so
+   they paint with `primary` (the canonical accent ink on surface). */
+.page-nav-link.is-active::before,
+.side-nav-link.is-active::before,
+.side-nav-group-link.is-active::before {
+  content: '';
+  position: absolute;
+  top: 25%;
+  bottom: 25%;
+  left: -2px;
+  width: 2px;
+  border-radius: var(--sys-radius-full);
+}
+
+.page-nav-link.is-active::before {
+  background: var(--sys-color-primary);
+}
+
+.side-nav-link.is-active::before,
+.side-nav-group-link.is-active::before {
+  background: var(--sys-color-onPrimaryContainer);
+}
+
+/* Group-link and link-top sit directly against `.side-nav-list`'s left
+   clipping boundary (no parent `<ul>` margin), so the default outside-the-
+   link position (`left: -2px`) gets clipped by the list's `overflow-y:
+   auto` containing block — the bar reads as 1px there. Inset to `left: 0`
+   keeps the marker's full 2px against the active fill. */
+.side-nav-group-link.is-active::before,
+.side-nav-link-top.is-active::before {
+  left: 0;
+}
+
+.page-nav-sublist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-2xs);
+  margin-top: var(--sys-layout-stack-2xs);
+  margin-left: var(--sys-layout-inline-xl);
+  padding: 0;
+  border-left: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+  list-style: none;
+}
+
+.page-nav-sublist .page-nav-link {
+  padding-left: var(--sys-layout-container-md);
+}
+
+/* ========== Page header (recessed band per route) ========== */
+/* The header sits one tier below `surface`: `surfaceContainerLowest` is
+   the only role that resolves to "darker than surface" in *both* themes
+   (DESIGN.md §Color — neutral.100 light, neutral.1000 dark) so the band
+   reads as a quietly recessed strip rather than a brand-toned hero.
+   Title uses `onSurface` and description uses `onSurfaceVariant` — the
+   canonical "subdued foreground" role — instead of an ad-hoc opacity, so
+   dark mode automatically picks up the correct subdued step (neutral.300)
+   without compositing transparency that drifts on tinted backgrounds. */
+.page-header {
+  display: flex;
+  align-items: center;
+  min-height: 400px;
+  padding: var(--sys-layout-container-3xl) var(--sys-layout-page-md);
+  background:
+    radial-gradient(ellipse 80% 60% at 0% 0%,
+      color-mix(in srgb, var(--sys-color-primary) 8%, transparent),
+      transparent 70%),
+    var(--sys-color-surfaceContainerLowest);
+  color: var(--sys-color-onSurface);
+}
+
+.page-header-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-md);
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+.page-header-title {
+  margin: 0;
+  font-size: var(--sys-typo-display-md-size);
+  font-weight: var(--sys-typo-display-md-weight);
+  line-height: var(--sys-typo-display-md-line);
+  letter-spacing: var(--sys-typo-display-md-tracking);
+}
+
+.page-header-desc {
+  margin: 0;
+  font-size: var(--sys-typo-body-md-size);
+  font-weight: var(--sys-typo-body-md-weight);
+  line-height: var(--sys-typo-body-md-line);
+  letter-spacing: var(--sys-typo-body-md-tracking);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+/* ========== Side nav (left-pinned panel) ==========
+   Pinned to the viewport's left edge below the top nav. Two render modes
+   share the same chrome (320px column, padded, with a right border):
+   a permanent rail at the laptop tier, and a toggleable drawer below it.
+   `display` gates which mode is active; everything else stays the same. */
+.side-nav {
+  position: fixed;
+  top: var(--site-nav-height);
+  bottom: 0;
+  left: 0;
+  display: none;
+  flex-direction: column;
+  width: 320px;
+  max-width: 100%;
+  padding: var(--sys-layout-container-md) var(--sys-layout-page-md);
+  border-right: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+  background: var(--sys-color-surface);
+}
+
+/* The list itself owns scroll, but draws no border — the rule line is on
+   `.side-nav-rule` so it sizes to its content (groups) and stops at the
+   last item rather than running through the empty growing space below. */
+.side-nav-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.side-nav-rule {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-2xs);
+}
+
+/* Backdrop scrim — clicking it closes the drawer (handled in `SideNav.jsx`).
+   Sits below the drawer (z-index 7 vs. 8) and below the top nav (z-index 10)
+   so the user can dismiss via either the scrim or the menu toggle. */
+.side-nav-backdrop {
+  position: fixed;
+  top: var(--site-nav-height);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 7;
+  background: var(--sys-color-scrim);
+}
+
+/* Drawer mode — toggleable overlay below the laptop tier. */
+@media (max-width: 1099px) {
+  .side-nav.is-open {
+    display: flex;
+    z-index: 8;
+  }
+}
+
+/* Rail mode — permanent left rail from the laptop tier upward. */
+@media (min-width: 1100px) {
+  .side-nav {
+    display: flex;
+    z-index: 4;
+  }
+}
+
+.side-nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-2xs);
+}
+
+.side-nav-group-title {
+  padding: var(--sys-layout-container-2xs) var(--sys-layout-container-xs);
+  font-size: var(--sys-typo-label-md-size);
+  font-weight: var(--sys-typo-label-md-weight);
+  line-height: var(--sys-typo-label-md-line);
+  letter-spacing: var(--sys-typo-label-md-tracking);
+  color: var(--sys-color-onSurface);
+}
+
+/* Group title rendered as a link (the chapter landing route) — composes the
+   `.side-nav-link` active recipe (primaryContainer fill + onPrimaryContainer
+   text + accent bar) so an active group label reads identically to an active
+   item. Chevron + label flex side-by-side; the `position: relative` is
+   required for the shared `::before` bar declared above. */
+.side-nav-group-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-md);
+  border-radius: var(--sys-radius-sm);
+  text-decoration: none;
+  transition: color 150ms ease, background 150ms ease;
+}
+
+/* Item list — children stack vertically. Hierarchy is conveyed by chevron
+   + indent only; no vertical rule guide (the active item's `::before`
+   accent bar is the only emphasized line in this list). */
+.side-nav-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-2xs);
+  margin: 0;
+  margin-left: var(--sys-layout-inline-lg);
+  padding: 0;
+  list-style: none;
+}
+
+/* Item link — left-border accent on active, 8% onSurface overlay on hover
+   (per DESIGN.md §8.1: state.hover = 8% foreground over base). */
+.side-nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-md);
+  padding: var(--sys-layout-container-2xs) var(--sys-layout-container-xs);
+  border-radius: var(--sys-radius-sm);
+  font-size: var(--sys-typo-label-md-size);
+  font-weight: var(--sys-typo-label-md-weight);
+  line-height: var(--sys-typo-label-md-line);
+  letter-spacing: var(--sys-typo-label-md-tracking);
+  text-decoration: none;
+  color: var(--sys-color-onSurfaceVariant);
+  transition: color 150ms ease, background 150ms ease;
+}
+
+.side-nav-label {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Chevron — visual cue only (the row itself is the toggle target). Down by
+   default; rotates 90° anti-clockwise (▶) when the parent carries
+   `.is-collapsed`. Width is fixed so a chevron-bearing label and a chevron-
+   less label have a stable indentation column. */
+.side-nav-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--sys-icon-md);
+  height: var(--sys-icon-md);
+  color: inherit;
+  transition: transform 150ms ease;
+}
+
+.side-nav-link.is-collapsed > .side-nav-chevron,
+.side-nav-group-title.is-collapsed > .side-nav-chevron {
+  transform: rotate(-90deg);
+}
+
+/* Inactive hover overlay shared across every clickable row in the side-nav
+   — item link, group link (when its groupHref is not the active route),
+   and the no-href group toggle. 8% `onSurface` over the bare surface
+   matches the `state.hover` recipe in DESIGN.md §8.1; combining the three
+   selectors keeps the recipe authored in one place. */
+.side-nav-link:hover,
+.side-nav-group-link:hover,
+.side-nav-group-toggle:hover {
+  background: color-mix(in srgb, var(--sys-color-onSurface) 8%, transparent);
+  color: var(--sys-color-onSurface);
+}
+
+/* No-href group title rendered as a button — same visual recipe as
+   `.side-nav-group-title` div + the link affordances of a clickable row.
+   Chevron sits on the left, label fills the rest. Reset native button
+   styling so the row reads identically to the link version above. */
+.side-nav-group-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-md);
+  width: 100%;
+  margin: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  /* `<button>` defaults override the typography set by `.side-nav-group-title`
+     in some browsers — bring back only the family / color so the label.md
+     size, weight, line-height, and letter-spacing from the composite class
+     stay authoritative. Never `font: inherit` here: the shorthand resets
+     every font property to inherit and would skip past the group-title
+     typography token rules. */
+  font-family: inherit;
+  color: inherit;
+}
+
+.side-nav-group-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Sub-component list — nested under a family entry (e.g. FAB / Toolbar
+   Button under Button). Sub-links share the family link's typography and active recipe;
+   hierarchy is expressed by indent + the chevron column reservation on each
+   row, with no vertical rule guide. The sub-list's left offset matches the
+   parent `.side-nav-items` indent step (`inline-lg`) so a sub-link sits at
+   2× the family link's offset from the group title. */
+.side-nav-subs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-2xs);
+  margin: var(--sys-layout-stack-2xs) 0 0 var(--sys-layout-inline-lg);
+  padding: 0;
+  list-style: none;
+}
+
+/* Top-level variant — used when a single-item group collapses into one link.
+   Inherits group-title prominence (label.md, no left border list). */
+.side-nav-link-top {
+  font-size: var(--sys-typo-label-md-size);
+  font-weight: var(--sys-typo-label-md-weight);
+  line-height: var(--sys-typo-label-md-line);
+  letter-spacing: var(--sys-typo-label-md-tracking);
+  color: var(--sys-color-onSurface);
+}
+
+
+/* ========== App main (the area beside the side nav) ========== */
+/* Side nav is fixed to viewport left; app-main reserves the space via
+   margin-left so its content is never overlapped. Inside app-main,
+   page-content centers the content column and acts as the
+   positioning context for the right-side page nav. */
+.app-main {
+  position: relative;
+}
+
+/* Laptop ≥1100px — reserve space for the pinned side-nav rail. */
+@media (min-width: 1100px) {
+  .app-main {
+    margin-left: 320px;
+  }
+}
+
+/* ---- Markdown-preview rhythm ----
+   .page-content renders a flat document — bare <h2> / <h3> / <p> / <ul> /
+   <ol> / <table> wrappers stack as direct siblings, the same shape as a
+   rendered markdown file. One coherent margin system across every block
+   type, so a page reads with one rhythm instead of a patchwork.
+
+   Three layers, top-margin only (bottom always 0 — neighbors set their own
+   top so spacing is single-sourced):
+
+     1. Section break — top of a heading. A descending ramp keyed to the
+        heading tier so a major section reads as a clear pause, a deeper
+        nesting as a softer one. Values: 48 / 40 / 32.
+
+     2. Heading → first content — heading's own bottom margin, picked up
+        when the very next element (a description paragraph) collapses
+        its top to 0. Values: 12 (h2/h3) / 8 (h4) — tight enough to read
+        as a heading-with-lede pair, generous enough to separate.
+
+     3. Block ↔ block in flow — every body block (p, ul, ol, sem-table,
+        specimen-grid, guidelines-grid, type-list, component-preview,
+        component-callout) takes the same 16px top margin so paragraphs,
+        tables, and specimens stack on one rhythm.
+
+   First child collapses to 0 (flush to the column top). */
+.page-content {
+  position: relative;
+  max-width: calc(768px + var(--sys-layout-page-md) * 2);
+  margin: 0 auto;
+  padding: var(--sys-layout-container-3xl) var(--sys-layout-page-md);
+}
+
+/* Body block-to-block rhythm — one rung (16px) for every block type that
+   stacks inside a section, so a paragraph leading into a table leading
+   into a callout reads as a single flow, not three different tempos. */
+.page-content > p,
+.page-content > ul,
+.page-content > ol,
+.page-content > .sem-table,
+.page-content > .specimen-grid,
+.page-content > .guidelines-grid,
+.page-content > .type-list,
+.page-content > .component-preview,
+.page-content > .component-callout {
+  margin-top: var(--sys-layout-stack-md);
+  margin-bottom: 0;
+}
+
+/* Headings — descending top-margin ramp (48 / 40 / 32) for the section
+   break, and a tighter bottom margin (12 / 12 / 8) that the following
+   description paragraph picks up by collapsing its own top to 0. */
+.page-content > h2 {
+  margin-top: var(--sys-layout-stack-3xl);
+  margin-bottom: var(--sys-layout-stack-sm);
+}
+
+.page-content > h3 {
+  margin-top: var(--sys-layout-stack-2xl);
+  margin-bottom: var(--sys-layout-stack-sm);
+}
+
+.page-content > h4 {
+  margin-top: var(--sys-layout-stack-xl);
+  margin-bottom: var(--sys-layout-stack-xs);
+}
+
+/* Paragraph directly after a heading — that's the section description, so
+   collapse its top margin so the heading's bottom margin (12 / 12 / 8)
+   defines the tight heading-to-lede gap. Non-prose blocks (tables, grids,
+   callouts) keep the standard 16px sibling rhythm even when they follow a
+   heading directly — heading.bottom (12) and block.top (16) collapse to
+   16, which reads as connected without crowding the heading. */
+.page-content > h2 + p,
+.page-content > h3 + p,
+.page-content > h4 + p {
+  margin-top: 0;
+}
+
+/* Top of the column is flush. */
+.page-content > :first-child {
+  margin-top: 0;
+}
+
+/* ---- Tag-based typography inside .page-content ----
+   No `.section-title` / `.section-desc` / `.prose-heading` classes — the
+   element type carries its meaning. Descendant selectors cover both
+   direct page-content children AND deeper nesting (e.g. h3 inside the
+   guidelines grid cells). Scoped *away* from the component preview
+   stage so docs typography never bleeds into rendered components — a
+   Dialog's or BottomSheet's `<h2 className="chorus-*__title">` keeps
+   its own component-tier typography. */
+.page-content h2:not(.component-preview-stage *) {
+  scroll-margin-top: var(--sys-layout-stack-2xl);
+  font-size: var(--sys-typo-heading-md-size);
+  font-weight: var(--sys-typo-heading-md-weight);
+  line-height: var(--sys-typo-heading-md-line);
+  letter-spacing: var(--sys-typo-heading-md-tracking);
+}
+
+/* H3 / H4 share the heading-family weight (semibold) so they read as
+   section headings rather than labels — earlier H3 used label.lg (medium
+   500) while H4 inherited the browser default (bold 700), which inverted
+   the visual hierarchy. Now both are semibold; the size step (label.lg
+   16px → label.md 14px) carries the level distinction. */
+.page-content h3:not(.component-preview-stage *) {
+  font-size: var(--sys-typo-label-lg-size);
+  font-weight: var(--sys-typo-heading-md-weight);
+  line-height: var(--sys-typo-label-lg-line);
+  letter-spacing: var(--sys-typo-label-lg-tracking);
+  color: var(--sys-color-onSurface);
+}
+
+.page-content h4:not(.component-preview-stage *) {
+  scroll-margin-top: var(--sys-layout-stack-2xl);
+  font-size: var(--sys-typo-label-md-size);
+  font-weight: var(--sys-typo-heading-md-weight);
+  line-height: var(--sys-typo-label-md-line);
+  letter-spacing: var(--sys-typo-label-md-tracking);
+  color: var(--sys-color-onSurface);
+}
+
+.page-content > p {
+  font-size: var(--sys-typo-body-sm-size);
+  font-weight: var(--sys-typo-body-sm-weight);
+  line-height: var(--sys-typo-body-sm-line);
+  letter-spacing: var(--sys-typo-body-sm-tracking);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+/* Inline links — accent ink on the page surface. The page body sits on
+   `surface*` (no fill), so links use `primary` per DESIGN.md §Color (the
+   "accent ink on surface" rule). Inside a `primaryContainer` fill
+   (callouts, selected rows) the override below switches the link to the
+   paired `onPrimaryContainer`, keeping the foreground inside the family
+   the container expresses. Underline on hover only — the body type ramp
+   already gives links enough chroma weight at rest.
+
+   Wrapped in `:where(...)` so the rule applies at zero class specificity
+   (just `a`) — that lets `.page-nav-link` / `.side-nav-link` (also
+   descendants of `.page-content`) keep their own color rules without
+   needing a `:not()` exclusion or specificity hack. */
+:where(.page-content) a {
+  color: var(--sys-color-primary);
+  text-decoration: none;
+}
+
+:where(.page-content) a:hover {
+  text-decoration: underline;
+}
+
+/* ========== Specimen grid (shared by color swatches, state-layer/elevation demos, …) ========== */
+.specimen-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sys-layout-stack-xl) var(--sys-layout-inline-xl);
+}
+
+@media (max-width: 799px) {
+  .specimen-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========== Color swatches ========== */
+.color-group-name {
+  margin-bottom: var(--sys-layout-stack-sm);
+  font-size: var(--sys-typo-label-lg-size);
+  font-weight: var(--sys-typo-label-lg-weight);
+  line-height: var(--sys-typo-label-lg-line);
+  letter-spacing: var(--sys-typo-label-lg-tracking);
+  text-transform: capitalize;
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.color-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Overlay palettes (black/white) are translucent, so low-alpha steps
+   disappear against the page surface. A hairline outline around the
+   stack keeps the group's extent visible, and a contrast-rich backing
+   makes the alpha ramp readable: black-on-white, white-on-black. */
+.color-stack:has(.color-bar[data-overlay]) {
+  outline: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+}
+
+.color-stack:has(.color-bar[data-overlay="black"]) {
+  background: var(--ref-palette-white-1000);
+}
+
+.color-stack:has(.color-bar[data-overlay="white"]) {
+  background: var(--ref-palette-black-1000);
+}
+
+/* Non-overlay swatches: light steps (≤400) take dark text,
+   dark steps (≥500) take light text. Same in both themes since
+   swatch color itself is theme-agnostic. */
+.color-bar[data-step-range="low"] {
+  color: var(--ref-palette-fg-dark);
+}
+
+.color-bar[data-step-range="high"] {
+  color: var(--ref-palette-fg-light);
+}
+
+/* Overlay swatches sit on a fixed-tone backing (white for black overlays,
+   black for white overlays — see .color-stack:has() rules above), so the
+   composite is theme-agnostic and the readable text color is too:
+   - black-overlay low alpha (≤400) sits over its white backing → dark text
+   - black-overlay high alpha (≥500) tints the backing toward black → light text
+   - white-overlay low alpha lets the black backing show through → light text
+   - white-overlay high alpha tints the backing toward white → dark text */
+.color-bar[data-overlay="black"][data-step-range="low"],
+.color-bar[data-overlay="white"][data-step-range="high"] {
+  color: var(--ref-palette-fg-dark);
+}
+
+.color-bar[data-overlay="black"][data-step-range="high"],
+.color-bar[data-overlay="white"][data-step-range="low"] {
+  color: var(--ref-palette-fg-light);
+}
+
+.color-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sys-layout-inline-lg);
+  min-height: var(--ref-space-500);
+  padding: var(--sys-layout-container-xs) var(--sys-layout-container-sm);
+  font-family: var(--font-mono);
+  font-size: var(--ref-fontSize-150);
+  line-height: 1;
+}
+
+.color-bar-name {
+  font-weight: var(--ref-fontWeight-medium);
+}
+
+.color-bar-meta {
+  font-size: var(--ref-fontSize-150);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(8px);
+  transition: opacity 180ms ease, transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: 0ms;
+}
+
+.color-group:hover .color-bar-meta,
+.color-group:focus-within .color-bar-meta {
+  opacity: 0.85;
+  transform: translateX(0);
+}
+
+/* Touch devices can't hover — show meta by default at the mobile tier (<800px). */
+@media (max-width: 799px) {
+  .color-bar-meta {
+    opacity: 0.85;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .color-bar-meta {
+    transition: none;
+  }
+}
+
+/* ---- Tables (sem-table) ----
+   One canonical chrome class for every docs table.
+
+   Three nested layers, all driven by the `<SemTable>` client component:
+
+     .sem-table             wrapper, position: relative; hosts the custom
+                            scrollbar overlay below the scroll container.
+     .sem-table-scroll      horizontal scroll container; native scrollbar
+                            is hidden so the custom one is the single
+                            visible + interactive scroll affordance.
+     .sem-table-grid        the actual grid that lays out rows; head +
+                            body share columns via `subgrid` so columns
+                            stay aligned across rows AND a single
+                            non-wrapping cell (long token chip, code) can
+                            push the table wider than its column to
+                            trigger horizontal scroll.
+
+   Variants set the column template on `.sem-table-grid`:
+     - `.role-table`  — Token | Role | Preview, header visible. The chip
+                        column is `position: sticky; right: 0` so the
+                        visual preview stays anchored while content
+                        scrolls underneath, clipping at the chip's left
+                        edge. Role prose has a max-width to keep the
+                        table from growing tall.
+     - `.equal-cols`  — N equal-weight columns driven by the inline
+                        `--equal-cols` custom property (set by
+                        ComponentMd from the markdown thead column count).
+
+   Pattern: Radix UI ScrollArea, Polaris token reference, Material 3
+   surface docs. */
+.sem-table {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.sem-table-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* Hide the native scrollbar — the custom .sem-table-scrollbar below is
+     the single visible + interactive scroll affordance. Keeps the
+     experience identical across macOS/Windows/Linux + Firefox/Chrome
+     regardless of OS overlay-scrollbar setting. */
+  scrollbar-width: none;
+}
+.sem-table-scroll::-webkit-scrollbar {
+  display: none;
+}
+.sem-table-grid {
+  display: grid;
+}
+
+/* Custom interactive scrollbar — sticky-bottom of the page viewport so
+   it stays reachable while a tall table is in view, and only renders
+   (`data-visible`) when the inner scroll container actually overflows.
+   Click on the track scrolls a viewport in that direction; drag the
+   thumb scrolls 1:1 with cursor. JS lives in `<SemTable>`. */
+.sem-table-scrollbar {
+  display: none;
+  position: sticky;
+  bottom: var(--sys-layout-stack-xs);
+  margin-top: var(--sys-layout-stack-xs);
+  height: 6px;
+  border-radius: var(--sys-radius-full);
+  background: color-mix(in srgb, var(--sys-color-onSurface) 10%, transparent);
+  cursor: pointer;
+  touch-action: none;
+}
+.sem-table-scrollbar[data-visible] {
+  display: block;
+}
+.sem-table-scrollbar-thumb {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  min-width: 24px;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--sys-color-onSurface) 45%, transparent);
+  cursor: grab;
+  touch-action: none;
+  transition: background 120ms ease;
+}
+.sem-table-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--sys-color-onSurface) 65%, transparent);
+}
+.sem-table-scrollbar-thumb:active {
+  background: color-mix(in srgb, var(--sys-color-onSurface) 80%, transparent);
+  cursor: grabbing;
+}
+
+/* Title and section wrappers span every grid column. Head + body inherit
+   the parent's column tracks via `subgrid`, then their child rows do the
+   same — that's what aligns columns across all rows without re-declaring
+   the template per row. */
+.sem-table-grid > .sem-table-title,
+.sem-table-grid > .sem-table-head,
+.sem-table-grid > .sem-table-body {
+  grid-column: 1 / -1;
+}
+.sem-table-grid > .sem-table-head,
+.sem-table-grid > .sem-table-body {
+  display: grid;
+  grid-template-columns: subgrid;
+}
+.sem-row {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  /* Top-align by default so the token chip and role prose share the
+     same baseline at the top of the row, instead of the chip floating
+     mid-row when the role text wraps to several lines. Visual chips
+     (color swatch, spacing bar) opt into vertical centering per cell
+     via `align-self: center`. */
+  align-items: start;
+  gap: var(--sys-layout-inline-lg);
+  padding: var(--sys-layout-container-md) 0;
+  border-top: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+}
+
+/* Markdown-sourced tables (ComponentMd) emit `<thead><tr>` which renders
+   as `.sem-table-head > .sem-row`. Collapse the inner row via
+   `display: contents` so the cells become grid items of the head —
+   matching the hand-built layout in sections.jsx. */
+.sem-table-head > .sem-row {
+  display: contents;
+}
+
+.sem-table-title {
+  padding-bottom: var(--sys-layout-stack-sm);
+  font-size: var(--sys-typo-label-lg-size);
+  font-weight: var(--sys-typo-label-lg-weight);
+  line-height: var(--sys-typo-label-lg-line);
+  letter-spacing: var(--sys-typo-label-lg-tracking);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+/* Head matches body row spacing so the column labels sit on the same
+   vertical rhythm as the rows beneath them. Uses the head element
+   directly (not `.sem-row`) so this applies to both the hand-built
+   head in sections.jsx (cells are direct children of `.sem-table-head`)
+   AND the markdown-sourced head where the inner `<tr>` is collapsed
+   via `display: contents`. */
+.sem-table-head {
+  align-items: center;
+  gap: var(--sys-layout-inline-lg);
+  padding: var(--sys-layout-container-md) 0;
+  border-bottom: var(--sys-borderWidth-hairline) solid var(--sys-color-outline);
+  font-size: var(--sys-typo-label-sm-size);
+  font-weight: var(--sys-typo-label-sm-weight);
+  line-height: var(--sys-typo-label-sm-line);
+  letter-spacing: var(--sys-typo-label-sm-tracking);
+  color: var(--sys-color-onSurface);
+}
+/* Suppress the body-row top-border immediately after the head so the
+   head's own bottom-border isn't doubled by the first body row's top
+   stroke. */
+.sem-table-head + .sem-table-body > .sem-row:first-child {
+  border-top: none;
+}
+
+.sem-cell {
+  min-width: 0;
+}
+.sem-table-head .sem-cell {
+  font-family: inherit;
+  color: var(--sys-color-onSurface);
+}
+
+/* Variant: role table — Token | Role | Preview, three columns, header
+   visible. The prose column has a max-width (`60ch`) so long roles wrap
+   to a few lines instead of stretching the table tall, and the chip
+   column is sticky-right so the visual preview stays anchored while
+   content scrolls underneath. Opaque `surface` background on the chip
+   cell clips the scrolling prose at its left edge. */
+.sem-table.role-table .sem-table-grid {
+  /* `max-content` for token so the column always fits the longest chip
+     (e.g. `sys.color.surfaceContainerHighest`) without truncating. The
+     role column is bounded by `60ch` so long roles wrap to ~3 lines
+     instead of stretching the table tall. Chip is fixed-width so the
+     sticky right edge aligns across rows. */
+  --sem-col-token: max-content;
+  --sem-col-role: minmax(240px, 60ch);
+  --sem-col-chip: 96px;
+  grid-template-columns: var(--sem-col-token) var(--sem-col-role) var(--sem-col-chip);
+}
+/* Chip-less row variant — letter-spacing / type-scale tables that have
+   no swatch column. Stay on the parent's subgrid so columns line up with
+   the head, but let the role cell consume the vacated chip column. */
+.sem-table.role-table .sem-row--no-chip .sem-cell-role,
+.sem-table.role-table .sem-table-head--no-chip .sem-cell-role {
+  grid-column: 2 / -1;
+}
+.sem-table.role-table .sem-cell-chip {
+  position: sticky;
+  right: 0;
+  align-self: center;
+  /* Cell fills the full chip column track (no `justify-self` so the
+     grid default `stretch` applies); inner alignment is then driven by
+     the flex `justify-content` on `.sem-cell-chip`, which the
+     `.spacing-bar-cell` and head-cell rules below override per case. */
+  background: var(--sys-color-surface);
+  /* Soft shadow on the left edge of the sticky chip so scrolling content
+     looks tucked under the chip rather than abruptly cut. */
+  box-shadow: -8px 0 8px -8px color-mix(in srgb, var(--sys-color-onSurface) 25%, transparent);
+}
+/* Header chip cell — the column label "Preview" left-aligns with the
+   other column labels (Token / Role) instead of centering, and drops
+   the sticky shadow + surface fill that would compete with the head
+   divider. */
+.sem-table.role-table .sem-table-head .sem-cell-chip {
+  justify-content: flex-start;
+  box-shadow: none;
+  background: transparent;
+}
+/* Spacing-bar previews anchor their stroke at the left edge so the bar
+   always reads as a length growing from zero — centering would cut the
+   visual from both sides and break the cross-row length comparison. */
+.sem-table.role-table .sem-cell-chip.spacing-bar-cell {
+  justify-content: flex-start;
+}
+
+/* Variant: equal-column lookup table (N columns, all equal weight). */
+.sem-table.equal-cols .sem-table-grid {
+  grid-template-columns: repeat(var(--equal-cols, 3), minmax(max-content, 1fr));
+}
+/* Body cells in equal-cols tables take body-sm typography; the head
+   stays on the canonical label-sm spec from `.sem-table-head` so column
+   labels read uniformly across every table variant. */
+.sem-table.equal-cols .sem-table-body .sem-cell {
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
+  letter-spacing: var(--sys-typo-body-sm-tracking);
+}
+
+/* Token cell hosts the chip and (optionally) the DESIGN.md "Value" inline.
+   Center-aligned on the cross axis so the chip and the value read as one
+   line regardless of the chip's intrinsic padding. */
+.sem-cell-token {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sys-layout-stack-3xs) var(--sys-layout-inline-md);
+}
+
+.token-chip,
+.breakpoint-label,
+.page-content > p code,
+.rule-list li code,
+.guidelines-item code {
+  display: inline-block;
+  align-self: flex-start;
+  width: fit-content;
+  padding: var(--sys-layout-container-3xs) var(--sys-layout-container-2xs);
+  border-radius: var(--sys-radius-sm);
+  /* Foreground overlays for both fill and border so the chip lifts off
+     any surface tier in both themes. outlineVariant collapses to the same
+     neutral as surfaceContainer in dark mode, so a chip on a card would
+     lose its border — overlays sidestep that by always offsetting from
+     whatever sits behind. */
+  border: var(--sys-borderWidth-hairline) solid color-mix(in srgb, var(--sys-color-onSurface) 14%, transparent);
+  background: color-mix(in srgb, var(--sys-color-onSurface) 6%, transparent);
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--sys-color-onSurface) 14%, transparent);
+  font-family: var(--font-mono);
+  font-size: var(--ref-fontSize-150);
+  color: var(--sys-color-onSurface);
+  transition: background 120ms ease, color 120ms ease;
+}
+
+/* Token chips are click-to-copy affordances (delegated handler in
+   `components/TokenChipCopy.jsx` writes the chip's text content to the
+   clipboard). Cursor + hover state advertise that the chip is
+   interactive; `data-copied` flips the chip to the primary fill for ~1.2s
+   so the user sees the copy land without a separate toast. The handler
+   only fires for chips that aren't inside an <a>, so chips nested in a
+   link stay non-interactive and inherit the regular hover overlay. */
+.token-chip {
+  cursor: copy;
+}
+
+.token-chip:hover:not([data-copied="true"]) {
+  background: color-mix(in srgb, var(--sys-color-onSurface) 10%, transparent);
+}
+
+.token-chip[data-copied="true"] {
+  background: var(--sys-color-primary);
+  color: var(--sys-color-onPrimary);
+  border-color: var(--sys-color-primary);
+}
+
+/* Code chips never inherit bold from a wrapping `<strong>`. The chip is a
+   typographic role of its own — monospace + tinted background — and an
+   ad-hoc bold weight on top makes the chip read heavier than identical
+   chips in neighboring sentences, breaking the chip-as-token visual
+   constant the prose relies on. Markdown like `**Tonal** is the
+   `tertiary` button` therefore renders bold *prose* + steady-weight
+   *chip*. */
+strong > code,
+strong code {
+  font-weight: normal;
+}
+
+.breakpoint-label {
+  letter-spacing: var(--ref-letterSpacing-wide);
+}
+
+/* Role-cell layout applies to head + body identically (column stack so
+   meta-line sits under the label), but the typography is body-only —
+   the head cell keeps the canonical label-sm spec from `.sem-table-head`
+   so column labels never read heavier than the prose underneath them. */
+.sem-cell-role {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-3xs);
+  color: var(--sys-color-onSurface);
+}
+
+.sem-table-body .sem-cell-role {
+  font-size: var(--sys-typo-body-sm-size);
+  font-weight: var(--sys-typo-body-sm-weight);
+  line-height: var(--sys-typo-body-sm-line);
+  letter-spacing: var(--sys-typo-body-sm-tracking);
+}
+
+.sem-role-meta,
+.type-meta {
+  font-family: var(--font-mono);
+  font-size: var(--ref-fontSize-150);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.sem-role-meta {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sem-role-meta > * {
+  vertical-align: baseline;
+}
+
+.sem-role-meta-rem {
+  opacity: 0.6;
+}
+
+/* Icon catalog keyword list — comma-separated natural-language search
+   aliases ("add, plus, new, create"). Sized to match `.sem-role-meta`
+   so the column rhythm is consistent, but rendered in the product
+   face (Pretendard, inherited) rather than mono — these are prose
+   keywords, not token names, hex codes, or measurement values. */
+.icon-catalog-keywords {
+  display: block;
+  font-size: var(--ref-fontSize-150);
+  color: var(--sys-color-onSurfaceVariant);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sem-dot {
+  opacity: 0.5;
+}
+
+.sem-cell-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-catalog-glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--sys-color-onSurface);
+}
+
+.icon-catalog-import {
+  font-family: var(--sys-typo-mono-family);
+  font-size: 12px;
+  color: var(--sys-color-onSurfaceVariant);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+/* Keyword search for the All icons catalog. The field stretches across
+   the full content column above the table; the clear-button is an inset
+   glyph that appears once the query is non-empty. */
+.icon-catalog-search {
+  display: block;
+  margin: var(--sys-layout-stack-md) 0;
+}
+
+.icon-catalog-search-field {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.icon-catalog-search-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 36px 0 12px;
+  border: 1px solid var(--sys-color-outline);
+  border-radius: var(--sys-radius-md);
+  background: var(--sys-color-surface);
+  color: var(--sys-color-onSurface);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  box-sizing: border-box;
+}
+
+.icon-catalog-search-input::placeholder {
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.icon-catalog-search-input:focus-visible {
+  outline: var(--sys-borderWidth-thin) solid var(--sys-color-focus);
+  outline-offset: 2px;
+  border-color: var(--sys-color-primary);
+}
+
+/* The browser ships a default ✕ on `<input type="search">` in some UAs;
+   the docs custom button supersedes it for a token-driven affordance. */
+.icon-catalog-search-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.icon-catalog-search-clear {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--sys-color-onSurfaceVariant);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--sys-radius-sm);
+}
+
+.icon-catalog-search-clear:hover {
+  color: var(--sys-color-onSurface);
+}
+
+.icon-catalog-search-clear:focus-visible {
+  outline: var(--sys-borderWidth-thin) solid var(--sys-color-focus);
+  outline-offset: 2px;
+}
+
+.icon-catalog-empty {
+  color: var(--sys-color-onSurfaceVariant);
+  padding: var(--sys-layout-container-md) 0;
+}
+
+.spacing-bar-cell {
+  justify-content: flex-start;
+}
+
+/* Rule list — used by dark-mode strategy & typography principles */
+/* The `> Inherits …` callout that opens every per-component spec — pulls the
+   reader's eye to the contract that scopes the spec to component-specific
+   composition. Uses the canonical `primaryContainer` + `onPrimaryContainer`
+   quartet pair (DESIGN.md §Color) so contrast lands at the token contract,
+   not at an ad-hoc overlay. A `primary` left-rule reuses the same family for
+   emphasis without breaking the pair. */
+.component-callout {
+  /* Top margin lives in the unified .page-content > * rhythm (16px).
+     Keep margin-bottom 0 so the next sibling owns its own top gap. */
+  margin: 0;
+  padding: var(--sys-layout-container-sm) var(--sys-layout-container-md);
+  border-left: var(--sys-borderWidth-thin) solid var(--sys-color-primary);
+  border-radius: var(--sys-radius-md);
+  background: var(--sys-color-primaryContainer);
+  color: var(--sys-color-onPrimaryContainer);
+  font-size: var(--sys-typo-body-sm-size);
+  font-weight: var(--sys-typo-body-sm-weight);
+  line-height: var(--sys-typo-body-sm-line);
+  letter-spacing: var(--sys-typo-body-sm-tracking);
+}
+
+.component-callout > p {
+  margin: 0;
+}
+
+/* Links inside the callout sit on the `primaryContainer` fill, so the
+   foreground switches to the paired `onPrimaryContainer` instead of the
+   page-content default `primary` — same family, the contrast contract
+   the quartet exists to guarantee. The link affordance inverts the
+   page-content rule: on the tinted fill the link's color (`blue.600`)
+   matches the surrounding paragraph text (also `onPrimaryContainer`),
+   so an underline at rest is the only thing that *says* "this is a
+   link"; on hover the underline drops out, signaling "you're actively
+   pointing at it" through a visible state change rather than adding a
+   new ornament. The reverse of `.page-content a` (which uses color to
+   mark links and adds an underline only on hover) — the asymmetry comes
+   from the asymmetry of the surfaces, not a stylistic choice. */
+.component-callout a {
+  color: var(--sys-color-onPrimaryContainer);
+  text-decoration: underline;
+}
+
+.component-callout a:hover {
+  text-decoration: none;
+}
+
+/* Live specimen frame for ` ```preview ` fences in component-spec markdown.
+   Layout mirrors Atlassian's `/components/<name>/examples` per-example card:
+   stage on top → toolbar (theme override + copy) → source code below. */
+.component-preview {
+  display: flex;
+  flex-direction: column;
+  border: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+  border-radius: var(--sys-radius-lg);
+  background: var(--sys-color-surfaceContainerLow);
+  overflow: hidden;
+}
+
+/* Photoshop-style transparency checkerboard so a specimen reads as
+   sitting on a "no background" surface — useful when the specimen itself
+   is theme-toned or transparent and would otherwise blend into a flat
+   surface fill. Every tile alternate paints `onSurface` at 8% over the
+   base `surface` so the pattern stays visible in both themes (the
+   surfaceContainer ladder collapses to one tone in light mode, so a
+   token-stack-based checker would disappear there). 16px tile = a pair
+   of 8px squares — the standard Photoshop preset. Decorative atmospheric
+   only; specimens still read against the underlying `surface` for
+   contrast, per the gradient-atmospheric exception in DESIGN.md §Accent
+   roles. */
+.component-preview-stage {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: var(--sys-layout-container-md);
+  background-color: var(--sys-color-surface);
+  color: var(--sys-color-onSurface);
+  border-bottom: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+}
+
+.component-preview-stage[data-bg='transparent'] {
+  background-image:
+    linear-gradient(45deg, color-mix(in srgb, var(--sys-color-onSurface) 8%, transparent) 25%, transparent 25%),
+    linear-gradient(-45deg, color-mix(in srgb, var(--sys-color-onSurface) 8%, transparent) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, color-mix(in srgb, var(--sys-color-onSurface) 8%, transparent) 75%),
+    linear-gradient(-45deg, transparent 75%, color-mix(in srgb, var(--sys-color-onSurface) 8%, transparent) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+}
+
+.component-preview-toolbar {
+  display: flex;
+  align-items: center;
+  /* Row of `xsmall` Text Buttons — gap follows the Text Button group
+     rule (`xsmall` → `sys.layout.inline.lg`, 12px); see
+     schema/components/button/text-button.md → Group. Text Button
+     applies optical alignment by default, so the chrome-to-chrome
+     gap IS the visible label-to-label distance — no per-button
+     offset needed at the toolbar's outer edges. */
+  gap: var(--sys-layout-inline-lg);
+  padding: var(--sys-layout-container-sm) var(--sys-layout-container-md);
+  background: var(--sys-color-surfaceContainerLow);
+  border-bottom: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+}
+
+/* Toolbar dropdown — the Filter chip rendered as the visual surface,
+   with a native `<select>` overlaid at `opacity: 0` so the platform
+   dropdown UI (OS menu chrome, keyboard navigation) stays intact while
+   the chip styling does all the visual work. No chrome rules live
+   here — `.chorus-chip.chorus-chip--filter` (capsule, raised tone, hairline
+   outline, label-slot inset, 16px trailing icon) is the single source
+   of truth. */
+.component-preview-dropdown {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Listbox popover — portaled to <body> so the preview frame's
+   `overflow: hidden` (rounded-corner clipping) and stacking context
+   don't trap or clip it. The component computes `top`/`left` from the
+   trigger's `getBoundingClientRect()` and passes them as inline styles;
+   the `position: absolute` here resolves against the document, so
+   scrolling moves the menu with the trigger.
+
+   Width is fixed at a generous `11.5rem` (184px) so every dropdown in
+   the toolbar reads at one width regardless of label length, and short
+   labels still get the same breathing room the longest one gets. */
+.component-preview-dropdown-menu {
+  position: absolute;
+  z-index: 1000;
+  width: 11.5rem;
+  margin: var(--sys-layout-stack-2xs) 0 0 0;
+  padding: var(--sys-layout-container-xs) 0;
+  list-style: none;
+  background: var(--sys-color-surfaceContainerHigh);
+  border: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+  border-radius: var(--sys-radius-md);
+  box-shadow: var(--sys-elevation-overlay);
+  outline: none;
+}
+
+.component-preview-dropdown-option {
+  padding: var(--sys-layout-container-xs) var(--sys-layout-container-md);
+  font-size: var(--sys-typo-label-sm-size);
+  font-weight: var(--sys-typo-label-sm-weight);
+  line-height: var(--sys-typo-label-sm-line);
+  letter-spacing: var(--sys-typo-label-sm-tracking);
+  color: var(--sys-color-onSurface);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: background 80ms ease, color 80ms ease;
+}
+
+/* Keyboard-cursor / pointer-hover highlight on an unselected option —
+   the same 8% overlay rule the rest of the system uses for hover state,
+   applied as a flat fill so the popup row reads as "focused" without
+   inventing a new tint. */
+.component-preview-dropdown-option[data-active] {
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-hover) * 100%), transparent);
+}
+
+/* The chosen option carries the brand-tinted `primaryContainer` pair —
+   strong enough to read as "this is the current value" but softer than
+   the Filter chip's inverseSurface selected fill (which would over-claim
+   attention inside a quiet toolbar listbox). */
+.component-preview-dropdown-option[aria-selected="true"] {
+  background: var(--sys-color-primaryContainer);
+  color: var(--sys-color-onPrimaryContainer);
+}
+
+/* Action (Copy code) — same Toolbar Button chrome via `.chorus-chip
+   .chorus-chip--filter`. The wrapper carries `margin-left: auto` so the
+   button (and its anchored tooltip) sit at the trailing edge of the
+   toolbar; the wrapper is also the positioned ancestor for the
+   tooltip's `position: absolute`. */
+.component-preview-action-wrap {
+  position: relative;
+  margin-left: auto;
+  display: inline-flex;
+}
+
+/* Transient confirmation tooltip — shown below the button after a
+   successful copy. Uses the project's inverse cluster
+   (`inverseSurface` + `inverseOnSurface`) per DESIGN.md → "Inverse
+   cluster" so the message reads as snackbar-style chrome that breaks
+   from the surrounding surface tone. The element re-mounts on every
+   press (keyed on the `copied` flag) so the fade animation restarts
+   even when the user clicks repeatedly within the timeout window.
+   `pointer-events: none` keeps the tooltip from blocking subsequent
+   clicks; `prefers-reduced-motion` collapses the animation to a flat
+   show/hide. */
+.component-preview-action-tooltip {
+  position: absolute;
+  top: calc(100% + var(--sys-layout-stack-2xs, 4px));
+  right: 0;
+  z-index: 1;
+  padding: var(--sys-layout-container-2xs) var(--sys-layout-container-sm);
+  border-radius: var(--sys-radius-sm);
+  background: var(--sys-color-inverseSurface);
+  color: var(--sys-color-inverseOnSurface);
+  font-family: inherit;
+  font-size: var(--sys-typo-label-sm-size);
+  font-weight: var(--sys-typo-label-sm-weight);
+  line-height: var(--sys-typo-label-sm-line);
+  letter-spacing: var(--sys-typo-label-sm-tracking);
+  white-space: nowrap;
+  pointer-events: none;
+  /* `sys.elevation.floating` token, inlined — the elevation scale
+     isn't emitted as CSS vars (see fab.md notes), so the same two-
+     shadow composition is written literally. */
+  box-shadow:
+    0 2px 4px var(--ref-palette-black-100),
+    0 8px 20px var(--ref-palette-black-300);
+  animation: component-preview-tooltip-fade 1200ms ease both;
+}
+
+@keyframes component-preview-tooltip-fade {
+  0%   { opacity: 0; transform: translateY(-4px); }
+  12%  { opacity: 1; transform: translateY(0); }
+  80%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .component-preview-action-tooltip {
+    animation: none;
+  }
+}
+
+/* Code panel — theme-aware monospace source viewer. Long sources clip to a
+   collapsed height (set inline by CodePanel via maxHeight) behind a fade-out
+   gradient + "Show more" / "Show less" toggle, so the per-section preview
+   stays scannable while leaving the full source one click away. The toggle
+   bar borrows the chrome styling of `.component-preview-toolbar` so the two
+   reads as a single panel of secondary controls. */
+.component-preview-codepanel {
+  position: relative;
+  background: var(--sys-color-surfaceContainerLowest);
+}
+
+.component-preview-code {
+  margin: 0;
+  padding: var(--sys-layout-container-md);
+  /* Uniform 144px min-height — short snippets render with breathing
+     room below, long snippets clip at the same line and surface the
+     "Show more" toggle. Resolves to ~8 lines at the 12/1.5 rhythm
+     below, which fits a typical preview's full source. */
+  min-height: 144px;
+  background: transparent;
+  color: var(--sys-color-onSurface);
+  font-family: var(--font-mono);
+  font-size: var(--sys-typo-label-sm-size);
+  line-height: var(--sys-typo-label-sm-line);
+  letter-spacing: 0;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.component-preview-code code {
+  font: inherit;
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+/* Syntax highlighting — project-aligned palette overriding the GitHub
+   theme that's loaded globally. Hue choices follow the Chorus reference
+   palette so the code panel reads in the same color register as the
+   surrounding docs chrome. Keep the rule tree shallow — only the few
+   highlight.js classes the preview's JSX content actually emits.
+
+   Token roles:
+     keyword       → `import`, `from`, `const`, `return` — brand-blue,
+                     same hue as `sys.color.primary` so the code panel
+                     ties back to the surrounding chrome.
+     string        → string literals — green for "value, leaf node."
+     tag / name    → JSX element names (`Button`, `Chip`, `Icon`) —
+                     purple to set component identifiers apart from
+                     prose.
+     attr          → JSX attribute names (`variant`, `selected`) —
+                     onSurfaceVariant so the prop names recede behind
+                     the values.
+     comment       → onSurfaceVariant italic for muted asides.
+     number / lit  → numeric / literal values — red for "raw value."
+     built_in /    → built-in identifiers, falling back to the default
+       keyword.l    onSurface so they don't fight the keyword color. */
+.component-preview-code .hljs {
+  background: transparent;
+  color: var(--sys-color-onSurface);
+}
+
+.component-preview-code .hljs-keyword,
+.component-preview-code .hljs-keyword.hljs-module {
+  color: var(--ref-palette-blue-600);
+}
+
+.component-preview-code .hljs-string,
+.component-preview-code .hljs-attr-value {
+  color: var(--ref-palette-green-600);
+}
+
+.component-preview-code .hljs-tag,
+.component-preview-code .hljs-name,
+.component-preview-code .hljs-title,
+.component-preview-code .hljs-title.class_ {
+  color: var(--ref-palette-purple-600);
+}
+
+.component-preview-code .hljs-attr {
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.component-preview-code .hljs-comment,
+.component-preview-code .hljs-quote {
+  color: var(--sys-color-onSurfaceVariant);
+  font-style: italic;
+}
+
+.component-preview-code .hljs-number,
+.component-preview-code .hljs-literal,
+.component-preview-code .hljs-symbol {
+  color: var(--ref-palette-red-600);
+}
+
+.component-preview-code .hljs-punctuation,
+.component-preview-code .hljs-operator {
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+/* Fade the bottom of a clipped source so the cut isn't a hard line — only
+   visible when the panel is collapsed AND the source overflowed. The fade
+   is anchored to the toggle bar's top edge (`bottom: 100%`) so its
+   bottom always meets the toggle's top exactly, with no unfaded strip
+   in between regardless of the toggle's actual height. */
+.component-preview-codepanel:not(.is-expanded):has(.component-preview-code[style*="max-height"]) .component-preview-codepanel-toggle::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: var(--sys-layout-stack-2xl);
+  background: linear-gradient(to bottom, transparent, var(--sys-color-surfaceContainerLowest));
+  pointer-events: none;
+}
+
+.component-preview-codepanel-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sys-layout-inline-md);
+  width: 100%;
+  margin: 0;
+  padding: var(--sys-layout-container-xs) var(--sys-layout-container-sm);
+  border: none;
+  border-top: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+  background: var(--sys-color-surfaceContainerLow);
+  color: var(--sys-color-onSurfaceVariant);
+  font-family: inherit;
+  font-size: var(--sys-typo-label-sm-size);
+  font-weight: var(--sys-typo-label-sm-weight);
+  letter-spacing: var(--sys-typo-label-sm-tracking);
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.component-preview-codepanel-toggle:hover {
+  background: color-mix(in srgb, var(--sys-color-onSurface) 8%, var(--sys-color-surfaceContainerLow));
+  color: var(--sys-color-onSurface);
+}
+
+.component-preview-codepanel-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  outline-offset: -2px;
+}
+
+.component-preview--missing {
+  padding: var(--sys-layout-container-md);
+  color: var(--sys-color-error);
+  font-size: var(--sys-typo-body-sm-size);
+}
+
+.page-content > .component-preview {
+  margin-top: var(--sys-layout-stack-md);
+  margin-bottom: 0;
+}
+
+
+/* Three-layer focus ring per DESIGN.md → "Focus ring composition":
+   a 1px `color.focusInset` counter-ring flush against a 2px `color.focus`
+   outer ring. The inverse-toned counter-ring sits BETWEEN the control and
+   the outer ring so the indicator stays legible against a same-toned
+   surface (white-on-white or black-on-black is impossible — the
+   one-pixel counter-ring guarantees an edge without inflating the ring
+   past 3px outward).
+
+   Layered shadow, button-edge outward:
+     0 .. 1px : color.focusInset  (inner counter-ring; first in shadow list
+                                   so it paints on top of focus's inner 1px)
+     1 .. 3px : color.focus       (outer ring, ref.borderWidth.thin = 2px;
+                                   second in list, only its outer 2px sliver
+                                   is visible because focusInset covers the
+                                   inner 1px)
+
+   The fill layer (`state.focus` = 12% foreground over container) is applied
+   per-variant via `background: color-mix(...)` on `:focus-visible`.
+
+   NOTE: The shadow declarations are written *inline* in the
+   `.chorus-button--standard:focus-visible` rule below rather than via `var(--focus-ring)`
+   — Chrome has a quirk where a stylesheet `box-shadow: var(--multi-shadow)`
+   expansion can compute to zero spreads while the same expansion set inline
+   works correctly. Until that quirk is gone, components must inline the
+   literal composition (see also: `feedback_state_recipes_from_design_md`
+   memory — focus rings come from DESIGN.md, never improvise). */
+
+
+.rule-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rule-list > li + li {
+  margin-top: var(--sys-layout-stack-sm);
+}
+
+.rule-list li {
+  padding: var(--sys-layout-container-sm);
+  border: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+  border-radius: var(--sys-radius-lg);
+  background: var(--sys-color-surfaceContainer);
+  font-size: var(--sys-typo-body-sm-size);
+  font-weight: var(--sys-typo-body-sm-weight);
+  line-height: var(--sys-typo-body-sm-line);
+  letter-spacing: var(--sys-typo-body-sm-tracking);
+  color: var(--sys-color-onSurface);
+}
+
+/* Nested lists inside a .rule-list item — drop the outer card chrome so
+   they read as prose within the parent card rather than cards-in-cards,
+   and stand them off from the lead-in line with a real top gap. The
+   between-item gap is `stack-xs` (one rung tighter than top-level), giving
+   each nested item room to breathe while keeping the nesting visible. */
+.rule-list li > ul,
+.rule-list li > ol {
+  margin-top: var(--sys-layout-stack-sm);
+}
+
+.rule-list ul {
+  padding-left: var(--sys-layout-container-md);
+  list-style: disc;
+}
+
+.rule-list li ul > li + li,
+.rule-list li ol > li + li {
+  margin-top: var(--sys-layout-stack-xs);
+}
+
+.rule-list li ul li,
+.rule-list li ol > li {
+  padding-block: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+}
+
+.rule-list li ul li {
+  padding-inline: 0;
+}
+
+ol.rule-list {
+  padding-left: 0;
+  list-style: none;
+  counter-reset: ol-rule-list;
+}
+
+ol.rule-list > li {
+  position: relative;
+  padding-left: calc(var(--sys-layout-container-sm) + 16px + var(--sys-layout-inline-md));
+  counter-increment: ol-rule-list;
+  --chip-top-inset: var(--sys-layout-container-sm);
+}
+
+/* Nested ol drops the card's top inset (no card to compensate for), so
+   the numbered chip aligns to the first text line, not to a phantom
+   padding edge. The chip also drops its `container-sm` left offset so
+   its X edge sits flush with the parent item's text — the nested list
+   reads as a continuation of the lead-in line, not as indented chrome. */
+.rule-list li ol.rule-list > li {
+  --chip-top-inset: 0px;
+  padding-left: calc(16px + var(--sys-layout-inline-md));
+}
+
+.rule-list li ol.rule-list > li::before {
+  left: 0;
+}
+
+ol.rule-list > li::before {
+  content: counter(ol-rule-list);
+  position: absolute;
+  top: calc(var(--chip-top-inset) + (var(--sys-typo-body-sm-size) * var(--sys-typo-body-sm-line) - 16px) / 2);
+  left: var(--sys-layout-container-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--sys-radius-full);
+  background: var(--sys-color-focus);
+  font-size: var(--sys-typo-label-sm-size);
+  font-weight: var(--sys-typo-label-sm-weight);
+  line-height: 1;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  color: var(--sys-color-focusInset);
+}
+
+/* Guidelines (Do's & don'ts) */
+.guidelines-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  column-gap: var(--sys-layout-inline-xl);
+  row-gap: var(--sys-layout-stack-sm);
+}
+
+/* Layout-only modifier on the do/don't h3 — typography comes from
+   `.page-content h3` (descendant selector). */
+.guidelines-col-title {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-md);
+}
+
+.guidelines-marker {
+  flex: none;
+  width: 24px;
+  height: 24px;
+}
+
+.guidelines-col--do .guidelines-marker {
+  color: var(--sys-color-tertiary);
+}
+
+.guidelines-col--dont .guidelines-marker {
+  color: var(--sys-color-error);
+}
+
+.guidelines-item {
+  padding: var(--sys-layout-container-sm);
+  border: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+  border-radius: var(--sys-radius-lg);
+  background: var(--sys-color-surfaceContainer);
+  font-size: var(--sys-typo-body-sm-size);
+  font-weight: var(--sys-typo-body-sm-weight);
+  line-height: var(--sys-typo-body-sm-line);
+  letter-spacing: var(--sys-typo-body-sm-tracking);
+  color: var(--sys-color-onSurface);
+}
+
+@media (max-width: 799px) {
+  .guidelines-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sem-chip {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: var(--sys-borderWidth-hairline) solid var(--sys-color-outline);
+  border-radius: 50%;
+}
+
+/* ========== Demo cell (shared by State Layer + Elevation) ========== */
+.demo-cell {
+  display: flex;
+  flex-direction: column;
+  border: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+  border-radius: var(--sys-radius-xl);
+  background: var(--sys-color-surface);
+  overflow: hidden;
+}
+
+.demo-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 220px;
+  padding: var(--sys-layout-container-xl);
+  border-bottom: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+  background: var(--sys-color-surfaceContainerLowest);
+}
+
+.demo-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-sm);
+  flex: 1;
+  padding: var(--sys-layout-container-md);
+}
+
+.demo-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sys-layout-inline-lg);
+}
+
+.demo-value {
+  font-family: var(--font-mono);
+  font-size: var(--ref-fontSize-150);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.demo-desc {
+  flex: 1;
+  margin: 0;
+  font-size: var(--sys-typo-body-sm-size);
+  font-weight: var(--sys-typo-body-sm-weight);
+  line-height: var(--sys-typo-body-sm-line);
+  letter-spacing: var(--sys-typo-body-sm-tracking);
+  color: var(--sys-color-onSurface);
+}
+
+/* ========== State Layer ========== */
+/* Stage is sized to host a 160×48 button (matching the unified spec-button
+   preview min-width) plus a 16px diagonal offset for the displaced
+   overlay layer. The displaced overlay is a teaching device — it lifts
+   the translucent state.* layer off the button so visitors can read its
+   shape and opacity in isolation; the disabled variant skips the offset
+   because there is no overlay layer to display alongside the base. */
+.state-stage-demo {
+  position: relative;
+  width: 176px;
+  height: 64px;
+}
+
+.state-demo-base,
+.state-demo-overlay {
+  position: absolute;
+  display: block;
+  width: 160px;
+  height: 48px;
+  border-radius: var(--sys-radius-md);
+}
+
+.state-demo-base {
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sys-color-primary);
+  font-size: var(--sys-typo-label-md-size);
+  font-weight: var(--sys-typo-label-md-weight);
+  line-height: var(--sys-typo-label-md-line);
+  letter-spacing: var(--sys-typo-label-md-tracking);
+  color: var(--sys-color-onPrimary);
+}
+
+.state-demo-overlay {
+  top: 0;
+  left: 0;
+  background: var(--sys-color-onPrimary);
+}
+
+.state-stage-demo[data-variant="disabled"] {
+  width: 160px;
+  height: 48px;
+}
+
+.state-stage-demo[data-variant="disabled"] .state-demo-base {
+  right: 0;
+  bottom: 0;
+}
+
+/* Focus ring composition stage — three layers diagonally offset so each
+   part of the recipe reads independently:
+     - bottom-right : the button itself (`.state-demo-base`, 160×48)
+     - middle       : the `state.focus` fill layer (12% foreground over
+                      container) — a translucent rectangle the same size
+                      as the button, slid 16/16 toward the top-left so
+                      the visitor can see the fill in isolation rather
+                      than composited onto the button
+     - top-left     : the ring rectangle, sized 166×54 — i.e. the button
+                      footprint inflated by 3px on each side, matching
+                      the *actual* shape the focus ring occupies in
+                      production (1px focusInset counter-ring + 2px focus
+                      outer ring, both painted outward from the control's
+                      edge per DESIGN.md → "Focus ring composition")
+   The +3px inflation lets the ring's true offset register; sizing the
+   ring rectangle to the button itself would read as an outline aligned
+   with the edge rather than a frame sitting outward. Stage = button +
+   32px diagonal offset so both the bottom-right button and the
+   top-left ring's full extent fit. */
+.focus-ring-stage {
+  width: 192px;
+  height: 80px;
+}
+
+.focus-ring-layer {
+  position: absolute;
+  box-sizing: border-box;
+  width: 160px;
+  height: 48px;
+  border-radius: var(--sys-radius-md);
+}
+
+.focus-ring-layer--state {
+  right: 16px;
+  bottom: 16px;
+  background: var(--sys-color-onPrimary);
+}
+
+/* The ring rectangle is the only layer that diverges in size: 3px wider
+   and taller than the button on each axis (160+6 / 48+6) so the 2px
+   focus stroke + 1px focusInset counter-ring sit *outside* the button's
+   footprint, the way they do in production. Visualised inward from the
+   outer edge: 2px focus border, then a 1px focusInset inset shadow
+   immediately inside it. */
+.focus-ring-layer--ring {
+  top: 0;
+  left: 0;
+  width: 166px;
+  height: 54px;
+  border: var(--sys-borderWidth-thin) solid var(--sys-color-focus);
+  box-shadow: inset 0 0 0 var(--sys-borderWidth-hairline) var(--sys-color-focusInset);
+}
+
+.demo-cell--wide {
+  grid-column: 1 / -1;
+}
+
+/* ========== Spacing ========== */
+.spacing-bar {
+  min-width: 1px;
+  height: 16px;
+  background: var(--sys-color-primary);
+  transition: width 240ms ease;
+}
+
+/* ========== Radius ========== */
+.radius-bar {
+  width: 48px;
+  height: 48px;
+  border: var(--sys-borderWidth-hairline) solid var(--sys-color-outline);
+  background: var(--sys-color-surfaceContainerHigh);
+}
+
+/* Asymmetric / capsule / circle demos */
+.radius-asym-demo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 120px;
+  border: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+  background: var(--sys-color-surfaceContainerHigh);
+}
+
+.radius-asym-demo--capsule {
+  width: 180px;
+  height: 48px;
+}
+
+.radius-asym-demo--circle {
+  width: 96px;
+  height: 96px;
+}
+
+/* Bottom sheet: anchored to the stage bottom, full-width, top corners only.
+   Mirrors `.elevation-cell--sheet` so the surface shape stays consistent. */
+.radius-asym-cell--sheet .demo-stage {
+  align-items: flex-end;
+  padding: 0;
+}
+
+.radius-asym-demo--sheet {
+  width: 100%;
+  height: 55%;
+  border: none;
+}
+
+/* Side drawer: anchored to the stage leading edge, full-height, trailing
+   corners only. Same fit/treatment as the bottom sheet, rotated. */
+.radius-asym-cell--drawer .demo-stage {
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 0;
+}
+
+.radius-asym-demo--drawer {
+  width: 55%;
+  height: 100%;
+  border: none;
+}
+
+.radius-asym-label {
+  font-size: var(--sys-typo-label-md-size);
+  font-weight: var(--sys-typo-label-md-weight);
+  line-height: var(--sys-typo-label-md-line);
+  letter-spacing: var(--sys-typo-label-md-tracking);
+  color: var(--sys-color-onSurface);
+}
+
+/* ========== Elevation ========== */
+.elevation-box {
+  width: 100%;
+  max-width: 240px;
+  max-height: 140px;
+  aspect-ratio: 1.6;
+  border-radius: var(--sys-radius-md);
+  background: var(--sys-color-surfaceContainer);
+}
+
+.elevation-cell--overlay .elevation-box {
+  background: var(--sys-color-surfaceContainerHighest);
+}
+
+.elevation-cell--sheet .elevation-box {
+  background: var(--sys-color-surfaceContainerHigh);
+}
+
+.elevation-cell--floating .elevation-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  max-width: none;
+  height: 48px;
+  max-height: none;
+  aspect-ratio: auto;
+  border-radius: var(--sys-radius-full);
+  background: var(--sys-color-surfaceContainerHigh);
+}
+
+.elevation-box-label {
+  font-size: var(--sys-typo-label-md-size);
+  font-weight: var(--sys-typo-label-md-weight);
+  line-height: var(--sys-typo-label-md-line);
+  letter-spacing: var(--sys-typo-label-md-tracking);
+  color: var(--sys-color-onSurface);
+}
+
+.elevation-cell--sheet .demo-stage {
+  align-items: flex-end;
+  padding: 0;
+}
+
+.elevation-cell--sheet .elevation-box {
+  width: 100%;
+  max-width: none;
+  height: 55%;
+  max-height: none;
+  aspect-ratio: auto;
+  border-radius: var(--sys-radius-md) var(--sys-radius-md) 0 0;
+}
+
+/* ========== Typography ========== */
+/* type-list — type-items stack as block; vertical rhythm comes from each
+   item's padding + border-top, not from a parent gap. */
+
+.type-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-xs);
+  padding: var(--sys-layout-container-lg) 0;
+  border-top: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+}
+
+.type-item:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.type-sample {
+  color: var(--sys-color-onSurface);
+}
+
+.type-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sys-layout-inline-md);
+}
+
+.type-meta code {
+  color: var(--sys-color-onSurface);
+}
+
+/* Public logotype asset has a hardcoded `fill="black"`; invert it on
+   dark surfaces so the wordmark keeps the same on-surface contrast as
+   the page text it sits next to. */
+html[data-theme="dark"] .chorus-brand-logotype {
+  filter: invert(1);
+}

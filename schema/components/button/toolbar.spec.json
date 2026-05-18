@@ -1,0 +1,94 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Button",
+  "family": "button",
+  "subcomponent": "toolbar",
+  "description": "Dense inline toolbar action — 32px (ref.space.400) capsule, label + optional leading / trailing glyph. Visual chrome delegated verbatim to Filter chip — every visual property (min-height, padding, radius, label rung, icon size, container/border/label colors, state overlays, focus ring) mirrors the chip. The semantic divergence is intent: Toolbar Button fires an action; Filter chip toggles a selection; both render with the same DOM and the same CSS classes (`chorus-chip chorus-chip--filter`).",
+  "delegatesTo": "chip/filter",
+  "element": "button",
+  "props": {
+    "variant": {
+      "type": "literal",
+      "value": "toolbar"
+    },
+    "appearance": {
+      "type": "enum",
+      "values": [
+        "secondary",
+        "primary"
+      ],
+      "default": "secondary"
+    },
+    "leadingIcon": {
+      "type": "node",
+      "optional": true
+    },
+    "trailingIcon": {
+      "type": "node",
+      "optional": true
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "slots": {
+    "label": {
+      "required": true,
+      "description": "Required, single line.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "leadingIcon": {
+      "required": false,
+      "description": "Context glyph before the label.",
+      "accepts": [
+        "icon"
+      ]
+    },
+    "trailingIcon": {
+      "required": false,
+      "description": "Directional / destination glyph after the label (chevron-down, ×).",
+      "accepts": [
+        "icon"
+      ]
+    }
+  },
+  "sizing": {
+    "$ref": "../chip/filter.spec.json#/sizing"
+  },
+  "appearances": {
+    "secondary": {
+      "background": "sys.color.surfaceContainerHigh",
+      "label": "sys.color.onSurface",
+      "border": {
+        "width": "sys.borderWidth.hairline",
+        "color": "sys.color.outlineVariant"
+      },
+      "note": "The lower-emphasis tier (mirrors Filter chip's unselected state) — the canonical Toolbar Button chrome. The chip-shape signals an inline action that lives within a row of peers (a toolbar, a card footer, a Page bar where the affordance is one of several actions the user might pick). Named `secondary` so the emphasis ladder (`primary` / `secondary`) reads identically with every other Button form."
+    },
+    "primary": {
+      "background": "sys.color.primary",
+      "label": "sys.color.onPrimary",
+      "border": null,
+      "note": "Primary-toned commit chip — reach for it when the Toolbar Button IS the surface's commit affordance (a Page bar's 'Save', a sheet's 'Confirm', a flow step's 'Done'). The primary fill claims commit-rank attention while keeping the 32px Toolbar Button footprint, so the bar reads at one density even though the action is the screen's most important. Pair sparingly — never two primary Toolbar Buttons in the same row."
+    }
+  },
+  "states": {
+    "$ref": "../chip/filter.spec.json#/states"
+  },
+  "focusIndicator": {
+    "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the button is in. Visual ring is delegated to Filter chip's composition; this block restates the contract for external readers.",
+    "composition": "outward",
+    "compositionReason": "Action affordance with breathing room around it; the 3px outward extent is reserved by the surrounding toolbar row.",
+    "overlay": { "color": "label", "opacity": "sys.state.focus" },
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset"
+    },
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  }
+}

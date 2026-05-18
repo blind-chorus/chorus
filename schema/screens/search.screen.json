@@ -1,0 +1,43 @@
+{
+  "$schema": "./screen.schema.json",
+  "slug": "search",
+  "name": "Search",
+  "description": "A focused search surface. The top bar collapses to a bare-input NavigationBar (leading back + text input filling the row + conditional clear). The body shows recent searches or live results as a `list/text` until the user commits. No FAB — search is itself the commit.",
+  "useCases": [
+    "search results",
+    "search entry point",
+    "find a channel",
+    "find a post",
+    "recent searches"
+  ],
+  "regions": {
+    "top": {
+      "family": "navigation-bar",
+      "subcomponent": "search",
+      "props": {
+        "placeholder": "Search Chorus",
+        "value": ""
+      },
+      "note": "search variant — leading back chevron, bare input fills the row, clear icon appears only when value is non-empty."
+    },
+    "body": {
+      "family": "list",
+      "subcomponent": "text",
+      "props": {},
+      "items": [
+        { "value": "design-system", "label": "design system" },
+        { "value": "tokens",        "label": "tokens" },
+        { "value": "focus-ring",    "label": "focus ring" }
+      ],
+      "note": "Recent searches when the input is empty; live results when the input has content. Same `list/text` variant in both modes — only the items array changes."
+    }
+  },
+  "rules": [
+    "No FAB on this screen — the search input is itself the primary commit.",
+    "Do not pair this top with a second top bar; the `search` NavigationBar variant already carries the back affordance.",
+    "List sub stays at `text` — switching to `nav` would imply drill-in chevrons, which conflict with search-result semantics."
+  ],
+  "swappable": {
+    "body": ["list", "feed"]
+  }
+}

@@ -1,0 +1,10 @@
+# Chip
+
+A small, content-shaped control or label — chip-shaped affordance for two distinct anchoring roles. **Filter** is the selectable, capsule-shaped choice the user toggles to refine a set (search filters, taxonomy switches, faceted lists). **Tag** is the static, square-cornered label that names a piece of attached metadata (categories on a card, attributes on a profile, opt-in/out tokens on a settings row). Each family carries its own slot vocabulary, geometry, and tone; the cross-family contract is limited to the shared label rung (12px Semibold, 4px block padding, 4px label-slot inset that produces the visible icon-to-label rhythm) and the Chorus-wide color / state / focus tokens defined in [`DESIGN.md`](../../DESIGN.md). The two diverge on min-height and horizontal padding by role — **Filter** sits at 32 / 12 (tappable affordance, shared verbatim with [Toolbar Button](../button/toolbar.md) and [Tabs Segmented](../tabs/segmented.md) so a toolbar mixing the three reads at one density); **Tag** tightens to 24 / 8 (passive metadata that should not invite touch).
+
+> Inherits the Chorus-wide rules in [`DESIGN.md`](../../DESIGN.md) — color quartets, state overlays, focus ring composition. Per-family anatomy (slots, tone, radius, selected behaviour) lives in the sibling specs below.
+
+## Sub-components
+
+- **[Filter](./filter.md)** — Selectable filter chip. Capsule (`radius.full`), `surfaceContainerHigh` raised tone with a hairline `outlineVariant` stroke at rest, swaps to an inverse fill when selected. Optional leading and trailing icons.
+- **[Tag](./tag.md)** — Informational tag chip. Square-cornered (`radius.sm`), `secondaryContainer` fill that sits one tonal step *below* the lifted Filter so the label reads as attached metadata rather than a tappable choice. Optional trailing icon only — typically the dismiss "×" for opt-out flows.

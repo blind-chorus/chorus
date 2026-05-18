@@ -1,0 +1,32 @@
+{
+  "name": "chorus",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "schema/*",
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm --workspace @blind-chorus/docs run dev",
+    "build": "npm --workspace @blind-chorus/docs run build",
+    "build:tokens": "node schema/tokens/build-resolved.mjs",
+    "build:ui": "npm --workspace @blind-chorus/ui run build",
+    "build:packages": "npm run build:tokens && npm run build:ui",
+    "lint:screens": "node schema/lint/validate-screen.mjs",
+    "lint:tokens": "node schema/lint/validate-tokens.mjs",
+    "lint": "npm run lint:screens && npm run lint:tokens",
+    "test:screens": "node schema/lint/test-screen.mjs",
+    "build:icons": "node packages/ui/src/icons/build-icons.mjs",
+    "mcp": "npm --workspace @blind-chorus/mcp-server run start",
+    "test:mcp": "npm --workspace @blind-chorus/mcp-server run smoke",
+    "test:visual": "npm --workspace @blind-chorus/visual-regression test",
+    "test:visual:update": "npm --workspace @blind-chorus/visual-regression run update",
+    "changeset": "changeset",
+    "version-packages": "changeset version && npm install --package-lock-only",
+    "release": "npm run build:packages && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.31.0"
+  }
+}

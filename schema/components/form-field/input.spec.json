@@ -1,0 +1,187 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "FormField",
+  "family": "form-field",
+  "subcomponent": "input",
+  "description": "Single-line text field. Transparent-fill box (so it adopts whatever surface it sits on — a bottom sheet, a card, the page) whose visible stroke is an inset box-shadow, never a `border`, so it costs zero layout in every state — the field's height is exactly content + padding (a 24px line-box + 2 × 8px = 40px). Rest/hover stroke is 1px `hairline`, the active stroke steps to 2px `thin`; going active never moves the field's footprint or caret. The placeholder shows in a faint `placeholder` colour while the field is empty and the value in `text` colour once it isn't (value-driven). A trailing clear button appears only while the field is active and holds text. An optional `label` above and `helper` text or `maxLength` character count below (the two are mutually exclusive) wrap the box in a field group. The Chorus focus ring is a position:absolute overlay layer; an error appearance re-tones the whole container.",
+  "element": "input",
+  "props": {
+    "variant": {
+      "type": "literal",
+      "value": "input"
+    },
+    "appearance": {
+      "type": "enum",
+      "values": [
+        "default",
+        "error"
+      ],
+      "default": "default"
+    },
+    "value": {
+      "type": "string",
+      "optional": true
+    },
+    "defaultValue": {
+      "type": "string",
+      "optional": true
+    },
+    "placeholder": {
+      "type": "string",
+      "optional": true
+    },
+    "label": {
+      "type": "node",
+      "optional": true,
+      "description": "Visible label rendered above the field box and associated with it (`<label htmlFor>`)."
+    },
+    "helper": {
+      "type": "node",
+      "optional": true,
+      "description": "Assistive text rendered below the field box, left-aligned. Mutually exclusive with `maxLength` — if both are given, the character count is shown and `helper` is ignored."
+    },
+    "maxLength": {
+      "type": "number",
+      "optional": true,
+      "description": "Caps the input length and renders a `current/max` character count below the field box, right-aligned. Mutually exclusive with `helper`."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "slots": {
+    "group": {
+      "required": false,
+      "description": "Wrapper around the label + box + helper/count, present only when at least one of `label` / `helper` / `maxLength` is supplied. A `display: flex` column at `groupGap` between rungs.",
+      "intrinsic": true
+    },
+    "label": {
+      "required": false,
+      "description": "Visible label above the box. `sys.typo.label.md`, `sys.color.onSurface`. Associated with the input via `htmlFor`.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "container": {
+      "required": true,
+      "description": "The box — owns the transparent fill, the stroke (an inset box-shadow, not a `border`, so it never affects layout), radius, padding, focus ring.",
+      "intrinsic": true
+    },
+    "input": {
+      "required": true,
+      "description": "The editable single-line text. Renders the value in the appearance's `text` colour when present, or the appearance's faint `placeholder` colour when empty — value-driven, not focus-driven. Carries `aria-describedby` pointing at the helper / count when present.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "clear": {
+      "required": false,
+      "description": "Trailing '×' button (CloseCircleFillIcon) that wipes the value and returns focus to the input. Rendered into the DOM whenever the value is non-empty and the field isn't disabled, but **shown only while the box is focused** — so it appears only in the active state with text to clear; hidden on an empty / blurred / disabled field.",
+      "intrinsic": true
+    },
+    "helper": {
+      "required": false,
+      "description": "Assistive text below the box, left-aligned. `sys.typo.body.sm`, `sys.color.onSurfaceVariant`. Referenced by the input's `aria-describedby`. Not rendered when a `maxLength` count is present.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "count": {
+      "required": false,
+      "description": "`current/max` character count below the box, right-aligned, present when `maxLength` is set. `sys.typo.body.sm`, `sys.color.onSurfaceVariant`; the current-count number is `sys.typo.label.md` weight in `sys.color.onSurface`. Referenced by the input's `aria-describedby`; updates `aria-live=\"polite\"`.",
+      "accepts": [
+        "text"
+      ]
+    }
+  },
+  "sizing": {
+    "minHeight": "ref.space.500",
+    "paddingBlock": "sys.layout.container.xs",
+    "paddingInline": "sys.layout.container.sm",
+    "slotGap": "sys.layout.inline.md",
+    "radius": "sys.radius.md",
+    "borderWidth": "sys.borderWidth.hairline",
+    "activeStrokeWeight": "sys.borderWidth.thin",
+    "groupGap": "sys.layout.stack.xs",
+    "labelTypo": "sys.typo.label.md",
+    "helperTypo": "sys.typo.body.sm",
+    "countTypo": "sys.typo.body.sm",
+    "countCurrentTypo": "sys.typo.label.md",
+    "textTypo": "sys.typo.body.md",
+    "iconSize": "sys.icon.md"
+  },
+  "groupColors": {
+    "label": "sys.color.onSurface",
+    "helper": "sys.color.onSurfaceVariant",
+    "count": "sys.color.onSurfaceVariant",
+    "countCurrent": "sys.color.onSurface"
+  },
+  "appearances": {
+    "default": {
+      "background": "transparent",
+      "text": "sys.color.onSurface",
+      "placeholder": "sys.color.outline",
+      "borderRest": "sys.color.outlineVariant",
+      "borderHover": "sys.color.outline",
+      "borderActive": "sys.color.onSurface"
+    },
+    "error": {
+      "background": "sys.color.errorContainer",
+      "text": "sys.color.onErrorContainer",
+      "placeholder": "sys.color.onErrorContainer",
+      "borderRest": "sys.color.error",
+      "borderHover": "sys.color.error",
+      "borderActive": "sys.color.error"
+    }
+  },
+  "states": {
+    "default": {
+      "overlay": null,
+      "border": "borderRest"
+    },
+    "hovered": {
+      "overlay": null,
+      "border": "borderHover"
+    },
+    "pressed": {
+      "border": "borderHover",
+      "overlay": {
+        "color": "text",
+        "opacity": "sys.state.pressed"
+      }
+    },
+    "active": {
+      "overlay": null,
+      "border": "borderActive",
+      "strokeWeight": "activeStrokeWeight",
+      "caret": "visible",
+      "showsClearWhenValue": true,
+      "note": "The stroke steps from its rest `hairline` (1px) to `activeStrokeWeight` (2px) and re-tones to `borderActive` — but it is an inset `box-shadow`, not a `border`, so the box model is untouched: the field's footprint, caret, and text position are pixel-stable as it goes active. Nothing reflows. The clear button is shown only in this state (and only when the value is non-empty)."
+    },
+    "disabled": {
+      "overlay": null,
+      "background": "sys.color.surfaceContainerLow",
+      "containerOpacity": "sys.state.disabled",
+      "suppressClear": true,
+      "suppressFocusRing": true,
+      "cursor": "not-allowed"
+    }
+  },
+  "focusIndicator": {
+    "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the field is in (most commonly `active` since focus implies the caret is in the box). The `states.focused` block above is kept for JSX runtime consumers; this block is the parallel external-reader contract.",
+    "composition": "outward",
+    "compositionReason": "Action affordance with breathing room around it; the 3px outward extent is reserved by the surrounding layout.",
+    "overlay": {
+      "color": "label",
+      "opacity": "sys.state.focus"
+    },
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset"
+    },
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  }
+}

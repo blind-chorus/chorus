@@ -1,0 +1,121 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Thumbnail",
+  "family": "thumbnail",
+  "description": "Circular image — the unit used to identify a channel, a feed item's author, or any small-rung image that needs to live inside a denser composition (lists, feed rows, comment threads, mention rails). The image fills the whole footprint at full radius; two optional badges ride on the container without changing its footprint: an update dot at the top-right, and a logo badge at the bottom-right. A pure visual primitive — it never carries a label of its own.",
+  "element": "div",
+  "props": {
+    "size": {
+      "type": "enum",
+      "values": [
+        48,
+        40,
+        32,
+        24,
+        20,
+        16
+      ],
+      "default": 48
+    },
+    "src": {
+      "type": "string",
+      "optional": true
+    },
+    "alt": {
+      "type": "string",
+      "required": true
+    },
+    "updateDot": {
+      "type": "boolean",
+      "default": false
+    },
+    "logoBadge": {
+      "type": "object",
+      "optional": true,
+      "description": "{ src, alt } — 16×16 circular badge at the bottom-right."
+    }
+  },
+  "slots": {
+    "image": {
+      "required": true,
+      "description": "Circular image. Fills the whole container at radius.full. Image-only — no text fallback.",
+      "accepts": [
+        "image"
+      ]
+    },
+    "updateDot": {
+      "required": false,
+      "description": "Brand-tone dot at the top-right. aria-hidden — decorative.",
+      "intrinsic": true
+    },
+    "logoBadge": {
+      "required": false,
+      "description": "16×16 circular badge at the bottom-right, used to attach a sub-brand glyph.",
+      "accepts": [
+        "icon",
+        "image"
+      ]
+    }
+  },
+  "appearance": {
+    "containerRadius": "sys.radius.full",
+    "imageFallbackFill": "sys.color.surfaceContainerHigh",
+    "imageFallbackGlyphColor": "sys.color.onSurfaceVariant",
+    "updateDotFill": "sys.color.brand",
+    "updateDotRadius": "sys.radius.full",
+    "updateDotHalo": {
+      "color": "sys.color.surface",
+      "width": "sys.borderWidth.hairline",
+      "rendering": "box-shadow"
+    },
+    "logoBadgeRadius": "sys.radius.full",
+    "logoBadgeHalo": {
+      "color": "sys.color.surface",
+      "width": "sys.borderWidth.hairline",
+      "rendering": "box-shadow"
+    }
+  },
+  "sizes": {
+    "16": {
+      "diameter": "ref.space.200",
+      "updateDot": "4 × 4",
+      "logoBadge": "16 × 16"
+    },
+    "20": {
+      "diameter": "ref.space.250",
+      "updateDot": "4 × 4",
+      "logoBadge": "16 × 16"
+    },
+    "24": {
+      "diameter": "ref.space.300",
+      "updateDot": "4 × 4",
+      "logoBadge": "16 × 16"
+    },
+    "32": {
+      "diameter": "ref.space.400",
+      "updateDot": "8 × 8",
+      "logoBadge": "16 × 16"
+    },
+    "40": {
+      "diameter": "ref.space.500",
+      "updateDot": "8 × 8",
+      "logoBadge": "16 × 16"
+    },
+    "48": {
+      "diameter": "ref.space.600",
+      "updateDot": "8 × 8",
+      "logoBadge": "16 × 16"
+    }
+  },
+  "states": {
+    "note": "Thumbnail is not an interactive primitive — no hover / pressed / focused / disabled of its own. When inside an interactive row, the row owns state and the focus ring paints around the row's bounds. Fallback form: when src fails / is omitted, the slot shows surfaceContainerHigh fill plus the first character of alt."
+  },
+  "behavior": {
+    "slotOmissionCollapses": "Both badges (updateDot, logoBadge) drop out of the layout entirely when absent — no reserved corner whitespace.",
+    "badgesOverlay": "Both badges are absolutely positioned over the image; the container's overall footprint is the image's diameter regardless of whether the badges are present. The 1px surface halo is rendered as a box-shadow.",
+    "imageClip": "Container's radius.full plus overflow: hidden clips the image to a perfect circle even when the source is rectangular.",
+    "noTextFallback": "Slot only renders <img> content; when src is omitted, the container shows its surface tone alone.",
+    "updateDotBreakpoint": "Dot drops from 8×8 (at and above rung 32) to 4×4 (rungs 24 / 20 / 16) so it reads as highlight, not occluder, on the smaller diameters.",
+    "logoBadgeFixed": "Pinned at 16×16 at every rung — at the 16px Thumbnail the badge intentionally overlaps so the host image still reads through."
+  }
+}

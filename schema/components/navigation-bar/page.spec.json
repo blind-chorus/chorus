@@ -1,0 +1,88 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "NavigationBar",
+  "family": "navigation-bar",
+  "subcomponent": "page",
+  "description": "Drill-in top bar — anchored to every screen one step inside a flow rather than a tab root. The page name sits centred so the title reads as the focus of the screen; a leading slot (typically a back-arrow icon) sits at the row's left edge, and a trailing slot (an Icon Button, a Toolbar Button, or a Text Button) sits at the row's right edge. Title type drops from Home's heading.lg to heading.sm (16/Semibold) so the bar reads as page chrome at one density with the body beneath.",
+  "element": "header",
+  "props": {
+    "variant": {
+      "type": "literal",
+      "value": "page"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "leading": {
+      "type": "object",
+      "optional": true,
+      "description": "{ icon, 'aria-label' } — typically a back-arrow."
+    },
+    "trailing": {
+      "type": "node",
+      "optional": true,
+      "description": "One affordance — Icon Button / Toolbar Button / Text Button."
+    }
+  },
+  "slots": {
+    "leading": {
+      "required": false,
+      "description": "Typically a 24px back-arrow icon at the start of the row, rendered as a transparent icon capsule. Optional.",
+      "accepts": [
+        "icon",
+        "button"
+      ]
+    },
+    "title": {
+      "required": true,
+      "description": "Page name. Single line, heading.sm / Semibold / onSurface, centred horizontally. Truncates with ellipsis.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "trailing": {
+      "required": false,
+      "description": "Exactly one affordance — Icon Button (24px icon), Toolbar Button (with label), or Text Button (primary 16/Semibold inline).",
+      "accepts": [
+        "icon",
+        "button"
+      ]
+    }
+  },
+  "sizing": {
+    "containerPaddingBlock": "sys.layout.container.xs",
+    "containerPaddingInline": "sys.layout.container.md",
+    "minHeight": "56px",
+    "slotGap": "sys.layout.inline.xl",
+    "iconCapsulePadding": "sys.layout.container.xs",
+    "titleTypo": "sys.typo.heading.sm",
+    "leadingIconSize": "sys.icon.lg",
+    "trailingIconSize": "sys.icon.lg"
+  },
+  "appearance": {
+    "containerFill": "sys.color.surface",
+    "leadingColor": "sys.color.onSurface",
+    "titleColor": "sys.color.onSurface",
+    "trailingColor": "sys.color.onSurface",
+    "trailingTextButtonColor": "sys.color.primary"
+  },
+  "layout": {
+    "grid": "Three-column grid: leading / title / trailing, sized `1fr auto 1fr`. The two side columns are equal-width regions (each gets half the leftover space) so the centre `auto` column always sits at the bar's geometric horizontal centre regardless of how wide each side slot's content actually is.",
+    "titleCentring": "Title is anchored to the bar's geometric horizontal centre — measured against the page component container, not against the side slots. A 40px back arrow paired with a 80px primary Toolbar Button still leaves the title perfectly centred; the side slots anchor at the start / end of their respective halves and never displace the title. The action always stays intact; title truncation (ellipsis) kicks in if the natural width exceeds what the bar can give it."
+  },
+  "states": {
+    "note": "Bar itself has no interactive state. Side slots inherit the state recipe of whichever control they host (Icon Button / Toolbar Button / Text Button) — default / hovered / pressed / disabled / focused via the standard overlays + three-layer focus ring. Title carries no states."
+  },
+  "focusIndicator": {
+    "description": "The bar itself isn't a focus target. Its action slots inherit each control's own focus composition — Icon Button → Outward, Toolbar Button → Outward, Text Button → Outward — so the ring belongs to whichever control the keyboard lands on. See the contained sub-components for the visual contract.",
+    "composition": "delegated",
+    "delegatesTo": ["../button/icon.spec.json#/focusIndicator", "../button/toolbar.spec.json#/focusIndicator", "../button/text.spec.json#/focusIndicator"],
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  },
+  "behavior": {
+    "titleCentring": "Title is anchored to the bar's geometric horizontal centre via a `1fr auto 1fr` grid (equal-width side regions). Side slots anchor at the start / end of their respective halves and cannot push the title off-centre — even when the leading and trailing controls are very different widths.",
+    "titleTruncates": "Long page names truncate with ellipsis; the bar never grows past 56px. Treat as a safety net — author concise titles.",
+    "backAffordance": "Leading slot is conventionally the back-arrow icon, but the component does not own back routing — host wires onClick or wraps an <a href>."
+  }
+}

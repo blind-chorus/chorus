@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://chorus.design/schema/spec.schema.json",
+  "title": "Chorus sub-component spec",
+  "description": "Machine-readable contract for a single component sub-spec (e.g. button/standard, tabs/underline). One file per sub-component. Sub-component specs live under schema/components/<family>/<sub>.spec.json and are paired with a <sub>.md authoring spec. Token values reference the three-tier system in schema/tokens/*.json — `ref.*` (raw), `sys.*` (semantic, the default tier; typography tokens like `sys.typo.label.md` resolve to a composite `{size, weight, line, tracking}` in tokens/resolved.*.json), and the reserved-but-empty `comp.*` tier. Cross-spec delegation is allowed via JSON Pointer `$ref` (e.g. `{ \"$ref\": \"../chip/filter.spec.json#/sizing\" }`) — used where one form's chrome is delegated verbatim to another's, currently button/toolbar + tabs/segmented → chip/filter. The shape here is intentionally permissive: components vary in which axes they expose (sizes vs single sizing rung, appearance vs selection, etc.), but every spec MUST identify itself (`name`, `family`, `description`, `element`) so external consumers can index it without crawling prose.",
+  "type": "object",
+  "required": ["name", "family", "description", "element"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "name": {
+      "type": "string",
+      "description": "PascalCase React component name (`Button`, `Tabs`, `FormField`). Matches the export from @blind-chorus/ui."
+    },
+    "family": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "kebab-case family slug. Matches the folder name under schema/components/ and the `family` key in schema/manifest.json."
+    },
+    "subcomponent": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "kebab-case sub-component slug. Omit on single-spec families (badge, callout, …); required when the family folder contains more than one spec."
+    },
+    "description": {
+      "type": "string",
+      "description": "One-paragraph role summary — what this sub-component is for, in the same voice as the .md lead paragraph."
+    },
+    "element": {
+      "type": "string",
+      "description": "The DOM element the root slot renders as (`button`, `div`, `input`, `span`, …)."
+    },
+    "props": {
+      "type": "object",
+      "description": "Public React props. Each entry describes one prop's type and default; the shape varies per prop kind (enum / literal / boolean / string / number / node / function).",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["enum", "literal", "boolean", "string", "number", "node", "function"]
+          }
+        },
+        "required": ["type"],
+        "additionalProperties": true
+      }
+    },
+    "slots": {
+      "type": "object",
+      "description": "Named regions the component owns (label, leadingIcon, container, …). Mirrors the `## Slots` section of the .md.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "required": { "type": "boolean" },
+          "intrinsic": {
+            "type": "boolean",
+            "description": "When true, this slot is filled by the component itself (auto-rendered chrome: scrim, drag handle, fixed menu icon, container shell) rather than by the consumer. Validators MUST NOT flag an unprovided intrinsic slot as missing, even when `required: true`."
+          },
+          "description": { "type": "string" },
+          "accepts": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Optional whitelist of family slugs (from schema/manifest.json#/components[].family) or primitive content kinds ('text', 'icon', 'image') that may fill this slot. When present, agents composing screens MUST verify the nested component's `family` is in this list. Absence means 'any node' — primitives only, no nested family — by default."
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sizes": {
+      "type": "object",
+      "description": "Multi-rung size axis (`large` / `medium` / `small`). Each rung carries its own token bindings. Use when the component has more than one size; otherwise use `sizing` for a single rung.",
+      "additionalProperties": { "type": "object", "additionalProperties": true }
+    },
+    "sizing": {
+      "type": "object",
+      "description": "Single fixed-size rung's token bindings (minHeight, padding, radius, labelTypo, …). Use when the component has no size axis.",
+      "additionalProperties": true
+    },
+    "appearance": {
+      "type": "object",
+      "description": "Single-appearance binding (background, label, …). Use when the component has no appearance axis (e.g. Badge).",
+      "additionalProperties": true
+    },
+    "appearances": {
+      "type": "object",
+      "description": "Multi-appearance axis (`primary` / `secondary` / `outlined` / `tertiary`, `default` / `error`, …). Each key carries its own container + label tokens. Mutually exclusive with `selectionStates`.",
+      "additionalProperties": { "type": "object", "additionalProperties": true }
+    },
+    "selectionStates": {
+      "type": "object",
+      "description": "Selection axis for toggle-shaped components (`unselected` / `selected`, or filter/toggle pairs). Mutually exclusive with `appearances`.",
+      "additionalProperties": { "type": "object", "additionalProperties": true }
+    },
+    "states": {
+      "type": "object",
+      "description": "Interaction states (`default`, `hovered`, `pressed`, `focused`, `disabled`, `active`, …). Composes with appearance via the DESIGN.md state-overlay rule. Focus ring composition lives here.",
+      "additionalProperties": { "type": "object", "additionalProperties": true }
+    },
+    "behavior": {
+      "type": "object",
+      "description": "Observable behavior that is not a token binding — truncation rules, fullWidth semantics, adaptive width, dismissal, keyboard model.",
+      "additionalProperties": true
+    },
+    "flavors": {
+      "type": "object",
+      "description": "Cross-cutting modifier axis that re-tones the component family (e.g. `destructive` swaps the primary palette → error palette). Mirrors the `## Flavors` / prose note in the .md. Optional.",
+      "additionalProperties": { "type": "object", "additionalProperties": true }
+    }
+  },
+  "additionalProperties": true
+}

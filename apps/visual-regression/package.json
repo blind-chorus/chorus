@@ -1,0 +1,15 @@
+{
+  "name": "@blind-chorus/visual-regression",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Playwright-based visual regression harness for the Chorus docs site. Captures a small, curated set of pages (a screen recipe, a component page, the icon catalog) under both light and dark themes; baselines are committed to git and CI compares against them.",
+  "scripts": {
+    "test": "playwright test",
+    "update": "playwright test --update-snapshots",
+    "install:browsers": "playwright install --with-deps chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}

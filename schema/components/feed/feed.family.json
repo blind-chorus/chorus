@@ -1,0 +1,22 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "feed",
+  "name": "Feed",
+  "description": "Vertical stream of feed items — each row binds an author, body, optional thumbnails / poll, and a meta footer. Single-spec family.",
+  "useCases": [
+    "content stream",
+    "authored posts",
+    "comments stream",
+    "discussion thread",
+    "timeline"
+  ],
+  "spec": "feed.md",
+  "subcomponents": [
+    {
+      "slug": "feed",
+      "spec": "feed.spec.json",
+      "md": "feed.md",
+      "default": true
+    }
+  ]
+}

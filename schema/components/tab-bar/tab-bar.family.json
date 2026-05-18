@@ -1,0 +1,20 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "tab-bar",
+  "name": "TabBar",
+  "description": "Bottom-anchored primary navigation — a horizontal row of icon + label items, one per top-level destination (Home / Company / Explore / Jobs / Notifications), pinned to the bottom of the app surface. Single-spec family. The row carries the system's standard 56 min-height with 8 block padding; items are distributed with optical alignment (start padding = inter-item gap = end padding) so the icons read as evenly placed across the row.",
+  "useCases": [
+    "bottom primary navigation",
+    "top-level destination switcher",
+    "app-shell chrome — bottom"
+  ],
+  "spec": "tab-bar.md",
+  "subcomponents": [
+    {
+      "slug": "tab-bar",
+      "spec": "tab-bar.spec.json",
+      "md": "tab-bar.md",
+      "default": true
+    }
+  ]
+}

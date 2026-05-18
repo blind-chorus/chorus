@@ -1,0 +1,140 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "FormField",
+  "family": "form-field",
+  "subcomponent": "search",
+  "description": "Single-line search field — a search-shaped sibling of Input. Same transparent-fill box, same hairline-at-rest / thin-at-active inset box-shadow stroke (so the box model is untouched in every state), same placeholder-vs-value colour rules, same error appearance, same focus ring, same trailing clear button. Two anatomy differences from Input — a leading `SearchIcon` glyph pinned at the box's inner-left edge so the field reads as a search affordance before the user types, and the corner radius steps from `sys.radius.md` to `sys.radius.full` (pill). **Search Bar is a bare box only — it does not accept a `label`, `helper`, or `maxLength`**, and so never renders the field-group wrapper. A search rung sits in chrome (a header bar, a list filter, a sheet's top) where the affordance is carried by the leading glyph and the placeholder; stacking a visible label or a `current/max` count on top of that competes with the search affordance instead of reinforcing it. Reach for [Input](./input.md) when the rung needs a labelled / counted form field.",
+  "element": "input",
+  "props": {
+    "variant": {
+      "type": "literal",
+      "value": "search"
+    },
+    "appearance": {
+      "type": "enum",
+      "values": [
+        "default",
+        "error"
+      ],
+      "default": "default"
+    },
+    "value": {
+      "type": "string",
+      "optional": true
+    },
+    "defaultValue": {
+      "type": "string",
+      "optional": true
+    },
+    "placeholder": {
+      "type": "string",
+      "optional": true
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "description": "The pill box — owns the transparent fill, the stroke (an inset box-shadow, not a `border`, so it never affects layout), full radius, padding, focus ring.",
+      "intrinsic": true
+    },
+    "leading": {
+      "required": true,
+      "description": "The leading `SearchIcon` glyph pinned at the box's inner-left edge. Inherits the field's text colour (`sys.color.onSurface` on default, `sys.color.onErrorContainer` on error); decorative — not a real button, has `aria-hidden`. 16px (`sys.icon.md`), matching the clear button's footprint so the two affixes balance.",
+      "intrinsic": true
+    },
+    "input": {
+      "required": true,
+      "description": "The editable single-line text. Renders the value in the appearance's `text` colour when present, or the appearance's faint `placeholder` colour when empty — value-driven, not focus-driven.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "clear": {
+      "required": false,
+      "description": "Trailing '×' button (CloseCircleFillIcon) that wipes the value and returns focus to the input. Rendered into the DOM whenever the value is non-empty and the field isn't disabled, but **shown only while the box is focused** — so it appears only in the active state with text to clear; hidden on an empty / blurred / disabled field.",
+      "intrinsic": true
+    }
+  },
+  "sizing": {
+    "minHeight": "ref.space.500",
+    "paddingBlock": "sys.layout.container.xs",
+    "paddingInline": "sys.layout.container.sm",
+    "slotGap": "sys.layout.inline.md",
+    "radius": "sys.radius.full",
+    "borderWidth": "sys.borderWidth.hairline",
+    "activeStrokeWeight": "sys.borderWidth.thin",
+    "textTypo": "sys.typo.body.md",
+    "iconSize": "sys.icon.md"
+  },
+  "appearances": {
+    "default": {
+      "background": "transparent",
+      "text": "sys.color.onSurface",
+      "placeholder": "sys.color.outline",
+      "borderRest": "sys.color.outlineVariant",
+      "borderHover": "sys.color.outline",
+      "borderActive": "sys.color.onSurface"
+    },
+    "error": {
+      "background": "sys.color.errorContainer",
+      "text": "sys.color.onErrorContainer",
+      "placeholder": "sys.color.onErrorContainer",
+      "borderRest": "sys.color.error",
+      "borderHover": "sys.color.error",
+      "borderActive": "sys.color.error"
+    }
+  },
+  "states": {
+    "default": {
+      "overlay": null,
+      "border": "borderRest"
+    },
+    "hovered": {
+      "overlay": null,
+      "border": "borderHover"
+    },
+    "pressed": {
+      "border": "borderHover",
+      "overlay": {
+        "color": "text",
+        "opacity": "sys.state.pressed"
+      }
+    },
+    "active": {
+      "overlay": null,
+      "border": "borderActive",
+      "strokeWeight": "activeStrokeWeight",
+      "caret": "visible",
+      "showsClearWhenValue": true,
+      "note": "The stroke steps from its rest `hairline` (1px) to `activeStrokeWeight` (2px) and re-tones to `borderActive` — but it is an inset `box-shadow`, not a `border`, so the box model is untouched: the field's footprint, caret, and text position are pixel-stable as it goes active. Nothing reflows. The clear button is shown only in this state (and only when the value is non-empty)."
+    },
+    "disabled": {
+      "overlay": null,
+      "background": "sys.color.surfaceContainerLow",
+      "containerOpacity": "sys.state.disabled",
+      "suppressClear": true,
+      "suppressFocusRing": true,
+      "cursor": "not-allowed"
+    }
+  },
+  "focusIndicator": {
+    "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the field is in. The `states.focused` block above is kept for JSX runtime consumers; this block is the parallel external-reader contract.",
+    "composition": "outward",
+    "compositionReason": "Action affordance with breathing room around it; the 3px outward extent is reserved by the surrounding layout.",
+    "overlay": {
+      "color": "label",
+      "opacity": "sys.state.focus"
+    },
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset"
+    },
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  }
+}

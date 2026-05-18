@@ -1,0 +1,63 @@
+{
+  "$schema": "./screen.schema.json",
+  "slug": "channel-landing",
+  "name": "Channel Landing",
+  "description": "The default landing surface for a community. A home-style NavigationBar sits at the top, a horizontal ChannelRail surfaces the user's joined channels under it, the body scrolls a Feed of authored posts, and a single FAB anchors the canonical commit (compose a new post). This is the most common 'opens the app' screen.",
+  "useCases": [
+    "community home",
+    "feed landing",
+    "channels overview",
+    "open the app",
+    "primary timeline"
+  ],
+  "regions": {
+    "top": {
+      "family": "navigation-bar",
+      "subcomponent": "home",
+      "props": {
+        "title": "Chorus",
+        "trailingActions": ["search", "notifications"]
+      },
+      "note": "home variant — left-aligned title, trailing icon actions."
+    },
+    "body": {
+      "family": "feed",
+      "items": [
+        {
+          "channel": "Mina Park",
+          "timestamp": "2h",
+          "meta": "#design-system",
+          "avatar": { "family": "thumbnail" },
+          "title": "Tokens build is clean",
+          "body": "Shipped the new tokens build today — light/dark parity is finally clean."
+        },
+        {
+          "channel": "Jonas Lee",
+          "timestamp": "5h",
+          "meta": "#frontend",
+          "avatar": { "family": "thumbnail" },
+          "title": "Second pair of eyes",
+          "body": "Looking for a second pair of eyes on the navigation-bar search variant."
+        }
+      ],
+      "note": "Feed sits directly under the ChannelRail. ChannelRail can also live inside `top` as an attached strip; this recipe keeps the rail in body to allow the home bar to remain pure title + actions."
+    },
+    "fab": {
+      "family": "button",
+      "subcomponent": "fab",
+      "props": {
+        "icon": "plus",
+        "label": "Compose"
+      },
+      "note": "The single canonical commit for this surface. Tapping opens a Dialog or a new screen for composing a post — not represented in this recipe."
+    }
+  },
+  "rules": [
+    "Only one FAB. If the variation needs a destructive primary action, move it into a Dialog confirmation triggered from a row menu, not into a second FAB.",
+    "Do not stack a second NavigationBar inside body. Section headers belong inside the Feed row chrome, not as a bar.",
+    "Feed and ChannelList are not interchangeable here — Feed is authored content; ChannelList is a directory."
+  ],
+  "swappable": {
+    "body": ["feed", "channel-list", "list"]
+  }
+}

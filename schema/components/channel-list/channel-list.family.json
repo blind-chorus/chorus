@@ -1,0 +1,21 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "channel-list",
+  "name": "ChannelList",
+  "description": "Vertical list of channels — each row binds a channel name, an unread badge, and a navigation affordance. Single-spec family.",
+  "useCases": [
+    "channel directory",
+    "suggested channels",
+    "discover channels",
+    "horizontal-paged channel suggestions"
+  ],
+  "spec": "channel-list.md",
+  "subcomponents": [
+    {
+      "slug": "channel-list",
+      "spec": "channel-list.spec.json",
+      "md": "channel-list.md",
+      "default": true
+    }
+  ]
+}

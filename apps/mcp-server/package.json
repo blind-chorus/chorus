@@ -1,0 +1,15 @@
+{
+  "name": "@blind-chorus/mcp-server",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Model Context Protocol server exposing the Chorus design system to AI agents (Claude Desktop, Cursor, Claude Code, Lovable). Tools enumerate families/specs/screens and validate compositions; resources expose AGENTS.md, manifest, catalog, DESIGN.md, and resolved token bundles.",
+  "main": "src/server.mjs",
+  "bin": {
+    "chorus-mcp": "src/server.mjs"
+  },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "smoke": "node test/smoke.mjs"
+  }
+}

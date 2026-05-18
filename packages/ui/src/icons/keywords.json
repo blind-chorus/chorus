@@ -1,0 +1,596 @@
+{
+  "PollIcon": [
+    "poll",
+    "vote",
+    "ballot"
+  ],
+  "PollFillIcon": [
+    "poll",
+    "vote",
+    "ballot",
+    "filled"
+  ],
+  "HeartIcon": [
+    "heart",
+    "like",
+    "favorite"
+  ],
+  "ViewIcon": [
+    "view",
+    "eye",
+    "see",
+    "views"
+  ],
+  "ViewFillIcon": [
+    "view",
+    "eye",
+    "see",
+    "views",
+    "filled"
+  ],
+  "AddIcon": [
+    "add",
+    "plus",
+    "new",
+    "create"
+  ],
+  "CloseIcon": [
+    "close",
+    "dismiss",
+    "x",
+    "cancel"
+  ],
+  "CollapseIcon": [
+    "collapse",
+    "chevron-up",
+    "fold"
+  ],
+  "DownwardIcon": [
+    "downward",
+    "down",
+    "arrow-down"
+  ],
+  "ExpandIcon": [
+    "expand",
+    "chevron-down",
+    "unfold"
+  ],
+  "InvisibleIcon": [
+    "invisible",
+    "hide",
+    "eye-off"
+  ],
+  "InvisibleFillIcon": [
+    "invisible",
+    "hide",
+    "eye-off",
+    "filled"
+  ],
+  "ReplyIcon": [
+    "reply",
+    "comment",
+    "speech"
+  ],
+  "ReplyFillIcon": [
+    "reply",
+    "comment",
+    "speech",
+    "filled"
+  ],
+  "ThumbUpIcon": [
+    "thumb-up",
+    "like",
+    "upvote",
+    "approve"
+  ],
+  "ThumbUpFillIcon": [
+    "thumb-up",
+    "like",
+    "upvote",
+    "approve",
+    "filled"
+  ],
+  "UpwardIcon": [
+    "upward",
+    "up",
+    "arrow-up"
+  ],
+  "VisibleIcon": [
+    "visible",
+    "show",
+    "eye",
+    "visibility"
+  ],
+  "VisibleFillIcon": [
+    "visible",
+    "show",
+    "eye",
+    "visibility",
+    "filled"
+  ],
+  "DayIcon": [
+    "day",
+    "sun",
+    "light",
+    "theme"
+  ],
+  "DayFillIcon": [
+    "day",
+    "sun",
+    "light",
+    "theme",
+    "filled"
+  ],
+  "DownloadIcon": [
+    "download",
+    "save",
+    "export"
+  ],
+  "EmbedIcon": [
+    "embed",
+    "code",
+    "snippet"
+  ],
+  "HashTagIcon": [
+    "hashtag",
+    "tag",
+    "channel",
+    "topic"
+  ],
+  "LinkIcon": [
+    "link",
+    "url",
+    "attach",
+    "external"
+  ],
+  "LoginIcon": [
+    "login",
+    "signin",
+    "enter"
+  ],
+  "LogoutIcon": [
+    "logout",
+    "signout",
+    "exit"
+  ],
+  "MenuIcon": [
+    "menu",
+    "hamburger",
+    "navigation"
+  ],
+  "BackwardIcon": [
+    "back",
+    "backward",
+    "chevron-left",
+    "previous"
+  ],
+  "ForwardIcon": [
+    "forward",
+    "chevron-right",
+    "next"
+  ],
+  "HeartFillIcon": [
+    "heart",
+    "like",
+    "favorite",
+    "filled"
+  ],
+  "ScrollTopIcon": [
+    "scroll-top",
+    "back-to-top",
+    "top",
+    "upward-bar"
+  ],
+  "NightIcon": [
+    "night",
+    "moon",
+    "dark",
+    "theme"
+  ],
+  "NightFillIcon": [
+    "night",
+    "moon",
+    "dark",
+    "theme",
+    "filled"
+  ],
+  "RadioIcon": [
+    "radio",
+    "unselected",
+    "circle"
+  ],
+  "RadioFillIcon": [
+    "radio",
+    "selected",
+    "circle",
+    "filled"
+  ],
+  "RefreshIcon": [
+    "refresh",
+    "reload",
+    "sync"
+  ],
+  "BookmarkIcon": [
+    "bookmark",
+    "save",
+    "pin"
+  ],
+  "BookmarkFillIcon": [
+    "bookmark",
+    "save",
+    "pin",
+    "filled"
+  ],
+  "StarIcon": [
+    "star",
+    "favorite",
+    "rate"
+  ],
+  "StarFillIcon": [
+    "star",
+    "favorite",
+    "rate",
+    "filled"
+  ],
+  "MultipleIcon": [
+    "multiple",
+    "stacked",
+    "layers",
+    "gallery"
+  ],
+  "MultipleFillIcon": [
+    "multiple",
+    "stacked",
+    "layers",
+    "gallery",
+    "filled"
+  ],
+  "ShareIcon": [
+    "share",
+    "upload",
+    "export"
+  ],
+  "DuplicateIcon": [
+    "duplicate",
+    "copy",
+    "clipboard"
+  ],
+  "DuplicateFillIcon": [
+    "duplicate",
+    "copy",
+    "clipboard",
+    "filled"
+  ],
+  "CheckedIcon": [
+    "check",
+    "checked",
+    "done",
+    "confirm"
+  ],
+  "LockedIcon": [
+    "locked",
+    "lock",
+    "private",
+    "secure"
+  ],
+  "LockedFillIcon": [
+    "locked",
+    "lock",
+    "private",
+    "secure",
+    "filled"
+  ],
+  "AddCircleIcon": [
+    "add",
+    "plus",
+    "create",
+    "circle"
+  ],
+  "AddCircleFillIcon": [
+    "add",
+    "plus",
+    "create",
+    "circle",
+    "filled"
+  ],
+  "CloseCircleIcon": [
+    "close",
+    "dismiss",
+    "clear",
+    "circle",
+    "x",
+    "cancel"
+  ],
+  "CloseCircleFillIcon": [
+    "close",
+    "dismiss",
+    "clear",
+    "circle",
+    "x",
+    "cancel",
+    "filled"
+  ],
+  "CheckboxIcon": [
+    "checkbox",
+    "check",
+    "select",
+    "unchecked"
+  ],
+  "CheckboxFillIcon": [
+    "checkbox",
+    "check",
+    "select",
+    "checked",
+    "filled"
+  ],
+  "InfoIcon": [
+    "info",
+    "information",
+    "help",
+    "about"
+  ],
+  "InfoFillIcon": [
+    "info",
+    "information",
+    "help",
+    "about",
+    "filled"
+  ],
+  "SecureIcon": [
+    "secure",
+    "shield",
+    "protected",
+    "safety"
+  ],
+  "SecureFillIcon": [
+    "secure",
+    "shield",
+    "protected",
+    "safety",
+    "filled"
+  ],
+  "VerifiedIcon": [
+    "verified",
+    "badge",
+    "approved",
+    "trusted"
+  ],
+  "VerifiedFillIcon": [
+    "verified",
+    "badge",
+    "approved",
+    "trusted",
+    "filled"
+  ],
+  "WarningIcon": [
+    "warning",
+    "alert",
+    "caution",
+    "error"
+  ],
+  "WarningFillIcon": [
+    "warning",
+    "alert",
+    "caution",
+    "error",
+    "filled"
+  ],
+  "RectangleIcon": [
+    "rectangle",
+    "frame",
+    "outline"
+  ],
+  "RectangleFillIcon": [
+    "rectangle",
+    "frame",
+    "filled"
+  ],
+  "SearchIcon": [
+    "search",
+    "find",
+    "magnifier",
+    "lookup"
+  ],
+  "BriefcaseIcon": [
+    "briefcase",
+    "work",
+    "job",
+    "business"
+  ],
+  "BriefcaseFillIcon": [
+    "briefcase",
+    "work",
+    "job",
+    "business",
+    "filled"
+  ],
+  "ChatIcon": [
+    "chat",
+    "message",
+    "talk",
+    "conversation",
+    "speech"
+  ],
+  "ChatFillIcon": [
+    "chat",
+    "message",
+    "talk",
+    "conversation",
+    "speech",
+    "filled"
+  ],
+  "CompanyIcon": [
+    "company",
+    "building",
+    "office"
+  ],
+  "CompanyFillIcon": [
+    "company",
+    "building",
+    "office",
+    "filled"
+  ],
+  "CompensationIcon": [
+    "compensation",
+    "money",
+    "pay",
+    "salary"
+  ],
+  "CompensationFillIcon": [
+    "compensation",
+    "money",
+    "pay",
+    "salary",
+    "filled"
+  ],
+  "ComposeIcon": [
+    "compose",
+    "edit",
+    "write",
+    "pencil"
+  ],
+  "ComposeFillIcon": [
+    "compose",
+    "edit",
+    "write",
+    "pencil",
+    "filled"
+  ],
+  "HomeIcon": [
+    "home",
+    "house"
+  ],
+  "HomeFillIcon": [
+    "home",
+    "house",
+    "filled"
+  ],
+  "InsightsIcon": [
+    "insights",
+    "chart",
+    "analytics",
+    "graph",
+    "stats"
+  ],
+  "InsightsFillIcon": [
+    "insights",
+    "chart",
+    "analytics",
+    "graph",
+    "stats",
+    "filled"
+  ],
+  "MoreIcon": [
+    "more",
+    "overflow",
+    "ellipsis",
+    "dots"
+  ],
+  "MoreFillIcon": [
+    "more",
+    "overflow",
+    "ellipsis",
+    "dots",
+    "filled"
+  ],
+  "NotificationIcon": [
+    "notification",
+    "bell",
+    "alert",
+    "alarm"
+  ],
+  "NotificationFillIcon": [
+    "notification",
+    "bell",
+    "alert",
+    "alarm",
+    "filled"
+  ],
+  "NotificationOffIcon": [
+    "notification",
+    "bell",
+    "mute",
+    "off",
+    "silent"
+  ],
+  "NotificationOffFillIcon": [
+    "notification",
+    "bell",
+    "mute",
+    "off",
+    "silent",
+    "filled"
+  ],
+  "PhotoIcon": [
+    "photo",
+    "camera",
+    "image"
+  ],
+  "PhotoFillIcon": [
+    "photo",
+    "camera",
+    "image",
+    "filled"
+  ],
+  "PictureIcon": [
+    "picture",
+    "image",
+    "gallery"
+  ],
+  "PictureFillIcon": [
+    "picture",
+    "image",
+    "gallery",
+    "filled"
+  ],
+  "ProfileIcon": [
+    "profile",
+    "person",
+    "user",
+    "account",
+    "mypage"
+  ],
+  "ProfileFillIcon": [
+    "profile",
+    "person",
+    "user",
+    "account",
+    "mypage",
+    "filled"
+  ],
+  "SettingsIcon": [
+    "settings",
+    "gear",
+    "preferences",
+    "configuration"
+  ],
+  "SettingsFillIcon": [
+    "settings",
+    "gear",
+    "preferences",
+    "configuration",
+    "filled"
+  ],
+  "StoryIcon": [
+    "story",
+    "reel",
+    "feed"
+  ],
+  "StoryFillIcon": [
+    "story",
+    "reel",
+    "feed",
+    "filled"
+  ],
+  "TopicIcon": [
+    "topic",
+    "grid",
+    "category"
+  ],
+  "TopicFillIcon": [
+    "topic",
+    "grid",
+    "category",
+    "filled"
+  ]
+}
