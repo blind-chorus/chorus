@@ -17,7 +17,7 @@ const UNSPLASH = (path, size) => {
 
 const IMG = {
   // Sourdough loaf with open crumb — Monika Grabkowska
-  bread: '/placeholder.png',
+  bread: asset('/placeholder.png'),
   breadCover: UNSPLASH('photo-1509440159596-0249088772ff', 320),
   breadAvatar: UNSPLASH('photo-1509440159596-0249088772ff', 160),
   breadHero16x9: UNSPLASH('photo-1509440159596-0249088772ff', [640, 360]),
@@ -864,7 +864,7 @@ export const PREVIEWS = {
         size={48}
         src={asset("/placeholder.png")}
         alt="Channel"
-        logoBadge={{ src: '/placeholder_logo.png', alt: 'Workspace' }}
+        logoBadge={{ src: asset('/placeholder_logo.png'), alt: 'Workspace' }}
       />
     ),
   },
@@ -876,7 +876,7 @@ export const PREVIEWS = {
         src={asset("/placeholder.png")}
         alt="Channel"
         updateDot
-        logoBadge={{ src: '/placeholder_logo.png', alt: 'Workspace' }}
+        logoBadge={{ src: asset('/placeholder_logo.png'), alt: 'Workspace' }}
       />
     ),
   },

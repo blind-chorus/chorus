@@ -11,6 +11,10 @@ out/
 # Build artifacts (regenerated; ship via npm, not git)
 packages/ui/dist/
 
+# Playwright transients
+apps/*/test-results/
+apps/*/playwright-report/
+
 # Logs
 npm-debug.log*
 yarn-debug.log*
