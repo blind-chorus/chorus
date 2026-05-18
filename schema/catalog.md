@@ -56,8 +56,9 @@ Reverse index from natural-language intent to family + sub-component. Read this 
 | confirmation prompt, centered                       | `dialog`            |
 | destructive confirmation                            | `dialog` with destructive primary action |
 | inline notice inside the content column             | `callout / info` or `/ neutral` (not modal) |
+| transient post-action confirmation (saved, copied)  | `toast` (non-modal, auto-dismiss) |
 
-**Disambiguate**: `bottom-sheet`/`dialog` are modal — require a trigger elsewhere. `callout` is not modal; lives in the content column.
+**Disambiguate**: `bottom-sheet`/`dialog` are modal — require a trigger elsewhere. `callout` is not modal; lives in the content column. `toast` is non-modal and self-dismissing — reach for it only when the action has already landed and no decision is needed.
 
 ## Inputs
 

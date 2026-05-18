@@ -3,7 +3,7 @@
   "name": "Button",
   "family": "button",
   "subcomponent": "text",
-  "description": "Link-shaped commit surface — looks like a text link at rest (no fill, no border, label-coloured text) but paints a button-like hover overlay and a standard focus ring when interacted with. Reach for this whenever an inline affordance lives next to typographic content and should read as part of the text rhythm rather than as a separate filled control. Three sizes (medium / small / xsmall) for the row's density, two appearances (primary / secondary) for emphasis.",
+  "description": "Link-shaped commit surface — looks like a text link at rest (no fill, no border, label-coloured text) but paints a button-like hover overlay and a standard focus ring when interacted with. Reach for this whenever an inline affordance lives next to typographic content and should read as part of the text rhythm rather than as a separate filled control. Three sizes (medium / small / xsmall) for the row's density, three appearances (default / accent / inverse) for emphasis and host surface.",
   "element": "button",
   "props": {
     "variant": {
@@ -22,10 +22,11 @@
     "appearance": {
       "type": "enum",
       "values": [
-        "primary",
-        "secondary"
+        "default",
+        "accent",
+        "inverse"
       ],
-      "default": "primary"
+      "default": "default"
     },
     "leadingIcon": {
       "type": "node",
@@ -95,27 +96,40 @@
     }
   },
   "appearances": {
-    "primary": {
+    "default": {
       "background": "transparent",
       "border": null,
-      "label": "sys.color.primary"
+      "label": "sys.color.onSurfaceVariant",
+      "note": "The base neutral inline action — the canonical Text Button. Quiet enough to live next to typographic content without claiming commit-rank attention."
     },
-    "secondary": {
+    "accent": {
       "background": "transparent",
       "border": null,
-      "label": "sys.color.onSurfaceVariant"
+      "label": "sys.color.primary",
+      "note": "Brand-blue label for the inline commit affordance. Use sparingly — never two `accent` Text Buttons in the same row."
+    },
+    "inverse": {
+      "background": "transparent",
+      "border": null,
+      "label": "sys.color.inverseOnSurface",
+      "note": "Mirror for use inside an inverse host (Toast, coach-mark, snackbar). Label paints in `inverseOnSurface` so it reads against the host's `inverseSurface` fill; state overlays mix from the same token so the recipe carries over without per-host tuning."
     }
   },
   "flavors": {
     "destructive": {
       "description": "Swaps the label color to the error family across every appearance. Reserved for inline destructive commits next to typographic content (a 'Delete account' trail in a settings row, a 'Discard' inline next to a draft).",
       "appearances": {
-        "primary": {
+        "default": {
           "background": "transparent",
           "border": null,
           "label": "sys.color.error"
         },
-        "secondary": {
+        "accent": {
+          "background": "transparent",
+          "border": null,
+          "label": "sys.color.error"
+        },
+        "inverse": {
           "background": "transparent",
           "border": null,
           "label": "sys.color.error"

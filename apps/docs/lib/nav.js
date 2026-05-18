@@ -263,6 +263,10 @@ export const NAV = [
         href: '/components/thumbnail',
         label: 'Thumbnail',
       },
+      {
+        href: '/components/toast',
+        label: 'Toast',
+      },
     ],
   },
   {

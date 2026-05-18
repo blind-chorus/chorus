@@ -14,3 +14,4 @@ export { List } from './List.jsx';
 export { NavigationBar } from './NavigationBar.jsx';
 export { TabBar } from './TabBar.jsx';
 export { Thumbnail } from './Thumbnail.jsx';
+export { Toast } from './Toast.jsx';

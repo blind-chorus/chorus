@@ -18,6 +18,14 @@
       ],
       "default": "large"
     },
+    "appearance": {
+      "type": "enum",
+      "values": [
+        "default",
+        "inverse"
+      ],
+      "default": "default"
+    },
     "icon": {
       "type": "node",
       "required": true,
@@ -63,18 +71,34 @@
       "footprint": "32 × 32 (implicit, from 8 + 16 + 8)"
     }
   },
-  "appearance": {
-    "background": "transparent",
-    "border": null,
-    "icon": "sys.color.onSurface"
+  "appearances": {
+    "default": {
+      "background": "transparent",
+      "border": null,
+      "icon": "sys.color.onSurface",
+      "note": "Transparent capsule with the glyph in `onSurface`. The canonical Icon Button chrome, used on every regular page surface."
+    },
+    "inverse": {
+      "background": "transparent",
+      "border": null,
+      "icon": "sys.color.inverseOnSurface",
+      "note": "Mirror of `default` for use inside an inverse host (Toast, coach-mark, snackbar). Glyph paints in `inverseOnSurface` so it reads against the host's `inverseSurface` fill; state overlays mix from the same token so the recipe carries over without per-host tuning."
+    }
   },
   "flavors": {
     "destructive": {
       "description": "Swaps the glyph color to the error family. Reserved for irreversible commits (a 'Remove' trash glyph, a 'Discard' close on a destructive sheet header).",
-      "appearance": {
-        "background": "transparent",
-        "border": null,
-        "icon": "sys.color.error"
+      "appearances": {
+        "default": {
+          "background": "transparent",
+          "border": null,
+          "icon": "sys.color.error"
+        },
+        "inverse": {
+          "background": "transparent",
+          "border": null,
+          "icon": "sys.color.error"
+        }
       }
     }
   },

@@ -89,10 +89,10 @@ Step bands across all hues:
 |----------|-----------------|---------------------------------------------------|
 | `neutral`  | `#737373`       | Text, surfaces, borders, dark UI chrome           |
 | `blue`     | `#2563eb`       | Primary brand accent                              |
-| `green`    | `#008838`       | Reserved (positive / success — not yet bound to a system role) |
+| `green`    | `#008838`       | Success / positive confirmation                   |
 | `red`      | `#d92626`       | Brand / Error / destructive                       |
 | `yellow`   | `#a16207`       | Reserved (warning / categorical)                  |
-| `purple`   | `#9333ea`       | Tertiary / categorical accent                     |
+| `purple`   | `#9333ea`       | Reserved (categorical / decorative)               |
 
 **Only system tokens may reference these palette steps.** Components never consume `palette.*` directly. Reach for a palette step only when defining a new system role — and document that role here in DESIGN.md before adding the JSON entry.
 
@@ -119,18 +119,18 @@ The ramp partitions into three functional bands:
 
 #### Accent roles
 
-Five role families covering brand emphasis (`primary`), neutral support (`secondary`), categorical accent (`tertiary`), brand-identity attention (`brand`), and destructive signal (`error`). The role decides *what the color means*; the structure below decides *how to compose it*.
+Five role families covering brand emphasis (`primary`), neutral support (`secondary`), brand-identity attention (`brand`), positive confirmation (`success`), and destructive signal (`error`). The role decides *what the color means*; the structure below decides *how to compose it*.
 
 ##### Four-token quartet
 
-Each accent role (`primary` / `secondary` / `tertiary` / `brand` / `error`) ships as a fixed **four-token quartet**: a high-emphasis pair and a low-emphasis pair, with foreground always paired to its background. The quartet is the unit of meaning — never use a fill without its `on*` foreground, and never read contrast manually. Across the four accents, the *role of the accent* differs (brand / supporting / confirmation / destructive) but the *internal four-slot structure* is identical, so the same composition rule (background + paired foreground) applies everywhere.
+Each accent role (`primary` / `secondary` / `brand` / `success` / `error`) ships as a fixed **four-token quartet**: a high-emphasis pair and a low-emphasis pair, with foreground always paired to its background. The quartet is the unit of meaning — never use a fill without its `on*` foreground, and never read contrast manually. Across the five accents, the *role of the accent* differs (brand / supporting / identity / confirmation / destructive) but the *internal four-slot structure* is identical, so the same composition rule (background + paired foreground) applies everywhere.
 
 The four slots:
 
 - **Main pair** — `X` / `onX` — high-attention fill for CTAs, emphasis badges, status chips. Use sparingly per view.
 - **Container pair** — `XContainer` / `onXContainer` — low-chroma tinted surface in the same family for callouts, notification tiles, subtle banners. Lower visual weight than the main pair, so safe to use on larger surface areas.
 
-**The Container pair is the tint.** When a surface needs to read as a soft accent — info callouts, selected list rows, success banners, error tiles, "subtle" highlight blocks — reach for `XContainer` + `onXContainer`, **never** a `color-mix(<accent> N%, <surface>)` overlay. `XContainer` already resolves to the soft tone (`blue.50` light / `blue.900` dark for primary, `purple.100`/`purple.900` for tertiary, `red.100`/`red.900` for error), tuned to clear AA against its paired `on*` foreground; an alpha mix bypasses that contract, drifts under theme switches, and lands on the neutral `surface*` family instead of the accent family — so the pair reads as *near-black on tinted blue* in light mode and muddies into the deep container in dark mode. If the canonical pair gives a poor visual, retune the token value in [`system.json`](schema/tokens/system.json) and update the description in this section — never break the pair at the call site.
+**The Container pair is the tint.** When a surface needs to read as a soft accent — info callouts, selected list rows, success banners, error tiles, "subtle" highlight blocks — reach for `XContainer` + `onXContainer`, **never** a `color-mix(<accent> N%, <surface>)` overlay. `XContainer` already resolves to the soft tone (`blue.50` light / `blue.900` dark for primary, `red.50` / `green.50` light and `red.900` / `green.900` dark for brand / success, `red.100`/`red.900` for error), tuned to clear AA against its paired `on*` foreground; an alpha mix bypasses that contract, drifts under theme switches, and lands on the neutral `surface*` family instead of the accent family — so the pair reads as *near-black on tinted blue* in light mode and muddies into the deep container in dark mode. If the canonical pair gives a poor visual, retune the token value in [`system.json`](schema/tokens/system.json) and update the description in this section — never break the pair at the call site.
 
 **Allowed `color-mix` exceptions** — two and only two:
 
@@ -143,7 +143,7 @@ The four slots:
 |----------------------------|-------------------------------------------------------------------------------|
 | `color.primary`            | The brand color and highest-attention accent. Use sparingly for one dominant action per view (primary CTA, selected tab underline, active toggle fill, progress indicator). Two primary buttons in a view collapse the hierarchy. Resolves to `ref.palette.blue.500` in both modes — the brand hue is saturated enough to clear AA against `surface` in both light (white) and dark (`neutral.900`), so the CTA reads as the same blue across themes without a tonal nudge. |
 | `color.onPrimary`          | Foreground placed on top of `primary`. Label text, icons, and spinners inside primary-filled surfaces. Always pair with `primary`; never against a neutral surface. Resolves to `ref.palette.neutral.50`. |
-| `color.primaryContainer`   | Low-chroma tinted surface in the primary family. Selected-state list backgrounds, informational callouts, highlighted message bubbles, brand-flavored section banners. Safe on larger areas where `primary` would overwhelm. Resolves to `ref.palette.blue.50` (light) / `ref.palette.blue.900` (dark). The light value sits one step brighter than the other accent containers (`tertiary` / `error` use `*.100`) because primary is the most-used quartet in the product — a `blue.100` callout next to multiple active list rows on the same page felt heavier than the role asks for. The lighter step keeps the brand identity visible against `surface` while reading as a quiet, decorative tint rather than a filled banner. |
+| `color.primaryContainer`   | Low-chroma tinted surface in the primary family. Selected-state list backgrounds, informational callouts, highlighted message bubbles, brand-flavored section banners. Safe on larger areas where `primary` would overwhelm. Resolves to `ref.palette.blue.50` (light) / `ref.palette.blue.900` (dark). The light value sits one step brighter than the other accent containers (`error` uses `*.100`) because primary is the most-used quartet in the product — a `blue.100` callout next to multiple active list rows on the same page felt heavier than the role asks for. The lighter step keeps the brand identity visible against `surface` while reading as a quiet, decorative tint rather than a filled banner. |
 | `color.onPrimaryContainer` | Foreground for content placed on `primaryContainer`. Text, icons, and links inside primary-tinted surfaces. Resolves to `ref.palette.blue.600` (light) / `ref.palette.blue.400` (dark) — both stay in the saturated primary family so the foreground reads as *blue* on both tinted backgrounds, instead of collapsing to near-black on the light tint or muddying into the deep container on the dark tint. The dark step lifts one band higher than light's mirror would suggest because identical luminance gaps read darker on dark surfaces. The pair clears AA at ~9:1 against the lifted light container. |
 
 ###### Secondary
@@ -155,15 +155,6 @@ The four slots:
 | `color.secondaryContainer`   | Low-contrast neutral surface in the secondary family. Subtle backgrounds that need to separate from the page without implying brand meaning: tonal chip fills, quiet badges, muted selection backgrounds, segmented-control tracks, secondary button fills. Resolves to `ref.palette.neutral.100` (light) / `ref.palette.neutral.600` (dark). The dark step sits two bands lighter than a strict mirror would land — at `neutral.800` the secondary fill would collide with every `surfaceContainer*` and `surfaceVariant` (all `neutral.800` in dark); at `neutral.700` it would still collide with `surfaceContainerHighest` (the topmost surface band). `neutral.600` lifts the secondary accent one step clear of the entire surface ladder so a secondary fill placed on any host — including the most lifted overlay surfaces — stays distinct, while remaining inside the muted band. |
 | `color.onSecondaryContainer` | Foreground for content placed on `secondaryContainer`. Resolves to `ref.palette.neutral.900` (light) / `ref.palette.neutral.100` (dark). |
 
-###### Tertiary
-
-| Token                       | Role                                                                          |
-|-----------------------------|-------------------------------------------------------------------------------|
-| `color.tertiary`            | A third accent distinct from the brand. Categorical accent moments and supplementary highlights — featured-tile fills, premium-tier badges, decorative call-outs that need a hue *other than* blue without taking on brand or destructive meaning. Never stands in for the main CTA — treat as a complement to `primary`, not a replacement. Resolves to `ref.palette.purple.500` (light) / `ref.palette.purple.600` (dark). |
-| `color.onTertiary`          | Foreground placed on top of `tertiary`. Label text and icons inside tertiary-filled surfaces. Resolves to `ref.palette.neutral.50`. |
-| `color.tertiaryContainer`   | Low-chroma tinted surface in the tertiary family. Soft categorical surfaces: featured banners, premium callouts, decorative tiles, sections that want a quiet purple identity without leaning on brand. Resolves to `ref.palette.purple.50` (light) / `ref.palette.purple.900` (dark). |
-| `color.onTertiaryContainer` | Foreground for content placed on `tertiaryContainer`. Resolves to `ref.palette.purple.600` (light) / `ref.palette.purple.400` (dark) — both stay in the saturated purple family so the foreground reads as *purple on tinted purple*, not as *near-black on tinted purple*. |
-
 ###### Brand
 
 | Token                    | Role                                                                          |
@@ -172,6 +163,15 @@ The four slots:
 | `color.onBrand`          | Foreground placed on top of `brand`. Label text and icons inside brand-filled surfaces (notification counts, brand badges). Resolves to `ref.palette.neutral.50`. White-on-`red.500` lands at ~4.7:1 — clears AA for normal text in both modes. |
 | `color.brandContainer`   | Low-chroma tinted surface in the brand family. Soft brand callouts, "what's new" banners, promotional tiles, marketing surfaces where the energy of `brand` would overwhelm. Resolves to `ref.palette.red.50` (light) / `ref.palette.red.900` (dark). Light is one step lighter than `errorContainer` (`red.50` vs. `red.100`) so the brand callout reads as a quiet identity touch rather than a warning. |
 | `color.onBrandContainer` | Foreground for content placed on `brandContainer`. Resolves to `ref.palette.red.600` (light) / `ref.palette.red.400` (dark) — both stay in the saturated red family so the foreground reads as *red on tinted red*, not as *near-black on tinted red*. The dark step lifts one band higher than light's mirror would suggest because identical luminance gaps read darker on dark surfaces. |
+
+###### Success
+
+| Token                       | Role                                                                          |
+|-----------------------------|-------------------------------------------------------------------------------|
+| `color.success`             | The signal color for positive confirmation — completed states, success toasts, "saved" pills, validated form fields, healthy status indicators. Reserved strictly for affirmative outcomes; decorative use erodes its signaling power. Resolves to `ref.palette.green.500` in **both** light and dark modes — mirrors `brand`'s cross-mode stability so the success signal reads as the same green across themes, and the 500 step is the brightest green the palette ships that still clears AA against `onSuccess` (`neutral.50`) for white-on-success labels. |
+| `color.onSuccess`           | Foreground placed on top of `success`. Label text and icons inside success-filled surfaces. Resolves to `ref.palette.neutral.50`. |
+| `color.successContainer`    | Low-chroma tinted surface in the success family. Soft success callouts, "you're all set" banners, completed-task tiles where `success` would overwhelm. Resolves to `ref.palette.green.50` (light) / `ref.palette.green.900` (dark) — mirrors `brandContainer`'s shallow-light / deep-dark structure. |
+| `color.onSuccessContainer`  | Foreground for content placed on `successContainer`. Resolves to `ref.palette.green.600` (light) / `ref.palette.green.400` (dark) — both stay in the saturated green family so the foreground reads as *green on tinted green*, not as *near-black on tinted green*. The dark step lifts one band higher than light's mirror would suggest because identical luminance gaps read darker on dark surfaces. |
 
 ###### Error
 
@@ -266,9 +266,9 @@ Small clusters that don't fit the accent quartet or the surface stack. Each is p
 
 Two different inversion rules apply across the system:
 
-- **Chromatic accents (`primary`, `tertiary`, `brand`, `error`) do NOT invert their on-pair between modes.** `tertiary` nudges one tonal step in dark (`purple.500` → `purple.600`) and `error` nudges one tonal step (`red.600` → `red.700`) so the fill still reads against a dark page; `primary` stays at `blue.500` and `brand` stays at `red.500` in both modes because both hues clear AA against both `surface` tones and against `onPrimary` / `onBrand` (`neutral.50`) without a nudge — a deeper step would dim the accent without buying contrast. The `on*` foreground stays at `neutral.50` across all four. This keeps brand identity stable across modes.
+- **Chromatic accents (`primary`, `brand`, `success`, `error`) do NOT invert their on-pair between modes.** `error` nudges one tonal step in dark (`red.600` → `red.700`) so the fill still reads against a dark page; `primary` stays at `blue.500`, `brand` stays at `red.500`, and `success` stays at `green.500` in both modes because each hue clears AA against both `surface` tones and against its `on*` foreground (`neutral.50`) without a nudge — a deeper step would dim the accent without buying contrast. The `on*` foreground stays at `neutral.50` across all four. This keeps brand identity stable across modes.
 - **Neutral roles (`secondary`, `surface*`, `onSurface*`, `outline*`) invert as usual.** Light surfaces become dark, dark text becomes light.
-- **Container pairs (`primaryContainer` / `onPrimaryContainer`, etc.) flip the *container*, not the foreground family**: in light mode the container is shallow (e.g. `blue.50` for primary, `purple.100` / `red.100` for tertiary / error) with a saturated mid-band foreground (`blue.600`); in dark mode the container goes deep (`blue.900`) with a brighter mid-band foreground (`blue.400`). Both modes keep the foreground in the saturated primary family so the pair reads as *blue on tinted blue*, not as *near-black on tinted blue* — a flat-black foreground would lose the brand identity the container exists to express. Primary's light container sits one step brighter than the other quartets because it appears the most often (active nav rows, brand callouts) — a heavier tint at that frequency competes with content; the lift trades visual weight for breathing room without giving up the family identity. The dark foreground lifts one band higher than a strict mirror would suggest (`blue.400` instead of `blue.500`) because equal luminance gaps appear shallower on dark surfaces.
+- **Container pairs (`primaryContainer` / `onPrimaryContainer`, etc.) flip the *container*, not the foreground family**: in light mode the container is shallow (e.g. `blue.50` for primary, `red.50` / `green.50` for brand / success, `red.100` for error) with a saturated mid-band foreground (`blue.600`); in dark mode the container goes deep (`blue.900`) with a brighter mid-band foreground (`blue.400`). Both modes keep the foreground in the saturated primary family so the pair reads as *blue on tinted blue*, not as *near-black on tinted blue* — a flat-black foreground would lose the brand identity the container exists to express. Primary's light container sits one step brighter than the other quartets because it appears the most often (active nav rows, brand callouts) — a heavier tint at that frequency competes with content; the lift trades visual weight for breathing room without giving up the family identity. The dark foreground lifts one band higher than a strict mirror would suggest (`blue.400` instead of `blue.500`) because equal luminance gaps appear shallower on dark surfaces.
 - **Focus ring inverts** so the outer ring is always inverse-toned to the page, guaranteeing legibility.
 
 #### Data visualization palette
@@ -287,7 +287,7 @@ Charts, graphs, and category-coded surfaces draw from a small palette derived fr
 
 - **Six maximum for categorical.** Past six categories, color stops being a useful encoding — group the long tail into "Other" or add a secondary visual channel (texture, position).
 - **Brand color comes first only when it carries meaning.** A categorical chart that uses `blue.500` for the first series implies that series is the "primary" one. If the categories are equal, rotate the order or pick a non-brand starting hue.
-- **Reuse `color.error` for negative coding.** Don't introduce chart-specific red; the system role already encodes the meaning, and stays palette-consistent across non-chart surfaces (KPI tiles, status pills). Positive / success coding currently has no dedicated system role — reach for `ref.palette.green.500` directly inside a chart palette (the only exception to the "no `ref.*` in components" rule, scoped to dataviz) until a `color.success` role lands.
+- **Reuse `color.error` and `color.success` for negative / positive coding.** Don't introduce chart-specific red or green; the system roles already encode the meaning and stay palette-consistent across non-chart surfaces (KPI tiles, status pills).
 - **Dark mode shifts the steps, not the hues.** Light mode chart palettes use the lighter end of each ramp (`*.500` for categorical); dark mode uses the same hue families but shifts to the `*.400`/`*.300` steps so contrast against the dark canvas holds.
 - **Pair with a non-color channel** for accessibility — pattern fills, direct labels, or shape differentiation. Around 4% of users cannot distinguish red from green; categorical charts that rely on hue alone fail them silently.
 
@@ -329,7 +329,7 @@ Five purpose categories × three size levels = 15 type roles, each composed of f
 | `typo.body.sm`     | 14 px               | 400 Regular  | 1.5 normal | 0em normal    | Compact body. The right pick when a section composes multiple distinct text groups (cards listing several short descriptions, settings rows, feed items, dialog/callout messages); also dense lists, secondary descriptions, inline helper prose. Still a reading size, not a caption. |
 | `typo.label.lg`    | 16 px               | 600 Semibold | 1.5 normal | 0em normal    | Primary CTA buttons, prominent tab labels, standalone form labels. |
 | `typo.label.md`    | 14 px               | 600 Semibold | 1.5 normal | 0em normal    | Default control label. Standard buttons, input labels, menu items, chip labels. |
-| `typo.label.sm`    | 12 px               | 600 Semibold | 1.5 normal | 0.02em wide   | Compact controls — dense toolbars, small badges, inline tag labels, tertiary actions. |
+| `typo.label.sm`    | 12 px               | 600 Semibold | 1.5 normal | 0.02em wide   | Compact controls — dense toolbars, small badges, inline tag labels, supporting actions. |
 | `typo.caption.lg`  | 14 px               | 400 Regular  | 1.5 normal | 0em normal    | Form helper text, footnote-style explanations needing easy legibility. |
 | `typo.caption.md`  | 12 px               | 400 Regular  | 1.5 normal | 0.02em wide   | Default caption. Timestamps, byline text, card metadata, image captions. |
 | `typo.caption.sm`  | 10 px               | 400 Regular  | 1.5 normal | 0.02em wide   | Smallest caption — legal fine print, dense metadata columns, data-dense tables. Use sparingly. |
@@ -420,7 +420,7 @@ Icons consume the same `on*` foreground tokens as the text they sit with — nev
 - **Solo icon (icon-only button)** — color is the parent control's foreground role (`color.onSurface` for a ghost button, `color.onPrimary` inside a primary fill).
 - **Icon + label** — both use the same foreground; never paint the icon a different hue for emphasis. Hierarchy belongs to the label.
 - **Inactive / disabled** — inherit from the surrounding `state.disabled` opacity; do not pre-darken the icon SVG.
-- **Status icons** (success/error checks, alert glyphs) follow the accent role they signal: `color.error` for error glyphs, paired with `color.onError` when sitting on a filled error surface. Success glyphs currently have no dedicated system role — pending a `color.success` token, reach for the icon's surrounding label color (`color.onSurface` or `color.onSurfaceVariant`) and let the glyph shape carry the semantic.
+- **Status icons** (success/error checks, alert glyphs) follow the accent role they signal: `color.success` for success glyphs, `color.error` for error glyphs, paired with their `on*` foreground when sitting on a filled accent surface.
 
 #### Alignment & Layout participation
 
@@ -1010,7 +1010,7 @@ Quick rules distilled from the system, organized as 1-to-1 paired rows: each Do 
 What to reach for — the practices that keep the system coherent across surfaces and cheap to rebrand.
 
 - **Consume system tokens (`sys.*`).** `var(--sys-color-primary)`, not `var(--ref-palette-blue-500)`. Reference variables exist for documentation only.
-- **Reserve Blue 500 as the sole brand accent.** `tertiary` (purple) is a categorical / decorative accent, not a second brand hue.
+- **Reserve Blue 500 as the sole brand-emphasis accent.** `brand` (red) is the identity accent and `success` (green) is the affirmative status accent — neither is a second brand-emphasis hue.
 - **Pair every accent fill with its `on*` foreground.** `primary` ↔ `onPrimary`, `primaryContainer` ↔ `onPrimaryContainer`. The pairs are tuned to clear AA.
 - **Reach for `XContainer` + `onXContainer` for tinted surfaces.** Soft accent backgrounds — callouts, info banners, success tiles, selected rows — *are* the Container pair; the Container tone already is the tint, no overlay needed.
 - **Compose state as foreground-over-base.** A single rule — `state.*` opacity layered over the element's foreground — works on every variant of every component.
@@ -1256,7 +1256,7 @@ The fastest mapping from common UI needs to system tokens — the agent's first 
 | Primary CTA text      | `color.onPrimary`                                | `#fafafa`           |
 | Link                  | `color.primary`                                  | `#2563eb`           |
 | Error                 | `color.error`                                    | `#b42222`           |
-| Categorical accent    | `color.tertiary`                                 | `#9333ea`           |
+| Success               | `color.success`                                  | `#008838`           |
 | Focus ring (outer)    | `color.focus`                                    | `#000000`           |
 | Focus ring (inner)    | `color.focusInset`                               | `#ffffff`           |
 | Card padding          | `layout.container.md`                            | 16 → 24px           |

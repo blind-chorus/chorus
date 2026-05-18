@@ -663,22 +663,6 @@
     "$value": "#141414",
     "$type": "color"
   },
-  "sys.color.tertiary": {
-    "$value": "#9333ea",
-    "$type": "color"
-  },
-  "sys.color.onTertiary": {
-    "$value": "#fafafa",
-    "$type": "color"
-  },
-  "sys.color.tertiaryContainer": {
-    "$value": "#f8f1fd",
-    "$type": "color"
-  },
-  "sys.color.onTertiaryContainer": {
-    "$value": "#7a1fc7",
-    "$type": "color"
-  },
   "sys.color.brand": {
     "$value": "#d92626",
     "$type": "color"
@@ -693,6 +677,22 @@
   },
   "sys.color.onBrandContainer": {
     "$value": "#b42222",
+    "$type": "color"
+  },
+  "sys.color.success": {
+    "$value": "#008838",
+    "$type": "color"
+  },
+  "sys.color.onSuccess": {
+    "$value": "#fafafa",
+    "$type": "color"
+  },
+  "sys.color.successContainer": {
+    "$value": "#f0faf3",
+    "$type": "color"
+  },
+  "sys.color.onSuccessContainer": {
+    "$value": "#006d2c",
     "$type": "color"
   },
   "sys.color.error": {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FormField, List, NavigationBar, TabBar, Thumbnail } from '@blind-chorus/ui';
+import { Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FormField, List, NavigationBar, TabBar, Thumbnail, Toast } from '@blind-chorus/ui';
 import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, MenuIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, SearchIcon, StarIcon } from '@blind-chorus/ui/icons';
 import { SpecIcon } from './SpecIcon';
 
@@ -314,9 +314,9 @@ export const PREVIEWS = {
     ),
   },
 
-  /* Button → Toolbar Button — dense inline action. Single appearance;
-     reuses the Filter chip's chrome. */
-  'button/toolbar/secondary': {
+  /* Button → Toolbar Button — dense inline action. Three appearances
+     (default / accent / inverse); reuses the Filter chip's chrome. */
+  'button/toolbar/default': {
     supportsDisabled: true,
     render: ({ state, disabled }) => (
       <Button variant="toolbar" state={disabled ? 'disabled' : state}>Edit</Button>
@@ -336,10 +336,16 @@ export const PREVIEWS = {
       </Button>
     ),
   },
-  'button/toolbar/primary': {
+  'button/toolbar/accent': {
     supportsDisabled: true,
     render: ({ state, disabled }) => (
-      <Button variant="toolbar" appearance="primary" state={disabled ? 'disabled' : state}>Save</Button>
+      <Button variant="toolbar" appearance="accent" state={disabled ? 'disabled' : state}>Save</Button>
+    ),
+  },
+  'button/toolbar/inverse': {
+    supportsDisabled: true,
+    render: ({ state, disabled }) => (
+      <Button variant="toolbar" appearance="inverse" state={disabled ? 'disabled' : state}>Open</Button>
     ),
   },
   'button/toolbar/icon-only': {
@@ -366,6 +372,12 @@ export const PREVIEWS = {
       <Button variant="icon" size={size} icon={<SearchIcon />} aria-label="Search" state={state} />
     ),
   },
+  'button/icon/inverse': {
+    sizes: ['large', 'medium'],
+    render: ({ size = 'medium', state }) => (
+      <Button variant="icon" size={size} appearance="inverse" icon={<CloseIcon />} aria-label="Dismiss" state={state} />
+    ),
+  },
   'button/icon/group': {
     sizes: ['large', 'medium'],
     render: ({ size = 'large', state }) => (
@@ -386,20 +398,27 @@ export const PREVIEWS = {
   /* Button → Text Button — link-shaped commit. Label-coloured Semibold
      text at rest (no fill, no border), state-overlay background on hover /
      pressed, standard focus ring on focus. Three sizes (medium / small /
-     xsmall) for the row's density and two appearances (primary / secondary)
-     for emphasis. */
-  'button/text/primary': {
+     xsmall) for the row's density and three appearances (default / accent
+     / inverse) for emphasis and host surface. */
+  'button/text/default': {
     sizes: ['medium', 'small', 'xsmall'],
     supportsDisabled: true,
     render: ({ size = 'medium', state, disabled }) => (
-      <Button variant="text" size={size} appearance="primary" state={disabled ? 'disabled' : state}>Skip</Button>
+      <Button variant="text" size={size} state={disabled ? 'disabled' : state}>Not now</Button>
     ),
   },
-  'button/text/secondary': {
+  'button/text/accent': {
     sizes: ['medium', 'small', 'xsmall'],
     supportsDisabled: true,
     render: ({ size = 'medium', state, disabled }) => (
-      <Button variant="text" size={size} appearance="secondary" state={disabled ? 'disabled' : state}>Not now</Button>
+      <Button variant="text" size={size} appearance="accent" state={disabled ? 'disabled' : state}>Skip</Button>
+    ),
+  },
+  'button/text/inverse': {
+    sizes: ['medium', 'small', 'xsmall'],
+    supportsDisabled: true,
+    render: ({ size = 'medium', state, disabled }) => (
+      <Button variant="text" size={size} appearance="inverse" state={disabled ? 'disabled' : state}>Undo</Button>
     ),
   },
   'button/text/leading-icon': {
@@ -420,8 +439,8 @@ export const PREVIEWS = {
       const gap = size === 'xsmall' ? 'var(--sys-layout-inline-lg)' : 'var(--sys-layout-inline-xl)';
       return (
         <div style={{ display: 'inline-flex', gap }}>
-          <Button variant="text" size={size} appearance="secondary" state={state}>Cancel</Button>
-          <Button variant="text" size={size} state={state}>Save</Button>
+          <Button variant="text" size={size} state={state}>Cancel</Button>
+          <Button variant="text" size={size} appearance="accent" state={state}>Save</Button>
         </div>
       );
     },
@@ -1409,7 +1428,7 @@ export const PREVIEWS = {
           variant="page"
           title="Edit profile"
           leading={{ icon: <SpecIcon name="back" />, 'aria-label': 'Back' }}
-          trailing={<Button variant="toolbar" appearance="primary">Save</Button>}
+          trailing={<Button variant="toolbar" appearance="accent">Save</Button>}
         />
       </Frame>
     ),
@@ -1588,6 +1607,79 @@ export const PREVIEWS = {
             { value: 'century', label: 'Century' },
           ]}
         />
+      </Frame>
+    ),
+  },
+
+  'toast/default': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Toast>Token copied to clipboard</Toast>
+      </Frame>
+    ),
+  },
+
+  'toast/max-width': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Toast>Saved your draft to every workspace you joined this month</Toast>
+      </Frame>
+    ),
+  },
+
+  'toast/truncation': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Toast trailing={
+          <Button
+            variant="icon"
+            size="medium"
+            appearance="inverse"
+            icon={<CloseIcon />}
+            aria-label="Dismiss"
+            onClick={() => {}}
+          />
+        }>
+          Saved your draft and synced 12 channels across every workspace you joined this month — long enough that the body has to wrap and then truncate at two lines.
+        </Toast>
+      </Frame>
+    ),
+  },
+
+  'toast/with-action': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Toast trailing={
+          <Button variant="text" size="small" appearance="inverse" onClick={() => {}}>
+            Undo
+          </Button>
+        }>
+          Message deleted
+        </Toast>
+      </Frame>
+    ),
+  },
+
+  'toast/with-dismiss': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Toast trailing={
+          <Button
+            variant="icon"
+            size="medium"
+            appearance="inverse"
+            icon={<CloseIcon />}
+            aria-label="Dismiss"
+            onClick={() => {}}
+          />
+        }>
+          Synced 12 channels in the background
+        </Toast>
       </Frame>
     ),
   },

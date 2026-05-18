@@ -14,10 +14,11 @@
     "appearance": {
       "type": "enum",
       "values": [
-        "secondary",
-        "primary"
+        "default",
+        "accent",
+        "inverse"
       ],
-      "default": "secondary"
+      "default": "default"
     },
     "leadingIcon": {
       "type": "node",
@@ -59,20 +60,26 @@
     "$ref": "../chip/filter.spec.json#/sizing"
   },
   "appearances": {
-    "secondary": {
+    "default": {
       "background": "sys.color.surfaceContainerHigh",
       "label": "sys.color.onSurface",
       "border": {
         "width": "sys.borderWidth.hairline",
         "color": "sys.color.outlineVariant"
       },
-      "note": "The lower-emphasis tier (mirrors Filter chip's unselected state) — the canonical Toolbar Button chrome. The chip-shape signals an inline action that lives within a row of peers (a toolbar, a card footer, a Page bar where the affordance is one of several actions the user might pick). Named `secondary` so the emphasis ladder (`primary` / `secondary`) reads identically with every other Button form."
+      "note": "The canonical Toolbar Button chrome (mirrors Filter chip's unselected state). The chip-shape signals an inline action that lives within a row of peers (a toolbar, a card footer, a Page bar where the affordance is one of several actions the user might pick)."
     },
-    "primary": {
+    "accent": {
       "background": "sys.color.primary",
       "label": "sys.color.onPrimary",
       "border": null,
-      "note": "Primary-toned commit chip — reach for it when the Toolbar Button IS the surface's commit affordance (a Page bar's 'Save', a sheet's 'Confirm', a flow step's 'Done'). The primary fill claims commit-rank attention while keeping the 32px Toolbar Button footprint, so the bar reads at one density even though the action is the screen's most important. Pair sparingly — never two primary Toolbar Buttons in the same row."
+      "note": "Brand-blue commit chip — reach for it when the Toolbar Button IS the surface's commit affordance (a Page bar's 'Save', a sheet's 'Confirm', a flow step's 'Done'). The accent fill claims commit-rank attention while keeping the 32px Toolbar Button footprint, so the bar reads at one density even though the action is the screen's most important. Pair sparingly — never two accent Toolbar Buttons in the same row."
+    },
+    "inverse": {
+      "background": "sys.color.inverseSurface",
+      "label": "sys.color.inverseOnSurface",
+      "border": null,
+      "note": "Inverse-toned chip for use inside an inverse host (snackbars, coach-mark surfaces, dark coach overlays). Same chrome geometry as `default`; the colour pair flips to the inverse cluster so the chip reads against the host's `inverseSurface` fill without a per-host tweak."
     }
   },
   "states": {

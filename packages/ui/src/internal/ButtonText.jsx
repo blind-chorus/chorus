@@ -18,7 +18,7 @@ export const ButtonText = forwardRef(function ButtonText({
   href,
   state,
   size = 'medium',
-  appearance = 'primary',
+  appearance = 'default',
   disabled = false,
   leadingIcon,
   trailingIcon,

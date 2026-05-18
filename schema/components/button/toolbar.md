@@ -2,31 +2,45 @@
 
 Dense inline action — a 32-tall capsule for toolbars, table-row actions, and inline menu triggers where the standard [Button](./button.md) would crowd. Chrome shared with [Filter chip](../chip/filter.md) and [Tabs Segmented](../tabs/segmented.md) so a mixed row reads at one density; divergence is intent (Toolbar fires actions, Filter toggles selection, Segmented enforces single-select).
 
-## Primary
+## Default
 
-The single-commit form — `primary` fill, `onPrimary` label. Reach for it when the Toolbar Button IS the surface's commit affordance.
-
-```preview
-button/toolbar/primary
----
-import { Button } from '@blind-chorus/ui';
-
-<Button variant="toolbar" appearance="primary">
-  Save
-</Button>
-```
-
-## Secondary
-
-The lower-emphasis tier — label-only on the Filter-chip chrome. The base shape for dense rows where no entry should claim commit-rank attention.
+The base shape — label-only on the Filter-chip chrome. The lower-emphasis tier for dense rows where no entry should claim commit-rank attention.
 
 ```preview
-button/toolbar/secondary
+button/toolbar/default
 ---
 import { Button } from '@blind-chorus/ui';
 
 <Button variant="toolbar">
   Edit
+</Button>
+```
+
+## Accent
+
+The single-commit form — brand-blue fill, `onPrimary` label. Reach for it when the Toolbar Button IS the surface's commit affordance.
+
+```preview
+button/toolbar/accent
+---
+import { Button } from '@blind-chorus/ui';
+
+<Button variant="toolbar" appearance="accent">
+  Save
+</Button>
+```
+
+## Inverse
+
+Mirror for use inside an inverse host (snackbars, coach-mark surfaces). Same chrome geometry as `default`; the colour pair flips to the inverse cluster.
+
+```preview
+button/toolbar/inverse
+---
+import { Button } from '@blind-chorus/ui';
+
+<Button variant="toolbar" appearance="inverse">
+  Open
 </Button>
 ```
 
@@ -125,12 +139,13 @@ import { AddIcon } from '@blind-chorus/ui/icons';
 
 ## Appearance
 
-Two appearances on the same emphasis ladder the standard [Button](./button.md) uses — `primary` for the surface's commit affordance, `secondary` for the quieter inline action that lives in a row of peers. Only the container ↔ label colour pair flips; geometry stays identical. Each specimen above carries a **Disabled** toggle.
+Three appearances. `default` is the base inline action; `accent` flips to the brand commit colour for the row's one commit; `inverse` swaps to the inverse cluster for use inside Toast / coach-mark hosts. Only the container ↔ label colour pair flips; geometry stays identical. Each specimen above carries a **Disabled** toggle.
 
-| Appearance  | Background                          | Border                                          | Label / icon              | When to reach for it |
-|-------------|-------------------------------------|--------------------------------------------------|---------------------------|----------------------|
-| `primary`   | `sys.color.primary`                 | none                                             | `sys.color.onPrimary`     | The single commit affordance on the surface — a [Page](../navigation-bar/page.md) bar's "Save" / "Done". Never two in the same row. |
-| `secondary` | `sys.color.surfaceContainerHigh`    | 1px `sys.color.outlineVariant`                   | `sys.color.onSurface`     | Quiet inline action in a row of peers — a toolbar opener "Filters ⌄", an "Edit" beside a row title. Mirrors [Filter chip's](../chip/filter.md) unselected chrome. |
+| Appearance  | Background                          | Border                                          | Label / icon                       | When to reach for it |
+|-------------|-------------------------------------|--------------------------------------------------|------------------------------------|----------------------|
+| `default`   | `sys.color.surfaceContainerHigh`    | 1px `sys.color.outlineVariant`                   | `sys.color.onSurface`              | Quiet inline action in a row of peers — a toolbar opener "Filters ⌄", an "Edit" beside a row title. Mirrors [Filter chip's](../chip/filter.md) unselected chrome. |
+| `accent`    | `sys.color.primary`                 | none                                             | `sys.color.onPrimary`              | The single commit affordance on the surface — a [Page](../navigation-bar/page.md) bar's "Save" / "Done". Never two in the same row. |
+| `inverse`   | `sys.color.inverseSurface`          | none                                             | `sys.color.inverseOnSurface`       | For use inside an inverse host (Toast action chip, coach-mark trigger). |
 
 Destructive is intentionally **not** an appearance here — for inline destructive commits reach for the standard [Button](./button.md) `secondary` flavored as `destructive` so the warning weight isn't swallowed by the dense Toolbar rung.
 

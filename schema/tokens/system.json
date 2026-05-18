@@ -57,34 +57,6 @@
         },
         "$type": "color"
       },
-      "tertiary": {
-        "$value": "{ref.palette.purple.500}",
-        "$theme": {
-          "dark": "{ref.palette.purple.600}"
-        },
-        "$type": "color"
-      },
-      "onTertiary": {
-        "$value": "{ref.palette.neutral.50}",
-        "$theme": {
-          "dark": "{ref.palette.neutral.50}"
-        },
-        "$type": "color"
-      },
-      "tertiaryContainer": {
-        "$value": "{ref.palette.purple.50}",
-        "$theme": {
-          "dark": "{ref.palette.purple.900}"
-        },
-        "$type": "color"
-      },
-      "onTertiaryContainer": {
-        "$value": "{ref.palette.purple.600}",
-        "$theme": {
-          "dark": "{ref.palette.purple.400}"
-        },
-        "$type": "color"
-      },
       "brand": {
         "$value": "{ref.palette.red.500}",
         "$theme": {
@@ -110,6 +82,34 @@
         "$value": "{ref.palette.red.600}",
         "$theme": {
           "dark": "{ref.palette.red.400}"
+        },
+        "$type": "color"
+      },
+      "success": {
+        "$value": "{ref.palette.green.500}",
+        "$theme": {
+          "dark": "{ref.palette.green.500}"
+        },
+        "$type": "color"
+      },
+      "onSuccess": {
+        "$value": "{ref.palette.neutral.50}",
+        "$theme": {
+          "dark": "{ref.palette.neutral.50}"
+        },
+        "$type": "color"
+      },
+      "successContainer": {
+        "$value": "{ref.palette.green.50}",
+        "$theme": {
+          "dark": "{ref.palette.green.900}"
+        },
+        "$type": "color"
+      },
+      "onSuccessContainer": {
+        "$value": "{ref.palette.green.600}",
+        "$theme": {
+          "dark": "{ref.palette.green.400}"
         },
         "$type": "color"
       },

@@ -377,9 +377,20 @@ textarea {
    the primary fill at the standard hover / pressed / focus opacities,
    so the recipe falls out of the same chip CSS without a per-state
    override. */
-.chorus-chip--filter.chorus-button--toolbar--primary {
+.chorus-chip--filter.chorus-button--toolbar--accent {
   --chip-bg: var(--sys-color-primary);
   --chip-label: var(--sys-color-onPrimary);
+  --chip-border-color: transparent;
+}
+
+/* Inverse-toned toolbar button — for use inside an inverse host
+   (snackbars, coach-marks, dark coach overlays). Same chrome geometry
+   as the default Filter chip; the colour pair flips to the inverse
+   cluster so the button reads against `inverseSurface` containers
+   without a per-host tweak. */
+.chorus-chip--filter.chorus-button--toolbar--inverse {
+  --chip-bg: var(--sys-color-inverseSurface);
+  --chip-label: var(--sys-color-inverseOnSurface);
   --chip-border-color: transparent;
 }
 
@@ -1164,7 +1175,7 @@ span.chorus-chip {
    colour is `sys.color.brand` (the same role the editorial `flag`
    slot rides), not the interactive `sys.color.primary`. Selector
    doubles the class (specificity 0,2,0) so it wins against the
-   `.chorus-button--text--appearance-secondary` rule that declares
+   `.chorus-button--text--appearance-default` rule that declares
    `--button-text-label` later in the cascade. The Heart glyph re-
    tones automatically via the Text Button `currentColor` contract,
    and the hover / pressed / focus overlays inherit from
@@ -1172,6 +1183,7 @@ span.chorus-chip {
 .chorus-button--text.chorus-feed__like--active {
   --button-text-label: var(--sys-color-brand);
 }
+
 
 /* Views — the static sibling of the two Text Buttons in the engagement
    row. Mirrors the `xsmall` Text Button's at-rest visual contract
@@ -1713,15 +1725,18 @@ span.chorus-chip {
   color: var(--sys-color-onPrimaryContainer);
 }
 
-/* Neutral binds to `secondaryContainer` (not `surfaceVariant`) so the
-   callout stays visible on raised surfaces in dark mode. The two roles
-   are identical in light (`neutral.100`) but diverge in dark:
-   `surfaceVariant` = `neutral.800` (collides with `surfaceContainerHigh`
-   on Dialog / Bottom Sheet / raised cards), while `secondaryContainer`
-   = `neutral.700` — one tonal step clear of the surface ladder. */
+/* Neutral uses an 8% black/white overlay rather than a tonal container
+   role, so the callout stays harmonious on any underlying surface —
+   body, raised card, BottomSheet, Dialog — by tinting one step darker
+   (light mode) or lighter (dark mode) instead of pinning to a fixed
+   neutral step that can collide with the surface ladder. */
 .chorus-callout--neutral {
-  background: var(--sys-color-secondaryContainer);
-  color: var(--sys-color-onSecondaryContainer);
+  background: var(--ref-palette-black-200);
+  color: var(--sys-color-onSurface);
+}
+
+[data-theme="dark"] .chorus-callout--neutral {
+  background: var(--ref-palette-white-200);
 }
 
 /* 32 × 32 leading icon slot. Anatomy contract — the callout's
@@ -1791,6 +1806,7 @@ span.chorus-chip {
 .chorus-bottom-sheet__scrim--inline {
   position: relative;
   inset: auto;
+  z-index: auto;
   width: 100%;
   min-height: 100%;
   padding-top: var(--sys-layout-container-2xl);
@@ -1885,6 +1901,7 @@ span.chorus-chip {
 .chorus-dialog__scrim--inline {
   position: relative;
   inset: auto;
+  z-index: auto;
   width: 100%;
   min-height: 100%;
   padding: var(--sys-layout-container-2xl) 40px;
@@ -2468,7 +2485,11 @@ span.chorus-chip {
   margin: calc(-1 * var(--sys-layout-container-xs));
   border: none;
   background: transparent;
-  color: var(--sys-color-onSurface);
+  /* Per-appearance plumbing — the glyph colour drives the hover /
+     pressed / focus overlays (they `color-mix` from this var), so
+     each appearance only declares one token. */
+  --button-icon-glyph-color: var(--sys-color-onSurface);
+  color: var(--button-icon-glyph-color);
   border-radius: var(--sys-radius-full);
   cursor: pointer;
   position: relative;
@@ -2481,14 +2502,20 @@ span.chorus-chip {
   --button-icon-glyph: var(--sys-icon-md);
 }
 
+/* Appearance modifiers — only the glyph colour token changes. Hover /
+   pressed / focus overlays mix from `--button-icon-glyph-color`, so
+   the recipe falls out without per-appearance overlay rules. */
+.chorus-button--icon--appearance-default { --button-icon-glyph-color: var(--sys-color-onSurface); }
+.chorus-button--icon--appearance-inverse { --button-icon-glyph-color: var(--sys-color-inverseOnSurface); }
+
 .chorus-button--icon:hover,
 .chorus-button--icon[data-force-state="hovered"] {
-  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-hover) * 100%), transparent);
+  background: color-mix(in srgb, var(--button-icon-glyph-color) calc(var(--sys-state-hover) * 100%), transparent);
 }
 
 .chorus-button--icon:active,
 .chorus-button--icon[data-force-state="pressed"] {
-  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-pressed) * 100%), transparent);
+  background: color-mix(in srgb, var(--button-icon-glyph-color) calc(var(--sys-state-pressed) * 100%), transparent);
 }
 
 .chorus-button--icon:focus-visible,
@@ -2499,7 +2526,7 @@ span.chorus-chip {
 }
 
 .chorus-button--icon[data-force-state="focused"] {
-  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-focus) * 100%), transparent);
+  background: color-mix(in srgb, var(--button-icon-glyph-color) calc(var(--sys-state-focus) * 100%), transparent);
 }
 
 .chorus-button--icon:disabled,
@@ -2537,7 +2564,7 @@ span.chorus-chip {
    density. Renders as <a> when `href` is given, <button> otherwise. */
 .chorus-button--text {
   /* Per-size plumbing — appearance + size modifiers override these. */
-  --button-text-label: var(--sys-color-primary);
+  --button-text-label: var(--sys-color-onSurfaceVariant);
   --button-text-min-height: 40px;
   --button-text-padding-block: var(--sys-layout-container-xs);
   --button-text-padding-inline: var(--sys-layout-container-xs);
@@ -2583,9 +2610,15 @@ span.chorus-chip {
 }
 
 /* Appearance modifiers — only the label colour token changes; state
-   overlays follow because they mix from `--button-text-label`. */
-.chorus-button--text--appearance-primary   { --button-text-label: var(--sys-color-primary); }
-.chorus-button--text--appearance-secondary { --button-text-label: var(--sys-color-onSurfaceVariant); }
+   overlays follow because they mix from `--button-text-label`.
+   `default` is the base neutral inline action (`onSurfaceVariant`);
+   `accent` paints the label in the brand-blue commit colour;
+   `inverse` swaps the label to the inverse cluster so a Text Button
+   inside a Toast / coach-mark / snackbar reads against the host's
+   `inverseSurface` fill without a per-host tweak. */
+.chorus-button--text--appearance-default { --button-text-label: var(--sys-color-onSurfaceVariant); }
+.chorus-button--text--appearance-accent  { --button-text-label: var(--sys-color-primary); }
+.chorus-button--text--appearance-inverse { --button-text-label: var(--sys-color-inverseOnSurface); }
 
 /* Size modifiers — pair min-height + padding + typo + icon footprint. */
 .chorus-button--text--size-medium {
@@ -2854,5 +2887,56 @@ span.chorus-chip {
   opacity: var(--sys-state-disabled);
   cursor: not-allowed;
   pointer-events: none;
+}
+
+/* ============================================================
+   Toast — transient confirmation strip
+============================================================ */
+/* Inverse-toned pill anchored to the viewport edge by the host. The
+   component itself owns the chrome (fill / radius / inset / shadow);
+   positioning, fixed/safe-area, and the show/hide lifecycle are the
+   host's job. 16 / 8 inset, 48 min-height, body.sm typography, single
+   trailing slot for an optional action or dismiss button. */
+.chorus-toast {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-xl);
+  min-height: 48px;
+  /* Content-driven width up to 400px — beyond that the body wraps so the
+     strip stays a recognisable shape rather than a banner. The
+     `100vw - 16px` cap honours the 8-token safe area on each side; on a
+     narrow viewport the toast shrinks to viewport-minus-safe-area
+     instead of overflowing. */
+  max-width: min(400px, calc(100vw - 2 * var(--sys-layout-container-xs)));
+  padding: var(--sys-layout-container-xs) var(--sys-layout-container-md);
+  border-radius: var(--sys-radius-md);
+  background: var(--sys-color-inverseSurface);
+  color: var(--sys-color-inverseOnSurface);
+  box-shadow: var(--sys-elevation-overlay);
+}
+
+.chorus-toast__body {
+  flex: 1 1 auto;
+  /* Body wraps up to two lines and truncates with an ellipsis after.
+     Implemented with the `-webkit-box` line-clamp recipe (the only
+     browser-supported path that snaps to a line count rather than a
+     pixel height). The body still aligns vertically centred because
+     line-clamp clips the rendered box height to its content, and the
+     parent `.chorus-toast` keeps `align-items: center`. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
+  font-weight: var(--sys-typo-body-sm-weight);
+  letter-spacing: var(--sys-typo-body-sm-tracking);
+  color: inherit;
+}
+
+/* Trailing slot is intrinsically a Button (text-small or icon-medium);
+   the only thing this rule owns is keeping it from stretching. */
+.chorus-toast__trailing {
+  flex: 0 0 auto;
 }
 

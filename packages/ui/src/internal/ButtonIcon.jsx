@@ -12,6 +12,7 @@ import { joinClasses } from '../spec-utils.js';
 export function ButtonIcon({
   icon,
   size = 'large',
+  appearance = 'default',
   state,
   className,
   'aria-label': ariaLabel,
@@ -30,6 +31,7 @@ export function ButtonIcon({
       className={joinClasses(
         'chorus-button--icon',
         `chorus-button--icon--${size}`,
+        `chorus-button--icon--appearance-${appearance}`,
         state && `is-${state}`,
         className,
       )}

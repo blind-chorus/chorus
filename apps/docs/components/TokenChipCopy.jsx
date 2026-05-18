@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Toast } from '@blind-chorus/ui';
 
 /* Global click handler for `.token-chip` elements.
 
@@ -15,6 +16,12 @@ import { useEffect } from 'react';
    clipboard, and toggles `data-copied="true"` for ~1.2s so the CSS can
    show a transient confirmation state without per-chip React state. */
 export function TokenChipCopy() {
+  // Single-slot toast — visible after the last successful copy, hides on
+  // its own timer. `nonce` flips on every copy so a rapid second copy
+  // re-triggers the show animation even when the toast is already up.
+  const [toast, setToast] = useState({ visible: false, nonce: 0 });
+  const hideTimer = useRef(null);
+
   useEffect(() => {
     const onClick = (e) => {
       const chip = e.target.closest('.token-chip');
@@ -32,6 +39,11 @@ export function TokenChipCopy() {
       const flash = () => {
         chip.setAttribute('data-copied', 'true');
         setTimeout(() => chip.removeAttribute('data-copied'), 1200);
+        setToast((prev) => ({ visible: true, nonce: prev.nonce + 1 }));
+        if (hideTimer.current) clearTimeout(hideTimer.current);
+        hideTimer.current = setTimeout(() => {
+          setToast((prev) => ({ ...prev, visible: false }));
+        }, 1600);
       };
       const fallback = () => {
         // Legacy path for non-secure contexts / browsers without async
@@ -52,7 +64,24 @@ export function TokenChipCopy() {
       }
     };
     document.addEventListener('click', onClick);
-    return () => document.removeEventListener('click', onClick);
+    return () => {
+      document.removeEventListener('click', onClick);
+      if (hideTimer.current) clearTimeout(hideTimer.current);
+    };
   }, []);
-  return null;
+
+  /* The toast itself is the canonical `Toast` component — same inverse
+     pair, radius, padding, min-height, and elevation as every other
+     Toast on the docs site. The anchor wrapper owns only the things
+     Toast leaves to the host: fixed bottom-center position, the 8-token
+     safe area, the fade / slide enter+exit transition, and the
+     `pointer-events: none` rule so the toast never blocks chips. */
+  return (
+    <div
+      className="token-copy-toast-anchor"
+      data-visible={toast.visible || undefined}
+    >
+      <Toast>Copied to clipboard</Toast>
+    </div>
+  );
 }

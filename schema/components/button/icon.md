@@ -4,7 +4,7 @@ The icon-only commit surface — circular transparent target carrying a single g
 
 ## Default
 
-Transparent capsule with a single glyph. `large` (40 × 40 / 24-glyph) is the default; flip Size to `medium` (32 × 32 / 16-glyph) for the dense inside-control rung.
+Transparent capsule with a single glyph in `onSurface`. `large` (40 × 40 / 24-glyph) is the default; flip Size to `medium` (32 × 32 / 16-glyph) for the dense inside-control rung.
 
 ```preview
 button/icon/default
@@ -13,6 +13,19 @@ import { Button } from '@blind-chorus/ui';
 import { SearchIcon } from '@blind-chorus/ui/icons';
 
 <Button variant="icon" size="large" icon={<SearchIcon />} aria-label="Search" />
+```
+
+## Inverse
+
+Mirror for use inside an inverse host (Toast dismiss, coach-mark close). Glyph paints in `inverseOnSurface` so it reads against the host's `inverseSurface` fill; state overlays mix from the same token.
+
+```preview
+button/icon/inverse
+---
+import { Button } from '@blind-chorus/ui';
+import { CloseIcon } from '@blind-chorus/ui/icons';
+
+<Button variant="icon" size="medium" appearance="inverse" icon={<CloseIcon />} aria-label="Dismiss" />
 ```
 
 ## Use cases
@@ -52,15 +65,24 @@ import { SearchIcon } from '@blind-chorus/ui/icons';
 - **icon** — required glyph, sized at the rung's icon token. Inherits foreground via `currentColor` per the [family icon-colour rule](./button.md#icon-colour-inheritance-family-wide).
 - **aria-label** — required accessible name; Icon Button has no visible text.
 
+## Appearance
+
+Two appearances. `default` is the canonical chrome for every regular page surface; `inverse` swaps to the inverse cluster for use inside Toast / coach-mark / snackbar hosts. Geometry stays identical; only the glyph colour pair flips.
+
+| Appearance  | Background    | Border | Icon color                       | When to reach for it |
+|-------------|---------------|--------|----------------------------------|----------------------|
+| `default`   | `transparent` | none   | `sys.color.onSurface`            | Every regular page surface. |
+| `inverse`   | `transparent` | none   | `sys.color.inverseOnSurface`     | For use inside an inverse host (Toast dismiss, coach-mark close). |
+
 ## Anatomy
 
-| Property              | Token                                                  |
-|-----------------------|---------------------------------------------------------|
-| Background (rest)     | `transparent`                                           |
-| Border                | none                                                    |
-| Icon color            | `sys.color.onSurface`                                   |
-| Hover background      | `sys.color.onSurface` at `sys.state.hover` (8%) opacity |
-| Pressed background    | `sys.color.onSurface` at `sys.state.pressed` (16%) opacity |
+| Property              | Token                                                          |
+|-----------------------|----------------------------------------------------------------|
+| Background (rest)     | `transparent`                                                  |
+| Border                | none                                                           |
+| Icon color            | per appearance (`onSurface` / `inverseOnSurface`)              |
+| Hover background      | icon color at `sys.state.hover` (8%) opacity                   |
+| Pressed background    | icon color at `sys.state.pressed` (16%) opacity                |
 
 ## Sizes
 

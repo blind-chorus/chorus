@@ -15,7 +15,7 @@ import { NavigationBar, Button } from '@blind-chorus/ui';
   variant="page"
   title="Edit profile"
   leading={{ icon: <BackwardIcon />, 'aria-label': 'Back' }}
-  trailing={<Button variant="toolbar" appearance="primary">Save</Button>}
+  trailing={<Button variant="toolbar" appearance="accent">Save</Button>}
 />
 ```
 

@@ -2,28 +2,40 @@
 
 The link-shaped commit surface — reads as text at rest, paints a button-like hover overlay and standard focus ring when interacted with. Use inline next to typographic content where the action commits ("Skip"/"Done" on a [Page](../navigation-bar/page.md) bar, "Edit" beside a row title). For navigation use the bare [Text link](../../DESIGN.md#text-links).
 
-## Primary
+## Default
 
-`primary`-coloured label in a transparent capsule.
+Neutral label (`onSurfaceVariant`) in a transparent capsule — the canonical Text Button. Quiet enough to sit next to typographic content without claiming commit-rank attention.
 
 ```preview
-button/text/primary
+button/text/default
 ---
 import { Button } from '@blind-chorus/ui';
 
-<Button variant="text" appearance="primary">Skip</Button>
+<Button variant="text">Not now</Button>
 ```
 
-## Secondary
+## Accent
 
-Neutral grey alternative — `onSurfaceVariant` label. Same state-overlay recipe as Primary.
+Brand-blue label (`primary`) — the inline commit affordance. Use sparingly; never two in the same row.
 
 ```preview
-button/text/secondary
+button/text/accent
 ---
 import { Button } from '@blind-chorus/ui';
 
-<Button variant="text" appearance="secondary">Not now</Button>
+<Button variant="text" appearance="accent">Skip</Button>
+```
+
+## Inverse
+
+Mirror for use inside an inverse host (Toast, coach-mark, snackbar). Label paints in `inverseOnSurface` so it reads against the host's `inverseSurface` fill.
+
+```preview
+button/text/inverse
+---
+import { Button } from '@blind-chorus/ui';
+
+<Button variant="text" appearance="inverse">Undo</Button>
 ```
 
 ## Use cases
@@ -65,8 +77,8 @@ button/text/group
 import { Button } from '@blind-chorus/ui';
 
 <div style={{ display: 'inline-flex', gap: 'var(--sys-layout-inline-md)' }}>
-  <Button variant="text" appearance="secondary">Cancel</Button>
-  <Button variant="text">Save</Button>
+  <Button variant="text">Cancel</Button>
+  <Button variant="text" appearance="accent">Save</Button>
 </div>
 ```
 
@@ -84,14 +96,15 @@ import { Button } from '@blind-chorus/ui';
 
 ## Appearance
 
-Two appearances on the same emphasis ladder as the standard [Button](./button.md). Each specimen carries a **Disabled** toggle.
+Three appearances. Default is the base neutral inline action; `accent` paints the label in the brand commit colour for the row's one commit; `inverse` swaps to the inverse cluster for use inside Toast / coach-mark / snackbar hosts.
 
 | Appearance  | Background (rest) | Label color                       | When to reach for it                                                                 |
 |-------------|-------------------|-----------------------------------|--------------------------------------------------------------------------------------|
-| `primary`   | `transparent`     | `sys.color.primary`               | Brand-blue inline commit — "Skip"/"Done", "Edit". |
-| `secondary` | `transparent`     | `sys.color.onSurfaceVariant`      | Quiet neutral alternative — "Not now" tails. |
+| `default`   | `transparent`     | `sys.color.onSurfaceVariant`      | The base inline action — "Not now" tails, secondary inline trail commits. |
+| `accent`    | `transparent`     | `sys.color.primary`               | Brand-blue inline commit — "Skip" / "Done", "Edit". One per row. |
+| `inverse`   | `transparent`     | `sys.color.inverseOnSurface`      | For use inside an inverse host (Toast action, coach-mark). |
 
-A **destructive** flavor swaps the label to the `error` family across both appearances.
+A **destructive** flavor swaps the label to the `error` family across every appearance.
 
 ## Slots
 
@@ -105,7 +118,7 @@ A **destructive** flavor swaps the label to the `error` family across both appea
 |-----------------------|---------------------------------------------------------|
 | Background (rest)     | `transparent`                                           |
 | Border                | none                                                    |
-| Label color           | per appearance (`primary` / `secondary`)                |
+| Label color           | per appearance (`default` / `accent` / `inverse`)       |
 | Icon color            | `currentColor` (inherits the label colour — see below)  |
 | Hover background      | label color at `sys.state.hover` (8%) opacity           |
 | Pressed background    | label color at `sys.state.pressed` (16%) opacity        |

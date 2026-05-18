@@ -64,7 +64,10 @@ function longestCommonDotPrefix(strs) {
 }
 
 /* Build a trim map for a single scope (one array of tokens).
-   Returns null if the scope doesn't qualify. */
+   Returns null if the scope doesn't qualify. Displays are emitted
+   without the optional leading `$` — the sigil is dropped at render time
+   for chip-density, while the canonical name (with or without `$` from
+   the call site) remains the lookup key. */
 export function trimForScope(tokens) {
   const valid = tokens.filter(isToken);
   if (valid.length < 2) return null;
@@ -76,8 +79,7 @@ export function trimForScope(tokens) {
   for (const t of valid) {
     const stripped = normalize(t).slice(prefix.length);
     if (!stripped) continue;
-    const display = t.startsWith('$') ? `$${stripped}` : stripped;
-    map.set(t, display);
+    map.set(t, stripped);
   }
   return map;
 }
@@ -100,15 +102,22 @@ export function buildTrimMapFromScopes(scopes) {
   return out.size > 0 ? out : null;
 }
 
-export function TokenTrimScope({ tokens, children }) {
+/* `map` lets callers override the auto-computed trim with an explicit
+   {fullName → displayString} mapping. Useful when the auto trim would
+   collapse too aggressively (e.g. the Spacing page wants every chip
+   to retain its axis name — `layout.page.md`, `space.100` — instead
+   of trimming down to bare T-shirt steps). When `map` is set, `tokens`
+   is ignored. */
+export function TokenTrimScope({ tokens, map: manualMap, children }) {
   const map = useMemo(() => {
+    if (manualMap instanceof Map) return manualMap;
     const list = Array.isArray(tokens) ? tokens : [];
     return trimForScope(list);
-  }, [tokens]);
+  }, [tokens, manualMap]);
   return <TokenTrimContext.Provider value={map}>{children}</TokenTrimContext.Provider>;
 }
 
-export function TokenChip({ children, className }) {
+export function TokenChip({ children, className, swatch }) {
   const trimMap = useContext(TokenTrimContext);
   const raw = typeof children === 'string'
     ? children
@@ -116,10 +125,21 @@ export function TokenChip({ children, className }) {
       ? children.map((c) => (typeof c === 'string' ? c : '')).join('')
       : '';
   const key = raw.trim();
+  /* The optional leading `$` is a docs-only sigil — drop it from both the
+     visible chip and the clipboard payload so the copy lands the canonical
+     dot-path (`sys.color.primary`, matching `--sys-color-primary` and the
+     resolved token JSON). The trim map still keys by the raw input so
+     call sites can keep passing `$sys.color.foo` interchangeably. */
+  const stripped = key.replace(/^\$/, '');
   const trimmed = trimMap?.get(key);
+  const display = trimmed ?? stripped;
   const cls = className ? `token-chip ${className}` : 'token-chip';
-  if (trimmed) {
-    return <code className={cls} data-token={key} title={key}>{trimmed}</code>;
-  }
-  return <code className={cls}>{children}</code>;
+  /* Optional inline color swatch — a 12×12 chip rendered on the right of
+     the token code so a color row can read its value without a separate
+     preview column. The swatch is `aria-hidden` and empty, so the chip's
+     `textContent` (the clipboard payload) stays the canonical token name. */
+  const swatchEl = swatch ? (
+    <span className="token-chip__swatch" aria-hidden="true" style={{ background: swatch }} />
+  ) : null;
+  return <code className={cls} data-token={stripped} title={stripped}>{display}{swatchEl}</code>;
 }

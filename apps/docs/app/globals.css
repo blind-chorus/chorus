@@ -85,10 +85,6 @@ code {
   text-decoration: none;
 }
 
-.site-nav-brand:hover {
-  color: var(--sys-color-primary);
-}
-
 .site-nav-brand-mark {
   display: block;
   flex-shrink: 0;
@@ -1013,6 +1009,16 @@ code {
   --sem-col-chip: 96px;
   grid-template-columns: var(--sem-col-token) var(--sem-col-role) var(--sem-col-chip);
 }
+/* Color-page tables pin the token column to a fixed measure so the chip
+   edges line up vertically across every group on the page (Accent,
+   Surface, Status, …). Without this, each table sizes its token column
+   to its own widest chip, and the prose column shifts left or right
+   between tables — visually noisy when scrolling. The measure is set to
+   fit the longest visible chip (`$surfaceContainerHighest` + 12×12
+   swatch) with breathing room. */
+.sem-table.role-table.sem-table--color .sem-table-grid {
+  --sem-col-token: 16rem;
+}
 /* Chip-less row variant — letter-spacing / type-scale tables that have
    no swatch column. Stay on the parent's subgrid so columns line up with
    the head, but let the role cell consume the vacated chip column. */
@@ -1111,10 +1117,51 @@ code {
   background: color-mix(in srgb, var(--sys-color-onSurface) 10%, transparent);
 }
 
+/* Copy-confirmation flash uses the inverse pair (`inverseSurface` /
+   `inverseOnSurface`) — the same role pair that anchors snackbars and
+   coach-mark surfaces. The chip reads as "lifted off the page for a
+   beat" against any surrounding surface, then settles back. */
 .token-chip[data-copied="true"] {
-  background: var(--sys-color-primary);
-  color: var(--sys-color-onPrimary);
-  border-color: var(--sys-color-primary);
+  background: var(--sys-color-inverseSurface);
+  color: var(--sys-color-inverseOnSurface);
+  border-color: var(--sys-color-inverseSurface);
+}
+
+/* Inline color swatch nested inside a `.token-chip`. 12×12 circle, rendered
+   to the right of the token text so a color row reads its value without a
+   separate preview column. Hairline overlay border keeps very light or
+   transparent fills legible against the chip's tinted background. */
+.token-chip__swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-left: var(--sys-layout-inline-sm);
+  border-radius: 50%;
+  border: var(--sys-borderWidth-hairline) solid color-mix(in srgb, var(--sys-color-onSurface) 24%, transparent);
+  vertical-align: -2px;
+}
+
+/* Copy-confirmation toast anchor — wraps a canonical `Toast` component
+   so the docs share the same surface contract as every other Toast on
+   the site (inverse pair, radius, padding, min-height, shadow). The
+   anchor owns only the things Toast leaves to the host: fixed bottom-
+   center position, the 8-token safe area, the fade / slide enter+exit
+   transition, and the `pointer-events: none` rule so the strip never
+   blocks chips queued behind it. */
+.token-copy-toast-anchor {
+  position: fixed;
+  left: 50%;
+  bottom: var(--sys-layout-container-xl);
+  z-index: 1100;
+  transform: translate(-50%, 12px);
+  opacity: 0;
+  transition: opacity 160ms ease-out, transform 160ms ease-out;
+  pointer-events: none;
+}
+
+.token-copy-toast-anchor[data-visible] {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
 /* Code chips never inherit bold from a wrapping `<strong>`. The chip is a
@@ -1763,7 +1810,7 @@ ol.rule-list > li::before {
 }
 
 .guidelines-col--do .guidelines-marker {
-  color: var(--sys-color-tertiary);
+  color: var(--sys-color-success);
 }
 
 .guidelines-col--dont .guidelines-marker {

@@ -4,7 +4,7 @@ import { asset } from '../lib/asset';
 import { groupByPrefix, toCssVarName } from '../lib/tokens';
 import { slugify as slugifyTitle } from '../lib/slugify';
 import { SemTable } from './SemTable';
-import { TokenChip, TokenTrimScope } from './TokenTrim';
+import { TokenChip, TokenTrimScope, TokenTrimContext } from './TokenTrim';
 
 // Render the inline-markdown subset DESIGN.md uses inside table Role cells:
 // `code`, **strong**. No links / lists / nesting — keep it small.
@@ -36,11 +36,11 @@ function formatTokenValue(token) {
 
 // Token-cell head: chip + optional value, baseline-aligned on the same row.
 // Value sits right of the chip so the description below carries only prose.
-function TokenHead({ name, value, rem, multiplier }) {
+function TokenHead({ name, value, rem, multiplier, swatch }) {
   const hasMeta = value != null || rem || multiplier;
   return (
     <div className="sem-cell sem-cell-token">
-      <TokenChip>{name}</TokenChip>
+      <TokenChip swatch={swatch}>{name}</TokenChip>
       {hasMeta ? (
         <span className="sem-role-meta">
           {multiplier ? <>{multiplier}<span className="sem-role-meta-rem"> · </span></> : null}
@@ -75,14 +75,14 @@ function RoleTableHead({ tokenLabel = 'Token', roleLabel = 'Role', previewLabel 
 // `tokens` (optional) is an explicit list of fully-qualified token names
 // rendered inside this table; when present, chips matching the list have
 // their shared namespace prefix trimmed at display time. See TokenTrim.
-function RoleTable({ title, head, tokens, children }) {
+function RoleTable({ title, head, tokens, className, children }) {
   let headEl;
   if (head === null) headEl = null;
   else if (head == null) headEl = <RoleTableHead />;
   else if (typeof head === 'object' && !head.type) headEl = <RoleTableHead {...head} />;
   else headEl = head;
   const table = (
-    <SemTable className="role-table">
+    <SemTable className={className ? `role-table ${className}` : 'role-table'}>
       {title ? <div className="sem-table-title">{title}</div> : null}
       {headEl}
       <div className="sem-table-body">{children}</div>
@@ -348,12 +348,11 @@ function SystemRow({ tokens, name, role }) {
   if (!token) return null;
   const cssVar = toCssVarName(`sys.color.${name}`);
   return (
-    <div className="sem-row">
-      <div className="sem-cell sem-cell-token"><TokenChip>$sys.color.{name}</TokenChip></div>
-      <RoleCell role={renderInline(role)} />
-      <div className="sem-cell sem-cell-chip">
-        <span className="sem-chip" style={{ background: `var(${cssVar})` }} />
+    <div className="sem-row sem-row--no-chip">
+      <div className="sem-cell sem-cell-token">
+        <TokenChip swatch={`var(${cssVar})`}>$sys.color.{name}</TokenChip>
       </div>
+      <RoleCell role={renderInline(role)} />
     </div>
   );
 }
@@ -364,7 +363,7 @@ function SystemTable({ tokens, title, rows }) {
   // / etc. instead of all repeating `$sys.color.`.
   const chipTokens = rows.map((r) => `$sys.color.${r.name}`);
   return (
-    <RoleTable title={title} tokens={chipTokens}>
+    <RoleTable title={title} tokens={chipTokens} head={{ showChip: false }} className="sem-table--color">
       {rows.map(r => (
         <SystemRow key={r.name} tokens={tokens} name={r.name} role={r.role} />
       ))}
@@ -378,7 +377,7 @@ const ACCENT_GROUPS = [
     rows: [
       { name: 'primary',            role: 'The brand color and highest-attention accent. Use sparingly for one dominant action per view (primary CTA, selected tab underline, active toggle fill, progress indicator). Two primary buttons in a view collapse the hierarchy. Resolves to `ref.palette.blue.500` in both modes — the brand hue is saturated enough to clear AA against `surface` in both light (white) and dark (`neutral.900`), so the CTA reads as the same blue across themes without a tonal nudge.' },
       { name: 'onPrimary',          role: 'Foreground placed on top of `primary`. Label text, icons, and spinners inside primary-filled surfaces. Always pair with `primary`; never against a neutral surface. Resolves to `ref.palette.neutral.50`.' },
-      { name: 'primaryContainer',   role: 'Low-chroma tinted surface in the primary family. Selected-state list backgrounds, informational callouts, highlighted message bubbles, brand-flavored section banners. Safe on larger areas where `primary` would overwhelm. Resolves to `ref.palette.blue.50` (light) / `ref.palette.blue.900` (dark) — light sits one step brighter than the other accent containers (`tertiary` / `error` use `*.100`) because primary appears most often and a heavier tint competes with content.' },
+      { name: 'primaryContainer',   role: 'Low-chroma tinted surface in the primary family. Selected-state list backgrounds, informational callouts, highlighted message bubbles, brand-flavored section banners. Safe on larger areas where `primary` would overwhelm. Resolves to `ref.palette.blue.50` (light) / `ref.palette.blue.900` (dark) — light sits one step brighter than the other accent containers (`error` uses `*.100`) because primary appears most often and a heavier tint competes with content.' },
       { name: 'onPrimaryContainer', role: 'Foreground for content placed on `primaryContainer`. Text, icons, and links inside primary-tinted surfaces. Resolves to `ref.palette.blue.600` (light) / `ref.palette.blue.400` (dark) — both stay in the saturated primary family so the foreground reads as *blue* on both tinted backgrounds, instead of collapsing to near-black on the light tint or muddying into the deep container on the dark tint. The dark step lifts one band higher than light’s mirror would suggest because identical luminance gaps read darker on dark surfaces.' },
     ],
   },
@@ -392,21 +391,21 @@ const ACCENT_GROUPS = [
     ],
   },
   {
-    title: 'Tertiary',
-    rows: [
-      { name: 'tertiary',            role: 'A third accent distinct from the brand. Categorical accent moments and supplementary highlights — featured-tile fills, premium-tier badges, decorative call-outs that need a hue *other than* blue without taking on brand or destructive meaning. Never stands in for the main CTA — treat as a complement to `primary`, not a replacement. Resolves to `ref.palette.purple.500` (light) / `ref.palette.purple.600` (dark).' },
-      { name: 'onTertiary',          role: 'Foreground placed on top of `tertiary`. Label text and icons inside tertiary-filled surfaces. Resolves to `ref.palette.neutral.50`.' },
-      { name: 'tertiaryContainer',   role: 'Low-chroma tinted surface in the tertiary family. Soft categorical surfaces: featured banners, premium callouts, decorative tiles, sections that want a quiet purple identity without leaning on brand. Resolves to `ref.palette.purple.50` (light) / `ref.palette.purple.900` (dark).' },
-      { name: 'onTertiaryContainer', role: 'Foreground for content placed on `tertiaryContainer`. Resolves to `ref.palette.purple.600` (light) / `ref.palette.purple.400` (dark) — both stay in the saturated purple family so the foreground reads as *purple on tinted purple*, not as *near-black on tinted purple*.' },
-    ],
-  },
-  {
     title: 'Brand',
     rows: [
       { name: 'brand',            role: 'The product\'s signature red — a high-attention accent reserved for notification counts, unread badges, eyebrow flags, and brand-identity moments (logomark fills, brand-tagged callouts). One tonal step brighter than `error` in both modes (`red.500` brand vs. `red.600` / `red.700` error), so the two reds stay visually distinct on the same surface: brand reads as energetic identity, error reads as a deeper destructive signal. Resolves to `ref.palette.red.500` in **both** light and dark modes — brand identity stays stable across themes, and the 500 step is the brightest red the palette ships that still clears AA against `onBrand` (`neutral.50`) for white-on-brand labels.' },
       { name: 'onBrand',          role: 'Foreground placed on top of `brand`. Label text and icons inside brand-filled surfaces (notification counts, brand badges). Resolves to `ref.palette.neutral.50`. White-on-`red.500` lands at ~4.7:1 — clears AA for normal text in both modes.' },
       { name: 'brandContainer',   role: 'Low-chroma tinted surface in the brand family. Soft brand callouts, "what\'s new" banners, promotional tiles, marketing surfaces where the energy of `brand` would overwhelm. Resolves to `ref.palette.red.50` (light) / `ref.palette.red.900` (dark). Light is one step lighter than `errorContainer` (`red.50` vs. `red.100`) so the brand callout reads as a quiet identity touch rather than a warning.' },
       { name: 'onBrandContainer', role: 'Foreground for content placed on `brandContainer`. Resolves to `ref.palette.red.600` (light) / `ref.palette.red.400` (dark) — both stay in the saturated red family so the foreground reads as *red on tinted red*, not as *near-black on tinted red*. The dark step lifts one band higher than light\'s mirror would suggest because identical luminance gaps read darker on dark surfaces.' },
+    ],
+  },
+  {
+    title: 'Success',
+    rows: [
+      { name: 'success',            role: 'The signal color for positive confirmation — completed states, success toasts, "saved" pills, validated form fields, healthy status indicators. Reserved strictly for affirmative outcomes; decorative use erodes its signaling power. Resolves to `ref.palette.green.500` in **both** light and dark modes — mirrors `brand`\'s cross-mode stability so the success signal reads as the same green across themes, and the 500 step is the brightest green the palette ships that still clears AA against `onSuccess` (`neutral.50`) for white-on-success labels.' },
+      { name: 'onSuccess',          role: 'Foreground placed on top of `success`. Label text and icons inside success-filled surfaces. Resolves to `ref.palette.neutral.50`.' },
+      { name: 'successContainer',   role: 'Low-chroma tinted surface in the success family. Soft success callouts, "you\'re all set" banners, completed-task tiles where `success` would overwhelm. Resolves to `ref.palette.green.50` (light) / `ref.palette.green.900` (dark) — mirrors `brandContainer`\'s shallow-light / deep-dark structure.' },
+      { name: 'onSuccessContainer', role: 'Foreground for content placed on `successContainer`. Resolves to `ref.palette.green.600` (light) / `ref.palette.green.400` (dark) — both stay in the saturated green family so the foreground reads as *green on tinted green*, not as *near-black on tinted green*. The dark step lifts one band higher than light\'s mirror would suggest because identical luminance gaps read darker on dark surfaces.' },
     ],
   },
   {
@@ -474,11 +473,11 @@ function ColorAccentRoles({ tokens }) {
       title="Accent roles"
       id="color-accent"
       description={
-        <>Five role families covering brand emphasis (<code>primary</code>), neutral support (<code>secondary</code>), positive confirmation (<code>tertiary</code>), brand-identity attention (<code>brand</code>), and destructive signal (<code>error</code>). The role decides <em>what the color means</em>; the structure below decides <em>how to compose it</em>.</>
+        <>Five role families covering brand emphasis (<code>primary</code>), neutral support (<code>secondary</code>), brand-identity attention (<code>brand</code>), positive confirmation (<code>success</code>), and destructive signal (<code>error</code>). The role decides <em>what the color means</em>; the structure below decides <em>how to compose it</em>.</>
       }
     >
       <ProseSection title="Four-token quartet">
-        <p>Each accent role (<code>primary</code> / <code>secondary</code> / <code>tertiary</code> / <code>brand</code> / <code>error</code>) ships as a fixed <strong>four-token quartet</strong>: a high-emphasis pair and a low-emphasis pair, with foreground always paired to its background. The quartet is the unit of meaning — never use a fill without its <code>on*</code> foreground, and never read contrast manually. Across the four accents, the <em>role of the accent</em> differs (brand / supporting / confirmation / destructive) but the <em>internal four-slot structure</em> is identical, so the same composition rule (background + paired foreground) applies everywhere.</p>
+        <p>Each accent role (<code>primary</code> / <code>secondary</code> / <code>brand</code> / <code>success</code> / <code>error</code>) ships as a fixed <strong>four-token quartet</strong>: a high-emphasis pair and a low-emphasis pair, with foreground always paired to its background. The quartet is the unit of meaning — never use a fill without its <code>on*</code> foreground, and never read contrast manually. Across the five accents, the <em>role of the accent</em> differs (brand / supporting / identity / confirmation / destructive) but the <em>internal four-slot structure</em> is identical, so the same composition rule (background + paired foreground) applies everywhere.</p>
         <p>The four slots:</p>
         <ul className="rule-list">
           <li><strong>Main pair</strong> — <code>X</code> / <code>onX</code> — high-attention fill for CTAs, emphasis badges, status chips. Use sparingly per view.</li>
@@ -552,9 +551,9 @@ function ColorDarkMode() {
       description="Two different inversion rules apply across the system. Tap the theme toggle to inspect the dark hex value beside each light value in the tables above."
     >
       <ul className="rule-list">
-        <li><strong>Chromatic accents (<code>primary</code>, <code>tertiary</code>, <code>brand</code>, <code>error</code>) do not invert their on-pair between modes.</strong> <code>tertiary</code> nudges one tonal step in dark (<code>purple.500</code> → <code>purple.600</code>) and <code>error</code> nudges one step (<code>red.600</code> → <code>red.700</code>) so the fill still reads against a dark page; <code>primary</code> stays at <code>blue.500</code> and <code>brand</code> stays at <code>red.500</code> in both modes because both hues clear AA against both <code>surface</code> tones without a nudge. The <code>on*</code> foreground stays at <code>neutral.50</code>. Brand identity stays stable across modes.</li>
+        <li><strong>Chromatic accents (<code>primary</code>, <code>brand</code>, <code>success</code>, <code>error</code>) do not invert their on-pair between modes.</strong> <code>error</code> nudges one tonal step in dark (<code>red.600</code> → <code>red.700</code>) so the fill still reads against a dark page; <code>primary</code> stays at <code>blue.500</code>, <code>brand</code> stays at <code>red.500</code>, and <code>success</code> stays at <code>green.500</code> in both modes because each hue clears AA against both <code>surface</code> tones without a nudge. The <code>on*</code> foreground stays at <code>neutral.50</code>. Brand identity stays stable across modes.</li>
         <li><strong>Neutral roles (<code>secondary</code>, <code>surface*</code>, <code>onSurface*</code>, <code>outline*</code>) invert as usual.</strong> Light surfaces become dark, dark text becomes light.</li>
-        <li><strong>Container pairs flip the <em>container</em>, not the foreground family.</strong> In light mode the container is shallow (e.g. <code>blue.50</code> for primary, <code>purple.100</code> / <code>red.100</code> for tertiary / error) with a saturated mid-band foreground (<code>blue.600</code>); in dark mode the container goes deep (<code>blue.900</code>) with a brighter mid-band foreground (<code>blue.400</code>). Both modes keep the foreground in the saturated primary family so the pair reads as <em>blue on tinted blue</em>, not as <em>near-black on tinted blue</em>. Primary's light container sits one step brighter than the other quartets because it appears most often (active nav rows, brand callouts) — a heavier tint at that frequency competes with content. The dark foreground lifts one band higher than a strict mirror would suggest (<code>blue.400</code> instead of <code>blue.500</code>) because equal luminance gaps appear shallower on dark surfaces.</li>
+        <li><strong>Container pairs flip the <em>container</em>, not the foreground family.</strong> In light mode the container is shallow (e.g. <code>blue.50</code> for primary, <code>red.50</code> / <code>green.50</code> for brand / success, <code>red.100</code> for error) with a saturated mid-band foreground (<code>blue.600</code>); in dark mode the container goes deep (<code>blue.900</code>) with a brighter mid-band foreground (<code>blue.400</code>). Both modes keep the foreground in the saturated primary family so the pair reads as <em>blue on tinted blue</em>, not as <em>near-black on tinted blue</em>. Primary's light container sits one step brighter than the other quartets because it appears most often (active nav rows, brand callouts) — a heavier tint at that frequency competes with content. The dark foreground lifts one band higher than a strict mirror would suggest (<code>blue.400</code> instead of <code>blue.500</code>) because equal luminance gaps appear shallower on dark surfaces.</li>
         <li><strong>Focus ring inverts</strong> so the outer ring is always inverse-toned to the page, guaranteeing legibility on every surface in the stack.</li>
       </ul>
     </Section>
@@ -919,20 +918,22 @@ function SpacingReferenceScale({ tokens }) {
         <p>The <code>ref.space.*</code> rungs that materialize the spacing binding of the <a href={asset("/spacing#base-unit-ladder")}>base-unit ladder</a>. The ladder partitions naturally into bands: <strong>0</strong> is reset, <strong>25–75</strong> are sub-base hairlines, <strong>100–300</strong> are control-and-content rhythm, <strong>400–1000</strong> are page-and-section framing. <code>ref.space.100</code> (base) and <code>ref.space.200</code> (default) are the two anchor steps the rest of the system aligns against.</p>
         <p>Each rung carries a <code>$multiplier</code> (× the 8px base), a <code>$rem</code> value, and a pixel <code>$value</code>. The rem convention is the <strong>browser-default <code>1rem = 16px</code></strong> — same convention as <code>ref.fontSize.*</code>, so the same px lands at the same rem across both scales (<code>ref.space.200</code> = <code>ref.fontSize.200</code> = 16px = <code>1rem</code>). The pixel column is what tokens compile to in CSS; consumers that want a value that respects the user&apos;s browser font-size preference can emit <code>$rem</code> instead.</p>
       </ProseSection>
-      <RoleTable tokens={items.map(([key]) => `ref.space.${key}`)}>
-        {items.map(([key, token]) => {
-          const varName = toCssVarName(`ref.space.${key}`);
-          return (
-            <div key={key} className="sem-row">
-              <TokenHead name={`ref.space.${key}`} value={formatTokenValue(token)} rem={token.$rem} multiplier={token.$multiplier} />
-              <RoleCell role={renderInline(SPACE_ROLES[key])} />
-              <div className="sem-cell sem-cell-chip spacing-bar-cell">
-                <div className="spacing-bar" style={{ width: `var(${varName})` }} />
+      <TokenTrimScope map={new Map(items.map(([key]) => [`ref.space.${key}`, `space.${key}`]))}>
+        <RoleTable>
+          {items.map(([key, token]) => {
+            const varName = toCssVarName(`ref.space.${key}`);
+            return (
+              <div key={key} className="sem-row">
+                <TokenHead name={`ref.space.${key}`} value={formatTokenValue(token)} rem={token.$rem} multiplier={token.$multiplier} />
+                <RoleCell role={renderInline(SPACE_ROLES[key])} />
+                <div className="sem-cell sem-cell-chip spacing-bar-cell">
+                  <div className="spacing-bar" style={{ width: `var(${varName})` }} />
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </RoleTable>
+            );
+          })}
+        </RoleTable>
+      </TokenTrimScope>
     </Section>
   );
 }
@@ -1038,6 +1039,11 @@ function LayoutAxisSection({ tokens, prefix, id, title, description, scaleHeadin
   const items = Object.entries(groupByPrefix(tokens, `sys.${prefix}`));
   items.sort((a, b) => tshirtIdx(a[0]) - tshirtIdx(b[0]));
   const roles = LAYOUT_ROLE_MAPS[prefix] ?? {};
+  /* Spacing-page layout tables strip both `sys.` and `layout.` — chips
+     keep just the axis tail (`page.md`, `container.md`, …) since the
+     section heading already names the family. */
+  const axisTail = prefix.replace(/^layout\./, '');
+  const trimMap = new Map(items.map(([key]) => [`sys.${prefix}.${key}`, `${axisTail}.${key}`]));
   return (
     <Section title={title} id={id} description={description}>
       {scaleHeading ? (
@@ -1045,20 +1051,22 @@ function LayoutAxisSection({ tokens, prefix, id, title, description, scaleHeadin
           {scaleBody ? <p>{scaleBody}</p> : null}
         </ProseSection>
       ) : null}
-      <RoleTable tokens={items.map(([key]) => `sys.${prefix}.${key}`)}>
-        {items.map(([key, token]) => {
-          const varName = toCssVarName(`sys.${prefix}.${key}`);
-          return (
-            <div key={key} className="sem-row">
-              <TokenHead name={`sys.${prefix}.${key}`} value={formatTokenValue(token)} />
-              <RoleCell role={renderInline(roles[key])} />
-              <div className="sem-cell sem-cell-chip spacing-bar-cell">
-                <div className="spacing-bar" style={{ width: `var(${varName})` }} />
+      <TokenTrimScope map={trimMap}>
+        <RoleTable>
+          {items.map(([key, token]) => {
+            const varName = toCssVarName(`sys.${prefix}.${key}`);
+            return (
+              <div key={key} className="sem-row">
+                <TokenHead name={`sys.${prefix}.${key}`} value={formatTokenValue(token)} />
+                <RoleCell role={renderInline(roles[key])} />
+                <div className="sem-cell sem-cell-chip spacing-bar-cell">
+                  <div className="spacing-bar" style={{ width: `var(${varName})` }} />
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </RoleTable>
+            );
+          })}
+        </RoleTable>
+      </TokenTrimScope>
     </Section>
   );
 }
@@ -1148,17 +1156,19 @@ function RadiusScale({ tokens }) {
           <li><strong>Surface band</strong> — <code>lg</code> / <code>xl</code> / <code>2xl</code>. Larger corners for content containers. <strong><code>xl</code> (16px)</strong> is the default surface radius. A button (<code>radius.md</code>, 8px) inside a card (<code>radius.xl</code>, 16px) reads as <em>inside</em> the card rather than floating on top — the size difference does the work.</li>
         </ul>
       </ProseSection>
-      <RoleTable tokens={scaleItems.map(([key]) => `sys.radius.${key}`)}>
-        {scaleItems.map(([key, token]) => (
-          <div key={key} className="sem-row">
-            <TokenHead name={`sys.radius.${key}`} value={formatTokenValue(token)} />
-            <RoleCell role={renderInline(RADIUS_ROLES[key])} />
-            <div className="sem-cell sem-cell-chip">
-              <div className="radius-bar" style={{ borderRadius: token.$value }} />
+      <TokenTrimScope map={new Map(scaleItems.map(([key]) => [`sys.radius.${key}`, `radius.${key}`]))}>
+        <RoleTable>
+          {scaleItems.map(([key, token]) => (
+            <div key={key} className="sem-row">
+              <TokenHead name={`sys.radius.${key}`} value={formatTokenValue(token)} />
+              <RoleCell role={renderInline(RADIUS_ROLES[key])} />
+              <div className="sem-cell sem-cell-chip">
+                <div className="radius-bar" style={{ borderRadius: token.$value }} />
+              </div>
             </div>
-          </div>
-        ))}
-      </RoleTable>
+          ))}
+        </RoleTable>
+      </TokenTrimScope>
     </Section>
   );
 }
@@ -1183,7 +1193,7 @@ function RadiusAsymmetric() {
           </div>
           <div className="demo-meta">
             <div className="demo-header">
-              <span className="token-chip">sys.radius.xl</span>
+              <span className="token-chip">radius.xl</span>
               <span className="demo-value">top corners only</span>
             </div>
             <p className="demo-desc">Anchored to the viewport bottom. Top corners take the full surface radius; bottom corners stay flush against the edge.</p>
@@ -1198,7 +1208,7 @@ function RadiusAsymmetric() {
           </div>
           <div className="demo-meta">
             <div className="demo-header">
-              <span className="token-chip">sys.radius.xl</span>
+              <span className="token-chip">radius.xl</span>
               <span className="demo-value">trailing corners only</span>
             </div>
             <p className="demo-desc">Anchored to the leading edge. Right corners round; left corners stay flush against the viewport edge.</p>
@@ -1231,7 +1241,7 @@ function RadiusCapsuleCircle() {
           </div>
           <div className="demo-meta">
             <div className="demo-header">
-              <span className="token-chip">sys.radius.full</span>
+              <span className="token-chip">radius.full</span>
               <span className="demo-value">capsule</span>
             </div>
             <p className="demo-desc">Wide rectangle. Pill buttons, status chips, badges, progress tracks, segmented-control thumbs — anything whose width changes with content.</p>
@@ -1248,7 +1258,7 @@ function RadiusCapsuleCircle() {
           </div>
           <div className="demo-meta">
             <div className="demo-header">
-              <span className="token-chip">sys.radius.full</span>
+              <span className="token-chip">radius.full</span>
               <span className="demo-value">circle</span>
             </div>
             <p className="demo-desc">1:1 square. Avatars, FABs, circular icon buttons, radio dots, single-character indicators.</p>
@@ -1306,7 +1316,7 @@ export function Elevation({ tokens }) {
             </div>
             <div className="demo-meta">
               <div className="demo-header">
-                <span className="token-chip">{`sys.elevation.${key}`}</span>
+                <span className="token-chip">{`elevation.${key}`}</span>
                 <span className="demo-value">{token.$value}</span>
               </div>
               <p className="demo-desc">{ELEVATION_ROLES[key]}</p>
@@ -1404,23 +1414,22 @@ export function StateLayer({ tokens }) {
         <ProseSection title="Scope">
           <p>Apply to any control the user can hover, focus, press, or drag: buttons, chips, list items, menu items, tabs, switches, checkboxes, icon buttons, draggable cards. Do not apply to static surfaces (page background, plain text, dividers) — they have no interaction to signal.</p>
         </ProseSection>
-        <RoleTable tokens={STATE_ROWS.map(({ name }) => `$sys.state.${name}`)}>
-          {STATE_ROWS.map(({ name, role }) => {
-            const token = tokens[`sys.state.${name}`];
-            if (!token) return null;
-            const baseVar = name === 'disabled' ? '--sys-color-primary' : '--sys-color-onSurface';
-            const chipBg = `color-mix(in srgb, var(${baseVar}) ${token.$value * 100}%, transparent)`;
-            return (
-              <div key={name} className="sem-row">
-                <TokenHead name={`$sys.state.${name}`} value={`${Math.round(token.$value * 100)}%`} />
-                <RoleCell role={renderInline(role)} />
-                <div className="sem-cell sem-cell-chip">
-                  <span className="sem-chip" style={{ background: chipBg }} />
+        <TokenTrimScope map={new Map(STATE_ROWS.map(({ name }) => [`$sys.state.${name}`, `state.${name}`]))}>
+          <RoleTable head={{ showChip: false }}>
+            {STATE_ROWS.map(({ name, role }) => {
+              const token = tokens[`sys.state.${name}`];
+              if (!token) return null;
+              const baseVar = name === 'disabled' ? '--sys-color-primary' : '--sys-color-onSurface';
+              const swatch = `color-mix(in srgb, var(${baseVar}) ${token.$value * 100}%, transparent)`;
+              return (
+                <div key={name} className="sem-row sem-row--no-chip">
+                  <TokenHead name={`$sys.state.${name}`} value={`${Math.round(token.$value * 100)}%`} swatch={swatch} />
+                  <RoleCell role={renderInline(role)} />
                 </div>
-              </div>
-            );
-          })}
-        </RoleTable>
+              );
+            })}
+          </RoleTable>
+        </TokenTrimScope>
         <div className="specimen-grid">
           {STATE_DEMO_ORDER.map(name => {
             const row = STATE_ROWS.find(r => r.name === name);
@@ -1433,7 +1442,7 @@ export function StateLayer({ tokens }) {
                 </div>
                 <div className="demo-meta">
                   <div className="demo-header">
-                    <span className="token-chip">{`sys.state.${name}`}</span>
+                    <span className="token-chip">{`state.${name}`}</span>
                     <span className="demo-value">
                       <RefAndValue refPath={token.$valueRef} value={token.$value} />
                     </span>
@@ -1466,9 +1475,9 @@ export function StateLayer({ tokens }) {
             </div>
             <div className="demo-meta">
               <div className="demo-header">
-                <span className="token-chip">sys.color.focus</span>
-                <span className="token-chip">sys.color.focusInset</span>
-                <span className="token-chip">sys.state.focus</span>
+                <span className="token-chip">color.focus</span>
+                <span className="token-chip">color.focusInset</span>
+                <span className="token-chip">state.focus</span>
               </div>
               <p className="demo-desc">
                 A <code>sys.state.focus</code> fill (12% foreground composited onto the variant's container) painted ON the control, then a <code>1px</code> <code>sys.color.focusInset</code> inner counter-ring at <code>0..1px</code> outside the control, then a <code>2px</code> <code>sys.color.focus</code> outer ring at <code>1..3px</code> outside — all carried by a <code>::after</code> overlay layer (<code>position: absolute</code>, <code>z-index</code> above the state-overlay <code>::before</code> and the label) rather than an <code>outline</code> / <code>box-shadow</code> on the control, so the ring is layout-free and draws cleanly over the state tint. Border-radius inherits from the control. Both rings always visible — the one-pixel inverse-toned counter-ring guarantees an edge against any surface. Inside a scroller the layer is re-anchored inward (offset flips from <code>0..3px outside</code> to <code>0..3px inside</code>). Suppressed while <code>disabled</code>.
@@ -1487,7 +1496,7 @@ export function StateLayer({ tokens }) {
 
 const DOS = [
   <><strong>Consume system tokens (<code>sys.*</code>).</strong> <code>var(--sys-color-primary)</code>, not <code>var(--ref-palette-blue-500)</code>. Reference variables exist for documentation only.</>,
-  <><strong>Reserve Blue 500 as the sole brand accent.</strong> <code>tertiary</code> (purple) is a categorical / decorative accent, not a second brand hue.</>,
+  <><strong>Reserve Blue 500 as the sole brand-emphasis accent.</strong> <code>brand</code> (red) is the identity accent and <code>success</code> (green) is the affirmative status accent — neither is a second brand-emphasis hue.</>,
   <><strong>Pair every accent fill with its <code>on*</code> foreground.</strong> <code>primary</code> ↔ <code>onPrimary</code>, <code>primaryContainer</code> ↔ <code>onPrimaryContainer</code>. The pairs are tuned to clear AA.</>,
   <><strong>Compose state as foreground-over-base.</strong> A single rule — <code>state.*</code> opacity layered over the element&apos;s foreground — works on every variant of every component.</>,
   <><strong>Express lift with <code>elevation.*</code> shadows.</strong> Let the <code>surfaceContainer*</code> names carry the spatial <em>meaning</em> (sunken → topmost) even when tones collapse.</>,
@@ -1809,7 +1818,7 @@ const AGENT_QUICK_REF = [
   { need: 'Primary CTA text',   token: 'color.onPrimary',              light: '#fafafa' },
   { need: 'Link',               token: 'color.primary',                light: '#2563eb' },
   { need: 'Error',              token: 'color.error',                  light: '#b42222' },
-  { need: 'Success',            token: 'color.tertiary',               light: '#15803d' },
+  { need: 'Success',            token: 'color.success',                light: '#008838' },
   { need: 'Focus ring (outer)', token: 'color.focus',                  light: '#000000' },
   { need: 'Focus ring (inner)', token: 'color.focusInset',             light: '#ffffff' },
   { need: 'Card padding',       token: 'layout.container.md',          light: '16px' },
@@ -1948,7 +1957,7 @@ export function Iconography() {
           <li><strong>Solo icon (icon-only button)</strong> — color is the parent control&apos;s foreground role (<code>color.onSurface</code> for a ghost button, <code>color.onPrimary</code> inside a primary fill).</li>
           <li><strong>Icon + label</strong> — both use the same foreground; never paint the icon a different hue for emphasis. Hierarchy belongs to the label.</li>
           <li><strong>Inactive / disabled</strong> — inherit from the surrounding <code>state.disabled</code> opacity; do not pre-darken the icon SVG.</li>
-          <li><strong>Status icons</strong> — follow the accent role they signal: <code>color.tertiary</code> for success, <code>color.error</code> for error, paired with their <code>on*</code> foreground when sitting on a filled accent.</li>
+          <li><strong>Status icons</strong> — follow the accent role they signal: <code>color.success</code> for success, <code>color.error</code> for error, paired with their <code>on*</code> foreground when sitting on a filled accent.</li>
         </ul>
       </Section>
       <Section

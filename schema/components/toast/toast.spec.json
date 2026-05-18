@@ -1,0 +1,61 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Toast",
+  "family": "toast",
+  "description": "Transient confirmation strip — a short post-action status message that floats above the page (typically bottom-center) and dismisses on its own after a beat. Default appearance binds to the inverse pair (`inverseSurface` / `inverseOnSurface`), the same role pair that anchors snackbars and coach-marks, so the toast reads as a single visual family across light and dark modes without per-surface tuning. Optional trailing slot accepts either a small text button (undo, view, retry) or a medium icon button (dismiss).",
+  "element": "div",
+  "props": {
+    "children": {
+      "type": "node",
+      "required": true,
+      "description": "Body text — short confirmation phrase. Single line by intent; wraps within the toast when the viewport forces it."
+    },
+    "trailing": {
+      "type": "node",
+      "optional": true,
+      "description": "A Button node rendered at the trailing edge. The canonical bindings are `<Button variant=\"text\" size=\"small\" appearance=\"inverse\">` for an action (Undo, View, Retry) or `<Button variant=\"icon\" size=\"medium\" appearance=\"inverse\">` for explicit dismissal. Accepts a node (rather than a shorthand object) so the call site spells out the sub-component composition — including its `appearance=\"inverse\"` binding — instead of hiding it inside the Toast."
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "description": "The pill-shaped surface. Horizontal flex with align-items: center so the body and the trailing slot share the same vertical axis. role='status', aria-live='polite'.",
+      "intrinsic": true
+    },
+    "body": {
+      "required": true,
+      "description": "The confirmation copy. body.sm / Regular / inherits container foreground.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "trailing": {
+      "required": false,
+      "description": "Optional trailing slot — accepts a Button node directly. Canonical bindings: `Button variant=\"text\" size=\"small\" appearance=\"inverse\"` for an action affordance, or `Button variant=\"icon\" size=\"medium\" appearance=\"inverse\"` for explicit dismissal. Anchored to the right edge with a flex gap from the body.",
+      "accepts": [
+        "button"
+      ]
+    }
+  },
+  "sizing": {
+    "minHeight": "48px",
+    "maxWidth": "min(400px, calc(100vw - 2 * sys.layout.container.xs))",
+    "radius": "sys.radius.md",
+    "paddingInline": "sys.layout.container.md",
+    "paddingBlock": "sys.layout.container.xs",
+    "safeArea": "sys.layout.container.xs",
+    "slotGap": "sys.layout.inline.xl",
+    "bodyTypo": "sys.typo.body.sm"
+  },
+  "appearances": {
+    "default": {
+      "background": "sys.color.inverseSurface",
+      "foreground": "sys.color.inverseOnSurface",
+      "note": "The inverse pair is the only appearance — toasts always read as a contrasting strip against the page. Action buttons inside an inverse surface fall back to the regular primary family per the inverse-cluster contract."
+    }
+  },
+  "behavior": {
+    "lifecycle": "Owner code mounts the Toast when a user action lands and unmounts it after a fixed beat (~1.6s for a no-action toast, ~6s when an action slot is present). The component itself is presentational — it does not manage its own timer.",
+    "role": "Container carries role='status' and aria-live='polite' so screen readers announce the confirmation without interrupting the user's current focus."
+  }
+}
