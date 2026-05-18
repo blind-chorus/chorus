@@ -22,3 +22,6 @@ yarn-error.log*
 
 # OS
 Thumbs.db
+
+# Local-only Claude Code memory symlink (points to user-specific path)
+claude-memory
