@@ -8,6 +8,8 @@ The token *meaning* — what each role is for, how the tiers compose, why the va
 
 ## Install
 
+Distributed through GitHub Packages, not the public npm registry. See [`docs/CONSUMING.md`](../../docs/CONSUMING.md) for the one-time `.npmrc` and authentication setup; once that's in place:
+
 ```bash
 npm install @blind-chorus/tokens
 ```
