@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dev.blinddsai.chorus.tokens.ChorusTheme
 import dev.blinddsai.chorus.tokens.generated.ChorusLayout
-import dev.blinddsai.chorus.tokens.generated.ChorusTypography
 import dev.blinddsai.chorus.ui.chip.ChorusFilterChip
 import dev.blinddsai.chorus.ui.chip.ChorusTagChip
 
@@ -34,40 +32,32 @@ fun ChorusChipCatalog() {
             .padding(ChorusLayout.Page.md),
         verticalArrangement = Arrangement.spacedBy(ChorusLayout.Stack.lg),
     ) {
-        Section("Filter · selected + unselected") {
+        CatalogSection("Filter · selected + unselected") {
             Row(horizontalArrangement = Arrangement.spacedBy(ChorusLayout.Inline.sm)) {
                 ChorusFilterChip("Sort", selected = sort, onClick = { sort = !sort })
                 ChorusFilterChip("Date", selected = date, onClick = { date = !date })
                 ChorusFilterChip("Location", selected = location, onClick = { location = !location })
             }
         }
-        Section("Tag · passive") {
+        CatalogSection("Tag · passive") {
             Row(horizontalArrangement = Arrangement.spacedBy(ChorusLayout.Inline.sm)) {
                 ChorusTagChip("New")
                 ChorusTagChip("Beta")
                 ChorusTagChip("Internal")
             }
         }
-        Section("Tag · dismissable") {
+        CatalogSection("Tag · dismissable") {
             Row(horizontalArrangement = Arrangement.spacedBy(ChorusLayout.Inline.sm)) {
                 ChorusTagChip("design", onDismiss = {})
                 ChorusTagChip("ios", onDismiss = {})
             }
         }
-        Section("Disabled") {
+        CatalogSection("Disabled") {
             Row(horizontalArrangement = Arrangement.spacedBy(ChorusLayout.Inline.sm)) {
                 ChorusFilterChip("Sort", selected = false, onClick = {}, enabled = false)
                 ChorusFilterChip("Date", selected = true, onClick = {}, enabled = false)
             }
         }
-    }
-}
-
-@Composable
-private fun Section(title: String, content: @Composable () -> Unit) {
-    Column(verticalArrangement = Arrangement.spacedBy(ChorusLayout.Stack.sm)) {
-        Text(title, style = ChorusTypography.Label.sm, color = ChorusTheme.colors.onSurfaceVariant)
-        content()
     }
 }
 

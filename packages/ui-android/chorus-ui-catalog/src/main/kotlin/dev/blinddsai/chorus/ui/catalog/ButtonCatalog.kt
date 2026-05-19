@@ -7,13 +7,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dev.blinddsai.chorus.tokens.ChorusTheme
 import dev.blinddsai.chorus.tokens.generated.ChorusLayout
-import dev.blinddsai.chorus.tokens.generated.ChorusTypography
 import dev.blinddsai.chorus.ui.button.ChorusButton
 import dev.blinddsai.chorus.ui.button.ChorusButtonAppearance
 import dev.blinddsai.chorus.ui.button.ChorusButtonFlavor
@@ -34,29 +32,21 @@ fun ChorusButtonCatalog() {
             .padding(ChorusLayout.Page.md),
         verticalArrangement = Arrangement.spacedBy(ChorusLayout.Stack.lg),
     ) {
-        Section("Primary") { Row3(ChorusButtonAppearance.Primary, ChorusButtonFlavor.Standard) }
-        Section("Secondary") { Row3(ChorusButtonAppearance.Secondary, ChorusButtonFlavor.Standard) }
-        Section("Outlined") { Row3(ChorusButtonAppearance.Outlined, ChorusButtonFlavor.Standard) }
-        Section("Tertiary") { Row3(ChorusButtonAppearance.Tertiary, ChorusButtonFlavor.Standard) }
-        Section("Destructive · primary") { Row3(ChorusButtonAppearance.Primary, ChorusButtonFlavor.Destructive) }
-        Section("Destructive · outlined") { Row3(ChorusButtonAppearance.Outlined, ChorusButtonFlavor.Destructive) }
-        Section("Disabled") {
+        CatalogSection("Primary") { Row3(ChorusButtonAppearance.Primary, ChorusButtonFlavor.Standard) }
+        CatalogSection("Secondary") { Row3(ChorusButtonAppearance.Secondary, ChorusButtonFlavor.Standard) }
+        CatalogSection("Outlined") { Row3(ChorusButtonAppearance.Outlined, ChorusButtonFlavor.Standard) }
+        CatalogSection("Tertiary") { Row3(ChorusButtonAppearance.Tertiary, ChorusButtonFlavor.Standard) }
+        CatalogSection("Destructive · primary") { Row3(ChorusButtonAppearance.Primary, ChorusButtonFlavor.Destructive) }
+        CatalogSection("Destructive · outlined") { Row3(ChorusButtonAppearance.Outlined, ChorusButtonFlavor.Destructive) }
+        CatalogSection("Disabled") {
             Row(horizontalArrangement = Arrangement.spacedBy(ChorusLayout.Inline.md)) {
                 ChorusButton("Primary", onClick = {}, enabled = false)
                 ChorusButton("Outlined", onClick = {}, appearance = ChorusButtonAppearance.Outlined, enabled = false)
             }
         }
-        Section("Full width") {
+        CatalogSection("Full width") {
             ChorusButton("Continue", onClick = {}, fullWidth = true)
         }
-    }
-}
-
-@Composable
-private fun Section(title: String, content: @Composable () -> Unit) {
-    Column(verticalArrangement = Arrangement.spacedBy(ChorusLayout.Stack.sm)) {
-        Text(title, style = ChorusTypography.Label.sm, color = ChorusTheme.colors.onSurfaceVariant)
-        content()
     }
 }
 

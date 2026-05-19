@@ -2,15 +2,7 @@ import SwiftUI
 import ChorusTokens
 
 /// SwiftUI port of the Chorus Chip family.
-///
-/// Spec of record:
-///  - `schema/components/chip/filter.spec.json` (selectable capsule)
-///  - `schema/components/chip/tag.spec.json` (passive metadata)
-///
-/// Filter chips toggle between transparent + hairline (unselected) and
-/// inverse-surface fill (selected). Tag chips carry a translucent
-/// neutral overlay (black.200 in light, white.200 in dark) so they
-/// adopt whatever surface sits behind them.
+/// Specs: `schema/components/chip/filter.spec.json`, `.../tag.spec.json`.
 
 public enum ChorusChipVariant { case filter, tag }
 
@@ -25,7 +17,6 @@ public struct ChorusChip: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.isEnabled) private var isEnabled
 
-    /// Filter chip — selectable.
     public static func filter(
         _ label: String,
         selected: Bool,
@@ -43,8 +34,9 @@ public struct ChorusChip: View {
         )
     }
 
-    /// Tag chip — passive (omit `onDismiss`) or interactive (dismissable
-    /// via the trailing × glyph; pass `onDismiss`).
+    /// Tag chip — passive (omit `onDismiss`) or interactive (pass an
+    /// `onDismiss` to render the × dismiss glyph and make the chip
+    /// keyboard-focusable).
     public static func tag(
         _ label: String,
         onDismiss: (() -> Void)? = nil
@@ -103,7 +95,7 @@ public struct ChorusChip: View {
         Group {
             if let action {
                 Button(action: action) { content }
-                    .buttonStyle(ChipButtonStyle(surface: surface, radius: s.radius))
+                    .buttonStyle(ChorusSurfaceButtonStyle(surface: surface, radius: s.radius))
             } else {
                 content
                     .background(surface.background)
@@ -116,7 +108,6 @@ public struct ChorusChip: View {
         .opacity(isEnabled ? 1.0 : ChorusStateOpacity.disabled)
     }
 
-    // MARK: - Sizing
     private struct Sizing {
         let paddingBlock: CGFloat
         let paddingInline: CGFloat
@@ -134,7 +125,7 @@ public struct ChorusChip: View {
                 paddingBlock: ChorusLayout.Container.s2xs,
                 paddingInline: ChorusLayout.Container.sm,
                 labelInset: ChorusLayout.Container.s2xs,
-                minHeight: 32, // ref.space.400
+                minHeight: 32,
                 radius: ChorusRadius.full,
                 iconSize: ChorusIconSize.md,
                 labelTypo: ChorusTypography.Label.sm
@@ -144,7 +135,7 @@ public struct ChorusChip: View {
                 paddingBlock: ChorusLayout.Container.s2xs,
                 paddingInline: ChorusLayout.Container.xs,
                 labelInset: ChorusLayout.Container.s2xs,
-                minHeight: 24, // ref.space.300
+                minHeight: 24,
                 radius: ChorusRadius.sm,
                 iconSize: ChorusIconSize.md,
                 labelTypo: ChorusTypography.Label.sm
@@ -152,54 +143,26 @@ public struct ChorusChip: View {
         }
     }
 
-    // MARK: - Surface
-    struct Surface {
-        let background: Color
-        let label: Color
-        let border: (width: CGFloat, color: Color)?
-    }
-
-    private func surface() -> Surface {
+    private func surface() -> ChorusSurface {
         let p = ChorusColors.themed(for: colorScheme)
         switch variant {
         case .filter:
             if selected {
-                return Surface(background: p.inverseSurface, label: p.inverseOnSurface, border: nil)
-            } else {
-                return Surface(
-                    background: .clear,
-                    label: p.onSurface,
-                    border: (ChorusBorderWidth.hairline, p.outlineVariant)
-                )
+                return ChorusSurface(background: p.inverseSurface, label: p.inverseOnSurface, border: nil)
             }
+            return ChorusSurface(
+                background: .clear,
+                label: p.onSurface,
+                border: (ChorusBorderWidth.hairline, p.outlineVariant)
+            )
         case .tag:
+            // Tag's translucent neutral has to flip across themes so the
+            // chip adapts to whichever surface sits behind it; the rest
+            // of the palette is theme-resolved already.
             let bg = colorScheme == .dark
                 ? ChorusPalette.White.s200
                 : ChorusPalette.Black.s200
-            return Surface(background: bg, label: p.onSurface, border: nil)
+            return ChorusSurface(background: bg, label: p.onSurface, border: nil)
         }
-    }
-}
-
-private struct ChipButtonStyle: ButtonStyle {
-    let surface: ChorusChip.Surface
-    let radius: CGFloat
-
-    func makeBody(configuration: Configuration) -> some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: radius, style: .continuous)
-                .fill(surface.background)
-            if configuration.isPressed {
-                RoundedRectangle(cornerRadius: radius, style: .continuous)
-                    .fill(surface.label.opacity(ChorusStateOpacity.pressed))
-            }
-            if let border = surface.border {
-                RoundedRectangle(cornerRadius: radius, style: .continuous)
-                    .strokeBorder(border.color, lineWidth: border.width)
-            }
-            configuration.label
-                .foregroundStyle(surface.label)
-        }
-        .compositingGroup()
     }
 }

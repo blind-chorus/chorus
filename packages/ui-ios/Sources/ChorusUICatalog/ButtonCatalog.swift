@@ -13,25 +13,25 @@ public struct ChorusButtonCatalog: View {
     public var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: ChorusLayout.Stack.lg) {
-                section("Primary") {
+                CatalogSection(title: "Primary") {
                     appearanceRow(appearance: .primary, flavor: .standard)
                 }
-                section("Secondary") {
+                CatalogSection(title: "Secondary") {
                     appearanceRow(appearance: .secondary, flavor: .standard)
                 }
-                section("Outlined") {
+                CatalogSection(title: "Outlined") {
                     appearanceRow(appearance: .outlined, flavor: .standard)
                 }
-                section("Tertiary") {
+                CatalogSection(title: "Tertiary") {
                     appearanceRow(appearance: .tertiary, flavor: .standard)
                 }
-                section("Destructive · primary") {
+                CatalogSection(title: "Destructive · primary") {
                     appearanceRow(appearance: .primary, flavor: .destructive)
                 }
-                section("Destructive · outlined") {
+                CatalogSection(title: "Destructive · outlined") {
                     appearanceRow(appearance: .outlined, flavor: .destructive)
                 }
-                section("Disabled") {
+                CatalogSection(title: "Disabled") {
                     HStack(spacing: ChorusLayout.Inline.md) {
                         ChorusButton("Primary", appearance: .primary, action: {})
                             .disabled(true)
@@ -39,7 +39,7 @@ public struct ChorusButtonCatalog: View {
                             .disabled(true)
                     }
                 }
-                section("With leading icon") {
+                CatalogSection(title: "With leading icon") {
                     HStack(spacing: ChorusLayout.Inline.md) {
                         ChorusButton("Save", leadingIcon: Image(systemName: "checkmark"), action: {})
                         ChorusButton("Delete",
@@ -49,21 +49,11 @@ public struct ChorusButtonCatalog: View {
                                      action: {})
                     }
                 }
-                section("Full width") {
+                CatalogSection(title: "Full width") {
                     ChorusButton("Continue", fullWidth: true, action: {})
                 }
             }
             .padding(ChorusLayout.Page.md)
-        }
-    }
-
-    @ViewBuilder
-    private func section<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
-        VStack(alignment: .leading, spacing: ChorusLayout.Stack.sm) {
-            Text(title)
-                .font(.system(size: ChorusTypography.Label.sm.size, weight: ChorusTypography.Label.sm.fontWeight))
-                .foregroundStyle(.secondary)
-            content()
         }
     }
 

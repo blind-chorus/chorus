@@ -5,7 +5,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseTokens, camel, pascal } from "./lib/parse-tokens.mjs";
+import { parseTokens, camel, pascal, parseHex } from "./lib/parse-tokens.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const outDir = process.env.CHORUS_TOKENS_IOS_OUT_DIR
@@ -20,27 +20,7 @@ import SwiftUI
 `;
 
 const swiftHex = (hex) => {
-  // Accept #rgb, #rrggbb, #rrggbbaa.
-  const h = hex.replace("#", "").toLowerCase();
-  let r, g, b, a;
-  if (h.length === 3) {
-    r = parseInt(h[0] + h[0], 16);
-    g = parseInt(h[1] + h[1], 16);
-    b = parseInt(h[2] + h[2], 16);
-    a = 255;
-  } else if (h.length === 6) {
-    r = parseInt(h.slice(0, 2), 16);
-    g = parseInt(h.slice(2, 4), 16);
-    b = parseInt(h.slice(4, 6), 16);
-    a = 255;
-  } else if (h.length === 8) {
-    r = parseInt(h.slice(0, 2), 16);
-    g = parseInt(h.slice(2, 4), 16);
-    b = parseInt(h.slice(4, 6), 16);
-    a = parseInt(h.slice(6, 8), 16);
-  } else {
-    throw new Error(`unsupported color literal: ${hex}`);
-  }
+  const { r, g, b, a } = parseHex(hex);
   const f = (n) => (n / 255).toFixed(4);
   return `Color(.sRGB, red: ${f(r)}, green: ${f(g)}, blue: ${f(b)}, opacity: ${f(a)})`;
 };

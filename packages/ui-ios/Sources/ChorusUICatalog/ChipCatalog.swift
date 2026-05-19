@@ -12,14 +12,14 @@ public struct ChorusChipCatalog: View {
     public var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: ChorusLayout.Stack.lg) {
-                section("Filter · selected + unselected") {
+                CatalogSection(title: "Filter · selected + unselected") {
                     HStack(spacing: ChorusLayout.Inline.sm) {
                         ChorusChip.filter("Sort", selected: sortSelected) { sortSelected.toggle() }
                         ChorusChip.filter("Date", selected: dateSelected) { dateSelected.toggle() }
                         ChorusChip.filter("Location", selected: locationSelected) { locationSelected.toggle() }
                     }
                 }
-                section("Filter · with leading icon") {
+                CatalogSection(title: "Filter · with leading icon") {
                     HStack(spacing: ChorusLayout.Inline.sm) {
                         ChorusChip.filter("Starred",
                                           selected: true,
@@ -29,20 +29,20 @@ public struct ChorusChipCatalog: View {
                                           leadingIcon: Image(systemName: "clock")) {}
                     }
                 }
-                section("Tag · passive") {
+                CatalogSection(title: "Tag · passive") {
                     HStack(spacing: ChorusLayout.Inline.sm) {
                         ChorusChip.tag("New")
                         ChorusChip.tag("Beta")
                         ChorusChip.tag("Internal")
                     }
                 }
-                section("Tag · dismissable") {
+                CatalogSection(title: "Tag · dismissable") {
                     HStack(spacing: ChorusLayout.Inline.sm) {
                         ChorusChip.tag("design", onDismiss: {})
                         ChorusChip.tag("ios", onDismiss: {})
                     }
                 }
-                section("Disabled") {
+                CatalogSection(title: "Disabled") {
                     HStack(spacing: ChorusLayout.Inline.sm) {
                         ChorusChip.filter("Sort", selected: false) {}.disabled(true)
                         ChorusChip.filter("Date", selected: true) {}.disabled(true)
@@ -50,16 +50,6 @@ public struct ChorusChipCatalog: View {
                 }
             }
             .padding(ChorusLayout.Page.md)
-        }
-    }
-
-    @ViewBuilder
-    private func section<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
-        VStack(alignment: .leading, spacing: ChorusLayout.Stack.sm) {
-            Text(title)
-                .font(.system(size: ChorusTypography.Label.sm.size, weight: ChorusTypography.Label.sm.fontWeight))
-                .foregroundStyle(.secondary)
-            content()
         }
     }
 }

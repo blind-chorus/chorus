@@ -135,4 +135,30 @@ export function parseTokens() {
   };
 }
 
+/**
+ * Decode a CSS hex literal (#rgb / #rrggbb / #rrggbbaa) into 0-255 channels.
+ * Used by every platform emitter; each formats the channels in its own
+ * conventions (Swift Color(.sRGB,...), Compose Color(0xAARRGGBB), ...).
+ */
+export function parseHex(hex) {
+  const h = hex.replace("#", "").toLowerCase();
+  if (h.length === 3) {
+    return {
+      r: parseInt(h[0] + h[0], 16),
+      g: parseInt(h[1] + h[1], 16),
+      b: parseInt(h[2] + h[2], 16),
+      a: 255,
+    };
+  }
+  if (h.length === 6 || h.length === 8) {
+    return {
+      r: parseInt(h.slice(0, 2), 16),
+      g: parseInt(h.slice(2, 4), 16),
+      b: parseInt(h.slice(4, 6), 16),
+      a: h.length === 8 ? parseInt(h.slice(6, 8), 16) : 255,
+    };
+  }
+  throw new Error(`unsupported color literal: ${hex}`);
+}
+
 export { camel, pascal };
