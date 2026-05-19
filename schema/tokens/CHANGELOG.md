@@ -1,5 +1,11 @@
 # @blind-dsai/tokens
 
+## 0.3.1
+
+### Patch Changes
+
+- 3cdf963: Update README and CONSUMING guide for public npm install — drop GitHub Packages auth setup, drop "source-distributed (no prebuilt dist)" wording. `npm install @blind-dsai/ui @blind-dsai/tokens` now works without any `.npmrc` or token.
+
 ## 0.3.0
 
 ### Minor Changes
