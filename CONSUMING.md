@@ -72,6 +72,26 @@ Or read the resolved JSON in build tooling:
 import lightTokens from "@blind-dsai/tokens/resolved.light.json" with { type: "json" };
 ```
 
+## 6. Native (iOS / Android) — pilot
+
+The same tokens are generated into Swift and Kotlin sources:
+
+- **iOS (SwiftUI):** `packages/tokens-ios` (Swift Package `ChorusTokens`) + `packages/ui-ios` (`ChorusUI`, currently shipping `ChorusButton`).
+- **Android (Compose):** `packages/tokens-android` (`chorus-tokens` Gradle module) + `packages/ui-android` (`chorus-ui`, currently shipping `ChorusButton`).
+
+Token regeneration after editing `schema/tokens/*.json`:
+
+```bash
+node packages/tokens-ios/scripts/codegen.mjs
+node packages/tokens-android/scripts/codegen.mjs
+```
+
+Generated files live under `packages/tokens-ios/Sources/ChorusTokens/Generated/` and `packages/tokens-android/chorus-tokens/src/main/kotlin/dev/blinddsai/chorus/tokens/generated/`. The handcrafted `ChorusTheme` (Compose) wraps the palette in a `CompositionLocal`; SwiftUI consumers use `@Environment(\.colorScheme)` and `ChorusColors.themed(for:)`.
+
+A drift check (`node packages/tokens-{ios,android}/scripts/check.mjs`) runs in CI and exits non-zero if `schema/tokens/*.json` changed without the matching `Generated/*` regenerated — keeping the three implementations (web, iOS, Android) in lockstep.
+
+Pilots shipped so far: Button (full spec) and Chip (filter + tag). The remaining components in `schema/components/` are not yet ported.
+
 ## Upgrading
 
 ```bash

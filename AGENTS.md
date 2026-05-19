@@ -16,7 +16,7 @@ MCP server at [`apps/mcp-server`](apps/mcp-server) exposes the schema to any MCP
 4. **`schema/components/<family>/<sub>.spec.json`** — per-sub-component contract: props, slots, sizes, appearances, states, behavior.
 5. **[`schema/tokens/resolved.light.json`](schema/tokens/resolved.light.json)** / **[`resolved.dark.json`](schema/tokens/resolved.dark.json)** — flat `path → { $value, $type }` for rendering. Fall back to `reference.json` + `system.json` only for the dependency graph. `resolved.web.*.json` are sparse `≥800px` overlays.
 6. **[`schema/DESIGN.md`](schema/DESIGN.md)** — cross-cutting rules every spec defers to (color quartets, focus rings, no-layout strokes, state overlays). Keep loaded.
-7. **[`docs/keyscreens/`](docs/keyscreens)** — canonical pixel references + per-screen notes (intent, tokens, components). Consult when matching a new composition to a signed-off visual target.
+7. **[`patterns/`](patterns)** — canonical pixel references + per-screen notes (intent, tokens, components). Consult when matching a new composition to a signed-off visual target.
 
 ---
 

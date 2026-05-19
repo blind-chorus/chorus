@@ -1,0 +1,7 @@
+{
+  "name": "@blind-dsai/ui-ios",
+  "private": true,
+  "version": "0.0.1",
+  "description": "SwiftUI port of Chorus components. Pilot: ChorusButton + ChorusButtonCatalog. Consumed via Swift Package Manager, not npm.",
+  "type": "module"
+}

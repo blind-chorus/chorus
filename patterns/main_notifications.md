@@ -38,5 +38,5 @@ Inbox-shaped surface for two parallel notification streams — system updates ("
 ## Notes
 
 - The trailing "키워드 관리" button-text inside the chip row is intentional: it's a navigation hint paired with the filter scope, not a filter itself. Don't merge into the chip row as another chip.
-- Localization: source is Korean. Per AGENTS.md rule 7, demo strings rendered in components should be English; this keyscreen captures the Korean source for visual fidelity only.
+- Localization: source is Korean. Per AGENTS.md rule 7, demo strings rendered in components should be English; this pattern captures the Korean source for visual fidelity only.
 - The bell-in-coral leading glyph appears on every row — it is the row type marker, not per-row state.

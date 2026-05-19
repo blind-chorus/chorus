@@ -1,0 +1,7 @@
+{
+  "name": "@blind-dsai/ui-android",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Jetpack Compose port of Chorus components. Pilot: Button + ButtonCatalog. Consumed via Maven, not npm.",
+  "type": "module"
+}
