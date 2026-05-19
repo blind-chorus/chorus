@@ -40,4 +40,4 @@ Post-composition surface. Modal-style top bar with Cancel / Post commits, two de
 - The top bar here is *not* a `navigation-bar/*` sub — it's a modal action bar (Cancel/Post). Do not retrofit `navigation-bar/page` onto it.
 - The "Hide company name" checkbox is right-aligned while "Invisible to Coworkers" is left-aligned with a soft band — intentional emphasis difference; do not normalize.
 - Channel picker chevron must open [[compose_selectChannel]] as a bottom sheet — pair the trigger with the sheet per AGENTS.md composition rule.
-- Checkbox controls are not yet componentized; treat this keyscreen as motivation for that gap, not a green light to synthesize one.
+- Checkbox controls are not yet componentized; treat this pattern as motivation for that gap, not a green light to synthesize one.
