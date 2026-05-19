@@ -1,5 +1,5 @@
-/* Identity passthrough — kept as a seam in case the docs site ever needs
-   to ship under a non-root basePath again (GitHub Pages, sub-routed
-   reverse proxy). Today Vercel serves the docs at the domain root, so
-   `asset(path)` is exactly `path`. */
-export const asset = (path) => path;
+/* Prefixes a root-relative path with NEXT_PUBLIC_BASE_PATH when set.
+   Needed for raw `<img src>`, `<a href>`, and `metadata.icons` — Next
+   auto-prefixes <Link>/<Image>, but plain DOM attributes do not. */
+const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+export const asset = (path) => `${base}${path}`;
