@@ -4,17 +4,27 @@ Monorepo entry point for the Chorus design system. Orientation only — system m
 
 ## Where things live
 
-npm workspaces monorepo. Two top-level groups:
+npm workspaces monorepo. Top-level groups:
 
-- **[`schema/`](schema)** — source of truth.
+- **[`schema/`](schema)** — source of truth. Machine-readable contract; never inferred from code.
   - [`schema/DESIGN.md`](schema/DESIGN.md) — canonical design document: principles, token roles, composition rules.
-  - [`schema/tokens`](schema/tokens) — reference and system token JSON (color, type, space, radius, elevation, state).
+  - [`schema/manifest.json`](schema/manifest.json) — system inventory; the single entry point for agents and renderers.
+  - [`schema/catalog.md`](schema/catalog.md) — intent → component routing layer.
+  - [`schema/tokens`](schema/tokens) — reference + system token JSON and resolved per-theme bundles (`resolved.light.json`, `resolved.dark.json`, sparse `resolved.web.*.json`).
   - [`schema/components`](schema/components) — per-component anatomy specs. See [`schema/components/README.md`](schema/components/README.md) for the authoring contract.
+  - [`schema/screens`](schema/screens) — pre-validated `*.screen.json` recipes. Prefer cloning a recipe over from-scratch composition.
+  - [`schema/lint`](schema/lint) — schema + token validators (`validate-screen.mjs`, `validate-tokens.mjs`). Wired into `npm run lint`.
   - [`schema/icons`](schema/icons) — icon schema (planned).
+- **[`packages/`](packages)** — source-distributed implementations.
+  - [`packages/ui`](packages/ui) — `@blind-chorus/ui`: workspace-only React implementation of the schema. JSX emits inline `--<component>-*` vars consumed by `styles.css`. See AGENTS.md "Renderer guidance" for the two consumption paths.
 - **[`apps/`](apps)** — consumers.
   - [`apps/docs`](apps/docs) — live documentation site. See [`apps/docs/README.md`](apps/docs/README.md) for build conventions and the source-of-truth rule.
   - [`apps/mcp-server`](apps/mcp-server) — MCP server exposing the schema to AI agents and design tools.
   - [`apps/visual-regression`](apps/visual-regression) — Playwright visual regression for the docs site.
+- **[`docs/`](docs)** — human- and agent-facing reference material that isn't part of the machine contract.
+  - [`docs/CONSUMING.md`](docs/CONSUMING.md) — how external projects consume Chorus.
+  - [`docs/keyscreens`](docs/keyscreens) — canonical pixel references + per-screen notes (intent, tokens, components). Visual inspiration; specs/tokens still win on conflict.
+- **[`claude-memory/`](claude-memory)** — durable, project-scoped memory accumulated across Claude Code agent sessions. Decisions, conventions, and *why-not* rationales that aren't derivable from the code. Read [`claude-memory/MEMORY.md`](claude-memory/MEMORY.md) as the index. AGENTS.md hard rules cite specific entries (e.g. `[memory: token pairs]`); agents picking up new work should scan the index for relevant feedback before improvising. Not loaded by external renderers — this is institutional knowledge for whoever (human or agent) edits the system.
 
 ## Start here
 
