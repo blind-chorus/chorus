@@ -8,13 +8,11 @@ The component contract (anatomy, slots, token bindings) lives in `schema/compone
 
 ## Install
 
-This package is distributed through GitHub Packages, not the public npm registry. See [`docs/CONSUMING.md`](../../docs/CONSUMING.md) in the repo for the one-time `.npmrc` and authentication setup; once that's in place:
-
 ```bash
 npm install @blind-dsai/ui @blind-dsai/tokens
 ```
 
-Peer dependency: `react >= 18`.
+Public on npmjs.org — no auth, no `.npmrc` setup required. Peer dependency: `react >= 18`.
 
 ## Setup
 

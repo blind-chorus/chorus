@@ -1,7 +1,7 @@
 {
   "name": "@blind-dsai/ui",
   "version": "0.3.0",
-  "description": "Chorus React components. Source-distributed (no prebuilt dist) — consumers compile JSX themselves and import `@blind-dsai/tokens/tokens.css` + `@blind-dsai/ui/styles.css` once at the app entry. The contract every component honors lives in schema/components/<family>/<sub>.spec.json; see schema/manifest.json for the inventory.",
+  "description": "Chorus React components. Ships prebuilt ESM + CJS bundles (`dist/`) and a single `styles.css`; import `@blind-dsai/tokens/tokens.css` + `@blind-dsai/ui/styles.css` once at the app entry. The contract every component honors lives in schema/components/<family>/<sub>.spec.json; see schema/manifest.json for the inventory.",
   "license": "MIT",
   "author": "chorus",
   "repository": {
