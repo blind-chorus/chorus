@@ -5,6 +5,7 @@
   "description": "Swift source generator for Chorus tokens. Produces Sources/ChorusTokens/Generated/*.swift from schema/tokens/resolved.*.json. The Swift Package itself is consumed via SPM, not npm.",
   "type": "module",
   "scripts": {
-    "codegen": "node scripts/codegen.mjs"
+    "codegen": "node scripts/codegen.mjs",
+    "check": "node scripts/check.mjs"
   }
 }

@@ -5,6 +5,7 @@
   "description": "Kotlin source generator for Chorus tokens. Produces chorus-tokens/src/main/kotlin/.../generated/*.kt from schema/tokens/resolved.*.json. The Gradle module itself is consumed via Maven, not npm.",
   "type": "module",
   "scripts": {
-    "codegen": "node scripts/codegen.mjs"
+    "codegen": "node scripts/codegen.mjs",
+    "check": "node scripts/check.mjs"
   }
 }

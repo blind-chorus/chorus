@@ -110,6 +110,18 @@ export function parseTokens() {
     };
   }
 
+  // ref.palette.{family}.{step} — used by components that need a literal
+  // translucent neutral that should adapt to surface (e.g., Chip tag).
+  const palette = {};
+  for (const [k, def] of Object.entries(light)) {
+    const m = /^ref\.palette\.([^.]+)\.([^.]+)$/.exec(k);
+    if (!m) continue;
+    if (def.$type !== "color") continue;
+    const [, family, step] = m;
+    palette[family] ??= {};
+    palette[family][step] = def.$value;
+  }
+
   return {
     colorsLight,
     colorsDark,
@@ -119,6 +131,7 @@ export function parseTokens() {
     iconSize,
     state,
     typography,
+    palette,
   };
 }
 

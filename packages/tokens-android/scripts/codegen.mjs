@@ -7,10 +7,12 @@ import { fileURLToPath } from "node:url";
 import { parseTokens, camel, pascal } from "./lib/parse-tokens.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const outDir = resolve(
-  here,
-  "../chorus-tokens/src/main/kotlin/dev/blinddsai/chorus/tokens/generated",
-);
+const outDir = process.env.CHORUS_TOKENS_ANDROID_OUT_DIR
+  ? resolve(process.env.CHORUS_TOKENS_ANDROID_OUT_DIR)
+  : resolve(
+      here,
+      "../chorus-tokens/src/main/kotlin/dev/blinddsai/chorus/tokens/generated",
+    );
 mkdirSync(outDir, { recursive: true });
 
 const PACKAGE = "dev.blinddsai.chorus.tokens.generated";
@@ -78,6 +80,32 @@ ${darkArgs.replace(/,$/, "")}
 )
 `;
   writeFileSync(resolve(outDir, "ChorusColors.kt"), body);
+}
+
+// -------- ChorusPalette.kt (ref.palette.*) ----------------------------
+{
+  const families = Object.keys(t.palette).sort();
+  let blocks = "";
+  for (const family of families) {
+    blocks += `    object ${pascal(family)} {\n`;
+    for (const step of Object.keys(t.palette[family]).sort((a, b) => Number(a) - Number(b))) {
+      blocks += `        val ${camel(["s" + step])}: Color = ${composeHex(t.palette[family][step])}\n`;
+    }
+    blocks += `    }\n\n`;
+  }
+  const body = `${header(`import androidx.compose.ui.graphics.Color
+`)}
+/**
+ * ref.palette.* — flat reference colors. Most components should reach
+ * for ChorusTheme.colors (sys.color.*) instead; this is exposed for the
+ * rare component (e.g., Chip tag) whose spec explicitly references a
+ * translucent neutral that must adapt to whatever surface sits behind.
+ */
+object ChorusPalette {
+${blocks.trimEnd()}
+}
+`;
+  writeFileSync(resolve(outDir, "ChorusPalette.kt"), body);
 }
 
 // -------- ChorusDimensions.kt -----------------------------------------
@@ -170,4 +198,4 @@ object ChorusTypography {
   writeFileSync(resolve(outDir, "ChorusTypography.kt"), body);
 }
 
-console.log("[tokens-android] generated ChorusColors.kt, ChorusDimensions.kt, ChorusTypography.kt");
+console.log("[tokens-android] generated ChorusColors.kt, ChorusPalette.kt, ChorusDimensions.kt, ChorusTypography.kt");

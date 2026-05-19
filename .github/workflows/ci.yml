@@ -18,3 +18,7 @@ jobs:
       - run: npm run lint
       - run: npm run test:screens
       - run: npm run build:packages
+      - name: Verify native tokens are in sync with schema
+        run: |
+          node packages/tokens-ios/scripts/check.mjs
+          node packages/tokens-android/scripts/check.mjs
