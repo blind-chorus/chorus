@@ -1,10 +1,14 @@
 # Tag
 
-The informational chip — square-cornered label naming attached metadata. Use for taxonomy on rows, cards, or profiles. Shorter than Filter (24 vs 32 min-height) with `sys.radius.sm` corners and a `secondaryContainer` fill because it is not a tap target.
+The informational chip — square-cornered label naming attached metadata. Use for taxonomy on rows, cards, or profiles. Shorter than Filter (24 vs 32 min-height) with `sys.radius.sm` corners and a translucent black/white overlay fill (light → `ref.palette.black.200`, dark → `ref.palette.white.200`) so the tag adopts whatever surface sits behind it without pinning to a fixed neutral step.
+
+## Intent
+
+Use Tag to label content with attached, non-interactive metadata — categories, statuses, or taxonomy describing a row or card. Prefer [Badge](../badge/badge.md) when the marker signals unread / new activity on a host rather than describing it.
 
 ## Default
 
-`secondaryContainer` fill, label-only. Reads as attached metadata against the surrounding surface.
+Translucent overlay fill, label-only. Reads as attached metadata against the surrounding surface — the overlay tints the surface one step darker (light mode) or lighter (dark mode) instead of locking to a single container tone.
 
 ```preview
 chip/tag/default
@@ -104,12 +108,13 @@ Label-only Tag clears 12px on each side (8 + 4); dismissable Tag reads with a 4p
 
 ## Variants
 
-Single visual variant — Tag does not toggle. The container/label binding is the `secondaryContainer` quartet.
+Single visual variant — Tag does not toggle. The container/label binding is the translucent overlay treatment.
 
 | Property              | Token                                                         |
 |-----------------------|---------------------------------------------------------------|
-| Background            | `sys.color.secondaryContainer`                                |
-| Label / icon color    | `sys.color.onSecondaryContainer`                              |
+| Background (light)    | `ref.palette.black.200` (translucent black overlay)           |
+| Background (dark)     | `ref.palette.white.200` (translucent white overlay)           |
+| Label / icon color    | `sys.color.onSurface`                                         |
 
 ## States
 

@@ -18,7 +18,7 @@ import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, Brief
   items={[
     { value: 'home',          label: 'Home',          icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
     { value: 'company',       label: 'Company',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
-    { value: 'explore',       label: 'Explore',       icon: <SearchIcon />,       activeIcon: <SearchIcon /> },
+    { value: 'explore',       label: 'Explore',       icon: <SearchIcon />,       activeIcon: <SearchFillIcon /> },
     { value: 'jobs',          label: 'Jobs',          icon: <BriefcaseIcon />,    activeIcon: <BriefcaseFillIcon /> },
     { value: 'notifications', label: 'Notifications', icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
   ]}
@@ -35,17 +35,17 @@ A bar including a primary-coloured **Create** affordance at the trailing end. Th
 tab-bar/with-primary
 ---
 import { TabBar } from '@blind-chorus/ui';
-import { HomeIcon, HomeFillIcon, CompanyIcon, SearchIcon, BriefcaseIcon, NotificationIcon, AddSquareFillIcon } from '@blind-chorus/ui/icons';
+import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, SearchFillIcon, BriefcaseIcon, BriefcaseFillIcon, NotificationIcon, NotificationFillIcon, AddSquareFillIcon } from '@blind-chorus/ui/icons';
 
 <TabBar
   aria-label="Primary"
   value="home"
   items={[
     { value: 'home',          label: 'Home',          icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
-    { value: 'company',       label: 'Company',       icon: <CompanyIcon /> },
-    { value: 'explore',       label: 'Explore',       icon: <SearchIcon /> },
-    { value: 'jobs',          label: 'Jobs',          icon: <BriefcaseIcon /> },
-    { value: 'notifications', label: 'Notifications', icon: <NotificationIcon /> },
+    { value: 'company',       label: 'Company',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
+    { value: 'explore',       label: 'Explore',       icon: <SearchIcon />,       activeIcon: <SearchFillIcon /> },
+    { value: 'jobs',          label: 'Jobs',          icon: <BriefcaseIcon />,    activeIcon: <BriefcaseFillIcon /> },
+    { value: 'notifications', label: 'Notifications', icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
     { value: 'create',        label: 'Create',        icon: <AddSquareFillIcon />, appearance: 'primary' },
   ]}
 />
@@ -59,14 +59,14 @@ A bar with a smaller destination set — `space-evenly` distribution scales natu
 tab-bar/three-destinations
 ---
 import { TabBar } from '@blind-chorus/ui';
-import { HomeIcon, HomeFillIcon, SearchIcon, ProfileIcon, ProfileFillIcon } from '@blind-chorus/ui/icons';
+import { HomeIcon, HomeFillIcon, SearchIcon, SearchFillIcon, ProfileIcon, ProfileFillIcon } from '@blind-chorus/ui/icons';
 
 <TabBar
   aria-label="Primary"
   value="explore"
   items={[
     { value: 'home',    label: 'Home',    icon: <HomeIcon />,    activeIcon: <HomeFillIcon /> },
-    { value: 'explore', label: 'Explore', icon: <SearchIcon /> },
+    { value: 'explore', label: 'Explore', icon: <SearchIcon />,  activeIcon: <SearchFillIcon /> },
     { value: 'profile', label: 'Profile', icon: <ProfileIcon />, activeIcon: <ProfileFillIcon /> },
   ]}
 />
@@ -80,7 +80,7 @@ Labels exceeding their slot truncate with a single-line ellipsis. Author labels 
 tab-bar/truncation
 ---
 import { TabBar } from '@blind-chorus/ui';
-import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, ChatIcon, NotificationIcon, NotificationFillIcon } from '@blind-chorus/ui/icons';
+import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, SearchFillIcon, ChatIcon, ChatFillIcon, NotificationIcon, NotificationFillIcon } from '@blind-chorus/ui/icons';
 
 <TabBar
   aria-label="Primary"
@@ -88,8 +88,8 @@ import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, ChatI
   items={[
     { value: 'home',          label: 'Home',                icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
     { value: 'company',       label: 'My organization',     icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
-    { value: 'explore',       label: 'Explore communities', icon: <SearchIcon /> },
-    { value: 'messages',      label: 'Direct messages',     icon: <ChatIcon /> },
+    { value: 'explore',       label: 'Explore communities', icon: <SearchIcon />,       activeIcon: <SearchFillIcon /> },
+    { value: 'messages',      label: 'Direct messages',     icon: <ChatIcon />,         activeIcon: <ChatFillIcon /> },
     { value: 'notifications', label: 'All notifications',   icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
   ]}
 />
@@ -103,7 +103,7 @@ Static design-review specimen — pins the keyboard-focus ring to a single desti
 tab-bar/focused
 ---
 import { TabBar } from '@blind-chorus/ui';
-import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, BriefcaseIcon, BriefcaseFillIcon, NotificationIcon, NotificationFillIcon } from '@blind-chorus/ui/icons';
+import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, SearchFillIcon, BriefcaseIcon, BriefcaseFillIcon, NotificationIcon, NotificationFillIcon } from '@blind-chorus/ui/icons';
 
 <TabBar
   aria-label="Primary"
@@ -111,7 +111,7 @@ import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, Brief
   items={[
     { value: 'home',          label: 'Home',          icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
     { value: 'company',       label: 'Company',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
-    { value: 'explore',       label: 'Explore',       icon: <SearchIcon />,                                              forcedState: 'focused' },
+    { value: 'explore',       label: 'Explore',       icon: <SearchIcon />,       activeIcon: <SearchFillIcon />, forcedState: 'focused' },
     { value: 'jobs',          label: 'Jobs',          icon: <BriefcaseIcon />,    activeIcon: <BriefcaseFillIcon /> },
     { value: 'notifications', label: 'Notifications', icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
   ]}
@@ -133,7 +133,7 @@ import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, Brief
 | item      | Flex column, icon over label; `flex: 1 1 0` with `max-width: 80px`; tap target is the full slot. State layer is a `sys.radius.md` rounded rectangle filling the slot |
 | icon      | `sys.color.onSurfaceVariant` → `sys.color.onSurface` (active) |
 | label     | `sys.typo.caption.sm` (10 / Regular); `onSurfaceVariant` → `onSurface` (active) |
-| primary   | When `appearance="primary"`, the icon paints in `sys.color.brand`. Pair with a filled-tile glyph (e.g. [`AddSquareFillIcon`](../../packages/ui/src/icons/svg/AddSquareFill.svg)) |
+| primary   | When `appearance="primary"`, only the **icon** paints in `sys.color.brand`; the label stays in the bar's default `sys.color.onSurfaceVariant` so every label across the row reads as one rung. Pair with a filled-tile glyph (e.g. [`AddSquareFillIcon`](../../packages/ui/src/icons/svg/AddSquareFill.svg)) |
 
 ## Sizes
 

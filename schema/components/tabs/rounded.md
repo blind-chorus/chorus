@@ -22,19 +22,17 @@ import { Tabs, Tab } from '@blind-chorus/ui';
 
 ### With icon
 
-The canonical sort / filter row — each tab pairs a leading glyph with its label. Icon sits at 16px (`sys.icon.md`).
-
-<!-- Unmappable glyphs left in place: `clock` (no clock icon in @blind-chorus/ui/icons), `fire` (no fire/flame icon). -->
+The canonical sort / filter row — each tab pairs a leading glyph with its label. Icon sits at 16px (`sys.icon.md`). Every glyph is drawn from the managed `@blind-chorus/ui/icons` set so the row carries no inline SVG.
 
 ```preview
 tabs/rounded/leading-icon
 ---
-import { Tabs, Tab, Icon } from '@blind-chorus/ui'; // Icon kept for unmapped `clock`/`fire` glyphs
-import { HeartIcon, BookmarkIcon } from '@blind-chorus/ui/icons';
+import { Tabs, Tab } from '@blind-chorus/ui';
+import { PulseIcon, StarIcon, HeartIcon, BookmarkIcon } from '@blind-chorus/ui/icons';
 
 <Tabs variant="rounded" value="latest" onChange={setValue} aria-label="Sort">
-  <Tab value="latest"    leadingIcon={<Icon name="clock"    />}>Latest</Tab>
-  <Tab value="popular"   leadingIcon={<Icon name="fire"     />}>Popular</Tab>
+  <Tab value="latest"    leadingIcon={<PulseIcon />}>Latest</Tab>
+  <Tab value="popular"   leadingIcon={<StarIcon />}>Popular</Tab>
   <Tab value="favorites" leadingIcon={<HeartIcon />}>Favorites</Tab>
   <Tab value="saved"     leadingIcon={<BookmarkIcon />}>Saved</Tab>
 </Tabs>
@@ -61,21 +59,20 @@ import { StarIcon, BookmarkIcon, HeartIcon } from '@blind-chorus/ui/icons';
 
 When the row's natural width exceeds the surrounding column, it scrolls horizontally instead of compressing tabs. Trailing **Edge fade** (48px / `ref.space.600`) paints via `mask-image` only while overflow is present.
 
-<!-- Unmappable glyph left in place: `clock` (no clock icon in @blind-chorus/ui/icons). -->
-
 ```preview
 tabs/rounded/overflow
 ---
-import { Tabs, Tab, Icon } from '@blind-chorus/ui'; // Icon kept for unmapped `clock` glyph
+import { Tabs, Tab } from '@blind-chorus/ui';
+import { PulseIcon, StarIcon, HeartIcon, BookmarkIcon, TagIcon, ProfileIcon, MentionIcon } from '@blind-chorus/ui/icons';
 
-<Tabs variant="rounded" value="day" aria-label="Range">
-  <Tab value="day"     leadingIcon={<Icon name="clock" />}>Day</Tab>
-  <Tab value="week"    leadingIcon={<Icon name="clock" />}>Week</Tab>
-  <Tab value="month"   leadingIcon={<Icon name="clock" />}>Month</Tab>
-  <Tab value="quarter" leadingIcon={<Icon name="clock" />}>Quarter</Tab>
-  <Tab value="year"    leadingIcon={<Icon name="clock" />}>Year</Tab>
-  <Tab value="decade"  leadingIcon={<Icon name="clock" />}>Decade</Tab>
-  <Tab value="century" leadingIcon={<Icon name="clock" />}>Century</Tab>
+<Tabs variant="rounded" value="latest" aria-label="Feed">
+  <Tab value="latest"    leadingIcon={<PulseIcon />}>Latest</Tab>
+  <Tab value="popular"   leadingIcon={<StarIcon />}>Popular</Tab>
+  <Tab value="favorites" leadingIcon={<HeartIcon />}>Favorites</Tab>
+  <Tab value="saved"     leadingIcon={<BookmarkIcon />}>Saved</Tab>
+  <Tab value="topics"    leadingIcon={<TagIcon />}>Topics</Tab>
+  <Tab value="people"    leadingIcon={<ProfileIcon />}>People</Tab>
+  <Tab value="mentions"  leadingIcon={<MentionIcon />}>Mentions</Tab>
 </Tabs>
 ```
 
@@ -106,7 +103,7 @@ At least one of `label` / `leadingIcon` must be present.
 
 | Prop / state           | Container                          | Label color                       | Border (always 1px `sys.borderWidth.hairline`)                          |
 |------------------------|------------------------------------|-----------------------------------|-------------------------------------------------------------------------|
-| **Tab — unselected**   | `sys.color.surfaceContainerHigh`   | `sys.color.onSurface`             | `sys.color.outlineVariant`                                              |
+| **Tab — unselected**   | `transparent`                      | `sys.color.onSurface`             | `sys.color.outlineVariant`                                              |
 | **Tab — selected**     | `sys.color.inverseSurface`         | `sys.color.inverseOnSurface`      | `transparent` — 1px width held so footprint never changes between states |
 
 Selected / unselected pairs are inherited verbatim from [Filter chip's selectionStates](../chip/filter.md#variants).

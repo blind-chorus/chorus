@@ -353,7 +353,7 @@ textarea {
 }
 
 .chorus-chip--filter {
-  --chip-bg: var(--sys-color-surfaceContainerHigh);
+  --chip-bg: transparent;
   --chip-label: var(--sys-color-onSurface);
   --chip-border-color: var(--sys-color-outlineVariant);
   /* 32 capsule — anatomy contract, not a spacing token. */
@@ -417,14 +417,23 @@ textarea {
 }
 
 .chorus-chip--tag {
-  --chip-bg: var(--sys-color-secondaryContainer);
-  --chip-label: var(--sys-color-onSecondaryContainer);
+  /* Translucent overlay rather than a tonal container role, so the tag
+     adopts whatever surface sits behind it — body, raised card, sheet —
+     by tinting one step darker (light mode) or lighter (dark mode)
+     instead of pinning to a fixed neutral step that can collide with
+     the surface ladder. Mirrors the Callout default treatment. */
+  --chip-bg: var(--ref-palette-black-200);
+  --chip-label: var(--sys-color-onSurface);
   --chip-border-color: transparent;
   /* 24 capsule — Tag rung, anatomy contract. */
   --chip-min-height: 24px;
   --chip-padding-block: var(--sys-layout-container-2xs);
   --chip-padding-inline: var(--sys-layout-container-xs);
   --chip-radius: var(--sys-radius-sm);
+}
+
+[data-theme="dark"] .chorus-chip--tag {
+  --chip-bg: var(--ref-palette-white-200);
 }
 
 /* Icon-only Compact — when the chip carries no label slot, shrink the
@@ -543,6 +552,18 @@ span.chorus-chip {
   white-space: nowrap;
   user-select: none;
   flex: 0 0 auto;
+}
+
+/* Update Dot rung — labelless brand dot used as a corner activity
+   flag (Thumbnail is the canonical host). Width / height are pinned
+   by the spec's `dot-md` / `dot-sm` rungs; the 1px `surface`-color
+   halo is painted as a `box-shadow` so the dot's bounding footprint
+   never changes. */
+.chorus-badge--dot {
+  width: var(--badge-min-width);
+  height: var(--badge-min-height);
+  padding: 0;
+  box-shadow: 0 0 0 var(--sys-borderWidth-hairline) var(--sys-color-surface);
 }
 
 /* ============================================================
@@ -1243,19 +1264,14 @@ span.chorus-chip {
   display: block;
 }
 
+/* Position-only — the dot itself (size / fill / halo) is rendered by
+   the Badge component's `dot-*` rung so Thumbnail and Badge stay in
+   lockstep. Thumbnail only pins the dot to the container's top-right
+   corner and suppresses pointer events on the overlay. */
 .chorus-thumbnail__dot {
   position: absolute;
   top: 0;
   right: 0;
-  width: var(--thumb-dot-size);
-  height: var(--thumb-dot-size);
-  border-radius: var(--sys-radius-full);
-  background: var(--sys-color-brand);
-  /* Hairline surface halo that carves the dot out of the host image —
-     same treatment the logo badge uses, so both corner overlays sit
-     above the image with a visible 1px gap from the photo. Painted as a
-     box-shadow so the dot's bounding footprint never changes. */
-  box-shadow: 0 0 0 var(--sys-borderWidth-hairline) var(--sys-color-surface);
   pointer-events: none;
 }
 
@@ -1720,22 +1736,22 @@ span.chorus-chip {
   border-radius: var(--sys-radius-md);
 }
 
-.chorus-callout--info {
+.chorus-callout--accent {
   background: var(--sys-color-primaryContainer);
   color: var(--sys-color-onPrimaryContainer);
 }
 
-/* Neutral uses an 8% black/white overlay rather than a tonal container
+/* Default uses an 8% black/white overlay rather than a tonal container
    role, so the callout stays harmonious on any underlying surface —
    body, raised card, BottomSheet, Dialog — by tinting one step darker
    (light mode) or lighter (dark mode) instead of pinning to a fixed
    neutral step that can collide with the surface ladder. */
-.chorus-callout--neutral {
+.chorus-callout--default {
   background: var(--ref-palette-black-200);
   color: var(--sys-color-onSurface);
 }
 
-[data-theme="dark"] .chorus-callout--neutral {
+[data-theme="dark"] .chorus-callout--default {
   background: var(--ref-palette-white-200);
 }
 
@@ -1776,8 +1792,8 @@ span.chorus-chip {
 }
 
 /* Action link sits as a block child below the body. Inherits the
-   callout's foreground in `info` (the tint is already an "actionable
-   blue") and steps to `primary` in `neutral` so the link reads as the
+   callout's foreground in `accent` (the tint is already an "actionable
+   blue") and steps to `primary` in `default` so the link reads as the
    only interactive affordance on an otherwise quiet surface. */
 .chorus-callout__action {
   font-size: var(--sys-typo-label-md-size);
@@ -1789,7 +1805,7 @@ span.chorus-chip {
   cursor: pointer;
 }
 
-.chorus-callout--neutral .chorus-callout__action {
+.chorus-callout--default .chorus-callout__action {
   color: var(--sys-color-primary);
 }
 
@@ -1801,6 +1817,12 @@ span.chorus-chip {
   align-items: flex-end;
   justify-content: center;
   background: var(--ref-palette-black-600);
+  /* Virtual-keyboard inset. Set at runtime from visualViewport (see
+     BottomSheet.jsx). align-items: flex-end means this padding pushes
+     the card — and the pinned actions footer — up by the keyboard's
+     height, keeping the commit area reachable above the keyboard. */
+  padding-bottom: var(--bottom-sheet-keyboard-inset, 0px);
+  transition: padding-bottom 120ms ease-out;
 }
 
 .chorus-bottom-sheet__scrim--inline {
@@ -2872,9 +2894,16 @@ span.chorus-chip {
    product's voice, not a generic call-to-action). Pair with a
    filled-tile icon (AddSquareFillIcon / ComposeFillIcon) so the
    icon's own shape provides the tile and the brand fill paints it as
-   the commit colour. The item width stays at the standard icon
-   footprint so the row's optical alignment is unaffected. */
+   the commit colour. The label stays in the bar's default foreground
+   (`onSurfaceVariant`) so the row's labels read as one rung — only the
+   icon carries the brand emphasis. The item width stays at the
+   standard icon footprint so the row's optical alignment is
+   unaffected. */
 .chorus-tab-bar__item--primary {
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.chorus-tab-bar__item--primary .chorus-tab-bar__icon {
   color: var(--sys-color-brand);
 }
 

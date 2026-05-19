@@ -20,11 +20,33 @@ export function BottomSheet({
   ...rest
 }) {
   const target = usePortalTarget();
+  const scrimRef = useRef(null);
   const cardRef = useRef(null);
   const contentRef = useRef(null);
   const lastFocusedRef = useRef(null);
   const [overflowing, setOverflowing] = useState(false);
   useBodyScrollLock(open && !inline);
+
+  /* Mirror the virtual-keyboard height to the scrim as a bottom padding
+     via --bottom-sheet-keyboard-inset. visualViewport shrinks when the
+     keyboard opens; the inset translates the card up because the scrim
+     uses align-items: flex-end. */
+  useEffect(() => {
+    if (!open || inline) return undefined;
+    const vv = typeof window !== 'undefined' ? window.visualViewport : null;
+    if (!vv) return undefined;
+    const apply = () => {
+      const inset = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      scrimRef.current?.style.setProperty('--bottom-sheet-keyboard-inset', `${inset}px`);
+    };
+    apply();
+    vv.addEventListener('resize', apply);
+    vv.addEventListener('scroll', apply);
+    return () => {
+      vv.removeEventListener('resize', apply);
+      vv.removeEventListener('scroll', apply);
+    };
+  }, [open, inline]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -61,6 +83,7 @@ export function BottomSheet({
 
   const tree = (
     <div
+      ref={scrimRef}
       className={joinClasses('chorus-bottom-sheet__scrim', inline && 'chorus-bottom-sheet__scrim--inline', className)}
       role="presentation"
       onClick={() => onClose?.()}

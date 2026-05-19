@@ -16,7 +16,7 @@ import { FormField } from '@blind-chorus/ui';
 
 ## Error
 
-The failed field — `errorContainer` wash, full-strength `error` stroke, `onErrorContainer` text. Pair with an inline message at the call site.
+The failed field — `errorContainer` wash, full-strength `error` stroke, `onErrorContainer` text. The assistive helper rung below the box re-tones to `sys.color.error` so the message reads as the error caption.
 
 ```preview
 form-field/input/error
@@ -26,6 +26,23 @@ import { FormField } from '@blind-chorus/ui';
 <FormField
   variant="input"
   appearance="error"
+  label="Label text"
+  placeholder="Place holder"
+  helper="Assistive text"
+/>
+```
+
+The `helper` rung is intentionally **optional** on every appearance — pass nothing and the error field still re-tones the box without an assistive caption below it. Reach for the helper-less form when the surrounding row already carries the failure message.
+
+```preview
+form-field/input/error-no-helper
+---
+import { FormField } from '@blind-chorus/ui';
+
+<FormField
+  variant="input"
+  appearance="error"
+  label="Label text"
   placeholder="Place holder"
 />
 ```

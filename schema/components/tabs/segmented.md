@@ -2,6 +2,10 @@
 
 The inline view-mode toggle — a row of mutually-exclusive selectors for in-place mode changes (List ↔ Grid, Day ↔ Week ↔ Month). For panel-switching navigation, reach for [Underline](./underline.md) instead.
 
+## Intent
+
+Use Segmented to switch between mutually-exclusive views of the same content — exactly one option is active at a time. Prefer [Filter](../chip/filter.md) when the user can toggle multiple independent criteria at once.
+
 ## Default
 
 The headline form — a 2-segment List / Grid view toggle.
@@ -77,7 +81,7 @@ import { Tabs, Tab } from '@blind-chorus/ui';
 
 ## Anatomy
 
-Each segment renders with `chorus-chip chorus-chip--filter` — see [Filter chip](../chip/filter.md) for the full visual contract. Selected segment swaps from the unselected pair (`surfaceContainerHigh` + `outlineVariant` border + `onSurface` label) to the selected pair (`inverseSurface` fill + `inverseOnSurface` label, border `transparent` with 1px width held so footprint stays).
+Each segment renders with `chorus-chip chorus-chip--filter` — see [Filter chip](../chip/filter.md) for the full visual contract. Selected segment swaps from the unselected pair (`transparent` fill + `outlineVariant` border + `onSurface` label, so the segment adopts whatever surface sits behind the row) to the selected pair (`inverseSurface` fill + `inverseOnSurface` label, border `transparent` with 1px width held so footprint stays).
 
 Chip behaviour inherited verbatim — except the focus ring, which is re-anchored as an inset overlay on a `::after` layer (the segmented row is a horizontal scroller, so the chip's default outward ring would clip).
 

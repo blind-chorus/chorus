@@ -55,7 +55,10 @@ function TabBarItem({ item, isActive, onSelect }) {
 
   const handleClick = (event) => {
     onClick?.(event);
-    if (!event.defaultPrevented) onSelect?.(value);
+    /* Primary items invoke a screen-covering overlay rather than a
+       sibling destination — they never own selection inside the bar,
+       so suppress the selection callback for them. */
+    if (!event.defaultPrevented && !isPrimary) onSelect?.(value);
   };
 
   if (href) {

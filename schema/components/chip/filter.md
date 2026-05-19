@@ -1,10 +1,14 @@
 # Filter
 
-The selectable chip — capsule-shaped toggle for refining a set. **Unselected** is a transparent hairline-outlined pill; **selected** swaps to an inverse fill. Optional leading and trailing icons compose around the label without changing footprint.
+The selectable chip — capsule-shaped toggle for refining a set. **Unselected** is a transparent hairline-outlined pill that adopts whatever surface sits behind it; **selected** swaps to an inverse fill. Optional leading and trailing icons compose around the label without changing footprint.
+
+## Intent
+
+Use Filter to let the user narrow a set by toggling one or more independent criteria — multiple chips can be on at once. Prefer [Segmented](../tabs/segmented.md) when the choices are mutually-exclusive view modes (List ↔ Grid).
 
 ## Default
 
-At-rest form — transparent fill with a hairline `outlineVariant` stroke. Use in rows of choices the user hasn't acted on yet.
+At-rest form — transparent fill with a hairline `outlineVariant` stroke so the chip is free to sit on any underlying surface (page, raised card, sheet) without colliding with the surface ladder. Use in rows of choices the user hasn't acted on yet.
 
 ```preview
 chip/filter/unselected
@@ -145,7 +149,7 @@ A single visual variant — the selected/unselected toggle is a state on the sam
 
 | State        | Background                          | Border (always 1px `sys.borderWidth.hairline`)          | Label / icon color                | Notes                                                                |
 |--------------|-------------------------------------|---------------------------------------------------------|-----------------------------------|----------------------------------------------------------------------|
-| unselected   | `sys.color.surfaceContainerHigh`    | `sys.color.outlineVariant`                              | `sys.color.onSurface`             | Raised container tone with hairline stroke so the edge stays legible on light-mode surfaces. |
+| unselected   | `transparent`                       | `sys.color.outlineVariant`                              | `sys.color.onSurface`             | Transparent fill plus the hairline outline carries the edge — the chip adopts whatever surface sits behind it. |
 | selected     | `sys.color.inverseSurface`          | `transparent`                                           | `sys.color.inverseOnSurface`      | Inverse fill so the chosen chip stands out. Border colour goes transparent but its 1px width is held, so footprint never changes between states. |
 
 ## States

@@ -138,9 +138,8 @@ function buildComponents(family) {
     return <pre>{children}</pre>;
   },
   a: ({ href, children }) => {
-    const sub = family ? parseSiblingSubHref(href) : null;
-    if (sub) return <a href={`/components/${family}/${sub}`}>{children}</a>;
-    return <a href={href}>{children}</a>;
+    const resolved = resolveMdHref(href, family);
+    return <a href={resolved ?? href}>{children}</a>;
   },
   };
 }
@@ -157,14 +156,35 @@ function TokenTrimTableWrapper({ node, children }) {
   );
 }
 
-/* Spec authors link to a sibling sub-component spec by relative path —
-   `[FAB](./fab.md)` from button.md, for instance. The schema folder isn't
-   a routable tree; rewrite those into the docs URL `/components/<family>/<sub>`
-   so the link lands on the rendered sub-page. Returns the sub slug or null. */
-function parseSiblingSubHref(href) {
+/* Resolve a markdown link target to its rendered docs URL, or null if it
+   isn't a doc reference. Two shapes:
+     - `./fab.md`, `fab.md`              → sibling sub of the current family
+     - `../bottom-sheet/bottom-sheet.md` → cross-family
+   When the target file equals the family slug (e.g. `dialog/dialog.md`),
+   it's the family overview, so the URL collapses to `/components/<family>/`
+   instead of duplicating the slug. The schema folder isn't a routable
+   tree, so without this rewrite md links would 404. */
+function resolveMdHref(href, currentFamily) {
   if (!href) return null;
-  const m = href.match(/^(?:\.\/)?([\w-]+)\.md$/);
-  return m ? m[1] : null;
+  const [pathPart, anchor] = href.split('#');
+  const hash = anchor ? `#${anchor}` : '';
+  let m;
+  if ((m = pathPart.match(/^(?:\.\/)?([\w-]+)\.md$/))) {
+    if (!currentFamily) return null;
+    const sub = m[1];
+    const path = sub === currentFamily
+      ? `/components/${currentFamily}/`
+      : `/components/${currentFamily}/${sub}/`;
+    return `${path}${hash}`;
+  }
+  if ((m = pathPart.match(/^\.\.\/([\w-]+)\/([\w-]+)\.md$/))) {
+    const [, fam, sub] = m;
+    const path = sub === fam
+      ? `/components/${fam}/`
+      : `/components/${fam}/${sub}/`;
+    return `${path}${hash}`;
+  }
+  return null;
 }
 
 export function ComponentMd({ body, family }) {

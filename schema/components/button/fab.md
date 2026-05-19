@@ -2,6 +2,10 @@
 
 Floating action button — surface-elevated commit anchored to the canvas, reachable while content scrolls (mobile list canvases, drawing surfaces, feeds). Independent contract from standard [Button](./button.md): single fixed sizing rung, label and icon both optional (at least one present), pill geometry (`sys.radius.full`), floating elevation (`sys.elevation.floating`).
 
+## Intent
+
+Use FAB as the *single* headline action of a scrollable canvas — anchored to the viewport so it stays reachable as content moves underneath. Prefer [Button](./button.md) when the action lives inline with content (forms, rows, dialogs) rather than floating above it.
+
 ## Primary
 
 The default FAB — brand-red fill anchoring the canvas's headline action.

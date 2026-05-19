@@ -2,6 +2,10 @@
 
 A transient confirmation strip that floats above the page after a user action lands — saved, copied, sent, retried. Inverse-toned by default so the message contrasts with any underlying page tier (canvas, raised card, scrim) without per-surface tuning. The strip grows with its content up to a 400 max-width (capped further to viewport-minus-safe-area on narrow screens), so a short phrase reads as a compact pill and a longer message stays a recognisable shape rather than a banner. Owner code mounts the Toast when the action resolves and unmounts it after a fixed beat; the component itself is presentational.
 
+## Intent
+
+Use Toast to confirm a system outcome the user just triggered — proof an action landed, without altering the page beneath. Prefer [Callout](../callout/callout.md) when the message is contextual to the content itself, not tied to a recent action.
+
 ## Default
 
 The bare confirmation strip — body text only. Inverse surface, 48 min-height, 16 / 8 inset, single line.

@@ -1,4 +1,5 @@
 import { joinClasses } from './spec-utils.js';
+import { Badge } from './Badge.jsx';
 
 /* Thumbnail — small-rung circular image. Pure visual primitive with two
    optional corner badges (updateDot top-right, logoBadge bottom-right).
@@ -30,13 +31,15 @@ export function Thumbnail({
   ...rest
 }) {
   const px = normalizeSize(size);
-  const dotPx = px >= 32 ? 8 : 4;
+  /* Update dot picks the matching Badge `dot-*` rung — `dot-md` (8×8)
+     at the 32 / 40 / 48 rungs, `dot-sm` (6×6) below — so the corner
+     flag, the rung name, and the Badge family stay in lockstep. */
+  const dotSize = px >= 32 ? 'dot-md' : 'dot-sm';
   return (
     <span
       className={joinClasses('chorus-thumbnail', `chorus-thumbnail--${px}`, className)}
       style={{
         '--thumb-size': `${px}px`,
-        '--thumb-dot-size': `${dotPx}px`,
         ...style,
       }}
       {...rest}
@@ -45,7 +48,7 @@ export function Thumbnail({
         {src ? <img src={src} alt={alt} /> : null}
       </span>
       {updateDot ? (
-        <span className="chorus-thumbnail__dot" aria-hidden="true" />
+        <Badge size={dotSize} className="chorus-thumbnail__dot" />
       ) : null}
       {logoBadge ? (
         <span className="chorus-thumbnail__badge" aria-hidden="true">

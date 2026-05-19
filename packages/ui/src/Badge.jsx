@@ -15,7 +15,7 @@ function sizingStyle(spec, size) {
     '--badge-min-width': tokenToCss(s.minWidth),
     '--badge-padding-block': tokenToCss(s.paddingBlock),
     '--badge-padding-inline': tokenToCss(s.paddingInline),
-    ...typoStyles(s.labelTypo),
+    ...(s.labelTypo ? typoStyles(s.labelTypo) : null),
   };
 }
 
@@ -27,25 +27,48 @@ function appearanceStyle(spec) {
   };
 }
 
+const DOT_SIZES = new Set(['dot-md', 'dot-sm']);
+
+/* Badge — numeric count pill (medium / small) plus the labelless
+   **Update Dot** rungs (`dot-md` / `dot-sm`). The dot rungs render no
+   label and paint a 1px `surface`-color halo as a box-shadow so the
+   dot reads cleanly above any host imagery. Thumbnail's corner update
+   flag is the canonical host — it picks `dot-md` at the 32 / 40 / 48
+   rungs and `dot-sm` at the 16 / 20 / 24 rungs. */
 export function Badge({
   size = 'medium',
   count,
   className,
   children,
   style,
+  'aria-hidden': ariaHidden,
   ...rest
 }) {
-  const label = children ?? formatCount(count);
-  if (label == null || label === '') return null;
+  const isDot = DOT_SIZES.has(size);
   const composedStyle = {
     ...sizingStyle(badgeSpec, size),
     ...appearanceStyle(badgeSpec),
     ...style,
   };
+
+  if (isDot) {
+    return (
+      <span
+        className={joinClasses('chorus-badge', 'chorus-badge--dot', `chorus-badge--${size}`, className)}
+        style={composedStyle}
+        aria-hidden={ariaHidden ?? true}
+        {...rest}
+      />
+    );
+  }
+
+  const label = children ?? formatCount(count);
+  if (label == null || label === '') return null;
   return (
     <span
       className={joinClasses('chorus-badge', `chorus-badge--${size}`, className)}
       style={composedStyle}
+      aria-hidden={ariaHidden}
       {...rest}
     >
       {label}

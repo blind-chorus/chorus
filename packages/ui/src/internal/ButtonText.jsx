@@ -37,7 +37,6 @@ export const ButtonText = forwardRef(function ButtonText({
     'chorus-button--text',
     `chorus-button--text--size-${size}`,
     `chorus-button--text--appearance-${appearance}`,
-    state && `is-${state}`,
     className,
   );
   const props = {

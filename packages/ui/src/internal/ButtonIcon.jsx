@@ -32,7 +32,6 @@ export function ButtonIcon({
         'chorus-button--icon',
         `chorus-button--icon--${size}`,
         `chorus-button--icon--appearance-${appearance}`,
-        state && `is-${state}`,
         className,
       )}
       aria-label={ariaLabel}

@@ -3,7 +3,7 @@
   "name": "Chip",
   "family": "chip",
   "subcomponent": "filter",
-  "description": "Selectable chip. Capsule-shaped toggle. Unselected = transparent + hairline outline; selected = inverse fill.",
+  "description": "Selectable chip. Capsule-shaped toggle. Unselected = transparent fill + hairline outline so the chip adopts whatever surface it sits on; selected = inverse fill.",
   "element": "button",
   "props": {
     "variant": {
@@ -62,12 +62,13 @@
   },
   "selectionStates": {
     "unselected": {
-      "background": "sys.color.surfaceContainerHigh",
+      "background": "transparent",
       "label": "sys.color.onSurface",
       "border": {
         "width": "sys.borderWidth.hairline",
         "color": "sys.color.outlineVariant"
-      }
+      },
+      "note": "Transparent fill so the chip adopts whatever surface sits behind it (page, raised card, sheet) without pinning to a fixed neutral step."
     },
     "selected": {
       "background": "sys.color.inverseSurface",

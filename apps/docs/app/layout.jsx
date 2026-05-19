@@ -17,8 +17,8 @@ export const metadata = {
   description: 'Chorus — the design system behind our product.',
   icons: {
     icon: [
-      { url: asset('/logo.svg'), media: '(prefers-color-scheme: light)' },
-      { url: asset('/logo-dark.svg'), media: '(prefers-color-scheme: dark)' },
+      { url: asset('/chorus_logo.svg'), media: '(prefers-color-scheme: light)' },
+      { url: asset('/chorus_logo_dark.svg'), media: '(prefers-color-scheme: dark)' },
     ],
   },
 };

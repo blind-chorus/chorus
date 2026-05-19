@@ -16,7 +16,7 @@ import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-chorus/ui/icons';
   variant="home"
   title={
     <img
-      src="/logotype.svg"
+      src="/blind_logotype_black.svg"
       alt="Chorus"
       style={{ height: 24, width: 'auto', display: 'block' }}
     />

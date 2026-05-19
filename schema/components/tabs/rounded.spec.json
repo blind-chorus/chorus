@@ -71,12 +71,13 @@
   },
   "selectionStates": {
     "unselected": {
-      "background": "sys.color.surfaceContainerHigh",
+      "background": "transparent",
       "label": "sys.color.onSurface",
       "border": {
         "width": "sys.borderWidth.hairline",
         "color": "sys.color.outlineVariant"
-      }
+      },
+      "note": "Transparent fill so the tab adopts whatever surface sits behind it — page, raised card, sheet — without pinning to a fixed neutral step. Inherited from Filter chip's unselected recipe."
     },
     "selected": {
       "background": "sys.color.inverseSurface",

@@ -1,6 +1,6 @@
 # Search Bar
 
-The search-shaped single-line field — a sibling of [Input](./input.md) with a leading `SearchIcon` and a `sys.radius.full` pill corner. Box, stroke, placeholder rule, clear button, error re-tone, and focus ring are inherited from Input unchanged. **Bare box only — no `label`, `helper`, or `maxLength`.**
+The search-shaped single-line field — a sibling of [Input](./input.md) with a leading `SearchIcon` and a `sys.radius.full` pill corner. Box, stroke, placeholder rule, clear button, and focus ring are inherited from Input unchanged. **Bare box only — no `label`, `helper`, `maxLength`, or `error` appearance.** Error reporting belongs to a labelled Input; a search rung that needs to flag failure should switch to one.
 
 ## Default
 
@@ -12,22 +12,6 @@ form-field/search/default
 import { FormField } from '@blind-chorus/ui';
 
 <FormField variant="search" placeholder="Search" />
-```
-
-## Error
-
-The failed search bar — `errorContainer` wash, full-strength `error` stroke, `onErrorContainer` text *and* leading glyph so the whole pill reads as alarming.
-
-```preview
-form-field/search/error
----
-import { FormField } from '@blind-chorus/ui';
-
-<FormField
-  variant="search"
-  appearance="error"
-  placeholder="Search"
-/>
 ```
 
 ## Use cases
@@ -50,7 +34,7 @@ import { FormField } from '@blind-chorus/ui';
 
 ## Appearance
 
-Same two values as [Input](./input.md#appearance) (`default`, `error`). The leading glyph inherits the field's text colour, so it re-tones with the container on `error` (goes `onErrorContainer`). The search bar has no extra axes of its own.
+Single `default` appearance — Search Bar does **not** carry an `error` form. Error reporting belongs to a labelled [Input](./input.md#appearance), which can pair the `error` re-tone with assistive text in the same colour; a bare search rung has no rung to host that message and so the appearance is intentionally omitted.
 
 ## Slots
 

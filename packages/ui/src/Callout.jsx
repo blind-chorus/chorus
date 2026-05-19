@@ -2,11 +2,12 @@ import { joinClasses } from './spec-utils.js';
 
 /* Callout — a self-contained block that explains a feature, capability,
    or piece of content sitting *within* the body flow but visually
-   separated from it. Two appearances: `info` (primary-tinted, eye-
-   catching) and `neutral` (low-key surface variant). Optional action
-   slot renders as an inline link below the body. */
+   separated from it. Two appearances: `default` (low-key surface
+   variant — the canonical aside) and `accent` (primary-tinted, eye-
+   catching). Optional action slot renders as an inline link below the
+   body. */
 export function Callout({
-  appearance = 'info',
+  appearance = 'default',
   icon,
   action,
   children,

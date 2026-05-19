@@ -1430,29 +1430,36 @@ export function StateLayer({ tokens }) {
             })}
           </RoleTable>
         </TokenTrimScope>
-        <div className="specimen-grid">
-          {STATE_DEMO_ORDER.map(name => {
-            const row = STATE_ROWS.find(r => r.name === name);
-            const token = tokens[`sys.state.${name}`];
-            if (!row || !token) return null;
-            return (
-              <div key={name} className="demo-cell">
-                <div className="demo-stage">
-                  <StateLayerStage name={name} value={token.$value} />
-                </div>
-                <div className="demo-meta">
-                  <div className="demo-header">
-                    <span className="token-chip">{`state.${name}`}</span>
-                    <span className="demo-value">
-                      <RefAndValue refPath={token.$valueRef} value={token.$value} />
-                    </span>
+        <TokenTrimScope
+          tokens={STATE_DEMO_ORDER
+            .map((name) => tokens[`sys.state.${name}`]?.$valueRef)
+            .filter(Boolean)
+            .map((p) => `$${p}`)}
+        >
+          <div className="specimen-grid">
+            {STATE_DEMO_ORDER.map(name => {
+              const row = STATE_ROWS.find(r => r.name === name);
+              const token = tokens[`sys.state.${name}`];
+              if (!row || !token) return null;
+              return (
+                <div key={name} className="demo-cell">
+                  <div className="demo-stage">
+                    <StateLayerStage name={name} value={token.$value} />
                   </div>
-                  <p className="demo-desc">{renderInline(row.role)}</p>
+                  <div className="demo-meta">
+                    <div className="demo-header">
+                      <span className="token-chip">{`state.${name}`}</span>
+                      <span className="demo-value">
+                        <RefAndValue refPath={token.$valueRef} value={token.$value} />
+                      </span>
+                    </div>
+                    <p className="demo-desc">{renderInline(row.role)}</p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        </TokenTrimScope>
       </Section>
       <Section
         title="Focus ring composition"
@@ -1958,6 +1965,7 @@ export function Iconography() {
           <li><strong>Icon + label</strong> — both use the same foreground; never paint the icon a different hue for emphasis. Hierarchy belongs to the label.</li>
           <li><strong>Inactive / disabled</strong> — inherit from the surrounding <code>state.disabled</code> opacity; do not pre-darken the icon SVG.</li>
           <li><strong>Status icons</strong> — follow the accent role they signal: <code>color.success</code> for success, <code>color.error</code> for error, paired with their <code>on*</code> foreground when sitting on a filled accent.</li>
+          <li><strong>Inline decoration (free-tinting exception)</strong> — when an icon participates as an <em>inline element</em> inside a UI composition (a category glyph that carries its own brand colour, a chart legend swatch, an illustrative pictogram inside a callout) rather than as the foreground of a control, it may paint directly from <code>ref.palette.*</code>. The <code>sys.color.on*</code> contract above governs <em>control foregrounds</em>; an inline decorative glyph has no host foreground to inherit, so reach into the reference palette for the hue the composition needs. Keep it to a single icon-scoped colour (no gradients, no per-stroke retoning), and prefer a system role whenever one fits — the palette escape is for cases where no semantic role matches.</li>
         </ul>
       </Section>
       <Section

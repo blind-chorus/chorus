@@ -3,7 +3,7 @@
   "name": "FormField",
   "family": "form-field",
   "subcomponent": "search",
-  "description": "Single-line search field — a search-shaped sibling of Input. Same transparent-fill box, same hairline-at-rest / thin-at-active inset box-shadow stroke (so the box model is untouched in every state), same placeholder-vs-value colour rules, same error appearance, same focus ring, same trailing clear button. Two anatomy differences from Input — a leading `SearchIcon` glyph pinned at the box's inner-left edge so the field reads as a search affordance before the user types, and the corner radius steps from `sys.radius.md` to `sys.radius.full` (pill). **Search Bar is a bare box only — it does not accept a `label`, `helper`, or `maxLength`**, and so never renders the field-group wrapper. A search rung sits in chrome (a header bar, a list filter, a sheet's top) where the affordance is carried by the leading glyph and the placeholder; stacking a visible label or a `current/max` count on top of that competes with the search affordance instead of reinforcing it. Reach for [Input](./input.md) when the rung needs a labelled / counted form field.",
+  "description": "Single-line search field — a search-shaped sibling of Input. Same transparent-fill box, same hairline-at-rest / thin-at-active inset box-shadow stroke (so the box model is untouched in every state), same placeholder-vs-value colour rules, same focus ring, same trailing clear button. Two anatomy differences from Input — a leading `SearchIcon` glyph pinned at the box's inner-left edge so the field reads as a search affordance before the user types, and the corner radius steps from `sys.radius.md` to `sys.radius.full` (pill). **Search Bar is a bare box only — it does not accept a `label`, `helper`, or `maxLength`**, and so never renders the field-group wrapper; it also carries no `error` appearance — error reporting belongs to a labelled field. A search rung sits in chrome (a header bar, a list filter, a sheet's top) where the affordance is carried by the leading glyph and the placeholder; stacking a visible label or a `current/max` count on top of that competes with the search affordance instead of reinforcing it. Reach for [Input](./input.md) when the rung needs a labelled / counted form field or an error treatment.",
   "element": "input",
   "props": {
     "variant": {
@@ -11,12 +11,9 @@
       "value": "search"
     },
     "appearance": {
-      "type": "enum",
-      "values": [
-        "default",
-        "error"
-      ],
-      "default": "default"
+      "type": "literal",
+      "value": "default",
+      "description": "Search Bar carries only the `default` appearance — there is no `error` form (error reporting belongs to a labelled Input)."
     },
     "value": {
       "type": "string",
@@ -43,7 +40,7 @@
     },
     "leading": {
       "required": true,
-      "description": "The leading `SearchIcon` glyph pinned at the box's inner-left edge. Inherits the field's text colour (`sys.color.onSurface` on default, `sys.color.onErrorContainer` on error); decorative — not a real button, has `aria-hidden`. 16px (`sys.icon.md`), matching the clear button's footprint so the two affixes balance.",
+      "description": "The leading `SearchIcon` glyph pinned at the box's inner-left edge. Inherits the field's text colour (`sys.color.onSurface`); decorative — not a real button, has `aria-hidden`. 16px (`sys.icon.md`), matching the clear button's footprint so the two affixes balance.",
       "intrinsic": true
     },
     "input": {
@@ -78,14 +75,6 @@
       "borderRest": "sys.color.outlineVariant",
       "borderHover": "sys.color.outline",
       "borderActive": "sys.color.onSurface"
-    },
-    "error": {
-      "background": "sys.color.errorContainer",
-      "text": "sys.color.onErrorContainer",
-      "placeholder": "sys.color.onErrorContainer",
-      "borderRest": "sys.color.error",
-      "borderHover": "sys.color.error",
-      "borderActive": "sys.color.error"
     }
   },
   "states": {

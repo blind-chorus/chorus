@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
 import { Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FormField, List, NavigationBar, TabBar, Thumbnail, Toast } from '@blind-chorus/ui';
-import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, MenuIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, SearchIcon, StarIcon } from '@blind-chorus/ui/icons';
-import { SpecIcon } from './SpecIcon';
+import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, MenuIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-chorus/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
    (clean license for docs reuse). Helper builds query params for size +
@@ -17,7 +16,7 @@ const UNSPLASH = (path, size) => {
 
 const IMG = {
   // Sourdough loaf with open crumb — Monika Grabkowska
-  bread: asset('/placeholder.png'),
+  bread: asset('/placeholder_thumbnail.png'),
   breadCover: UNSPLASH('photo-1509440159596-0249088772ff', 320),
   breadAvatar: UNSPLASH('photo-1509440159596-0249088772ff', 160),
   breadHero16x9: UNSPLASH('photo-1509440159596-0249088772ff', [640, 360]),
@@ -59,6 +58,74 @@ const IMG = {
 const Frame = ({ children }) => (
   <div style={{ width: '100%', maxWidth: 400 }}>{children}</div>
 );
+
+/* iOS-style virtual-keyboard mock for the BottomSheet → Keyboard preview.
+   Static, decorative — purely a visual stand-in for the OS keyboard so the
+   `--bottom-sheet-keyboard-inset` contract reads correctly in docs.
+   Scoped to 480px max-width centered to match the sheet card's footprint
+   (mobile-baseline: viewport width = sheet width = keyboard width — the
+   keyboard never escapes the sheet column). Colors come from CSS custom
+   properties defined on `.ios-keyboard-mock` in globals.css; the
+   [data-theme="dark"] selector there flips the palette automatically. */
+const IOSKeyboard = () => {
+  const ROW_1 = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
+  const ROW_2 = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
+  const ROW_3 = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
+  const keyStyle = {
+    flex: '1 1 0',
+    background: 'var(--ios-kbd-key)',
+    color: 'var(--ios-kbd-ink)',
+    borderRadius: 5,
+    height: 42,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif',
+    fontSize: 17,
+    fontWeight: 400,
+    boxShadow: 'var(--ios-kbd-shadow)',
+    userSelect: 'none',
+  };
+  const modStyle = { ...keyStyle, background: 'var(--ios-kbd-mod)', fontSize: 14 };
+  return (
+    <div
+      aria-hidden="true"
+      className="ios-keyboard-mock"
+      style={{
+        position: 'absolute',
+        left: '50%',
+        bottom: 0,
+        transform: 'translateX(-50%)',
+        width: '100%',
+        maxWidth: 480,
+        height: 280,
+        boxSizing: 'border-box',
+        padding: '8px 4px 12px',
+        background: 'var(--ios-kbd-bg)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 10,
+      }}
+    >
+      <div style={{ display: 'flex', gap: 5, padding: '0 2px' }}>
+        {ROW_1.map((k) => <span key={k} style={keyStyle}>{k}</span>)}
+      </div>
+      <div style={{ display: 'flex', gap: 5, padding: '0 18px' }}>
+        {ROW_2.map((k) => <span key={k} style={keyStyle}>{k}</span>)}
+      </div>
+      <div style={{ display: 'flex', gap: 5, padding: '0 2px' }}>
+        <span style={{ ...modStyle, flex: '1.4 1 0' }}>⇧</span>
+        {ROW_3.map((k) => <span key={k} style={keyStyle}>{k}</span>)}
+        <span style={{ ...modStyle, flex: '1.4 1 0' }}>⌫</span>
+      </div>
+      <div style={{ display: 'flex', gap: 5, padding: '0 2px' }}>
+        <span style={{ ...modStyle, flex: '1.4 1 0' }}>123</span>
+        <span style={{ ...keyStyle, flex: '4.5 1 0' }}>space</span>
+        <span style={{ ...modStyle, flex: '1.4 1 0' }}>return</span>
+      </div>
+    </div>
+  );
+};
 
 /* Stateful tabs preview wrapper — `Tabs` is controlled, so the registry
    render needs its own React state to make the demo interactive (click a
@@ -574,7 +641,28 @@ export const PREVIEWS = {
     supportsDisabled: true,
     render: ({ disabled }) => (
       <Frame>
-        <FormField variant="input" appearance="error" placeholder="Place holder" disabled={disabled} />
+        <FormField
+          variant="input"
+          appearance="error"
+          label="Label text"
+          placeholder="Place holder"
+          helper="Assistive text"
+          disabled={disabled}
+        />
+      </Frame>
+    ),
+  },
+  'form-field/input/error-no-helper': {
+    supportsDisabled: true,
+    render: ({ disabled }) => (
+      <Frame>
+        <FormField
+          variant="input"
+          appearance="error"
+          label="Label text"
+          placeholder="Place holder"
+          disabled={disabled}
+        />
       </Frame>
     ),
   },
@@ -595,14 +683,6 @@ export const PREVIEWS = {
     render: ({ disabled }) => (
       <Frame>
         <FormField variant="search" placeholder="Search" disabled={disabled} />
-      </Frame>
-    ),
-  },
-  'form-field/search/error': {
-    supportsDisabled: true,
-    render: ({ disabled }) => (
-      <Frame>
-        <FormField variant="search" appearance="error" placeholder="Search" disabled={disabled} />
       </Frame>
     ),
   },
@@ -718,8 +798,8 @@ export const PREVIEWS = {
           initialValue="latest"
           state={state}
           items={[
-            { value: 'latest',    label: 'Latest',    icon: <SpecIcon name="clock"    /> },
-            { value: 'popular',   label: 'Popular',   icon: <SpecIcon name="fire"     /> },
+            { value: 'latest',    label: 'Latest',    icon: <PulseIcon /> },
+            { value: 'popular',   label: 'Popular',   icon: <StarIcon /> },
             { value: 'favorites', label: 'Favorites', icon: <HeartIcon /> },
             { value: 'saved',     label: 'Saved',     icon: <BookmarkIcon /> },
           ]}
@@ -748,16 +828,16 @@ export const PREVIEWS = {
       <Frame>
         <TabsDemo
           variant="rounded"
-          initialValue="day"
+          initialValue="latest"
           state={state}
           items={[
-            { value: 'day',     label: 'Day',     icon: <SpecIcon name="clock" /> },
-            { value: 'week',    label: 'Week',    icon: <SpecIcon name="clock" /> },
-            { value: 'month',   label: 'Month',   icon: <SpecIcon name="clock" /> },
-            { value: 'quarter', label: 'Quarter', icon: <SpecIcon name="clock" /> },
-            { value: 'year',    label: 'Year',    icon: <SpecIcon name="clock" /> },
-            { value: 'decade',  label: 'Decade',  icon: <SpecIcon name="clock" /> },
-            { value: 'century', label: 'Century', icon: <SpecIcon name="clock" /> },
+            { value: 'latest',    label: 'Latest',    icon: <PulseIcon /> },
+            { value: 'popular',   label: 'Popular',   icon: <StarIcon /> },
+            { value: 'favorites', label: 'Favorites', icon: <HeartIcon /> },
+            { value: 'saved',     label: 'Saved',     icon: <BookmarkIcon /> },
+            { value: 'topics',    label: 'Topics',    icon: <TagIcon /> },
+            { value: 'people',    label: 'People',    icon: <ProfileIcon /> },
+            { value: 'mentions',  label: 'Mentions',  icon: <MentionIcon /> },
           ]}
         />
       </Frame>
@@ -870,20 +950,20 @@ export const PREVIEWS = {
   /* Thumbnail — small-rung circular image. */
   'thumbnail/default': {
     states: false,
-    render: () => <Thumbnail size={48} src={asset("/placeholder.png")} alt="Channel" />,
+    render: () => <Thumbnail size={48} src={asset("/placeholder_thumbnail.png")} alt="Channel" />,
   },
   'thumbnail/with-update-dot': {
     states: false,
-    render: () => <Thumbnail size={48} src={asset("/placeholder.png")} alt="Channel" updateDot />,
+    render: () => <Thumbnail size={48} src={asset("/placeholder_thumbnail.png")} alt="Channel" updateDot />,
   },
   'thumbnail/with-logo-badge': {
     states: false,
     render: () => (
       <Thumbnail
         size={48}
-        src={asset("/placeholder.png")}
+        src={asset("/placeholder_thumbnail.png")}
         alt="Channel"
-        logoBadge={{ src: asset('/placeholder_logo.png'), alt: 'Workspace' }}
+        logoBadge={{ src: asset('/blind_logo_red.png'), alt: 'Workspace' }}
       />
     ),
   },
@@ -892,10 +972,10 @@ export const PREVIEWS = {
     render: () => (
       <Thumbnail
         size={48}
-        src={asset("/placeholder.png")}
+        src={asset("/placeholder_thumbnail.png")}
         alt="Channel"
         updateDot
-        logoBadge={{ src: asset('/placeholder_logo.png'), alt: 'Workspace' }}
+        logoBadge={{ src: asset('/blind_logo_red.png'), alt: 'Workspace' }}
       />
     ),
   },
@@ -903,12 +983,12 @@ export const PREVIEWS = {
     states: false,
     render: () => (
       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-        <Thumbnail size={48} src={asset("/placeholder.png")} alt="Channel A" updateDot />
-        <Thumbnail size={40} src={asset("/placeholder.png")} alt="Channel B" updateDot />
-        <Thumbnail size={32} src={asset("/placeholder.png")} alt="Channel C" updateDot />
-        <Thumbnail size={24} src={asset("/placeholder.png")} alt="Channel D" updateDot />
-        <Thumbnail size={20} src={asset("/placeholder.png")} alt="Channel E" updateDot />
-        <Thumbnail size={16} src={asset("/placeholder.png")} alt="Channel F" updateDot />
+        <Thumbnail size={48} src={asset("/placeholder_thumbnail.png")} alt="Channel A" updateDot />
+        <Thumbnail size={40} src={asset("/placeholder_thumbnail.png")} alt="Channel B" updateDot />
+        <Thumbnail size={32} src={asset("/placeholder_thumbnail.png")} alt="Channel C" updateDot />
+        <Thumbnail size={24} src={asset("/placeholder_thumbnail.png")} alt="Channel D" updateDot />
+        <Thumbnail size={20} src={asset("/placeholder_thumbnail.png")} alt="Channel E" updateDot />
+        <Thumbnail size={16} src={asset("/placeholder_thumbnail.png")} alt="Channel F" updateDot />
       </div>
     ),
   },
@@ -1103,12 +1183,26 @@ export const PREVIEWS = {
     ),
   },
 
-  'callout/info': {
+  'callout/default': {
     states: false,
     render: () => (
       <Frame>
         <Callout
-          appearance="info"
+          appearance="default"
+          action={{ label: 'How levels work', href: '#level' }}
+        >
+          Stay active in the community to level up and unlock more of what the app offers.
+        </Callout>
+      </Frame>
+    ),
+  },
+
+  'callout/accent': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Callout
+          appearance="accent"
           action={{ label: 'How levels work', href: '#level' }}
         >
           Stay active in the community to level up and unlock more of what the app offers.
@@ -1122,22 +1216,8 @@ export const PREVIEWS = {
     render: () => (
       <Frame>
         <Callout
-          appearance="info"
+          appearance="accent"
           icon={<img src={IMG.brandChip} alt="" />}
-          action={{ label: 'How levels work', href: '#level' }}
-        >
-          Stay active in the community to level up and unlock more of what the app offers.
-        </Callout>
-      </Frame>
-    ),
-  },
-
-  'callout/neutral': {
-    states: false,
-    render: () => (
-      <Frame>
-        <Callout
-          appearance="neutral"
           action={{ label: 'How levels work', href: '#level' }}
         >
           Stay active in the community to level up and unlock more of what the app offers.
@@ -1181,6 +1261,40 @@ export const PREVIEWS = {
           ]}
         />
       </BottomSheet>
+    ),
+  },
+
+  'bottom-sheet/keyboard': {
+    states: false,
+    render: () => (
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          minHeight: 560,
+          overflow: 'hidden',
+          /* Simulates visualViewport's keyboard inset so the preview renders
+             the end-state described in bottom-sheet.md → Keyboard. The
+             value matches IOSKeyboard's intrinsic height. */
+          ['--bottom-sheet-keyboard-inset']: '280px',
+        }}
+      >
+        <BottomSheet
+          inline
+          open
+          onClose={() => {}}
+          title="Name this channel"
+          primaryAction={{ label: 'Create', onClick: () => {} }}
+          secondaryAction={{ label: 'Cancel', onClick: () => {} }}
+        >
+          <FormField
+            variant="input"
+            label="Channel name"
+            placeholder="e.g. design-systems"
+          />
+        </BottomSheet>
+        <IOSKeyboard />
+      </div>
     ),
   },
 
@@ -1307,12 +1421,12 @@ export const PREVIEWS = {
      largest-first convention). */
   'badge/default': {
     states: false,
-    sizes: ['medium', 'small', 'xsmall'],
+    sizes: ['medium', 'small'],
     render: ({ size = 'medium' }) => <Badge size={size}>3</Badge>,
   },
   'badge/digit-cases': {
     states: false,
-    sizes: ['medium', 'small', 'xsmall'],
+    sizes: ['medium', 'small'],
     render: ({ size = 'medium' }) => (
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sys-layout-inline-lg)' }}>
         <Badge size={size} count={3} />
@@ -1321,9 +1435,16 @@ export const PREVIEWS = {
       </div>
     ),
   },
+  'badge/update-dot': {
+    states: false,
+    sizes: ['medium', 'small'],
+    render: ({ size = 'medium' }) => (
+      <Badge size={size === 'small' ? 'dot-sm' : 'dot-md'} />
+    ),
+  },
   'badge/with-host': {
     states: false,
-    sizes: ['medium', 'small', 'xsmall'],
+    sizes: ['medium', 'small'],
     render: ({ size = 'medium' }) => {
       const labelWithBadge = (text, count) => (
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--sys-layout-inline-md)', minWidth: 0 }}>
@@ -1357,7 +1478,7 @@ export const PREVIEWS = {
           variant="home"
           title={
             <img
-              src={asset("/logotype.svg")}
+              src={asset("/blind_logotype_black.svg")}
               alt="Chorus"
               className="chorus-brand-logotype"
               style={{ height: 24, width: 'auto', display: 'block' }}
@@ -1427,7 +1548,7 @@ export const PREVIEWS = {
         <NavigationBar
           variant="page"
           title="Edit profile"
-          leading={{ icon: <SpecIcon name="back" />, 'aria-label': 'Back' }}
+          leading={{ icon: <BackwardIcon />, 'aria-label': 'Back' }}
           trailing={<Button variant="toolbar" appearance="accent">Save</Button>}
         />
       </Frame>
@@ -1452,7 +1573,7 @@ export const PREVIEWS = {
         <NavigationBar
           variant="page"
           title="Thread"
-          leading={{ icon: <SpecIcon name="back" />, 'aria-label': 'Back' }}
+          leading={{ icon: <BackwardIcon />, 'aria-label': 'Back' }}
           trailing={{ icon: <MoreIcon />, 'aria-label': 'More' }}
         />
       </Frame>
@@ -1465,7 +1586,7 @@ export const PREVIEWS = {
         <NavigationBar
           variant="page"
           title="Pick your interests"
-          leading={{ icon: <SpecIcon name="back" />, 'aria-label': 'Back' }}
+          leading={{ icon: <BackwardIcon />, 'aria-label': 'Back' }}
           trailing={{ label: 'Skip', href: '#skip' }}
         />
       </Frame>
@@ -1502,74 +1623,90 @@ export const PREVIEWS = {
      are all the same visible whitespace. */
   'tab-bar/default': {
     states: false,
-    render: () => (
-      <Frame>
-        <TabBar
-          aria-label="Primary"
-          value="home"
-          items={[
-            { value: 'home',          label: 'Home',          icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
-            { value: 'company',       label: 'Company',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
-            { value: 'explore',       label: 'Explore',       icon: <SearchIcon /> },
-            { value: 'jobs',          label: 'Jobs',          icon: <BriefcaseIcon />,    activeIcon: <BriefcaseFillIcon /> },
-            { value: 'notifications', label: 'Notifications', icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
-          ]}
-        />
-      </Frame>
-    ),
+    render: () => {
+      const [value, setValue] = useState('home');
+      return (
+        <Frame>
+          <TabBar
+            aria-label="Primary"
+            value={value}
+            onChange={setValue}
+            items={[
+              { value: 'home',          label: 'Home',          icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
+              { value: 'company',       label: 'Company',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
+              { value: 'explore',       label: 'Explore',       icon: <SearchIcon />,       activeIcon: <SearchFillIcon /> },
+              { value: 'jobs',          label: 'Jobs',          icon: <BriefcaseIcon />,    activeIcon: <BriefcaseFillIcon /> },
+              { value: 'notifications', label: 'Notifications', icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
+            ]}
+          />
+        </Frame>
+      );
+    },
   },
   'tab-bar/with-primary': {
     states: false,
-    render: () => (
-      <Frame>
-        <TabBar
-          aria-label="Primary"
-          value="home"
-          items={[
-            { value: 'home',          label: 'Home',          icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
-            { value: 'company',       label: 'Company',       icon: <CompanyIcon /> },
-            { value: 'explore',       label: 'Explore',       icon: <SearchIcon /> },
-            { value: 'jobs',          label: 'Jobs',          icon: <BriefcaseIcon /> },
-            { value: 'notifications', label: 'Notifications', icon: <NotificationIcon /> },
-            { value: 'create',        label: 'Create',        icon: <AddSquareFillIcon />, appearance: 'primary' },
-          ]}
-        />
-      </Frame>
-    ),
+    render: () => {
+      const [value, setValue] = useState('home');
+      return (
+        <Frame>
+          <TabBar
+            aria-label="Primary"
+            value={value}
+            onChange={setValue}
+            items={[
+              { value: 'home',          label: 'Home',          icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
+              { value: 'company',       label: 'Company',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
+              { value: 'explore',       label: 'Explore',       icon: <SearchIcon />,       activeIcon: <SearchFillIcon /> },
+              { value: 'jobs',          label: 'Jobs',          icon: <BriefcaseIcon />,    activeIcon: <BriefcaseFillIcon /> },
+              { value: 'notifications', label: 'Notifications', icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
+              { value: 'create',        label: 'Create',        icon: <AddSquareFillIcon />, appearance: 'primary' },
+            ]}
+          />
+        </Frame>
+      );
+    },
   },
   'tab-bar/three-destinations': {
     states: false,
-    render: () => (
-      <Frame>
-        <TabBar
-          aria-label="Primary"
-          value="explore"
-          items={[
-            { value: 'home',    label: 'Home',    icon: <HomeIcon />,    activeIcon: <HomeFillIcon /> },
-            { value: 'explore', label: 'Explore', icon: <SearchIcon /> },
-            { value: 'profile', label: 'Profile', icon: <ProfileIcon />, activeIcon: <ProfileFillIcon /> },
-          ]}
-        />
-      </Frame>
-    ),
+    render: () => {
+      const [value, setValue] = useState('explore');
+      return (
+        <Frame>
+          <TabBar
+            aria-label="Primary"
+            value={value}
+            onChange={setValue}
+            items={[
+              { value: 'home',    label: 'Home',    icon: <HomeIcon />,    activeIcon: <HomeFillIcon /> },
+              { value: 'explore', label: 'Explore', icon: <SearchIcon />,  activeIcon: <SearchFillIcon /> },
+              { value: 'profile', label: 'Profile', icon: <ProfileIcon />, activeIcon: <ProfileFillIcon /> },
+            ]}
+          />
+        </Frame>
+      );
+    },
   },
   'tab-bar/truncation': {
     states: false,
-    render: () => (
-      <Frame>
-        <TabBar
-          aria-label="Primary"
-          value="messages"
-          items={[
-            { value: 'home',          label: 'Home',                  icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
-            { value: 'company',       label: 'My organization',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
-            { value: 'explore',       label: 'Explore communities',   icon: <SearchIcon /> },
-            { value: 'messages',      label: 'Direct messages',       icon: <ChatIcon /> },
-            { value: 'notifications', label: 'All notifications',     icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
-          ]}
-        />
-      </Frame>
-    ),
+    render: () => {
+      const [value, setValue] = useState('messages');
+      return (
+        <Frame>
+          <TabBar
+            aria-label="Primary"
+            value={value}
+            onChange={setValue}
+            items={[
+              { value: 'home',          label: 'Home',                  icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
+              { value: 'company',       label: 'My organization',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
+              { value: 'explore',       label: 'Explore communities',   icon: <SearchIcon />,       activeIcon: <SearchFillIcon /> },
+              { value: 'messages',      label: 'Direct messages',       icon: <ChatIcon />,         activeIcon: <ChatFillIcon /> },
+              { value: 'notifications', label: 'All notifications',     icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
+            ]}
+          />
+        </Frame>
+      );
+    },
   },
   'tab-bar/focused': {
     states: false,
@@ -1581,7 +1718,7 @@ export const PREVIEWS = {
           items={[
             { value: 'home',          label: 'Home',          icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
             { value: 'company',       label: 'Company',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
-            { value: 'explore',       label: 'Explore',       icon: <SearchIcon />,                                              forcedState: 'focused' },
+            { value: 'explore',       label: 'Explore',       icon: <SearchIcon />,       activeIcon: <SearchFillIcon />, forcedState: 'focused' },
             { value: 'jobs',          label: 'Jobs',          icon: <BriefcaseIcon />,    activeIcon: <BriefcaseFillIcon /> },
             { value: 'notifications', label: 'Notifications', icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
           ]}

@@ -69,7 +69,9 @@
   "appearance": {
     "itemInactiveColor": "sys.color.onSurfaceVariant",
     "itemActiveColor": "sys.color.onSurface",
-    "itemPrimaryColor": "sys.color.brand"
+    "itemPrimaryIconColor": "sys.color.brand",
+    "itemPrimaryLabelColor": "sys.color.onSurfaceVariant",
+    "note": "Primary (`appearance='primary'`) items paint only the icon in `sys.color.brand`; the label stays in the bar's default `onSurfaceVariant` so every label across the row reads as one rung."
   },
   "itemProps": {
     "value": { "type": "string", "required": true },
@@ -78,7 +80,7 @@
     "activeIcon": { "type": "node", "optional": true, "description": "Filled companion glyph used when the item is active. Falls back to `icon` when absent." },
     "href": { "type": "string", "optional": true },
     "onClick": { "type": "function", "optional": true },
-    "appearance": { "type": "literal", "values": ["primary"], "optional": true, "description": "Paint the icon in `sys.color.brand` — the 'Create' / 'Compose' commit affordance. Pair with a filled-tile glyph (e.g. AddSquareFillIcon) so the icon's own shape provides the tile and the brand fill paints it as the commit colour. Primary items invoke a screen-covering overlay, NOT a sibling destination — they render in the fill glyph by default, never receive `aria-current='page'`, and never animate outline → fill (no resting/active states inside the bar)." },
+    "appearance": { "type": "literal", "values": ["primary"], "optional": true, "description": "Paint the icon in `sys.color.brand` — the 'Create' / 'Compose' commit affordance. Pair with a filled-tile glyph (e.g. AddSquareFillIcon) so the icon's own shape provides the tile and the brand fill paints it as the commit colour. The label stays in the bar's default `onSurfaceVariant` so the row's labels read as one rung — only the icon carries the brand emphasis. Primary items invoke a screen-covering overlay, NOT a sibling destination — they render in the fill glyph by default, never receive `aria-current='page'`, and never animate outline → fill (no resting/active states inside the bar)." },
     "forcedState": { "type": "literal", "values": ["hovered", "pressed", "focused"], "optional": true, "description": "Docs-only — pins the item to a single visual state via `data-force-state` so the contract can be inspected in a static preview. Not for production use." }
   },
   "states": {

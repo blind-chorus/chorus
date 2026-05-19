@@ -2157,3 +2157,24 @@ ol.rule-list > li::before {
 html[data-theme="dark"] .chorus-brand-logotype {
   filter: invert(1);
 }
+
+/* iOS-style virtual-keyboard mock palette for the BottomSheet → Keyboard
+   preview. Defined here (not in spec.json / styles.css) because the mock
+   is OS chrome, not a Chorus token-bound component. CSS custom properties
+   so JSX inline styles read the right palette and the [data-theme] flip
+   propagates automatically. */
+.ios-keyboard-mock {
+  --ios-kbd-bg: #d1d5db;
+  --ios-kbd-key: #ffffff;
+  --ios-kbd-mod: #acb3bc;
+  --ios-kbd-ink: #141414;
+  --ios-kbd-shadow: 0 1px 0 rgba(0, 0, 0, 0.18);
+}
+
+html[data-theme="dark"] .ios-keyboard-mock {
+  --ios-kbd-bg: #1c1c1e;
+  --ios-kbd-key: #6e6e73;
+  --ios-kbd-mod: #48484a;
+  --ios-kbd-ink: #ffffff;
+  --ios-kbd-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}

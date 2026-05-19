@@ -45,8 +45,9 @@
     },
     "updateDot": {
       "required": false,
-      "description": "Brand-tone dot at the top-right. aria-hidden — decorative.",
-      "intrinsic": true
+      "description": "Brand-tone dot at the top-right. aria-hidden — decorative. Rendered by the [Badge](../badge/badge.md) component's `dot-md` / `dot-sm` rungs so the dot, its halo, and its rung names stay in lockstep with the Badge family. Thumbnail picks `dot-md` (8×8) at the 32 / 40 / 48 rungs and `dot-sm` (4×4) at the 16 / 20 / 24 rungs.",
+      "intrinsic": true,
+      "rendersAs": "badge:dot-md|dot-sm"
     },
     "logoBadge": {
       "required": false,
@@ -78,17 +79,17 @@
   "sizes": {
     "16": {
       "diameter": "ref.space.200",
-      "updateDot": "4 × 4",
+      "updateDot": "6 × 6",
       "logoBadge": "16 × 16"
     },
     "20": {
       "diameter": "ref.space.250",
-      "updateDot": "4 × 4",
+      "updateDot": "6 × 6",
       "logoBadge": "16 × 16"
     },
     "24": {
       "diameter": "ref.space.300",
-      "updateDot": "4 × 4",
+      "updateDot": "6 × 6",
       "logoBadge": "16 × 16"
     },
     "32": {

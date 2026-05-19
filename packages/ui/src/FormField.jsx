@@ -191,11 +191,18 @@ function FormFieldInput(props) {
    visible label / count rung competes with that rather than reinforcing
    it. The props are stripped here so a stray pass at the call site can't
    re-introduce the field-group wrapper. */
-function FormFieldSearchBar({ label: _label, helper: _helper, maxLength: _maxLength, ...rest }) {
+function FormFieldSearchBar({
+  label: _label,
+  helper: _helper,
+  maxLength: _maxLength,
+  appearance: _appearance,
+  ...rest
+}) {
   return (
     <FormFieldBox
       spec={searchBarSpec}
       subcomponent="search"
+      appearance="default"
       leadingSlot={<SearchIcon />}
       {...rest}
     />

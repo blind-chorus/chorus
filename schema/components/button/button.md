@@ -2,6 +2,10 @@
 
 The standard inline action surface. Two independent axes: **size** (`large` / `medium` / `small`) chosen by the surrounding surface, **appearance** (`primary` / `secondary` / `outlined` / `tertiary`) by the action's emphasis.
 
+## Intent
+
+Use Button for inline commits that belong to the surrounding content — form submission, row actions, dialog confirms. Prefer [FAB](./fab.md) when the action is the canvas's single headline commit and must stay reachable while content scrolls.
+
 ## Primary
 
 The single highest-emphasis action on a view. Use **one per view** — Save, Continue, Confirm, Submit.

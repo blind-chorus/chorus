@@ -38,7 +38,7 @@
     "helper": {
       "type": "node",
       "optional": true,
-      "description": "Assistive text rendered below the field box, left-aligned. Mutually exclusive with `maxLength` — if both are given, the character count is shown and `helper` is ignored."
+      "description": "Assistive text rendered below the field box, left-aligned. **Optional on every appearance** — omit the prop to render the field without an assistive rung; the box and label keep their footprint. On the `error` appearance the helper re-tones to `sys.color.error` so the message reads as the error caption; an error field may still be shown without a helper, in which case only the field box re-tones. Mutually exclusive with `maxLength` — if both are given, the character count is shown and `helper` is ignored."
     },
     "maxLength": {
       "type": "number",
@@ -82,7 +82,7 @@
     },
     "helper": {
       "required": false,
-      "description": "Assistive text below the box, left-aligned. `sys.typo.body.sm`, `sys.color.onSurfaceVariant`. Referenced by the input's `aria-describedby`. Not rendered when a `maxLength` count is present.",
+      "description": "Assistive text below the box, left-aligned. `sys.typo.body.sm`, `sys.color.onSurfaceVariant`; on the `error` appearance the colour re-tones to `sys.color.error` so the message reads as the error caption. Referenced by the input's `aria-describedby`. Not rendered when a `maxLength` count is present, and intentionally omittable on every appearance (including `error`) — pass nothing and the field renders without an assistive rung.",
       "accepts": [
         "text"
       ]
@@ -114,6 +114,7 @@
   "groupColors": {
     "label": "sys.color.onSurface",
     "helper": "sys.color.onSurfaceVariant",
+    "helperError": "sys.color.error",
     "count": "sys.color.onSurfaceVariant",
     "countCurrent": "sys.color.onSurface"
   },

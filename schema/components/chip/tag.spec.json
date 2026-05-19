@@ -3,7 +3,7 @@
   "name": "Chip",
   "family": "chip",
   "subcomponent": "tag",
-  "description": "Informational chip. Square-cornered metadata label. Passive (or dismissable via trailing ×). No leading icon.",
+  "description": "Informational chip. Square-cornered metadata label. Passive (or dismissable via trailing ×). No leading icon. Background paints a translucent black/white overlay (light → `ref.palette.black.200`, dark → `ref.palette.white.200`) so the tag adopts whatever surface sits behind it without pinning to a fixed neutral step.",
   "element": "span",
   "props": {
     "variant": {
@@ -44,9 +44,11 @@
   },
   "appearances": {
     "default": {
-      "background": "sys.color.secondaryContainer",
-      "label": "sys.color.onSecondaryContainer",
-      "border": null
+      "background": "ref.palette.black.200",
+      "backgroundDark": "ref.palette.white.200",
+      "label": "sys.color.onSurface",
+      "border": null,
+      "note": "Background is a translucent black/white overlay (`black.200` in light mode, `white.200` in dark) so the tag harmonises with whatever surface sits behind it — body, raised card, BottomSheet — instead of pinning to a fixed neutral step."
     }
   },
   "states": {
