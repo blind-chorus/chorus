@@ -430,7 +430,7 @@ For optical centering inside a container, prefer `display: inline-flex` + `align
 
 #### Source of truth
 
-All product icons — across both component code (`packages/ui`) and documentation surfaces (`apps/docs`) — must come from **`@blind-chorus/ui/icons`**. This is not a recommendation; it is the only sanctioned source. The canonical catalog is rendered on the Iconography page in docs — browse there before drawing a new glyph.
+All product icons — across both component code (`packages/ui`) and documentation surfaces (`apps/docs`) — must come from **`@blind-dsai/ui/icons`**. This is not a recommendation; it is the only sanctioned source. The canonical catalog is rendered on the Iconography page in docs — browse there before drawing a new glyph.
 
 Inline `<svg>` in component or page files is permitted in exactly two cases: (a) the brand mark itself — the Chorus logo, which is identity, not iconography, and (b) decorative illustrations bound to a single layout (a half-page hero, a guideline marker that exists nowhere else). Anything that could plausibly appear in two places must be in the library, full stop.
 

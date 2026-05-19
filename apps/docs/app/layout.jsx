@@ -1,5 +1,5 @@
 import './globals.css';
-import '@blind-chorus/ui/styles.css';
+import '@blind-dsai/ui/styles.css';
 import localFont from 'next/font/local';
 import { loadTokens, tokensAsCss } from '../lib/tokens';
 import { asset } from '../lib/asset';

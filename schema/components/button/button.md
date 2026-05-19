@@ -13,7 +13,7 @@ The single highest-emphasis action on a view. Use **one per view** — Save, Con
 ```preview
 button/primary
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button appearance="primary" size="large">
   Primary action
@@ -27,7 +27,7 @@ Lower-emphasis tier paired against `primary` — opposing actions (Cancel beside
 ```preview
 button/secondary
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button appearance="secondary" size="large">
   Secondary action
@@ -41,7 +41,7 @@ Bordered blue-on-transparent Button paired beside `primary` as a **supplementary
 ```preview
 button/outlined
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button appearance="outlined" size="large">
   See more
@@ -55,7 +55,7 @@ Neutral grey ghost — transparent at rest, label in `sys.color.onSurfaceVariant
 ```preview
 button/tertiary
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button appearance="tertiary" size="large">
   Tertiary action
@@ -73,8 +73,8 @@ A single optional icon rendered **before** the label — a context glyph (`+` fo
 ```preview
 button/icon-leading
 ---
-import { Button } from '@blind-chorus/ui';
-import { AddIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { AddIcon } from '@blind-dsai/ui/icons';
 
 <Button
   appearance="primary"
@@ -92,7 +92,7 @@ Button stretched to fill the surrounding column (`width: 100%`). Default mobile 
 ```preview
 button/full-width
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button
   appearance="primary"
@@ -110,7 +110,7 @@ Adjacent Buttons share an **8px** gap (`sys.layout.inline.md` horizontal / `sys.
 ```preview
 button/button-group
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <div style={{ display: 'flex', gap: 8 }}>
   <Button appearance="outlined" size="large">
@@ -125,7 +125,7 @@ import { Button } from '@blind-chorus/ui';
 ```preview
 button/button-group-vertical
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
   <Button appearance="primary" size="large">
@@ -144,7 +144,7 @@ When the column is narrower than the label's natural width, the label clips with
 ```preview
 button/truncation
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button
   appearance="primary"
@@ -163,7 +163,7 @@ Standard keyboard-focus ring (see [Focus ring composition](../../DESIGN.md#focus
 ```preview
 button/focused
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button appearance="primary" size="large" state="focused">
   Primary action

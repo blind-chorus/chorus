@@ -1,4 +1,4 @@
-# @blind-chorus/visual-regression
+# @blind-dsai/visual-regression
 
 Playwright-based visual regression for the Chorus docs site. Catches unintended visual drift from token retunes, CSS edits, or component renames.
 
@@ -19,14 +19,14 @@ First time:
 
 ```bash
 npm install                                                  # install root workspaces
-npm --workspace @blind-chorus/visual-regression run install:browsers   # one-time Chromium download
+npm --workspace @blind-dsai/visual-regression run install:browsers   # one-time Chromium download
 ```
 
 Each run:
 
 ```bash
-npm --workspace @blind-chorus/visual-regression test            # compares vs baseline
-npm --workspace @blind-chorus/visual-regression run update      # overwrites baseline (audit diffs first!)
+npm --workspace @blind-dsai/visual-regression test            # compares vs baseline
+npm --workspace @blind-dsai/visual-regression run update      # overwrites baseline (audit diffs first!)
 ```
 
 The config builds the docs site with `next build` + `next start -p 3100`. Local dev servers on port 3000 are not interfered with.

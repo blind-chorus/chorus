@@ -9,7 +9,7 @@ The bar at rest. Type into the input to watch the placeholder ↔ value colour s
 ```preview
 navigation-bar/search/default
 ---
-import { NavigationBar } from '@blind-chorus/ui';
+import { NavigationBar } from '@blind-dsai/ui';
 
 <NavigationBar variant="search" placeholder="Search by keyword" onBack={() => {}} />
 ```

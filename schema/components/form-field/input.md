@@ -9,7 +9,7 @@ The neutral at-rest field — transparent fill, hairline `outlineVariant` stroke
 ```preview
 form-field/input/default
 ---
-import { FormField } from '@blind-chorus/ui';
+import { FormField } from '@blind-dsai/ui';
 
 <FormField variant="input" placeholder="Place holder" />
 ```
@@ -21,7 +21,7 @@ The failed field — `errorContainer` wash, full-strength `error` stroke, `onErr
 ```preview
 form-field/input/error
 ---
-import { FormField } from '@blind-chorus/ui';
+import { FormField } from '@blind-dsai/ui';
 
 <FormField
   variant="input"
@@ -37,7 +37,7 @@ The `helper` rung is intentionally **optional** on every appearance — pass not
 ```preview
 form-field/input/error-no-helper
 ---
-import { FormField } from '@blind-chorus/ui';
+import { FormField } from '@blind-dsai/ui';
 
 <FormField
   variant="input"
@@ -65,7 +65,7 @@ When any of `label` / `helper` / `maxLength` is supplied, the box is wrapped in 
 ```preview
 form-field/input/with-label
 ---
-import { FormField } from '@blind-chorus/ui';
+import { FormField } from '@blind-dsai/ui';
 
 <FormField
   variant="input"
@@ -80,7 +80,7 @@ Same shape with a character count:
 ```preview
 form-field/input/with-count
 ---
-import { FormField } from '@blind-chorus/ui';
+import { FormField } from '@blind-dsai/ui';
 
 <FormField
   variant="input"
@@ -98,7 +98,7 @@ The accessibility ring layered on top of the `active` border re-tone — see [DE
 ```preview
 form-field/input/focused
 ---
-import { FormField } from '@blind-chorus/ui';
+import { FormField } from '@blind-dsai/ui';
 
 <FormField
   variant="input"

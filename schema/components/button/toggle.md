@@ -9,7 +9,7 @@ The at-rest urging form — `primary` fill, no border. Reach for this whenever t
 ```preview
 button/toggle/inactive
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button variant="toggle">
   Follow
@@ -23,7 +23,7 @@ The committed form — `surfaceContainerHigh` fill with hairline `outlineVariant
 ```preview
 button/toggle/active
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button variant="toggle" active>
   Following
@@ -39,8 +39,8 @@ A check glyph on commit reinforces the active read. Keep the inactive form glyph
 ```preview
 button/toggle/with-icon
 ---
-import { Button } from '@blind-chorus/ui';
-import { CheckedIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { CheckedIcon } from '@blind-dsai/ui/icons';
 
 <Button variant="toggle" active leadingIcon={<CheckedIcon />}>
   Following
@@ -54,7 +54,7 @@ Both forms take the same standard ring; the case below shows inactive. See [Focu
 ```preview
 button/toggle/focused
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button variant="toggle" state="focused">
   Follow

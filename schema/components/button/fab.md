@@ -13,8 +13,8 @@ The default FAB — brand-red fill anchoring the canvas's headline action.
 ```preview
 button/fab/primary
 ---
-import { Button } from '@blind-chorus/ui';
-import { AddIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { AddIcon } from '@blind-dsai/ui/icons';
 
 <Button
   variant="fab"
@@ -32,8 +32,8 @@ A theme-toned FAB that defers to the canvas's surface tones. Reach for this when
 ```preview
 button/fab/secondary
 ---
-import { Button } from '@blind-chorus/ui';
-import { AddIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { AddIcon } from '@blind-dsai/ui/icons';
 
 <Button
   variant="fab"
@@ -53,8 +53,8 @@ Icon-only form — 48 × 48 circle with a 24px glyph. For universally legible ac
 ```preview
 button/fab/icon
 ---
-import { Button } from '@blind-chorus/ui';
-import { AddIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { AddIcon } from '@blind-dsai/ui/icons';
 
 <Button
   variant="fab"
@@ -71,7 +71,7 @@ Label-only form — pill with no glyph. For multi-word actions or verbs without 
 ```preview
 button/fab/text
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button variant="fab" appearance="primary">
   Compose
@@ -85,8 +85,8 @@ Icon + label form. Default for primary canvas commits where space allows (deskto
 ```preview
 button/fab/extended
 ---
-import { Button } from '@blind-chorus/ui';
-import { AddIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { AddIcon } from '@blind-dsai/ui/icons';
 
 <Button
   variant="fab"
@@ -104,8 +104,8 @@ Standard ring with the FAB's floating elevation stacked underneath. See [Focus r
 ```preview
 button/fab/focused
 ---
-import { Button } from '@blind-chorus/ui';
-import { AddIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { AddIcon } from '@blind-dsai/ui/icons';
 
 <Button variant="fab" appearance="primary" state="focused" icon={<AddIcon />}>
   Compose

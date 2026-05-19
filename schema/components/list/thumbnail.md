@@ -11,7 +11,7 @@ A list anchored by leading thumbnails — channel / source / author rows. Thumbn
 ```preview
 list/thumbnail
 ---
-import { List } from '@blind-chorus/ui';
+import { List } from '@blind-dsai/ui';
 
 <List
   variant="thumbnail"

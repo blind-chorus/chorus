@@ -12,7 +12,7 @@ A radio-selectable list — single-select picker over the shared anatomy.
 list/radio
 ---
 import { useState } from 'react';
-import { List } from '@blind-chorus/ui';
+import { List } from '@blind-dsai/ui';
 
 const [value, setValue] = useState('week');
 

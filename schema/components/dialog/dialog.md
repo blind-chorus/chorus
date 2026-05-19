@@ -14,7 +14,7 @@ A confirmation-style dialog with title, body, and stacked primary / tertiary act
 dialog/default
 ---
 import { useState } from 'react';
-import { Dialog, Button } from '@blind-chorus/ui';
+import { Dialog, Button } from '@blind-dsai/ui';
 
 const [open, setOpen] = useState(false);
 
@@ -41,7 +41,7 @@ Pass an `image` to add a centred illustration between title and actions. With th
 dialog/with-image
 ---
 import { useState } from 'react';
-import { Dialog, Button } from '@blind-chorus/ui';
+import { Dialog, Button } from '@blind-dsai/ui';
 
 const [open, setOpen] = useState(false);
 

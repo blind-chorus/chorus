@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Toast } from '@blind-chorus/ui';
+import { Toast } from '@blind-dsai/ui';
 
 /* Global click handler for `.token-chip` elements.
 

@@ -7,7 +7,7 @@ export default function AllIconsPage() {
       header={{
         title: 'All icons',
         description:
-          'Full catalog of the @blind-chorus/ui/icons registry. Use this page to browse every glyph the system ships with before drawing a new one.',
+          'Full catalog of the @blind-dsai/ui/icons registry. Use this page to browse every glyph the system ships with before drawing a new one.',
       }}
     >
       <AllIcons />

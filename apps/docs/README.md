@@ -106,7 +106,7 @@ Prose rendered in the docs must be a verbatim *subset* of the corresponding `DES
 
 ### Token-first
 
-The site must consume tokens from [`@blind-chorus/tokens`](../../schema/tokens) as its single source of truth. No raw pixel, hex, or unitless literals inline; no branching on `data-theme` or media queries with hardcoded values — rely on each token's `$theme` and `$responsive` variants instead.
+The site must consume tokens from [`@blind-dsai/tokens`](../../schema/tokens) as its single source of truth. No raw pixel, hex, or unitless literals inline; no branching on `data-theme` or media queries with hardcoded values — rely on each token's `$theme` and `$responsive` variants instead.
 
 Reference palette tokens (`palette.*`) appear only inside the Color Palette documentation section. Everywhere else, components consume system tokens (`color.*`, `layout.*`, …), per the reference→system rule in [`DESIGN.md`](../../schema/DESIGN.md#token-architecture).
 

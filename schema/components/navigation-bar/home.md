@@ -9,8 +9,8 @@ The canonical Home bar — menu glyph, brand logotype at 24px tall, and three tr
 ```preview
 navigation-bar/home/default
 ---
-import { NavigationBar } from '@blind-chorus/ui';
-import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-chorus/ui/icons';
+import { NavigationBar } from '@blind-dsai/ui';
+import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 
 <NavigationBar
   variant="home"
@@ -39,8 +39,8 @@ A Home rung naming the screen in words. Falls back to plain text at `typo.headin
 ```preview
 navigation-bar/home/default--text-title
 ---
-import { NavigationBar } from '@blind-chorus/ui';
-import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-chorus/ui/icons';
+import { NavigationBar } from '@blind-dsai/ui';
+import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 
 <NavigationBar
   variant="home"
@@ -61,8 +61,8 @@ A bar with a single trailing affordance — e.g. search on an Inbox screen.
 ```preview
 navigation-bar/home/single-action
 ---
-import { NavigationBar } from '@blind-chorus/ui';
-import { SearchIcon } from '@blind-chorus/ui/icons';
+import { NavigationBar } from '@blind-dsai/ui';
+import { SearchIcon } from '@blind-dsai/ui/icons';
 
 <NavigationBar
   variant="home"
@@ -80,8 +80,8 @@ Long page name truncates with ellipsis. Author concise titles ("Home", "Inbox") 
 ```preview
 navigation-bar/home/truncation
 ---
-import { NavigationBar } from '@blind-chorus/ui';
-import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-chorus/ui/icons';
+import { NavigationBar } from '@blind-dsai/ui';
+import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 
 <NavigationBar
   variant="home"

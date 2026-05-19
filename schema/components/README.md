@@ -1,4 +1,4 @@
-# @blind-chorus/components
+# @blind-dsai/components
 
 Per-component specifications. One folder per family; one `.md` per family or sub-component holding slots, bindings, variants, states, behavior.
 
@@ -299,7 +299,7 @@ export function Badge({ size = 'medium', children, className, style, ...rest }) 
 }
 ```
 
-**7. `packages/ui/src/index.js`** — re-export so consumers can `import { Badge } from '@blind-chorus/ui'`.
+**7. `packages/ui/src/index.js`** — re-export so consumers can `import { Badge } from '@blind-dsai/ui'`.
 
 **8. `apps/docs/components/previews/index.js`** — register one entry per `preview/<id>` fence and wrap in the right [preview-width band](#preview-widths). Badge is compact:
 

@@ -13,7 +13,7 @@ The headline form — a 2-segment List / Grid view toggle.
 ```preview
 tabs/segmented/default
 ---
-import { Tabs, Tab } from '@blind-chorus/ui';
+import { Tabs, Tab } from '@blind-dsai/ui';
 
 <Tabs variant="segmented" value="list" aria-label="View mode">
   <Tab value="list">List</Tab>
@@ -30,8 +30,8 @@ A leading glyph in each segment — useful when the verb alone could read as any
 ```preview
 tabs/segmented/leading-icon
 ---
-import { Tabs, Tab } from '@blind-chorus/ui';
-import { CheckedIcon, AddIcon } from '@blind-chorus/ui/icons';
+import { Tabs, Tab } from '@blind-dsai/ui';
+import { CheckedIcon, AddIcon } from '@blind-dsai/ui/icons';
 
 <Tabs variant="segmented" value="grid" aria-label="View mode">
   <Tab value="list" leadingIcon={<CheckedIcon />}>List</Tab>
@@ -46,7 +46,7 @@ When the row's natural width exceeds the surrounding column, it scrolls horizont
 ```preview
 tabs/segmented/overflow
 ---
-import { Tabs, Tab } from '@blind-chorus/ui';
+import { Tabs, Tab } from '@blind-dsai/ui';
 
 <Tabs variant="segmented" value="day" aria-label="Range">
   <Tab value="day">Day</Tab>
@@ -66,7 +66,7 @@ Static design-review specimen — pins the keyboard-focus ring to a selected seg
 ```preview
 tabs/segmented/focused
 ---
-import { Tabs, Tab } from '@blind-chorus/ui';
+import { Tabs, Tab } from '@blind-dsai/ui';
 
 <Tabs variant="segmented" value="list" aria-label="View">
   <Tab value="list" state="focused">List</Tab>

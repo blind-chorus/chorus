@@ -9,8 +9,8 @@ The canonical five-destination bar. First item is active.
 ```preview
 tab-bar/default
 ---
-import { TabBar } from '@blind-chorus/ui';
-import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, BriefcaseIcon, BriefcaseFillIcon, NotificationIcon, NotificationFillIcon } from '@blind-chorus/ui/icons';
+import { TabBar } from '@blind-dsai/ui';
+import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, BriefcaseIcon, BriefcaseFillIcon, NotificationIcon, NotificationFillIcon } from '@blind-dsai/ui/icons';
 
 <TabBar
   aria-label="Primary"
@@ -34,8 +34,8 @@ A bar including a primary-coloured **Create** affordance at the trailing end. Th
 ```preview
 tab-bar/with-primary
 ---
-import { TabBar } from '@blind-chorus/ui';
-import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, SearchFillIcon, BriefcaseIcon, BriefcaseFillIcon, NotificationIcon, NotificationFillIcon, AddSquareFillIcon } from '@blind-chorus/ui/icons';
+import { TabBar } from '@blind-dsai/ui';
+import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, SearchFillIcon, BriefcaseIcon, BriefcaseFillIcon, NotificationIcon, NotificationFillIcon, AddSquareFillIcon } from '@blind-dsai/ui/icons';
 
 <TabBar
   aria-label="Primary"
@@ -58,8 +58,8 @@ A bar with a smaller destination set — `space-evenly` distribution scales natu
 ```preview
 tab-bar/three-destinations
 ---
-import { TabBar } from '@blind-chorus/ui';
-import { HomeIcon, HomeFillIcon, SearchIcon, SearchFillIcon, ProfileIcon, ProfileFillIcon } from '@blind-chorus/ui/icons';
+import { TabBar } from '@blind-dsai/ui';
+import { HomeIcon, HomeFillIcon, SearchIcon, SearchFillIcon, ProfileIcon, ProfileFillIcon } from '@blind-dsai/ui/icons';
 
 <TabBar
   aria-label="Primary"
@@ -79,8 +79,8 @@ Labels exceeding their slot truncate with a single-line ellipsis. Author labels 
 ```preview
 tab-bar/truncation
 ---
-import { TabBar } from '@blind-chorus/ui';
-import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, SearchFillIcon, ChatIcon, ChatFillIcon, NotificationIcon, NotificationFillIcon } from '@blind-chorus/ui/icons';
+import { TabBar } from '@blind-dsai/ui';
+import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, SearchFillIcon, ChatIcon, ChatFillIcon, NotificationIcon, NotificationFillIcon } from '@blind-dsai/ui/icons';
 
 <TabBar
   aria-label="Primary"
@@ -102,8 +102,8 @@ Static design-review specimen — pins the keyboard-focus ring to a single desti
 ```preview
 tab-bar/focused
 ---
-import { TabBar } from '@blind-chorus/ui';
-import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, SearchFillIcon, BriefcaseIcon, BriefcaseFillIcon, NotificationIcon, NotificationFillIcon } from '@blind-chorus/ui/icons';
+import { TabBar } from '@blind-dsai/ui';
+import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, SearchFillIcon, BriefcaseIcon, BriefcaseFillIcon, NotificationIcon, NotificationFillIcon } from '@blind-dsai/ui/icons';
 
 <TabBar
   aria-label="Primary"

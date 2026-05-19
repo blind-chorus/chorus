@@ -1,4 +1,4 @@
-# Consuming `@blind-chorus/*` packages
+# Consuming `@blind-dsai/*` packages
 
 This guide covers how a developer in another internal project pulls the Chorus design system from GitHub Packages.
 
@@ -11,24 +11,24 @@ Create a Personal Access Token (classic) with `read:packages` scope at <https://
 export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxx
 ```
 
-## 2. Tell your project where `@blind-chorus` lives
+## 2. Tell your project where `@blind-dsai` lives
 
 Add an `.npmrc` to the root of your consuming project:
 
 ```
-@blind-chorus:registry=https://npm.pkg.github.com
+@blind-dsai:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
-Only the `@blind-chorus` scope routes to GitHub Packages — every other package keeps using the public npm registry.
+Only the `@blind-dsai` scope routes to GitHub Packages — every other package keeps using the public npm registry.
 
 ## 3. Install
 
 ```bash
-npm install @blind-chorus/tokens @blind-chorus/ui
+npm install @blind-dsai/tokens @blind-dsai/ui
 ```
 
-`@blind-chorus/tokens` is a transitive dependency of `@blind-chorus/ui`, but installing it explicitly lets you import the CSS or the raw token JSON directly.
+`@blind-dsai/tokens` is a transitive dependency of `@blind-dsai/ui`, but installing it explicitly lets you import the CSS or the raw token JSON directly.
 
 ## 4. Import the stylesheets once at the entry
 
@@ -36,14 +36,14 @@ The components rely on CSS variables defined in `tokens.css`. Load both styleshe
 
 ```tsx
 // app/layout.tsx (Next.js) — or main.tsx, _app.tsx, etc.
-import "@blind-chorus/tokens/tokens.css";
-import "@blind-chorus/ui/styles.css";
+import "@blind-dsai/tokens/tokens.css";
+import "@blind-dsai/ui/styles.css";
 ```
 
 ## 5. Use a component
 
 ```tsx
-import { Button, Chip, Dialog } from "@blind-chorus/ui";
+import { Button, Chip, Dialog } from "@blind-dsai/ui";
 
 export function Example() {
   return (
@@ -70,7 +70,7 @@ Every system token is emitted as a CSS custom property:
 Or read the resolved JSON in build tooling:
 
 ```js
-import lightTokens from "@blind-chorus/tokens/resolved.light.json" with { type: "json" };
+import lightTokens from "@blind-dsai/tokens/resolved.light.json" with { type: "json" };
 ```
 
 ## 7. CI access
@@ -94,7 +94,7 @@ steps:
 ## Upgrading
 
 ```bash
-npm update @blind-chorus/ui @blind-chorus/tokens
+npm update @blind-dsai/ui @blind-dsai/tokens
 ```
 
-Changelogs are published with each release on the GitHub Releases page of the `blind-chorus/chorus` repo.
+Changelogs are published with each release on the GitHub Releases page of the `blind-dsai/chorus` repo.

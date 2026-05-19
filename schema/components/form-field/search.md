@@ -9,7 +9,7 @@ The neutral at-rest search bar — transparent fill, hairline `outlineVariant` s
 ```preview
 form-field/search/default
 ---
-import { FormField } from '@blind-chorus/ui';
+import { FormField } from '@blind-dsai/ui';
 
 <FormField variant="search" placeholder="Search" />
 ```
@@ -23,7 +23,7 @@ The Chorus focus ring layered on top of the `active` pill border. Same compositi
 ```preview
 form-field/search/focused
 ---
-import { FormField } from '@blind-chorus/ui';
+import { FormField } from '@blind-dsai/ui';
 
 <FormField
   variant="search"

@@ -9,7 +9,7 @@ The headline form — three peer panels switched by a tab row. The row is **Adap
 ```preview
 tabs/underline/default
 ---
-import { Tabs, Tab } from '@blind-chorus/ui';
+import { Tabs, Tab } from '@blind-dsai/ui';
 
 <Tabs variant="underline" value="overview" aria-label="Sections">
   <Tab value="overview">Overview</Tab>
@@ -27,8 +27,8 @@ A leading glyph before the label.
 ```preview
 tabs/underline/leading-icon
 ---
-import { Tabs, Tab } from '@blind-chorus/ui';
-import { AddIcon, CheckedIcon } from '@blind-chorus/ui/icons';
+import { Tabs, Tab } from '@blind-dsai/ui';
+import { AddIcon, CheckedIcon } from '@blind-dsai/ui/icons';
 
 <Tabs variant="underline" value="posts" aria-label="Profile sections">
   <Tab value="posts" leadingIcon={<AddIcon />}>Posts</Tab>
@@ -44,7 +44,7 @@ The wider terminal layout of [Adaptive width](#adaptive-width) — tabs share th
 ```preview
 tabs/underline/auto-fit
 ---
-import { Tabs, Tab } from '@blind-chorus/ui';
+import { Tabs, Tab } from '@blind-dsai/ui';
 
 <Tabs variant="underline" value="feed" aria-label="Sections">
   <Tab value="feed">Feed</Tab>
@@ -60,7 +60,7 @@ The narrower terminal layout — tabs hold content width and the row scrolls hor
 ```preview
 tabs/underline/overflow
 ---
-import { Tabs, Tab } from '@blind-chorus/ui';
+import { Tabs, Tab } from '@blind-dsai/ui';
 
 <Tabs variant="underline" value="overview" aria-label="Sections">
   <Tab value="overview">Overview</Tab>
@@ -80,7 +80,7 @@ Static design-review specimen — pins the keyboard-focus ring to the selected t
 ```preview
 tabs/underline/focused
 ---
-import { Tabs, Tab } from '@blind-chorus/ui';
+import { Tabs, Tab } from '@blind-dsai/ui';
 
 <Tabs variant="underline" value="posts" aria-label="Profile">
   <Tab value="posts" state="focused">Posts</Tab>

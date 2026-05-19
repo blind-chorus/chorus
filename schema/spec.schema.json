@@ -9,7 +9,7 @@
     "$schema": { "type": "string" },
     "name": {
       "type": "string",
-      "description": "PascalCase React component name (`Button`, `Tabs`, `FormField`). Matches the export from @blind-chorus/ui."
+      "description": "PascalCase React component name (`Button`, `Tabs`, `FormField`). Matches the export from @blind-dsai/ui."
     },
     "family": {
       "type": "string",

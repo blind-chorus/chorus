@@ -9,7 +9,7 @@ The bare headline form — labels carry the meaning, no glyphs.
 ```preview
 tabs/rounded/default
 ---
-import { Tabs, Tab } from '@blind-chorus/ui';
+import { Tabs, Tab } from '@blind-dsai/ui';
 
 <Tabs variant="rounded" value="latest" onChange={setValue} aria-label="Sort">
   <Tab value="latest">Latest</Tab>
@@ -22,13 +22,13 @@ import { Tabs, Tab } from '@blind-chorus/ui';
 
 ### With icon
 
-The canonical sort / filter row — each tab pairs a leading glyph with its label. Icon sits at 16px (`sys.icon.md`). Every glyph is drawn from the managed `@blind-chorus/ui/icons` set so the row carries no inline SVG.
+The canonical sort / filter row — each tab pairs a leading glyph with its label. Icon sits at 16px (`sys.icon.md`). Every glyph is drawn from the managed `@blind-dsai/ui/icons` set so the row carries no inline SVG.
 
 ```preview
 tabs/rounded/leading-icon
 ---
-import { Tabs, Tab } from '@blind-chorus/ui';
-import { PulseIcon, StarIcon, HeartIcon, BookmarkIcon } from '@blind-chorus/ui/icons';
+import { Tabs, Tab } from '@blind-dsai/ui';
+import { PulseIcon, StarIcon, HeartIcon, BookmarkIcon } from '@blind-dsai/ui/icons';
 
 <Tabs variant="rounded" value="latest" onChange={setValue} aria-label="Sort">
   <Tab value="latest"    leadingIcon={<PulseIcon />}>Latest</Tab>
@@ -45,8 +45,8 @@ A glyph-only tab — collapses to a clean 32×32 square (inline padding 12 → 8
 ```preview
 tabs/rounded/icon-only
 ---
-import { Tabs, Tab } from '@blind-chorus/ui';
-import { StarIcon, BookmarkIcon, HeartIcon } from '@blind-chorus/ui/icons';
+import { Tabs, Tab } from '@blind-dsai/ui';
+import { StarIcon, BookmarkIcon, HeartIcon } from '@blind-dsai/ui/icons';
 
 <Tabs variant="rounded" value="featured" onChange={setValue} aria-label="View">
   <Tab value="featured" leadingIcon={<StarIcon />}     aria-label="Featured" />
@@ -62,8 +62,8 @@ When the row's natural width exceeds the surrounding column, it scrolls horizont
 ```preview
 tabs/rounded/overflow
 ---
-import { Tabs, Tab } from '@blind-chorus/ui';
-import { PulseIcon, StarIcon, HeartIcon, BookmarkIcon, TagIcon, ProfileIcon, MentionIcon } from '@blind-chorus/ui/icons';
+import { Tabs, Tab } from '@blind-dsai/ui';
+import { PulseIcon, StarIcon, HeartIcon, BookmarkIcon, TagIcon, ProfileIcon, MentionIcon } from '@blind-dsai/ui/icons';
 
 <Tabs variant="rounded" value="latest" aria-label="Feed">
   <Tab value="latest"    leadingIcon={<PulseIcon />}>Latest</Tab>
@@ -83,7 +83,7 @@ Static design-review specimen — pins the keyboard-focus ring to the selected t
 ```preview
 tabs/rounded/focused
 ---
-import { Tabs, Tab } from '@blind-chorus/ui';
+import { Tabs, Tab } from '@blind-dsai/ui';
 
 <Tabs variant="rounded" value="latest" aria-label="Sort">
   <Tab value="latest" state="focused">Latest</Tab>

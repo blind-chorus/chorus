@@ -1,8 +1,8 @@
-# @blind-chorus/tokens
+# @blind-dsai/tokens
 
 Design tokens for Chorus. Ships three-tier source JSON (`reference` → `system` → `component`), dereferenced `resolved.*.json` bundles for non-CSS consumers, and `tokens.css` emitting every token as a CSS custom property.
 
-Token *meaning* lives in [`schema/DESIGN.md`](https://github.com/blind-chorus/chorus/blob/main/schema/DESIGN.md). This package ships values only.
+Token *meaning* lives in [`schema/DESIGN.md`](https://github.com/blind-dsai/chorus/blob/main/schema/DESIGN.md). This package ships values only.
 
 > **License:** MIT. See [`LICENSE`](../../LICENSE).
 
@@ -11,13 +11,13 @@ Token *meaning* lives in [`schema/DESIGN.md`](https://github.com/blind-chorus/ch
 Distributed via GitHub Packages, not public npm. See [`docs/CONSUMING.md`](../../docs/CONSUMING.md) for `.npmrc` and auth setup.
 
 ```bash
-npm install @blind-chorus/tokens
+npm install @blind-dsai/tokens
 ```
 
 ## CSS bundle (most common)
 
 ```js
-import '@blind-chorus/tokens/tokens.css';
+import '@blind-dsai/tokens/tokens.css';
 ```
 
 Emits:
@@ -41,8 +41,8 @@ Toggle dark mode: `data-theme="dark"` on `<html>` or any ancestor.
 ## JSON bundles (AI agents, design tools, native renderers)
 
 ```js
-import light from '@blind-chorus/tokens/resolved.light.json';
-import dark  from '@blind-chorus/tokens/resolved.dark.json';
+import light from '@blind-dsai/tokens/resolved.light.json';
+import dark  from '@blind-dsai/tokens/resolved.dark.json';
 ```
 
 Each entry: `{ "<dotted.path>": { "$value": …, "$type": … } }`, fully dereferenced. Web-breakpoint overrides in sparse `resolved.web.json` / `resolved.web.dark.json`.
@@ -50,9 +50,9 @@ Each entry: `{ "<dotted.path>": { "$value": …, "$type": … } }`, fully derefe
 ## Three-tier source (advanced)
 
 ```js
-import reference from '@blind-chorus/tokens/reference.json';
-import system    from '@blind-chorus/tokens/system.json';
-import component from '@blind-chorus/tokens/component.json';
+import reference from '@blind-dsai/tokens/reference.json';
+import system    from '@blind-dsai/tokens/system.json';
+import component from '@blind-dsai/tokens/component.json';
 ```
 
 Values may be DTCG-style references (`"{ref.palette.blue.500}"`); resolve yourself. Use only if you need source structure (e.g. retheme by swapping the reference tier).

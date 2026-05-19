@@ -13,7 +13,7 @@ Translucent overlay fill, label-only. Reads as attached metadata against the sur
 ```preview
 chip/tag/default
 ---
-import { Chip } from '@blind-chorus/ui';
+import { Chip } from '@blind-dsai/ui';
 
 <Chip variant="tag">
   Design
@@ -29,8 +29,8 @@ Opt-out form — same chip with a trailing "×" to remove the tag. The trailing 
 ```preview
 chip/tag/dismissable
 ---
-import { Chip } from '@blind-chorus/ui';
-import { CloseIcon } from '@blind-chorus/ui/icons';
+import { Chip } from '@blind-dsai/ui';
+import { CloseIcon } from '@blind-dsai/ui/icons';
 
 <Chip
   variant="tag"
@@ -53,7 +53,7 @@ Tags are passive metadata — collections that exceed the container's width **wr
 ```preview
 chip/tag/group
 ---
-import { Chip } from '@blind-chorus/ui';
+import { Chip } from '@blind-dsai/ui';
 
 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, maxWidth: 320 }}>
   <Chip variant="tag">Design</Chip>
@@ -73,8 +73,8 @@ Only the **dismissable** tag is focusable; the case below shows that form. See [
 ```preview
 chip/tag/focused
 ---
-import { Chip } from '@blind-chorus/ui';
-import { CloseIcon } from '@blind-chorus/ui/icons';
+import { Chip } from '@blind-dsai/ui';
+import { CloseIcon } from '@blind-dsai/ui/icons';
 
 <Chip variant="tag" state="focused" trailingIcon={<CloseIcon />}>
   Newsletter

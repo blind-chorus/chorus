@@ -7,7 +7,7 @@ import { defineConfig, devices } from "@playwright/test";
 //
 // CI runs against a freshly-built production server; local `npm test` does
 // the same so baselines are deterministic. Update baselines with
-// `npm --workspace @blind-chorus/visual-regression run update` after auditing a
+// `npm --workspace @blind-dsai/visual-regression run update` after auditing a
 // real visual change.
 
 export default defineConfig({
@@ -37,7 +37,7 @@ export default defineConfig({
     // Build once, serve via `next start` so each test run hits the same
     // static output. The visual-regression run does NOT depend on `next dev`
     // hot-reload, which would introduce non-determinism.
-    command: "npm --workspace @blind-chorus/docs run build && npm --workspace @blind-chorus/docs run start -- -p 3100",
+    command: "npm --workspace @blind-dsai/docs run build && npm --workspace @blind-dsai/docs run start -- -p 3100",
     url: "http://127.0.0.1:3100",
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,

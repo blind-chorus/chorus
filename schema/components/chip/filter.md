@@ -13,7 +13,7 @@ At-rest form — transparent fill with a hairline `outlineVariant` stroke so the
 ```preview
 chip/filter/unselected
 ---
-import { Chip } from '@blind-chorus/ui';
+import { Chip } from '@blind-dsai/ui';
 
 <Chip variant="filter">
   All
@@ -27,7 +27,7 @@ Active form — inverse-toned fill. Use the same chip element across both states
 ```preview
 chip/filter/selected
 ---
-import { Chip } from '@blind-chorus/ui';
+import { Chip } from '@blind-dsai/ui';
 
 <Chip
   variant="filter"
@@ -46,8 +46,8 @@ Facet glyph before the label — tag for category, magnifying glass for search, 
 ```preview
 chip/filter/leading-icon
 ---
-import { Chip } from '@blind-chorus/ui';
-import { CheckedIcon } from '@blind-chorus/ui/icons';
+import { Chip } from '@blind-dsai/ui';
+import { CheckedIcon } from '@blind-dsai/ui/icons';
 
 <Chip
   variant="filter"
@@ -64,8 +64,8 @@ Directional/dismiss glyph after the label — chevron-down to expand, "×" to cl
 ```preview
 chip/filter/trailing-icon
 ---
-import { Chip } from '@blind-chorus/ui';
-import { CloseIcon } from '@blind-chorus/ui/icons';
+import { Chip } from '@blind-dsai/ui';
+import { CloseIcon } from '@blind-dsai/ui/icons';
 
 <Chip
   variant="filter"
@@ -82,7 +82,7 @@ Adjacent filter chips share a `4px` gap (`sys.layout.inline.sm`). Left-to-right;
 ```preview
 chip/filter/group
 ---
-import { Chip } from '@blind-chorus/ui';
+import { Chip } from '@blind-dsai/ui';
 
 <div style={{ display: 'flex', gap: 4 }}>
   <Chip variant="filter" selected>
@@ -107,7 +107,7 @@ Both selection states take the same standard ring; the case below shows unselect
 ```preview
 chip/filter/focused
 ---
-import { Chip } from '@blind-chorus/ui';
+import { Chip } from '@blind-dsai/ui';
 
 <Chip variant="filter" state="focused">
   All

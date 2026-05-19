@@ -9,7 +9,7 @@ The base form — image only, no badges.
 ```preview
 thumbnail/default
 ---
-import { Thumbnail } from '@blind-chorus/ui';
+import { Thumbnail } from '@blind-dsai/ui';
 
 <Thumbnail size={48} alt="Channel" src="…" />
 ```
@@ -23,7 +23,7 @@ A `brand`-tone dot at the top-right flags new activity. Decorative; the row carr
 ```preview
 thumbnail/with-update-dot
 ---
-import { Thumbnail } from '@blind-chorus/ui';
+import { Thumbnail } from '@blind-dsai/ui';
 
 <Thumbnail size={48} alt="Channel" src="…" updateDot />
 ```
@@ -35,7 +35,7 @@ A 16×16 sub-brand mark at the bottom-right, on its own surface halo.
 ```preview
 thumbnail/with-logo-badge
 ---
-import { Thumbnail } from '@blind-chorus/ui';
+import { Thumbnail } from '@blind-dsai/ui';
 
 <Thumbnail
   size={48}
@@ -52,7 +52,7 @@ Top-right and bottom-right corners are independent and never collide.
 ```preview
 thumbnail/with-both
 ---
-import { Thumbnail } from '@blind-chorus/ui';
+import { Thumbnail } from '@blind-dsai/ui';
 
 <Thumbnail
   size={48}
@@ -70,7 +70,7 @@ The full ladder side-by-side; update-dot size breaks at the 32-rung boundary.
 ```preview
 thumbnail/size-ladder
 ---
-import { Thumbnail } from '@blind-chorus/ui';
+import { Thumbnail } from '@blind-dsai/ui';
 
 <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
   <Thumbnail size={48} alt="A" updateDot />

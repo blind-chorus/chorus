@@ -1,6 +1,6 @@
-import reference from '@blind-chorus/tokens/reference.json';
-import system from '@blind-chorus/tokens/system.json';
-import component from '@blind-chorus/tokens/component.json';
+import reference from '@blind-dsai/tokens/reference.json';
+import system from '@blind-dsai/tokens/system.json';
+import component from '@blind-dsai/tokens/component.json';
 
 const BREAKPOINTS = {
   web: '800px',

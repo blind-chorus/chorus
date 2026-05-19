@@ -16,7 +16,7 @@ npm workspaces monorepo. Top-level groups:
   - [`schema/lint`](schema/lint) — schema + token validators (`validate-screen.mjs`, `validate-tokens.mjs`). Wired into `npm run lint`.
   - [`schema/icons`](schema/icons) — icon schema (planned).
 - **[`packages/`](packages)** — source-distributed implementations.
-  - [`packages/ui`](packages/ui) — `@blind-chorus/ui`: workspace-only React implementation of the schema. JSX emits inline `--<component>-*` vars consumed by `styles.css`. See AGENTS.md "Renderer guidance" for the two consumption paths.
+  - [`packages/ui`](packages/ui) — `@blind-dsai/ui`: workspace-only React implementation of the schema. JSX emits inline `--<component>-*` vars consumed by `styles.css`. See AGENTS.md "Renderer guidance" for the two consumption paths.
 - **[`apps/`](apps)** — consumers.
   - [`apps/docs`](apps/docs) — live documentation site. See [`apps/docs/README.md`](apps/docs/README.md) for build conventions and the source-of-truth rule.
   - [`apps/mcp-server`](apps/mcp-server) — MCP server exposing the schema to AI agents and design tools.

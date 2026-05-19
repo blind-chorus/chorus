@@ -14,7 +14,7 @@ An information-style sheet — title, body paragraph, and a stacked primary / se
 bottom-sheet/default
 ---
 import { useState } from 'react';
-import { BottomSheet, Button } from '@blind-chorus/ui';
+import { BottomSheet, Button } from '@blind-dsai/ui';
 
 const [open, setOpen] = useState(false);
 
@@ -41,7 +41,7 @@ When content exceeds the card's `max-height`, the content slot scrolls internall
 bottom-sheet/overflow
 ---
 import { useState } from 'react';
-import { BottomSheet, Button, List } from '@blind-chorus/ui';
+import { BottomSheet, Button, List } from '@blind-dsai/ui';
 
 const [open, setOpen] = useState(false);
 
@@ -68,7 +68,7 @@ When the sheet hosts an input that summons the virtual keyboard, the card lifts 
 bottom-sheet/keyboard
 ---
 import { useState } from 'react';
-import { BottomSheet, Button, FormField } from '@blind-chorus/ui';
+import { BottomSheet, Button, FormField } from '@blind-dsai/ui';
 
 const [open, setOpen] = useState(false);
 

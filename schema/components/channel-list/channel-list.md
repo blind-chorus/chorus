@@ -9,7 +9,7 @@ A two-page list (six channels) with a "See all" action in the header.
 ```preview
 channel-list/default
 ---
-import { ChannelList } from '@blind-chorus/ui';
+import { ChannelList } from '@blind-dsai/ui';
 
 <ChannelList
   label="Recommended channels"

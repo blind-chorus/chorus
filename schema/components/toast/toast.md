@@ -13,7 +13,7 @@ The bare confirmation strip — body text only. Inverse surface, 48 min-height, 
 ```preview
 toast/default
 ---
-import { Toast } from '@blind-chorus/ui';
+import { Toast } from '@blind-dsai/ui';
 
 <Toast>Token copied to clipboard</Toast>
 ```
@@ -27,7 +27,7 @@ A small Text Button (`appearance="inverse"`) on the trailing edge for follow-thr
 ```preview
 toast/with-action
 ---
-import { Toast, Button } from '@blind-chorus/ui';
+import { Toast, Button } from '@blind-dsai/ui';
 
 <Toast trailing={
   <Button variant="text" size="small" appearance="inverse" onClick={() => {}}>
@@ -45,8 +45,8 @@ A medium Icon Button (`appearance="inverse"`) on the trailing edge for explicit 
 ```preview
 toast/with-dismiss
 ---
-import { Toast, Button } from '@blind-chorus/ui';
-import { CloseIcon } from '@blind-chorus/ui/icons';
+import { Toast, Button } from '@blind-dsai/ui';
+import { CloseIcon } from '@blind-dsai/ui/icons';
 
 <Toast trailing={
   <Button
@@ -69,7 +69,7 @@ The strip grows with its content until it hits the 400 cap (or the viewport-minu
 ```preview
 toast/max-width
 ---
-import { Toast } from '@blind-chorus/ui';
+import { Toast } from '@blind-dsai/ui';
 
 <Toast>Saved your draft to every workspace you joined this month</Toast>
 ```
@@ -81,8 +81,8 @@ The body wraps up to two lines and truncates with an ellipsis past that. Pair wi
 ```preview
 toast/truncation
 ---
-import { Toast, Button } from '@blind-chorus/ui';
-import { CloseIcon } from '@blind-chorus/ui/icons';
+import { Toast, Button } from '@blind-dsai/ui';
+import { CloseIcon } from '@blind-dsai/ui/icons';
 
 <Toast trailing={
   <Button
