@@ -50,11 +50,11 @@
     "background": "sys.color.brand",
     "label": "sys.color.onBrand",
     "radius": "sys.radius.full",
-    "dotHalo": {
+    "dotOutline": {
       "color": "sys.color.surface",
-      "width": "sys.borderWidth.hairline",
+      "width": "sys.borderWidth.thin",
       "rendering": "box-shadow",
-      "note": "Update Dot rungs paint a 1px `surface`-color halo as a `box-shadow` so the dot reads cleanly above any host imagery without enlarging its bounding box."
+      "note": "Update Dot rungs paint a 2px `surface`-color outline as a `box-shadow` so the dot stays a discrete chip on any host (image, icon, row) without enlarging its bounding box. The outline carves the dot out of whatever sits beside it; without it the brand fill blends into surrounding fills with similar luminance."
     }
   },
   "sizes": {

@@ -1442,6 +1442,46 @@ export const PREVIEWS = {
       <Badge size={size === 'small' ? 'dot-sm' : 'dot-md'} />
     ),
   },
+  /* On thumbnail — Dot rung painted at the host's top-right corner. The
+     canonical hosted form: Thumbnail picks `dot-md` at the 32 / 40 / 48
+     rungs and `dot-sm` at 16 / 20 / 24 so the dot and its 1px `surface`
+     halo stay in lockstep with the Thumbnail ladder. */
+  'badge/on-thumbnail': {
+    states: false,
+    sizes: ['medium', 'small'],
+    render: ({ size = 'medium' }) => (
+      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        <Thumbnail size={size === 'small' ? 24 : 48} src={asset('/placeholder_thumbnail.png')} alt="Channel" updateDot />
+      </div>
+    ),
+  },
+  /* On icon — Dot rung painted at the icon's top-right. Same composition
+     contract as Thumbnail: a `position: relative` host with the Badge
+     `dot-sm` rung absolutely positioned at the corner; the 2px
+     `surface`-color outline keeps the dot visually discrete from the
+     icon stroke on any host. The dot is fixed at `dot-sm` regardless of
+     icon rung so it always reads as a *highlight*, not an *occluder*. */
+  'badge/on-icon': {
+    states: false,
+    render: () => {
+      const wrap = (icon) => (
+        <span style={{ position: 'relative', display: 'inline-flex', color: 'var(--sys-color-onSurface)' }}>
+          {icon}
+          <Badge size="dot-sm" style={{ position: 'absolute', top: 0, right: 0, transform: 'translate(25%, -25%)' }} />
+        </span>
+      );
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+          {wrap(<NotificationIcon size={24} />)}
+          {wrap(<ChatIcon size={24} />)}
+          {wrap(<MentionIcon size={24} />)}
+          {wrap(<NotificationIcon size={20} />)}
+          {wrap(<ChatIcon size={20} />)}
+          {wrap(<MentionIcon size={20} />)}
+        </div>
+      );
+    },
+  },
   'badge/with-host': {
     states: false,
     sizes: ['medium', 'small'],

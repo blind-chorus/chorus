@@ -556,14 +556,16 @@ span.chorus-chip {
 
 /* Update Dot rung — labelless brand dot used as a corner activity
    flag (Thumbnail is the canonical host). Width / height are pinned
-   by the spec's `dot-md` / `dot-sm` rungs; the 1px `surface`-color
-   halo is painted as a `box-shadow` so the dot's bounding footprint
-   never changes. */
+   by the spec's `dot-md` / `dot-sm` rungs. The `surface`-color
+   outline is painted as a `box-shadow` (so the dot's bounding
+   footprint never changes) at `borderWidth.thin` — wide enough to
+   carve the dot out of any host (image, icon glyph, list row) so
+   the brand fill always reads as a discrete chip. */
 .chorus-badge--dot {
   width: var(--badge-min-width);
   height: var(--badge-min-height);
   padding: 0;
-  box-shadow: 0 0 0 var(--sys-borderWidth-hairline) var(--sys-color-surface);
+  box-shadow: 0 0 0 var(--sys-borderWidth-thin) var(--sys-color-surface);
 }
 
 /* ============================================================

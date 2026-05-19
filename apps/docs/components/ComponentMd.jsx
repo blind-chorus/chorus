@@ -97,16 +97,29 @@ function buildTableTrimMap(tableNode) {
    carries its own slug-dedup state — see `dedupeSlug` in lib/componentMd.
    Without per-instance Maps a long-running session would accumulate
    collisions across pages and rename "Slots" to "slots-2" the first time
-   the user clicks a different component. */
+   the user clicks a different component.
+
+   The id-per-node is cached against `node.position` so React StrictMode's
+   dev-only double-invocation of function components doesn't re-run
+   `dedupeSlug` and inflate the suffix (Server: "intent" / Client:
+   "intent-2" mismatch). The first invocation populates the cache; every
+   subsequent invocation for the same heading node returns the same id. */
 function buildComponents(family) {
   const seenH2 = new Map();
   const seenH3 = new Map();
+  const idCache = new WeakMap();
+  const resolveId = (seen, node, children) => {
+    if (node && idCache.has(node)) return idCache.get(node);
+    const id = dedupeSlug(seen, slugify(headingText(children)));
+    if (node) idCache.set(node, id);
+    return id;
+  };
   return {
   // Spec body never carries an h1 — the title was hoisted into the page
   // header. If one slips in, render it harmlessly as a section heading.
-  h1: ({ children }) => <h2 id={dedupeSlug(seenH2, slugify(headingText(children)))}>{children}</h2>,
-  h2: ({ children }) => <h2 id={dedupeSlug(seenH2, slugify(headingText(children)))}>{children}</h2>,
-  h3: ({ children }) => <h3 id={dedupeSlug(seenH3, slugify(headingText(children)))}>{children}</h3>,
+  h1: ({ node, children }) => <h2 id={resolveId(seenH2, node, children)}>{children}</h2>,
+  h2: ({ node, children }) => <h2 id={resolveId(seenH2, node, children)}>{children}</h2>,
+  h3: ({ node, children }) => <h3 id={resolveId(seenH3, node, children)}>{children}</h3>,
   h4: ({ children }) => <h4>{children}</h4>,
   ul: ({ children }) => <ul className="rule-list">{children}</ul>,
   ol: ({ children }) => <ol className="rule-list">{children}</ol>,

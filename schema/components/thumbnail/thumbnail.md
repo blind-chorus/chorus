@@ -85,7 +85,7 @@ import { Thumbnail } from '@blind-chorus/ui';
 ## Slots
 
 - **image** — circular image; required. Fills the container at `radius.full`. When the asset hasn't loaded, the container holds `surfaceContainerHigh` and AT reads `alt`.
-- **updateDot** *(optional)* — `brand`-tone dot at the top-right. Decorative (`aria-hidden`); pair with a text affordance for the count. **Rendered by [Badge](../badge/badge.md)'s `dot-md` / `dot-sm` rungs** so the dot, its 1px `surface` halo, and the rung-size break stay in lockstep with the Badge family. Thumbnail picks `dot-md` at the 32 / 40 / 48 rungs and `dot-sm` at the 16 / 20 / 24 rungs.
+- **updateDot** *(optional)* — `brand`-tone dot at the top-right. Decorative (`aria-hidden`); pair with a text affordance for the count. **Rendered by [Badge](../badge/badge.md)'s `dot-md` / `dot-sm` rungs** so the dot, its 2px `surface`-color outline, and the rung-size break stay in lockstep with the Badge family. Thumbnail picks `dot-md` at the 32 / 40 / 48 rungs and `dot-sm` at the 16 / 20 / 24 rungs.
 - **logoBadge** *(optional)* — 16×16 circular badge at the bottom-right, for a sub-brand glyph.
 
 Both corner overlays sit *above* the image and carry a 1px (`borderWidth.hairline`) `surface`-color halo painted as a `box-shadow` — visually a hairline gap, with no change to the overlay's bounding footprint.
@@ -96,7 +96,7 @@ Both corner overlays sit *above* the image and carry a 1px (`borderWidth.hairlin
 |--------------|----------------|
 | container    | `radius.full`, no fill of its own |
 | image        | `surfaceContainerHigh` fallback, `onSurfaceVariant` fallback glyph |
-| updateDot    | Rendered by [Badge](../badge/badge.md) `dot-md` / `dot-sm` (`brand` fill, `radius.full`, 1px `surface` halo); top-right flush |
+| updateDot    | Rendered by [Badge](../badge/badge.md) `dot-md` / `dot-sm` (`brand` fill, `radius.full`, 2px `surface`-color outline); top-right flush |
 | logoBadge    | 16×16, `radius.full`, `surface` halo at 1px, bottom-right flush |
 
 ## Sizes

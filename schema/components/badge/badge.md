@@ -20,7 +20,7 @@ import { Badge } from '@blind-chorus/ui';
 
 ## Dot
 
-The labelless form — an update dot used as a corner activity flag. Two rungs (`dot-md` 8 × 8 and `dot-sm` 6 × 6); paints the brand fill with a 1px `surface`-color halo (`box-shadow`) so the dot reads cleanly above any host imagery without enlarging its bounding box. The dot rungs ignore `count` and `children` and never render text. [Thumbnail](../thumbnail/thumbnail.md) is the canonical host — it picks `dot-md` at the 32 / 40 / 48 rungs and `dot-sm` at the 16 / 20 / 24 rungs — but any host may reach for the same dot. Toggle the **Size** control to swap between the two rungs (`Medium` → `dot-md`, `Small` → `dot-sm`).
+The labelless form — an update dot used as a corner activity flag. Two rungs (`dot-md` 8 × 8 and `dot-sm` 6 × 6); paints the brand fill with a 2px (`borderWidth.thin`) `surface`-color outline (`box-shadow`) so the dot stays a discrete chip on any host — image, icon glyph, list row — without enlarging its bounding box. The dot rungs ignore `count` and `children` and never render text. [Thumbnail](../thumbnail/thumbnail.md) is the canonical host — it picks `dot-md` at the 32 / 40 / 48 rungs and `dot-sm` at the 16 / 20 / 24 rungs — but any host may reach for the same dot. Toggle the **Size** control to swap between the two rungs (`Medium` → `dot-md`, `Small` → `dot-sm`).
 
 ```preview
 badge/update-dot
@@ -46,6 +46,34 @@ import { Badge } from '@blind-chorus/ui';
   <Badge count={27} />
   <Badge count={142} />
 </div>
+```
+
+### On thumbnail
+
+The Dot rung painted at a [Thumbnail](../thumbnail/thumbnail.md)'s top-right corner — the canonical hosted form. Thumbnail picks `dot-md` at the 32 / 40 / 48 rungs and `dot-sm` at 16 / 20 / 24 so the dot, its 1px `surface` halo, and the Thumbnail rung stay in lockstep. The dot rides above the image without enlarging its bounding box; apply it whenever the host needs to flag new activity.
+
+```preview
+badge/on-thumbnail
+---
+import { Thumbnail } from '@blind-chorus/ui';
+
+<Thumbnail size={48} src="…" alt="Channel" updateDot />
+```
+
+### On icon
+
+The Dot rung painted at an icon's top-right — the same composition contract as Thumbnail, applied to any glyph that hosts an attention pin (notification bell, chat, mention). Always `dot-sm` regardless of icon size: a 6 × 6 dot reads as a *highlight* against the icon's drawing area without competing with the glyph itself, and the 2px `surface`-color outline keeps it visually discrete from the icon stroke on any host. The dot rides above the icon without changing its `icon.md` / `icon.lg` footprint.
+
+```preview
+badge/on-icon
+---
+import { Badge } from '@blind-chorus/ui';
+import { NotificationIcon } from '@blind-chorus/ui/icons';
+
+<span style={{ position: 'relative', display: 'inline-flex' }}>
+  <NotificationIcon size={24} />
+  <Badge size="dot-sm" style={{ position: 'absolute', top: 0, right: 0, transform: 'translate(25%, -25%)' }} />
+</span>
 ```
 
 ### With host
@@ -90,14 +118,14 @@ Four rungs split across the two types — two per type.
 |----------|---------|--------------------|--------------------------|-----------------------------------------------|----------------------------|
 | Numeric  | medium  | 20px (`ref.space.250` ‡) | 0 × 6 (`0` × `ref.space.75` ‡)        | 12 / Semibold (`sys.typo.label.sm`)   | —                          |
 | Numeric  | small   | 16px (`ref.space.200`)   | 0 × 4 (`0` × `sys.layout.container.2xs`) | 10 / Regular (`sys.typo.caption.sm`)  | —                          |
-| Dot      | dot-md  | 8px (`ref.space.100`)    | 0 × 0                                  | — (labelless)                              | 1px `sys.color.surface` ⁋  |
-| Dot      | dot-sm  | 6px (`ref.space.75`)     | 0 × 0                                  | — (labelless)                              | 1px `sys.color.surface` ⁋  |
+| Dot      | dot-md  | 8px (`ref.space.100`)    | 0 × 0                                  | — (labelless)                              | 2px `sys.color.surface` ⁋  |
+| Dot      | dot-sm  | 6px (`ref.space.75`)     | 0 × 0                                  | — (labelless)                              | 2px `sys.color.surface` ⁋  |
 
 All rungs share `sys.radius.full` (9999px) corners.
 
 ‡ `ref.space.250` (20px) and `ref.space.75` (6px) bind raw because `sys.*` does not expose those steps. The Dot rungs reuse `ref.space.100` (8px) and `ref.space.75` (6px) to stay in lockstep with [Thumbnail's update-dot ladder](../thumbnail/thumbnail.md#sizes) — `dot-md` at the 32 / 40 / 48 rungs, `dot-sm` at 16 / 20 / 24.
 
-⁋ Dot halo is painted as a `box-shadow` so the dot's bounding footprint never changes when it sits on a host image.
+⁋ Dot outline is painted as a `box-shadow` so the dot's bounding footprint never changes when it sits on a host image.
 
 The `min-width = min-height` rule combined with `radius.full` guarantees a perfect circle for one character (or a labelless dot) and a content-growing pill otherwise.
 

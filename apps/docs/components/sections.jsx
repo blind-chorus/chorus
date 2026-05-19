@@ -1,5 +1,7 @@
 import { Fragment } from 'react';
 import Link from 'next/link';
+import { Badge } from '@blind-chorus/ui';
+import { NotificationIcon, ChatIcon, MentionIcon } from '@blind-chorus/ui/icons';
 import { asset } from '../lib/asset';
 import { groupByPrefix, toCssVarName } from '../lib/tokens';
 import { slugify as slugifyTitle } from '../lib/slugify';
@@ -1977,6 +1979,33 @@ export function Iconography() {
       >
         <ProseSection>
           <p>For optical centering inside a container, prefer <code>display: inline-flex</code> + <code>align-items: center</code> over <code>vertical-align</code> hacks. Icons drawn off-grid will still betray their misalignment; fix the SVG, not the layout.</p>
+        </ProseSection>
+      </Section>
+      <Section
+        title="With update dot"
+        id="icon-update-dot"
+        description={
+          <>An icon may host a <Link href="/components/badge">Badge</Link> <code>dot-sm</code> rung at its top-right to flag new activity behind that target — the same composition contract <Link href="/components/thumbnail">Thumbnail</Link> uses for its <code>updateDot</code> slot. The dot is fixed at <code>dot-sm</code> (6 × 6) regardless of icon rung — at <code>icon.md</code> (20) it lands proportional to the glyph; at <code>icon.lg</code> (24) it stays a <em>highlight</em> rather than a competing chip. The 2px <code>surface</code>-color outline paints as a <code>box-shadow</code>, carving the dot out of whatever sits beside it (icon stroke, list row, navigation surface) so the brand fill always reads as a discrete chip.</>
+        }
+      >
+        <div className="component-preview">
+          <div className="component-preview-stage" style={{ gap: 32, justifyContent: 'center' }}>
+            {[NotificationIcon, ChatIcon, MentionIcon].map((Icon, i) => (
+              <span key={`lg-${i}`} style={{ position: 'relative', display: 'inline-flex', color: 'var(--sys-color-onSurface)' }}>
+                <Icon size={24} />
+                <Badge size="dot-sm" style={{ position: 'absolute', top: 0, right: 0, transform: 'translate(25%, -25%)' }} />
+              </span>
+            ))}
+            {[NotificationIcon, ChatIcon, MentionIcon].map((Icon, i) => (
+              <span key={`md-${i}`} style={{ position: 'relative', display: 'inline-flex', color: 'var(--sys-color-onSurface)' }}>
+                <Icon size={20} />
+                <Badge size="dot-sm" style={{ position: 'absolute', top: 0, right: 0, transform: 'translate(25%, -25%)' }} />
+              </span>
+            ))}
+          </div>
+        </div>
+        <ProseSection>
+          <p>The composition is a one-rule pattern: a <code>position: relative</code> host (the icon's inline-flex wrapper), with the Badge <code>dot-sm</code> absolutely positioned at the top-right and nudged a quarter-step outward so the brand fill sits flush against the icon's outer edge. No new icon-scoped tokens; the dot keeps its <code>sys.color.brand</code> fill, <code>radius.full</code> corner, and 2px <code>surface</code>-color outline regardless of host.</p>
         </ProseSection>
       </Section>
       <Section
