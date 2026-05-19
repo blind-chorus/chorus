@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "ChorusUI",
-    platforms: [.iOS(.v15), .macOS(.v12)],
+    platforms: [.iOS(.v16), .macOS(.v13)],
     products: [
         .library(name: "ChorusUI", targets: ["ChorusUI"]),
         .library(name: "ChorusUICatalog", targets: ["ChorusUICatalog"]),

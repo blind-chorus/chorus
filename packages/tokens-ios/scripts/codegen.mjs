@@ -59,7 +59,7 @@ const t = parseTokens();
   const themed = keys
     .map((k) => {
       const name = camel(k.split("-"));
-      return `    public var ${name}: Color { dark ? Dark.${name} : Light.${name} }`;
+      return `    public var ${name}: Color { dark ? ChorusColors.Dark.${name} : ChorusColors.Light.${name} }`;
     })
     .join("\n");
 
