@@ -1,4 +1,4 @@
-# @blind-chorus/mcp-server
+# @blind-dsai/mcp-server
 
 Model Context Protocol server exposing the Chorus design system to AI agents — Claude Desktop, Cursor, Claude Code, Lovable, and any other client that speaks MCP.
 
@@ -31,8 +31,8 @@ Model Context Protocol server exposing the Chorus design system to AI agents —
 ## Running
 
 ```bash
-npm --workspace @blind-chorus/mcp-server run start    # stdio loop
-npm --workspace @blind-chorus/mcp-server run smoke    # subprocess smoke test
+npm --workspace @blind-dsai/mcp-server run start    # stdio loop
+npm --workspace @blind-dsai/mcp-server run smoke    # subprocess smoke test
 ```
 
 There are no npm dependencies — the server speaks the MCP wire format (newline-delimited JSON-RPC 2.0 over stdio) directly. If you later add the official `@modelcontextprotocol/sdk` for type-safe sugar, the existing handler functions port over unchanged.

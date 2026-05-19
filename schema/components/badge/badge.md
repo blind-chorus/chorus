@@ -13,7 +13,7 @@ The labelled form — a short count sitting next to its host label. Two rungs (`
 ```preview
 badge/default
 ---
-import { Badge } from '@blind-chorus/ui';
+import { Badge } from '@blind-dsai/ui';
 
 <Badge>3</Badge>
 ```
@@ -25,7 +25,7 @@ The labelless form — an update dot used as a corner activity flag. Two rungs (
 ```preview
 badge/update-dot
 ---
-import { Badge } from '@blind-chorus/ui';
+import { Badge } from '@blind-dsai/ui';
 
 <Badge size="dot-md" />
 ```
@@ -39,7 +39,7 @@ Single digit collapses to a circle (`min-width = min-height`); two digits stretc
 ```preview
 badge/digit-cases
 ---
-import { Badge } from '@blind-chorus/ui';
+import { Badge } from '@blind-dsai/ui';
 
 <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sys-layout-inline-lg)' }}>
   <Badge count={3} />
@@ -55,7 +55,7 @@ The Dot rung painted at a [Thumbnail](../thumbnail/thumbnail.md)'s top-right cor
 ```preview
 badge/on-thumbnail
 ---
-import { Thumbnail } from '@blind-chorus/ui';
+import { Thumbnail } from '@blind-dsai/ui';
 
 <Thumbnail size={48} src="…" alt="Channel" updateDot />
 ```
@@ -67,8 +67,8 @@ The Dot rung painted at an icon's top-right — the same composition contract as
 ```preview
 badge/on-icon
 ---
-import { Badge } from '@blind-chorus/ui';
-import { NotificationIcon } from '@blind-chorus/ui/icons';
+import { Badge } from '@blind-dsai/ui';
+import { NotificationIcon } from '@blind-dsai/ui/icons';
 
 <span style={{ position: 'relative', display: 'inline-flex' }}>
   <NotificationIcon size={24} />
@@ -83,7 +83,7 @@ Numeric badge attached inside the label cell of a thumbnail `List` row — the c
 ```preview
 badge/with-host
 ---
-import { Badge, List } from '@blind-chorus/ui';
+import { Badge, List } from '@blind-dsai/ui';
 
 const labelWithBadge = (text, count) => (
   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--sys-layout-inline-md)', minWidth: 0 }}>

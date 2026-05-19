@@ -11,7 +11,7 @@ A navigation list — each row drills into another surface; trailing chevron is 
 ```preview
 list/nav
 ---
-import { List } from '@blind-chorus/ui';
+import { List } from '@blind-dsai/ui';
 
 <List
   variant="nav"
@@ -45,7 +45,7 @@ Inward 3-layer ring inside the row's bounds — see [Focus indicator](./list.md#
 ```preview
 list/focus-indicator
 ---
-import { List } from '@blind-chorus/ui';
+import { List } from '@blind-dsai/ui';
 
 <List
   variant="nav"

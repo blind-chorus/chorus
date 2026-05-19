@@ -2,7 +2,7 @@
 // Token-hygiene validator. Three checks, all static (no rendering):
 //
 //   1. Token-usage: every `sys.*` / `ref.*` / `comp.*` token referenced in
-//      schema/components/<family>/<sub>.spec.json (and in @blind-chorus/ui/src/
+//      schema/components/<family>/<sub>.spec.json (and in @blind-dsai/ui/src/
 //      *.jsx for token-bearing inline style strings) resolves to an entry
 //      in schema/tokens/resolved.<theme>.json. Anything that *looks* like a
 //      token ref but does not resolve is flagged.
@@ -87,7 +87,7 @@ function walkFiles(dir, extensions) {
 function collectTokenRefs() {
   // Sources: every spec.json (authoritative bindings) + every JSX file under
   // packages/ui/src (the renderer). We deliberately do NOT scan apps/docs —
-  // its job is to consume @blind-chorus/ui, not to bind tokens directly.
+  // its job is to consume @blind-dsai/ui, not to bind tokens directly.
   const refs = new Map(); // token → list of "file:line" call sites
   const specs = walkFiles(join(SCHEMA_DIR, "components"), [".json"])
     .filter((f) => f.endsWith(".spec.json"));

@@ -60,7 +60,7 @@ From scratch (only if no recipe is close):
 
 ## Renderer guidance
 
-`@blind-chorus/ui` is workspace-only and source-distributed. External tools pick ONE:
+`@blind-dsai/ui` is workspace-only and source-distributed. External tools pick ONE:
 
 - **(a) Compile the JSX directly.** Import from `packages/ui/src/index.js`. Load `packages/ui/src/styles.css` once. JSX emits inline `--<component>-*` plumbing vars; static rules in `styles.css` consume them.
 - **(b) Re-render from the spec.** Read `schema/components/<family>/<sub>.spec.json` and emit equivalent. Path for Figma plugins, Lovable-style synth, non-React runtimes. MUST encode all seven hard rules.

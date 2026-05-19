@@ -77,7 +77,7 @@
    even when the host page sets Pretendard on `<body>`. This is the
    single most common regression source for "why is my button in
    Arial?" — so the reset sits at the top of the stylesheet so it
-   applies to every consumer of `@blind-chorus/ui` automatically and any
+   applies to every consumer of `@blind-dsai/ui` automatically and any
    new button-based component picks up the right family by default,
    without each component having to repeat `font-family: inherit`.
 
@@ -1444,7 +1444,7 @@ span.chorus-chip {
 }
 
 /* Radio indicator — RadioIcon (outline) at rest, RadioFillIcon (filled)
-   when selected. Both glyphs ship from `@blind-chorus/ui/icons`; the indicator
+   when selected. Both glyphs ship from `@blind-dsai/ui/icons`; the indicator
    only sets the foreground color so the icon picks the right tone via
    `currentColor`. */
 .chorus-list__radio {

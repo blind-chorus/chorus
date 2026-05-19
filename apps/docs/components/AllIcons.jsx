@@ -1,12 +1,12 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { icons as iconRegistry } from '@blind-chorus/ui/icons';
-import { FormField } from '@blind-chorus/ui';
+import { icons as iconRegistry } from '@blind-dsai/ui/icons';
+import { FormField } from '@blind-dsai/ui';
 import { SemTable } from './SemTable';
 
 /* All icons catalog. The grid is data-bound to the registry export from
-   `@blind-chorus/ui/icons` — adding a new entry there surfaces it here on the
+   `@blind-dsai/ui/icons` — adding a new entry there surfaces it here on the
    next build. A keyword input above the table filters in-place by name
    and the `Icon.keywords` metadata each `makeIcon` call attaches. */
 
@@ -31,7 +31,7 @@ export function AllIcons() {
     <>
       <h2 id="icon-catalog">All icons</h2>
       <p>
-        The complete <code>@blind-chorus/ui/icons</code> registry. Filter by name or
+        The complete <code>@blind-dsai/ui/icons</code> registry. Filter by name or
         keyword (e.g. <code>arrow</code>, <code>fill</code>, <code>chevron</code>).
         Filled variants (<code>*FillIcon</code>) carry the same glyph as their
         outlined sibling but mark a selected / committed state — pair them by
@@ -74,7 +74,7 @@ export function AllIcons() {
                 </div>
                 <div className="sem-cell">
                   <code className="icon-catalog-import">
-                    {`import { ${name} } from '@blind-chorus/ui/icons';`}
+                    {`import { ${name} } from '@blind-dsai/ui/icons';`}
                   </code>
                 </div>
                 <div className="sem-cell">

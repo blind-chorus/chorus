@@ -12,7 +12,7 @@ export default defineConfig({
   sourcemap: true,
   splitting: false,
   treeshake: true,
-  external: ["react", "react-dom", "@blind-chorus/tokens"],
+  external: ["react", "react-dom", "@blind-dsai/tokens"],
   loader: { ".jsx": "jsx", ".js": "jsx" },
   jsx: "automatic",
   onSuccess: async () => {

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ExpandIcon } from '@blind-chorus/ui/icons';
+import { ExpandIcon } from '@blind-dsai/ui/icons';
 import { NAV } from '../lib/nav';
 import { useMobileNav } from './MobileNav';
 

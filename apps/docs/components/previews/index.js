@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FormField, List, NavigationBar, TabBar, Thumbnail, Toast } from '@blind-chorus/ui';
-import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, MenuIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-chorus/ui/icons';
+import { Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FormField, List, NavigationBar, TabBar, Thumbnail, Toast } from '@blind-dsai/ui';
+import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, MenuIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
    (clean license for docs reuse). Helper builds query params for size +

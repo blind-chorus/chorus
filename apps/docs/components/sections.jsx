@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import Link from 'next/link';
-import { Badge } from '@blind-chorus/ui';
-import { NotificationIcon, ChatIcon, MentionIcon } from '@blind-chorus/ui/icons';
+import { Badge } from '@blind-dsai/ui';
+import { NotificationIcon, ChatIcon, MentionIcon } from '@blind-dsai/ui/icons';
 import { asset } from '../lib/asset';
 import { groupByPrefix, toCssVarName } from '../lib/tokens';
 import { slugify as slugifyTitle } from '../lib/slugify';
@@ -2012,7 +2012,7 @@ export function Iconography() {
         title="Source of truth"
         id="icon-source"
         description={
-          <>All product icons — across both component code (<code>packages/ui</code>) and documentation surfaces (<code>apps/docs</code>) — must come from <code>@blind-chorus/ui/icons</code>. This is not a recommendation; it is the only sanctioned source. The catalog below is the canonical list — browse it before drawing a new glyph. To add a new icon: drop a <code>.svg</code> file in <code>packages/ui/src/icons/svg/</code> for the original artwork, then register it in <code>packages/ui/src/icons/index.js</code> as a <code>makeIcon(...)</code> entry (the registry powers this catalog automatically).</>
+          <>All product icons — across both component code (<code>packages/ui</code>) and documentation surfaces (<code>apps/docs</code>) — must come from <code>@blind-dsai/ui/icons</code>. This is not a recommendation; it is the only sanctioned source. The catalog below is the canonical list — browse it before drawing a new glyph. To add a new icon: drop a <code>.svg</code> file in <code>packages/ui/src/icons/svg/</code> for the original artwork, then register it in <code>packages/ui/src/icons/index.js</code> as a <code>makeIcon(...)</code> entry (the registry powers this catalog automatically).</>
         }
       >
         <ProseSection>

@@ -11,7 +11,7 @@ A plain text list — six menu rows with optional supporting text.
 ```preview
 list/text
 ---
-import { List } from '@blind-chorus/ui';
+import { List } from '@blind-dsai/ui';
 
 <List
   items={[

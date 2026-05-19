@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "name": "@blind-chorus/design-system",
+  "name": "@blind-dsai/design-system",
   "version": "0.0.0",
   "description": "Machine-readable inventory of the Chorus design system. External consumers (Claude Design, the docs site, AI agents, design-tool plugins) MUST read this file as the single entry point — never crawl schema/ to infer the system's shape. The file is hand-authored and kept in lock-step with schema/components/<family>/ folders; any new family or sub-component lands here before it lands anywhere else.",
   "agentEntrypoint": "../AGENTS.md",
@@ -32,18 +32,18 @@
   ],
   "packages": {
     "components": {
-      "name": "@blind-chorus/ui",
+      "name": "@blind-dsai/ui",
       "entry": "packages/ui/src/index.js",
       "icons": "packages/ui/src/icons/index.js",
       "styles": "packages/ui/src/styles.css",
-      "iconsExportSubpath": "@blind-chorus/ui/icons",
-      "stylesExportSubpath": "@blind-chorus/ui/styles.css",
+      "iconsExportSubpath": "@blind-dsai/ui/icons",
+      "stylesExportSubpath": "@blind-dsai/ui/styles.css",
       "published": false,
       "distribution": "source",
       "note": "Workspace-only, source-distributed. External tools either (a) read JSX directly from `entry` (compile JSX themselves) or (b) consume the structural contract via `schema/components/<family>/<sub>.spec.json` and re-render with their own renderer. Either path MUST also load `styles.css` once at the app entry — the JSX emits inline `--<component>-*` plumbing vars but expects the static rules in `styles.css` to receive them. The package is marked `private: true` and intentionally pinned at version `0.0.0` until a publishing decision is made."
     },
     "tokens": {
-      "name": "@blind-chorus/tokens",
+      "name": "@blind-dsai/tokens",
       "published": false,
       "distribution": "source",
       "note": "Workspace-only. External tools should prefer the `tokens.resolved.*` bundles above over the three-tier source files unless they specifically need the reference graph."

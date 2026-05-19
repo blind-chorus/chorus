@@ -9,7 +9,7 @@ A four-channel rail with a trailing "View all" action.
 ```preview
 channel-rail/default
 ---
-import { ChannelRail } from '@blind-chorus/ui';
+import { ChannelRail } from '@blind-dsai/ui';
 
 <ChannelRail
   aria-label="Subscribed channels"
@@ -32,7 +32,7 @@ When the rail carries more items than the container fits, it scrolls horizontall
 ```preview
 channel-rail/overflow
 ---
-import { ChannelRail } from '@blind-chorus/ui';
+import { ChannelRail } from '@blind-dsai/ui';
 
 <ChannelRail
   aria-label="Subscribed channels"

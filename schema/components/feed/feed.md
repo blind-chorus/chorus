@@ -9,7 +9,7 @@ The base composition — channel header, title, two-line body, thumbnail, mentio
 ```preview
 feed/default
 ---
-import { Feed } from '@blind-chorus/ui';
+import { Feed } from '@blind-dsai/ui';
 
 <Feed
   avatar={{ alt: 'Channel' }}
@@ -34,7 +34,7 @@ The optional `flag` slot — a single-word editorial label (`HOT`, `NEW`, `PINNE
 ```preview
 feed/with-flag
 ---
-import { Feed } from '@blind-chorus/ui';
+import { Feed } from '@blind-dsai/ui';
 
 <Feed
   flag="HOT"
@@ -58,7 +58,7 @@ A poll module sits between the body block and the mention/engagement footer.
 ```preview
 feed/with-poll
 ---
-import { Feed } from '@blind-chorus/ui';
+import { Feed } from '@blind-dsai/ui';
 
 <Feed
   flag="HOT"
@@ -82,7 +82,7 @@ A citation module naming an external source. Hero image is flush-left at 120px w
 ```preview
 feed/with-citation
 ---
-import { Feed } from '@blind-chorus/ui';
+import { Feed } from '@blind-dsai/ui';
 
 <Feed
   channel="Channel"
@@ -105,7 +105,7 @@ Every optional slot present.
 ```preview
 feed/full
 ---
-import { Feed } from '@blind-chorus/ui';
+import { Feed } from '@blind-dsai/ui';
 
 <Feed
   flag="HOT"

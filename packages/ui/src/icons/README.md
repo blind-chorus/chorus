@@ -1,11 +1,11 @@
-# `@blind-chorus/ui/icons`
+# `@blind-dsai/ui/icons`
 
 The Chorus icon library. Every product glyph that appears in `packages/ui` components or `apps/docs` pages is sourced from this module. The **principle** (why everything routes through here, when inline `<svg>` is permitted) lives in [`schema/DESIGN.md`](../../../../schema/DESIGN.md) under `### Iconography → Source of truth`; this README is the **recipe** for adding to and consuming the library.
 
 ## Importing
 
 ```jsx
-import { PollIcon, BookmarkIcon } from '@blind-chorus/ui/icons';
+import { PollIcon, BookmarkIcon } from '@blind-dsai/ui/icons';
 
 <PollIcon />                  // 20px (icon.md), inherits color
 <BookmarkIcon size={16} />    // explicit size

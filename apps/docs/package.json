@@ -1,5 +1,5 @@
 {
-  "name": "@blind-chorus/docs",
+  "name": "@blind-dsai/docs",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -8,8 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@blind-chorus/tokens": "*",
-    "@blind-chorus/ui": "*",
+    "@blind-dsai/tokens": "*",
+    "@blind-dsai/ui": "*",
     "highlight.js": "^11.11.1",
     "next": "^14.2.15",
     "react": "^18.3.1",

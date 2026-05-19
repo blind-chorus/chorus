@@ -13,7 +13,7 @@ The muted appearance — body in `onSecondaryContainer`, action link in `primary
 ```preview
 callout/default
 ---
-import { Callout } from '@blind-chorus/ui';
+import { Callout } from '@blind-dsai/ui';
 
 <Callout
   appearance="default"
@@ -30,7 +30,7 @@ The primary-tinted appearance with body and a follow-through link. Both the body
 ```preview
 callout/accent
 ---
-import { Callout } from '@blind-chorus/ui';
+import { Callout } from '@blind-dsai/ui';
 
 <Callout
   appearance="accent"
@@ -49,7 +49,7 @@ A 32 × 32 leading illustration at the top-left; content column wraps the remain
 ```preview
 callout/with-icon
 ---
-import { Callout } from '@blind-chorus/ui';
+import { Callout } from '@blind-dsai/ui';
 
 <Callout
   appearance="accent"

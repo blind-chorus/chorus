@@ -9,7 +9,7 @@ Neutral label (`onSurfaceVariant`) in a transparent capsule — the canonical Te
 ```preview
 button/text/default
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button variant="text">Not now</Button>
 ```
@@ -21,7 +21,7 @@ Brand-blue label (`primary`) — the inline commit affordance. Use sparingly; ne
 ```preview
 button/text/accent
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button variant="text" appearance="accent">Skip</Button>
 ```
@@ -33,7 +33,7 @@ Mirror for use inside an inverse host (Toast, coach-mark, snackbar). Label paint
 ```preview
 button/text/inverse
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button variant="text" appearance="inverse">Undo</Button>
 ```
@@ -47,7 +47,7 @@ import { Button } from '@blind-chorus/ui';
 ```preview
 button/text/leading-icon
 ---
-import { Button, BackwardIcon } from '@blind-chorus/ui';
+import { Button, BackwardIcon } from '@blind-dsai/ui';
 
 <Button variant="text" leadingIcon={<BackwardIcon />}>Back</Button>
 ```
@@ -59,7 +59,7 @@ Destination glyph after the label at the same icon rung. Use when the affordance
 ```preview
 button/text/trailing-icon
 ---
-import { Button, ForwardIcon } from '@blind-chorus/ui';
+import { Button, ForwardIcon } from '@blind-dsai/ui';
 
 <Button variant="text" trailingIcon={<ForwardIcon />}>Continue</Button>
 ```
@@ -74,7 +74,7 @@ Horizontally-grouped Text Buttons — common on [Page](../navigation-bar/page.md
 ```preview
 button/text/group
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <div style={{ display: 'inline-flex', gap: 'var(--sys-layout-inline-md)' }}>
   <Button variant="text">Cancel</Button>
@@ -89,7 +89,7 @@ Standard ring.
 ```preview
 button/text/focused
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button variant="text" state="focused">Skip</Button>
 ```

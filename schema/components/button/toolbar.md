@@ -9,7 +9,7 @@ The base shape — label-only on the Filter-chip chrome. The lower-emphasis tier
 ```preview
 button/toolbar/default
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button variant="toolbar">
   Edit
@@ -23,7 +23,7 @@ The single-commit form — brand-blue fill, `onPrimary` label. Reach for it when
 ```preview
 button/toolbar/accent
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button variant="toolbar" appearance="accent">
   Save
@@ -37,7 +37,7 @@ Mirror for use inside an inverse host (snackbars, coach-mark surfaces). Same chr
 ```preview
 button/toolbar/inverse
 ---
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 
 <Button variant="toolbar" appearance="inverse">
   Open
@@ -53,8 +53,8 @@ A context glyph before the label — tag for "Filters", calendar for "Pick date"
 ```preview
 button/toolbar/leading-icon
 ---
-import { Button } from '@blind-chorus/ui';
-import { AddIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { AddIcon } from '@blind-dsai/ui/icons';
 
 <Button
   variant="toolbar"
@@ -71,8 +71,8 @@ Directional/destination glyph after the label — chevron-down for "opens a menu
 ```preview
 button/toolbar/trailing-icon
 ---
-import { Button } from '@blind-chorus/ui';
-import { CheckedIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { CheckedIcon } from '@blind-dsai/ui/icons';
 
 <Button
   variant="toolbar"
@@ -89,8 +89,8 @@ Glyph-only Toolbar Button in a 32×32 square — for universally recognizable ac
 ```preview
 button/toolbar/icon-only
 ---
-import { Button } from '@blind-chorus/ui';
-import { AddIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { AddIcon } from '@blind-dsai/ui/icons';
 
 <Button
   variant="toolbar"
@@ -106,8 +106,8 @@ Adjacent Toolbar Buttons share the same `4px` gap (`sys.layout.inline.sm`) as [F
 ```preview
 button/toolbar/group
 ---
-import { Button } from '@blind-chorus/ui';
-import { AddIcon, CheckedIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { AddIcon, CheckedIcon } from '@blind-dsai/ui/icons';
 
 <div style={{ display: 'flex', gap: 4 }}>
   <Button variant="toolbar" leadingIcon={<AddIcon />}>
@@ -129,8 +129,8 @@ Hairline stroke is kept underneath the standard ring (see [Focus ring compositio
 ```preview
 button/toolbar/focused
 ---
-import { Button } from '@blind-chorus/ui';
-import { AddIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { AddIcon } from '@blind-dsai/ui/icons';
 
 <Button variant="toolbar" state="focused" leadingIcon={<AddIcon />}>
   Add row

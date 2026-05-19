@@ -9,7 +9,7 @@ A drill-in bar with back-arrow leading and a **primary**-toned "Save" [Toolbar B
 ```preview
 navigation-bar/page/default
 ---
-import { NavigationBar, Button } from '@blind-chorus/ui';
+import { NavigationBar, Button } from '@blind-dsai/ui';
 
 <NavigationBar
   variant="page"
@@ -28,7 +28,7 @@ The trailing slot carries a single icon.
 ```preview
 navigation-bar/page/icon-trailing
 ---
-import { NavigationBar } from '@blind-chorus/ui';
+import { NavigationBar } from '@blind-dsai/ui';
 
 <NavigationBar
   variant="page"
@@ -45,7 +45,7 @@ The trailing slot carries a [Text Button](../button/text.md) — typically a "Sk
 ```preview
 navigation-bar/page/link-trailing
 ---
-import { NavigationBar } from '@blind-chorus/ui';
+import { NavigationBar } from '@blind-dsai/ui';
 
 <NavigationBar
   variant="page"
@@ -62,7 +62,7 @@ For external content visited in-app (embedded webview, in-app browser). Leading 
 ```preview
 navigation-bar/page/external-page
 ---
-import { NavigationBar } from '@blind-chorus/ui';
+import { NavigationBar } from '@blind-dsai/ui';
 
 <NavigationBar
   variant="page"
@@ -78,7 +78,7 @@ Both side slots empty — for non-dismissible sub-pages (forced confirmation, te
 ```preview
 navigation-bar/page/title-only
 ---
-import { NavigationBar } from '@blind-chorus/ui';
+import { NavigationBar } from '@blind-dsai/ui';
 
 <NavigationBar
   variant="page"

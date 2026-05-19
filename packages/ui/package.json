@@ -1,16 +1,16 @@
 {
-  "name": "@blind-chorus/ui",
+  "name": "@blind-dsai/ui",
   "version": "0.2.0",
-  "description": "Chorus React components. Source-distributed (no prebuilt dist) — consumers compile JSX themselves and import `@blind-chorus/tokens/tokens.css` + `@blind-chorus/ui/styles.css` once at the app entry. The contract every component honors lives in schema/components/<family>/<sub>.spec.json; see schema/manifest.json for the inventory.",
+  "description": "Chorus React components. Source-distributed (no prebuilt dist) — consumers compile JSX themselves and import `@blind-dsai/tokens/tokens.css` + `@blind-dsai/ui/styles.css` once at the app entry. The contract every component honors lives in schema/components/<family>/<sub>.spec.json; see schema/manifest.json for the inventory.",
   "license": "MIT",
   "author": "chorus",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/blind-chorus/chorus.git",
+    "url": "git+https://github.com/blind-dsai/chorus.git",
     "directory": "packages/ui"
   },
-  "homepage": "https://github.com/blind-chorus/chorus#readme",
-  "bugs": "https://github.com/blind-chorus/chorus/issues",
+  "homepage": "https://github.com/blind-dsai/chorus#readme",
+  "bugs": "https://github.com/blind-dsai/chorus/issues",
   "keywords": [
     "design-system",
     "react",
@@ -41,7 +41,7 @@
     "react": ">=18"
   },
   "dependencies": {
-    "@blind-chorus/tokens": "^0.2.0"
+    "@blind-dsai/tokens": "^0.2.0"
   },
   "publishConfig": {
     "access": "restricted",

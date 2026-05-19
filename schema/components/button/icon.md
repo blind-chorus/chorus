@@ -9,8 +9,8 @@ Transparent capsule with a single glyph in `onSurface`. `large` (40 × 40 / 24-g
 ```preview
 button/icon/default
 ---
-import { Button } from '@blind-chorus/ui';
-import { SearchIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { SearchIcon } from '@blind-dsai/ui/icons';
 
 <Button variant="icon" size="large" icon={<SearchIcon />} aria-label="Search" />
 ```
@@ -22,8 +22,8 @@ Mirror for use inside an inverse host (Toast dismiss, coach-mark close). Glyph p
 ```preview
 button/icon/inverse
 ---
-import { Button } from '@blind-chorus/ui';
-import { CloseIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { CloseIcon } from '@blind-dsai/ui/icons';
 
 <Button variant="icon" size="medium" appearance="inverse" icon={<CloseIcon />} aria-label="Dismiss" />
 ```
@@ -37,8 +37,8 @@ Three Icon Buttons in a row — common shape on the [Navigation Bar](../navigati
 ```preview
 button/icon/group
 ---
-import { Button } from '@blind-chorus/ui';
-import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 
 <div style={{ display: 'inline-flex', gap: 'var(--sys-layout-inline-xl)' }}>
   <Button variant="icon" icon={<SearchIcon />}  aria-label="Search" />
@@ -54,8 +54,8 @@ Standard ring (see [Focus ring composition](../../DESIGN.md#focus-ring-compositi
 ```preview
 button/icon/focused
 ---
-import { Button } from '@blind-chorus/ui';
-import { SearchIcon } from '@blind-chorus/ui/icons';
+import { Button } from '@blind-dsai/ui';
+import { SearchIcon } from '@blind-dsai/ui/icons';
 
 <Button variant="icon" icon={<SearchIcon />} aria-label="Search" state="focused" />
 ```

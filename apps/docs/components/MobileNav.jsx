@@ -3,7 +3,7 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 import { useBodyScrollLock } from '../lib/scrollLock';
 
-export { MenuIcon } from '@blind-chorus/ui/icons';
+export { MenuIcon } from '@blind-dsai/ui/icons';
 
 const MobileNavContext = createContext({
   open: false,

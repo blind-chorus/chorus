@@ -1,8 +1,8 @@
-# @blind-chorus/ui
+# @blind-dsai/ui
 
 React component library for the Chorus design system. Ships prebuilt ESM + CJS bundles (`dist/`) and a single `styles.css`; import once and use.
 
-The component contract (anatomy, slots, token bindings) lives in `schema/components/<family>/<sub>.spec.json` in the [Chorus monorepo](https://github.com/blind-chorus/chorus). This package is the React reference implementation of that contract.
+The component contract (anatomy, slots, token bindings) lives in `schema/components/<family>/<sub>.spec.json` in the [Chorus monorepo](https://github.com/blind-dsai/chorus). This package is the React reference implementation of that contract.
 
 > **License:** MIT. See [`LICENSE`](../../LICENSE).
 
@@ -11,7 +11,7 @@ The component contract (anatomy, slots, token bindings) lives in `schema/compone
 This package is distributed through GitHub Packages, not the public npm registry. See [`docs/CONSUMING.md`](../../docs/CONSUMING.md) in the repo for the one-time `.npmrc` and authentication setup; once that's in place:
 
 ```bash
-npm install @blind-chorus/ui @blind-chorus/tokens
+npm install @blind-dsai/ui @blind-dsai/tokens
 ```
 
 Peer dependency: `react >= 18`.
@@ -22,8 +22,8 @@ Two stylesheets and one font, loaded once at your app entry.
 
 ```js
 // app entry (e.g. Next.js app/layout.tsx, Vite main.tsx)
-import '@blind-chorus/tokens/tokens.css';
-import '@blind-chorus/ui/styles.css';
+import '@blind-dsai/tokens/tokens.css';
+import '@blind-dsai/ui/styles.css';
 ```
 
 Then load Pretendard — the only typeface Chorus speaks. The CDN drop-in works in most setups:
@@ -45,7 +45,7 @@ No-script default is light; set the attribute server-side or in an inline `<scri
 ## Usage
 
 ```jsx
-import { Button, Chip, Callout } from '@blind-chorus/ui';
+import { Button, Chip, Callout } from '@blind-dsai/ui';
 
 export default function Example() {
   return (
@@ -62,4 +62,4 @@ Component-level props (`variant`, `appearance`, `size`, slots) follow the per-co
 
 ## Versioning
 
-Semver. Breaking changes to component props, slot names, or required CSS variables bump the major version. Token name changes are coordinated with `@blind-chorus/tokens`.
+Semver. Breaking changes to component props, slot names, or required CSS variables bump the major version. Token name changes are coordinated with `@blind-dsai/tokens`.

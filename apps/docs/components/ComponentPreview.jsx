@@ -5,13 +5,13 @@ import { createPortal } from 'react-dom';
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 import xml from 'highlight.js/lib/languages/xml';
-import { Button } from '@blind-chorus/ui';
+import { Button } from '@blind-dsai/ui';
 import {
   CheckboxIcon,
   CheckboxFillIcon,
   DuplicateIcon,
   ExpandIcon,
-} from '@blind-chorus/ui/icons';
+} from '@blind-dsai/ui/icons';
 import { PREVIEWS } from './previews';
 
 /* Register only the languages the preview source uses — `javascript`
