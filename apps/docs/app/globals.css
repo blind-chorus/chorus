@@ -542,6 +542,33 @@ code {
 }
 
 
+/* ========== Site footer ========== */
+.site-footer {
+  padding: var(--sys-layout-container-xl) var(--sys-layout-page-md);
+  border-top: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+  color: var(--sys-color-onSurfaceVariant);
+  font-size: var(--sys-typo-body-sm-size);
+  font-weight: var(--sys-typo-body-sm-weight);
+  line-height: var(--sys-typo-body-sm-line);
+  letter-spacing: var(--sys-typo-body-sm-tracking);
+}
+
+.site-footer-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-xl);
+}
+
+.site-footer-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-footer-link:hover {
+  color: var(--sys-color-onSurface);
+  text-decoration: underline;
+}
+
 /* ========== App main (the area beside the side nav) ========== */
 /* Side nav is fixed to viewport left; app-main reserves the space via
    margin-left so its content is never overlapped. Inside app-main,

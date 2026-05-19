@@ -55,7 +55,7 @@ export function Nav() {
           >
             <MenuIcon />
           </Button>
-          <Link href="/" className="site-nav-brand" aria-label="Chorus docs — Introduction">
+          <Link href="/" className="site-nav-brand" aria-label="Chorus .md — Introduction">
           <svg
             className="site-nav-brand-mark"
             width="16"
@@ -73,7 +73,7 @@ export function Nav() {
               <path d="M28.6586 6.19278C29.9267 7.82385 30.8833 9.7074 31.4467 11.7543L11.7543 31.4467C9.7074 30.8832 7.82386 29.9266 6.19279 28.6586L28.6586 6.19278Z" />
             </g>
           </svg>
-          <span><strong>Chorus</strong> docs</span>
+          <span><strong>Chorus</strong> .md</span>
         </Link>
         </div>
         <Button
