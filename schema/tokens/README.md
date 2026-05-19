@@ -8,7 +8,7 @@ Token *meaning* lives in [`schema/DESIGN.md`](https://github.com/blind-dsai/chor
 
 ## Install
 
-Distributed via GitHub Packages, not public npm. See [`docs/CONSUMING.md`](../../docs/CONSUMING.md) for `.npmrc` and auth setup.
+See [`CONSUMING.md`](../../CONSUMING.md) for install + usage from external projects.
 
 ```bash
 npm install @blind-dsai/tokens

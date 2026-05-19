@@ -6,12 +6,12 @@ Purpose: when an agent composes a new screen or picks a token, it should be able
 
 ## Precedence (read this first)
 
-Keyscreens are **descriptive**, not prescriptive. The list below is **authority on conflict**, distinct from the [`AGENTS.md`](../../AGENTS.md) "Read order" (which is the *intake sequence* for picking up the system). Read order says where to look first; precedence says who wins when two sources disagree.
+Keyscreens are **descriptive**, not prescriptive. The list below is **authority on conflict**, distinct from the [`AGENTS.md`](../AGENTS.md) "Read order" (which is the *intake sequence* for picking up the system). Read order says where to look first; precedence says who wins when two sources disagree.
 
-1. **Hard rules** in [`AGENTS.md`](../../AGENTS.md) — always win.
-2. **Component specs** in [`schema/components/<family>/<sub>.spec.json`](../../schema/components) and [`schema/DESIGN.md`](../../schema/DESIGN.md) — authoritative for props, slots, sizes, appearances, states, and cross-cutting design rules.
-3. **Resolved tokens** in [`schema/tokens/`](../../schema/tokens) — authoritative for color/type/space/radius values.
-4. **Screen recipes** in [`schema/screens/`](../../schema/screens) — authoritative for validated compositions.
+1. **Hard rules** in [`AGENTS.md`](../AGENTS.md) — always win.
+2. **Component specs** in [`schema/components/<family>/<sub>.spec.json`](../schema/components) and [`schema/DESIGN.md`](../schema/DESIGN.md) — authoritative for props, slots, sizes, appearances, states, and cross-cutting design rules.
+3. **Resolved tokens** in [`schema/tokens/`](../schema/tokens) — authoritative for color/type/space/radius values.
+4. **Screen recipes** in [`schema/screens/`](../schema/screens) — authoritative for validated compositions.
 5. **Keyscreens (this directory)** — visual reference and rationale only. If a keyscreen note conflicts with a spec or token, the spec/token wins; treat the keyscreen as out of date and fix it.
 
 ## How agents should use this
@@ -20,12 +20,12 @@ Keyscreens are **descriptive**, not prescriptive. The list below is **authority 
 2. Read the `.md` to understand which tokens, components, and layout decisions are load-bearing.
 3. Pull the image into context if pixel-level alignment matters (spacing rhythm, hierarchy, dark/light parity).
 4. Cross-check against the relevant `*.spec.json` and `resolved.*.json` — those are the contract; this is the inspiration.
-5. Prefer cloning a recipe in [`schema/screens/`](../../schema/screens) when one matches the keyscreen.
+5. Prefer cloning a recipe in [`schema/screens/`](../schema/screens) when one matches the keyscreen.
 
 ## File layout
 
 ```
-docs/keyscreens/
+keyscreens/
   README.md              # this file — index
   <slug>.png             # 1x or 2x, sRGB; dark variant: <slug>.dark.png
   <slug>.md              # spec note
