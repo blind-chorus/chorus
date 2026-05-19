@@ -1,0 +1,10 @@
+{
+  "name": "@blind-dsai/tokens-android",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Kotlin source generator for Chorus tokens. Produces chorus-tokens/src/main/kotlin/.../generated/*.kt from schema/tokens/resolved.*.json. The Gradle module itself is consumed via Maven, not npm.",
+  "type": "module",
+  "scripts": {
+    "codegen": "node scripts/codegen.mjs"
+  }
+}
