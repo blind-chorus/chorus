@@ -110,6 +110,21 @@ Not yet automated:
 
 ---
 
+## Commit conventions
+
+Conventional Commits. Format: `type(scope): subject`.
+
+- **type** — `feat` (new capability), `fix` (bug), `docs` (docs only), `chore` (deps/tooling/rename), `ci` (workflows), `refactor` (no behavior change), `test`.
+- **scope** — the touched surface. Prefer existing scopes from `git log`: `badge`, `toast`, `tokens`, `components`, `docs`, `pages`, `release`. Multi-scope: comma, no space — `feat(toast,tokens): …`.
+- **subject** — imperative, lowercase, no trailing period, ≤72 chars. Describe *what changes*, not *why*. Example: `feat(badge): host dot on thumbnail/icon with surface outline`.
+- **body** (optional) — one blank line after subject. Use for the *why* or non-obvious constraints. Wrap at ~72.
+- **one logical change per commit.** Token retunes, spec edits, and recipe updates that travel together stay together; unrelated cleanup goes in its own commit.
+- **schema/spec/token edits** — name the family or token tier in the scope (`feat(button): …`, `chore(tokens): …`). Re-run `npm run lint` before committing — a failing validator is not a commit.
+- **screen recipes** — `feat(screens): add settings recipe` or `fix(screens): …`. If the change is a recipe + spec together, scope the dominant surface.
+- **never commit** generated `apps/docs/out/`, `node_modules/`, or local `claude-memory` symlink contents.
+
+---
+
 ## Glossary
 
 - **family** — group of related sub-components sharing one anatomy (`button`, `tabs`, `navigation-bar`).
