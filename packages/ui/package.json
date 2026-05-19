@@ -44,8 +44,7 @@
     "@blind-dsai/tokens": "^0.2.0"
   },
   "publishConfig": {
-    "access": "restricted",
-    "registry": "https://npm.pkg.github.com",
+    "access": "public",
     "main": "./dist/index.cjs",
     "module": "./dist/index.js",
     "exports": {
