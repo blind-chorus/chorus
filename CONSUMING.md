@@ -72,7 +72,31 @@ Or read the resolved JSON in build tooling:
 import lightTokens from "@blind-dsai/tokens/resolved.light.json" with { type: "json" };
 ```
 
-## 6. Native (iOS / Android) — pilot
+## 6. Lovable — overlay the `lovable-export/` snapshot
+
+If you're building inside [Lovable](https://lovable.dev), don't `npm install` the packages — Lovable only syncs via GitHub and expects a Vite/TanStack-Router source tree. This repo ships that tree pre-built at [`lovable-export/`](lovable-export), regenerated from `schema/` + `packages/ui/` by `npm run build:lovable`.
+
+The handoff is a one-way **overlay copy** into your Lovable-connected GitHub repo (typically a fork of [`chorus-lovable-template-v1`](https://github.com/blind-dsai/chorus-lovable-template-v1)):
+
+```bash
+# from the chorus repo root, with the lovable repo checked out next to it
+rsync -a \
+  --exclude .git \
+  --exclude node_modules \
+  lovable-export/ ../<your-lovable-repo>/
+```
+
+Then in the Lovable repo: `git status` to review, `bun install` only if `package.json` changed, commit, push. Lovable picks up the change on its next sync.
+
+**Hard rules:**
+
+- **Overlay, never wipe.** Do not `rm -rf` the target repo and do not use `rsync --delete`. The Lovable repo holds editor-managed files we must preserve: `.lovable/` (editor state), `bun.lock`, `src/components/ui/*` (shadcn primitives Lovable installs on demand), and any routes the Lovable editor authored.
+- **One-way sync.** chorus → lovable only. Anything you want to keep across re-exports must live in chorus (`schema/`, `packages/ui/`, `patterns/`). Lovable-side edits outside the overlay paths survive; edits inside them get overwritten on the next copy.
+- **Re-run before each copy.** `npm run build:lovable` is idempotent and wipes `lovable-export/docs/` and `lovable-export/src/components/chorus/` each run, so the export always matches current chorus state.
+
+Files we own and overwrite, files in the shared zone, and the full rationale are documented in [`lovable-export/README.md`](lovable-export/README.md). The agent contract Lovable's editor reads after the copy is [`lovable-export/AGENTS.md`](lovable-export/AGENTS.md).
+
+## 7. Native (iOS / Android) — pilot
 
 The same tokens are generated into Swift and Kotlin sources:
 

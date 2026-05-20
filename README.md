@@ -29,7 +29,7 @@ npm workspaces monorepo. Top-level groups:
   - [`apps/docs`](apps/docs) — live documentation site. See [`apps/docs/README.md`](apps/docs/README.md) for build conventions and the source-of-truth rule.
   - [`apps/mcp-server`](apps/mcp-server) — MCP server exposing the schema to AI agents and design tools.
   - [`apps/visual-regression`](apps/visual-regression) — Playwright visual regression for the docs site.
-- **[`CONSUMING.md`](CONSUMING.md)** — how external projects consume Chorus.
+- **[`CONSUMING.md`](CONSUMING.md)** — how external projects consume Chorus. Lovable users: overlay the [`lovable-export/`](lovable-export) snapshot into your Lovable-connected repo (see CONSUMING.md §6).
 - **[`patterns/`](patterns)** — canonical pixel references + per-screen notes (intent, tokens, components). Visual inspiration; specs/tokens still win on conflict.
 - **[`claude-memory/`](claude-memory)** — durable, project-scoped memory accumulated across Claude Code agent sessions. Decisions, conventions, and *why-not* rationales that aren't derivable from the code. Read [`claude-memory/MEMORY.md`](claude-memory/MEMORY.md) as the index. AGENTS.md hard rules cite specific entries (e.g. `[memory: token pairs]`); agents picking up new work should scan the index for relevant feedback before improvising. Not loaded by external renderers — this is institutional knowledge for whoever (human or agent) edits the system.
 
