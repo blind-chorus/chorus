@@ -326,7 +326,7 @@ code {
 
 /* ========== Side nav (left-pinned panel) ==========
    Pinned to the viewport's left edge below the top nav. Two render modes
-   share the same chrome (320px column, padded, with a right border):
+   share the same chrome (400px column, padded, with a right border):
    a permanent rail at the laptop tier, and a toggleable drawer below it.
    `display` gates which mode is active; everything else stays the same. */
 .side-nav {
@@ -336,7 +336,7 @@ code {
   left: 0;
   display: none;
   flex-direction: column;
-  width: 320px;
+  width: 400px;
   max-width: 100%;
   padding: var(--sys-layout-container-md) var(--sys-layout-page-md);
   border-right: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
@@ -581,7 +581,7 @@ code {
 /* Laptop ≥1100px — reserve space for the pinned side-nav rail. */
 @media (min-width: 1100px) {
   .app-main {
-    margin-left: 320px;
+    margin-left: 400px;
   }
 }
 
@@ -613,7 +613,7 @@ code {
   position: relative;
   max-width: calc(768px + var(--sys-layout-page-md) * 2);
   margin: 0 auto;
-  padding: var(--sys-layout-container-3xl) var(--sys-layout-page-md);
+  padding: var(--sys-layout-container-2xl) var(--sys-layout-page-md);
 }
 
 /* Body block-to-block rhythm — one rung (16px) for every block type that
@@ -628,26 +628,27 @@ code {
 .page-content > .type-list,
 .page-content > .component-preview,
 .page-content > .component-callout {
-  margin-top: var(--sys-layout-stack-md);
+  margin-top: var(--sys-layout-stack-sm);
   margin-bottom: 0;
 }
 
-/* Headings — descending top-margin ramp (48 / 40 / 32) for the section
-   break, and a tighter bottom margin (12 / 12 / 8) that the following
-   description paragraph picks up by collapsing its own top to 0. */
+/* Headings — descending top-margin ramp (one notch tighter than before:
+   48 / 40 / 32 instead of 64 / 48 / 40) for the section break, and a
+   tighter bottom margin (8 / 8 / 4) that the following description
+   paragraph picks up by collapsing its own top to 0. */
 .page-content > h2 {
-  margin-top: var(--sys-layout-stack-3xl);
-  margin-bottom: var(--sys-layout-stack-sm);
+  margin-top: var(--sys-layout-stack-2xl);
+  margin-bottom: var(--sys-layout-stack-xs);
 }
 
 .page-content > h3 {
-  margin-top: var(--sys-layout-stack-2xl);
-  margin-bottom: var(--sys-layout-stack-sm);
+  margin-top: var(--sys-layout-stack-xl);
+  margin-bottom: var(--sys-layout-stack-xs);
 }
 
 .page-content > h4 {
-  margin-top: var(--sys-layout-stack-xl);
-  margin-bottom: var(--sys-layout-stack-xs);
+  margin-top: var(--sys-layout-stack-lg);
+  margin-bottom: var(--sys-layout-stack-2xs);
 }
 
 /* Paragraph directly after a heading — that's the section description, so
@@ -676,7 +677,7 @@ code {
    Dialog's or BottomSheet's `<h2 className="chorus-*__title">` keeps
    its own component-tier typography. */
 .page-content h2:not(.component-preview-stage *) {
-  scroll-margin-top: var(--sys-layout-stack-2xl);
+  scroll-margin-top: var(--sys-layout-stack-xl);
   font-size: var(--sys-typo-heading-md-size);
   font-weight: var(--sys-typo-heading-md-weight);
   line-height: var(--sys-typo-heading-md-line);
@@ -697,7 +698,7 @@ code {
 }
 
 .page-content h4:not(.component-preview-stage *) {
-  scroll-margin-top: var(--sys-layout-stack-2xl);
+  scroll-margin-top: var(--sys-layout-stack-xl);
   font-size: var(--sys-typo-label-md-size);
   font-weight: var(--sys-typo-heading-md-weight);
   line-height: var(--sys-typo-label-md-line);

@@ -1,8 +1,6 @@
 # Thumbnail List
 
-Avatar-anchored List sub-component — each row is fronted by a 40px leading [Thumbnail](../thumbnail/thumbnail.md). Same click semantics as the [Text sub](./text.md).
-
-> Per the family-wide rules in [`list.md`](./list.md): row geometry, typography, divider, state overlays, and inward focus ring all delegate to the shared anatomy. This sub documents the leading Thumbnail slot.
+Avatar-anchored List sub-component — each row is fronted by a 40px leading [Thumbnail](../thumbnail/thumbnail.md). Same click semantics as the [Text sub](./text.md). Row geometry, typography, divider, state overlays, and inward focus ring all delegate to the [family-wide rules](./list.md); this sub documents the leading Thumbnail slot.
 
 ## Default
 
