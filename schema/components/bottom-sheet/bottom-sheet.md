@@ -1,10 +1,6 @@
 # Bottom Sheet
 
-An edge-anchored interruption — a panel that rises from the bottom of the viewport, sits over a scrim, and holds richer content than a Dialog can. Reach for Bottom Sheet when the answer needs more vertical room than a centred card affords but is still a single dismissable decision.
-
-## Intent
-
-Use Bottom Sheet to steer the user toward a preferred action *without severing the flow they're in* — present enough to focus attention, light enough that dismissing returns them to where they were. Prefer [Dialog](../dialog/dialog.md) when the decision must be committed before the flow can continue.
+An edge-anchored interruption — a panel that rises from the bottom of the viewport, sits over a scrim, and holds richer content than a Dialog can. Reach for Bottom Sheet to steer the user toward a preferred action *without severing the flow they're in* — present enough to focus attention, light enough that dismissing returns them to where they were; prefer [Dialog](../dialog/dialog.md) when the decision must be committed before the flow can continue.
 
 ## Default
 

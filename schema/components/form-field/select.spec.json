@@ -1,0 +1,129 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "FormField",
+  "family": "form-field",
+  "subcomponent": "select",
+  "description": "Input-shaped picker — the same transparent-fill box, hairline-at-rest / thin-at-active inset box-shadow stroke, label / helper rungs and `error` re-tone as Input, but the field is read-only and the trailing slot carries a `DownwardIcon` chevron (16px / `sys.icon.md`). Clicking anywhere in the box fires `onOpen`, and the consumer raises a `BottomSheet` (or other surface) with the option list. The chosen value is echoed back through `value`. Supports an optional leading icon, sized to `sys.icon.md`, that pins at the inner-left edge — same affordance as Search bar's glyph.",
+  "element": "div",
+  "props": {
+    "variant": {
+      "type": "literal",
+      "value": "select"
+    },
+    "appearance": {
+      "type": "enum",
+      "values": ["default", "error"],
+      "default": "default"
+    },
+    "value": { "type": "string", "optional": true },
+    "defaultValue": { "type": "string", "optional": true },
+    "placeholder": { "type": "string", "optional": true },
+    "label": { "type": "node", "optional": true },
+    "helper": { "type": "node", "optional": true },
+    "leadingIcon": {
+      "type": "node",
+      "optional": true,
+      "description": "Optional 16px (`sys.icon.md`) decorative glyph pinned at the inner-left edge of the field. Tracks the field's active text colour (`sys.color.onSurface` on the default appearance, `sys.color.onErrorContainer` on `error`) so the glyph reads as part of the typed content."
+    },
+    "onOpen": {
+      "type": "function",
+      "optional": true,
+      "description": "Fired when the field box or the trailing chevron is clicked. Consumers use this to raise a `BottomSheet` with the option list."
+    },
+    "disabled": { "type": "boolean", "default": false }
+  },
+  "slots": {
+    "container": { "required": true, "intrinsic": true, "description": "The box — same as Input." },
+    "leading": {
+      "required": false,
+      "description": "Optional 16px glyph at the inner-left edge. Decorative (`aria-hidden`).",
+      "accepts": ["icon"]
+    },
+    "input": {
+      "required": true,
+      "description": "Read-only echo of the selected value (or the placeholder when empty).",
+      "accepts": ["text"]
+    },
+    "dropdown": {
+      "required": true,
+      "intrinsic": true,
+      "description": "Trailing chevron button (`DownwardIcon`, 16px). Always present, fires `onOpen`."
+    },
+    "label": { "required": false, "accepts": ["text"] },
+    "helper": { "required": false, "accepts": ["text"] }
+  },
+  "sizing": {
+    "minHeight": "ref.space.500",
+    "paddingBlock": "sys.layout.container.xs",
+    "paddingInline": "sys.layout.container.sm",
+    "slotGap": "sys.layout.inline.md",
+    "radius": "sys.radius.md",
+    "borderWidth": "sys.borderWidth.hairline",
+    "activeStrokeWeight": "sys.borderWidth.thin",
+    "groupGap": "sys.layout.stack.xs",
+    "labelTypo": "sys.typo.label.md",
+    "helperTypo": "sys.typo.body.sm",
+    "countTypo": "sys.typo.body.sm",
+    "countCurrentTypo": "sys.typo.label.md",
+    "textTypo": "sys.typo.body.md",
+    "iconSize": "sys.icon.md"
+  },
+  "groupColors": {
+    "label": "sys.color.onSurface",
+    "helper": "sys.color.onSurfaceVariant",
+    "helperError": "sys.color.error",
+    "count": "sys.color.onSurfaceVariant",
+    "countCurrent": "sys.color.onSurface"
+  },
+  "appearances": {
+    "default": {
+      "background": "transparent",
+      "text": "sys.color.onSurface",
+      "placeholder": "sys.color.outline",
+      "borderRest": "sys.color.outlineVariant",
+      "borderHover": "sys.color.outline",
+      "borderActive": "sys.color.onSurface"
+    },
+    "error": {
+      "background": "sys.color.errorContainer",
+      "text": "sys.color.onErrorContainer",
+      "placeholder": "sys.color.onErrorContainer",
+      "borderRest": "sys.color.error",
+      "borderHover": "sys.color.error",
+      "borderActive": "sys.color.error"
+    }
+  },
+  "states": {
+    "default": { "overlay": null, "border": "borderRest" },
+    "hovered": { "overlay": null, "border": "borderHover" },
+    "pressed": {
+      "border": "borderHover",
+      "overlay": { "color": "text", "opacity": "sys.state.pressed" }
+    },
+    "active": {
+      "overlay": null,
+      "border": "borderActive",
+      "strokeWeight": "activeStrokeWeight"
+    },
+    "disabled": {
+      "overlay": null,
+      "background": "sys.color.surfaceContainerLow",
+      "containerOpacity": "sys.state.disabled",
+      "suppressFocusRing": true,
+      "cursor": "not-allowed"
+    }
+  },
+  "focusIndicator": {
+    "description": "Same keyboard-focus indicator as Input — outward two-layer ring composed over the active stroke.",
+    "composition": "outward",
+    "compositionReason": "Action affordance with breathing room around it.",
+    "overlay": { "color": "label", "opacity": "sys.state.focus" },
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset"
+    },
+    "trigger": ":focus-visible"
+  }
+}

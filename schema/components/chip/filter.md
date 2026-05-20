@@ -1,10 +1,6 @@
 # Filter
 
-The selectable chip — capsule-shaped toggle for refining a set. **Unselected** is a transparent hairline-outlined pill that adopts whatever surface sits behind it; **selected** swaps to an inverse fill. Optional leading and trailing icons compose around the label without changing footprint.
-
-## Intent
-
-Use Filter to let the user narrow a set by toggling one or more independent criteria — multiple chips can be on at once. Prefer [Segmented](../tabs/segmented.md) when the choices are mutually-exclusive view modes (List ↔ Grid).
+The selectable chip — capsule-shaped toggle for refining a set. **Unselected** is a transparent hairline-outlined pill that adopts whatever surface sits behind it; **selected** swaps to an inverse fill. Optional leading and trailing icons compose around the label without changing footprint. Use Filter to let the user narrow a set by toggling one or more independent criteria — multiple chips can be on at once; prefer [Segmented](../tabs/segmented.md) when the choices are mutually-exclusive view modes (List ↔ Grid).
 
 ## Default
 

@@ -1,10 +1,6 @@
 # Callout
 
-An in-body explanation block — a tinted card sitting within the reading flow with a short paragraph and an optional follow-through link. Reach for Callout when a passage needs a brief aside the reader can scan or skip, not for a decision (use Dialog or Bottom Sheet) or an alert.
-
-## Intent
-
-Use Callout to embed a persistent aside *inside* the reading flow — a hint, caveat, or follow-through link that belongs to the surrounding content. Prefer [Toast](../toast/toast.md) when the message is a transient confirmation of a user action rather than part of the page itself.
+An in-body explanation block — a tinted card sitting within the reading flow with a short paragraph and an optional follow-through link. Reach for Callout when a passage needs a brief aside the reader can scan or skip; prefer [Dialog](../dialog/dialog.md) / [Bottom Sheet](../bottom-sheet/bottom-sheet.md) when the message demands a decision, or [Toast](../toast/toast.md) when it's a transient confirmation of a recent user action rather than part of the page itself.
 
 ## Default
 

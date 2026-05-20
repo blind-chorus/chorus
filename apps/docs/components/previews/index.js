@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FormField, List, NavigationBar, TabBar, Thumbnail, Toast } from '@blind-dsai/ui';
-import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, MenuIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
+import { Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FormField, FormFieldGroup, List, NavigationBar, TabBar, Thumbnail, Toast } from '@blind-dsai/ui';
+import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MenuIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
    (clean license for docs reuse). Helper builds query params for size +
@@ -269,17 +269,17 @@ function buttonPreview(appearance, label) {
 }
 
 export const PREVIEWS = {
-  /* Headline appearance previews. */
-  'button/primary':   buttonPreview('primary',   'Primary action'),
-  'button/secondary': buttonPreview('secondary', 'Secondary action'),
-  'button/outlined':  buttonPreview('outlined',  'See more'),
-  'button/tertiary':  buttonPreview('tertiary',  'Tertiary action'),
+  /* Standard Button — headline appearance previews. */
+  'button/standard/default':   buttonPreview('primary',   'Primary action'),
+  'button/standard/secondary': buttonPreview('secondary', 'Secondary action'),
+  'button/standard/outlined':  buttonPreview('outlined',  'See more'),
+  'button/standard/tertiary':  buttonPreview('tertiary',  'Tertiary action'),
 
   /* Focused — the accessibility focus ring (2px `sys.color.focus` stroke
      outside a 1px `sys.color.focusInset` counter-ring). Its own case
      because the preview has no State control; hover / press are felt on
      the live specimens above, focus gets shown here statically. */
-  'button/focused': {
+  'button/standard/focused': {
     sizes: BUTTON_SIZES,
     render: ({ size = 'large' }) => (
       <Button appearance="primary" size={size} state="focused">
@@ -290,7 +290,7 @@ export const PREVIEWS = {
 
   /* Group — horizontal pairing: outlined (left, supplementary) +
      primary (right, commit) at a fixed 8px gap (`sys.layout.inline.md`). */
-  'button/button-group': {
+  'button/standard/group': {
     sizes: BUTTON_SIZES,
     render: ({ size = 'large', state }) => (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--sys-layout-inline-md)' }}>
@@ -302,7 +302,7 @@ export const PREVIEWS = {
 
   /* Group — vertical pairing: primary (top, commit) over secondary
      (bottom, opposing) at the same 8px gap (`sys.layout.stack.xs`). */
-  'button/button-group-vertical': {
+  'button/standard/group-vertical': {
     sizes: BUTTON_SIZES,
     render: ({ size = 'large', state }) => (
       <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'stretch', gap: 'var(--sys-layout-stack-xs)', width: 328 }}>
@@ -313,7 +313,7 @@ export const PREVIEWS = {
   },
 
   /* Full width — single button stretched to the surrounding column. */
-  'button/full-width': {
+  'button/standard/full-width': {
     sizes: BUTTON_SIZES,
     render: ({ size = 'large', state }) => (
       <Button appearance="primary" size={size} state={state} fullWidth>
@@ -322,8 +322,8 @@ export const PREVIEWS = {
     ),
   },
 
-  /* With icon — standard Button carries a leading icon only. */
-  'button/icon-leading': {
+  /* With leading icon — Standard Button carries a leading icon only. */
+  'button/standard/with-leading-icon': {
     sizes: BUTTON_SIZES,
     render: ({ size = 'large', state }) => (
       <Button appearance="primary" size={size} state={state} leadingIcon={<AddIcon />}>
@@ -333,7 +333,7 @@ export const PREVIEWS = {
   },
 
   /* Truncation — long label inside a width-constrained frame. */
-  'button/truncation': {
+  'button/standard/truncation': {
     sizes: BUTTON_SIZES,
     render: ({ size = 'large', state }) => (
       <div style={{ width: 200, maxWidth: '100%' }}>
@@ -729,6 +729,85 @@ export const PREVIEWS = {
   'form-field/input/focused': () => (
     <Frame>
       <FormField variant="input" placeholder="Place holder" state="focused" />
+    </Frame>
+  ),
+
+  /* Input + leading icon — 16px (`sys.icon.md`) decorative glyph at the
+     inner-left edge, inheriting `onSurfaceVariant` colour. Same field
+     box as the bare Input; the leading slot is also available on the
+     `select` sub-component. */
+  'form-field/input/with-leading-icon': () => (
+    <Frame>
+      <FormField
+        variant="input"
+        label="Location"
+        leadingIcon={<LocationIcon />}
+        placeholder="City, region"
+        helper="Used to suggest local channels"
+      />
+    </Frame>
+  ),
+
+  /* Select — Input-shaped picker. Read-only; clicking the box (or the
+     trailing chevron) opens a BottomSheet with options. The docs render
+     the field at rest only — the `BottomSheet` + option-list wiring is
+     documented in select.md as a behavior contract (the consumer owns
+     the sheet state) but not exercised here. `onOpen` is a no-op so the
+     click affordance doesn't throw. */
+  'form-field/select/default': () => (
+    <Frame>
+      <FormField variant="select" label="Team" placeholder="Select a team" onOpen={() => {}} />
+    </Frame>
+  ),
+  'form-field/select/with-leading-icon': () => (
+    <Frame>
+      <FormField
+        variant="select"
+        label="Location"
+        leadingIcon={<LocationIcon />}
+        placeholder="Choose a city"
+        onOpen={() => {}}
+      />
+    </Frame>
+  ),
+  'form-field/select/focused': () => (
+    <Frame>
+      <FormField variant="select" placeholder="Select an option" state="focused" onOpen={() => {}} />
+    </Frame>
+  ),
+
+  /* Form field → Select → Group — horizontal pairing. One shared label /
+     helper; left field is a `select` (country dial-code style), right
+     field is the actual input. Both boxes sit on one row at
+     `sys.layout.inline.md` gap. */
+  'form-field/select/group': () => (
+    <Frame>
+      <FormFieldGroup
+        direction="horizontal"
+        label="Phone number"
+        helper="We'll text a one-time code"
+      >
+        <FormField variant="select" value="+82" onOpen={() => {}} style={{ flex: '0 0 96px' }} />
+        <FormField variant="input" placeholder="010-0000-0000" />
+      </FormFieldGroup>
+    </Frame>
+  ),
+
+  /* Form field → Input → Group — vertical stack. Each rung keeps its own
+     label / helper; the stack inserts 16px (`sys.layout.stack.md`)
+     between them. */
+  'form-field/input/group': () => (
+    <Frame>
+      <FormFieldGroup direction="vertical">
+        <FormField variant="input" label="Name" placeholder="Your name" />
+        <FormField
+          variant="input"
+          label="Email"
+          placeholder="you@example.com"
+          helper="We'll send a confirmation"
+        />
+        <FormField variant="input" label="Bio" placeholder="One sentence about you" />
+      </FormFieldGroup>
     </Frame>
   ),
 

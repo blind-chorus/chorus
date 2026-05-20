@@ -1,10 +1,6 @@
 # Tag
 
-The informational chip — square-cornered label naming attached metadata. Use for taxonomy on rows, cards, or profiles. Shorter than Filter (24 vs 32 min-height) with `sys.radius.sm` corners. Two appearances: `default` paints a translucent black/white overlay (light → `ref.palette.black.200`, dark → `ref.palette.white.200`) so the tag adopts whatever surface sits behind it; `accent` paints a tonal pale-primary container with primary label for tags that need to pop against the surface.
-
-## Intent
-
-Use Tag to label content with attached, non-interactive metadata — categories, statuses, or taxonomy describing a row or card. Prefer [Badge](../badge/badge.md) when the marker signals unread / new activity on a host rather than describing it.
+The informational chip — square-cornered label naming attached metadata. Use for taxonomy on rows, cards, or profiles — categories, statuses, or labels describing the content; prefer [Badge](../badge/badge.md) when the marker signals unread / new activity on a host rather than describing it. Shorter than Filter (24 vs 32 min-height) with `sys.radius.sm` corners. Two appearances: `default` paints a translucent black/white overlay (light → `ref.palette.black.200`, dark → `ref.palette.white.200`) so the tag adopts whatever surface sits behind it; `accent` paints a tonal pale-primary container with primary label for tags that need to pop against the surface.
 
 ## Default
 

@@ -1,10 +1,11 @@
 'use client';
 
-import { useId, useRef, useState } from 'react';
+import { Children, isValidElement, useId, useRef, useState } from 'react';
 import inputSpec from '../../../schema/components/form-field/input.spec.json';
 import searchBarSpec from '../../../schema/components/form-field/search.spec.json';
+import selectSpec from '../../../schema/components/form-field/select.spec.json';
 import { tokenToCss, typoStyles, joinClasses } from './spec-utils.js';
-import { CloseCircleFillIcon, SearchIcon } from './icons/index.js';
+import { CloseCircleFillIcon, DownwardIcon, SearchIcon } from './icons/index.js';
 
 /* `hovered` / `pressed` / `active` are the field's interactive feedback
    states (pointer-driven in the real component). `focused` is the
@@ -31,6 +32,10 @@ function FormFieldBox({
   spec,
   subcomponent,
   leadingSlot = null,
+  leadingIcon = null,
+  trailingSlot = null,
+  readOnly = false,
+  onClick,
   appearance = spec.props.appearance.default,
   value,
   defaultValue = '',
@@ -46,6 +51,7 @@ function FormFieldBox({
   onClear,
   ...rest
 }) {
+  const resolvedLeading = leadingSlot ?? leadingIcon ?? null;
   const app = spec.appearances[appearance] ?? spec.appearances[spec.props.appearance.default];
   const controlled = value !== undefined;
   const [inner, setInner] = useState(defaultValue);
@@ -53,7 +59,7 @@ function FormFieldBox({
   const valueLen = current == null ? 0 : String(current).length;
   const isDisabled = disabled || state === 'disabled';
   const forcedState = FORCEABLE_STATES.has(state) ? state : null;
-  const showClear = !isDisabled && valueLen > 0;
+  const showClear = !isDisabled && valueLen > 0 && !readOnly && trailingSlot == null;
 
   const showCount = maxLength != null;
   const showHelper = helper != null && !showCount;
@@ -114,9 +120,9 @@ function FormFieldBox({
       data-force-state={forcedState ?? undefined}
       style={hasGroup ? undefined : { ...composedStyle, ...style }}
     >
-      {leadingSlot != null ? (
+      {resolvedLeading != null ? (
         <span className="chorus-field__leading" aria-hidden="true">
-          {leadingSlot}
+          {resolvedLeading}
         </span>
       ) : null}
       <input
@@ -127,9 +133,11 @@ function FormFieldBox({
         value={current}
         placeholder={placeholder}
         disabled={isDisabled}
+        readOnly={readOnly}
         maxLength={showCount ? maxLength : undefined}
         aria-describedby={describedBy}
         onChange={handleChange}
+        onClick={onClick}
         {...(hasGroup ? {} : rest)}
       />
       {showClear ? (
@@ -141,6 +149,11 @@ function FormFieldBox({
         >
           <CloseCircleFillIcon />
         </button>
+      ) : null}
+      {trailingSlot != null ? (
+        <span className="chorus-field__trailing" aria-hidden="true">
+          {trailingSlot}
+        </span>
       ) : null}
     </div>
   );
@@ -209,12 +222,116 @@ function FormFieldSearchBar({
   );
 }
 
+/* Select — Input-shaped sibling that opens a bottom sheet instead of
+   accepting keystrokes. Visually the same box as `input` (label, helper,
+   error appearance, focus ring, optional leading icon), but the trailing
+   slot is a chevron-down glyph and the field is read-only — clicking
+   anywhere on the box (or the chevron) fires `onOpen`, and the consumer
+   raises a `BottomSheet` with the option list. The chosen value is
+   echoed back through `value`. */
+function FormFieldSelect({ onOpen, value, defaultValue, placeholder, ...rest }) {
+  const handleOpen = () => onOpen?.();
+  return (
+    <FormFieldBox
+      spec={selectSpec}
+      subcomponent="select"
+      readOnly
+      value={value}
+      defaultValue={defaultValue}
+      placeholder={placeholder}
+      onClick={handleOpen}
+      trailingSlot={
+        <button
+          type="button"
+          className="chorus-field__dropdown"
+          aria-label="Open options"
+          onClick={(e) => { e.stopPropagation(); handleOpen(); }}
+        >
+          <DownwardIcon />
+        </button>
+      }
+      {...rest}
+    />
+  );
+}
+
 const VARIANTS = {
   input: FormFieldInput,
   'search': FormFieldSearchBar,
+  select: FormFieldSelect,
 };
 
 export function FormField({ variant = 'input', ...rest }) {
   const Impl = VARIANTS[variant] ?? FormFieldInput;
   return <Impl {...rest} />;
+}
+
+/* Form field group — composes multiple FormField rungs.
+
+   `vertical` (default): stacks each child at `sys.layout.stack.md` (16px)
+   gap. Each child keeps its own label / helper / count.
+
+   `horizontal`: joins children side-by-side inside one shared
+   `.chorus-field-group` shell. The group owns a single label above and
+   helper / count below; the children render as bare boxes (their own
+   label / helper props are stripped) and sit in a flex row at
+   `sys.layout.inline.md` gap. Use for a leading "select"-style field
+   (country code, currency) + trailing real input. */
+export function FormFieldGroup({
+  direction = 'vertical',
+  label,
+  helper,
+  appearance = 'default',
+  disabled = false,
+  className,
+  style,
+  children,
+  ...rest
+}) {
+  const reactId = useId();
+  const helperId = `${reactId}-helper`;
+
+  if (direction === 'vertical') {
+    return (
+      <div
+        className={joinClasses('chorus-field-stack', className)}
+        style={style}
+        {...rest}
+      >
+        {children}
+      </div>
+    );
+  }
+
+  const bare = Children.map(children, (child) => {
+    if (!isValidElement(child)) return child;
+    const { label: _l, helper: _h, maxLength: _m, ...passthrough } = child.props;
+    return { ...child, props: passthrough };
+  });
+
+  return (
+    <div
+      className={joinClasses(
+        'chorus-field-group',
+        'chorus-field-group--row',
+        `chorus-field-group--${appearance}`,
+        disabled && 'is-disabled',
+        className,
+      )}
+      style={style}
+      {...rest}
+    >
+      {label != null ? (
+        <span className="chorus-field-group__label">{label}</span>
+      ) : null}
+      <div className="chorus-field-row" aria-describedby={helper ? helperId : undefined}>
+        {bare}
+      </div>
+      {helper != null ? (
+        <span id={helperId} className="chorus-field-group__helper">
+          {helper}
+        </span>
+      ) : null}
+    </div>
+  );
 }

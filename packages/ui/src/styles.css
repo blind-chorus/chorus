@@ -2126,6 +2126,10 @@ span.chorus-chip {
    container on the error appearance. Sized to `--field-icon-size` (16px,
    `sys.icon.md`) to match the trailing clear button's footprint, so the
    left/right affixes balance around the input column. */
+/* Leading glyph tracks the field's active text colour — `onSurface` on
+   the default appearance, `onErrorContainer` on `error` — by binding to
+   `--field-text` directly. The glyph reads as part of the field's typed
+   content, not as a recessed affordance. */
 .chorus-field__leading {
   display: inline-flex;
   position: relative;
@@ -2135,12 +2139,8 @@ span.chorus-chip {
   justify-content: center;
   width: var(--field-icon-size);
   height: var(--field-icon-size);
-  color: var(--sys-color-onSurfaceVariant);
-  pointer-events: none;
-}
-
-.chorus-field--error .chorus-field__leading {
   color: var(--field-text);
+  pointer-events: none;
 }
 
 .chorus-field__leading > svg {
@@ -2303,6 +2303,107 @@ span.chorus-chip {
 .chorus-field-group.is-disabled .chorus-field-group__helper,
 .chorus-field-group.is-disabled .chorus-field-group__count {
   opacity: var(--field-disabled-opacity);
+}
+
+/* Trailing slot — symmetric to `.chorus-field__leading`. Hosts the
+   Select sub-component's chevron button. 16px (`sys.icon.md`), inherits
+   the field's text colour so it re-tones on the error appearance. */
+.chorus-field__trailing {
+  display: inline-flex;
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: var(--field-icon-size);
+  height: var(--field-icon-size);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.chorus-field--error .chorus-field__trailing {
+  color: var(--field-text);
+}
+
+.chorus-field__trailing > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Select dropdown button — the trailing chevron. Visually 16px glyph
+   that owns the same focus-ring contract as the clear button so
+   keyboard users can open the sheet from the field. */
+.chorus-field__dropdown {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.chorus-field__dropdown > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Select field is read-only — the caret should not appear and clicking
+   the input itself (not just the chevron) opens the sheet. */
+.chorus-field--select {
+  cursor: pointer;
+}
+
+.chorus-field--select .chorus-field__input {
+  cursor: pointer;
+}
+
+/* ============================================================
+   Form field — group compositions
+
+   `chorus-field-stack` stacks each child FormField at `sys.layout.stack.md`
+   (16px) gap. Each child keeps its own label / helper rung.
+
+   `chorus-field-group--row` is the horizontal pairing — one shared
+   label above, one shared helper below, and a flex-row of bare boxes
+   between. Boxes inside the row sit at `sys.layout.inline.md` gap.
+============================================================ */
+.chorus-field-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-md);
+}
+
+.chorus-field-stack > * {
+  align-self: stretch;
+}
+
+/* Horizontal pairing carries its own label / helper rung, so the outer
+   wrapper needs the same `groupGap` (sys.layout.stack.xs = 4px) that a
+   labelled single Input uses between label ↔ box ↔ helper. The inner
+   FormField boxes here are bare (their own label / helper stripped) so
+   they never set `--field-group-gap` on this wrapper — we reference the
+   system token directly instead. */
+.chorus-field-group--row {
+  gap: var(--sys-layout-stack-xs);
+}
+
+.chorus-field-group--row .chorus-field-row {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: var(--sys-layout-inline-md);
+  align-self: stretch;
+}
+
+.chorus-field-group--row .chorus-field-row > .chorus-field {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 /* ============================================================

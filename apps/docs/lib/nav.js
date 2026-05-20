@@ -184,10 +184,11 @@ export const NAV = [
         href: '/components/button',
         label: 'Button',
         subs: [
+          { href: '/components/button/check', label: 'Check Button' },
           { href: '/components/button/fab', label: 'FAB' },
           { href: '/components/button/icon', label: 'Icon Button' },
+          { href: '/components/button/standard', label: 'Standard Button' },
           { href: '/components/button/text', label: 'Text Button' },
-          { href: '/components/button/check', label: 'Check Button' },
           { href: '/components/button/toggle', label: 'Toggle Button' },
           { href: '/components/button/toolbar', label: 'Toolbar Button' },
         ],
@@ -226,6 +227,7 @@ export const NAV = [
         subs: [
           { href: '/components/form-field/input', label: 'Input' },
           { href: '/components/form-field/search', label: 'Search Bar' },
+          { href: '/components/form-field/select', label: 'Select' },
         ],
       },
       {

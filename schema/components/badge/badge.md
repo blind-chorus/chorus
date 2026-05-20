@@ -1,10 +1,6 @@
 # Badge
 
-A small brand-tone indicator attached to a host label — a channel entry, a list row, a thumbnail corner — flagging unread / new activity behind that target. Two top-level **types** share the same brand-tone fill and `radius.full` corner: **Numeric** (a labelled count pill, the canonical badge) and **Dot** (a labelless update dot, the corner activity flag used by [Thumbnail](../thumbnail/thumbnail.md)). Always anchored to a host; never appears in isolation and never carries an interactive affordance.
-
-## Intent
-
-Use Badge to signal *new or unread activity* on a host — a count, dot, or short alert label that pulls the eye back to attention-worthy state. Prefer [Tag](../chip/tag.md) when the marker describes the content (category, status) rather than flagging recent change.
+A small brand-tone indicator attached to a host label — a channel entry, a list row, a thumbnail corner — flagging *new or unread activity* behind that target. Use Badge for a count, dot, or short alert label that pulls the eye back to attention-worthy state; prefer [Tag](../chip/tag.md) when the marker describes the content (category, status) rather than flagging recent change. Two top-level **types** share the same brand-tone fill and `radius.full` corner: **Numeric** (a labelled count pill, the canonical badge) and **Dot** (a labelless update dot, the corner activity flag used by [Thumbnail](../thumbnail/thumbnail.md)). Always anchored to a host; never appears in isolation and never carries an interactive affordance.
 
 ## Numeric
 

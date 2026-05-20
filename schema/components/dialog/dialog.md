@@ -1,10 +1,6 @@
 # Dialog
 
-A focused, opt-in interruption — a centred card over a scrim that asks the user to make a single decision before continuing. Reach for Dialog when the surface needs an explicit commit / dismiss pair and the answer fits in a short title plus one supporting paragraph.
-
-## Intent
-
-Use Dialog to *hold the flow until the user commits to an outcome* — deliberately disruptive, reserved for decisions that need a definitive response before anything else can happen (destructive actions, conflicts, consent gates). Prefer [Bottom Sheet](../bottom-sheet/bottom-sheet.md) when the same nudge can be delivered without halting the flow.
+A focused, opt-in interruption — a centred card over a scrim that asks the user to make a single decision before continuing. Reach for Dialog to *hold the flow until the user commits to an outcome* — deliberately disruptive, reserved for decisions that need a definitive response before anything else can happen (destructive actions, conflicts, consent gates); prefer [Bottom Sheet](../bottom-sheet/bottom-sheet.md) when the same nudge can be delivered without halting the flow.
 
 ## Default
 

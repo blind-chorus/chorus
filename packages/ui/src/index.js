@@ -9,7 +9,7 @@ export { Dialog } from './Dialog.jsx';
 export { Tabs } from './Tabs.jsx';
 export { Tab } from './Tab.jsx';
 export { Feed } from './Feed.jsx';
-export { FormField } from './FormField.jsx';
+export { FormField, FormFieldGroup } from './FormField.jsx';
 export { List } from './List.jsx';
 export { NavigationBar } from './NavigationBar.jsx';
 export { TabBar } from './TabBar.jsx';

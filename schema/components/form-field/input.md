@@ -91,6 +91,41 @@ import { FormField } from '@blind-dsai/ui';
 />
 ```
 
+### Leading icon
+
+An optional `leadingIcon` (16px / `sys.icon.md`) pins at the inner-left edge — same affordance and footprint as Search bar's glyph. Decorative (`aria-hidden`); tracks the field's active text colour (`sys.color.onSurface` on the default appearance, `sys.color.onErrorContainer` on `error`) so the glyph reads as part of the typed content rather than a recessed affordance. Also available on the [`select`](./select.md) sub-component.
+
+```preview
+form-field/input/with-leading-icon
+---
+import { FormField } from '@blind-dsai/ui';
+import { LocationIcon } from '@blind-dsai/ui/icons';
+
+<FormField
+  variant="input"
+  label="Location"
+  leadingIcon={<LocationIcon />}
+  placeholder="City, region"
+  helper="Used to suggest local channels"
+/>
+```
+
+### Group
+
+Compose multiple Inputs into a single column via `<FormFieldGroup>`. Each rung keeps its own label / helper / count, and the group inserts `sys.layout.stack.md` (16px) between rungs — the same vertical rhythm a section of stacked labelled controls already uses. Reach for it for sign-up / profile forms where the labels stay per-field.
+
+```preview
+form-field/input/group
+---
+import { FormField, FormFieldGroup } from '@blind-dsai/ui';
+
+<FormFieldGroup direction="vertical">
+  <FormField variant="input" label="Name" placeholder="Your name" />
+  <FormField variant="input" label="Email" placeholder="you@example.com" helper="We'll send a confirmation" />
+  <FormField variant="input" label="Bio" placeholder="One sentence about you" />
+</FormFieldGroup>
+```
+
 ### Focus indicator
 
 The accessibility ring layered on top of the `active` border re-tone — see [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition).

@@ -1,10 +1,6 @@
 # Segmented
 
-The inline view-mode toggle — a row of mutually-exclusive selectors for in-place mode changes (List ↔ Grid, Day ↔ Week ↔ Month). For panel-switching navigation, reach for [Underline](./underline.md) instead.
-
-## Intent
-
-Use Segmented to switch between mutually-exclusive views of the same content — exactly one option is active at a time. Prefer [Filter](../chip/filter.md) when the user can toggle multiple independent criteria at once.
+The inline view-mode toggle — a row of mutually-exclusive selectors for in-place mode changes (List ↔ Grid, Day ↔ Week ↔ Month). Exactly one option is active at a time; reach for [Underline](./underline.md) for panel-switching navigation, or [Filter](../chip/filter.md) when the user can toggle multiple independent criteria at once.
 
 ## Default
 
