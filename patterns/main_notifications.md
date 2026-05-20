@@ -2,7 +2,7 @@
 name: main_notifications
 image: ./main_notifications.png
 status: canonical
-recipe:
+recipe: ../schema/screens/main-notifications.screen.json
 ---
 
 ## Intent

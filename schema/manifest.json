@@ -26,9 +26,20 @@
     "screen": "screens/screen.schema.json"
   },
   "screens": [
-    { "slug": "channel-landing", "root": "screens/channel-landing.screen.json" },
-    { "slug": "search",          "root": "screens/search.screen.json" },
-    { "slug": "settings",        "root": "screens/settings.screen.json" }
+    { "slug": "compose",                 "root": "screens/compose.screen.json" },
+    { "slug": "compose-channel",         "root": "screens/compose-channel.screen.json" },
+    { "slug": "compose-kr",              "root": "screens/compose-kr.screen.json" },
+    { "slug": "compose-kr-promotion",    "root": "screens/compose-kr-promotion.screen.json" },
+    { "slug": "compose-offereval",       "root": "screens/compose-offereval.screen.json" },
+    { "slug": "main-company",            "root": "screens/main-company.screen.json" },
+    { "slug": "main-explore",            "root": "screens/main-explore.screen.json" },
+    { "slug": "main-home",               "root": "screens/main-home.screen.json" },
+    { "slug": "main-jobs",               "root": "screens/main-jobs.screen.json" },
+    { "slug": "main-notifications",      "root": "screens/main-notifications.screen.json" },
+    { "slug": "post",                    "root": "screens/post.screen.json" },
+    { "slug": "post-comments",           "root": "screens/post-comments.screen.json" },
+    { "slug": "search",                  "root": "screens/search.screen.json" },
+    { "slug": "settings",                "root": "screens/settings.screen.json" }
   ],
   "packages": {
     "components": {

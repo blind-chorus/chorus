@@ -2,7 +2,7 @@
 name: main_explore
 image: ./main_explore.png
 status: canonical
-recipe:
+recipe: ../schema/screens/main-explore.screen.json
 ---
 
 ## Intent

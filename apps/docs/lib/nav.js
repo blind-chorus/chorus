@@ -187,6 +187,7 @@ export const NAV = [
           { href: '/components/button/fab', label: 'FAB' },
           { href: '/components/button/icon', label: 'Icon Button' },
           { href: '/components/button/text', label: 'Text Button' },
+          { href: '/components/button/check', label: 'Check Button' },
           { href: '/components/button/toggle', label: 'Toggle Button' },
           { href: '/components/button/toolbar', label: 'Toolbar Button' },
         ],

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
 import { Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FormField, List, NavigationBar, TabBar, Thumbnail, Toast } from '@blind-dsai/ui';
-import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, MenuIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
+import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, MenuIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
    (clean license for docs reuse). Helper builds query params for size +
@@ -519,6 +519,61 @@ export const PREVIEWS = {
     ),
   },
 
+  /* Button → Check Button — Text Button shape with a required leading
+     24px checkbox glyph and an optional 16px middle icon. The component
+     renders the checkbox itself; consumers wire `onClick` to flip the
+     `checked` prop. Static previews fix `checked` per case so the doc
+     reader can see both states side-by-side. */
+  'button/check/default': {
+    sizes: ['medium', 'small'],
+    supportsDisabled: true,
+    render: ({ size = 'medium', state, disabled }) => (
+      <Button variant="check" size={size} state={disabled ? 'disabled' : state}>
+        Invisible to Coworkers
+      </Button>
+    ),
+  },
+  'button/check/checked': {
+    sizes: ['medium', 'small'],
+    supportsDisabled: true,
+    render: ({ size = 'medium', state, disabled }) => (
+      <Button variant="check" size={size} checked state={disabled ? 'disabled' : state}>
+        Invisible to Coworkers
+      </Button>
+    ),
+  },
+  'button/check/icon': {
+    sizes: ['medium', 'small'],
+    render: ({ size = 'medium', state }) => (
+      <Button variant="check" size={size} checked icon={<BookmarkFillIcon />} state={state}>
+        Use 1 promotion link
+      </Button>
+    ),
+  },
+  'button/check/accent': {
+    sizes: ['medium', 'small'],
+    render: ({ size = 'medium', state }) => (
+      <Button variant="check" size={size} appearance="accent" checked state={state}>
+        Apply offer
+      </Button>
+    ),
+  },
+  'button/check/inverse': {
+    sizes: ['medium', 'small'],
+    supportsDisabled: true,
+    render: ({ size = 'medium', state, disabled }) => (
+      <Button variant="check" size={size} appearance="inverse" checked state={disabled ? 'disabled' : state}>
+        Keep me signed in
+      </Button>
+    ),
+  },
+  'button/check/focused': {
+    sizes: ['medium', 'small'],
+    render: ({ size = 'medium' }) => (
+      <Button variant="check" size={size} state="focused">Invisible to Coworkers</Button>
+    ),
+  },
+
   /* Button → Toggle Button — reversible commit at the Toolbar footprint.
      Inactive = primary fill; active = surface + hairline outline. */
   'button/toggle/inactive': {
@@ -579,6 +634,11 @@ export const PREVIEWS = {
   'chip/tag/default': {
     render: ({ state }) => (
       <Chip variant="tag" state={state}>Design</Chip>
+    ),
+  },
+  'chip/tag/accent': {
+    render: ({ state }) => (
+      <Chip variant="tag" appearance="accent" state={state}>#sellside</Chip>
     ),
   },
   'chip/tag/dismissable': {

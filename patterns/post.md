@@ -2,7 +2,7 @@
 name: post
 image: ./post.png
 status: canonical
-recipe:
+recipe: ../schema/screens/post.screen.json
 ---
 
 ## Intent

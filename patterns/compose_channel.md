@@ -1,8 +1,8 @@
 ---
-name: compose_selectChannel
-image: ./compose_selectChannel.png
+name: compose_channel
+image: ./compose_channel.png
 status: canonical
-recipe:
+recipe: ../schema/screens/compose-channel.screen.json
 ---
 
 ## Intent

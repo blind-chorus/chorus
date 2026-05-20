@@ -2,7 +2,7 @@
 name: main_home
 image: ./main_home.png
 status: canonical
-recipe:    # paired recipe TBD
+recipe: ../schema/screens/main-home.screen.json
 ---
 
 ## Intent

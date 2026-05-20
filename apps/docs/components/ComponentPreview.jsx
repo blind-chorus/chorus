@@ -324,18 +324,16 @@ export function ComponentPreview({ body }) {
         <Render size={size ?? undefined} disabled={supportsDisabled ? disabled : undefined} />
       </div>
       <div className="component-preview-toolbar">
-        {/* Stage background toggle — Text Button xsmall, same rung as the
-            Disabled / Copy actions in this toolbar. The Rectangle glyph
-            flips outline → fill with the toggled state (outline = the
-            current transparent stage; fill = the current surface stage).
-            Lives in the toolbar so the stage area stays free of overlay
-            chrome and every preview affordance reads from the same row. */}
+        {/* Stage background toggle — Check Button xsmall, the canonical
+            option-toggle form. The component renders its own checkbox
+            glyph based on `checked`; the stage uses surface fill when
+            checked and transparent when unchecked. Lives in the toolbar
+            so the stage area stays free of overlay chrome and every
+            preview affordance reads from the same row. */}
         <Button
-          variant="text"
-          size="xsmall"
-          appearance="secondary"
-          leadingIcon={!transparentBg ? <CheckboxFillIcon /> : <CheckboxIcon />}
-          aria-pressed={!transparentBg}
+          variant="check"
+          size="small"
+          checked={!transparentBg}
           onClick={() => setTransparentBg((v) => !v)}
         >
           Background

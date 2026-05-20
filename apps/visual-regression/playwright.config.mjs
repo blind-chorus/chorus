@@ -11,7 +11,7 @@ import { defineConfig, devices } from "@playwright/test";
 // real visual change.
 
 export default defineConfig({
-  testDir: "./tests",
+  testDir: "./test",
   outputDir: "./test-results",
   snapshotPathTemplate: "{testDir}/__snapshots__/{testFilePath}/{arg}{ext}",
   fullyParallel: true,

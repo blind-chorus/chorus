@@ -11,16 +11,32 @@ const SPECS = {
   'toggle': toggleButtonSpec,
 };
 
-function visualStyle(spec, selected) {
+function pickAppearance(spec, appearance) {
+  const appearances = spec.appearances || {};
+  if (appearance && appearances[appearance]) return appearances[appearance];
+  const defaultKey = Object.keys(appearances).find((k) => appearances[k]?.default);
+  if (defaultKey) return appearances[defaultKey];
+  return appearances.default ?? Object.values(appearances)[0];
+}
+
+function visualStyle(spec, selected, appearance) {
   const v = spec.selectionStates
     ? spec.selectionStates[selected ? 'selected' : 'unselected']
-    : spec.appearances.default;
-  return {
-    '--chip-bg': tokenToCss(v.background),
+    : pickAppearance(spec, appearance);
+  const style = {
     '--chip-label': tokenToCss(v.label),
     '--chip-border-width': v.border ? tokenToCss(v.border.width) : '0px',
     '--chip-border-color': v.border ? tokenToCss(v.border.color) : 'transparent',
   };
+  // Skip inline `--chip-bg` when the appearance carries a separate dark binding
+  // (`backgroundDark`). Inline custom properties always beat CSS class rules,
+  // which would otherwise defeat the `[data-theme="dark"]` override. The CSS
+  // class is the source of truth for those appearances. For sys-color-driven
+  // appearances (single theme-aware token) inline emission is safe.
+  if (!v.backgroundDark) {
+    style['--chip-bg'] = tokenToCss(v.background);
+  }
+  return style;
 }
 
 function sizingStyle(spec) {
@@ -46,6 +62,7 @@ function sizingStyle(spec) {
 
 export function Chip({
   variant = 'filter',
+  appearance,
   selected = false,
   state,
   leadingIcon,
@@ -61,13 +78,16 @@ export function Chip({
   const isSelected = isToggle && selected;
   const isDisabled = disabled || state === 'disabled';
   const forcedState = FORCEABLE_STATES.has(state) ? state : null;
+  const appearanceClass =
+    !isToggle && appearance ? `chorus-chip--${spec.subcomponent}--${appearance}` : null;
   const className_ = joinClasses(
     'chorus-chip',
     `chorus-chip--${spec.subcomponent}`,
+    appearanceClass,
     isSelected && 'is-selected',
     className,
   );
-  const composedStyle = { ...sizingStyle(spec), ...visualStyle(spec, isSelected), ...style };
+  const composedStyle = { ...sizingStyle(spec), ...visualStyle(spec, isSelected, appearance), ...style };
 
   if (isToggle) {
     const ariaPressed = variant === 'toggle' ? Boolean(selected) : undefined;

@@ -3,7 +3,7 @@
   "name": "Chip",
   "family": "chip",
   "subcomponent": "tag",
-  "description": "Informational chip. Square-cornered metadata label. Passive (or dismissable via trailing ×). No leading icon. Background paints a translucent black/white overlay (light → `ref.palette.black.200`, dark → `ref.palette.white.200`) so the tag adopts whatever surface sits behind it without pinning to a fixed neutral step.",
+  "description": "Informational chip. Square-cornered metadata label. Passive (or dismissable via trailing ×). No leading icon. Two appearances: `default` paints a translucent black/white overlay (light → `ref.palette.black.200`, dark → `ref.palette.white.200`) so the tag adopts whatever surface sits behind it; `accent` paints a tonal pale-primary container (`sys.color.primaryContainer`) with primary label for tags that need to pop against the surface.",
   "element": "span",
   "props": {
     "variant": {
@@ -48,7 +48,14 @@
       "backgroundDark": "ref.palette.white.200",
       "label": "sys.color.onSurface",
       "border": null,
-      "note": "Background is a translucent black/white overlay (`black.200` in light mode, `white.200` in dark) so the tag harmonises with whatever surface sits behind it — body, raised card, BottomSheet — instead of pinning to a fixed neutral step."
+      "default": true,
+      "note": "Background is a translucent black/white overlay (`black.200` in light mode, `white.200` in dark) so the tag harmonises with whatever surface sits behind it — body, raised card, BottomSheet — instead of pinning to a fixed neutral step. Driven by CSS class (not inline `--chip-bg`) so the dark-theme override actually applies; inline emission from JSX would override the `[data-theme=\"dark\"]` rule."
+    },
+    "accent": {
+      "background": "sys.color.primaryContainer",
+      "label": "sys.color.primary",
+      "border": null,
+      "note": "Tonal accent: pale primary container background with primary label. Sys-color tokens are theme-aware, so no separate dark binding is needed — the resolved tokens pick the right values per theme. Use for tags that should pop against the surface (e.g. Popular Tags in compose, highlighted hashtags) where the default overlay is too quiet."
     }
   },
   "states": {

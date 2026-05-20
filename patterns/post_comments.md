@@ -2,7 +2,7 @@
 name: post_comments
 image: ./post_comments.png
 status: canonical
-recipe:
+recipe: ../schema/screens/post-comments.screen.json
 ---
 
 ## Intent

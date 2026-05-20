@@ -436,6 +436,15 @@ textarea {
   --chip-bg: var(--ref-palette-white-200);
 }
 
+/* Accent — tonal pale-primary tag. Sys-color tokens are theme-aware,
+   so a single rule paints correctly in light + dark without an inverse
+   block. Inline `--chip-bg` is also skipped by the JSX (the appearance
+   has no `backgroundDark` field) so this class wins cleanly. */
+.chorus-chip--tag.chorus-chip--tag--accent {
+  --chip-bg: var(--sys-color-primaryContainer);
+  --chip-label: var(--sys-color-primary);
+}
+
 /* Icon-only Compact — when the chip carries no label slot, shrink the
    inline padding and lock the width to the min-height so the glyph
    centers in a clean square (32 × 32 for Compact) instead of the
@@ -2724,6 +2733,143 @@ span.chorus-chip {
 .chorus-button--text:disabled,
 .chorus-button--text[aria-disabled="true"],
 .chorus-button--text[data-force-state="disabled"] {
+  opacity: var(--sys-state-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Check Button — Text Button shape with a required 24px leading checkbox
+   glyph and an optional 16px middle icon. Per-rung min-height + padding +
+   label-typo + radius mirror Text Button exactly; the only deltas are the
+   checkbox footprint and the per-element 4px gap. Optical alignment is
+   inherited from Text Button via the same negative-margin trick — the
+   chrome is transparent at rest, so the visible footprint defines the
+   layout edges. */
+.chorus-button--check {
+  /* Per-size plumbing. */
+  --button-check-label: var(--sys-color-onSurfaceVariant);
+  --button-check-min-height: 40px;
+  --button-check-padding-block: var(--sys-layout-container-xs);
+  --button-check-padding-inline: var(--sys-layout-container-xs);
+  --button-check-checkbox-size: var(--sys-icon-lg);
+  --button-check-icon-size: var(--sys-icon-md);
+  --button-check-font-size: var(--sys-typo-heading-sm-size);
+  --button-check-font-line: var(--sys-typo-heading-sm-line);
+  --button-check-font-weight: var(--sys-typo-heading-sm-weight);
+  --button-check-font-tracking: var(--sys-typo-heading-sm-tracking);
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--sys-layout-inline-sm);
+  min-height: var(--button-check-min-height);
+  padding: var(--button-check-padding-block) var(--button-check-padding-inline);
+  /* Same optical-alignment recipe as Text Button — chrome is transparent
+     at rest; the visible checkbox + label box is the layout edge. */
+  margin: calc(-1 * var(--button-check-padding-block)) calc(-1 * var(--button-check-padding-inline));
+  border: none;
+  background: transparent;
+  color: var(--button-check-label);
+  border-radius: var(--sys-radius-full);
+  font-size: var(--button-check-font-size);
+  line-height: var(--button-check-font-line);
+  font-weight: var(--button-check-font-weight);
+  letter-spacing: var(--button-check-font-tracking);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  transition: background 120ms ease;
+}
+
+.chorus-button--check--appearance-default { --button-check-label: var(--sys-color-onSurfaceVariant); }
+.chorus-button--check--appearance-accent  { --button-check-label: var(--sys-color-primary); }
+.chorus-button--check--appearance-inverse { --button-check-label: var(--sys-color-inverseOnSurface); }
+
+/* Two sizes — the checkbox footprint is the size differentiator, not the
+   label. Both rungs share `sys.typo.label.sm` (12-rank); medium pairs it
+   with a 24px checkbox at 40 min-height; small drops the checkbox to 16px
+   at 32 min-height. The optional middle icon stays at 16px on both. */
+.chorus-button--check--size-medium {
+  --button-check-min-height: 40px;
+  --button-check-padding-block: var(--sys-layout-container-xs);
+  --button-check-padding-inline: var(--sys-layout-container-xs);
+  --button-check-checkbox-size: var(--sys-icon-lg);
+  --button-check-icon-size: var(--sys-icon-md);
+  --button-check-font-size: var(--sys-typo-label-sm-size);
+  --button-check-font-line: var(--sys-typo-label-sm-line);
+  --button-check-font-weight: var(--sys-typo-label-sm-weight);
+  --button-check-font-tracking: var(--sys-typo-label-sm-tracking);
+}
+.chorus-button--check--size-small {
+  --button-check-min-height: 32px;
+  --button-check-padding-block: var(--sys-layout-container-2xs);
+  --button-check-padding-inline: var(--sys-layout-container-xs);
+  --button-check-checkbox-size: var(--sys-icon-md);
+  --button-check-icon-size: var(--sys-icon-md);
+  --button-check-font-size: var(--sys-typo-label-sm-size);
+  --button-check-font-line: var(--sys-typo-label-sm-line);
+  --button-check-font-weight: var(--sys-typo-label-sm-weight);
+  --button-check-font-tracking: var(--sys-typo-label-sm-tracking);
+}
+
+.chorus-button--check__checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: var(--button-check-checkbox-size);
+  height: var(--button-check-checkbox-size);
+  color: currentColor;
+}
+.chorus-button--check__checkbox > svg {
+  width: 100%;
+  height: 100%;
+}
+.chorus-button--check__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: var(--button-check-icon-size);
+  height: var(--button-check-icon-size);
+  color: currentColor;
+}
+.chorus-button--check__icon > svg {
+  width: 100%;
+  height: 100%;
+}
+.chorus-button--check__label {
+  display: inline-block;
+  min-width: 0;
+}
+
+.chorus-button--check:hover,
+.chorus-button--check[data-force-state="hovered"] {
+  background: color-mix(in srgb, var(--button-check-label) calc(var(--sys-state-hover) * 100%), transparent);
+}
+
+.chorus-button--check:active,
+.chorus-button--check[data-force-state="pressed"] {
+  background: color-mix(in srgb, var(--button-check-label) calc(var(--sys-state-pressed) * 100%), transparent);
+}
+
+.chorus-button--check:focus-visible,
+.chorus-button--check[data-force-state="focused"] {
+  outline: var(--sys-borderWidth-thin) solid var(--sys-color-focus);
+  outline-offset: calc(-1 * var(--sys-borderWidth-thin));
+  box-shadow: inset 0 0 0 var(--sys-borderWidth-hairline) var(--sys-color-focusInset);
+}
+
+.chorus-button--check[data-force-state="focused"] {
+  background: color-mix(in srgb, var(--button-check-label) calc(var(--sys-state-focus) * 100%), transparent);
+}
+
+.chorus-button--check:disabled,
+.chorus-button--check[aria-disabled="true"],
+.chorus-button--check[data-force-state="disabled"] {
   opacity: var(--sys-state-disabled);
   cursor: not-allowed;
   pointer-events: none;

@@ -1,6 +1,6 @@
 # Tag
 
-The informational chip — square-cornered label naming attached metadata. Use for taxonomy on rows, cards, or profiles. Shorter than Filter (24 vs 32 min-height) with `sys.radius.sm` corners and a translucent black/white overlay fill (light → `ref.palette.black.200`, dark → `ref.palette.white.200`) so the tag adopts whatever surface sits behind it without pinning to a fixed neutral step.
+The informational chip — square-cornered label naming attached metadata. Use for taxonomy on rows, cards, or profiles. Shorter than Filter (24 vs 32 min-height) with `sys.radius.sm` corners. Two appearances: `default` paints a translucent black/white overlay (light → `ref.palette.black.200`, dark → `ref.palette.white.200`) so the tag adopts whatever surface sits behind it; `accent` paints a tonal pale-primary container with primary label for tags that need to pop against the surface.
 
 ## Intent
 
@@ -8,7 +8,7 @@ Use Tag to label content with attached, non-interactive metadata — categories,
 
 ## Default
 
-Translucent overlay fill, label-only. Reads as attached metadata against the surrounding surface — the overlay tints the surface one step darker (light mode) or lighter (dark mode) instead of locking to a single container tone.
+Translucent overlay fill, label-only. Reads as attached metadata against the surrounding surface — the overlay tints the surface one step darker (light mode) or lighter (dark mode) instead of locking to a single container tone. This is the default appearance — omit the `appearance` prop or pass `appearance="default"` explicitly.
 
 ```preview
 chip/tag/default
@@ -17,6 +17,20 @@ import { Chip } from '@blind-dsai/ui';
 
 <Chip variant="tag">
   Design
+</Chip>
+```
+
+## Accent
+
+Tonal pale-primary fill — `sys.color.primaryContainer` background with `sys.color.primary` label. Use when the tag should pop against the surface (e.g. Popular Tags in compose, highlighted hashtags); the default overlay is too quiet for those cases.
+
+```preview
+chip/tag/accent
+---
+import { Chip } from '@blind-dsai/ui';
+
+<Chip variant="tag" appearance="accent">
+  #sellside
 </Chip>
 ```
 
@@ -108,13 +122,22 @@ Label-only Tag clears 12px on each side (8 + 4); dismissable Tag reads with a 4p
 
 ## Variants
 
-Single visual variant — Tag does not toggle. The container/label binding is the translucent overlay treatment.
+Two appearances; Tag never toggles.
+
+### Default
 
 | Property              | Token                                                         |
 |-----------------------|---------------------------------------------------------------|
 | Background (light)    | `ref.palette.black.200` (translucent black overlay)           |
 | Background (dark)     | `ref.palette.white.200` (translucent white overlay)           |
 | Label / icon color    | `sys.color.onSurface`                                         |
+
+### Accent
+
+| Property              | Token                                                         |
+|-----------------------|---------------------------------------------------------------|
+| Background            | `sys.color.primaryContainer` (theme-aware)                    |
+| Label / icon color    | `sys.color.primary`                                           |
 
 ## States
 

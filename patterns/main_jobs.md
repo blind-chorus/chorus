@@ -2,7 +2,7 @@
 name: main_jobs
 image: ./main_jobs.png
 status: canonical
-recipe:
+recipe: ../schema/screens/main-jobs.screen.json
 ---
 
 ## Intent

@@ -45,4 +45,4 @@ The config builds the docs site with `next build` + `next start -p 3100`. Local 
 
 CI runs `npm test` against the same Chromium / viewport / device profile as local. Disagreement between local and CI is almost always due to OS-level font rendering — keep the test fleet on Linux (Playwright's default Chromium ships its own font stack) by running the CI job on `ubuntu-latest`.
 
-The baseline screenshots themselves are **committed to git** (under `tests/__snapshots__/`). This makes the source of truth visible at review time: the diff in the PR shows what changed.
+The baseline screenshots themselves are **committed to git** (under `test/__snapshots__/`). This makes the source of truth visible at review time: the diff in the PR shows what changed.

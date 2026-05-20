@@ -20,6 +20,7 @@ Reverse index from natural-language intent to family + sub-component. Read this 
 | canonical floating commit (Compose, New)   | `button / fab`                |
 | icon-only inline commit                    | `button / icon`               |
 | link-shaped commit, low emphasis           | `button / text`               |
+| option toggle next to a primary commit     | `button / check`              |
 | reversible state (mute/unmute, follow)     | `button / toggle`             |
 | dense action inside a toolbar              | `button / toolbar`            |
 | destructive primary commit                 | `button / standard` with `flavor: "destructive"` (inside a Dialog) |

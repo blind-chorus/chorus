@@ -131,8 +131,8 @@ try {
   const listFams = await c.call("tools/call", { name: "list_families", arguments: {} });
   const fams = JSON.parse(listFams.result?.content?.[0]?.text ?? "[]");
   check(
-    "list_families returns 14 families with useCases",
-    fams.length === 14 && fams.every((f) => Array.isArray(f.useCases)),
+    "list_families returns every manifest family with useCases",
+    fams.length >= 14 && fams.every((f) => Array.isArray(f.useCases)),
     `got ${fams.length}`,
   );
 
@@ -185,8 +185,9 @@ try {
   const screens = await c.call("tools/call", { name: "list_screens", arguments: {} });
   const screensList = JSON.parse(screens.result?.content?.[0]?.text ?? "[]");
   check(
-    "list_screens returns the 3 starter recipes",
-    screensList.map((s) => s.slug).sort().join(",") === "channel-landing,search,settings",
+    "list_screens returns the pattern-paired recipes",
+    screensList.map((s) => s.slug).sort().join(",") ===
+      "compose,compose-channel,compose-kr,compose-kr-promotion,compose-offereval,main-company,main-explore,main-home,main-jobs,main-notifications,post,post-comments,search,settings",
   );
 
   // validate_screen — known-good

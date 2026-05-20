@@ -1,0 +1,125 @@
+{
+  "$schema": "./screen.schema.json",
+  "slug": "compose-offereval",
+  "name": "Compose — Offer / Poll Expanded",
+  "description": "Expanded sibling of [[compose]]: the same modal frame after the body editor has focus. Title + body inputs are visible above the keyboard; a mention helper row coaches the next move; a floating 'Create an Offer or Poll' pill exposes the secondary commit; a Popular Tags chip row sits between the editor and the option band; the bottom toolbar adds image/mention/hashtag insert affordances.",
+  "useCases": [
+    "compose with body focused",
+    "insert an offer or poll into a post",
+    "browse popular tags during compose",
+    "mention a company or job title"
+  ],
+  "regions": {
+    "actionBar": {
+      "family": "button",
+      "subcomponent": "text",
+      "props": {
+        "label": "Post"
+      },
+      "note": "Top action bar (modal, NOT navigation-bar/*). Leading `button/text` 'Cancel' (neutral), trailing `button/text` 'Post' (accent blue when valid; muted state shown in source pattern)."
+    },
+    "channelPicker": {
+      "family": "list",
+      "subcomponent": "nav",
+      "items": [
+        {
+          "leading": "grid",
+          "label": "Product Management",
+          "trailing": "chevron-down"
+        }
+      ],
+      "note": "Channel picker row. Tap opens [[compose-channel]] as a bottom sheet — this row is the paired trigger for that overlay."
+    },
+    "identity": {
+      "family": "list",
+      "subcomponent": "text",
+      "items": [
+        {
+          "leading": "person",
+          "label": "Google · iisooas"
+        }
+      ],
+      "note": "Identity row (read-only, no chevron). Format is 'company · alias'."
+    },
+    "title": {
+      "family": "form-field",
+      "subcomponent": "input",
+      "props": {
+        "input": "",
+        "placeholder": "Write a specific title"
+      },
+      "note": "Title input — `sys.typo.heading.md` bold, no chrome."
+    },
+    "body": {
+      "family": "form-field",
+      "subcomponent": "input",
+      "props": {
+        "input": "",
+        "placeholder": "Keep it relevant. If the community flags your post for going off topic it will be invisible to the community.",
+        "multiline": true
+      },
+      "note": "Body input, separated from title by a hairline divider. Multiline. Placeholder is also coaching copy."
+    },
+    "mentionHelper": {
+      "family": "list",
+      "subcomponent": "text",
+      "items": [
+        {
+          "leading": "at",
+          "label": "Tap here to mention companies or job titles and get answers faster"
+        }
+      ],
+      "note": "Inline coaching row. NOT a `callout` — there's no container surface; just an inline `list/text` row with a leading `@` glyph. Tapping triggers the mention insert flow."
+    },
+    "fab": {
+      "family": "button",
+      "subcomponent": "fab",
+      "props": {
+        "label": "Create an Offer or Poll",
+        "icon": "plus",
+        "appearance": "secondary"
+      },
+      "note": "Floating pill above the Popular Tags row, right-aligned. Uses `button/fab` with `appearance: secondary` (surfaceContainerHigh background, onSurface label). The structured-post entry is the canonical commit on this surface; Post in the top bar is finalize chrome (`button/text`), not a competing FAB — so the ≤1 FAB rule is satisfied."
+    },
+    "tags": {
+      "family": "chip",
+      "subcomponent": "tag",
+      "props": {
+        "appearance": "accent"
+      },
+      "items": [
+        { "label": "#sellside" },
+        { "label": "#ib" },
+        { "label": "#interview" }
+      ],
+      "note": "Popular Tags row. Uses `chip/tag` with `appearance: accent` — `sys.color.primaryContainer` background, `sys.color.primary` label (pale-blue surface + blue text). Tapping inserts the tag into the body, it does not toggle filter state. Leading 'Popular Tags:' neutral label precedes the row."
+    },
+    "options": {
+      "family": "button",
+      "subcomponent": "check",
+      "props": {
+        "label": "Invisible to Coworkers",
+        "size": "medium",
+        "checked": false
+      },
+      "note": "Option-toggle on the sunken surface band. Uses `button/check` medium (24px checkbox, 12-rank label) — same component as [[compose]] and [[compose-kr]]."
+    },
+    "toolbar": {
+      "family": "button",
+      "subcomponent": "icon",
+      "props": {
+        "icon": "image",
+        "aria-label": "Insert image"
+      },
+      "note": "Bottom toolbar row — three leading `button/icon` triggers (image attach, `@` mention, `#` hashtag) with a trailing right-aligned 'Hide company name' checkbox row. The checkbox is on the same row only because of horizontal density; it does not belong to the insert toolbar."
+    }
+  },
+  "rules": [
+    "Top action bar is NOT a `navigation-bar` sub — same as [[compose]]. Cancel + Post are `button/text` chrome, not FABs.",
+    "The 'Create an Offer or Poll' floating pill is `button/fab` with `appearance: secondary` (neutral surface, not brand). It is the canonical commit on this surface; Post in the top bar is finalize chrome.",
+    "Mention helper row is `list/text` with a leading `@` glyph, NOT a `callout` — there is no container surface.",
+    "Popular Tags row uses `chip/tag` (informational), not `chip/filter` — tapping inserts, it does not toggle filter state.",
+    "The bottom toolbar's `Hide company name` checkbox shares the row with the insert triggers for layout density; do not conflate the two semantically.",
+    "Channel picker row is the paired trigger for [[compose-channel]] — that bottom sheet's trigger lives in this recipe."
+  ]
+}

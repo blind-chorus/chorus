@@ -1,0 +1,82 @@
+{
+  "$schema": "./screen.schema.json",
+  "slug": "compose-kr-promotion",
+  "name": "Compose — Promotion Purchase Sheet",
+  "description": "Bottom-sheet purchase / activation flow for the promotion-link affordance — opened from the megaphone icon in [[compose-kr]]'s insert toolbar. Teaches what the item does (preview illustration + description callout) and commits the purchase: two stacked price rows (5-pack with discount + 1-pack baseline) and a primary 'Purchase' / secondary 'Later' action stack at the bottom. Demo strings render English per AGENTS.md rule 7; the canonical Korean source lives in [[patterns/compose_kr_promotion]].",
+  "useCases": [
+    "purchase promotion-link credits",
+    "introduce a paid post-format affordance",
+    "activate the promotion-link feature for the first time"
+  ],
+  "regions": {
+    "overlay": {
+      "family": "bottom-sheet",
+      "props": {
+        "title": "Add Promotion Link"
+      },
+      "note": "Triggered from the megaphone `button/icon` in [[compose-kr]]'s insert toolbar. Tall sheet — handle (intrinsic) + left-aligned title at `sys.typo.heading.lg`."
+    },
+    "description": {
+      "family": "callout",
+      "props": {
+        "body": "An item that lets you post URL-containing posts to specific channels. A special label appears in front of the post title so it stands out in the feed.",
+        "tone": "primary"
+      },
+      "note": "Description callout on pale-primary surface with primary foreground. Three-line body explaining what the item does and the resulting feed treatment. Preview illustration above this region is decorative chrome (a mock post card with promotion eyebrow + link card) — modeled in `description.note` rather than as a separate region because it carries no live data."
+    },
+    "products": {
+      "family": "list",
+      "subcomponent": "text",
+      "items": [
+        {
+          "leading": { "family": "chip", "subcomponent": "tag", "label": "Bargain", "appearance": "default" },
+          "label": "Promotion Link · 5-pack",
+          "trailingMeta": "20% OFF",
+          "trailingPrice": "280",
+          "selected": true
+        },
+        {
+          "label": "Promotion Link · 1-pack",
+          "trailingPrice": "70"
+        }
+      ],
+      "note": "Two pricing rows. The 5-pack is the selected/recommended option (outlined in `sys.color.primary`). The 'Bargain' leading tag is modeled as `chip/tag` with `appearance: default` — the canonical Korean pattern uses a warm-yellow tonal tag which is out-of-system; the deviation is documented in [[patterns/compose_kr_promotion]]. Trailing meta '20% OFF' is a red eyebrow on the 5-pack row; trailing price uses a coin glyph + numeric value."
+    },
+    "disclosure": {
+      "family": "callout",
+      "props": {
+        "title": "Please read before purchasing",
+        "body": "Suited for sole proprietors, meetup organizers, and others who want to amplify a post to a wider audience effectively.",
+        "tone": "muted"
+      },
+      "note": "Pre-purchase disclosure block. Title + secondary body on a muted surface."
+    },
+    "ctaPrimary": {
+      "family": "button",
+      "subcomponent": "standard",
+      "props": {
+        "label": "Purchase",
+        "appearance": "primary"
+      },
+      "note": "Primary commit — full-width `button/standard` with `appearance: primary`. Pinned above the safe area at the bottom of the sheet."
+    },
+    "ctaSecondary": {
+      "family": "button",
+      "subcomponent": "standard",
+      "props": {
+        "label": "Later",
+        "appearance": "secondary"
+      },
+      "note": "Secondary action — full-width `button/standard` with `appearance: secondary`. Stacked directly under the primary CTA."
+    }
+  },
+  "rules": [
+    "Overlay is `bottom-sheet`, not `dialog` — the surface is tall and supports scroll. Its paired trigger is the megaphone `button/icon` in [[compose-kr]]'s toolbar.",
+    "The action stack uses two `button/standard` siblings (primary + secondary) rather than the bottom-sheet's `primaryAction`/`secondaryAction` props because purchase commit is the whole purpose of this sheet — full-width stacked CTAs are load-bearing, not chrome.",
+    "The preview illustration at the top of the sheet is decorative — do NOT model as a `feed/feed` row. Its role is 'what your post will look like', not 'a real post'.",
+    "The 'Bargain' tag is rendered with `chip/tag` `appearance: default` until a warm-yellow tag appearance lands. The canonical Korean source shows yellow; the deviation is acknowledged in the paired pattern."
+  ],
+  "swappable": {
+    "overlay": ["bottom-sheet", "dialog"]
+  }
+}
