@@ -1,0 +1,156 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Button",
+  "family": "button",
+  "subcomponent": "check",
+  "description": "Option-toggle commit surface — a Text Button (default appearance) with a required leading checkbox glyph that flips outline → fill with the `checked` state and an optional middle icon between the checkbox and the label. Reach for this whenever an option is committed alongside (or selected for) a main action — the canonical Blind use is an in-app item-use affordance like 'Apply this perk?' that flips state before the surface's primary commit fires. Two sizes (`medium` / `small`) where the checkbox footprint is the size differentiator: medium pairs a 24px checkbox with 12-rank text, small drops the checkbox to 16px alongside the same 12-rank text. Appearances and state behavior mirror `button/text`. The optional middle icon stays at 16px on both rungs.",
+  "element": "button",
+  "props": {
+    "variant": {
+      "type": "literal",
+      "value": "check"
+    },
+    "size": {
+      "type": "enum",
+      "values": [
+        "medium",
+        "small"
+      ],
+      "default": "medium"
+    },
+    "appearance": {
+      "type": "enum",
+      "values": [
+        "default",
+        "accent",
+        "inverse"
+      ],
+      "default": "default"
+    },
+    "checked": {
+      "type": "boolean",
+      "default": false,
+      "description": "Toggle state. `true` paints the leading checkbox glyph as a filled square; `false` paints it as an outline. The component itself renders the checkbox glyph — consumers do NOT pass a checkbox icon node, only the `checked` state."
+    },
+    "icon": {
+      "type": "node",
+      "optional": true,
+      "description": "Optional context glyph rendered between the checkbox and the label (e.g. a coin glyph next to 'Use 1 perk'). Sized 16px on every rung — matches the optional middle icon footprint to `button/text` so the row reads at one density."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "slots": {
+    "checkbox": {
+      "required": true,
+      "intrinsic": true,
+      "description": "Leading checkbox glyph. 24px on `medium`, 16px on `small` — the checkbox footprint is the size differentiator. Rendered by the component based on the `checked` prop — outline glyph when `checked=false`, fill glyph when `checked=true`. `aria-hidden`; the button's accessible name lives on the label and the toggle state is exposed via `aria-pressed`.",
+      "accepts": [
+        "icon"
+      ]
+    },
+    "icon": {
+      "required": false,
+      "description": "Optional context glyph between checkbox and label. 16px (`sys.icon.md`) on every rung — matches `button/text`'s icon footprint. On `medium` it sits one rung below the 24px checkbox; on `small` it matches the 16px checkbox at the same footprint. Inherits the label color via `currentColor`. `aria-hidden`.",
+      "accepts": [
+        "icon"
+      ]
+    },
+    "label": {
+      "required": true,
+      "description": "Button's accessible name. Required, single line.",
+      "accepts": [
+        "text"
+      ]
+    }
+  },
+  "sizes": {
+    "medium": {
+      "minHeight": "ref.space.500",
+      "paddingBlock": "sys.layout.container.xs",
+      "paddingInline": "sys.layout.container.xs",
+      "radius": "sys.radius.full",
+      "labelTypo": "sys.typo.label.sm",
+      "checkboxSize": "sys.icon.lg",
+      "iconSize": "sys.icon.md",
+      "slotGap": "sys.layout.inline.sm"
+    },
+    "small": {
+      "minHeight": "ref.space.400",
+      "paddingBlock": "sys.layout.container.2xs",
+      "paddingInline": "sys.layout.container.xs",
+      "radius": "sys.radius.full",
+      "labelTypo": "sys.typo.label.sm",
+      "checkboxSize": "sys.icon.md",
+      "iconSize": "sys.icon.md",
+      "slotGap": "sys.layout.inline.sm"
+    }
+  },
+  "appearances": {
+    "default": {
+      "background": "transparent",
+      "border": null,
+      "label": "sys.color.onSurfaceVariant",
+      "note": "The base neutral inline toggle — the canonical Check Button. Quiet enough to live next to typographic content without claiming commit-rank attention."
+    },
+    "accent": {
+      "background": "transparent",
+      "border": null,
+      "label": "sys.color.primary",
+      "note": "Brand-blue label for the inline toggle. Use sparingly — never two `accent` Check Buttons in the same row."
+    },
+    "inverse": {
+      "background": "transparent",
+      "border": null,
+      "label": "sys.color.inverseOnSurface",
+      "note": "Mirror for use inside an inverse host (Toast, coach-mark, snackbar). Label paints in `inverseOnSurface` so it reads against the host's `inverseSurface` fill; state overlays mix from the same token so the recipe carries over without per-host tuning."
+    }
+  },
+  "states": {
+    "default": {
+      "overlay": null
+    },
+    "hovered": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.hover"
+      }
+    },
+    "pressed": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.pressed"
+      }
+    },
+    "disabled": {
+      "overlay": null,
+      "containerOpacity": "sys.state.disabled",
+      "suppressFocusRing": true,
+      "cursor": "not-allowed"
+    }
+  },
+  "focusIndicator": {
+    "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the button is in. The `states.focused` block above is kept for JSX runtime consumers; this block is the parallel external-reader contract.",
+    "composition": "outward",
+    "compositionReason": "Action affordance with breathing room around it; the 3px outward extent is reserved by the surrounding layout.",
+    "overlay": {
+      "color": "label",
+      "opacity": "sys.state.focus"
+    },
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset"
+    },
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  },
+  "behavior": {
+    "note": "Two sizes only — `medium` (40 min-height, 24px checkbox, 12-rank label) and `small` (32 min-height, 16px checkbox, 12-rank label). Text size is identical across rungs; the **checkbox footprint** is the visual differentiator. Padding + radius mirror `button/text` at the matching min-height. Per-element gap is 4 (`sys.layout.inline.sm`). Optical alignment is inherited: the chrome is transparent at rest, negative margin cancels the chrome's contribution to the layout box so the checkbox + label visible footprint defines the layout edge.",
+    "ariaPressed": "Check Button is a toggle button. The component sets `aria-pressed={checked}` automatically and renders the matching checkbox glyph; consumers wire `onChange` (or `onClick` + setState) on the parent. Don't model it as a checkbox input — it is a `<button>` with toggle semantics, not a form control.",
+    "iconColor": "The 24px checkbox glyph inherits the label color via `currentColor`, same as `icon` and `button/text`'s leading/trailing slots. Re-tones with appearance + disabled + hover.",
+    "group": "Stacks vertically when multiple Check Buttons share an option band. Row gap follows `sys.layout.stack.md` between sibling checks; never use a wider gap that would visually disjoint sibling options."
+  }
+}

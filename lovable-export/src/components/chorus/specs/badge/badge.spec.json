@@ -1,0 +1,92 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Badge",
+  "family": "badge",
+  "description": "Brand-tone indicator attached to a host label (channel entry, list row, thumbnail corner) flagging unread / new activity. Two top-level **types** share the same brand fill and `radius.full` corner: **Numeric** (a labelled count pill, the canonical badge — `size: medium | small`) and **Dot** (a labelless update dot — `size: dot-md | dot-sm` — used by [Thumbnail](../thumbnail/thumbnail.md) as the corner activity flag, and reachable by any other host that wants the same affordance). The Dot rungs ignore `count` and `children` and never render text.",
+  "element": "span",
+  "types": {
+    "numeric": {
+      "description": "Labelled count pill — the canonical Badge form. A 1-character label collapses to a perfect circle; 2+ characters or `99+` stretch into a content-growing pill.",
+      "sizes": ["medium", "small"]
+    },
+    "dot": {
+      "description": "Labelless update dot — the corner activity flag. Paints a 1px `surface`-color halo as `box-shadow` so it reads cleanly above any host imagery without enlarging its bounding box.",
+      "sizes": ["dot-md", "dot-sm"]
+    }
+  },
+  "props": {
+    "size": {
+      "type": "literal",
+      "values": [
+        "medium",
+        "small",
+        "dot-md",
+        "dot-sm"
+      ],
+      "default": "medium",
+      "description": "Four rungs split across the two types. **Numeric** — `medium` / `small` carry the count label. **Dot** — `dot-md` (8×8) / `dot-sm` (4×4) drop the label entirely and paint the labelless update dot. The dot rungs ignore `count` and `children`."
+    },
+    "count": {
+      "type": "number",
+      "optional": true,
+      "description": "Numeric type only. If provided, the badge formats the value: 1–99 render as the literal number, 100+ renders as `99+`. Pass children instead for non-numeric content (e.g. `NEW`). Ignored on the Dot rungs."
+    },
+    "children": {
+      "type": "node",
+      "optional": true,
+      "description": "Numeric type only — custom label, overrides count formatting. Ignored on the Dot rungs."
+    }
+  },
+  "slots": {
+    "label": {
+      "required": false,
+      "description": "Short single-line label — typically a 1–2 digit count or the literal `99+` overflow. Required on the Numeric rungs (`medium` / `small`); absent on the Dot rungs (`dot-md` / `dot-sm`).",
+      "accepts": [
+        "text"
+      ]
+    }
+  },
+  "appearance": {
+    "background": "sys.color.brand",
+    "label": "sys.color.onBrand",
+    "radius": "sys.radius.full",
+    "dotOutline": {
+      "color": "sys.color.surface",
+      "width": "sys.borderWidth.thin",
+      "rendering": "box-shadow",
+      "note": "Update Dot rungs paint a 2px `surface`-color outline as a `box-shadow` so the dot stays a discrete chip on any host (image, icon, row) without enlarging its bounding box. The outline carves the dot out of whatever sits beside it; without it the brand fill blends into surrounding fills with similar luminance."
+    }
+  },
+  "sizes": {
+    "medium": {
+      "minHeight": "ref.space.250",
+      "minWidth": "ref.space.250",
+      "paddingBlock": "0px",
+      "paddingInline": "ref.space.75",
+      "labelTypo": "sys.typo.label.sm"
+    },
+    "small": {
+      "minHeight": "ref.space.200",
+      "minWidth": "ref.space.200",
+      "paddingBlock": "0px",
+      "paddingInline": "sys.layout.container.2xs",
+      "labelTypo": "sys.typo.caption.sm"
+    },
+    "dot-md": {
+      "minHeight": "ref.space.100",
+      "minWidth": "ref.space.100",
+      "paddingBlock": "0px",
+      "paddingInline": "0px",
+      "labelTypo": null,
+      "note": "Labelless 8 × 8 dot (`ref.space.100`) — Thumbnail's update flag at the 32 / 40 / 48 rungs. Paints the brand fill with a 1px `surface`-color halo so it carves out of the host image."
+    },
+    "dot-sm": {
+      "minHeight": "ref.space.75",
+      "minWidth": "ref.space.75",
+      "paddingBlock": "0px",
+      "paddingInline": "0px",
+      "labelTypo": null,
+      "note": "Labelless 6 × 6 dot (`ref.space.75`) — Thumbnail's update flag at the 16 / 20 / 24 rungs."
+    }
+  }
+}

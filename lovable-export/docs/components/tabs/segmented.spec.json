@@ -1,0 +1,87 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Tabs",
+  "family": "tabs",
+  "subcomponent": "segmented",
+  "description": "Inline mutually-exclusive selector. Visual chrome delegated to Filter chip — each segment renders with `chorus-chip chorus-chip--filter` classes and inherits the chip's container/label/border/state recipes verbatim. This sub adds only the row container (transparent, horizontal padding, fixed inter-segment gap) and the single-select semantics enforced via Tabs context.",
+  "delegatesTo": "chip/filter",
+  "element": "div",
+  "props": {
+    "variant": {
+      "type": "literal",
+      "value": "segmented"
+    },
+    "value": {
+      "type": "string",
+      "description": "The active segment's value."
+    },
+    "onChange": {
+      "type": "function",
+      "description": "Fired with the next value when a segment is selected."
+    },
+    "aria-label": {
+      "type": "string",
+      "description": "Accessible name for the tablist."
+    }
+  },
+  "tabProps": {
+    "value": {
+      "type": "string",
+      "required": true
+    },
+    "leadingIcon": {
+      "type": "node",
+      "optional": true
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "slots": {
+    "label": {
+      "required": true,
+      "description": "Same contract as Filter chip's label slot.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "leadingIcon": {
+      "required": false,
+      "description": "Same contract as Filter chip's leadingIcon slot.",
+      "accepts": [
+        "icon"
+      ]
+    }
+  },
+  "sizing": {
+    "containerPaddingBlock": "sys.layout.container.md",
+    "containerPaddingInline": "sys.layout.container.md",
+    "interSegmentGap": "sys.layout.inline.sm",
+    "fadeWidth": "ref.space.600"
+  },
+  "selectionStates": {
+    "$ref": "../chip/filter.spec.json#/selectionStates",
+    "note": "Each segment swaps between Filter chip's unselected (surfaceContainerHigh + outlineVariant border) and selected (inverseSurface + inverseOnSurface) recipes."
+  },
+  "states": {
+    "$ref": "../chip/filter.spec.json#/states",
+    "note": "Hover / pressed / focus overlays and the disabled treatment are inherited from Filter chip; same opacities, same focus ring composition."
+  },
+  "focusIndicator": {
+    "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the segment is in. Re-anchored inside the segment from Filter chip's default outward composition because the Segmented row is a horizontal scroller.",
+    "composition": "inward",
+    "compositionReason": "The Tabs row is a horizontal scroller; an outward ring would clip at the row's top/bottom edges.",
+    "overlay": { "color": "label", "opacity": "sys.state.focus" },
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "outerLayerPosition": "depth 0..2px from the segment edge (the outer stroke)",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset",
+      "insetLayerPosition": "depth 2..3px from the segment edge (the counter-ring just inside the outer stroke)",
+      "implementation": "inset box-shadow on the segment's `::after` overlay. Constrained strictly inside the segment's footprint and never exceeds it."
+    },
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  }
+}

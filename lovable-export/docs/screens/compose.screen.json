@@ -1,0 +1,88 @@
+{
+  "$schema": "./screen.schema.json",
+  "slug": "compose",
+  "name": "Compose Post",
+  "description": "Post-composition surface. Modal-style top action bar with Cancel / Post commits (NOT a `navigation-bar` sub), two destination pickers (channel + identity), title input, an inline coaching callout, and two checkbox-style toggle rows above the keyboard. Keyboard-first layout: the upper half does all the structural work.",
+  "useCases": [
+    "compose a new post",
+    "pick a channel",
+    "set identity for a post",
+    "modal post entry"
+  ],
+  "regions": {
+    "actionBar": {
+      "family": "button",
+      "subcomponent": "text",
+      "props": {
+        "label": "Post"
+      },
+      "note": "Top action bar (modal, NOT `navigation-bar/*`). Leading `button/text` 'Cancel' (neutral) and trailing `button/text` 'Post' (accent blue when valid). Modeled here by the trailing 'Post' button; the matching 'Cancel' lives on the leading side."
+    },
+    "channelPicker": {
+      "family": "list",
+      "subcomponent": "nav",
+      "items": [
+        {
+          "leading": "grid",
+          "label": "Ask Blinders",
+          "trailing": "chevron-down"
+        }
+      ],
+      "note": "Channel picker row — leading 4-dot grid icon, label, trailing chevron-down. Tapping this row opens [[compose-channel]] as a bottom sheet. This row is the paired trigger for that overlay."
+    },
+    "identity": {
+      "family": "list",
+      "subcomponent": "text",
+      "items": [
+        {
+          "leading": "person",
+          "label": "Acme · ililliji"
+        }
+      ],
+      "note": "Identity row (read-only here, no chevron). Format is 'company · alias'."
+    },
+    "title": {
+      "family": "form-field",
+      "subcomponent": "input",
+      "props": {
+        "input": "",
+        "placeholder": "Title"
+      },
+      "note": "Full-width title input, no chrome. Renders at `sys.typo.heading.md` bold."
+    },
+    "guidance": {
+      "family": "callout",
+      "props": {
+        "body": "Get people thinking! Use the title section for open-ended questions, and avoid loaded ones or those with definite answers.",
+        "leading": "warning",
+        "tone": "muted"
+      },
+      "note": "Inline coaching callout — soft surface, secondary text color. Not modal."
+    },
+    "options": {
+      "family": "button",
+      "subcomponent": "check",
+      "props": {
+        "label": "Invisible to Coworkers",
+        "size": "medium",
+        "checked": false
+      },
+      "note": "Option-toggle on the sunken surface band. Paired with the right-aligned `hideCompanyName` region — the two rows intentionally differ in alignment ('Invisible to Coworkers' leads with a soft band; 'Hide company name' is right-aligned for de-emphasis). Do not normalize."
+    },
+    "hideCompanyName": {
+      "family": "button",
+      "subcomponent": "check",
+      "props": {
+        "label": "Hide company name",
+        "size": "medium",
+        "checked": false
+      },
+      "note": "Right-aligned `button/check` medium. Same component as the `options` region — only the host row and alignment differ."
+    }
+  },
+  "rules": [
+    "Top action bar is NOT a `navigation-bar` sub — do not retrofit `navigation-bar/page` onto it. It is a modal action bar with two `button/text` commits (Cancel + Post).",
+    "Channel picker row must open [[compose-channel]] as a bottom sheet — that overlay's trigger lives in this recipe.",
+    "Do not normalize the alignment difference between the two `button/check` rows — it's intentional emphasis."
+  ]
+}

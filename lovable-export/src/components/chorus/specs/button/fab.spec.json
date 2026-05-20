@@ -1,0 +1,100 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Fab",
+  "family": "button",
+  "subcomponent": "fab",
+  "description": "Floating action button. Single fixed sizing rung, pill geometry, floating elevation. No disabled state.",
+  "element": "button",
+  "props": {
+    "variant": {
+      "type": "literal",
+      "value": "fab"
+    },
+    "appearance": {
+      "type": "enum",
+      "values": [
+        "primary",
+        "secondary"
+      ],
+      "default": "primary"
+    },
+    "icon": {
+      "type": "node",
+      "optional": true
+    },
+    "label": {
+      "type": "node",
+      "optional": true,
+      "note": "Provide as children. At least one of icon/label required."
+    }
+  },
+  "slots": {
+    "icon": {
+      "required": false,
+      "description": "24px (sys.icon.lg) glyph naming the action. Optional but at least one of icon/label required.",
+      "accepts": [
+        "icon"
+      ]
+    },
+    "label": {
+      "required": false,
+      "description": "Short verb phrase. When present, padded internally so glyph never crowds the pill ends.",
+      "accepts": [
+        "text"
+      ]
+    }
+  },
+  "sizing": {
+    "minHeight": "ref.space.600",
+    "padding": "sys.layout.container.sm",
+    "iconSize": "sys.icon.lg",
+    "slotGap": "0px",
+    "labelInset": "sys.layout.container.2xs",
+    "radius": "sys.radius.full",
+    "elevation": "sys.elevation.floating",
+    "labelTypo": "sys.typo.label.lg"
+  },
+  "appearances": {
+    "primary": {
+      "background": "sys.color.brand",
+      "label": "sys.color.onBrand"
+    },
+    "secondary": {
+      "background": "sys.color.surfaceContainerHigh",
+      "label": "sys.color.onSurface"
+    }
+  },
+  "states": {
+    "default": {
+      "overlay": null
+    },
+    "hovered": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.hover"
+      }
+    },
+    "pressed": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.pressed"
+      }
+    }
+  },
+  "focusIndicator": {
+    "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the FAB is in. The ring stacks above the FAB's floating elevation so the lift survives focus. The `states.focused` block above is kept for JSX runtime consumers; this block is the parallel external-reader contract.",
+    "composition": "outward",
+    "compositionReason": "Action affordance with breathing room around it; the 3px outward extent is reserved by the surrounding layout.",
+    "overlay": {
+      "color": "label",
+      "opacity": "sys.state.focus"
+    },
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset"
+    },
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  }
+}

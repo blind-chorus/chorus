@@ -1,0 +1,67 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "button",
+  "name": "Button",
+  "description": "The system's commit-action family. Seven anchoring forms — `standard` (default inline commit), `fab` (floating action button), `icon` (icon-only inline commit), `text` (link-shaped commit), `check` (text-shaped with leading checkbox toggle), `toggle` (reversible commit), `toolbar` (dense inline action). A cross-cutting `flavor` axis re-tones any form for irreversible commits (`destructive` swaps the primary family → error family). Consumers reach for `standard` by default; the other forms cover roles the standard inline shape does not fit.",
+  "useCases": [
+    "primary commit",
+    "inline action",
+    "save and continue",
+    "floating action",
+    "icon-only action",
+    "link-shaped action",
+    "reversible state",
+    "follow / unfollow",
+    "toolbar action",
+    "option toggle",
+    "item-use toggle"
+  ],
+  "spec": "button.md",
+  "subcomponents": [
+    {
+      "slug": "standard",
+      "spec": "standard.spec.json",
+      "md": "button.md",
+      "default": true
+    },
+    {
+      "slug": "fab",
+      "spec": "fab.spec.json",
+      "md": "fab.md"
+    },
+    {
+      "slug": "icon",
+      "spec": "icon.spec.json",
+      "md": "icon.md"
+    },
+    {
+      "slug": "text",
+      "spec": "text.spec.json",
+      "md": "text.md"
+    },
+    {
+      "slug": "check",
+      "spec": "check.spec.json",
+      "md": "check.md"
+    },
+    {
+      "slug": "toggle",
+      "spec": "toggle.spec.json",
+      "md": "toggle.md"
+    },
+    {
+      "slug": "toolbar",
+      "spec": "toolbar.spec.json",
+      "md": "toolbar.md"
+    }
+  ],
+  "axes": {
+    "flavor": [
+      "default",
+      "destructive"
+    ]
+  },
+  "iconColor": "currentColor",
+  "iconColorNote": "Family-wide rule: every Button sub-component paints its icon glyph (leadingIcon / trailingIcon / icon slot) in the label / foreground colour via `currentColor`. SVG glyphs must declare `fill=\"currentColor\"` / `stroke=\"currentColor\"` and carry no hardcoded colour, so swapping `appearance`, entering `disabled` / hovered / pressed, or applying a `destructive` flavor re-tones the glyph in lockstep with the label without per-icon overrides. Sub-spec `appearances[*].iconColor` is implicit and equal to `appearances[*].label` — renderers should read the label token and apply it as both the label colour AND the icon's `currentColor`.",
+  "notes": "The `destructive` flavor is encoded on the three sub-specs that idiomatically host destructive commits: `standard`, `icon`, `text` — each carries a top-level `flavors.destructive` block that mirrors the appearance(s) with the primary-family → error-family swap. Other sub-specs (`fab`, `check`, `toggle`, `toolbar`) deliberately omit it: FAB is reserved for the surface's single canonical commit (a destructive primary commit belongs in a Dialog confirmation, not a free-floating FAB); Check is a state toggle, not a one-way commit; Toggle is a reversible state, not a one-way commit; Toolbar Button delegates chrome to Filter chip, which has no destructive role. If a destructive variant is added to any of those, encode it as `flavors.destructive` mirroring the same recipe."
+}

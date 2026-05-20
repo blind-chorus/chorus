@@ -1,0 +1,130 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Tabs",
+  "family": "tabs",
+  "subcomponent": "rounded",
+  "description": "Rounded-rectangle tab row — each tab is a self-contained chip carrying a required leading icon and a label, sharing the Segmented geometry verbatim but swapping the capsule radius for sys.radius.md (8) so the tabs read as soft rounded rectangles instead of pills. Reach for this on feed / list headers where the row of choices should sit as standalone chips with a more contained, card-adjacent silhouette.",
+  "delegatesTo": "chip/filter",
+  "element": "div",
+  "props": {
+    "variant": {
+      "type": "literal",
+      "value": "rounded"
+    },
+    "value": {
+      "type": "string",
+      "description": "The active tab's value."
+    },
+    "onChange": {
+      "type": "function",
+      "description": "Fired with the next value when a tab is selected."
+    },
+    "aria-label": {
+      "type": "string",
+      "description": "Accessible name for the tablist."
+    }
+  },
+  "tabProps": {
+    "value": {
+      "type": "string",
+      "required": true
+    },
+    "leadingIcon": {
+      "type": "node",
+      "optional": true,
+      "description": "Optional 16px (sys.icon.md) context glyph rendered before the label. May carry its own brand / category color independent of the label."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "slots": {
+    "label": {
+      "required": false,
+      "description": "Tab's accessible name. Single line. Omit only when the tab is icon-only (pair with an `aria-label` for assistive tech). At least one of label / leadingIcon must be present.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "leadingIcon": {
+      "required": false,
+      "description": "16px (sys.icon.md) context glyph before the label. At least one of label / leadingIcon must be present.",
+      "accepts": [
+        "icon"
+      ]
+    }
+  },
+  "sizing": {
+    "minHeight": "ref.space.400",
+    "containerPaddingBlock": "sys.layout.container.md",
+    "containerPaddingInline": "sys.layout.container.md",
+    "paddingBlock": "sys.layout.container.2xs",
+    "paddingInline": "sys.layout.container.sm",
+    "labelInset": "sys.layout.container.2xs",
+    "slotGap": "0px",
+    "interTabGap": "sys.layout.inline.sm",
+    "radius": "sys.radius.md",
+    "labelTypo": "sys.typo.label.sm",
+    "iconSize": "sys.icon.md",
+    "fadeWidth": "ref.space.600"
+  },
+  "selectionStates": {
+    "unselected": {
+      "background": "transparent",
+      "label": "sys.color.onSurface",
+      "border": {
+        "width": "sys.borderWidth.hairline",
+        "color": "sys.color.outlineVariant"
+      },
+      "note": "Transparent fill so the tab adopts whatever surface sits behind it — page, raised card, sheet — without pinning to a fixed neutral step. Inherited from Filter chip's unselected recipe."
+    },
+    "selected": {
+      "background": "sys.color.inverseSurface",
+      "label": "sys.color.inverseOnSurface",
+      "border": null
+    }
+  },
+  "states": {
+    "default": {
+      "overlay": null
+    },
+    "hovered": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.hover"
+      }
+    },
+    "pressed": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.pressed"
+      }
+    },
+    "disabled": {
+      "overlay": null,
+      "containerOpacity": "sys.state.disabled",
+      "suppressFocusRing": true,
+      "cursor": "not-allowed"
+    }
+  },
+  "focusIndicator": {
+    "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the tab is in. The `states.focused` block above is kept for JSX runtime consumers; this block is the parallel external-reader contract.",
+    "composition": "inward",
+    "compositionReason": "The Tabs row is a horizontal scroller; an outward ring would clip at the row's top/bottom edges.",
+    "overlay": {
+      "color": "label",
+      "opacity": "sys.state.focus"
+    },
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "outerLayerPosition": "depth 0..2px from the tab edge (the outer stroke)",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset",
+      "insetLayerPosition": "depth 2..3px from the tab edge (the counter-ring just inside the outer stroke)",
+      "implementation": "inset box-shadow on the tab's `::after` overlay. Constrained strictly inside the tab's footprint and never exceeds it."
+    },
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  }
+}

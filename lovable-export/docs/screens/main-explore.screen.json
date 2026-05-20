@@ -1,0 +1,78 @@
+{
+  "$schema": "./screen.schema.json",
+  "slug": "main-explore",
+  "name": "Main Explore",
+  "description": "Channel and topic discovery. A page-style NavigationBar tops a `tabs/underline` set ('Explore' / 'My Channels'); the body is shopping-shaped with two distinct horizontal rails — recommended channels (large preview cards with Follow toggle) and Hot Posts (post preview cards with embedded poll chips). A six-item TabBar pins the bottom with Explore active.",
+  "useCases": [
+    "discover channels",
+    "browse hot posts",
+    "follow/unfollow channels",
+    "topic exploration"
+  ],
+  "regions": {
+    "top": {
+      "family": "navigation-bar",
+      "subcomponent": "page",
+      "props": {
+        "title": "Explore",
+        "leadingAction": "menu",
+        "trailingActions": ["search", "profile"]
+      },
+      "note": "page variant — leading menu, centered title, trailing search + profile icons."
+    },
+    "tabs": {
+      "family": "tabs",
+      "subcomponent": "underline",
+      "items": [
+        { "label": "Explore", "active": true },
+        { "label": "My Channels" }
+      ],
+      "note": "Sliding black underline indicator on the active tab."
+    },
+    "body": {
+      "family": "feed",
+      "items": [
+        {
+          "channel": "Recommended for you",
+          "timestamp": "section",
+          "kind": "channel-card-rail",
+          "cards": [
+            { "title": "Frontend Engineering", "body": "Daily posts on React, Vite, and tooling.", "toggle": { "family": "button", "subcomponent": "toggle", "label": "Follow" } },
+            { "title": "Design Systems",       "body": "Tokens, components, governance.",      "toggle": { "family": "button", "subcomponent": "toggle", "label": "Unfollow" } }
+          ]
+        },
+        {
+          "channel": "Hot Posts",
+          "timestamp": "section",
+          "kind": "post-card-rail",
+          "trailingAction": { "family": "button", "subcomponent": "text", "label": "Refresh" },
+          "cards": [
+            { "title": "Which framework next quarter?", "poll": { "family": "chip", "subcomponent": "tag", "label": "Poll" }, "meta": "Acme • dana", "views": "12.4k" },
+            { "title": "Token rename proposal",          "poll": { "family": "chip", "subcomponent": "tag", "label": "Poll" }, "meta": "Acme • mina",  "views": "8.1k" }
+          ]
+        }
+      ],
+      "note": "Two horizontal rails inside the body, each with its own section header. The 'Recommended for you' rail uses `button/toggle` on each card; the 'Hot Posts' rail trails a `button/text` 'Refresh' on the section header and shows `chip/tag` Poll markers inside cards. Body family is `feed` since both rails are content streams; cards are described in items[].cards for downstream renderers."
+    },
+    "bottom": {
+      "family": "tab-bar",
+      "items": [
+        { "icon": "home",      "label": "Home" },
+        { "icon": "building",  "label": "Company" },
+        { "icon": "compass",   "label": "Explore", "active": true },
+        { "icon": "briefcase", "label": "Jobs" },
+        { "icon": "bell",      "label": "Notifications" },
+        { "icon": "plus",      "label": "Create", "appearance": "primary" }
+      ],
+      "note": "Explore tab active."
+    }
+  },
+  "rules": [
+    "Keep the two horizontal rails as separate sections with their own headers — they look similar but are semantically different (channels vs posts).",
+    "Follow/Unfollow uses `button/toggle` (both states are valid); do not split into two button variants.",
+    "Section trailing actions (e.g. 'Refresh') are `button/text`, not chips."
+  ],
+  "swappable": {
+    "body": ["feed", "list"]
+  }
+}

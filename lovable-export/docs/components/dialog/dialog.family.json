@@ -1,0 +1,22 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "dialog",
+  "name": "Dialog",
+  "description": "Centered modal surface used for confirmations, short forms, and image-led prompts that demand a focused commit. Single-spec family.",
+  "useCases": [
+    "confirmation",
+    "destructive confirmation",
+    "image-led prompt",
+    "centred modal",
+    "short form"
+  ],
+  "spec": "dialog.md",
+  "subcomponents": [
+    {
+      "slug": "dialog",
+      "spec": "dialog.spec.json",
+      "md": "dialog.md",
+      "default": true
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "./screen.schema.json",
+  "slug": "compose-channel",
+  "name": "Compose — Channel Picker",
+  "description": "Channel picker presented as a bottom sheet from [[compose]]. Two sections — 'My Channels' (channels you belong to) and 'Following' (channels you follow) — each row showing avatar, channel name, and a short eligibility/scope sentence. Search input pinned at the top of the sheet for fast filtering. Some channels carry a small 'B' badge overlaid on the avatar (Blind-curated).",
+  "useCases": [
+    "pick a channel during compose",
+    "search channels",
+    "switch channel scope before posting"
+  ],
+  "regions": {
+    "overlay": {
+      "family": "bottom-sheet",
+      "props": {
+        "title": "Select Channel"
+      },
+      "note": "Triggered from the channel picker row in [[compose]]. Sheet handle (intrinsic) at top center; title left-aligned at `sys.typo.heading.lg`. Sheet supports scroll but is short-form (≤2 sections visible without scroll on tall devices)."
+    },
+    "search": {
+      "family": "form-field",
+      "subcomponent": "search",
+      "props": {
+        "input": "",
+        "placeholder": "Search channels"
+      },
+      "note": "Search input pinned below the sheet title for fast filtering. Fully rounded pill."
+    },
+    "body": {
+      "family": "list",
+      "subcomponent": "thumbnail",
+      "items": [
+        {
+          "leading": { "family": "thumbnail", "image": "channel-design-system", "badge": { "family": "badge", "label": "B" } },
+          "label": "Design Systems",
+          "supportingText": "Members only — your verified employer matches one of the eligibility tags."
+        },
+        {
+          "leading": { "family": "thumbnail", "image": "channel-frontend" },
+          "label": "Frontend",
+          "supportingText": "Open to all engineers across verified companies."
+        },
+        {
+          "leading": { "family": "thumbnail", "image": "channel-mbti" },
+          "label": "Personality Types",
+          "supportingText": "Casual lounge.",
+          "tag": { "family": "chip", "subcomponent": "tag", "label": "New" }
+        }
+      ],
+      "note": "Two sections in this list — 'My Channels' rows are denser-text (carry eligibility metadata); 'Following' rows are single-line. Do not normalize density. The 'B' badge overlays the thumbnail (decorator on the `thumbnail` slot, not a trailing `badge` slot). A coral 'New' `chip/tag` may sit next to channel names where applicable."
+    }
+  },
+  "rules": [
+    "This sheet's trigger lives in the channel picker row of [[compose]] — per AGENTS.md, every bottom-sheet must have a paired trigger.",
+    "The 'B' badge is a thumbnail decorator, not a separate row badge — model inside the `thumbnail` slot.",
+    "Density differs between 'My Channels' and 'Following' rows by design — do not flatten."
+  ],
+  "swappable": {
+    "body": ["list", "channel-list"]
+  }
+}

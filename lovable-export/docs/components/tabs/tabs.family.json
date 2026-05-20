@@ -1,0 +1,32 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "tabs",
+  "name": "Tabs",
+  "description": "Tab row family. `underline` is the default content-section switcher (sliding bottom-edge indicator); `rounded` is a soft-rectangle chip row with required leading icons; `segmented` delegates chrome to Filter chip for in-place mode toggles.",
+  "useCases": [
+    "section switcher",
+    "content tabs",
+    "chip tab row",
+    "in-place mode toggle",
+    "list-grid toggle"
+  ],
+  "spec": "tabs.md",
+  "subcomponents": [
+    {
+      "slug": "underline",
+      "spec": "underline.spec.json",
+      "md": "underline.md",
+      "default": true
+    },
+    {
+      "slug": "rounded",
+      "spec": "rounded.spec.json",
+      "md": "rounded.md"
+    },
+    {
+      "slug": "segmented",
+      "spec": "segmented.spec.json",
+      "md": "segmented.md"
+    }
+  ]
+}

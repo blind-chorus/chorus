@@ -1,0 +1,131 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "TabBar",
+  "family": "tab-bar",
+  "description": "Bottom tab bar — a horizontal strip pinned to the bottom of the app surface that exposes the top-level destinations (Home / Company / Explore / Jobs / Notifications) in one tap. Each item stacks a 24px glyph above a 10/Regular label; the active item is signalled by the filled companion glyph at `onSurface` while inactive items render the outline glyph at `onSurfaceVariant`. Distribution is a capped equal-grow split plus optical alignment: items grow from a zero basis at the same rate up to an 80-wide cap, then the container's `justify-content: space-evenly` paints start padding, inter-item gap, and end padding as the same visible whitespace. Labels that exceed their slot truncate with an ellipsis. Hover / pressed / focus paint a `sys.radius.md` rounded rectangle filling the slot. An item may opt into `appearance='primary'` to render a tile-shaped commit affordance (the conventional 'Create' / 'Compose' entry).",
+  "element": "nav",
+  "props": {
+    "items": {
+      "type": "node",
+      "required": true,
+      "description": "Array of destinations: { value, label, icon, activeIcon?, href?, onClick?, appearance? }."
+    },
+    "value": {
+      "type": "string",
+      "optional": true,
+      "description": "Currently active destination's `value`. The matching item renders with the active treatment (filled icon + onSurface)."
+    },
+    "onChange": {
+      "type": "function",
+      "optional": true,
+      "description": "(value) => void. Fires when an item is tapped, after the item's own onClick (suppressed if the click was default-prevented)."
+    },
+    "aria-label": {
+      "type": "string",
+      "optional": true,
+      "description": "Accessible name for the nav landmark. Defaults to 'Primary'."
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "intrinsic": true,
+      "description": "Horizontal nav landmark over a `surface` fill. 56 min-height; no padding (block and inline); items distributed via `justify-content: space-evenly`."
+    },
+    "item": {
+      "required": true,
+      "intrinsic": true,
+      "description": "One destination. Rendered as `<a href>` when an href is supplied, otherwise as a `<button>`. `flex: 1 1 0` with `max-width: 80px`; the whole slot is the click target."
+    },
+    "icon": {
+      "required": true,
+      "description": "24px glyph centred above the label. Outline form when inactive; falls back to `activeIcon` (the filled companion) when active.",
+      "accepts": ["icon"]
+    },
+    "label": {
+      "required": true,
+      "description": "Destination name. caption.sm / Regular. Single line; truncates with an ellipsis when the slot is narrower than the label.",
+      "accepts": ["text"]
+    }
+  },
+  "sizing": {
+    "containerFill": "sys.color.surface",
+    "containerMinHeight": "56px",
+    "containerPaddingBlock": "0",
+    "containerPaddingInline": "0",
+    "containerJustifyContent": "space-evenly",
+    "containerTopDivider": { "width": "sys.borderWidth.hairline", "color": "sys.color.outlineVariant", "implementation": "inset box-shadow on the container (does not contribute to layout)" },
+    "itemFlex": "1 1 0",
+    "itemMaxWidth": "80px",
+    "itemPaddingBlock": "sys.layout.container.2xs",
+    "itemPaddingInline": "0",
+    "itemIconLabelGap": "sys.layout.stack.3xs",
+    "iconSize": "sys.icon.lg",
+    "labelTypo": "sys.typo.caption.sm",
+    "labelOverflow": "ellipsis (overflow: hidden; text-overflow: ellipsis; white-space: nowrap)",
+    "stateLayerInset": "0",
+    "stateLayerRadius": "sys.radius.md"
+  },
+  "appearance": {
+    "itemInactiveColor": "sys.color.onSurfaceVariant",
+    "itemActiveColor": "sys.color.onSurface",
+    "itemPrimaryIconColor": "sys.color.brand",
+    "itemPrimaryLabelColor": "sys.color.onSurfaceVariant",
+    "note": "Primary (`appearance='primary'`) items paint only the icon in `sys.color.brand`; the label stays in the bar's default `onSurfaceVariant` so every label across the row reads as one rung."
+  },
+  "itemProps": {
+    "value": { "type": "string", "required": true },
+    "label": { "type": "string", "required": true },
+    "icon": { "type": "node", "required": true, "description": "Outline glyph used in the inactive state." },
+    "activeIcon": { "type": "node", "optional": true, "description": "Filled companion glyph used when the item is active. Falls back to `icon` when absent." },
+    "href": { "type": "string", "optional": true },
+    "onClick": { "type": "function", "optional": true },
+    "appearance": { "type": "literal", "values": ["primary"], "optional": true, "description": "Paint the icon in `sys.color.brand` — the 'Create' / 'Compose' commit affordance. Pair with a filled-tile glyph (e.g. AddSquareFillIcon) so the icon's own shape provides the tile and the brand fill paints it as the commit colour. The label stays in the bar's default `onSurfaceVariant` so the row's labels read as one rung — only the icon carries the brand emphasis. Primary items invoke a screen-covering overlay, NOT a sibling destination — they render in the fill glyph by default, never receive `aria-current='page'`, and never animate outline → fill (no resting/active states inside the bar)." },
+    "forcedState": { "type": "literal", "values": ["hovered", "pressed", "focused"], "optional": true, "description": "Docs-only — pins the item to a single visual state via `data-force-state` so the contract can be inspected in a static preview. Not for production use." }
+  },
+  "states": {
+    "default": {
+      "description": "Inactive destination. Outline glyph + label, both at `onSurfaceVariant`."
+    },
+    "hovered": {
+      "description": "Pointer over the item. State layer fills the slot, painted with `onSurface` at `sys.state.hover` (8%).",
+      "stateLayerFill": "color-mix(sys.color.onSurface, sys.state.hover)"
+    },
+    "pressed": {
+      "description": "Active press on the item. State layer fills the slot, painted with `onSurface` at `sys.state.pressed` (12%).",
+      "stateLayerFill": "color-mix(sys.color.onSurface, sys.state.pressed)"
+    },
+    "active": {
+      "description": "Currently selected destination. Filled glyph (`activeIcon`) + label, both at `onSurface`. Carries `aria-current='page'`. No persistent state layer — only hover / pressed / focus paint."
+    },
+    "disabled": {
+      "containerOpacity": "sys.state.disabled",
+      "pointerEvents": "none"
+    }
+  },
+  "focusIndicator": {
+    "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the item is in. The state layer beneath is filled with `onSurface` at `sys.state.focus` (12%). Single-focus: at most one item holds the ring at a time, arriving via `:focus-visible` (keyboard `Tab` / programmatic focus).",
+    "composition": "inward",
+    "compositionReason": "Adjacent items are flush under `flex: 1 1 0`; an outward ring would overlap the neighbouring slot. The ring is constrained strictly inside the slot's bounding box and never exceeds it.",
+    "stateLayerFill": "color-mix(sys.color.onSurface, sys.state.focus)",
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "outerLayerPosition": "depth 0..2px from the slot edge (the outer stroke)",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset",
+      "insetLayerPosition": "depth 2..3px from the slot edge (the counter-ring just inside the outer stroke)",
+      "composition": "inward — inset box-shadow on the ::after at `inset: 0`. Adjacent items are flush under `flex: 1 1 0`, so an outward ring would overlap a neighbour; the ring is forced inside the slot bounds without exceeding them."
+    },
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  },
+  "behavior": {
+    "selectionNavigates": "Tapping a destination item routes the app to that destination's page; `value` updates to mark the new active item. The selected item swaps its glyph from the outline form to the filled companion (`activeIcon`) to signal 'you are here' — the icon fill, paired with the `onSurface` colour swap on icon + label, is the bar's primary current-location indicator.",
+    "primaryItemIsAnOverlayAction": "Items with `appearance='primary'` (the conventional Create / Compose affordance) invoke a screen-covering overlay rather than navigating to a sibling destination, so they have no resting/active distinction inside the bar. They render in the fill-type glyph by default (painted in `sys.color.brand`) and never receive `aria-current='page'` or the outline→fill transition. Activation dismisses or replaces the current view via the host framework's overlay/modal route, not via tab-bar selection.",
+    "distribution": "Capped equal-grow plus optical alignment. Every item uses `flex: 1 1 0` with `max-width: 80px`, so items grow at the same rate up to an 80-wide cap. Once every item has hit the cap, the row's leftover inline space is handed to the container's `justify-content: space-evenly`, which paints start padding, inter-item gap, and end padding as the same visible whitespace. `min-width: 0` on the item lets the label's ellipsis truncation actually take effect inside the slot.",
+    "labelTruncation": "Labels that exceed their slot truncate with a single-line ellipsis (`overflow: hidden; text-overflow: ellipsis; white-space: nowrap`). The row never wraps or scrolls.",
+    "fixedRow": "Author destinations to a five- or six-item ceiling so the per-slot width stays wide enough for the destination's short name to read without ellipsis at the system's narrowest mobile breakpoint.",
+    "selectionModel": "Single-select. `value` is the active item's `value`; `onChange` fires after the item's own `onClick`. The component owns no internal state — host page is the source of truth.",
+    "noNativeHomeBar": "The component renders just the bar itself; it does not draw or reserve space for an OS-level home indicator. The host shell handles safe-area inset and pinning."
+  }
+}

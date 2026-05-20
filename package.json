@@ -18,6 +18,8 @@
     "lint": "npm run lint:screens && npm run lint:tokens",
     "test:screens": "node schema/lint/test-screen.mjs",
     "build:icons": "node packages/ui/src/icons/build-icons.mjs",
+    "build:lovable": "npm run build:tokens && node scripts/build-lovable.mjs",
+    "prepare": "git config core.hooksPath .githooks || true",
     "mcp": "npm --workspace @blind-dsai/mcp-server run start",
     "test:mcp": "npm --workspace @blind-dsai/mcp-server run smoke",
     "test:visual": "npm --workspace @blind-dsai/visual-regression test",

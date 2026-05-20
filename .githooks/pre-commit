@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Pre-commit: keep lovable-export/ in sync with chorus source-of-truth.
+#
+# Triggers `npm run build:lovable` whenever the staged changes touch any of
+# the inputs the export reads from. If the rebuild produces a diff, stage
+# the regenerated files automatically so the commit captures both source
+# and export together — the CI lovable-export check will then pass.
+#
+# To bypass (use sparingly): `git commit --no-verify`.
+
+set -euo pipefail
+
+TRIGGERS_RE='^(schema/|patterns/|packages/ui/src/|scripts/build-lovable\.mjs$)'
+
+# `--cached` = staged changes only. `--diff-filter=ACMR` = added/copied/
+# modified/renamed (skip pure deletions, which can't trigger a stale export).
+staged=$(git diff --cached --name-only --diff-filter=ACMR)
+
+if ! echo "$staged" | grep -E "$TRIGGERS_RE" >/dev/null 2>&1; then
+  exit 0
+fi
+
+echo "[pre-commit] chorus design source touched — regenerating lovable-export/..."
+npm run build:lovable >/dev/null
+
+if ! git diff --quiet -- lovable-export/; then
+  echo "[pre-commit] lovable-export/ regenerated — adding the diff to this commit."
+  git add lovable-export/
+fi

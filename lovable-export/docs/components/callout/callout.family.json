@@ -1,0 +1,21 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "callout",
+  "name": "Callout",
+  "description": "Inline notice surface — a tonal aside that highlights supplementary context inside the content column. Two tones: `info` (primary-tinted, worth pulling the eye to) and `neutral` (quiet `secondaryContainer`, supplementary). Single-spec family.",
+  "useCases": [
+    "inline notice",
+    "supplementary context",
+    "tonal aside",
+    "in-flow tip"
+  ],
+  "spec": "callout.md",
+  "subcomponents": [
+    {
+      "slug": "callout",
+      "spec": "callout.spec.json",
+      "md": "callout.md",
+      "default": true
+    }
+  ]
+}

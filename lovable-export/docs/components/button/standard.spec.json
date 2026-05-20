@@ -1,0 +1,198 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Button",
+  "family": "button",
+  "subcomponent": "standard",
+  "description": "Standard inline action button. Two independent axes: size (chosen by surface), appearance (chosen by emphasis). Fixed-footprint. The default button form — reach for FAB / Toolbar Button / Toggle Button when the standard inline shape does not fit.",
+  "element": "button",
+  "props": {
+    "appearance": {
+      "type": "enum",
+      "values": [
+        "primary",
+        "secondary",
+        "outlined",
+        "tertiary"
+      ],
+      "default": "primary"
+    },
+    "size": {
+      "type": "enum",
+      "values": [
+        "large",
+        "medium",
+        "small"
+      ],
+      "default": "large"
+    },
+    "leadingIcon": {
+      "type": "node",
+      "optional": true
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": false
+    },
+    "truncate": {
+      "type": "boolean",
+      "default": false
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "slots": {
+    "label": {
+      "required": true,
+      "description": "Accessible name. Single line.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "leadingIcon": {
+      "required": false,
+      "description": "Optional context glyph before the label. Inherits currentColor.",
+      "accepts": [
+        "icon"
+      ]
+    }
+  },
+  "sizes": {
+    "large": {
+      "paddingBlock": "sys.layout.container.xs",
+      "paddingInline": "sys.layout.container.md",
+      "gap": "sys.layout.inline.md",
+      "minHeight": "ref.space.600",
+      "minWidth": "160px",
+      "radius": "sys.radius.md",
+      "labelTypo": "sys.typo.label.lg",
+      "iconSize": "sys.icon.lg"
+    },
+    "medium": {
+      "paddingBlock": "sys.layout.container.xs",
+      "paddingInline": "sys.layout.container.md",
+      "gap": "sys.layout.inline.md",
+      "minHeight": "ref.space.500",
+      "minWidth": "160px",
+      "radius": "sys.radius.md",
+      "labelTypo": "sys.typo.label.md",
+      "iconSize": "sys.icon.md"
+    },
+    "small": {
+      "paddingBlock": "sys.layout.container.2xs",
+      "paddingInline": "sys.layout.container.sm",
+      "gap": "sys.layout.inline.sm",
+      "minHeight": "ref.space.400",
+      "minWidth": "160px",
+      "radius": "sys.radius.sm",
+      "labelTypo": "sys.typo.label.md",
+      "iconSize": "sys.icon.md"
+    }
+  },
+  "appearances": {
+    "primary": {
+      "background": "sys.color.primary",
+      "border": null,
+      "label": "sys.color.onPrimary"
+    },
+    "secondary": {
+      "background": "sys.color.secondaryContainer",
+      "border": null,
+      "label": "sys.color.onSecondaryContainer"
+    },
+    "outlined": {
+      "background": "transparent",
+      "border": {
+        "width": "sys.borderWidth.hairline",
+        "color": "sys.color.primary"
+      },
+      "label": "sys.color.primary"
+    },
+    "tertiary": {
+      "background": "transparent",
+      "border": null,
+      "label": "sys.color.onSurfaceVariant"
+    }
+  },
+  "flavors": {
+    "destructive": {
+      "description": "Swaps the primary family → error family across every appearance. Reserved for irreversible commits (Delete, Remove, Discard).",
+      "appearances": {
+        "primary": {
+          "background": "sys.color.error",
+          "border": null,
+          "label": "sys.color.onError"
+        },
+        "secondary": {
+          "background": "sys.color.errorContainer",
+          "border": null,
+          "label": "sys.color.onErrorContainer"
+        },
+        "outlined": {
+          "background": "transparent",
+          "border": {
+            "width": "sys.borderWidth.hairline",
+            "color": "sys.color.error"
+          },
+          "label": "sys.color.error"
+        },
+        "tertiary": {
+          "background": "transparent",
+          "border": null,
+          "label": "sys.color.error"
+        }
+      }
+    }
+  },
+  "states": {
+    "default": {
+      "overlay": null
+    },
+    "hovered": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.hover"
+      }
+    },
+    "pressed": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.pressed"
+      }
+    },
+    "disabled": {
+      "overlay": null,
+      "containerOpacity": "sys.state.disabled",
+      "suppressFocusRing": true,
+      "cursor": "not-allowed"
+    }
+  },
+  "focusIndicator": {
+    "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the button is in. The `states.focused` block above is kept for JSX runtime consumers; this block is the parallel external-reader contract.",
+    "composition": "outward",
+    "compositionReason": "Action affordance with breathing room around it; the 3px outward extent is reserved by the surrounding layout.",
+    "overlay": {
+      "color": "label",
+      "opacity": "sys.state.focus"
+    },
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset"
+    },
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  },
+  "behavior": {
+    "labelLine": "single",
+    "truncation": {
+      "whiteSpace": "nowrap",
+      "overflow": "hidden",
+      "textOverflow": "ellipsis"
+    },
+    "fullWidth": {
+      "width": "100%"
+    }
+  }
+}

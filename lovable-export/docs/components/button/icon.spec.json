@@ -1,0 +1,149 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Button",
+  "family": "button",
+  "subcomponent": "icon",
+  "description": "Icon-only commit surface — a circular, transparent target carrying a single glyph. Reach for this whenever a control's identity is the glyph itself and a text label would be redundant: leading menu / trailing actions on the Navigation Bar, the dismiss '×' on a Dialog header, the '⋯' more affordance on a feed row footer. The capsule is transparent at rest and paints the standard state overlays on hover / pressed.",
+  "element": "button",
+  "props": {
+    "variant": {
+      "type": "literal",
+      "value": "icon"
+    },
+    "size": {
+      "type": "enum",
+      "values": [
+        "large",
+        "medium"
+      ],
+      "default": "large"
+    },
+    "appearance": {
+      "type": "enum",
+      "values": [
+        "default",
+        "inverse"
+      ],
+      "default": "default"
+    },
+    "icon": {
+      "type": "node",
+      "required": true,
+      "description": "The glyph. Required."
+    },
+    "aria-label": {
+      "type": "string",
+      "required": true,
+      "description": "Accessible name — required because Icon Button carries no visible text."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "slots": {
+    "icon": {
+      "required": true,
+      "description": "The glyph. Sized at the rung's icon token — `sys.icon.lg` (24) on `large`, `sys.icon.md` (16) on `medium`.",
+      "accepts": [
+        "icon"
+      ]
+    },
+    "aria-label": {
+      "required": true,
+      "description": "Accessible name. Required — screen readers and keyboard users rely on it to identify the action.",
+      "accepts": [
+        "text"
+      ]
+    }
+  },
+  "sizes": {
+    "large": {
+      "padding": "sys.layout.container.xs",
+      "iconSize": "sys.icon.lg",
+      "radius": "sys.radius.full",
+      "footprint": "40 × 40 (implicit, from 8 + 24 + 8)"
+    },
+    "medium": {
+      "padding": "sys.layout.container.xs",
+      "iconSize": "sys.icon.md",
+      "radius": "sys.radius.full",
+      "footprint": "32 × 32 (implicit, from 8 + 16 + 8)"
+    }
+  },
+  "appearances": {
+    "default": {
+      "background": "transparent",
+      "border": null,
+      "icon": "sys.color.onSurface",
+      "note": "Transparent capsule with the glyph in `onSurface`. The canonical Icon Button chrome, used on every regular page surface."
+    },
+    "inverse": {
+      "background": "transparent",
+      "border": null,
+      "icon": "sys.color.inverseOnSurface",
+      "note": "Mirror of `default` for use inside an inverse host (Toast, coach-mark, snackbar). Glyph paints in `inverseOnSurface` so it reads against the host's `inverseSurface` fill; state overlays mix from the same token so the recipe carries over without per-host tuning."
+    }
+  },
+  "flavors": {
+    "destructive": {
+      "description": "Swaps the glyph color to the error family. Reserved for irreversible commits (a 'Remove' trash glyph, a 'Discard' close on a destructive sheet header).",
+      "appearances": {
+        "default": {
+          "background": "transparent",
+          "border": null,
+          "icon": "sys.color.error"
+        },
+        "inverse": {
+          "background": "transparent",
+          "border": null,
+          "icon": "sys.color.error"
+        }
+      }
+    }
+  },
+  "states": {
+    "default": {
+      "overlay": null
+    },
+    "hovered": {
+      "overlay": {
+        "color": "icon",
+        "opacity": "sys.state.hover"
+      }
+    },
+    "pressed": {
+      "overlay": {
+        "color": "icon",
+        "opacity": "sys.state.pressed"
+      }
+    },
+    "disabled": {
+      "overlay": null,
+      "containerOpacity": "sys.state.disabled",
+      "suppressFocusRing": true,
+      "cursor": "not-allowed"
+    }
+  },
+  "focusIndicator": {
+    "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the button is in. The `states.focused` block above is kept for JSX runtime consumers; this block is the parallel external-reader contract.",
+    "composition": "outward",
+    "compositionReason": "Action affordance with breathing room around it; the 3px outward extent is reserved by the surrounding layout.",
+    "overlay": {
+      "color": "icon",
+      "opacity": "sys.state.focus"
+    },
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset"
+    },
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  },
+  "behavior": {
+    "footprint": "Content-sized — no explicit width / height. The 40 (large) / 32 (medium) falls out of padding + icon + padding.",
+    "group": "Horizontally-grouped Icon Buttons share a row gap of `sys.layout.inline.xl` (16) on both rungs. Because Icon Button applies optical alignment by default (each capsule's chrome bleeds outward by its 8px padding so the visible glyph is the layout box), the chrome-to-chrome gap IS the visible glyph-to-glyph distance — no per-capsule padding to add on top. The hover capsules of adjacent buttons each extend 8px beyond their glyph; with a 16px row gap, two hover capsules touch chrome-to-chrome but never collide.",
+    "opticalAlignmentDefault": "Icon Button applies optical alignment as the **default** rendering rule, on all four sides: the capsule is transparent at rest, so the visible glyph (not the padded chrome) defines the button's layout edges. Implemented as a base `margin: calc(-1 × sys.layout.container.xs)` on `.chorus-button--icon`. Hover capsule still paints on every side — the chrome becomes a hover-only affordance, doubling as a hit-zone enlargement. Consumers do not opt in; alignment with the surrounding content rail just works."
+  }
+}

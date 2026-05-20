@@ -1,0 +1,146 @@
+# Home
+
+The landing-screen top bar — anchored to the top of a tab root (a feed, an inbox, a profile). A leading menu glyph + left-aligned page name occupy the start; up to three action icons (search, chat, profile) sit at the trailing edge. The title carries the system's largest page-level type rung (`typo.heading.lg`, 24/Semibold).
+
+## Default
+
+The canonical Home bar — menu glyph, brand logotype at 24px tall, and three trailing actions (search, chat, profile).
+
+```preview
+navigation-bar/home/default
+---
+import { NavigationBar } from '@blind-dsai/ui';
+import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-dsai/ui/icons';
+
+<NavigationBar
+  variant="home"
+  title={
+    <img
+      src="/blind_logotype_black.svg"
+      alt="Chorus"
+      style={{ height: 24, width: 'auto', display: 'block' }}
+    />
+  }
+  onMenuClick={() => {}}
+  trailingActions={[
+    { icon: <SearchIcon />,  'aria-label': 'Search' },
+    { icon: <ChatIcon />,    'aria-label': 'Messages' },
+    { icon: <ProfileIcon />, 'aria-label': 'Profile' },
+  ]}
+/>
+```
+
+## Use cases
+
+### With a text title in place of the logotype
+
+A Home rung naming the screen in words. Falls back to plain text at `typo.heading.lg` (24/Semibold) `onSurface`; truncates with ellipsis. Same 24-tall rhythm as the logotype.
+
+```preview
+navigation-bar/home/default--text-title
+---
+import { NavigationBar } from '@blind-dsai/ui';
+import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-dsai/ui/icons';
+
+<NavigationBar
+  variant="home"
+  title="Home"
+  onMenuClick={() => {}}
+  trailingActions={[
+    { icon: <SearchIcon />,  'aria-label': 'Search' },
+    { icon: <ChatIcon />,    'aria-label': 'Messages' },
+    { icon: <ProfileIcon />, 'aria-label': 'Profile' },
+  ]}
+/>
+```
+
+### With one trailing action
+
+A bar with a single trailing affordance — e.g. search on an Inbox screen.
+
+```preview
+navigation-bar/home/single-action
+---
+import { NavigationBar } from '@blind-dsai/ui';
+import { SearchIcon } from '@blind-dsai/ui/icons';
+
+<NavigationBar
+  variant="home"
+  title="Inbox"
+  trailingActions={[
+    { icon: <SearchIcon />, 'aria-label': 'Search' },
+  ]}
+/>
+```
+
+### Truncation (safety net)
+
+Long page name truncates with ellipsis. Author concise titles ("Home", "Inbox") so the bar never resorts to ellipsis in product.
+
+```preview
+navigation-bar/home/truncation
+---
+import { NavigationBar } from '@blind-dsai/ui';
+import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-dsai/ui/icons';
+
+<NavigationBar
+  variant="home"
+  title="A very long screen title that should truncate"
+  onMenuClick={() => {}}
+  trailingActions={[
+    { icon: <SearchIcon />,  'aria-label': 'Search' },
+    { icon: <ChatIcon />,    'aria-label': 'Messages' },
+    { icon: <ProfileIcon />, 'aria-label': 'Profile' },
+  ]}
+/>
+```
+
+## Slots
+
+- **leadingIcon** (fixed) — always the menu / hamburger icon ([`MenuIcon`](../../packages/ui/src/icons/svg/Menu.svg)); the single hook into the app's primary drawer.
+- **title** — screen's identity. Required. Default is the brand logotype at fixed 24px height (ratio preserved); a string may be passed instead — renders as `typo.heading.lg` (24/Semibold) `onSurface`, ellipsis on narrow.
+- **trailingActions** (optional) — up to three icon actions. Conventional set: Search, Chat, Profile. Laid out left-to-right with no inter-icon gap — the icon capsules' 8px padding provides visible separation.
+
+## Anatomy
+
+| Slot                  | Container          | Color                                   |
+|-----------------------|--------------------|------------------------------------------|
+| **Bar container**     | `sys.color.surface` fill, 8px block / 16px inline padding, no border, no shadow at rest. | — |
+| **Leading icon**      | Transparent capsule, 24px glyph centred. | `sys.color.onSurface` |
+| **Title**             | Brand logotype `<img>` at 24px tall (width auto) by default; plain-text fallback at `heading.lg`. Not interactive. | `sys.color.onSurface` (text fallback) |
+| **Trailing icon(s)**  | Transparent capsule, 24px glyph centred. Capsules sit flush, no inter-icon gap. | `sys.color.onSurface` |
+
+## Sizes
+
+A single fixed rung.
+
+| Property                          | Value                | Token                              |
+|-----------------------------------|----------------------|-------------------------------------|
+| Container padding (block × inline)| 8 × 16               | `sys.layout.container.xs` × `sys.layout.container.md` |
+| Min-height                        | 56px                 | raw ‡                              |
+| Slot gap (leading ↔ title)        | 16px                 | `sys.layout.inline.xl`             |
+| Slot gap (title ↔ trailing group) | 16px                 | `sys.layout.inline.xl`             |
+| Slot gap (between trailing icons) | 16px                 | `sys.layout.inline.xl` †           |
+| Icon-capsule padding              | 8px                  | `sys.layout.container.xs`          |
+| Title — brand logotype (default)  | 24px tall, width auto| raw — fixed pixel height           |
+| Title — plain text (fallback)     | 24 / Semibold        | `sys.typo.heading.lg`              |
+| Leading icon                      | 24px                 | `sys.icon.lg`                      |
+| Trailing icon                     | 24px                 | `sys.icon.lg`                      |
+
+‡ Floor of 8 + 40 + 8 = 56. Keeps a title-only row from collapsing below 56.
+
+† Optical alignment via Icon Button's negative-margin bleed — chrome-to-chrome 16 *is* the visible glyph-to-glyph distance.
+
+## States
+
+The bar itself has no interactive state. Icon slots inherit [Icon Button](../button/icon.md) states. The title carries no states.
+
+## Focus indicator
+
+Bar isn't a focus target; icon slots inherit [Icon Button → Outward](../button/icon.md#focus-indicator). Trigger: `:focus-visible`.
+
+## Behavior
+
+- **Bar is page chrome.** Renders in flow; host pins (`position: sticky`) when needed.
+- **Title truncates.** Long page names truncate; bar height stays 56. Safety net only — page names should be one or two words.
+- **Trailing icon count.** Three is the conventional ceiling; a fourth belongs in an overflow menu.

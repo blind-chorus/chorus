@@ -22,3 +22,24 @@ jobs:
         run: |
           node packages/tokens-ios/scripts/check.mjs
           node packages/tokens-android/scripts/check.mjs
+
+  lovable-export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      # Regenerate lovable-export from the current source-of-truth (tokens,
+      # schema, patterns, ui components) and fail if anything would change.
+      # This catches the case where someone edits chorus design content
+      # without re-running `npm run build:lovable` to update the export.
+      - run: npm run build:lovable
+      - name: Verify lovable-export is in sync with source
+        run: |
+          if ! git diff --exit-code -- lovable-export/; then
+            echo ""
+            echo "::error::lovable-export/ is stale. Run \`npm run build:lovable\` locally and commit the result."
+            exit 1
+          fi

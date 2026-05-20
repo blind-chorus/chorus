@@ -1,0 +1,97 @@
+{
+  "$schema": "./screen.schema.json",
+  "slug": "main-company",
+  "name": "Main Company",
+  "description": "Company-context surface. Posts scoped to the user's employer ('My Company') or followed companies ('Following'). Distinguished from Home by an explicit company-scope chip row directly under the tabs and a collapsible 'Overview' callout that orients new arrivals. Feed posts carry a category eyebrow ('HOT' coral, 'ALL TIME BEST' blue) above the author row.",
+  "useCases": [
+    "company feed",
+    "employer-scoped posts",
+    "follow another company",
+    "company overview"
+  ],
+  "regions": {
+    "top": {
+      "family": "navigation-bar",
+      "subcomponent": "page",
+      "props": {
+        "title": "Company",
+        "leadingAction": "menu",
+        "trailingActions": ["search", "profile"]
+      }
+    },
+    "tabs": {
+      "family": "tabs",
+      "subcomponent": "underline",
+      "items": [
+        { "label": "MY COMPANY", "active": true },
+        { "label": "FOLLOWING" }
+      ],
+      "note": "Uppercase tracking on labels."
+    },
+    "scope": {
+      "family": "chip",
+      "subcomponent": "filter",
+      "items": [
+        { "label": "Amazon",  "active": true, "leading": "lock" },
+        { "label": "@ Amazon" },
+        { "label": "Pulse" },
+        { "label": "Reviews" },
+        { "label": "Labs" }
+      ],
+      "note": "Company-scope chip row. The lock leading icon on the active chip signals private/employee-only scope — preserve when modeling."
+    },
+    "overview": {
+      "family": "callout",
+      "props": {
+        "title": "Overview",
+        "body": "Company-wide updates, reviews, and pulse data live here. Tap to collapse.",
+        "collapsible": true
+      },
+      "note": "Collapsible Overview callout. Soft surface, not modal. Trailing chevron-down collapses the body."
+    },
+    "body": {
+      "family": "feed",
+      "items": [
+        {
+          "channel": "Mina Park",
+          "timestamp": "2h",
+          "meta": "Amazon",
+          "eyebrow": { "label": "HOT", "tone": "brand" },
+          "avatar": { "family": "thumbnail" },
+          "title": "Compensation thread — Q2",
+          "body": "Numbers compared to last cycle and the senior bands."
+        },
+        {
+          "channel": "Jonas Lee",
+          "timestamp": "1d",
+          "meta": "Amazon",
+          "eyebrow": { "label": "ALL TIME BEST", "tone": "primary" },
+          "avatar": { "family": "thumbnail" },
+          "title": "How I negotiated my offer",
+          "body": "A long thread on prep, anchors, and what worked."
+        }
+      ],
+      "note": "Feed items carry an `eyebrow` slot above the author row. HOT eyebrow renders in `sys.color.brand`; ALL TIME BEST renders in `sys.color.primary`. Do not bake into the title string. A '▾ RECENT' collapsible section header sits above the feed; treat as a feed-level section header, not a tab."
+    },
+    "bottom": {
+      "family": "tab-bar",
+      "items": [
+        { "icon": "home",      "label": "Home" },
+        { "icon": "building",  "label": "Company", "active": true },
+        { "icon": "compass",   "label": "Explore" },
+        { "icon": "briefcase", "label": "Jobs" },
+        { "icon": "bell",      "label": "Notifications" },
+        { "icon": "plus",      "label": "Create", "appearance": "primary" }
+      ],
+      "note": "Company tab active."
+    }
+  },
+  "rules": [
+    "Category eyebrow ('HOT', 'ALL TIME BEST') is above the author row — not inside the title string. Treat as a feed-post eyebrow slot or `chip/tag` variant.",
+    "Lock-leading on the active company chip indicates private/employee-only scope — preserve.",
+    "'▾ RECENT' is a collapsible section header, not a `tabs/*` set. Do not swap in a tab variant here."
+  ],
+  "swappable": {
+    "body": ["feed", "list"]
+  }
+}

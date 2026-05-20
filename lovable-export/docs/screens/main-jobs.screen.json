@@ -1,0 +1,93 @@
+{
+  "$schema": "./screen.schema.json",
+  "slug": "main-jobs",
+  "name": "Main Jobs",
+  "description": "Search-led job listings. The top bar is the `navigation-bar/search` variant (input fills the row), followed by a `tabs/underline` set ('Jobs' / 'Saved Jobs' with inline counts), a filter chip row, and a vertical `list/thumbnail` of job rows. A bookmark toggle is the only per-row commit; a transient `toast` confirms the action above the TabBar.",
+  "useCases": [
+    "job search",
+    "filter job list",
+    "save a job",
+    "browse listings"
+  ],
+  "regions": {
+    "top": {
+      "family": "navigation-bar",
+      "subcomponent": "search",
+      "props": {
+        "placeholder": "Search by job title or company",
+        "value": "",
+        "trailingActions": ["profile"]
+      },
+      "note": "search variant — leading back chevron (intrinsic), input fills the row, trailing profile icon. Clear icon appears only when value is non-empty."
+    },
+    "tabs": {
+      "family": "tabs",
+      "subcomponent": "underline",
+      "items": [
+        { "label": "Jobs (3,401)", "active": true },
+        { "label": "Saved Jobs (4)" }
+      ],
+      "note": "Counts inline in the label, not as a trailing badge."
+    },
+    "filters": {
+      "family": "chip",
+      "subcomponent": "filter",
+      "items": [
+        { "label": "Location",      "trailing": "chevron-down" },
+        { "label": "Remote Only" },
+        { "label": "Minimum YOE",   "trailing": "chevron-down" }
+      ],
+      "note": "Filter chip row, horizontally scrollable. Chips with chevron open a sheet/menu on tap (no inline disclosure). A leading filter icon (`button/icon`) sits before the row."
+    },
+    "body": {
+      "family": "list",
+      "subcomponent": "thumbnail",
+      "items": [
+        {
+          "leading": { "family": "thumbnail", "image": "logo-acme" },
+          "label": "Senior Product Designer",
+          "supportingText": "Acme · Posted 2d ago",
+          "meta": "Remote (US)",
+          "trailing": { "family": "button", "subcomponent": "icon", "icon": "bookmark", "aria-label": "Save job" }
+        },
+        {
+          "leading": { "family": "thumbnail", "image": "logo-globex" },
+          "label": "Frontend Engineer",
+          "supportingText": "Globex · Posted 5d ago",
+          "meta": "Seoul",
+          "trailing": { "family": "button", "subcomponent": "icon", "icon": "bookmark-fill", "aria-label": "Saved" }
+        }
+      ],
+      "note": "The whole card is the click target — the trailing bookmark `button/icon` is a secondary commit. Filled glyph = saved, outlined = not saved."
+    },
+    "overlay": {
+      "family": "toast",
+      "props": {
+        "body": "Job saved",
+        "leading": "check",
+        "trailingAction": { "family": "button", "subcomponent": "text", "label": "Undo" }
+      },
+      "note": "Auto-dismissing toast above the TabBar with a safe gap; triggered by tapping a row's bookmark icon. Toast is non-modal — no paired trigger pairing required, but the bookmark row is the origin."
+    },
+    "bottom": {
+      "family": "tab-bar",
+      "items": [
+        { "icon": "home",      "label": "Home" },
+        { "icon": "building",  "label": "Company" },
+        { "icon": "compass",   "label": "Explore" },
+        { "icon": "briefcase", "label": "Jobs", "active": true },
+        { "icon": "bell",      "label": "Notifications" },
+        { "icon": "plus",      "label": "Create", "appearance": "primary" }
+      ],
+      "note": "Jobs tab active."
+    }
+  },
+  "rules": [
+    "List rows are the click target; the trailing bookmark icon must not steal hit area — it is a secondary commit on top of the row tap.",
+    "Toast sits above the TabBar with a safe gap; never overlap tab labels.",
+    "Filter chips with a chevron open a sheet/menu, not inline expansion."
+  ],
+  "swappable": {
+    "body": ["list", "feed"]
+  }
+}

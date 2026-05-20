@@ -1,0 +1,95 @@
+{
+  "$schema": "./screen.schema.json",
+  "slug": "main-home",
+  "name": "Main Home",
+  "description": "The default landing surface — a vertically scrolling Feed of authored posts, framed by lightweight discovery affordances (channel rail, recruiter callout, keyword-subscription row) above the fold. Optimized for low-friction scanning: density is high, chrome is thin. The only persistent commit is the TabBar's accent 'Create' entry, so no FAB is used on this screen.",
+  "useCases": [
+    "default landing feed",
+    "open the app",
+    "primary timeline",
+    "vertical feed scan"
+  ],
+  "regions": {
+    "top": {
+      "family": "navigation-bar",
+      "subcomponent": "home",
+      "props": {
+        "title": "Chorus",
+        "trailingActions": ["messages", "notifications", "profile"]
+      },
+      "note": "home variant — leading menu (hamburger), wordmark title left-of-center, trailing icon cluster (message, bell, profile)."
+    },
+    "rail": {
+      "family": "channel-rail",
+      "items": [
+        { "avatar": { "family": "thumbnail" }, "label": "For You" },
+        { "avatar": { "family": "thumbnail" }, "label": "Recent" },
+        { "avatar": { "family": "thumbnail" }, "label": "Popular" },
+        { "avatar": { "family": "thumbnail" }, "label": "#design-system" },
+        { "avatar": { "family": "thumbnail" }, "label": "#frontend" }
+      ],
+      "note": "Horizontally scrollable channel + feed-mode rail. 'For You / Recent / Popular' are feed-mode chips inside the rail, not a `tabs/underline` set — the rail is the navigation primitive here."
+    },
+    "promo": {
+      "family": "callout",
+      "props": {
+        "title": "We're hiring designers",
+        "body": "Open roles on the Chorus team — read the brief.",
+        "dismissible": true
+      },
+      "note": "Recruiter promo callout. Soft surface, not modal."
+    },
+    "keyword": {
+      "family": "callout",
+      "props": {
+        "body": "Subscribed to #design-system — you'll see new posts here.",
+        "dismissible": true,
+        "leading": "bell"
+      },
+      "note": "Keyword-subscription callout variant: bell leading, X trailing. Sits directly under the promo callout — keep them as two discrete callouts, do not fuse."
+    },
+    "body": {
+      "family": "feed",
+      "items": [
+        {
+          "channel": "Mina Park",
+          "timestamp": "2h",
+          "meta": "#design-system",
+          "avatar": { "family": "thumbnail" },
+          "title": "Tokens build is clean",
+          "body": "Shipped the new tokens build today — light/dark parity is finally clean."
+        },
+        {
+          "channel": "Jonas Lee",
+          "timestamp": "5h",
+          "meta": "#frontend",
+          "avatar": { "family": "thumbnail" },
+          "title": "Second pair of eyes",
+          "body": "Looking for a second pair of eyes on the navigation-bar search variant."
+        }
+      ],
+      "note": "Author header (avatar, channel, time), title, body preview, footer (heart, comment, view counts) per feed/feed spec."
+    },
+    "bottom": {
+      "family": "tab-bar",
+      "items": [
+        { "icon": "home",      "label": "Home" },
+        { "icon": "building",  "label": "Company" },
+        { "icon": "compass",   "label": "Explore" },
+        { "icon": "briefcase", "label": "Jobs" },
+        { "icon": "bell",      "label": "Notifications" },
+        { "icon": "plus",      "label": "Create", "appearance": "primary" }
+      ],
+      "note": "Six-item TabBar. The 'Create' tab uses `appearance: primary` (brand-tinted glyph) and is the canonical commit shortcut — no FAB is added on top."
+    }
+  },
+  "rules": [
+    "No FAB on this screen — the TabBar 'Create' tab carries the canonical commit. Adding a `button/fab` would duplicate the affordance.",
+    "Feed-mode chips (For You / Recent / Popular) live inside `channel-rail`, not `tabs/underline`. Do not promote to a tabset.",
+    "Promo + keyword rows are two discrete callouts, not one fused block.",
+    "Do not stack a second NavigationBar inside body — section labels belong inside row chrome."
+  ],
+  "swappable": {
+    "body": ["feed", "list"]
+  }
+}
