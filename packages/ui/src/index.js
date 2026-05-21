@@ -1,3 +1,4 @@
+export { AdFeed } from './AdFeed.jsx';
 export { Badge } from './Badge.jsx';
 export { BottomSheet } from './BottomSheet.jsx';
 export { Button } from './Button.jsx';

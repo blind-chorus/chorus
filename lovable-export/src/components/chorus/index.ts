@@ -1,4 +1,5 @@
 // @ts-nocheck — ported from chorus (untyped). Edit upstream, then re-run `npm run build:lovable`.
+export { AdFeed } from './AdFeed';
 export { Badge } from './Badge';
 export { BottomSheet } from './BottomSheet';
 export { Button } from './Button';

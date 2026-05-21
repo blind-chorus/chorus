@@ -1,0 +1,67 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "AdFeed",
+  "family": "ad-feed",
+  "description": "In-feed advertisement card. Rides the same scrolling column as Feed but trades the channel/author header for a brand row (avatar + brand name + tag-line subtitle + a trailing close affordance), drops the engagement footer, and commits a single full-width primary call-to-action under a hero media block. Slots beyond the brand row and CTA are optional — a minimal placement renders brand row + CTA over the hero image, while a fully-authored placement adds a title and body excerpt above the media.",
+  "element": "article",
+  "props": {
+    "brand": { "type": "object", "required": true, "description": "{ name, subtitle?, avatar? } — leading brand row. `avatar` is forwarded to Thumbnail verbatim at size 32; omit `avatar.src` to render the surface-toned fallback. `subtitle` is optional (e.g. 'Sponsored', 'Blind Company Reviews')." },
+    "onDismiss": { "type": "function", "optional": true, "description": "Fires when the trailing close (X) is tapped. Omit to render the card without a dismiss affordance." },
+    "dismissLabel": { "type": "string", "optional": true, "description": "Accessible label for the trailing close button. Defaults to 'Dismiss ad'." },
+    "title": { "type": "string", "optional": true, "description": "Ad headline. heading.md (20 / Semibold) / onSurface. Single line; truncates with ellipsis." },
+    "body": { "type": "string", "optional": true, "description": "Ad body copy. body.sm (14 / Regular) / onSurfaceVariant. Two-line clamp with trailing ellipsis." },
+    "media": { "type": "object", "optional": true, "description": "{ src, alt, background? } — hero media block. `background` is an optional CSS color used as the card fill behind the image (matches the brand-tinted block in the mock when no `src` is supplied or when the image is a cut-out)." },
+    "cta": { "type": "object", "optional": true, "description": "{ label, onClick?, appearance?, size? } — the single full-width Standard Button at the foot. `appearance` defaults to `primary` and `size` to `medium`. Omit on placements that surface inside a destination the user already chose (e.g. the My Page surface), where the entire card is the affordance and a redundant CTA would compete with the surface's own navigation." },
+    "className": { "type": "string", "optional": true }
+  },
+  "slots": {
+    "brand": { "required": true, "description": "Top row: 32-rung Thumbnail + a two-line text block (brand name on top, optional subtitle underneath). The row is non-interactive at the container level — the brand and subtitle are display text, not links — so the only commit in this region is the trailing close button.", "accepts": ["thumbnail", "text"] },
+    "dismiss": { "required": false, "description": "Trailing 16px CloseIcon rendered as a bare icon button. Appears only when `onDismiss` is wired. Inherits Icon Button's hit-area floor (24-rung) without painting Icon Button chrome — the row reads as a flat brand strip, not a control cluster.", "accepts": ["button"] },
+    "title": { "required": false, "description": "Ad headline. heading.md / onSurface. Single line; truncates.", "accepts": ["text"] },
+    "body": { "required": false, "description": "Ad body excerpt. body.sm / onSurfaceVariant. Two-line clamp.", "accepts": ["text"] },
+    "media": { "required": false, "description": "Hero block under the body. Square-cornered radius.md, fills the card's inline width. When `media.background` is set the block paints that fill behind the image, so a transparent product-shot reads against a brand-tinted slab.", "accepts": ["image"] },
+    "cta": { "required": false, "description": "Full-width Standard Button pinned at the foot of the card. Carries the only commit on the placement; `appearance` defaults to `primary`. Drops out of the layout entirely when omitted — used on My Page placements where the surrounding surface already routes the tap." }
+  },
+  "sizing": {
+    "containerFill": "sys.color.surface",
+    "containerPaddingBlock": "sys.layout.container.lg",
+    "containerPaddingInline": "sys.layout.container.md",
+    "containerRadius": "sys.radius.md",
+    "interBlockGap": "sys.layout.stack.md",
+    "brandRowGap": "sys.layout.inline.md",
+    "brandAvatarSize": 32,
+    "brandNameTypo": "sys.typo.label.md",
+    "brandNameColor": "sys.color.onSurface",
+    "brandSubtitleTypo": "sys.typo.caption.md",
+    "brandSubtitleColor": "sys.color.onSurfaceVariant",
+    "dismissIconSize": "sys.icon.md",
+    "dismissColor": "sys.color.onSurfaceVariant",
+    "dismissHitArea": "24",
+    "titleTypo": "sys.typo.heading.md",
+    "titleColor": "sys.color.onSurface",
+    "bodyTypo": "sys.typo.body.sm",
+    "bodyColor": "sys.color.onSurfaceVariant",
+    "bodyLineClamp": 2,
+    "titleBodyGap": "sys.layout.stack.xs",
+    "mediaRadius": "sys.radius.md",
+    "mediaAspectRatio": "16 / 10",
+    "mediaFallbackFill": "sys.color.surfaceContainerHigh",
+    "ctaAppearanceDefault": "primary",
+    "ctaFullWidth": true,
+    "ctaSize": "medium"
+  },
+  "states": {
+    "note": "AdFeed container is not itself an interactive primitive — commit lives in the trailing close affordance and the foot CTA. Each follows its own spec's state contract."
+  },
+  "focusIndicator": {
+    "description": "Container is not a focus target; each nested control (dismiss, CTA) paints its own ring per its own spec.",
+    "composition": "inward"
+  },
+  "behavior": {
+    "minimalShape": "Brand row + media + CTA is the minimum legible placement. `title` and `body` are both optional — when both are absent, the brand row sits directly above the media, with no reserved whitespace.",
+    "truncationNotWrap": "Title truncates to one line; body clamps to two. The card does not grow to fit a long headline.",
+    "dismissOptIn": "The trailing close button only renders when `onDismiss` is wired; ad placements without a user-dismiss path render the brand row at one column-of-text wide.",
+    "ctaCommitsAlone": "When present, the CTA is a single full-width Standard Button at the foot — never two CTAs, never an engagement footer. Ads are not authored content.",
+    "ctaOmittedOnMyPage": "On the My Page surface the entire card is the affordance (the parent route handles the tap), so the foot CTA is omitted to avoid stacking a redundant commit on top of the surface's own navigation. Other in-feed placements keep the CTA."
+  }
+}
