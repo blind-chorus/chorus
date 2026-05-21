@@ -1,5 +1,4 @@
 // @ts-nocheck — ported from chorus (untyped). Edit upstream, then re-run `npm run build:lovable`.
-export { AdFeed } from './AdFeed';
 export { Badge } from './Badge';
 export { BottomSheet } from './BottomSheet';
 export { Button } from './Button';
@@ -11,6 +10,7 @@ export { Dialog } from './Dialog';
 export { Tabs } from './Tabs';
 export { Tab } from './Tab';
 export { Feed } from './Feed';
+export { FeedAd } from './FeedAd';
 export { FormField, FormFieldGroup } from './FormField';
 export { List } from './List';
 export { NavigationBar } from './NavigationBar';

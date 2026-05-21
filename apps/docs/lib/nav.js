@@ -173,10 +173,6 @@ export const NAV = [
        component or sub. */
     items: [
       {
-        href: '/components/ad-feed',
-        label: 'Ad Feed',
-      },
-      {
         href: '/components/badge',
         label: 'Badge',
       },
@@ -224,6 +220,10 @@ export const NAV = [
       {
         href: '/components/feed',
         label: 'Feed',
+        subs: [
+          { href: '/components/feed/ad', label: 'Ad' },
+          { href: '/components/feed/default', label: 'Default' },
+        ],
       },
       {
         href: '/components/form-field',

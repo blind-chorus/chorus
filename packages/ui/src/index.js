@@ -1,4 +1,3 @@
-export { AdFeed } from './AdFeed.jsx';
 export { Badge } from './Badge.jsx';
 export { BottomSheet } from './BottomSheet.jsx';
 export { Button } from './Button.jsx';
@@ -10,6 +9,7 @@ export { Dialog } from './Dialog.jsx';
 export { Tabs } from './Tabs.jsx';
 export { Tab } from './Tab.jsx';
 export { Feed } from './Feed.jsx';
+export { FeedAd } from './FeedAd.jsx';
 export { FormField, FormFieldGroup } from './FormField.jsx';
 export { List } from './List.jsx';
 export { NavigationBar } from './NavigationBar.jsx';
