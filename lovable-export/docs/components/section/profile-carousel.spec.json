@@ -1,0 +1,148 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "ProfileCarousel",
+  "family": "section",
+  "description": "Horizontally-scrolling rail of profile-style cards — sub-component of the [Section](./section.md) family. Each card is a fixed-shape profile module (cover band + centered overlapping avatar + name + followers + metric row + Toggle-Button follow), used to surface channels, user profiles, or company channels in a curated editorial collection. The 'profile-card' shape names what the carousel actually carries — every card is a follow-able profile, regardless of whether the entity is a community channel, an individual user, or a company. Composed inside a [Section](./section.md) wrapper that owns the editorial heading and the optional 'See all' link. The pager geometry mirrors [Post carousel](./post-carousel.md) — same `ref.space.500` (40px) trailing peek, same leading-padding sticky anchor — so editorial collections of posts and profiles read as one family.",
+  "element": "div",
+  "props": {
+    "items": {
+      "type": "node",
+      "required": true,
+      "description": "Array of profile-card descriptors. Each item: { id?, avatar, cover?, name, followers, metrics?, description?, followed?, onFollowChange?, followLabel?, followingLabel?, onClick? }. `metrics` and `description` are mutually exclusive — when `description` is present, it replaces the metrics row. Items beyond index 4 are dropped — the rail enforces a hard 5-card maximum.",
+      "maxItems": 5
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "description": "Wraps the pager and pagination dots. No fill / padding of its own — the surrounding [Section](./section.md) provides the page-region chrome.",
+      "intrinsic": true
+    },
+    "pager": {
+      "required": true,
+      "description": "Horizontal scroll-snap track. `scroll-snap-type: x mandatory`; native scrollbar hidden. Bleeds out by `sys.layout.container.md` on the trailing edge so the next-card peek is not clipped.",
+      "intrinsic": true
+    },
+    "card": {
+      "required": true,
+      "description": "One profile card per page. **Width is fixed at 176px** — every card paints the same footprint regardless of how many entries the rail carries. Vertical stack: cover band → avatar (overlapping) → name → followers → metrics row → follow toggle. `sys.color.surface` fill, `sys.radius.md` corner, `sys.borderWidth.hairline sys.color.outlineVariant` inset outline. `scroll-snap-align: start`.",
+      "intrinsic": true
+    },
+    "cover": {
+      "required": true,
+      "description": "Cover band at the top of the card. `sys.color.surfaceContainerHigh` fill, 88px tall, full card width. Holds the platform watermark (Blind logotype at low opacity) behind the avatar.",
+      "intrinsic": true
+    },
+    "avatar": {
+      "required": true,
+      "description": "Centered circular avatar overlapping the cover band's bottom edge. Renders via the [Thumbnail](../thumbnail/thumbnail.md) component at `size={64}`. Every Thumbnail prop is forwarded verbatim; the carousel does not paint its own crop or image-area fallback.",
+      "accepts": ["thumbnail"],
+      "rendersAs": "thumbnail:64"
+    },
+    "name": {
+      "required": true,
+      "description": "Entity name (channel / profile / company). `sys.typo.label.md` / Semibold / `sys.color.onSurface`. Centered; single line, truncates with ellipsis.",
+      "accepts": ["text"]
+    },
+    "followers": {
+      "required": true,
+      "description": "Follower count line. `sys.typo.caption.md` / Regular / `sys.color.onSurfaceVariant`. Centered; single line.",
+      "accepts": ["text"]
+    },
+    "metrics": {
+      "required": false,
+      "description": "Row of metric chips below the name / followers stack. Each chip is `icon + value` painted in `sys.typo.label.sm` / `sys.color.onSurface`. Three default kinds: { icon: 'star', … } → `StarFillIcon` in `ref.palette.yellow.500`; { icon: 'pulse', … } → `PulseFillIcon` in `sys.color.success`; { icon: 'thumb', … } → `ThumbUpFillIcon` in `sys.color.primary`. Consumers may pass custom { icon: <ReactNode>, value, color? } entries for other shapes. Mutually exclusive with `description` — when both are present `description` wins.",
+      "intrinsic": true
+    },
+    "description": {
+      "required": false,
+      "description": "Two-line clamped descriptive paragraph that replaces the metrics row when present. `sys.typo.caption.md` / `sys.color.onSurfaceVariant`, centered. The slot reserves a fixed height of two `caption.md` lines so card height stays consistent across cards that carry metrics and cards that carry copy — extra content clamps with a trailing ellipsis.",
+      "accepts": ["text"]
+    },
+    "followAction": {
+      "required": true,
+      "description": "Trailing full-width [Toggle Button](../button/text.md) at the foot of the card. `Follow` (inactive) → `Following` (active). The carousel does not paint its own follow chrome — every state binding lives on the Toggle Button (Chip-toggle) contract, which paints `sys.color.primary` while inactive and a `surfaceContainerHigh` fill with a hairline outline while active so the followed state recedes.",
+      "accepts": ["button"],
+      "rendersAs": "button:toggle (full-width inside card)"
+    },
+    "pagination": {
+      "required": true,
+      "description": "Row of dots below the pager — one per card. Active dot paints `sys.color.onSurface`; the rest paint `sys.color.outlineVariant`. Decorative (`aria-hidden`); the active index updates from the pager's scroll position via IntersectionObserver.",
+      "intrinsic": true
+    }
+  },
+  "sizing": {
+    "pagerToPaginationGap": "sys.layout.stack.md",
+    "pageGap": "sys.layout.inline.md",
+    "pagePeek": "ref.space.500",
+    "pagePeekNote": "Guaranteed minimum visibility of the next card at the trailing edge — pinned to 40px (ref.space.500). Identical contract to PostCarousel.",
+    "pageSnapAnchor": "Cards stick to the leading edge of the pager (the Section's left padding). `scroll-snap-align: start` plus the pager's lack of leading margin produce this anchor.",
+    "cardFill": "sys.color.surface",
+    "cardOutline": "sys.borderWidth.hairline sys.color.outlineVariant",
+    "cardRadius": "sys.radius.md",
+    "cardWidth": "176px",
+    "cardWidthNote": "Fixed pixel width — every profile card paints the same 176px footprint regardless of card count or screen width. The pager scrolls horizontally so the 176px footprint never reflows.",
+    "cardStackGap": "sys.layout.stack.sm",
+    "coverHeight": "88px",
+    "coverFill": "sys.color.surfaceContainerHigh",
+    "coverWatermark": "Blind logotype at low opacity (~0.18), centered. Decorative — `aria-hidden`.",
+    "avatarSize": 64,
+    "avatarOverlap": "Avatar's vertical center sits on the cover band's bottom edge — the bottom half of the avatar bleeds onto the card surface. 2px surface halo separates the avatar from the cover band.",
+    "nameTypo": "sys.typo.label.md",
+    "nameColor": "sys.color.onSurface",
+    "followersTypo": "sys.typo.caption.md",
+    "followersColor": "sys.color.onSurfaceVariant",
+    "metricsRowGap": "sys.layout.inline.md",
+    "metricChipTypo": "sys.typo.label.sm",
+    "metricChipColor": "sys.color.onSurface",
+    "metricIconSize": "sys.icon.md",
+    "metricIconStar": "StarFillIcon — ref.palette.yellow.500",
+    "metricIconPulse": "PulseFillIcon — sys.color.success",
+    "metricIconThumb": "ThumbUpFillIcon — sys.color.primary",
+    "midSlotHeight": "calc(sys.typo.caption.md.size * sys.typo.caption.md.line * 2)",
+    "midSlotHeightNote": "Shared fixed height for the metrics row and the description slot — exactly two `caption.md` lines (12 × 1.5 × 2 ≈ 36px). Cards that carry metrics and cards that carry a description paint the same outer height.",
+    "descriptionTypo": "sys.typo.caption.md",
+    "descriptionColor": "sys.color.onSurfaceVariant",
+    "descriptionLineClamp": 2,
+    "descriptionOverflow": "Two-line clamp with trailing ellipsis; copy exceeding two lines truncates so the slot height stays fixed.",
+    "followActionRendersAs": "Button variant='toggle' — Chip-toggle anatomy. Stretched to full card width via a wrapper rule. All state tokens delegate to the Toggle Button (Chip) family.",
+    "cardPaddingBlock": "sys.layout.stack.sm",
+    "cardPaddingInline": "sys.layout.container.md",
+    "paginationDotSize": "6px",
+    "paginationDotGap": "sys.layout.inline.sm",
+    "paginationActiveColor": "sys.color.onSurface",
+    "paginationInactiveColor": "sys.color.outlineVariant"
+  },
+  "itemProps": {
+    "id": { "type": "string", "optional": true },
+    "avatar": { "type": "object", "required": true, "description": "Forwarded to Thumbnail verbatim at size 64." },
+    "cover": { "type": "object", "optional": true, "description": "{ src?, watermarkSrc?, alt? } — overrides for the cover band. By default the band paints `surfaceContainerHigh` plus the Blind logotype watermark." },
+    "name": { "type": "string", "required": true },
+    "followers": { "type": "string", "required": true },
+    "metrics": { "type": "node", "optional": true, "description": "Array of { icon, value, color? } where `icon` is one of 'star' | 'pulse' | 'thumb' or a custom ReactNode. Mutually exclusive with `description` — when both are passed, `description` wins." },
+    "description": { "type": "string", "optional": true, "description": "Two-line clamped paragraph that replaces the metrics row. Fixed-height slot — extra copy ellipsizes." },
+    "followed": { "type": "boolean", "default": false },
+    "onFollowChange": { "type": "function", "optional": true },
+    "followLabel": { "type": "string", "optional": true, "description": "Inactive label. Defaults to 'Follow'." },
+    "followingLabel": { "type": "string", "optional": true, "description": "Active label. Defaults to 'Following'." },
+    "onClick": { "type": "function", "optional": true }
+  },
+  "states": {
+    "note": "ProfileCarousel is not itself interactive — commit lives in each card's Toggle Button follow affordance and the optional card-level `onClick`. Each follows its own spec's state contract."
+  },
+  "focusIndicator": {
+    "description": "ProfileCarousel is not a focus target. Each focusable child (Toggle Button follow, card body when `onClick` is wired) paints its own ring per its spec. Cards tile inside a horizontal scroll viewport; the Inward composition is preferred so the stroke does not collide with the next-card peek.",
+    "composition": "inward",
+    "trigger": ":focus-visible"
+  },
+  "behavior": {
+    "maxFiveCards": "ProfileCarousel renders at most five cards — `items.slice(0, 5)`. Editorial / ops mistakes never blow out the rail.",
+    "headerLivesOnSection": "ProfileCarousel does not paint its own section heading or 'See all' link — those live on the [Section](./section.md) wrapper. Compose `<Section label='…' headerAction={…}><ProfileCarousel items={…} /></Section>`.",
+    "fixedCardWidth": "Every profile card paints a fixed 176px footprint — the carousel never reflows the card to fit the available inline width. The trailing peek (`ref.space.500`, 40px) of the next card is always visible regardless of viewport.",
+    "horizontalScrollSnap": "scroll-snap-type: x mandatory; each card declares scroll-snap-align: start.",
+    "stickyToLeadingPadding": "After every swipe, the snapped card aligns flush with the Section's left padding — same geometry contract as PostCarousel.",
+    "paginationDecorative": "Dots are decorative; tapping a dot does not scroll. Active state updates via IntersectionObserver on the snap targets.",
+    "followToggleCommitsInPlace": "Tapping Follow flips the card's Toggle Button to Following and stays there. State is owned by the consumer via items[i].followed + onFollowChange.",
+    "cardClickRoutes": "When an item carries `onClick`, the card surface becomes the click target. The follow toggle intercepts the tap so it routes independently."
+  }
+}

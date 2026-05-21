@@ -9,6 +9,7 @@ import { joinClasses } from './spec-utils.js';
 export function Callout({
   appearance = 'default',
   icon,
+  thumbnail,
   action,
   children,
   className,
@@ -20,7 +21,12 @@ export function Callout({
       role="note"
       {...rest}
     >
-      {icon ? <span className="chorus-callout__icon" aria-hidden="true">{icon}</span> : null}
+      {thumbnail ? (
+        <span className="chorus-callout__thumbnail" aria-hidden="true">{thumbnail}</span>
+      ) : null}
+      {!thumbnail && icon ? (
+        <span className="chorus-callout__icon" aria-hidden="true">{icon}</span>
+      ) : null}
       <div className="chorus-callout__content">
         {children ? <p className="chorus-callout__body">{children}</p> : null}
         {action ? (

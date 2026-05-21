@@ -106,7 +106,8 @@
       "background": "transparent",
       "border": null,
       "label": "sys.color.primary",
-      "note": "Brand-blue label for the inline commit affordance. Use sparingly — never two `accent` Text Buttons in the same row."
+      "note": "Brand-blue label for the inline commit affordance. Use sparingly — never two `accent` Text Buttons in the same row.",
+      "linkAffordanceRecommendation": "Prefer `accent` whenever the Text Button reads as a **link affordance** — a section header's trailing 'See all' / 'See more', a card-header 'Follow', an inline 'View details' next to a body paragraph. Link-like affordances should carry chromatic emphasis so the navigational intent is unambiguous; `default` (onSurfaceVariant) is for quieter inline commits that should recede into the body copy. Override to `default` only when a parent surface (e.g. a busy chrome bar) already carries enough chromatic weight that an `accent` label would compete."
     },
     "inverse": {
       "background": "transparent",

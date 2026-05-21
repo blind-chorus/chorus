@@ -1,0 +1,29 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "section",
+  "name": "Section",
+  "description": "Page-region wrapper for editorial collections — a labelled block with a leading section heading and an optional trailing `See all` link, hosting a horizontal carousel of cards underneath. Two sub-component shapes ride the same Section chrome: **post-carousel** — a swipeable rail of compact post cards (curated popular posts, paid / verified-account priority placements); **profile-carousel** — a swipeable rail of profile-style cards (channels, user profiles, company channels). Both share the same pager geometry (40px guaranteed trailing peek, leading-padding sticky anchor) so editorial collections of posts and profiles tile cleanly. The Section component itself is the wrapper exported as `<Section>`; the two carousel shapes export as `<PostCarousel>` and `<ProfileCarousel>` and are always composed *inside* a Section.",
+  "useCases": [
+    "section heading",
+    "labelled editorial collection",
+    "see-all link",
+    "post carousel section",
+    "profile carousel section",
+    "channel carousel",
+    "company carousel"
+  ],
+  "spec": "section.md",
+  "subcomponents": [
+    {
+      "slug": "post-carousel",
+      "spec": "post-carousel.spec.json",
+      "md": "post-carousel.md",
+      "default": true
+    },
+    {
+      "slug": "profile-carousel",
+      "spec": "profile-carousel.spec.json",
+      "md": "profile-carousel.md"
+    }
+  ]
+}

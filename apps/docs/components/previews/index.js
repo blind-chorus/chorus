@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FormField, FormFieldGroup, List, NavigationBar, TabBar, Thumbnail, Toast } from '@blind-dsai/ui';
-import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MenuIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
+import { Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FormField, FormFieldGroup, List, NavigationBar, PostCarousel, ProfileCarousel, Section, TabBar, Thumbnail, Toast } from '@blind-dsai/ui';
+import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, DownwardIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MenuIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
    (clean license for docs reuse). Helper builds query params for size +
@@ -630,6 +630,54 @@ export const PREVIEWS = {
     ),
   },
 
+  /* Filter chip group with a trailing accent Text Button. The trailing
+     button is NOT another filter — it routes to a unique page or
+     commits a unique action (managing the whole filter set, opening a
+     keyword editor) that sits outside the filter axis. Composition
+     mirrors Channel Rail with-overflow: `small` accent Text Button,
+     `sys.layout.inline.xl` gap between the track and the button, the
+     track scrolls horizontally with a trailing-edge mask fade over
+     the rightmost 48px (ref.space.600). */
+  'chip/filter/with-trailing-action': {
+    states: false,
+    render: () => (
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--sys-layout-inline-xl)',
+          width: '100%',
+          maxWidth: 400,
+          boxSizing: 'border-box',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--sys-layout-inline-sm)',
+            flex: '1 1 auto',
+            minWidth: 0,
+            overflowX: 'auto',
+            scrollbarWidth: 'none',
+            WebkitMaskImage:
+              'linear-gradient(to right, black 0, black calc(100% - 48px), transparent 100%)',
+            maskImage:
+              'linear-gradient(to right, black 0, black calc(100% - 48px), transparent 100%)',
+          }}
+        >
+          <Chip variant="filter" selected trailingIcon={<DownwardIcon />}>All keywords</Chip>
+          <Chip variant="filter" selected trailingIcon={<DownwardIcon />}>All channels</Chip>
+          <Chip variant="filter">Label</Chip>
+          <Chip variant="filter">Saved</Chip>
+        </div>
+        <Button variant="text" size="small" appearance="accent" style={{ flex: '0 0 auto' }}>
+          Manage
+        </Button>
+      </div>
+    ),
+  },
+
   /* Chip → Tag — square-cornered, filled metadata label. */
   'chip/tag/default': {
     render: ({ state }) => (
@@ -1121,7 +1169,7 @@ export const PREVIEWS = {
   'thumbnail/size-ladder': {
     states: false,
     render: () => (
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sys-layout-inline-xl)' }}>
         <Thumbnail size={48} src={asset("/placeholder_thumbnail.png")} alt="Channel A" updateDot />
         <Thumbnail size={40} src={asset("/placeholder_thumbnail.png")} alt="Channel B" updateDot />
         <Thumbnail size={32} src={asset("/placeholder_thumbnail.png")} alt="Channel C" updateDot />
@@ -1139,7 +1187,7 @@ export const PREVIEWS = {
      should feel the slot grammar in action, not a single brand. Channel
      names stay neutral (plain capitalised phrases, no platform-specific
      prefixes) so the previews read across any community product. */
-  'feed/default': {
+  'feed/post-default': {
     states: false,
     render: () => (
       <Frame>
@@ -1158,7 +1206,7 @@ export const PREVIEWS = {
       </Frame>
     ),
   },
-  'feed/with-flag': {
+  'feed/post-with-flag': {
     states: false,
     render: () => (
       <Frame>
@@ -1178,7 +1226,7 @@ export const PREVIEWS = {
       </Frame>
     ),
   },
-  'feed/with-poll': {
+  'feed/post-with-poll': {
     states: false,
     render: () => (
       <Frame>
@@ -1199,7 +1247,28 @@ export const PREVIEWS = {
       </Frame>
     ),
   },
-  'feed/with-citation': {
+  'feed/post-with-offer': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Feed
+          flag="HOT"
+          avatar={{ src: IMG.plantAvatar, alt: 'Anonymous' }}
+          channel="Software Engineer"
+          timestamp="2h"
+          followAction
+          meta={['Seattle, WA', 'L5 → L6', '@offer-check']}
+          title="Got a competing offer at $245k base — should I take it or stay for the next promo cycle?"
+          body="Current TC sits around $278k including RSUs vesting through 2027; the new offer is $245k base + $40k sign-on + $180k RSUs over 4 years. Stay path has a strong promo signal but no guarantees. Sanity-check me."
+          thumbnail={{ src: IMG.plantCover, alt: 'Offer letter on a desk' }}
+          offer={{ label: 'Offer', participants: '1,284' }}
+          mention="@compensation-talk"
+          engagement={{ likes: 642, comments: 213, views: 5104 }}
+        />
+      </Frame>
+    ),
+  },
+  'feed/post-with-citation': {
     states: false,
     render: () => (
       <Frame>
@@ -1220,7 +1289,7 @@ export const PREVIEWS = {
       </Frame>
     ),
   },
-  'feed/full': {
+  'feed/post-full': {
     states: false,
     render: () => (
       <Frame>
@@ -1296,6 +1365,171 @@ export const PREVIEWS = {
           }}
           cta={{ label: 'Start your free trial', color: '#5E4BDB' }}
         />
+      </Frame>
+    ),
+  },
+
+  /* FeedCarousel — the `carousel` sub of the Feed family. Up to 5 compact
+     post cards under a single section header, with a one-card-per-page
+     scroll-snap pager and decorative pagination dots. Header anatomy
+     delegates verbatim to ChannelList. */
+  'section/post-carousel-default': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Section
+          label="Trending right now"
+          headerAction={{ label: 'See all', href: '#' }}
+        >
+        <PostCarousel
+          items={[
+            {
+              id: 'cushion',
+              avatar: { src: IMG.plantAvatar, alt: 'Beauty Channel' },
+              channel: 'Beauty Talk',
+              verified: true,
+              followAction: true,
+              title: 'Which cushion brand still works on combo skin in summer?',
+              body: 'Slightly dehydrated combo skin — coverage is nice but not required. Anything that holds for a workday without sliding off? Pore-blurring a plus.',
+              mention: '@beauty, @skincare-talk',
+              views: '5K',
+            },
+            {
+              id: 'promo',
+              avatar: { src: IMG.plantAvatar, alt: 'Compensation' },
+              channel: 'Compensation',
+              verified: true,
+              followAction: true,
+              title: 'L5 → L6 promo packet review — what worked, what nearly killed it',
+              body: 'I shipped two cross-team launches in the year, but my packet still came back with "scope of influence unclear" twice before it cleared. Sharing the rewrites that finally got me through.',
+              mention: '@career, @big-tech',
+              views: '12K',
+            },
+            {
+              id: 'monstera',
+              avatar: { src: IMG.plantAvatar, alt: 'Plant People' },
+              channel: 'Plant People',
+              verified: false,
+              followAction: true,
+              title: 'Monstera dropping aerial roots — repot or train?',
+              body: 'Two-year-old monstera, roots crawling out of the drainage holes. Light and watering are dialed in. Looking for the lazy-but-right answer before this weekend.',
+              mention: '@plant-parents',
+              views: '3K',
+            },
+            {
+              id: 'sourdough',
+              avatar: { src: IMG.plantAvatar, alt: 'Sourdough Club' },
+              channel: 'Sourdough Club',
+              verified: false,
+              followAction: true,
+              title: 'The 30-hour cold proof finally clicked — here is what changed',
+              body: 'Same starter, same flour, same hydration. Difference was a 12°C fridge and a longer bench rest before shaping. Open crumb on the third loaf, no scoring tricks.',
+              mention: '@baking',
+              views: '8K',
+            },
+            {
+              id: 'gamedev',
+              avatar: { src: IMG.plantAvatar, alt: 'Indie Devs' },
+              channel: 'Indie Devs',
+              verified: true,
+              followAction: false,
+              title: 'Shipped my first game after 14 months — 87 wishlists, 3 sales, 1 angry email',
+              body: 'Solo dev, no marketing budget, no community. Numbers are tiny but everything still feels like a win. Writing up the lessons before I start the next one.',
+              mention: '@gamedev',
+              views: '22K',
+            },
+          ]}
+        />
+        </Section>
+      </Frame>
+    ),
+  },
+
+  /* Section · Profile Carousel — horizontal rail of profile-style cards
+     (channels, profiles, companies). Cards fixed at 176px, Toggle Button
+     follow affordance, max 5 cards. */
+  'section/profile-carousel-default': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Section label="Hot companies right now" headerAction={{ label: 'See all', href: '#' }}>
+          <ProfileCarousel
+            items={[
+              {
+                avatar: { src: '/blind_logo_red.png', alt: 'Amazon' },
+                name: 'Amazon',
+                followers: '1,678 followers',
+                metrics: [
+                  { icon: 'star', value: '4.1' },
+                  { icon: 'pulse', value: '81.1' },
+                  { icon: 'thumb', value: '81%' },
+                ],
+              },
+              /* Default metric set: star → yellow.500, pulse →
+                 success/green.500 (filled), thumb → primary tone via
+                 ThumbUpFillIcon. */
+              {
+                avatar: { src: '/blind_logo_red.png', alt: 'Tesla' },
+                name: 'Tesla',
+                followers: '1.4K followers',
+                metrics: [
+                  { icon: 'star', value: '4.7' },
+                  { icon: 'pulse', value: '86' },
+                  { icon: 'thumb', value: '85.3%' },
+                ],
+                followed: true,
+              },
+              {
+                avatar: { src: '/blind_logo_red.png', alt: 'Stripe' },
+                name: 'Stripe',
+                followers: '2.1K followers',
+                metrics: [
+                  { icon: 'star', value: '4.5' },
+                  { icon: 'pulse', value: '92.4' },
+                  { icon: 'thumb', value: '88%' },
+                ],
+              },
+            ]}
+          />
+        </Section>
+      </Frame>
+    ),
+  },
+
+  /* Profile Carousel · with description — swaps the metric row for a
+     two-line clamped description. The description slot reserves the
+     same fixed height (two body.sm lines) as the metrics row, so card
+     outer height is identical across both modes even when copy spills
+     past two lines and ellipsizes. */
+  'section/profile-carousel-with-description': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Section label="Recommended channels" headerAction={{ label: 'See all', href: '#' }}>
+          <ProfileCarousel
+            items={[
+              {
+                avatar: { src: '/blind_logo_red.png', alt: 'Engineering' },
+                name: 'Engineering',
+                followers: '12.4K followers',
+                description: 'Hands-on threads about systems, infra, and the work behind the launch.',
+              },
+              {
+                avatar: { src: '/blind_logo_red.png', alt: 'Compensation' },
+                name: 'Compensation',
+                followers: '8.1K followers',
+                description: 'Salary checks, offer evaluations, and the quiet math of staying versus leaving — the channel that runs longer than any single conversation can.',
+                followed: true,
+              },
+              {
+                avatar: { src: '/blind_logo_red.png', alt: 'Career' },
+                name: 'Career',
+                followers: '5.3K followers',
+                description: 'Promotion packets, scope debates, and the rewrites that actually cleared.',
+              },
+            ]}
+          />
+        </Section>
       </Frame>
     ),
   },
@@ -1403,13 +1637,28 @@ export const PREVIEWS = {
     ),
   },
 
+  'callout/with-thumbnail': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Callout
+          appearance="accent"
+          thumbnail={<Thumbnail size={40} alt="Channel" src={IMG.brandChip} />}
+          action={{ label: 'How levels work', href: '#level' }}
+        >
+          Stay active in the community to level up and unlock more of what the app offers.
+        </Callout>
+      </Frame>
+    ),
+  },
+
   'callout/with-icon': {
     states: false,
     render: () => (
       <Frame>
         <Callout
           appearance="accent"
-          icon={<img src={IMG.brandChip} alt="" />}
+          icon={<StarIcon size={24} />}
           action={{ label: 'How levels work', href: '#level' }}
         >
           Stay active in the community to level up and unlock more of what the app offers.
@@ -1642,7 +1891,7 @@ export const PREVIEWS = {
     states: false,
     sizes: ['medium', 'small'],
     render: ({ size = 'medium' }) => (
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sys-layout-inline-xl)' }}>
         <Thumbnail size={size === 'small' ? 24 : 48} src={asset('/placeholder_thumbnail.png')} alt="Channel" updateDot />
       </div>
     ),
@@ -1663,7 +1912,7 @@ export const PREVIEWS = {
         </span>
       );
       return (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sys-layout-inline-2xl)' }}>
           {wrap(<NotificationIcon size={24} />)}
           {wrap(<ChatIcon size={24} />)}
           {wrap(<MentionIcon size={24} />)}

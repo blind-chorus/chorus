@@ -20,10 +20,10 @@ All Button family components draw the same outward two-layer ring as a `position
 
 ## Sub-components
 
-- **[Check Button](./check.md)** — Option-toggle commit surface with a required leading checkbox glyph (outline → fill on `checked`) and an optional middle icon. Two sizes; reads as a [Text Button](./text.md) with a checkbox affordance.
+- **[Check](./check.md)** — Option-toggle commit surface with a required leading checkbox glyph (outline → fill on `checked`) and an optional middle icon. Two sizes; reads as a [Text](./text.md) Button with a checkbox affordance.
 - **[FAB](./fab.md)** — Surface-elevated pill anchored to the canvas; commit stays reachable while content scrolls.
-- **[Icon Button](./icon.md)** — 40 × 40 transparent capsule, glyph-only. Requires `aria-label`.
-- **[Standard Button](./standard.md)** — The default inline action. Four appearance treatments (`primary` / `secondary` / `outlined` / `tertiary`) over three sizes.
-- **[Text Button](./text.md)** — Link-shaped commit at the 16/Semibold rung; reads as inline `primary` type at rest.
-- **[Toggle Button](./toggle.md)** — Reversible commit at the Toolbar footprint. Follow ↔ Following.
-- **[Toolbar Button](./toolbar.md)** — 32px capsule for dense inline actions. Chrome shared with [Filter chip](../chip/filter.md).
+- **[Icon](./icon.md)** — 40 × 40 transparent capsule, glyph-only. Requires `aria-label`.
+- **[Standard](./standard.md)** — The default inline action. Four appearance treatments (`primary` / `secondary` / `outlined` / `tertiary`) over three sizes.
+- **[Text](./text.md)** — Link-shaped commit at the 16/Semibold rung; reads as inline `primary` type at rest.
+- **[Toggle](./toggle.md)** — Reversible commit at the Toolbar footprint. Follow ↔ Following.
+- **[Toolbar](./toolbar.md)** — 32px capsule for dense inline actions. Chrome shared with [Filter chip](../chip/filter.md).

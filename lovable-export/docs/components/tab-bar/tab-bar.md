@@ -1,4 +1,4 @@
-# Tab Bar
+# Tab bar
 
 The **bottom tab bar** — a horizontal strip pinned to the bottom of the app that exposes top-level destinations (Home / Company / Explore / Jobs / Notifications) in one tap. Each item stacks a 24px glyph above a 10/Regular label; the active item shows the filled companion glyph at `onSurface` while inactive items render the outline at `onSurfaceVariant`. An item may opt into `appearance="primary"` to render a tile-shaped commit affordance — the conventional **Create** entry at the trailing end.
 

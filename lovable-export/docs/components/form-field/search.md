@@ -1,4 +1,4 @@
-# Search Bar
+# Search bar
 
 The search-shaped single-line field — a sibling of [Input](./input.md) with a leading `SearchIcon` and a `sys.radius.full` pill corner. Box, stroke, placeholder rule, clear button, and focus ring are inherited from Input unchanged. **Bare box only — no `label`, `helper`, `maxLength`, or `error` appearance.** Error reporting belongs to a labelled Input; a search rung that needs to flag failure should switch to one.
 

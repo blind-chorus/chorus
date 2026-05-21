@@ -205,6 +205,25 @@ async function main() {
 
   await syncDocs();
   await syncComponents();
+  await syncPublicAssets();
+}
+
+async function syncPublicAssets() {
+  // Ship the shared public assets so paths like
+  // `<Thumbnail src="/placeholder_thumbnail.png" />` and `<img src="/blind_logo_red.png" />`
+  // resolve inside the Lovable repo too. `placeholder_thumbnail.png` is the
+  // canonical image-area fallback (runtime load failures + design-time mocks);
+  // `blind_logo_red.png` is the Blind brand mark.
+  const publicOutDir = resolve(repoRoot, "lovable-export/public");
+  await mkdir(publicOutDir, { recursive: true });
+  const assets = ["placeholder_thumbnail.png", "blind_logo_red.png"];
+  for (const asset of assets) {
+    await copyFile(
+      resolve(repoRoot, "apps/docs/public", asset),
+      resolve(publicOutDir, asset),
+    );
+  }
+  console.log(`synced ${assets.length} public assets → ${publicOutDir}`);
 }
 
 async function syncDocs() {

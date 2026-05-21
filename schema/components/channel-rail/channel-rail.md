@@ -1,4 +1,4 @@
-# Channel Rail
+# Channel rail
 
 A horizontal strip of channel entry points — each item routes to a channel or company page. Composes a [Thumbnail](../thumbnail/thumbnail.md) (optional `updateDot`) and a single-line label; an optional trailing action lives at the end.
 
@@ -56,7 +56,7 @@ import { ChannelRail } from '@blind-dsai/ui';
 - **item** — channel entry, rendered as `<a href>`. Stacks Thumbnail above label.
 - **avatar** — [Thumbnail](../thumbnail/thumbnail.md) at the 48 rung. Forwards every other Thumbnail prop verbatim.
 - **label** — channel name. `label.sm` / Regular / `onSurface`. Single line; truncates.
-- **trailingAction** *(optional)* — [`small` Text Button](../button/text.md), `primary` appearance. Renders as `<a>` when `href` is set. Vertically centred against the avatar row.
+- **trailingAction** *(optional)* — [`small` Text Button](../button/text.md), `accent` appearance per the link-affordance rule. Renders as `<a>` when `href` is set. Vertically centred against the avatar row.
 
 ## Anatomy
 
@@ -67,7 +67,7 @@ import { ChannelRail } from '@blind-dsai/ui';
 | item           | Flex column, items centred; 8px avatar↔label; 16px between item columns |
 | avatar         | [Thumbnail](../thumbnail/thumbnail.md) `size={48}` |
 | label          | `label.sm` / Regular / `onSurface`, max-width 80px (matches avatar) |
-| trailingAction | `small` [Text Button](../button/text.md), `primary` appearance, vertically centred against avatar row |
+| trailingAction | `small` [Text Button](../button/text.md), `accent` appearance, vertically centred against avatar row |
 
 ## Sizes
 

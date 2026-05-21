@@ -1845,6 +1845,24 @@ const AGENT_PROMPTS = [
   '"Build a notification banner using the primaryContainer pair: color.primaryContainer background, color.onPrimaryContainer text and icons, radius.lg corners, layout.container.md padding. Inline with layout.inline.md between icon and text. No shadow — containers stay flat."',
 ];
 
+const AGENT_PRINCIPLES = [
+  <>
+    <strong>Design-system-first (Source of Truth).</strong> Chorus is the source of truth for every surface you design. Start from Chorus tokens, components, and patterns — not from generic UI libraries, screenshot inference, or invented values. Read <code>schema/manifest.json</code> + <code>schema/catalog.md</code> before crawling.
+  </>,
+  <>
+    <strong>Component flexibility — extrapolate, don&apos;t fork.</strong> Chorus components ship with reference compositions and per-spec guidelines. Read the intent and respect each component&apos;s anatomy invariants, but feel free to flex how it&apos;s composed (slot fill, layout placement, modifier props) to fit a specific UI/UX context. The contract is the token bindings and the spec&apos;s slot/sizing rules, not the example screenshot.
+  </>,
+  <>
+    <strong>New surfaces stay token-true.</strong> When Chorus has no component for what the surface needs, design a brand-new screen or primitive. The design MUST still resolve every color, spacing, typography, radius, and border-width through Chorus design tokens and foundation rules. No raw hex, no off-scale px, no third-party type ramp — that is the floor regardless of how novel the composition is.
+  </>,
+  <>
+    <strong>Lego-block composition.</strong> Build new surfaces by combining and extending existing Chorus components like Lego blocks — nest, group, sequence, and re-purpose primitives in creative arrangements. Token usage stays non-negotiable; the components themselves are the flexible part. A novel screen should still read as one harmony with the rest of the system.
+  </>,
+  <>
+    <strong>UX-pattern consistency.</strong> Pick components from the interaction the user expects — Dialog for modal commits, BottomSheet for committed-sheet flows, Toast for non-blocking feedback, List for menus/pickers, Feed for authored content streams. Across a single flow, behavior, motion, and affordance language stay predictable; do not reach for a Chip when the user expects a Button, or a Dialog when a Toast is the right rung.
+  </>,
+];
+
 const AGENT_RULES = [
   <>Reach for <code>color.*</code> system tokens, never raw <code>palette.*</code> — palette steps are documentation-only.</>,
   <>Pair every accent fill with its <code>on*</code> foreground; never read contrast manually.</>,
@@ -1854,6 +1872,22 @@ const AGENT_RULES = [
   <>The web step-up is automatic; do not branch on viewport for <code>layout.*</code>, <code>display.*</code>, or <code>heading.*</code>.</>,
   <>Pretendard is the only family — do not split fonts between Latin and Hangul.</>,
 ];
+
+function AgentPrinciples() {
+  return (
+    <Section
+      title="Design principles"
+      id="agent-principles"
+      description="The five directives every agent — Lovable, Cursor, Claude Design, v0 — applies before reaching for hex values or generic UI libraries. Apply them in order; later directives never override earlier ones."
+    >
+      <ol className="rule-list">
+        {AGENT_PRINCIPLES.map((p, i) => (
+          <li key={i}>{p}</li>
+        ))}
+      </ol>
+    </Section>
+  );
+}
 
 function AgentQuickRef() {
   return (
@@ -1909,6 +1943,7 @@ function AgentRules() {
 export function AgentGuide() {
   return (
     <>
+      <AgentPrinciples />
       <AgentQuickRef />
       <AgentPrompts />
       <AgentRules />
@@ -1989,7 +2024,7 @@ export function Iconography() {
         }
       >
         <div className="component-preview">
-          <div className="component-preview-stage" style={{ gap: 32, justifyContent: 'center' }}>
+          <div className="component-preview-stage" style={{ gap: 'var(--ref-space-400)', justifyContent: 'center' }}>
             {[NotificationIcon, ChatIcon, MentionIcon].map((Icon, i) => (
               <span key={`lg-${i}`} style={{ position: 'relative', display: 'inline-flex', color: 'var(--sys-color-onSurface)' }}>
                 <Icon size={24} />
@@ -2200,9 +2235,10 @@ export function VoiceContent() {
         description="The contract that keeps button labels coherent across surfaces."
       >
         <ul className="rule-list">
-          <li><strong>Verb + object, sentence case.</strong> &ldquo;Save changes&rdquo;, &ldquo;Send invite&rdquo;, &ldquo;Delete post&rdquo;. One verb; if you need two, the action is doing too much.</li>
+          <li><strong>Intuitive and concise.</strong> Drop the object when the surrounding surface already names it. A &ldquo;Manage&rdquo; affordance trailing a keyword-filter row reads as &ldquo;manage these keywords&rdquo; without restating &ldquo;Manage keywords&rdquo;. Shorter labels lower the reader&apos;s parse cost and keep the row compact — but never shorten when the verb alone is ambiguous (see destructive-actions rule below).</li>
+          <li><strong>Verb + object, sentence case.</strong> &ldquo;Save changes&rdquo;, &ldquo;Send invite&rdquo;, &ldquo;Delete post&rdquo;. One verb; if you need two, the action is doing too much. Reach for the explicit object whenever the surrounding context doesn&apos;t already pin it down.</li>
           <li><strong>Primary CTA is the most likely intent</strong>, not the most important to us. &ldquo;Continue&rdquo; beats &ldquo;Submit&rdquo; on a multi-step form.</li>
-          <li><strong>Destructive actions name what&apos;s destroyed.</strong> &ldquo;Delete account&rdquo; beats &ldquo;Delete&rdquo;; the explicit object lets a user catch the mistake before the confirm dialog.</li>
+          <li><strong>Destructive actions name what&apos;s destroyed.</strong> &ldquo;Delete account&rdquo; beats &ldquo;Delete&rdquo;; the explicit object lets a user catch the mistake before the confirm dialog. This is the carve-out from the concise rule — danger trumps brevity.</li>
           <li><strong>Cancel is always &ldquo;Cancel&rdquo;</strong> — never &ldquo;Nevermind&rdquo; or &ldquo;Keep editing&rdquo;. The convention is more important than the cleverness.</li>
           <li><strong>No trailing punctuation</strong> on button labels.</li>
         </ul>
@@ -2300,7 +2336,7 @@ const COMPONENT_INDEX = [
   ['channel-rail',  'Channel Rail',  'A horizontally-scrolling rail of subscribed channels — circular thumbnail + name, with an edge fade indicating off-screen items and an optional trailing "View all" action.'],
   ['chip',          'Chip',          'A small, content-shaped control or label — Filter (selectable, single-toggle) and Tag (informational metadata).'],
   ['dialog',        'Dialog',        'A centred card over a scrim that interrupts the surface for a single decision — title + body + a vertical stack of primary / tertiary actions, dismissible via the scrim or the Esc key.'],
-  ['feed',          'Feed',          'The scrolling-stream card family — Default Feed (authored content card: channel header, post block, optional inline modules, engagement footer) and Ad (in-feed sponsored placement: brand row, optional headline + body, a hero + CTA slab, no engagement row).'],
+  ['feed',          'Feed',          'The scrolling-stream card family — Post (authored content card: channel header, body block, optional inline modules, engagement footer) and Ad (in-feed sponsored placement: brand row, optional headline + body, a hero + CTA slab, no engagement row).'],
   ['form-field',    'Form Field',    'Text-entry primitives — Input (single-line field, hairline outline at rest, heavier focus ring, optional leading icon and clear button, error re-tone), Search (the same field with a leading SearchIcon and a pill `radius.full` corner), and Select (Input-shaped picker that opens a BottomSheet). Compose multiple fields into shared-label rows or 16px vertical stacks via FormFieldGroup.'],
   ['list',          'List',          'A vertical sequence of rows for menus, settings panels, and picker sheets — Text (display / nav), Radio (single-select picker), Thumbnail (avatar-anchored), Nav (drill-in chevron). One row anatomy; per-sub leading slot and selection contract.'],
   ['navigation-bar', 'Navigation Bar', 'Top app bar — Home (left-aligned 24/Semibold title + leading menu + up to three trailing icons), Page (centred 16/Semibold title + leading back + trailing icon/button/link), and Search (leading back + bare-text input filling the row + conditional clear). All three at a 56 min-height with 8/8 padding.'],

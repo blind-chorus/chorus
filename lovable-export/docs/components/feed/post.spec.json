@@ -2,7 +2,7 @@
   "$schema": "../../spec.schema.json",
   "name": "Feed",
   "family": "feed",
-  "description": "Vertically-stacked content card — the unit of a scrolling feed. One Feed entry composes a flag, an author row, a body block (title + clamped excerpt + optional thumbnail), optional inline modules (poll banner, source citation, mention line), and an engagement footer (reactions and view count). Slots are independent — every block beyond the author row is optional, so the same component renders a plain text post, a poll, or a link share without forking the variant axis.",
+  "description": "Vertically-stacked content card — the unit of a scrolling feed. One Feed entry composes a flag, an author row, a body block (title + clamped excerpt + optional thumbnail), optional inline modules (poll banner, offer-evaluation banner, source citation, mention line), and an engagement footer (reactions and view count). Slots are independent — every block beyond the author row is optional, so the same component renders a plain text post, a poll, an offer evaluation, or a link share without forking the variant axis.",
   "element": "article",
   "props": {
     "flag": { "type": "string", "optional": true, "description": "Editorial label — 'HOT', 'NEW', 'PINNED'. Opt-in; most posts render without one." },
@@ -17,7 +17,24 @@
     "title": { "type": "string", "optional": true },
     "body": { "type": "string", "optional": true },
     "thumbnail": { "type": "object", "optional": true, "description": "80×80 trailing image; { src, alt, stacked? }. When `stacked === true` (2+ images attached), the thumbnail overlays a `MultipleIcon` glyph at its top-right corner — see `sizing.thumbnailMultipleBadge` for the full anatomy." },
-    "poll": { "type": "object", "optional": true, "description": "{ label, participants } — inline poll banner." },
+    "poll": {
+      "type": "object",
+      "optional": true,
+      "description": "{ label, participants } — inline poll banner. `label` is constrained to the literal `\"Poll\"` (the banner is editorial — see `tagBanner.labelEnum`); `participants` is the participant count shown after the divider.",
+      "fields": {
+        "label": { "type": "enum", "values": ["Poll"], "default": "Poll", "description": "Constrained — the poll banner only ever shows the literal `Poll`. Omit to use the default; do not pass a free-form string." },
+        "participants": { "type": "string", "required": true }
+      }
+    },
+    "offer": {
+      "type": "object",
+      "optional": true,
+      "description": "{ label, participants } — inline offer-evaluation banner. Same chrome as `poll` (surfaceVariant slab, leading glyph + label + divider + participant count), but the leading icon is `CompensationFillIcon` and the glyph + label paint in `sys.color.success` (resolves to `ref.palette.green.500`). Surfaces a 'compensation / offer evaluation' post — the author publishes their current salary or a competing offer and asks the community for better-option signals. `label` is constrained to the literal `\"Offer\"` (see `tagBanner.labelEnum`); `participants` is the participant count shown after the divider.",
+      "fields": {
+        "label": { "type": "enum", "values": ["Offer"], "default": "Offer", "description": "Constrained — the offer banner only ever shows the literal `Offer`. Omit to use the default; do not pass a free-form string." },
+        "participants": { "type": "string", "required": true }
+      }
+    },
     "citation": { "type": "object", "optional": true, "description": "{ title, source, src? } — inline link-share card." },
     "mention": { "type": "string", "optional": true },
     "engagement": { "type": "object", "optional": true, "description": "{ likes, comments, views } — footer counters." }
@@ -32,7 +49,8 @@
     "title": { "required": false, "description": "Post title. heading.md (20 / Semibold) / onSurface. One line; truncates with ellipsis.", "accepts": ["text"] },
     "body": { "required": false, "description": "Post excerpt. 14 / Regular / onSurfaceVariant. Two-line clamp with trailing ellipsis.", "accepts": ["text"] },
     "thumbnail": { "required": false, "description": "80×80 square image at the trailing edge of the title/body block. radius.sm. When the post carries 2+ images, overlays a `MultipleIcon` badge at the top-right corner (16px / white / 4 inset on top + right).", "accepts": ["thumbnail"] },
-    "poll": { "required": false, "description": "Inline banner naming an attached poll. surfaceVariant fill, 48px min-height." },
+    "poll": { "required": false, "description": "Inline banner naming an attached poll. surfaceVariant fill, 48px min-height. Leading glyph `PollFillIcon` + label, both painted in `sys.color.brand`; label is constrained to the literal `Poll`." },
+    "offer": { "required": false, "description": "Inline banner naming an attached offer-evaluation post. Identical chrome to `poll` — surfaceVariant fill, 48px min-height — with the leading glyph swapped to `CompensationFillIcon` and the glyph + label painted in `sys.color.success` (resolves to `ref.palette.green.500`). Label is constrained to the literal `Offer`." },
     "citation": { "required": false, "description": "Inline link-share card naming an external source." },
     "mention": { "required": false, "description": "Tap-anywhere line under the body naming the parent thread. Italic, primary, body-sm.", "accepts": ["text"] },
     "engagement": { "required": false, "description": "Footer row of three counters laid out as an `xsmall` Text Button group. Likes + Comments are real Text Buttons (`text` / `xsmall` / `secondary`); Views renders as a non-interactive `<span>` matching the same 16-glyph / 12-label rhythm. Row gap follows the xsmall-rung group rule (`sys.layout.inline.sm` = 4px). Like is a toggle: active state retones the label to `sys.color.brand` (via `--button-text-label` override) and swaps `HeartIcon` → `HeartFillIcon`, with the count incrementing in lockstep. Never wraps." }
@@ -93,7 +111,30 @@
     "paddingInline": "16px",
     "minHeight": "48px",
     "bodyTypo": "14",
+    "glyph": "PollFillIcon",
+    "glyphColor": "sys.color.brand",
+    "labelColor": "sys.color.brand",
+    "labelLiteral": "Poll",
     "anatomy": "Leading 'poll-title' sub-container groups glyph (brand tone) + label at 4px gap; 12px flex gap to vertical outlineVariant divider; 12px gap to participant count."
+  },
+  "offer": {
+    "fill": "sys.color.surfaceVariant",
+    "radius": "sys.radius.md",
+    "paddingBlock": "12px",
+    "paddingInline": "16px",
+    "minHeight": "48px",
+    "bodyTypo": "14",
+    "glyph": "CompensationFillIcon",
+    "glyphColor": "sys.color.success",
+    "glyphColorResolved": "ref.palette.green.500 (#008838)",
+    "labelColor": "sys.color.success",
+    "labelLiteral": "Offer",
+    "anatomy": "Identical to `poll` — same surfaceVariant slab, same 48 min-height, same leading sub-container + divider + participant count. Differs only in the glyph (CompensationFillIcon) and the editorial tone (success / green-500 instead of brand)."
+  },
+  "tagBanner": {
+    "shared": "`poll` and `offer` are siblings of the same banner family — same chrome, same anatomy. They differ only on the glyph + editorial tone.",
+    "labelEnum": "The leading-icon label is constrained to exactly two literals across both modules combined: `\"Poll\"` (for the poll banner) and `\"Offer\"` (for the offer-evaluation banner). Consumers (including Lovable) MUST pass one of these two values, or omit `label` to use the default for the chosen banner kind. No other label string is valid.",
+    "renderOrder": "When both modules are present on the same post, `poll` renders above `offer`. Either may stand alone."
   },
   "citation": {
     "textColumnFill": "sys.color.surfaceVariant",
@@ -134,7 +175,8 @@
     "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
   },
   "behavior": {
-    "slotOmissionCollapses": "Optional blocks (flag, followAction, thumbnail, poll, citation, mention) drop out of the layout entirely when absent — no reserved whitespace. flag in particular is opt-in.",
+    "slotOmissionCollapses": "Optional blocks (flag, followAction, thumbnail, poll, offer, citation, mention) drop out of the layout entirely when absent — no reserved whitespace. flag in particular is opt-in.",
+    "tagBannerLabelConstrained": "The poll and offer banners share one closed enum for their leading label: `\"Poll\"` or `\"Offer\"`. Each module defaults to its own literal when `label` is omitted; passing any other string is a contract violation.",
     "truncationNotWrap": "meta and title truncate; body clamps to two lines. The card never grows to fit a long title.",
     "thumbnailFlexSibling": "Title and body share their inline space with the thumbnail when both are present; thumbnail is a flex sibling, not floated, so the body's two-line clamp computes against the reduced inline width.",
     "engagementNoReflow": "Footer row stays single-line; tiny screens scroll the row rather than wrapping.",

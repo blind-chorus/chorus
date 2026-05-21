@@ -4,7 +4,7 @@ The selectable chip — capsule-shaped toggle for refining a set. **Unselected**
 
 ## Default
 
-At-rest form — transparent fill with a hairline `outlineVariant` stroke so the chip is free to sit on any underlying surface (page, raised card, sheet) without colliding with the surface ladder. Use in rows of choices the user hasn't acted on yet.
+At-rest form — transparent fill with a hairline `outlineVariant` stroke so the chip sits on any underlying surface without colliding with the surface ladder. Use in rows of choices the user hasn't acted on yet.
 
 ```preview
 chip/filter/unselected
@@ -96,6 +96,57 @@ import { Chip } from '@blind-dsai/ui';
 </div>
 ```
 
+### With trailing action
+
+Pair the chip rail with a trailing accent [Text Button](../button/text.md) (`size='small'`, `appearance='accent'`) for a destination that sits outside the filter axis — managing the whole set, opening keyword settings, jumping to an editor. The button is **not** a filter toggle. Composition mirrors [Channel rail · With overflow](../channel-rail/channel-rail.md#with-overflow): chip track scrolls horizontally with a trailing 48px `mask-image` fade that only paints while overflowing; the button stays pinned outside the scroll viewport with a `sys.layout.inline.xl` gap.
+
+```preview
+chip/filter/with-trailing-action
+---
+import { Chip, Button } from '@blind-dsai/ui';
+import { DownwardIcon } from '@blind-dsai/ui/icons';
+
+<div
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--sys-layout-inline-xl)',
+    width: '100%',
+    boxSizing: 'border-box',
+  }}
+>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: 'var(--sys-layout-inline-sm)',
+      flex: '1 1 auto',
+      minWidth: 0,
+      overflowX: 'auto',
+      scrollbarWidth: 'none',
+      WebkitMaskImage: 'linear-gradient(to right, black 0, black calc(100% - 48px), transparent 100%)',
+      maskImage: 'linear-gradient(to right, black 0, black calc(100% - 48px), transparent 100%)',
+    }}
+  >
+    <Chip variant="filter" selected trailingIcon={<DownwardIcon />}>
+      All keywords
+    </Chip>
+    <Chip variant="filter" selected trailingIcon={<DownwardIcon />}>
+      All channels
+    </Chip>
+    <Chip variant="filter">
+      Label
+    </Chip>
+    <Chip variant="filter">
+      Saved
+    </Chip>
+  </div>
+  <Button variant="text" size="small" appearance="accent" style={{ flex: '0 0 auto' }}>
+    Manage
+  </Button>
+</div>
+```
+
 ### Focus indicator
 
 Both selection states take the same standard ring; the case below shows unselected. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
@@ -130,14 +181,9 @@ Single fixed footprint; consistent across breakpoints.
 | Label                             | 12 / Semibold        | `sys.typo.label.sm`                |
 | Icon                              | 16px                 | `sys.icon.md`                      |
 
-‡ **min-height** binds to raw `ref.space.*` — `sys.*` does not expose a 32px step. Footprint shared with [Toolbar Button](../button/toolbar.md) and [Tabs Segmented](../tabs/segmented.md).
+‡ **min-height** binds raw `ref.space.*` — `sys.*` exposes no 32px step. Footprint shared with [Toolbar button](../button/toolbar.md) and [Tabs segmented](../tabs/segmented.md).
 
-† **Slot gap is `0`** — the visible icon-to-label rhythm comes from the label-slot inset below.
-
-**Label-slot 4px inset.** Outer 12px padding alone would crowd the rounded ends, so the label slot adds another `container.2xs` only on sides where text touches the edge:
-
-- **Text-only chips** clear 16px on each side (12 + 4).
-- **Icon + text chips** — icon flush at 12px, label with its own 4px inset, trailing 12px padding.
+† **Slot gap is `0`**; visible icon-to-label rhythm comes from the label-slot inset. The label slot adds another `container.2xs` only on sides where text touches an edge — text-only chips clear 16px on each side (12 + 4); icon + text chips keep the icon flush at 12px with a 4px label inset and trailing 12px padding.
 
 ## Variants
 

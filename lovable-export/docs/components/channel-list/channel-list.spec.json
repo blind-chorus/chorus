@@ -41,7 +41,7 @@
     },
     "headerAction": {
       "required": false,
-      "description": "Trailing text link ('See all'). label.sm / Semibold / primary.",
+      "description": "Trailing [Text Button](../button/text.md) (`size={'xsmall'}`, `appearance={'accent'}`) — typically 'See all'. Renders as a link-affordance, so it follows the family-wide rule: link-shaped Text Buttons take `accent` for chromatic emphasis (see [text.md](../button/text.md#accent) and rule 8 of the agent contract).",
       "accepts": [
         "button"
       ]
@@ -109,6 +109,7 @@
     "headerToPagerGap": "sys.layout.stack.lg",
     "labelTypo": "sys.typo.heading.md",
     "labelColor": "sys.color.onSurface",
+    "headerActionRendersAs": "Button variant='text' size='xsmall' appearance='accent' — label paints in sys.color.primary via the Text Button accent token.",
     "headerActionTypo": "sys.typo.label.sm",
     "headerActionColor": "sys.color.primary",
     "pageGap": "sys.layout.inline.xl",

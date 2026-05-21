@@ -13,7 +13,7 @@ A vertically-stacked sequence of rows for menus, settings panels, picker sheets,
 
 ## Sub-components
 
-- **[Text List](./text.md)** — Display / navigation rows. No leading slot; whole row is the click target. The default sub for menu lists that route or fire without a selection model.
-- **[Radio List](./radio.md)** — Single-select picker with a leading 16px radio indicator; clicking a row commits its value via `onChange(value)`.
-- **[Thumbnail List](./thumbnail.md)** — Avatar-anchored rows with a 40px leading [Thumbnail](../thumbnail/thumbnail.md). Same click semantics as Text.
-- **[Nav List](./nav.md)** — Drill-in rows. Trailing edge auto-renders a right-pointing chevron.
+- **[Text list](./text.md)** — Display / navigation rows. No leading slot; whole row is the click target. The default sub for menu lists that route or fire without a selection model.
+- **[Radio list](./radio.md)** — Single-select picker with a leading 16px radio indicator; clicking a row commits its value via `onChange(value)`.
+- **[Thumbnail list](./thumbnail.md)** — Avatar-anchored rows with a 40px leading [Thumbnail](../thumbnail/thumbnail.md). Same click semantics as Text.
+- **[Nav list](./nav.md)** — Drill-in rows. Trailing edge auto-renders a right-pointing chevron.

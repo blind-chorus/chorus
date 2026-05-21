@@ -17,7 +17,7 @@ import { NavigationBar } from '@blind-dsai/ui';
 ## Slots
 
 - **leading** — Required. 24px back-arrow icon as the canonical [Icon Button](../button/icon.md) capsule (40 × 40 transparent, 24px glyph).
-- **input** — Required. Single-line **bare** text input filling the leftover middle column. *Bare* means no border, no background, no inset stroke — not a [Search Bar](../form-field/search.md) field. Renders value in `sys.color.onSurface`, placeholder in `sys.color.outline` (`typo.body.md`, 16/Regular). Caret follows the [system caret rule](../../DESIGN.md#caret).
+- **input** — Required. Single-line **bare** text input filling the leftover middle column. *Bare* means no border, no background, no inset stroke — not a [Search bar](../form-field/search.md) field. Renders value in `sys.color.onSurface`, placeholder in `sys.color.outline` (`typo.body.md`, 16/Regular). Caret follows the [system caret rule](../../DESIGN.md#caret).
 - **trailing** (conditional) — Clear (×) [Icon Button](../button/icon.md) hosting `CloseCircleFillIcon`. **Always uses Icon Button's `medium` size** (32 × 32 capsule, 16px glyph) — keeps it from over-claiming weight against the bare input. Rendered only when value is non-empty; wipes the value and returns focus to the input.
 
 ## Anatomy

@@ -16,7 +16,12 @@
     "icon": {
       "type": "node",
       "optional": true,
-      "description": "A 32 × 32 illustration / badge / glyph at the container's leading edge, clipped to a full-radius circle."
+      "description": "A 24 × 24 glyph at the container's leading edge. Inherits the callout's foreground (`currentColor`) so the mark reads as part of the body copy. Ignored when `thumbnail` is also passed."
+    },
+    "thumbnail": {
+      "type": "node",
+      "optional": true,
+      "description": "A leading visual rendered by [Thumbnail](../thumbnail/thumbnail.md) — used when the aside is anchored to a channel, author, or sub-brand image rather than to a glyph. Takes precedence over `icon`."
     },
     "action": {
       "type": "object",
@@ -37,10 +42,16 @@
     },
     "icon": {
       "required": false,
-      "description": "32 × 32 anatomy slot, full-radius circle that clips its contents.",
+      "description": "24 × 24 glyph slot. Paints in `currentColor` so the icon inherits the callout's foreground.",
       "accepts": [
-        "icon",
-        "image"
+        "icon"
+      ]
+    },
+    "thumbnail": {
+      "required": false,
+      "description": "Leading slot that hosts a `Thumbnail` (channel / author / sub-brand image). Footprint and corner shape come from Thumbnail; the slot only top-aligns and prevents shrink.",
+      "accepts": [
+        "thumbnail"
       ]
     },
     "content": {
@@ -67,8 +78,8 @@
     "radius": "sys.radius.md",
     "padding": "sys.layout.container.sm",
     "slotGap": "sys.layout.stack.xs",
-    "iconSize": "32px",
-    "iconRadius": "sys.radius.full",
+    "iconSize": "sys.icon.lg",
+    "iconColor": "currentColor",
     "contentStackGap": "sys.layout.stack.xs",
     "bodyTypo": "sys.typo.body.sm",
     "actionTypo": "sys.typo.label.md"

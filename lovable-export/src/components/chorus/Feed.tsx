@@ -6,6 +6,7 @@ import { Button } from './Button';
 import { Thumbnail } from './Thumbnail';
 import { joinClasses } from './spec-utils';
 import {
+  CompensationFillIcon,
   HeartFillIcon,
   HeartIcon,
   MultipleIcon,
@@ -40,12 +41,23 @@ function CoverThumbnail({ alt, src, stacked }) {
   );
 }
 
-function PollBanner({ label, participants }) {
+/* TagBanner renders both the poll module and the offer-evaluation module.
+   The two share the same chrome (surfaceVariant slab, leading icon + label
+   on the editorial tone, divider, trailing participant count) and differ
+   only on glyph + tone. The label string is constrained by the spec to
+   "Poll" or "Offer" — those are the two editorial categories the banner
+   surfaces. Consumers should not pass a free-form label. */
+function TagBanner({ kind, label, participants }) {
+  const Icon = kind === 'offer' ? CompensationFillIcon : PollFillIcon;
+  const resolvedLabel = label ?? (kind === 'offer' ? 'Offer' : 'Poll');
   return (
-    <div className="chorus-feed__poll" role="group">
+    <div
+      className={joinClasses('chorus-feed__poll', kind === 'offer' && 'chorus-feed__poll--offer')}
+      role="group"
+    >
       <span className="chorus-feed__poll-title">
-        <span className="chorus-feed__poll-glyph"><PollFillIcon /></span>
-        <span className="chorus-feed__poll-label">{label}</span>
+        <span className="chorus-feed__poll-glyph"><Icon /></span>
+        <span className="chorus-feed__poll-label">{resolvedLabel}</span>
       </span>
       <span className="chorus-feed__poll-divider" aria-hidden="true" />
       <span className="chorus-feed__poll-participants">
@@ -157,6 +169,7 @@ export function Feed({
   body,
   thumbnail,
   poll,
+  offer,
   citation,
   mention,
   engagement,
@@ -235,7 +248,8 @@ export function Feed({
         </div>
       ) : null}
 
-      {poll ? <PollBanner {...poll} /> : null}
+      {poll ? <TagBanner kind="poll" {...poll} /> : null}
+      {offer ? <TagBanner kind="offer" {...offer} /> : null}
       {citation ? <CitationCard {...citation} /> : null}
 
       {mention ? (

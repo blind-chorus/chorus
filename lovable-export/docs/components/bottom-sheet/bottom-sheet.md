@@ -1,4 +1,4 @@
-# Bottom Sheet
+# Bottom sheet
 
 An edge-anchored interruption — a panel that rises from the bottom of the viewport, sits over a scrim, and holds richer content than a Dialog can. Reach for Bottom Sheet to steer the user toward a preferred action *without severing the flow they're in* — present enough to focus attention, light enough that dismissing returns them to where they were; prefer [Dialog](../dialog/dialog.md) when the decision must be committed before the flow can continue.
 

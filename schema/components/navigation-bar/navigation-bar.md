@@ -1,4 +1,4 @@
-# Navigation Bar
+# Navigation bar
 
 The top app bar — a horizontal strip pinned to the top of a screen that names the screen and exposes its highest-priority actions. Three sub-flavors share this contract: **Home** (landing-screen bar), **Page** (drill-in bar with centred title), and **Search** (search-page bar with a bare-text input). All three sit at 16px inline / 8px block padding and delegate icon slots to [Icon Button](../button/icon.md).
 

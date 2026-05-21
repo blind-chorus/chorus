@@ -69,14 +69,14 @@
     },
     "input": {
       "required": true,
-      "description": "Single-line bare text input that fills the leftover middle column. Bare = no `border`, no `background`, no inset stroke — it is *not* a [Search Bar](../form-field/search.md) field. Renders the value in `sys.color.onSurface` when present; renders the placeholder in `sys.color.outline` when empty. `body.md` (16/Regular). The bar carries the visible search affordance via the placeholder and the page context; the field itself has no chrome of its own.",
+      "description": "Single-line bare text input that fills the leftover middle column. Bare = no `border`, no `background`, no inset stroke — it is *not* a [Search bar](../form-field/search.md) field. Renders the value in `sys.color.onSurface` when present; renders the placeholder in `sys.color.outline` when empty. `body.md` (16/Regular). The bar carries the visible search affordance via the placeholder and the page context; the field itself has no chrome of its own.",
       "accepts": [
         "text"
       ]
     },
     "trailing": {
       "required": false,
-      "description": "Clear (×) Icon Button hosting `CloseCircleFillIcon`. **Always uses Icon Button's `medium` size (32 × 32 capsule, 16px / `sys.icon.md` glyph)** — not the 40 × 40 / 24-glyph `large` size the leading back arrow uses. The clear is a secondary affordance (the user's primary act on this bar is typing); the smaller capsule keeps the clear from over-claiming weight against the bare input next to it. Rendered only when the value is non-empty and the field isn't disabled — wipes the value, keeps focus on the input, and disappears the moment the value goes back to empty. Differs from [Search Bar](../form-field/search.md)'s clear which gates on focus too: this bar's host page is the search context, so a non-empty value is enough — there is no blurred state to hide it for.",
+      "description": "Clear (×) Icon Button hosting `CloseCircleFillIcon`. **Always uses Icon Button's `medium` size (32 × 32 capsule, 16px / `sys.icon.md` glyph)** — not the 40 × 40 / 24-glyph `large` size the leading back arrow uses. The clear is a secondary affordance (the user's primary act on this bar is typing); the smaller capsule keeps the clear from over-claiming weight against the bare input next to it. Rendered only when the value is non-empty and the field isn't disabled — wipes the value, keeps focus on the input, and disappears the moment the value goes back to empty. Differs from [Search bar](../form-field/search.md)'s clear which gates on focus too: this bar's host page is the search context, so a non-empty value is enough — there is no blurred state to hide it for.",
       "accepts": [
         "button"
       ]

@@ -1,6 +1,6 @@
-# Icon Button
+# Icon
 
-The icon-only commit surface — circular transparent target carrying a single glyph. Use when the control's identity is the glyph ([Navigation Bar](../navigation-bar/navigation-bar.md) search/chat, [Dialog](../dialog/dialog.md) dismiss, feed-row "⋯"). Two rungs: `large` 40 × 40 for page chrome and `medium` 32 × 32 for inside-control density.
+The icon-only commit surface — circular transparent target carrying a single glyph. Use when the control's identity is the glyph ([Navigation bar](../navigation-bar/navigation-bar.md) search/chat, [Dialog](../dialog/dialog.md) dismiss, feed-row "⋯"). Two rungs: `large` 40 × 40 for page chrome and `medium` 32 × 32 for inside-control density.
 
 ## Default
 
@@ -32,7 +32,7 @@ import { CloseIcon } from '@blind-dsai/ui/icons';
 
 ### Group
 
-Three Icon Buttons in a row — common shape on the [Navigation Bar](../navigation-bar/navigation-bar.md) Home trailing slot. Adjacent buttons sit **16px** apart (`sys.layout.inline.xl`). With optical alignment on by default, the chrome-to-chrome gap *is* the visible glyph-to-glyph distance.
+Three Icon Buttons in a row — common shape on the [Navigation bar](../navigation-bar/navigation-bar.md) Home trailing slot. Adjacent buttons sit **16px** apart (`sys.layout.inline.xl`). With optical alignment on by default, the chrome-to-chrome gap *is* the visible glyph-to-glyph distance.
 
 ```preview
 button/icon/group

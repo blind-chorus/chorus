@@ -726,12 +726,12 @@ code {
    (just `a`) — that lets `.page-nav-link` / `.side-nav-link` (also
    descendants of `.page-content`) keep their own color rules without
    needing a `:not()` exclusion or specificity hack. */
-:where(.page-content) a {
+:where(.page-content, .page-header-desc) a {
   color: var(--sys-color-primary);
   text-decoration: none;
 }
 
-:where(.page-content) a:hover {
+:where(.page-content, .page-header-desc) a:hover {
   text-decoration: underline;
 }
 

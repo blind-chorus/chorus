@@ -1,4 +1,4 @@
-# Nav List
+# Nav list
 
 Drill-in navigation List sub-component — rows drill into another surface. No leading slot; trailing edge auto-renders a right-pointing chevron. Row geometry, typography, divider, state overlays, and inward focus ring all delegate to the [family-wide rules](./list.md); this sub documents the auto-rendered trailing chevron.
 

@@ -18,7 +18,7 @@
     "trailingAction": {
       "type": "object",
       "optional": true,
-      "description": "{ label, href? , onClick? } — trailing text link at the end of the rail."
+      "description": "{ label, href? , onClick? } — trailing [Text Button](../button/text.md) (`size={'small'}`, `appearance={'accent'}`) at the end of the rail (typically 'View all' / 'Manage'). Link-affordance rule: link-shaped Text Buttons take `accent` for chromatic emphasis."
     }
   },
   "slots": {
@@ -53,7 +53,7 @@
     },
     "trailingAction": {
       "required": false,
-      "description": "Trailing text link. label.md / Semibold / primary. Vertically centred against the avatar row, not the full item.",
+      "description": "Trailing [Text Button](../button/text.md) (`size={'small'}`, `appearance={'accent'}`). Vertically centred against the avatar row, not the full item. Link-affordance rule applies.",
       "accepts": [
         "button"
       ]
@@ -71,6 +71,7 @@
     "labelTypo": "sys.typo.label.sm",
     "labelColor": "sys.color.onSurface",
     "labelMaxWidth": "80px",
+    "trailingActionRendersAs": "Button variant='text' size='small' appearance='accent' — label paints in sys.color.primary via the Text Button accent token.",
     "trailingActionTypo": "sys.typo.label.md",
     "trailingActionColor": "sys.color.primary"
   },

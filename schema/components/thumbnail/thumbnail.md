@@ -4,14 +4,14 @@ A circular image — the unit used to identify a channel, a feed author, or any 
 
 ## Default
 
-The base form — image only, no badges.
+The base form — image only, no badges. Thumbnail is an **image-first** primitive: the `src` prop expects a real image asset URL (PNG / JPG / WebP / SVG), and the slot is meant to resolve to an `<img>`, not to a glyph or text. When the composition is a mock-up and no real channel / author image exists, fill `src` with the bundled placeholder asset `/placeholder_thumbnail.png` rather than omitting it — the empty-surface fallback is for runtime load failures, not for design-time scaffolding.
 
 ```preview
 thumbnail/default
 ---
 import { Thumbnail } from '@blind-dsai/ui';
 
-<Thumbnail size={48} alt="Channel" src="…" />
+<Thumbnail size={48} alt="Channel" src="/placeholder_thumbnail.png" />
 ```
 
 ## Use cases
@@ -25,7 +25,7 @@ thumbnail/with-update-dot
 ---
 import { Thumbnail } from '@blind-dsai/ui';
 
-<Thumbnail size={48} alt="Channel" src="…" updateDot />
+<Thumbnail size={48} alt="Channel" src="/placeholder_thumbnail.png" updateDot />
 ```
 
 ### With logo badge
@@ -40,7 +40,7 @@ import { Thumbnail } from '@blind-dsai/ui';
 <Thumbnail
   size={48}
   alt="Channel"
-  src="…"
+  src="/placeholder_thumbnail.png"
   logoBadge={{ src: '…', alt: 'Workspace' }}
 />
 ```
@@ -57,7 +57,7 @@ import { Thumbnail } from '@blind-dsai/ui';
 <Thumbnail
   size={48}
   alt="Channel"
-  src="…"
+  src="/placeholder_thumbnail.png"
   updateDot
   logoBadge={{ src: '…', alt: 'Workspace' }}
 />
@@ -118,11 +118,11 @@ The update-dot steps down at 32 so it stays a *highlight*, not an *occluder*; th
 
 Thumbnail is not interactive — no hover / pressed / focused / disabled of its own. When wrapped in an interactive row, the row owns state and the focus ring paints around the row.
 
-When the image fails to load or is omitted, the slot enters its **fallback** form — `surfaceContainerHigh` fill plus the first character of `alt`.
+When the image fails to load or `src` is omitted, the slot enters its **fallback** form — the bundled `/placeholder_thumbnail.png` paints as the layer's `background-image` (centered, covered) over a `surfaceContainerHigh` base, so the slot still resolves to an image rather than an empty surface. The fallback is a runtime safety net for load failures; design-time scaffolds should pass `/placeholder_thumbnail.png` through `src` explicitly so the placeholder is visible in the composition contract.
 
 ## Behavior
 
 - **Slot omission collapses without leaving a gap.** Both badges drop out entirely when absent.
 - **Badges overlay; they never reflow the image.** Absolutely positioned; the 1px halo is a `box-shadow`, so the overlay's bounding box doesn't grow.
 - **Image clipped to a perfect circle.** `radius.full` + `overflow: hidden`; hand in a square-or-larger source to avoid distortion.
-- **No text fallback.** When `src` is omitted, the container shows its surface tone alone.
+- **Image fallback, not text fallback.** When `src` is omitted or the server fails to deliver the image, the slot's `background-image` paints the bundled `/placeholder_thumbnail.png` over a `surfaceContainerHigh` base — the image area always resolves to an image. There is no text/initial fallback.

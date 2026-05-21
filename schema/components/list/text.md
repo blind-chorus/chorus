@@ -1,4 +1,4 @@
-# Text List
+# Text list
 
 The default List sub-component — display or navigation rows over the shared List anatomy. No leading slot; the whole row is the click target. Row geometry, typography, divider, state overlays, and inward focus ring all delegate to the [family-wide rules](./list.md); this sub documents only Text-specific composition.
 

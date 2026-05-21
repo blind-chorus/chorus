@@ -1,9 +1,32 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { PageNav } from './PageNav';
 import { RoutePageNav } from './RoutePageNav';
+import { resolveMdHref } from './ComponentMd';
 import { findNavLabel } from '../lib/nav';
+
+/* Inline-only renderer for the page-header lead: every md doc puts
+   cross-component `[Link](path)` references and `code` spans in the lead
+   paragraph, so we parse it the same way as the body. `a` reuses the body
+   renderer's md-href resolver so `./foo.md` / `../fam/bar.md` collapse to
+   real routes instead of 404ing. */
+function buildLeadComponents(family) {
+  return {
+    p: ({ children }) => <p className="page-header-desc">{children}</p>,
+    a: ({ href, children }) => {
+      const resolved = resolveMdHref(href, family);
+      return <a href={resolved ?? href}>{children}</a>;
+    },
+  };
+}
+
+function familyFromPath(pathname) {
+  const m = pathname?.match(/^\/components\/([\w-]+)/);
+  return m ? m[1] : undefined;
+}
 
 /* `toc` lets a route hand its TOC in directly — needed by component sub-
    pages, whose headings come from each component's markdown spec and so
@@ -20,7 +43,9 @@ export function RouteShell({ children, header, toc }) {
           <div className="page-header-inner">
             <h1 className="page-header-title">{resolvedHeader.title}</h1>
             {resolvedHeader.description ? (
-              <p className="page-header-desc">{resolvedHeader.description}</p>
+              <ReactMarkdown remarkPlugins={[remarkGfm]} components={buildLeadComponents(familyFromPath(pathname))}>
+                {resolvedHeader.description}
+              </ReactMarkdown>
             ) : null}
           </div>
         </header>

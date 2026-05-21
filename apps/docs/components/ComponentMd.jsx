@@ -177,7 +177,7 @@ function TokenTrimTableWrapper({ node, children }) {
    it's the family overview, so the URL collapses to `/components/<family>/`
    instead of duplicating the slug. The schema folder isn't a routable
    tree, so without this rewrite md links would 404. */
-function resolveMdHref(href, currentFamily) {
+export function resolveMdHref(href, currentFamily) {
   if (!href) return null;
   const [pathPart, anchor] = href.split('#');
   const hash = anchor ? `#${anchor}` : '';

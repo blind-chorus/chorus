@@ -1,6 +1,8 @@
-# Feed · Ad
+# Ad
 
-Sub-component of the [Feed](./feed.md) family. A sponsored placement that rides the same scrolling column as [Default Feed](./default.md). The header trades a channel/author row for a brand row (32-rung [Thumbnail](../thumbnail/thumbnail.md) + brand name + a `Sponsored` subtitle + a trailing close affordance), the body block stays the same shape as Feed's title + excerpt, and the hero media and CTA are bonded into a single rounded slab at the foot. There is no engagement row — ads are not authored content.
+Sub-component of the [Feed](./feed.md) family. A sponsored placement that rides the same scrolling column as [Feed · Post](./post.md). The header trades a channel/author row for a brand row (32-rung [Thumbnail](../thumbnail/thumbnail.md) + brand name + a `Sponsored` subtitle + a trailing close affordance), the body block stays the same shape as Feed's title + excerpt, and the hero media and CTA are bonded into a single rounded slab at the foot. There is no engagement row — ads are not authored content.
+
+**Required slots.** Two pieces are non-negotiable in every FeedAd placement: an explicit `brand.name` (the row is the ad's legal attribution surface) and a hero `media` block with a non-empty `src` (an ad without a creative collapses to a text wall, which is not a shipped shape). When generating mock or scaffold compositions, fill `media.src` with the bundled placeholder `/placeholder_thumbnail.png` rather than omitting `media` — the runtime `surfaceContainerHigh` fallback is a load-failure safety net, not a design-time opt-out.
 
 ## Default
 
@@ -14,12 +16,12 @@ import { FeedAd } from '@blind-dsai/ui';
 <FeedAd
   brand={{
     name: 'Acme Coffee',
-    avatar: { src: '...', alt: 'Acme Coffee logo' },
+    avatar: { src: '/placeholder_thumbnail.png', alt: 'Acme Coffee logo' },
   }}
   title="Your morning brew, on us."
   body="Sign up this week and your first bag of single-origin beans ships free — no subscription required."
   media={{
-    src: '...',
+    src: '/placeholder_thumbnail.png',
     alt: 'A flat-lay of freshly roasted coffee beans',
   }}
   cta={{ label: 'Claim your free bag', color: '#3DB1A3' }}
@@ -40,23 +42,24 @@ import { FeedAd } from '@blind-dsai/ui';
 <FeedAd
   brand={{
     name: 'Lumen Fitness',
-    avatar: { src: '...', alt: 'Lumen Fitness logo' },
+    avatar: { src: '/placeholder_thumbnail.png', alt: 'Lumen Fitness logo' },
   }}
   onDismiss={() => {}}
   title="Train smarter, not longer."
   body="Personalized 20-minute workouts that adapt to your recovery — free for the first 30 days, no card required."
-  media={{ src: '...', alt: 'An athlete mid-workout in a sunlit studio' }}
+  media={{ src: '/placeholder_thumbnail.png', alt: 'An athlete mid-workout in a sunlit studio' }}
   cta={{ label: 'Start your free trial', color: '#5E4BDB' }}
 />
 ```
 
 ## Slots
 
-- **brand** — leading row: 32-rung [Thumbnail](../thumbnail/thumbnail.md) + brand name (`label.md` / `onSurface`) + `Sponsored` subtitle (`caption.md` / `onSurfaceVariant`) stacked underneath. Subtitle defaults to `Sponsored`; consumers may override but cannot drop it.
+- **brand** *(required)* — leading row: 32-rung [Thumbnail](../thumbnail/thumbnail.md) + brand name (`label.md` / `onSurface`) + `Sponsored` subtitle (`caption.md` / `onSurfaceVariant`) stacked underneath. `brand.name` MUST be a non-empty string — every placement carries an explicit brand attribution. Subtitle defaults to `Sponsored`; consumers may override but cannot drop it.
 - **dismiss** *(optional)* — trailing 16px close icon, only rendered when `onDismiss` is wired.
 - **title** *(optional)* — single-line headline (`heading.md` / `onSurface`).
 - **body** *(optional)* — two-line clamped excerpt (`body.sm` / `onSurfaceVariant`).
-- **cta-group** — the foot slab. Hero **media** (16:10) and a full-width [Standard Button](../button/standard.md) sit flush inside a single `radius.md` clip with no internal gap. `cta.color` accepts an advertiser-supplied Hex that swaps the button fill and border; every other token binding stays intact.
+- **cta-group** *(required)* — the foot slab. The hero **media** is required; the CTA is optional but typical. Media (16:10) and the full-width [Standard Button](../button/standard.md) sit flush inside a single `radius.md` clip with no internal gap. `cta.color` accepts an advertiser-supplied Hex that swaps the button fill and border; every other token binding stays intact.
+- **media** *(required)* — hero creative inside the cta-group. Image asset (PNG / JPG / WebP / SVG); fill `src` with `/placeholder_thumbnail.png` when scaffolding without a real ad creative.
 
 ## Anatomy
 
@@ -72,7 +75,7 @@ import { FeedAd } from '@blind-dsai/ui';
 | title            | `heading.md` (20 / Semibold), `onSurface`, single-line truncate |
 | body             | 14 / Regular, `onSurfaceVariant`, two-line clamp |
 | cta-group        | `radius.md` (8px) clip wrapping media + CTA, `overflow: hidden`, no internal gap |
-| media            | Full inline width, 16:10 aspect ratio, no own radius (the group clips). `surfaceContainerHigh` fallback when no `src`. |
+| media            | Full inline width, 16:10 aspect ratio, no own radius (the group clips). Runtime fallback when `src` is missing or fails to load: `background-image: url('/placeholder_thumbnail.png')` over a `surfaceContainerHigh` base. |
 | cta              | [Standard Button](../button/standard.md) — `fullWidth`, `medium`, `primary` by default, **`border-radius: 0`** so the squared bottom edge meets the group's clip. `cta.color` overrides the surface fill with a free-form Hex. |
 
 ## Sizes
@@ -89,10 +92,12 @@ FeedAd is not a focus target; each focusable child (dismiss button, CTA) paints 
 
 ## Behavior
 
+- **Brand name is required.** Every FeedAd carries an explicit `brand.name` — the row is the ad's legal attribution surface. Lovable / mock generators must never drop it; an empty brand name is not a valid placement.
+- **Hero media is required.** Every FeedAd carries a `media` block with a non-empty `src`. The `surfaceContainerHigh` fallback is a runtime load-failure safety net, not a design-time omission — use `/placeholder_thumbnail.png` when scaffolding without a real creative.
 - **Brand subtitle is always present.** The literal defaults to `Sponsored` so every placement reads as sponsored content. Consumers may override the copy but cannot omit the row.
 - **Hero media and CTA are one slab.** They share a `radius.md` clip with no internal gap; the CTA's own corner radius is zeroed so its squared bottom edge meets the group's outer round.
 - **Free-form CTA color.** `cta.color` accepts any Hex string supplied by the ad client. Only the button surface fill and border swap — typography, size, and full-width geometry stay on the Standard Button tokens.
-- **Slot omission collapses without leaving a gap.** `title`, `body`, `media.src`, and `dismiss` are all opt-in — when any is absent the layout reflows without reserved whitespace.
+- **Slot omission collapses without leaving a gap.** `title`, `body`, and `dismiss` are opt-in — when any is absent the layout reflows without reserved whitespace. `brand.name` and `media` are required and may not be omitted.
 - **Truncation, not wrap.** `title` truncates; `body` clamps to two lines.
 - **Dismiss is opt-in.** Default placements omit it; the trailing X only renders when `onDismiss` is wired.
 - **At most one CTA.** FeedAd has no engagement row — ads are not authored content. The cta-group, when present, carries a single full-width Standard Button.

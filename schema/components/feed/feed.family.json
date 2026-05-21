@@ -2,7 +2,7 @@
   "$schema": "../../family.schema.json",
   "family": "feed",
   "name": "Feed",
-  "description": "The scrolling-stream card family. Two shapes ride the same column — `default` (the authored content card: channel header, body block, optional inline modules, engagement footer) and `ad` (the in-feed sponsored placement: brand row, optional headline + body, a hero + CTA slab, no engagement row). Both share the same container surface, padding rung, and column-width cap so authored posts and sponsored placements tile cleanly side by side.",
+  "description": "The scrolling-stream card family. Two shapes ride the same column — `post` (the authored content card: channel header, body block, optional inline modules, engagement footer) and `ad` (the in-feed sponsored placement: brand row, optional headline + body, a hero + CTA slab, no engagement row). Editorial collections of popular posts ride alongside Feed cards via the [Section · Post Carousel](../section/post-carousel.md) sub of the Section family — that pair owns the curated-collection placement, not Feed itself. Both Feed shapes share the same container surface and padding rung so authored posts and sponsored placements tile cleanly side by side.",
   "useCases": [
     "content stream",
     "authored posts",
@@ -17,9 +17,9 @@
   "spec": "feed.md",
   "subcomponents": [
     {
-      "slug": "default",
-      "spec": "default.spec.json",
-      "md": "default.md",
+      "slug": "post",
+      "spec": "post.spec.json",
+      "md": "post.md",
       "default": true
     },
     {

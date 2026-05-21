@@ -1,4 +1,4 @@
-# Radio List
+# Radio list
 
 Single-select picker List sub-component. Each row carries a leading 16px radio indicator; clicking commits that row's value via `onChange(value)`. Exactly one row is selected at a time. Row geometry, typography, divider, state overlays, and inward focus ring all delegate to the [family-wide rules](./list.md); this sub documents the Radio-specific leading indicator and selection contract.
 

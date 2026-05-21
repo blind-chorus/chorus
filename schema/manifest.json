@@ -73,6 +73,7 @@
     { "family": "form-field",     "root": "components/form-field/form-field.family.json" },
     { "family": "list",           "root": "components/list/list.family.json" },
     { "family": "navigation-bar", "root": "components/navigation-bar/navigation-bar.family.json" },
+    { "family": "section",        "root": "components/section/section.family.json" },
     { "family": "tab-bar",        "root": "components/tab-bar/tab-bar.family.json" },
     { "family": "tabs",           "root": "components/tabs/tabs.family.json" },
     { "family": "thumbnail",      "root": "components/thumbnail/thumbnail.family.json" },

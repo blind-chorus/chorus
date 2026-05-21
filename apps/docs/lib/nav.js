@@ -178,19 +178,19 @@ export const NAV = [
       },
       {
         href: '/components/bottom-sheet',
-        label: 'Bottom Sheet',
+        label: 'Bottom sheet',
       },
       {
         href: '/components/button',
         label: 'Button',
         subs: [
-          { href: '/components/button/check', label: 'Check Button' },
+          { href: '/components/button/check', label: 'Check' },
           { href: '/components/button/fab', label: 'FAB' },
-          { href: '/components/button/icon', label: 'Icon Button' },
-          { href: '/components/button/standard', label: 'Standard Button' },
-          { href: '/components/button/text', label: 'Text Button' },
-          { href: '/components/button/toggle', label: 'Toggle Button' },
-          { href: '/components/button/toolbar', label: 'Toolbar Button' },
+          { href: '/components/button/icon', label: 'Icon' },
+          { href: '/components/button/standard', label: 'Standard' },
+          { href: '/components/button/text', label: 'Text' },
+          { href: '/components/button/toggle', label: 'Toggle' },
+          { href: '/components/button/toolbar', label: 'Toolbar' },
         ],
       },
       {
@@ -199,11 +199,11 @@ export const NAV = [
       },
       {
         href: '/components/channel-list',
-        label: 'Channel List',
+        label: 'Channel list',
       },
       {
         href: '/components/channel-rail',
-        label: 'Channel Rail',
+        label: 'Channel rail',
       },
       {
         href: '/components/chip',
@@ -222,15 +222,15 @@ export const NAV = [
         label: 'Feed',
         subs: [
           { href: '/components/feed/ad', label: 'Ad' },
-          { href: '/components/feed/default', label: 'Default' },
+          { href: '/components/feed/post', label: 'Post' },
         ],
       },
       {
         href: '/components/form-field',
-        label: 'Form Field',
+        label: 'Form field',
         subs: [
           { href: '/components/form-field/input', label: 'Input' },
-          { href: '/components/form-field/search', label: 'Search Bar' },
+          { href: '/components/form-field/search', label: 'Search bar' },
           { href: '/components/form-field/select', label: 'Select' },
         ],
       },
@@ -238,15 +238,15 @@ export const NAV = [
         href: '/components/list',
         label: 'List',
         subs: [
-          { href: '/components/list/text',      label: 'Text List' },
-          { href: '/components/list/radio',     label: 'Radio List' },
-          { href: '/components/list/thumbnail', label: 'Thumbnail List' },
-          { href: '/components/list/nav',       label: 'Nav List' },
+          { href: '/components/list/text',      label: 'Text list' },
+          { href: '/components/list/radio',     label: 'Radio list' },
+          { href: '/components/list/thumbnail', label: 'Thumbnail list' },
+          { href: '/components/list/nav',       label: 'Nav list' },
         ],
       },
       {
         href: '/components/navigation-bar',
-        label: 'Navigation Bar',
+        label: 'Navigation bar',
         subs: [
           { href: '/components/navigation-bar/home',   label: 'Home' },
           { href: '/components/navigation-bar/page',   label: 'Page' },
@@ -254,8 +254,16 @@ export const NAV = [
         ],
       },
       {
+        href: '/components/section',
+        label: 'Section',
+        subs: [
+          { href: '/components/section/post-carousel', label: 'Post carousel' },
+          { href: '/components/section/profile-carousel', label: 'Profile carousel' },
+        ],
+      },
+      {
         href: '/components/tab-bar',
-        label: 'Tab Bar',
+        label: 'Tab bar',
       },
       {
         href: '/components/tabs',
@@ -296,6 +304,7 @@ export const NAV = [
         href: '/agent-guide',
         label: 'Agent guide',
         toc: [
+          { id: 'agent-principles', label: 'Design principles' },
           { id: 'agent-quick-ref',  label: 'Quick token reference' },
           { id: 'agent-prompts',    label: 'Example component prompts' },
           { id: 'agent-iteration',  label: 'Iteration rules' },

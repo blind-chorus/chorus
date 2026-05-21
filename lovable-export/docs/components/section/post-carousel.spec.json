@@ -1,0 +1,160 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "PostCarousel",
+  "family": "section",
+  "description": "Horizontally-scrolling pager of up to 5 compact post cards — sub-component of the [Section](./section.md) family. Used to surface a curated set of popular posts, or to give paid / verified accounts priority placement, inside the same scrolling feed column the default Feed card lives in. Editorial / ops control inserts a Section + PostCarousel pair between regular Feed cards based on placement policy. PostCarousel is the **content** — the section heading and trailing 'See all' link live on the [Section](./section.md) wrapper. Compose `<Section label='…' headerAction={…}><PostCarousel items={…} /></Section>`. The pager is a one-card-per-page horizontal scroll-snap track with a `ref.space.500` (40px) peek at the trailing edge inviting the swipe; pagination dots sit below the pager, one per card.",
+  "element": "div",
+  "props": {
+    "items": {
+      "type": "node",
+      "required": true,
+      "description": "Array of up to 5 compact post cards. Each item: { id?, avatar, channel, verified?, followAction?, followed?, onFollowChange?, title, body, mention?, views, moreLabel?, onClick? }. Items beyond index 4 are dropped — the section enforces the 5-card maximum.",
+      "maxItems": 5
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "description": "Wraps the pager and pagination dots. `sys.layout.stack.md` pager→dots gap. No surface fill / padding of its own — the surrounding [Section](./section.md) provides the page-region chrome.",
+      "intrinsic": true
+    },
+    "pager": {
+      "required": true,
+      "description": "Horizontally-scrolling track of cards with `scroll-snap-type: x mandatory`; native scrollbar hidden. Bleeds out by `sys.layout.container.md` on the trailing edge so the next-card peek is not clipped.",
+      "intrinsic": true
+    },
+    "card": {
+      "required": true,
+      "description": "One compact post card per page. `flex: 0 0 calc(100% - sys.layout.inline.md - ref.space.500)` so a 40px peek of the next card always surfaces at the trailing edge. `scroll-snap-align: start`. Inner padding `sys.layout.container.md`, `sys.color.surface` fill, `sys.radius.md` corner, `sys.borderWidth.hairline` outline in `sys.color.outlineVariant`.",
+      "intrinsic": true
+    },
+    "header": {
+      "required": true,
+      "description": "Top row of the card: avatar (Thumbnail size 40) + channel name + optional VerifiedIcon (size sys.icon.md, sys.color.primary) + trailing follow affordance.",
+      "intrinsic": true
+    },
+    "avatar": {
+      "required": true,
+      "description": "Channel / author avatar — rendered by the [Thumbnail](../thumbnail/thumbnail.md) component at `size={40}`. Every Thumbnail prop (`src`, `alt`, `updateDot`, `logoBadge`) is forwarded verbatim. The carousel does not paint its own circular crop — Thumbnail owns the corner shape and the image-area fallback.",
+      "accepts": ["thumbnail"],
+      "rendersAs": "thumbnail:40"
+    },
+    "verified": {
+      "required": false,
+      "description": "Inline `VerifiedFillIcon` at `sys.icon.md`, painted in `sys.color.primary` (resolves to `ref.palette.blue.500`). Sits to the **LEFT** of the channel name so the reader's eye lands on the trust signal first, then the name. Decorative — pair with a textual affordance elsewhere if the verified status itself is meaningful.",
+      "accepts": ["icon"],
+      "defaultIcon": "VerifiedFillIcon",
+      "defaultIconColor": "sys.color.primary"
+    },
+    "channel": {
+      "required": true,
+      "description": "Channel / author name. `sys.typo.label.md` / Semibold / `sys.color.onSurface`. Single line; truncates. Sits to the right of the optional `verified` mark inside the channel-row sub-container.",
+      "accepts": ["text"]
+    },
+    "followAction": {
+      "required": false,
+      "description": "[Text Button](../button/text.md) (`size={'xsmall'}`) at the trailing edge of the card header. **Inactive** (`Follow`) uses `appearance={'accent'}` — the follow action is a navigation-shaped commit on the card, and the link-affordance rule applies. **Active** (`Following`) flips to `appearance={'default'}` so the followed state recedes into the body and the unfollowed alternative remains the visually loudest call. The carousel does not paint its own follow chrome — every state binding (rest, hover, pressed, focus) lives on the Text Button family.",
+      "accepts": ["button"],
+      "rendersAs": "button:text:xsmall:accent (inactive) / button:text:xsmall:default (active)"
+    },
+    "title": {
+      "required": true,
+      "description": "Post title. `sys.typo.label.md` / Semibold / `sys.color.onSurface`. One line; truncates with ellipsis.",
+      "accepts": ["text"]
+    },
+    "body": {
+      "required": true,
+      "description": "Post excerpt. `sys.typo.body.sm` / Regular / `sys.color.onSurfaceVariant`. Three-line clamp with trailing ellipsis.",
+      "accepts": ["text"]
+    },
+    "mention": {
+      "required": false,
+      "description": "Tap-anywhere mention / tag line below the body. `sys.typo.body.sm` / `sys.color.primary` (no italic — the carousel card reads tags as part of its body block, unlike the Feed · Post card which italicises a single mention).",
+      "accepts": ["text"]
+    },
+    "footer": {
+      "required": true,
+      "description": "Bottom row: leading `more` affordance + trailing view count. The 'See more' label renders as a [Text Button](../button/text.md) (`size={'xsmall'}`, `appearance={'secondary'}`) — same family as the card-header follow action — so both card affordances share one state contract. The view count renders as a non-interactive `<span>` matching the same `xsmall` rhythm (`ViewIcon` at `sys.icon.md` + `sys.typo.label.sm` / `sys.color.onSurfaceVariant`).",
+      "intrinsic": true
+    },
+    "pagination": {
+      "required": true,
+      "description": "Row of dots below the pager — one per card. Active dot paints `sys.color.onSurface`, the rest paint `sys.color.outlineVariant`. Decorative (`aria-hidden`); the active index updates from the pager's scroll position via IntersectionObserver.",
+      "intrinsic": true
+    }
+  },
+  "sizing": {
+    "containerFill": "none — provided by surrounding Section",
+    "containerPadding": "none — provided by surrounding Section",
+    "pagerToPaginationGap": "sys.layout.stack.md",
+    "pageGap": "sys.layout.inline.md",
+    "pagePeek": "ref.space.500",
+    "pagePeekNote": "Guaranteed minimum visibility of the next card at the trailing edge. Pinned to `ref.space.500` (40px) — a raw `ref.space.*` step rather than a `sys.layout.*` rung — because the carousel wants a fixed-pixel visibility floor independent of the responsive sys-layout shift. The card's flex-basis is `calc(100% - sys.layout.inline.md - ref.space.500)`, so the inter-card gap plus the peek subtract from the pager's inline space in lock-step.",
+    "pageSnapAnchor": "Cards stick to the leading edge of the pager (the container's left padding). `scroll-snap-align: start` on each card and the pager's leading inset (no left margin) together guarantee that, after every swipe, the snapped card aligns flush with the container's left padding — and the trailing edge holds the 40px peek of the next card.",
+    "cardFill": "sys.color.surface",
+    "cardOutline": "sys.borderWidth.hairline sys.color.outlineVariant",
+    "cardRadius": "sys.radius.md",
+    "cardPadding": "sys.layout.container.md",
+    "cardStackGap": "sys.layout.stack.sm",
+    "cardHeaderGap": "sys.layout.inline.md",
+    "cardAvatarSize": 40,
+    "cardAvatarRendersAs": "Thumbnail at size 40 — the carousel does not paint its own circular crop or fallback; both come from the Thumbnail family.",
+    "cardChannelTypo": "sys.typo.label.md",
+    "cardChannelColor": "sys.color.onSurface",
+    "cardVerifiedIcon": "VerifiedFillIcon",
+    "cardVerifiedSize": "sys.icon.md",
+    "cardVerifiedColor": "sys.color.primary",
+    "cardVerifiedColorResolved": "ref.palette.blue.500 (#2563eb)",
+    "cardVerifiedPosition": "Leading — sits to the LEFT of the channel name inside the channel-row sub-container.",
+    "cardFollowActionRendersAs": "Button variant='text' size='xsmall' appearance='accent' (inactive — link-affordance rule) → appearance='default' (active — followed state recedes). All state tokens delegate to the Text Button family.",
+    "cardMoreActionRendersAs": "Button variant='text' size='xsmall' appearance='secondary'. Same Text Button rung as the follow action so the card's two affordances share one state contract.",
+    "cardTitleTypo": "sys.typo.label.md",
+    "cardTitleColor": "sys.color.onSurface",
+    "cardBodyTypo": "sys.typo.body.sm",
+    "cardBodyColor": "sys.color.onSurfaceVariant",
+    "cardBodyLineClamp": 3,
+    "cardMentionTypo": "sys.typo.body.sm",
+    "cardMentionColor": "sys.color.primary",
+    "cardFooterTypo": "sys.typo.label.sm",
+    "cardFooterColor": "sys.color.onSurfaceVariant",
+    "cardFooterIcon": "ViewIcon",
+    "cardFooterIconSize": "sys.icon.md",
+    "paginationDotSize": "6px",
+    "paginationDotGap": "sys.layout.inline.sm",
+    "paginationActiveColor": "sys.color.onSurface",
+    "paginationInactiveColor": "sys.color.outlineVariant"
+  },
+  "itemProps": {
+    "id": { "type": "string", "optional": true },
+    "avatar": { "type": "object", "required": true, "description": "Forwarded to Thumbnail verbatim at size 40." },
+    "channel": { "type": "string", "required": true },
+    "verified": { "type": "boolean", "default": false },
+    "followAction": { "type": "boolean", "default": false },
+    "followed": { "type": "boolean", "default": false },
+    "onFollowChange": { "type": "function", "optional": true },
+    "title": { "type": "string", "required": true },
+    "body": { "type": "string", "required": true },
+    "mention": { "type": "string", "optional": true },
+    "views": { "type": "string", "required": true },
+    "moreLabel": { "type": "string", "optional": true, "description": "Trailing 'see more' label in the card footer. Defaults to 'See more'." },
+    "onClick": { "type": "function", "optional": true }
+  },
+  "states": {
+    "note": "Container has no interactive state. Each card's commit affordances (the optional follow action, the 'see more' link) follow their own state contracts. The card body is presentational by default — pass `onClick` on an item to route the entire card."
+  },
+  "focusIndicator": {
+    "description": "PostCarousel itself is not a focus target. Each focusable child (header action, card follow action, card body when `onClick` is wired) paints its own ring per its own spec. Cards tile horizontally in a scroll viewport; the Inward composition is preferred for any card-level ring so the stroke does not collide with the next-card peek.",
+    "composition": "inward",
+    "trigger": ":focus-visible"
+  },
+  "behavior": {
+    "maxFiveCards": "PostCarousel renders at most five cards. Items beyond index 4 are silently dropped — `items.slice(0, 5)` — so editorial / ops mistakes never blow out the section.",
+    "headerDelegatesToChannelList": "The header row's anatomy (label + optional trailing text-link action) is the same contract as [ChannelList](../channel-list/channel-list.md). Bindings stay in lock-step — retune at the ChannelList spec, not here.",
+    "horizontalScrollSnap": "scroll-snap-type: x mandatory; each card declares scroll-snap-align: start.",
+    "nextCardPeek": "Pager bleeds out by `sys.layout.container.md` (the container's right padding) via negative margin-right so the peek isn't clipped. Card basis composes the inter-card gap (`sys.layout.inline.md`) plus the visible peek (`ref.space.500`, 40px) into one calc — a minimum of 40px of the next card is guaranteed to remain visible at the trailing edge whenever a card is snapped to the leading edge. The peek is pinned to a raw `ref.space.*` step rather than `sys.layout.*` so the visibility floor is fixed-pixel and does not shift at the responsive breakpoint.",
+    "stickyToLeadingPadding": "After every swipe, the snapped card aligns flush with the container's left padding — it 'sticks' to the leading edge of the pager. `scroll-snap-align: start` plus the pager's lack of left margin (the pager starts where the container's `sys.layout.container.md` inline padding ends) together produce this behavior. The trailing edge of the same snap state always holds the 40px peek of the next card; the two are one geometry contract, not two independent rules.",
+    "paginationDecorative": "Dots are decorative (`aria-hidden`). They reflect the scroll position only; tapping a dot does not scroll. Active state updates via IntersectionObserver on the pager's snap targets.",
+    "cardClickRoutes": "When an item carries `onClick`, the card surface becomes the click target. Header affordances (follow action) and footer affordances (more link) intercept the tap so each can route independently.",
+    "insertionPolicy": "Editorial / ops control inserts the carousel between regular Feed cards according to placement policy — the component does not own that decision."
+  }
+}

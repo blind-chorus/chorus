@@ -93,5 +93,5 @@ Same composition as [Input → Focus indicator](./input.md#focus-indicator). Sup
 ## Behavior
 
 - **Read-only.** The field does not accept keystrokes — `value` is set by the consumer when a sheet option is picked.
-- **Open on click.** Clicking anywhere on the box (or the chevron) fires `onOpen`. The consumer owns the `BottomSheet` state and the option list (typically a [Radio List](../list/radio.md)); when a row is picked, the consumer closes the sheet and updates `value`. The docs preview shows the field at rest only — the sheet wiring is illustrative, not part of the Select primitive itself.
+- **Open on click.** Clicking anywhere on the box (or the chevron) fires `onOpen`. The consumer owns the `BottomSheet` state and the option list (typically a [Radio list](../list/radio.md)); when a row is picked, the consumer closes the sheet and updates `value`. The docs preview shows the field at rest only — the sheet wiring is illustrative, not part of the Select primitive itself.
 - **No clear button.** The trailing slot is the chevron; clearing is done by the sheet's option list.

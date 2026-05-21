@@ -54,7 +54,7 @@ export function ChannelList({
             <Button
               variant="text"
               size="xsmall"
-              appearance="primary"
+              appearance="accent"
               className="chorus-channel-list__header-action"
               href={headerAction.href ?? '#'}
               onClick={headerAction.onClick}

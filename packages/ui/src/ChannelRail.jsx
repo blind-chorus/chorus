@@ -63,7 +63,7 @@ export function ChannelRail({
         <Button
           variant="text"
           size="small"
-          appearance="primary"
+          appearance="accent"
           className="chorus-channel-rail__trailing"
           href={trailingAction.href ?? '#'}
           onClick={trailingAction.onClick}

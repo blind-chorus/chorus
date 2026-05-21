@@ -1,4 +1,4 @@
-# Feed · Default
+# Post
 
 Sub-component of the [Feed](./feed.md) family. The authored-content card — the unit of a scrolling feed. Composes a flag, an author row, a body block (title + clamped excerpt + optional thumbnail), optional inline modules (poll, citation, mention), and an engagement footer. Every block beyond the author row is optional. For the sponsored-placement counterpart see [Feed · Ad](./ad.md).
 
@@ -7,7 +7,7 @@ Sub-component of the [Feed](./feed.md) family. The authored-content card — the
 The base composition — channel header, title, two-line body, thumbnail, mention, and engagement footer. No `flag` in the default.
 
 ```preview
-feed/default
+feed/post-default
 ---
 import { Feed } from '@blind-dsai/ui';
 
@@ -32,7 +32,7 @@ import { Feed } from '@blind-dsai/ui';
 The optional `flag` slot — a single-word editorial label (`HOT`, `NEW`, `PINNED`). Use sparingly.
 
 ```preview
-feed/with-flag
+feed/post-with-flag
 ---
 import { Feed } from '@blind-dsai/ui';
 
@@ -53,10 +53,10 @@ import { Feed } from '@blind-dsai/ui';
 
 ### With poll
 
-A poll module sits between the body block and the mention/engagement footer.
+A poll module sits between the body block and the mention/engagement footer. Leading `PollFillIcon` + label paint in `sys.color.brand`; the label is constrained to the literal `Poll`.
 
 ```preview
-feed/with-poll
+feed/post-with-poll
 ---
 import { Feed } from '@blind-dsai/ui';
 
@@ -75,12 +75,36 @@ import { Feed } from '@blind-dsai/ui';
 />
 ```
 
+### With offer evaluation
+
+An offer-evaluation module — the author publishes their current salary or a competing offer and asks the community for better-option signals. Identical chrome to `with-poll`, but the leading glyph swaps to `CompensationFillIcon` and both the glyph and the label paint in `sys.color.success` (resolves to `ref.palette.green.500`). The label is constrained to the literal `Offer`.
+
+```preview
+feed/post-with-offer
+---
+import { Feed } from '@blind-dsai/ui';
+
+<Feed
+  flag="HOT"
+  channel="Channel"
+  timestamp="Now"
+  followAction
+  meta={['Company', 'Job Function', 'Username']}
+  title="Title"
+  body="Body textBody textBody textBody textBody textBody textBody…"
+  thumbnail={{ alt: 'Cover' }}
+  offer={{ label: 'Offer', participants: 'Number' }}
+  mention="@Mention"
+  engagement={{ likes: 999, comments: 999, views: 999 }}
+/>
+```
+
 ### With citation
 
 A citation module naming an external source. Hero image is flush-left at 120px wide; title two-line-clamped.
 
 ```preview
-feed/with-citation
+feed/post-with-citation
 ---
 import { Feed } from '@blind-dsai/ui';
 
@@ -103,7 +127,7 @@ import { Feed } from '@blind-dsai/ui';
 Every optional slot present.
 
 ```preview
-feed/full
+feed/post-full
 ---
 import { Feed } from '@blind-dsai/ui';
 
@@ -134,7 +158,8 @@ import { Feed } from '@blind-dsai/ui';
 - **meta** — middot-separated author metadata links; single line, truncates.
 - **title** + **body** — post title (single line, truncates) over a two-line clamped excerpt.
 - **thumbnail** *(optional)* — 80×80 trailing image; overlays `MultipleIcon` when `stacked`.
-- **poll** *(optional)* — inline banner with leading glyph, label, and participant count.
+- **poll** *(optional)* — inline banner with leading `PollFillIcon` (brand tone), label `Poll`, divider, and participant count.
+- **offer** *(optional)* — inline banner with leading `CompensationFillIcon` (success / green-500 tone), label `Offer`, divider, and participant count. Same chrome as `poll`; carries an offer-evaluation post (current salary or competing offer surfaced for community input). Label is constrained to `Poll` or `Offer` across both modules combined — no other string is valid.
 - **citation** *(optional)* — inline link-share card with leading hero and source mark.
 - **mention** *(optional)* — tap-anywhere `@Mention` line under the body.
 - **engagement** — footer row of `xsmall` [Text Buttons](../button/text.md) — Likes / Comments commit, Views non-interactive.
@@ -156,7 +181,8 @@ import { Feed } from '@blind-dsai/ui';
 | title        | `heading.md` (20 / Semibold), `onSurface`, single-line truncate |
 | body         | 14 / Regular, `onSurfaceVariant`, two-line clamp |
 | thumbnail    | 80×80, `radius.sm`, `surfaceContainerHigh` fallback. When `stacked`, overlays `MultipleIcon` at `sys.icon.md`, `ref.palette.white.1000`, 4px top-right inset |
-| poll         | `surfaceVariant` fill, `radius.md`, 12×16 padding, 48px min-height, 14px body. Leading glyph (`brand`) + label at 4px gap, 12px to divider, 12px to count. |
+| poll         | `surfaceVariant` fill, `radius.md`, 12×16 padding, 48px min-height, 14px body. Leading `PollFillIcon` + label (`Poll`) painted in `sys.color.brand` at 4px gap, 12px to divider, 12px to count. |
+| offer        | Identical chrome to `poll` — `surfaceVariant` fill, `radius.md`, 12×16 padding, 48px min-height, 14px body. Leading `CompensationFillIcon` + label (`Offer`) painted in `sys.color.success` (`ref.palette.green.500`) at 4px gap, 12px to divider, 12px to count. |
 | citation     | Text-column `surfaceVariant`, `radius.md`, 120px-wide hero. 12px padding, 8px gap between title and source. All text at 12px. Source mark 16×16 at 4px radius, 4px to source name. |
 | mention      | `body.sm`, `primary`, italic |
 | engagement   | `xsmall` [Text Buttons](../button/text.md) (Likes / Comments) + static `<span>` (Views). 16px glyph + 12 / Regular label, 4×8 padding, 4px glyph↔count gap. Row gap 12px. Rest `onSurfaceVariant`; active Like retones label to `sys.color.brand` with `HeartFillIcon`. Optical alignment by default. |

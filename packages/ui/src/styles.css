@@ -1083,6 +1083,17 @@ span.chorus-chip {
 }
 .chorus-feed__poll-glyph { color: var(--sys-color-brand); display: inline-flex; }
 .chorus-feed__poll-label { color: var(--sys-color-brand); font-weight: 700; }
+
+/* Offer-evaluation tone — same chrome as the poll banner, but the
+   leading glyph and label paint in `sys.color.success` (resolves to
+   `ref.palette.green.500` in light, the same step in dark), so the
+   editorial category reads as "compensation / decision support"
+   rather than "community vote". The icon is `CompensationFillIcon`;
+   the label is constrained to the literal "Offer" by the spec. */
+.chorus-feed__poll--offer .chorus-feed__poll-glyph,
+.chorus-feed__poll--offer .chorus-feed__poll-label {
+  color: var(--sys-color-success);
+}
 .chorus-feed__poll-divider {
   width: var(--sys-borderWidth-hairline);
   align-self: stretch;
@@ -1369,10 +1380,20 @@ span.chorus-chip {
   overflow: hidden;
 }
 
+/* Image-area background fallback. The placeholder PNG sits as the
+   layer's background-image (centered, covered, on a surface tone),
+   so when the runtime `<img>` is missing or fails to load the area
+   still resolves to an image rather than an empty surface. The
+   inline <img>, when present, paints opaquely over the background
+   and hides it. */
 .chorus-feed-ad__media {
   width: 100%;
   aspect-ratio: 16 / 10;
-  background: var(--sys-color-surfaceContainerHigh);
+  background-color: var(--sys-color-surfaceContainerHigh);
+  background-image: url("/placeholder_thumbnail.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   overflow: hidden;
 }
 
@@ -1392,6 +1413,475 @@ span.chorus-chip {
 }
 
 /* ============================================================
+   Section — labelled page-region wrapper. Owns the header
+   (label + accent See-all link); body slot is layout-agnostic.
+   Source of truth for the family-wide section-header anatomy
+   shared with ChannelList and FeedCarousel. See
+   schema/components/section/section.md for the contract.
+============================================================ */
+.chorus-section {
+  background: var(--sys-color-surface);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--sys-layout-container-lg) var(--sys-layout-container-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-lg);
+}
+
+.chorus-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sys-layout-inline-md);
+}
+
+.chorus-section .chorus-section__label {
+  margin: 0;
+  font-size: var(--sys-typo-heading-md-size);
+  line-height: var(--sys-typo-heading-md-line);
+  font-weight: var(--sys-typo-heading-md-weight);
+  letter-spacing: var(--sys-typo-heading-md-tracking);
+  color: var(--sys-color-onSurface);
+}
+
+.chorus-section__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* ============================================================
+   FeedCarousel — horizontally-scrolling pager of compact post
+   cards. The header lives on Section; FeedCarousel is just
+   the pager + dots. Mirrors ChannelList's snap-and-peek
+   geometry but holds one card per page. See
+   schema/components/feed/carousel.md for the contract.
+============================================================ */
+.chorus-post-carousel {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-md);
+  min-width: 0;
+}
+
+/* Pager — same snap-and-peek contract as ChannelList. The negative
+   trailing margin (= container.md inline padding) bleeds the scroll
+   viewport to the surface edge so the next-card peek isn't clipped. */
+.chorus-post-carousel__pager {
+  display: flex;
+  gap: var(--sys-layout-inline-md);
+  margin-right: calc(-1 * var(--sys-layout-container-md));
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chorus-post-carousel__pager::-webkit-scrollbar {
+  display: none;
+}
+
+/* Card basis composes the inter-card gap (`sys.layout.inline.md`) plus
+   the guaranteed peek (`ref.space.500` = 40px) into one calc — so when
+   a card is snapped to the leading edge of the pager, at least 40px of
+   the next card is always visible at the trailing edge. The peek is
+   pinned to a raw `ref.space.*` step (not a `sys.layout.*` rung) because
+   the carousel wants a fixed-pixel visibility floor independent of the
+   responsive sys-layout shift. */
+.chorus-post-carousel__card {
+  flex: 0 0 calc(100% - var(--sys-layout-inline-md) - var(--ref-space-500));
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-sm);
+  padding: var(--sys-layout-container-md);
+  border-radius: var(--sys-radius-md);
+  background: var(--sys-color-surface);
+  /* No-layout outline — an inset hairline ring rather than a border so
+     the card's box geometry is stable across states. */
+  box-shadow: inset 0 0 0 var(--sys-borderWidth-hairline) var(--sys-color-outlineVariant);
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  min-width: 0;
+}
+
+.chorus-post-carousel__card--clickable {
+  border: 0;
+  cursor: pointer;
+}
+
+.chorus-post-carousel__card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-md);
+  min-width: 0;
+}
+
+.chorus-post-carousel__card-channel-row {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-sm);
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.chorus-post-carousel__card-channel {
+  font-size: var(--sys-typo-label-md-size);
+  line-height: var(--sys-typo-label-md-line);
+  font-weight: var(--sys-typo-label-md-weight);
+  color: var(--sys-color-onSurface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* Inline verified mark — paints in `sys.color.primary` (resolves to
+   `ref.palette.blue.500`). Sits to the LEFT of the channel name so the
+   reader's eye lands on the trust signal first, then the name. */
+.chorus-post-carousel__card-verified {
+  display: inline-flex;
+  width: var(--sys-icon-md);
+  height: var(--sys-icon-md);
+  color: var(--sys-color-primary);
+  flex: 0 0 auto;
+}
+
+.chorus-post-carousel__card-verified svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* `chorus-post-carousel__card-follow` is a Text Button (xsmall); it
+   owns its own padding, hit area, and color via the Button family. The
+   class is here only to flex-pin it to the row's trailing edge. */
+.chorus-post-carousel__card-follow {
+  flex: 0 0 auto;
+}
+
+.chorus-post-carousel__card-more {
+  flex: 0 0 auto;
+}
+
+.chorus-post-carousel__card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-xs);
+  min-width: 0;
+}
+
+.chorus-post-carousel__card-title {
+  margin: 0;
+  font-size: var(--sys-typo-label-md-size);
+  line-height: var(--sys-typo-label-md-line);
+  font-weight: var(--sys-typo-label-md-weight);
+  color: var(--sys-color-onSurface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chorus-post-carousel__card-text {
+  margin: 0;
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
+  font-weight: var(--sys-typo-body-sm-weight);
+  color: var(--sys-color-onSurfaceVariant);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.chorus-post-carousel__card-mention {
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
+  color: var(--sys-color-primary);
+}
+
+.chorus-post-carousel__card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sys-layout-inline-md);
+}
+
+.chorus-post-carousel__card-more {
+  font-size: var(--sys-typo-label-sm-size);
+  line-height: var(--sys-typo-label-sm-line);
+  font-weight: var(--sys-typo-label-sm-weight);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.chorus-post-carousel__card-views {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-sm);
+  font-size: var(--sys-typo-label-sm-size);
+  line-height: var(--sys-typo-label-sm-line);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.chorus-post-carousel__card-views svg {
+  width: var(--sys-icon-md);
+  height: var(--sys-icon-md);
+  color: currentColor;
+}
+
+.chorus-post-carousel__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sys-layout-inline-sm);
+}
+
+.chorus-post-carousel__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--sys-radius-full);
+  background: var(--sys-color-outlineVariant);
+  display: block;
+}
+
+.chorus-post-carousel__dot--active {
+  background: var(--sys-color-onSurface);
+}
+
+/* ============================================================
+   CardCarousel — sibling of FeedCarousel. Same pager geometry,
+   different card shape (cover band + overlapping avatar + name +
+   metrics + full-width follow toggle). The section heading lives
+   on Section, not here. See
+   schema/components/card-carousel/card-carousel.md for the contract.
+============================================================ */
+.chorus-profile-carousel {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-md);
+  min-width: 0;
+}
+
+.chorus-profile-carousel__pager {
+  display: flex;
+  gap: var(--sys-layout-inline-md);
+  margin-right: calc(-1 * var(--sys-layout-container-md));
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chorus-profile-carousel__pager::-webkit-scrollbar {
+  display: none;
+}
+
+/* Fixed 176px card width — every profile card paints the same footprint
+   regardless of card count or viewport. The pager scrolls horizontally,
+   so the 176 width never reflows. */
+.chorus-profile-carousel__card {
+  flex: 0 0 176px;
+  width: 176px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--sys-color-surface);
+  border-radius: var(--sys-radius-md);
+  box-shadow: inset 0 0 0 var(--sys-borderWidth-hairline) var(--sys-color-outlineVariant);
+  overflow: hidden;
+  padding-bottom: var(--sys-layout-container-md);
+  text-align: center;
+  font: inherit;
+  color: inherit;
+  min-width: 0;
+  border: 0;
+}
+
+.chorus-profile-carousel__card--clickable {
+  cursor: pointer;
+}
+
+.chorus-profile-carousel__cover {
+  width: 100%;
+  height: 88px;
+  background: var(--sys-color-surfaceContainerHigh);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.chorus-profile-carousel__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.chorus-profile-carousel__cover-watermark {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--sys-color-onSurface);
+  opacity: 0.18;
+  letter-spacing: -0.02em;
+}
+
+/* Avatar overlaps the cover band's bottom edge by half its height. */
+.chorus-profile-carousel__avatar-wrap {
+  margin-top: -32px;
+  z-index: 1;
+  /* The Thumbnail's surface halo (a 2px ring) sits on the cover band's
+     edge so the circular avatar reads as a separate plane from the
+     cover. */
+  box-shadow: 0 0 0 2px var(--sys-color-surface);
+  border-radius: var(--sys-radius-full);
+}
+
+.chorus-profile-carousel__identity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sys-layout-stack-2xs);
+  padding: var(--sys-layout-stack-sm) var(--sys-layout-container-md) 0;
+  min-width: 0;
+  width: 100%;
+}
+
+.chorus-profile-carousel__name {
+  margin: 0;
+  font-size: var(--sys-typo-label-md-size);
+  line-height: var(--sys-typo-label-md-line);
+  font-weight: var(--sys-typo-label-md-weight);
+  color: var(--sys-color-onSurface);
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chorus-profile-carousel__followers {
+  font-size: var(--sys-typo-caption-md-size);
+  line-height: var(--sys-typo-caption-md-line);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+/* Slot below the identity stack. Either a row of icon-value metrics or a
+   two-line description — same fixed-height footprint either way so the
+   card outer dimensions stay consistent across both modes. The height
+   is two lines of body.sm (14px × 1.5 line × 2 = 42px) regardless of
+   content. `min-height` (not `height`) on the shared rule lets the
+   description's `-webkit-line-clamp` truncation actually clip the third
+   line — an explicit `height` on a `-webkit-box` ignores line-clamp on
+   some browsers, so we let the clamp own the cap and `min-height`
+   reserve the floor. */
+.chorus-profile-carousel__metrics,
+.chorus-profile-carousel__description {
+  padding: var(--sys-layout-stack-sm) var(--sys-layout-container-md);
+  box-sizing: content-box;
+  min-height: calc(var(--sys-typo-caption-md-size) * var(--sys-typo-caption-md-line) * 2);
+}
+
+.chorus-profile-carousel__metrics {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sys-layout-inline-md);
+}
+
+/* Description slot is two layers: an outer container that owns the
+   fixed-height geometry (min/max-height = 2 body.sm lines, padding) and
+   an inner `<p>` that owns the line-clamp truncation. Splitting these
+   avoids the Chrome quirk where `display: -webkit-box` combined with
+   explicit `height`/`max-height` on the same element silently breaks
+   the `-webkit-line-clamp` clip. */
+.chorus-profile-carousel__description {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chorus-profile-carousel__description-text {
+  margin: 0;
+  font-size: var(--sys-typo-caption-md-size);
+  line-height: var(--sys-typo-caption-md-line);
+  color: var(--sys-color-onSurfaceVariant);
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.chorus-profile-carousel__metric {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-sm);
+  font-size: var(--sys-typo-label-sm-size);
+  line-height: var(--sys-typo-label-sm-line);
+  color: var(--sys-color-onSurface);
+}
+
+.chorus-profile-carousel__metric-icon {
+  display: inline-flex;
+  width: var(--sys-icon-md);
+  height: var(--sys-icon-md);
+}
+
+.chorus-profile-carousel__metric-icon svg {
+  width: 100%;
+  height: 100%;
+  color: currentColor;
+}
+
+/* Toggle-Button follow affordance is stretched to the full card-width
+   slot. The Toggle Button (Chip-toggle) doesn't expose a `fullWidth`
+   prop natively, so this wrapper forces the inner chip to span the
+   card's inner padding. */
+.chorus-profile-carousel__action {
+  width: 100%;
+  padding: 0 var(--sys-layout-container-md);
+  margin-top: var(--sys-layout-stack-sm);
+  box-sizing: border-box;
+  display: flex;
+}
+
+.chorus-profile-carousel__action > .chorus-chip {
+  flex: 1 1 auto;
+  width: 100%;
+  justify-content: center;
+}
+
+.chorus-profile-carousel__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sys-layout-inline-sm);
+}
+
+.chorus-profile-carousel__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--sys-radius-full);
+  background: var(--sys-color-outlineVariant);
+  display: block;
+}
+
+.chorus-profile-carousel__dot--active {
+  background: var(--sys-color-onSurface);
+}
+
+/* ============================================================
    Thumbnail
 ============================================================ */
 .chorus-thumbnail {
@@ -1403,12 +1893,20 @@ span.chorus-chip {
   vertical-align: middle;
 }
 
+/* Same image-area fallback contract as `.chorus-feed-ad__media` — the
+   placeholder PNG is the layer's background, so a missing or failed
+   `<img>` still resolves the slot to an image rather than an empty
+   surface tone. The inline <img> paints opaquely over the background. */
 .chorus-thumbnail__image {
   display: block;
   width: 100%;
   height: 100%;
   border-radius: var(--sys-radius-full);
-  background: var(--sys-color-surfaceContainerHigh);
+  background-color: var(--sys-color-surfaceContainerHigh);
+  background-image: url("/placeholder_thumbnail.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   overflow: hidden;
 }
 
@@ -1910,24 +2408,32 @@ span.chorus-chip {
   background: var(--ref-palette-white-200);
 }
 
-/* 32 × 32 leading icon slot. Anatomy contract — the callout's
-   illustration footprint, top-aligned via the container's
-   `align-items: flex-start`. The slot is a full-radius circle that
-   clips its contents (the imagery is typically a vector mark with
-   no intrinsic shape, so the callout imposes the circle). */
+/* Leading icon slot — a 24 × 24 glyph that paints in the callout's
+   foreground (`currentColor`), so the mark reads as part of the body
+   copy rather than as a standalone illustration. Top-aligned via the
+   container's `align-items: flex-start`. */
 .chorus-callout__icon {
-  flex: 0 0 32px;
-  width: 32px;
-  height: 32px;
+  flex: 0 0 var(--sys-icon-lg);
+  width: var(--sys-icon-lg);
+  height: var(--sys-icon-lg);
   display: block;
-  border-radius: var(--sys-radius-full);
-  overflow: hidden;
+  color: currentColor;
 }
 
 .chorus-callout__icon img,
 .chorus-callout__icon svg {
   width: 100%;
   height: 100%;
+  display: block;
+  color: currentColor;
+}
+
+/* Leading thumbnail slot — hosts a `Thumbnail` (channel / author / sub-
+   brand image). The Thumbnail owns its own diameter and corner shape;
+   the slot is a footprint-preserving wrapper that keeps the image top-
+   aligned and prevents flex-shrink. */
+.chorus-callout__thumbnail {
+  flex: 0 0 auto;
   display: block;
 }
 

@@ -1,4 +1,4 @@
-# Text Button
+# Text
 
 The link-shaped commit surface — reads as text at rest, paints a button-like hover overlay and standard focus ring when interacted with. Use inline next to typographic content where the action commits ("Skip"/"Done" on a [Page](../navigation-bar/page.md) bar, "Edit" beside a row title). For navigation use the bare [Text link](../../DESIGN.md#text-links).
 
@@ -17,6 +17,8 @@ import { Button } from '@blind-dsai/ui';
 ## Accent
 
 Brand-blue label (`primary`) — the inline commit affordance. Use sparingly; never two in the same row.
+
+**Prefer `accent` for link-affordance Text Buttons.** Whenever the button reads as a navigational link rather than a quiet inline commit — a section header's trailing `See all` / `See more`, a card-header `Follow`, an inline `View details` next to a body paragraph — pick `accent` so the navigational intent is unambiguous. `default` (onSurfaceVariant) is for quieter inline commits that should recede into the body copy. Override to `default` only when the parent surface already carries enough chromatic weight that an `accent` label would compete.
 
 ```preview
 button/text/accent

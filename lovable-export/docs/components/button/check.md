@@ -1,4 +1,4 @@
-# Check Button
+# Check
 
 Option-toggle commit surface — a [Text Button](./text.md) with a required leading checkbox glyph that flips outline → fill with the `checked` state, plus an optional middle icon. Use when an option is committed alongside (or selected for) the surface's main action — the canonical Blind use is an in-app item-use affordance ("Use this perk?") that toggles state before the primary commit fires. Two sizes (`medium` / `small`) where the **checkbox footprint** is the visual differentiator: medium pairs a 24px checkbox with 12-rank text, small drops the checkbox to 16px alongside the same 12-rank text. Appearances and state behavior mirror Text Button; the optional middle icon stays at 16px on both rungs.
 

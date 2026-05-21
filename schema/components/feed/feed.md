@@ -1,6 +1,8 @@
 # Feed
 
-The unit of a scrolling stream. The family covers two card shapes that ride the same column: **[Default Feed](./default.md)** — the authored content card (channel header, title + body, optional thumbnail / poll / citation / mention, engagement footer); **[Ad Feed](./ad.md)** — the sponsored placement (brand row, optional title + body, a hero + CTA slab, no engagement row).
+The unit of a scrolling stream. The family covers two card shapes that ride the same column: **[Post](./post.md)** — the authored content card (channel header, title + body, optional thumbnail / poll / offer / citation / mention, engagement footer); **[Ad](./ad.md)** — the sponsored placement (brand row, optional title + body, a hero + CTA slab, no engagement row).
+
+Editorial collections of popular posts ride alongside Feed cards via the [Section · Post Carousel](../section/post-carousel.md) sub of the [Section](../section/section.md) family — that pair owns the curated-collection placement, not Feed itself.
 
 ## Cross-sub contract
 
@@ -12,13 +14,13 @@ Same container surface (`sys.color.surface`), same `sys.layout.container.md` (16
 
 ### Brand row vs author row
 
-Both subs lead with a 32-rung [Thumbnail](../thumbnail/thumbnail.md) + a stacked text column. Default Feed binds channel + timestamp + follow affordance; Ad Feed binds brand name + a `Sponsored` subtitle + an opt-in dismiss. Same anatomy rung, different commit surface.
+Both subs lead with a 32-rung [Thumbnail](../thumbnail/thumbnail.md) + a stacked text column. Post binds channel + timestamp + follow affordance; Ad binds brand name + a `Sponsored` subtitle + an opt-in dismiss. Same anatomy rung, different commit surface.
 
 ### No engagement row on sponsored content
 
-Ad Feed deliberately omits the engagement footer. Ads are not authored content — the only commit on the placement is the CTA. Default Feed keeps the Likes / Comments / Views row.
+Ad deliberately omits the engagement footer. Ads are not authored content — the only commit on the placement is the CTA. Post keeps the Likes / Comments / Views row.
 
 ## Sub-components
 
-- **[Default Feed](./default.md)** — the authored content card. Default of the family.
-- **[Ad Feed](./ad.md)** — the in-feed sponsored placement.
+- **[Post](./post.md)** — the authored content card. Default of the family.
+- **[Ad](./ad.md)** — the in-feed sponsored placement.

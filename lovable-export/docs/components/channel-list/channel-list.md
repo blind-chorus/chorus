@@ -1,4 +1,4 @@
-# Channel List
+# Channel list
 
 A vertically-stacked block of channel recommendations rendered as a swipeable pager. One page shows three channel rows; the next page peeks at the trailing edge to invite the swipe. Each row pairs a 48px [Thumbnail](../thumbnail/thumbnail.md), a stacked text column (name / followers / description), and a trailing [Toggle Button](../button/toggle.md) flipping between "Follow" and "Following".
 

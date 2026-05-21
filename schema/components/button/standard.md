@@ -1,4 +1,4 @@
-# Standard Button
+# Standard
 
 The default inline action surface — a labelled commit that lives inline with content (form submit, dialog confirm, row action). Two independent axes: **size** (`large` / `medium` / `small`) chosen by the surrounding surface, **appearance** (`primary` / `secondary` / `outlined` / `tertiary`) by the action's emphasis. Reach for [FAB](./fab.md) when the commit must float above scrolling content, [Text Button](./text.md) when the rung is body-text-sized, or [Toolbar Button](./toolbar.md) inside a dense toolbar row.
 
