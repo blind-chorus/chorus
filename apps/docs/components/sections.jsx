@@ -2292,6 +2292,7 @@ export function VoiceContent() {
    so readers can locate a component by name without remembering a
    category. Mirrors the side-nav order in `apps/docs/lib/nav.js`. */
 const COMPONENT_INDEX = [
+  ['ad-feed',       'Ad Feed',       'In-feed sponsored placement — brand row, optional title and body excerpt, hero media block, and a single full-width commit CTA. Rides the same column as Feed but carries no engagement row.'],
   ['badge',         'Badge',         'Numeric count pill (medium / small) that attaches to a host label — channel entry, list row, thumbnail corner — and reports the unread or update count.'],
   ['bottom-sheet',  'Bottom Sheet',  'A bottom-anchored panel rising from the viewport edge over a scrim — drag handle, scrollable content (title / body / custom), and a pinned primary action; for explanations and decisions that need more room than a Dialog.'],
   ['button',        'Button',        'The action-surface family — Standard Button (three sizes × four appearances), FAB (canvas-anchored floating commit), Icon / Text / Toolbar Buttons (icon-only, link-shaped, dense-inline), Toggle (reversible Follow ↔ Following), and Check (option-toggle with leading checkbox).'],

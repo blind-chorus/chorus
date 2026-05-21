@@ -61,6 +61,7 @@
     }
   },
   "components": [
+    { "family": "ad-feed",        "root": "components/ad-feed/ad-feed.family.json" },
     { "family": "badge",          "root": "components/badge/badge.family.json" },
     { "family": "bottom-sheet",   "root": "components/bottom-sheet/bottom-sheet.family.json" },
     { "family": "button",         "root": "components/button/button.family.json" },

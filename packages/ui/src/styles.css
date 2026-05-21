@@ -1248,6 +1248,147 @@ span.chorus-chip {
 .chorus-feed__views-icon svg { width: 100%; height: 100%; }
 
 /* ============================================================
+   AdFeed
+============================================================ */
+.chorus-ad-feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-md);
+  padding: var(--sys-layout-container-lg) var(--sys-layout-container-md);
+  background: var(--sys-color-surface);
+  color: var(--sys-color-onSurface);
+  width: 100%;
+  /* Same column cap as Feed — the AdFeed rides in the same scrolling
+     column, so the literal mirrors Feed's anatomy contract. */
+  max-width: 480px;
+  border-radius: var(--sys-radius-md);
+  box-sizing: border-box;
+}
+
+.chorus-ad-feed__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-md);
+  min-width: 0;
+}
+
+.chorus-ad-feed__brand-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.chorus-ad-feed__brand-name {
+  font-size: var(--sys-typo-label-md-size);
+  font-weight: var(--sys-typo-label-md-weight);
+  line-height: var(--sys-typo-label-md-line);
+  color: var(--sys-color-onSurface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chorus-ad-feed__brand-subtitle {
+  font-size: var(--sys-typo-caption-md-size);
+  font-weight: var(--sys-typo-caption-md-weight);
+  line-height: var(--sys-typo-caption-md-line);
+  color: var(--sys-color-onSurfaceVariant);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Dismiss — bare 24-rung hit area carrying a 16px CloseIcon. No chrome
+   at rest so the brand row reads as a flat strip; the inherited Icon
+   Button hover/pressed overlays would compete with the surrounding
+   surface tone. */
+.chorus-ad-feed__dismiss {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--sys-color-onSurfaceVariant);
+  flex: 0 0 auto;
+}
+.chorus-ad-feed__dismiss svg {
+  width: var(--sys-icon-md);
+  height: var(--sys-icon-md);
+  display: block;
+}
+.chorus-ad-feed__dismiss:focus-visible {
+  outline: var(--sys-borderWidth-hairline) solid var(--sys-color-focus);
+  outline-offset: var(--sys-layout-inline-xs);
+  border-radius: var(--sys-radius-xs);
+}
+
+.chorus-ad-feed__post-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-xs);
+  min-width: 0;
+}
+
+.chorus-ad-feed .chorus-ad-feed__title {
+  margin: 0;
+  font-size: var(--sys-typo-heading-md-size);
+  font-weight: var(--sys-typo-heading-md-weight);
+  line-height: var(--sys-typo-heading-md-line);
+  letter-spacing: var(--sys-typo-heading-md-tracking);
+  color: var(--sys-color-onSurface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chorus-ad-feed__body {
+  margin: 0;
+  font-size: var(--sys-typo-body-sm-size);
+  font-weight: var(--sys-typo-body-sm-weight);
+  line-height: var(--sys-typo-body-sm-line);
+  color: var(--sys-color-onSurfaceVariant);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hero media — fills the card's inline width at a 16:10 anatomy ratio.
+   The fallback fill is `surfaceContainerHigh`, mirroring Feed's
+   thumbnail fallback. `--ad-feed-media-bg` is the plumbing seam for
+   the `media.background` prop. */
+.chorus-ad-feed__media {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--sys-radius-md);
+  background: var(--sys-color-surfaceContainerHigh);
+  overflow: hidden;
+  position: relative;
+}
+
+.chorus-ad-feed__media img,
+.chorus-ad-feed__media-fallback {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.chorus-ad-feed__media-fallback {
+  /* Inherits the parent's painted fill — when `media.background` is set
+     the slab paints that brand tone; otherwise the `surfaceContainerHigh`
+     fallback shows through. */
+  background: transparent;
+}
+
+/* ============================================================
    Thumbnail
 ============================================================ */
 .chorus-thumbnail {

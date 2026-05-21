@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FormField, FormFieldGroup, List, NavigationBar, TabBar, Thumbnail, Toast } from '@blind-dsai/ui';
+import { AdFeed, Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FormField, FormFieldGroup, List, NavigationBar, TabBar, Thumbnail, Toast } from '@blind-dsai/ui';
 import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MenuIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
@@ -1242,6 +1242,102 @@ export const PREVIEWS = {
           }}
           mention="@all-members"
           engagement={{ likes: 4820, comments: 192, views: 27410 }}
+        />
+      </Frame>
+    ),
+  },
+
+  /* AdFeed — in-feed sponsored placement. Copy / brand naming stays
+     neutral so the previews read across any community product; the
+     teal slab behind the cut-out hero mirrors the brand-tinted mock the
+     spec is drawn against. */
+  'ad-feed/default': {
+    states: false,
+    render: () => (
+      <Frame>
+        <AdFeed
+          brand={{
+            name: 'Brand Name',
+            subtitle: 'Blind Company Reviews',
+            avatar: { alt: 'Brand logo' },
+          }}
+          onDismiss={() => {}}
+          title="AD title"
+          body="Here's feed text. Here's feed text. Here's feed text. Here's feed text."
+          media={{
+            src: UNSPLASH('photo-1556761175-5973dc0f32e7', [640, 400]),
+            alt: 'Read unfiltered, verified company reviews',
+            background: '#3DB1A3',
+          }}
+          cta={{ label: 'Color Button' }}
+        />
+      </Frame>
+    ),
+  },
+  'ad-feed/minimal': {
+    states: false,
+    render: () => (
+      <Frame>
+        <AdFeed
+          brand={{
+            name: 'Brand Name',
+            avatar: { alt: 'Brand logo' },
+          }}
+          media={{
+            src: UNSPLASH('photo-1551434678-e076c223a692', [640, 400]),
+            alt: 'Promotional banner',
+            background: '#3DB1A3',
+          }}
+          cta={{ label: 'Learn more' }}
+        />
+      </Frame>
+    ),
+  },
+  'ad-feed/no-dismiss': {
+    states: false,
+    render: () => (
+      <Frame>
+        <AdFeed
+          brand={{
+            name: 'Brand Name',
+            subtitle: 'Sponsored',
+            avatar: { alt: 'Brand logo' },
+          }}
+          title="Headline that sells the offer"
+          body="A short two-line excerpt explains the offer just enough for the reader to decide whether to commit."
+          media={{
+            src: UNSPLASH('photo-1517245386807-bb43f82c33c4', [640, 400]),
+            alt: 'Hero media',
+            background: '#3DB1A3',
+          }}
+          cta={{ label: 'Get the app' }}
+        />
+      </Frame>
+    ),
+  },
+  /* My Page placement — same composition as `default`, but `cta` is
+     omitted. The entire card is the affordance on the My Page surface
+     (the parent route handles the tap), so stacking a redundant
+     full-width Standard Button would compete with the surface's own
+     navigation. Reach for this shape only inside the My Page route. */
+  'ad-feed/my-page': {
+    states: false,
+    render: () => (
+      <Frame>
+        <AdFeed
+          brand={{
+            name: 'Brand Name',
+            subtitle: 'Blind Company Reviews',
+            avatar: { alt: 'Brand logo' },
+          }}
+          onDismiss={() => {}}
+          title="AD title"
+          body="Here's feed text. Here's feed text. Here's feed text. Here's feed text."
+          media={{
+            src: UNSPLASH('photo-1556761175-5973dc0f32e7', [640, 400]),
+            alt: 'Read unfiltered, verified company reviews',
+            background: '#3DB1A3',
+          }}
         />
       </Frame>
     ),

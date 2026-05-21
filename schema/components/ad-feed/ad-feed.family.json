@@ -1,0 +1,21 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "ad-feed",
+  "name": "AdFeed",
+  "description": "In-feed advertisement card — a sponsored slot that rides the same column as Feed but trades the channel/author header for a brand row, drops the engagement footer, and commits a single full-width call-to-action. One block per impression. Single-spec family.",
+  "useCases": [
+    "sponsored post",
+    "in-feed ad",
+    "promotion card",
+    "brand placement"
+  ],
+  "spec": "ad-feed.md",
+  "subcomponents": [
+    {
+      "slug": "ad-feed",
+      "spec": "ad-feed.spec.json",
+      "md": "ad-feed.md",
+      "default": true
+    }
+  ]
+}

@@ -173,6 +173,10 @@ export const NAV = [
        component or sub. */
     items: [
       {
+        href: '/components/ad-feed',
+        label: 'Ad Feed',
+      },
+      {
         href: '/components/badge',
         label: 'Badge',
       },
