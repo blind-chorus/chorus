@@ -19,3 +19,4 @@ export { Section } from './Section.jsx';
 export { TabBar } from './TabBar.jsx';
 export { Thumbnail } from './Thumbnail.jsx';
 export { Toast } from './Toast.jsx';
+export { Tooltip } from './Tooltip.jsx';

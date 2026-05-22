@@ -3,7 +3,7 @@
   "name": "Button",
   "family": "button",
   "subcomponent": "text",
-  "description": "Link-shaped commit surface — looks like a text link at rest (no fill, no border, label-coloured text) but paints a button-like hover overlay and a standard focus ring when interacted with. Reach for this whenever an inline affordance lives next to typographic content and should read as part of the text rhythm rather than as a separate filled control. Three sizes (medium / small / xsmall) for the row's density, three appearances (default / accent / inverse) for emphasis and host surface.",
+  "description": "Link-shaped commit surface — looks like a text link at rest (no fill, no border, label-coloured text) but paints a button-like hover overlay and a standard focus ring when interacted with. Reach for this whenever an inline affordance lives next to typographic content and should read as part of the text rhythm rather than as a separate filled control. Three sizes (medium / small / xsmall) for the row's density, four appearances (default / accent / onPrimary / inverse) for emphasis and host surface.",
   "element": "button",
   "props": {
     "variant": {
@@ -24,6 +24,7 @@
       "values": [
         "default",
         "accent",
+        "onPrimary",
         "inverse"
       ],
       "default": "default"
@@ -109,11 +110,17 @@
       "note": "Brand-blue label for the inline commit affordance. Use sparingly — never two `accent` Text Buttons in the same row.",
       "linkAffordanceRecommendation": "Prefer `accent` whenever the Text Button reads as a **link affordance** — a section header's trailing 'See all' / 'See more', a card-header 'Follow', an inline 'View details' next to a body paragraph. Link-like affordances should carry chromatic emphasis so the navigational intent is unambiguous; `default` (onSurfaceVariant) is for quieter inline commits that should recede into the body copy. Override to `default` only when a parent surface (e.g. a busy chrome bar) already carries enough chromatic weight that an `accent` label would compete."
     },
+    "onPrimary": {
+      "background": "transparent",
+      "border": null,
+      "label": "sys.color.onPrimary",
+      "note": "Always-white label for use on top of a `primary`-filled host (e.g. the Tooltip `default` appearance). Both `primary` and `onPrimary` are theme-stable (blue / white in light and dark mode), so the label reads as white against the brand-blue fill in either theme — unlike `inverse`, which flips with the theme."
+    },
     "inverse": {
       "background": "transparent",
       "border": null,
       "label": "sys.color.inverseOnSurface",
-      "note": "Mirror for use inside an inverse host (Toast, coach-mark, snackbar). Label paints in `inverseOnSurface` so it reads against the host's `inverseSurface` fill; state overlays mix from the same token so the recipe carries over without per-host tuning."
+      "note": "Mirror for use inside an inverse host (Toast, coach-mark, snackbar). Label paints in `inverseOnSurface` so it reads against the host's `inverseSurface` fill; state overlays mix from the same token so the recipe carries over without per-host tuning. The `inverseOnSurface` token FLIPS with the theme (white in light mode, dark in dark mode) — that's correct against the also-flipping `inverseSurface` host. When the host fill does NOT flip (e.g. a `primary`-filled Tooltip in `default` appearance), reach for `onPrimary` instead so the label stays white in both themes."
     }
   },
   "flavors": {
@@ -126,6 +133,11 @@
           "label": "sys.color.error"
         },
         "accent": {
+          "background": "transparent",
+          "border": null,
+          "label": "sys.color.error"
+        },
+        "onPrimary": {
           "background": "transparent",
           "border": null,
           "label": "sys.color.error"

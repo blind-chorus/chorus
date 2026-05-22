@@ -28,9 +28,21 @@ import { Button } from '@blind-dsai/ui';
 <Button variant="text" appearance="accent">Skip</Button>
 ```
 
+## OnPrimary
+
+Always-white label for use on top of a `primary`-filled host (the canonical case is the Tooltip `default` appearance). Both `sys.color.primary` and `sys.color.onPrimary` are theme-stable — blue and white in light *and* dark mode — so the label stays white against the brand-blue fill in either theme. Reach for this instead of `inverse` whenever the host fill does not flip with the theme.
+
+```preview
+button/text/on-primary
+---
+import { Button } from '@blind-dsai/ui';
+
+<Button variant="text" appearance="onPrimary">Got it</Button>
+```
+
 ## Inverse
 
-Mirror for use inside an inverse host (Toast, coach-mark, snackbar). Label paints in `inverseOnSurface` so it reads against the host's `inverseSurface` fill.
+Mirror for use inside an inverse host (Toast, coach-mark, snackbar). Label paints in `inverseOnSurface` so it reads against the host's `inverseSurface` fill — both tokens flip together with the theme.
 
 ```preview
 button/text/inverse
@@ -98,13 +110,14 @@ import { Button } from '@blind-dsai/ui';
 
 ## Appearance
 
-Three appearances. Default is the base neutral inline action; `accent` paints the label in the brand commit colour for the row's one commit; `inverse` swaps to the inverse cluster for use inside Toast / coach-mark / snackbar hosts.
+Four appearances. `default` is the base neutral inline action; `accent` paints the label in the brand commit colour for the row's one commit; `onPrimary` paints an always-white label for use on top of a `primary`-filled host (Tooltip `default`); `inverse` swaps to the inverse cluster for use inside Toast / coach-mark / snackbar hosts.
 
 | Appearance  | Background (rest) | Label color                       | When to reach for it                                                                 |
 |-------------|-------------------|-----------------------------------|--------------------------------------------------------------------------------------|
 | `default`   | `transparent`     | `sys.color.onSurfaceVariant`      | The base inline action — "Not now" tails, secondary inline trail commits. |
 | `accent`    | `transparent`     | `sys.color.primary`               | Brand-blue inline commit — "Skip" / "Done", "Edit". One per row. |
-| `inverse`   | `transparent`     | `sys.color.inverseOnSurface`      | For use inside an inverse host (Toast action, coach-mark). |
+| `onPrimary` | `transparent`     | `sys.color.onPrimary`             | For use on top of a `primary`-filled host (Tooltip `default`). Both tokens are theme-stable so the label stays white in light and dark mode. |
+| `inverse`   | `transparent`     | `sys.color.inverseOnSurface`      | For use inside an inverse host (Toast action, coach-mark) whose fill also flips with the theme. |
 
 A **destructive** flavor swaps the label to the `error` family across every appearance.
 

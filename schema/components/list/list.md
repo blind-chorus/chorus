@@ -2,6 +2,8 @@
 
 A vertically-stacked sequence of rows for menus, settings panels, picker sheets, and inline option groups. Four sub-components share one anatomy and diverge on the leading slot and selection contract.
 
+**Reach for this when** the rows are same-kind chrome — settings entries, menu options, single-select picker rows, drill-in navigation, directory rows. **Skip when** the rows are authored content with author + body + footer (use [Feed](../feed/feed.md)) or a horizontal collection of curated cards (use [Section](../section/section.md)). Pick the sub by the leading slot: no leading → [Text](./text.md); single-select radio → [Radio](./radio.md); 40px avatar → [Thumbnail](./thumbnail.md); trailing chevron → [Nav](./nav.md).
+
 ## Cross-sub contract
 
 - **Container.** Vertical stack, transparent fill (inherits the parent surface). Rows separated by a 1px `outlineVariant` divider. No outer radius — corner shape belongs to the wrapping container.

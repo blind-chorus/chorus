@@ -282,6 +282,10 @@ export const NAV = [
         href: '/components/toast',
         label: 'Toast',
       },
+      {
+        href: '/components/tooltip',
+        label: 'Tooltip',
+      },
     ],
   },
   {

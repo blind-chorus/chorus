@@ -3400,9 +3400,10 @@ span.chorus-chip {
    `inverse` swaps the label to the inverse cluster so a Text Button
    inside a Toast / coach-mark / snackbar reads against the host's
    `inverseSurface` fill without a per-host tweak. */
-.chorus-button--text--appearance-default { --button-text-label: var(--sys-color-onSurfaceVariant); }
-.chorus-button--text--appearance-accent  { --button-text-label: var(--sys-color-primary); }
-.chorus-button--text--appearance-inverse { --button-text-label: var(--sys-color-inverseOnSurface); }
+.chorus-button--text--appearance-default   { --button-text-label: var(--sys-color-onSurfaceVariant); }
+.chorus-button--text--appearance-accent    { --button-text-label: var(--sys-color-primary); }
+.chorus-button--text--appearance-onPrimary { --button-text-label: var(--sys-color-onPrimary); }
+.chorus-button--text--appearance-inverse   { --button-text-label: var(--sys-color-inverseOnSurface); }
 
 /* Size modifiers — pair min-height + padding + typo + icon footprint. */
 .chorus-button--text--size-medium {
@@ -3866,5 +3867,119 @@ span.chorus-chip {
    the only thing this rule owns is keeping it from stretching. */
 .chorus-toast__trailing {
   flex: 0 0 auto;
+}
+
+/* ============================================================
+   Tooltip — trigger-anchored explanation bubble
+============================================================ */
+/* Two appearances: `default` paints the brand-blue bubble
+   (`primary` / `onPrimary`, theme-stable); `inverse` swaps to the
+   inverse cluster for screens already saturated with primary tone.
+   The component owns chrome + caret; positioning relative to the
+   trigger (16-token viewport safe area, 4-token trigger offset) and
+   the show/hide lifecycle are the host's job. Asymmetric inset
+   (12 inline × 6 block) so the bubble reads as a pill rather than
+   a square; 32 min-height, 240 max-width, body.sm typography. The
+   optional `action` slot accepts a small text button bound to the
+   matching `onPrimary` (default) or `inverse` (inverse) appearance.
+
+   Body-to-action gap: column 6 (inline, body and button on one row),
+   row 12 (block, button wraps below the body). `flex-wrap` drives
+   the row split. */
+.chorus-tooltip {
+  position: relative;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: var(--sys-layout-inline-lg);
+  column-gap: var(--ref-space-75);
+  min-height: 32px;
+  max-width: 240px;
+  padding: var(--ref-space-75) var(--sys-layout-container-sm);
+  border-radius: var(--sys-radius-lg);
+  box-shadow: var(--sys-elevation-overlay);
+}
+
+/* Default — brand-blue bubble. Both `primary` and `onPrimary` are
+   theme-stable, so the bubble reads the same in light and dark mode.
+   Pair the action button with `appearance="onPrimary"` (also
+   theme-stable). */
+.chorus-tooltip--appearance-default {
+  background: var(--sys-color-primary);
+  color: var(--sys-color-onPrimary);
+}
+
+/* Inverse — dark-cluster bubble for primary-heavy screens. Pair the
+   action button with `appearance="inverse"` so the label flips with
+   the host fill. */
+.chorus-tooltip--appearance-inverse {
+  background: var(--sys-color-inverseSurface);
+  color: var(--sys-color-inverseOnSurface);
+}
+
+.chorus-tooltip__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
+  font-weight: var(--sys-typo-body-sm-weight);
+  letter-spacing: var(--sys-typo-body-sm-tracking);
+  color: inherit;
+}
+
+/* Action slot is intrinsically a Button (text-small). Stays right-of-
+   body when the row fits; the parent's `flex-wrap: wrap` drops it
+   below once the body wraps. */
+.chorus-tooltip__action {
+  flex: 0 0 auto;
+}
+
+/* Caret — 8px square diamond rotated 45deg, painted in the container
+   fill (inherited via `background: inherit`) so the tail reads as
+   one shape with the bubble in either appearance. The caret is
+   absolutely positioned per `data-placement`; the bubble owns the
+   spacing offset between the caret tip and the trigger via the
+   `triggerOffset` token convention (the host positioner applies it
+   as an outer margin / translate when placing the bubble). */
+.chorus-tooltip__caret {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+}
+
+/* Placement matrix — top/bottom × start/center/end. `top-*` sits the
+   bubble ABOVE the trigger, so the caret points DOWN from the
+   bubble's bottom edge; `bottom-*` mirrors. The `-start` / `-end`
+   aligners shift the caret along the parallel axis so it lines up
+   with an off-centre trigger. */
+.chorus-tooltip[data-placement^='top'] .chorus-tooltip__caret {
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+.chorus-tooltip[data-placement='top-start'] .chorus-tooltip__caret {
+  left: var(--sys-layout-container-sm);
+  transform: rotate(45deg);
+}
+.chorus-tooltip[data-placement='top-end'] .chorus-tooltip__caret {
+  left: auto;
+  right: var(--sys-layout-container-sm);
+  transform: rotate(45deg);
+}
+
+.chorus-tooltip[data-placement^='bottom'] .chorus-tooltip__caret {
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+.chorus-tooltip[data-placement='bottom-start'] .chorus-tooltip__caret {
+  left: var(--sys-layout-container-sm);
+  transform: rotate(45deg);
+}
+.chorus-tooltip[data-placement='bottom-end'] .chorus-tooltip__caret {
+  left: auto;
+  right: var(--sys-layout-container-sm);
+  transform: rotate(45deg);
 }
 

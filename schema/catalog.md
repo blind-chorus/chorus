@@ -58,8 +58,9 @@ Reverse index from natural-language intent to family + sub-component. Read this 
 | destructive confirmation                            | `dialog` with destructive primary action |
 | inline notice inside the content column             | `callout / info` or `/ neutral` (not modal) |
 | transient post-action confirmation (saved, copied)  | `toast` (non-modal, auto-dismiss) |
+| trigger-anchored hint over a hovered/focused control | `tooltip` (non-modal, hover/focus-driven) |
 
-**Disambiguate**: `bottom-sheet`/`dialog` are modal — require a trigger elsewhere. `callout` is not modal; lives in the content column. `toast` is non-modal and self-dismissing — reach for it only when the action has already landed and no decision is needed.
+**Disambiguate**: `bottom-sheet`/`dialog` are modal — require a trigger elsewhere. `callout` is not modal; lives in the content column. `toast` is non-modal and self-dismissing — reach for it only when the action has already landed and no decision is needed. `tooltip` is non-modal and floats over a specific trigger — reach for it only when the message describes a hovered/focused control.
 
 ## Inputs
 

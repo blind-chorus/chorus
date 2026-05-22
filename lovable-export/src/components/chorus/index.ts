@@ -20,3 +20,4 @@ export { Section } from './Section';
 export { TabBar } from './TabBar';
 export { Thumbnail } from './Thumbnail';
 export { Toast } from './Toast';
+export { Tooltip } from './Tooltip';

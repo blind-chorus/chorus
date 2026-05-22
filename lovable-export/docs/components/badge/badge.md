@@ -2,6 +2,8 @@
 
 A small brand-tone indicator attached to a host label — a channel entry, a list row, a thumbnail corner — flagging *new or unread activity* behind that target. Use Badge for a count, dot, or short alert label that pulls the eye back to attention-worthy state; prefer [Tag](../chip/tag.md) when the marker describes the content (category, status) rather than flagging recent change. Two top-level **types** share the same brand-tone fill and `radius.full` corner: **Numeric** (a labelled count pill, the canonical badge) and **Dot** (a labelless update dot, the corner activity flag used by [Thumbnail](../thumbnail/thumbnail.md)). Always anchored to a host; never appears in isolation and never carries an interactive affordance.
 
+**Reach for Numeric when** the count itself carries meaning (3 unread, 12 mentions, `99+` notifications) — the reader needs to know *how much*. **Reach for Dot when** the presence of activity is the whole signal — a corner flag on a Thumbnail or icon that says "something new here" without a magnitude. **Skip Badge entirely** when the marker is descriptive metadata (category, status, role) — use [Tag](../chip/tag.md) instead.
+
 ## Numeric
 
 The labelled form — a short count sitting next to its host label. Two rungs (`medium` / `small`); a 1-character label collapses to a perfect circle, a 2-character or `99+` label stretches into a pill. The `count` prop applies the `99+` cap automatically; pass `children` for non-numeric labels (`NEW`).

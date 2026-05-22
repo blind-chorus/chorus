@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FormField, FormFieldGroup, List, NavigationBar, PostCarousel, ProfileCarousel, Section, TabBar, Thumbnail, Toast } from '@blind-dsai/ui';
+import { Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FormField, FormFieldGroup, List, NavigationBar, PostCarousel, ProfileCarousel, Section, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
 import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, DownwardIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MenuIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
@@ -486,6 +486,13 @@ export const PREVIEWS = {
     supportsDisabled: true,
     render: ({ size = 'medium', state, disabled }) => (
       <Button variant="text" size={size} appearance="inverse" state={disabled ? 'disabled' : state}>Undo</Button>
+    ),
+  },
+  'button/text/on-primary': {
+    sizes: ['medium', 'small', 'xsmall'],
+    supportsDisabled: true,
+    render: ({ size = 'medium', state, disabled }) => (
+      <Button variant="text" size={size} appearance="onPrimary" state={disabled ? 'disabled' : state}>Got it</Button>
     ),
   },
   'button/text/leading-icon': {
@@ -2299,6 +2306,64 @@ export const PREVIEWS = {
           Synced 12 channels in the background
         </Toast>
       </Frame>
+    ),
+  },
+
+  'tooltip/default': {
+    states: false,
+    render: () => <Tooltip placement="top">Tooltip text</Tooltip>,
+  },
+
+  'tooltip/inverse': {
+    states: false,
+    render: () => <Tooltip placement="top" appearance="inverse">Tooltip text</Tooltip>,
+  },
+
+  'tooltip/with-action': {
+    states: false,
+    render: () => (
+      <Tooltip placement="top" action={
+        <Button variant="text" size="small" appearance="onPrimary" onClick={() => {}}>
+          Got it
+        </Button>
+      }>
+        Tooltip text
+      </Tooltip>
+    ),
+  },
+
+  'tooltip/multiline-action': {
+    states: false,
+    render: () => (
+      <Tooltip placement="bottom" action={
+        <Button variant="text" size="small" appearance="onPrimary" onClick={() => {}}>
+          Learn more
+        </Button>
+      }>
+        Tooltip text wraps onto a second line when it would push the bubble past the 240 cap.
+      </Tooltip>
+    ),
+  },
+
+  'tooltip/placements': {
+    states: false,
+    render: () => (
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, max-content)',
+          gap: 'var(--sys-layout-container-xl)',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Tooltip placement="top-start">Tooltip text</Tooltip>
+        <Tooltip placement="top">Tooltip text</Tooltip>
+        <Tooltip placement="top-end">Tooltip text</Tooltip>
+        <Tooltip placement="bottom-start">Tooltip text</Tooltip>
+        <Tooltip placement="bottom">Tooltip text</Tooltip>
+        <Tooltip placement="bottom-end">Tooltip text</Tooltip>
+      </div>
     ),
   },
 };

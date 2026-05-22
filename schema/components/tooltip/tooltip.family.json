@@ -1,0 +1,22 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "tooltip",
+  "name": "Tooltip",
+  "description": "Trigger-anchored explanation bubble — a small contrast-toned surface with a caret pointing at the element it describes. Reach for it to surface a label or short hint that does not fit on the trigger itself; prefer [Callout](../callout/callout.md) when the message belongs in the reading flow rather than over it, and [Toast](../toast/toast.md) when the message confirms a recent action rather than describing a hovered/focused control. Single-spec family.",
+  "useCases": [
+    "trigger-anchored hint",
+    "icon-button label",
+    "coach-mark callout",
+    "compact disclosure"
+  ],
+  "spec": "tooltip.md",
+  "subcomponents": [
+    {
+      "slug": "tooltip",
+      "spec": "tooltip.spec.json",
+      "md": "tooltip.md",
+      "default": true
+    }
+  ],
+  "notes": "Initial scaffold — visual contract may iterate. Surface binds to the inverse cluster (per DESIGN.md's tooltip note) so the bubble reads against any underlying page tier without per-host tuning; action-button bindings mirror Toast."
+}

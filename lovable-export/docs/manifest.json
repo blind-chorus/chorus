@@ -77,6 +77,7 @@
     { "family": "tab-bar",        "root": "components/tab-bar/tab-bar.family.json" },
     { "family": "tabs",           "root": "components/tabs/tabs.family.json" },
     { "family": "thumbnail",      "root": "components/thumbnail/thumbnail.family.json" },
-    { "family": "toast",          "root": "components/toast/toast.family.json" }
+    { "family": "toast",          "root": "components/toast/toast.family.json" },
+    { "family": "tooltip",        "root": "components/tooltip/tooltip.family.json" }
   ]
 }
