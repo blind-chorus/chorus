@@ -414,12 +414,6 @@ function rewriteSchemaSpecImports(source, specPrefix, referencedSpecs) {
   );
 }
 
-async function copyTreeByExt(srcDir, destDir, exts) {
-  await copyTreeFiltered(srcDir, destDir, (relPath) =>
-    exts.some((ext) => relPath.endsWith(ext)),
-  );
-}
-
 // Markdown link rewriter for files copied into lovable-export/docs/. Maps
 // chorus-monorepo paths (e.g. `schema/tokens/reference.json`) onto the
 // lovable-export layout (`tokens/reference.json`) so links resolve when the

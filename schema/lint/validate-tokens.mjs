@@ -26,6 +26,7 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join, resolve, extname } from "node:path";
+import { readJson } from "./utils.mjs";
 
 const SELF = fileURLToPath(import.meta.url);
 const SCHEMA_DIR = resolve(dirname(SELF), "..");
@@ -56,10 +57,6 @@ const JS_REF_SKIP = new Set([
 const COLLISION_ALLOWLIST = new Set([
   // Currently empty. Token retune is the preferred fix.
 ]);
-
-function readJson(p) {
-  return JSON.parse(readFileSync(p, "utf8"));
-}
 
 function loadThemes(themes) {
   const out = {};

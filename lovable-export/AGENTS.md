@@ -2,7 +2,60 @@
 
 Contract for AI design agents (Lovable editor, Cursor, Claude, v0) building UI inside this repo. **This file overrides any default agent behavior.** Read it fully before generating, modifying, or styling any component.
 
+> Hand-maintained mirror of the root [`../AGENTS.md`](../AGENTS.md), tightened for the Lovable surface. Not auto-generated — keep aligned manually when the root contract changes.
+
+The four guardrails this contract enforces (mapped to the design principles below):
+
+| Guardrail               | Principle                                                              |
+| ----------------------- | ---------------------------------------------------------------------- |
+| **Chorus First**        | §1 Design-system-first + §2 Component flexibility (adapt, do not fork) |
+| **LEGO-brick assembly** | §4 Lego-block composition                                              |
+| **Fallback rule**       | §3 New surfaces stay token-true (no hardcoded values, ever)            |
+| **UX alignment**        | §5 UX-pattern consistency (predictable interaction language)           |
+
 This repo is the Lovable-facing export of [Chorus](https://github.com/blind-dsai/chorus) — a design system that arranges individual voices into harmony through tokens every surface sings from. Your job here is to keep every surface in that harmony.
+
+---
+
+## When the user's prompt does not mention components
+
+The prompts you receive from the Lovable editor will almost never name Chorus components. They will describe screens in product language ("header card", "article card", "filter row", "stage tabs", "clean and minimal", "subtle hierarchy"). **The absence of component names is not permission to invent primitives.** It is your job to translate intent → Chorus component before generating any markup.
+
+Apply this routing every time, regardless of how the prompt is worded:
+
+| If the prompt says…                                             | You compose with…                                              |
+| --------------------------------------------------------------- | -------------------------------------------------------------- |
+| top bar, app bar, header bar, title bar                         | `NavigationBar` (home / page / search by screen kind)          |
+| header card, summary card, labeled section                      | `Section` (with `label` + optional `headerAction`)             |
+| article card, post card, recommended reading, feed item         | `Feed` (with `thumbnail`, `engagement`, etc.)                  |
+| company row, settings row, picker row, menu row                 | `List` (with `Thumbnail` leading where appropriate)            |
+| insight, aside, callout, "현직자들이 말하는 것" style box       | `Callout` (`default` or `accent`)                              |
+| filter chips, topic chips, tag row                              | `Chip` (`filter` or `tag`)                                     |
+| stage tabs, segmented tabs, section tabs                        | `Tabs` (`underline` / `rounded` / `segmented`)                 |
+| primary CTA / commit                                            | `Button` (standard, filled)                                    |
+| "See all", "더 보기", "변경", inline link CTA                   | `Button variant="text" appearance="accent"`                    |
+| floating canonical commit                                       | `Button variant="fab"`                                         |
+| avatar, company logo, leading image, post thumbnail             | `Thumbnail` (with `src` or `/placeholder_thumbnail.png`)       |
+| unread count, numeric pill                                      | `Badge`                                                        |
+| confirmation prompt                                             | `Dialog`                                                       |
+| one-thumb action sheet                                          | `BottomSheet`                                                  |
+| transient post-action confirmation                              | `Toast`                                                        |
+| trigger-anchored hint                                           | `Tooltip`                                                      |
+| labeled single-line input                                       | `FormField variant="input"`                                    |
+
+The full mapping is in `docs/catalog.md` — when in doubt, open it before composing.
+
+### Tone-adjective disarming
+
+When the prompt uses tone adjectives ("clean", "minimal", "subtle", "no decoration", "not a concept poster", "white background"), they describe **information density and chrome restraint**, not chromatic absence. You must still:
+
+- Carry brand color on key CTAs (`appearance="accent"` text buttons), active tab indicators (`Tabs variant="underline"` already handles this), and semantic accents (likes, urgency, selection state).
+- Fill every image area with a real `<Thumbnail>` / `Feed.thumbnail` / `Callout.thumbnail` slot, defaulting to `/placeholder_thumbnail.png` when no context-specific asset is inferable (see §9 below).
+- Render rows as `List`, cards as `Section` / `Feed` / `Callout`, not as bordered divs.
+
+A "clean Korean product screen" rendered as gray text on white with no images and no brand accent is a **failed translation** of the prompt, not a faithful one. The seed at [`src/routes/index.tsx`](src/routes/index.tsx) is the reference for how to balance restraint with brand presence.
+
+See [`PROMPTING.md`](PROMPTING.md) for the user-facing version of this contract — the copy-paste preamble, intent map, and the list of anti-patterns to refuse.
 
 ---
 

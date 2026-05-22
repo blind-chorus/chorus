@@ -43,6 +43,7 @@ import {
   loadSpec,
   validateRecipe,
 } from "../../../schema/lint/validate-screen.mjs";
+import { readJson } from "../../../schema/lint/utils.mjs";
 
 const SELF = fileURLToPath(import.meta.url);
 const REPO_ROOT = resolve(dirname(SELF), "..", "..", "..");
@@ -212,10 +213,6 @@ const TOOLS = [
 ];
 
 // ---- Tool implementations ---------------------------------------------
-
-function readJson(p) {
-  return JSON.parse(readFileSync(p, "utf8"));
-}
 
 function asTextContent(value) {
   const text =

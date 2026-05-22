@@ -24,9 +24,10 @@
 //
 // Exits 0 if all recipes pass, 1 otherwise.
 
-import { readFileSync, readdirSync } from "node:fs";
+import { readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join, resolve, isAbsolute } from "node:path";
+import { readJson } from "./utils.mjs";
 
 function fromSchema(p) {
   return isAbsolute(p) ? p : join(SCHEMA_DIR, p);
@@ -37,10 +38,6 @@ const SCHEMA_DIR = resolve(dirname(SELF), "..");
 const REPO_ROOT = resolve(SCHEMA_DIR, "..");
 
 const PRIMITIVE_ACCEPTS = new Set(["text", "icon", "image"]);
-
-function readJson(absPath) {
-  return JSON.parse(readFileSync(absPath, "utf8"));
-}
 
 function loadManifest() {
   const override = process.env.CHORUS_MANIFEST_OVERRIDE;

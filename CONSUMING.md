@@ -2,7 +2,7 @@
 
 `@blind-dsai/ui` and `@blind-dsai/tokens` are published on the public npm registry. No auth, no `.npmrc` setup. External tools (Lovable, v0, Cursor, Claude Code) and internal apps install them the same way as any public package.
 
-## 1. Install
+## Install
 
 ```bash
 npm install @blind-dsai/tokens @blind-dsai/ui
@@ -10,7 +10,7 @@ npm install @blind-dsai/tokens @blind-dsai/ui
 
 `@blind-dsai/tokens` is a transitive dependency of `@blind-dsai/ui`, but installing it explicitly lets you import the CSS or the raw token JSON directly. Peer dependency: `react >= 18`.
 
-## 2. Import the stylesheets once at the entry
+## Import the stylesheets once at the entry
 
 The components rely on CSS variables defined in `tokens.css`. Load both stylesheets exactly once at the top of your app:
 
@@ -26,7 +26,7 @@ Then load Pretendard — the only typeface Chorus speaks:
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 ```
 
-## 3. Use a component
+## Use a component
 
 ```tsx
 import { Button, Chip, Callout } from "@blind-dsai/ui";
@@ -44,7 +44,7 @@ export function Example() {
 
 Component-level props (`variant`, `appearance`, `size`, slots) follow the per-component spec in `schema/components/`. The docs site renders these specs as the authoritative reference.
 
-## 4. Dark mode
+## Dark mode
 
 Tokens flip on the `data-theme` attribute. Set it on `<html>` (or any subtree):
 
@@ -54,7 +54,7 @@ Tokens flip on the `data-theme` attribute. Set it on `<html>` (or any subtree):
 
 No-script default is light; set the attribute server-side or in an inline `<script>` before paint to avoid a flash.
 
-## 5. Use tokens directly in your own CSS
+## Use tokens directly in your own CSS
 
 Every system token is emitted as a CSS custom property:
 
@@ -72,7 +72,7 @@ Or read the resolved JSON in build tooling:
 import lightTokens from "@blind-dsai/tokens/resolved.light.json" with { type: "json" };
 ```
 
-## 6. Lovable — overlay the `lovable-export/` snapshot
+## Lovable — overlay the `lovable-export/` snapshot
 
 If you're building inside [Lovable](https://lovable.dev), don't `npm install` the packages — Lovable only syncs via GitHub and expects a Vite/TanStack-Router source tree. This repo ships that tree pre-built at [`lovable-export/`](lovable-export), regenerated from `schema/` + `packages/ui/` by `npm run build:lovable`.
 
@@ -96,7 +96,7 @@ Then in the Lovable repo: `git status` to review, `bun install` only if `package
 
 Files we own and overwrite, files in the shared zone, and the full rationale are documented in [`lovable-export/README.md`](lovable-export/README.md). The agent contract Lovable's editor reads after the copy is [`lovable-export/AGENTS.md`](lovable-export/AGENTS.md).
 
-## 7. Native (iOS / Android) — pilot
+## Native (iOS / Android) — pilot
 
 The same tokens are generated into Swift and Kotlin sources:
 
