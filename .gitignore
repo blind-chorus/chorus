@@ -29,8 +29,3 @@ Thumbs.db
 
 # Local-only Claude Code memory symlink (points to user-specific path)
 claude-memory
-
-# lovable-export uses bun.lock (managed by the Lovable repo, not chorus).
-# Guard against `npm install` inside lovable-export/ regenerating an npm lock
-# that would then drift from Lovable's bun-managed dependency state.
-lovable-export/package-lock.json

@@ -27,15 +27,28 @@
     ".": "./src/index.js",
     "./icons": "./src/icons/index.js",
     "./styles.css": "./src/styles.css",
+    "./agents/": "./agents/",
+    "./agents/AGENTS.md": "./agents/AGENTS.md",
+    "./agents/catalog.md": "./agents/catalog.md",
+    "./agents/manifest.json": "./agents/manifest.json",
+    "./agents/DESIGN.md": "./agents/DESIGN.md",
+    "./agents/DESIGN_PRINCIPLES.md": "./agents/DESIGN_PRINCIPLES.md",
+    "./agents/patterns/": "./agents/patterns/",
+    "./agents/components/": "./agents/components/",
+    "./agents/screens/": "./agents/screens/",
+    "./placeholder_thumbnail.png": "./placeholder_thumbnail.png",
     "./package.json": "./package.json"
   },
   "files": [
     "dist",
+    "agents",
+    "placeholder_thumbnail.png",
     "README.md"
   ],
   "scripts": {
     "build": "tsup",
-    "prepublishOnly": "npm run build"
+    "copy-agents": "node scripts/copy-agents.mjs",
+    "prepublishOnly": "npm run copy-agents && npm run build"
   },
   "peerDependencies": {
     "react": ">=18"
@@ -57,6 +70,16 @@
         "require": "./dist/icons/index.cjs"
       },
       "./styles.css": "./dist/styles.css",
+      "./agents/": "./agents/",
+      "./agents/AGENTS.md": "./agents/AGENTS.md",
+      "./agents/catalog.md": "./agents/catalog.md",
+      "./agents/manifest.json": "./agents/manifest.json",
+      "./agents/DESIGN.md": "./agents/DESIGN.md",
+      "./agents/DESIGN_PRINCIPLES.md": "./agents/DESIGN_PRINCIPLES.md",
+      "./agents/patterns/": "./agents/patterns/",
+    "./agents/components/": "./agents/components/",
+    "./agents/screens/": "./agents/screens/",
+      "./placeholder_thumbnail.png": "./placeholder_thumbnail.png",
       "./package.json": "./package.json"
     }
   },

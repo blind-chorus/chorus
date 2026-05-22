@@ -1,0 +1,14 @@
+# Copied at prepublish from chorus root + schema/ (see scripts/copy-agents.mjs).
+# The authored sources live at the repo root (AGENTS.md, DESIGN_PRINCIPLES.md)
+# and under schema/; nothing under agents/ is hand-edited.
+agents/AGENTS.md
+agents/DESIGN_PRINCIPLES.md
+agents/catalog.md
+agents/manifest.json
+agents/DESIGN.md
+agents/patterns/
+agents/components/
+agents/screens/
+
+# Copied at prepublish from apps/docs/public/.
+placeholder_thumbnail.png
