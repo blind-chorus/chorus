@@ -1,10 +1,21 @@
 #!/usr/bin/env node
-// Regenerates lovable-export/src/styles.css by combining:
-//   1. The shadcn/Lovable baseline (Tailwind v4 @theme block + semantic
-//      .dark variables). These MUST stay byte-equivalent to the template,
-//      otherwise the editor's component generators break.
-//   2. Chorus design tokens, appended after the baseline so consumers can
-//      reference them as `var(--sys-color-surface)` etc.
+// Regenerates lovable-export/ as a 3-bucket "manual import" staging tree
+// matched to the macOS Finder drag/drop workflow into the Lovable target
+// repo (see lovable-export/IMPORT.md):
+//
+//   import/step1-merge-to-root/    → dragged to repo root, "Merge"
+//     ├ public/                    (generated: shared image assets)
+//     └ src/                       (generated: styles.css; tracked: routes, lib, ...)
+//   import/step2-replace-to-root/  → dragged to repo root, "Replace"
+//     ├ docs/                      (generated: chorus docs/specs/tokens/patterns)
+//     └ {package.json, AGENTS.md, ...}  (tracked: config + guides)
+//   import/step3-replace-to-src/   → dragged into target's src/, "Replace"
+//     └ components/chorus/         (generated: ported chorus components + specs)
+//
+// The split exists because the three buckets land at different filesystem
+// depths (root vs root vs src/), and macOS Finder can't choose
+// merge-vs-replace per-folder inside a single drag. Each generated output
+// MUST live in exactly one of the three buckets — there is no flat mirror.
 //
 // Run via `npm run build:lovable` from the repo root.
 
@@ -15,9 +26,13 @@ import { fileURLToPath } from "node:url";
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, "..");
 const tokensCssPath = resolve(repoRoot, "schema/tokens/tokens.css");
-const outPath = resolve(repoRoot, "lovable-export/src/styles.css");
-const docsOutDir = resolve(repoRoot, "lovable-export/docs");
-const componentsOutDir = resolve(repoRoot, "lovable-export/src/components/chorus");
+const importDir = resolve(repoRoot, "lovable-export/import");
+const step1Dir = resolve(importDir, "step1-merge-to-root");
+const step2Dir = resolve(importDir, "step2-replace-to-root");
+const step3Dir = resolve(importDir, "step3-replace-to-src");
+const outPath = resolve(step1Dir, "src/styles.css");
+const docsOutDir = resolve(step2Dir, "docs");
+const componentsOutDir = resolve(step3Dir, "components/chorus");
 const COMPONENTS_README = `# \`src/components/chorus/\`
 
 **This folder is the chorus design system surface inside the Lovable repo.**
@@ -214,7 +229,7 @@ async function syncPublicAssets() {
   // resolve inside the Lovable repo too. `placeholder_thumbnail.png` is the
   // canonical image-area fallback (runtime load failures + design-time mocks);
   // `blind_logo_red.png` is the Blind brand mark.
-  const publicOutDir = resolve(repoRoot, "lovable-export/public");
+  const publicOutDir = resolve(step1Dir, "public");
   await mkdir(publicOutDir, { recursive: true });
   const assets = ["placeholder_thumbnail.png", "blind_logo_red.png"];
   for (const asset of assets) {
