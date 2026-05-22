@@ -1,7 +1,7 @@
 export { Badge } from './Badge.jsx';
+export { Banner } from './Banner.jsx';
 export { BottomSheet } from './BottomSheet.jsx';
 export { Button } from './Button.jsx';
-export { Callout } from './Callout.jsx';
 export { ChannelList } from './ChannelList.jsx';
 export { ChannelRail } from './ChannelRail.jsx';
 export { Chip } from './Chip.jsx';

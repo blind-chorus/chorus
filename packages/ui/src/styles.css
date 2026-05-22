@@ -421,7 +421,7 @@ textarea {
      adopts whatever surface sits behind it — body, raised card, sheet —
      by tinting one step darker (light mode) or lighter (dark mode)
      instead of pinning to a fixed neutral step that can collide with
-     the surface ladder. Mirrors the Callout default treatment. */
+     the surface ladder. Mirrors the Banner default treatment. */
   --chip-bg: var(--ref-palette-black-200);
   --chip-label: var(--sys-color-onSurface);
   --chip-border-color: transparent;
@@ -2379,9 +2379,9 @@ span.chorus-chip {
 }
 
 /* ============================================================
-   Callout — in-body explanation block (info / neutral)
+   Banner — in-body explanation block (info / neutral)
 ============================================================ */
-.chorus-callout {
+.chorus-banner {
   display: flex;
   align-items: flex-start;
   gap: var(--sys-layout-stack-xs);
@@ -2389,30 +2389,30 @@ span.chorus-chip {
   border-radius: var(--sys-radius-md);
 }
 
-.chorus-callout--accent {
+.chorus-banner--accent {
   background: var(--sys-color-primaryContainer);
   color: var(--sys-color-onPrimaryContainer);
 }
 
 /* Default uses an 8% black/white overlay rather than a tonal container
-   role, so the callout stays harmonious on any underlying surface —
+   role, so the banner stays harmonious on any underlying surface —
    body, raised card, BottomSheet, Dialog — by tinting one step darker
    (light mode) or lighter (dark mode) instead of pinning to a fixed
    neutral step that can collide with the surface ladder. */
-.chorus-callout--default {
+.chorus-banner--default {
   background: var(--ref-palette-black-200);
   color: var(--sys-color-onSurface);
 }
 
-[data-theme="dark"] .chorus-callout--default {
+[data-theme="dark"] .chorus-banner--default {
   background: var(--ref-palette-white-200);
 }
 
-/* Leading icon slot — a 24 × 24 glyph that paints in the callout's
+/* Leading icon slot — a 24 × 24 glyph that paints in the banner's
    foreground (`currentColor`), so the mark reads as part of the body
    copy rather than as a standalone illustration. Top-aligned via the
    container's `align-items: flex-start`. */
-.chorus-callout__icon {
+.chorus-banner__icon {
   flex: 0 0 var(--sys-icon-lg);
   width: var(--sys-icon-lg);
   height: var(--sys-icon-lg);
@@ -2420,8 +2420,8 @@ span.chorus-chip {
   color: currentColor;
 }
 
-.chorus-callout__icon img,
-.chorus-callout__icon svg {
+.chorus-banner__icon img,
+.chorus-banner__icon svg {
   width: 100%;
   height: 100%;
   display: block;
@@ -2432,19 +2432,19 @@ span.chorus-chip {
    brand image). The Thumbnail owns its own diameter and corner shape;
    the slot is a footprint-preserving wrapper that keeps the image top-
    aligned and prevents flex-shrink. */
-.chorus-callout__thumbnail {
+.chorus-banner__thumbnail {
   flex: 0 0 auto;
   display: block;
 }
 
-.chorus-callout__content {
+.chorus-banner__content {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   gap: var(--sys-layout-stack-xs);
 }
 
-.chorus-callout__body {
+.chorus-banner__body {
   margin: 0;
   font-size: var(--sys-typo-body-sm-size);
   line-height: var(--sys-typo-body-sm-line);
@@ -2453,10 +2453,10 @@ span.chorus-chip {
 }
 
 /* Action link sits as a block child below the body. Inherits the
-   callout's foreground in `accent` (the tint is already an "actionable
+   banner's foreground in `accent` (the tint is already an "actionable
    blue") and steps to `primary` in `default` so the link reads as the
    only interactive affordance on an otherwise quiet surface. */
-.chorus-callout__action {
+.chorus-banner__action {
   font-size: var(--sys-typo-label-md-size);
   line-height: var(--sys-typo-label-md-line);
   font-weight: var(--sys-typo-label-md-weight);
@@ -2466,7 +2466,7 @@ span.chorus-chip {
   cursor: pointer;
 }
 
-.chorus-callout--default .chorus-callout__action {
+.chorus-banner--default .chorus-banner__action {
   color: var(--sys-color-primary);
 }
 

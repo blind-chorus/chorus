@@ -89,8 +89,8 @@ schema/components/
 │   ├── badge.family.json
 │   ├── badge.spec.json
 │   └── badge.md
+├── banner/                    ← single-spec family
 ├── bottom-sheet/              ← single-spec family
-├── callout/                   ← single-spec family
 ├── channel-list/              ← single-spec family
 ├── channel-rail/              ← single-spec family
 ├── dialog/                    ← single-spec family
@@ -136,7 +136,7 @@ Specs follow `DESIGN.md`'s writing pattern:
 
 The docs stage is wider than any single control. Three bands, picked per family:
 
-- **Compact controls** (Button, Chip, Badge, IconButton, FormField, Callout, single List rows, …) — wrap in `<div style={{ width: '100%', maxWidth: 400 }}>`. 400px matches a typical mobile column.
+- **Compact controls** (Button, Chip, Badge, IconButton, FormField, Banner, single List rows, …) — wrap in `<div style={{ width: '100%', maxWidth: 400 }}>`. 400px matches a typical mobile column.
 - **Full-specimen surfaces** (ChannelList, ChannelRail, Feed, NavigationBar, Dialog, BottomSheet, full Tabs row, …) — flow at stage's full width (no wrapper, or `width: '100%'`). These *are* page chrome.
 - **Intrinsic-width specimens** (Thumbnail at a single rung, an Icon grid, single Avatar) — just enough to render at native footprint (`<div style={{ width: 200, maxWidth: '100%' }}>`).
 

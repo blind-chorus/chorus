@@ -15,8 +15,8 @@ Single-post detail view — full body, optional embedded poll, and full toolbar 
 - **Author block** — leading avatar (gray circle, "blind" mark), then "Channel 💞" + relative time, then a second line with workplace · role · username.
 - **Title** — large bold; inline rich tokens like underlined "Meta" indicate entity links.
 - **Body** — long-form text. Numbered list rendered natively. `#TC`-style hashtags rendered in accent blue.
-- **Poll** — `callout`-shaped container: leading coral Poll icon, "Number Participants" header, "Select only one answer" helper, then radio-style option rows (`list / radio`).
-- **Footer status** — bottom bar callout: leading ⓘ glyph, muted text "You cannot reply to flagged/deleted comment." — informational state, not modal.
+- **Poll** — `banner`-shaped container: leading coral Poll icon, "Number Participants" header, "Select only one answer" helper, then radio-style option rows (`list / radio`).
+- **Footer status** — bottom bar banner: leading ⓘ glyph, muted text "You cannot reply to flagged/deleted comment." — informational state, not modal.
 
 ## Tokens in use
 
@@ -29,9 +29,9 @@ Single-post detail view — full body, optional embedded poll, and full toolbar 
 
 - [[navigation-bar/page]] — back + toolbar cluster.
 - [[button/toolbar]] — share, bell-subscribe, bookmark, overflow icons in the trailing slot.
-- [[callout]] — Poll container surface.
+- [[banner]] — Poll container surface.
 - [[list/radio]] — poll options.
-- [[callout]] (info variant) — bottom notice strip.
+- [[banner]] (info variant) — bottom notice strip.
 
 ## Notes
 

@@ -62,9 +62,9 @@
   },
   "components": [
     { "family": "badge",          "root": "components/badge/badge.family.json" },
+    { "family": "banner",         "root": "components/banner/banner.family.json" },
     { "family": "bottom-sheet",   "root": "components/bottom-sheet/bottom-sheet.family.json" },
     { "family": "button",         "root": "components/button/button.family.json" },
-    { "family": "callout",        "root": "components/callout/callout.family.json" },
     { "family": "channel-list",   "root": "components/channel-list/channel-list.family.json" },
     { "family": "channel-rail",   "root": "components/channel-rail/channel-rail.family.json" },
     { "family": "chip",           "root": "components/chip/chip.family.json" },

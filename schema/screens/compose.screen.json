@@ -2,7 +2,7 @@
   "$schema": "./screen.schema.json",
   "slug": "compose",
   "name": "Compose Post",
-  "description": "Post-composition surface. Modal-style top action bar with Cancel / Post commits (NOT a `navigation-bar` sub), two destination pickers (channel + identity), title input, an inline coaching callout, and two checkbox-style toggle rows above the keyboard. Keyboard-first layout: the upper half does all the structural work.",
+  "description": "Post-composition surface. Modal-style top action bar with Cancel / Post commits (NOT a `navigation-bar` sub), two destination pickers (channel + identity), title input, an inline coaching banner, and two checkbox-style toggle rows above the keyboard. Keyboard-first layout: the upper half does all the structural work.",
   "useCases": [
     "compose a new post",
     "pick a channel",
@@ -51,13 +51,13 @@
       "note": "Full-width title input, no chrome. Renders at `sys.typo.heading.md` bold."
     },
     "guidance": {
-      "family": "callout",
+      "family": "banner",
       "props": {
         "body": "Get people thinking! Use the title section for open-ended questions, and avoid loaded ones or those with definite answers.",
         "leading": "warning",
         "tone": "muted"
       },
-      "note": "Inline coaching callout — soft surface, secondary text color. Not modal."
+      "note": "Inline coaching banner — soft surface, secondary text color. Not modal."
     },
     "options": {
       "family": "button",

@@ -2,7 +2,7 @@
   "$schema": "./screen.schema.json",
   "slug": "main-company",
   "name": "Main Company",
-  "description": "Company-context surface. Posts scoped to the user's employer ('My Company') or followed companies ('Following'). Distinguished from Home by an explicit company-scope chip row directly under the tabs and a collapsible 'Overview' callout that orients new arrivals. Feed posts carry a category eyebrow ('HOT' coral, 'ALL TIME BEST' blue) above the author row.",
+  "description": "Company-context surface. Posts scoped to the user's employer ('My Company') or followed companies ('Following'). Distinguished from Home by an explicit company-scope chip row directly under the tabs and a collapsible 'Overview' banner that orients new arrivals. Feed posts carry a category eyebrow ('HOT' coral, 'ALL TIME BEST' blue) above the author row.",
   "useCases": [
     "company feed",
     "employer-scoped posts",
@@ -41,13 +41,13 @@
       "note": "Company-scope chip row. The lock leading icon on the active chip signals private/employee-only scope — preserve when modeling."
     },
     "overview": {
-      "family": "callout",
+      "family": "banner",
       "props": {
         "title": "Overview",
         "body": "Company-wide updates, reviews, and pulse data live here. Tap to collapse.",
         "collapsible": true
       },
-      "note": "Collapsible Overview callout. Soft surface, not modal. Trailing chevron-down collapses the body."
+      "note": "Collapsible Overview banner. Soft surface, not modal. Trailing chevron-down collapses the body."
     },
     "body": {
       "family": "feed",

@@ -39,15 +39,15 @@ Slugs match `schema/screens/<slug>.screen.json` when a paired recipe exists.
 
 | Slug | Status | Recipe | Notes |
 |------|--------|--------|-------|
-| [main_home](main_home.md) | canonical | [main-home](../schema/screens/main-home.screen.json) | Default landing feed; channel rail + callouts + post stream + tab bar. |
+| [main_home](main_home.md) | canonical | [main-home](../schema/screens/main-home.screen.json) | Default landing feed; channel rail + banners + post stream + tab bar. |
 | [main_explore](main_explore.md) | canonical | [main-explore](../schema/screens/main-explore.screen.json) | Discovery: recommended channels and hot post rails under underline tabs. |
 | [main_jobs](main_jobs.md) | canonical | [main-jobs](../schema/screens/main-jobs.screen.json) | Search-led job list with filter chips and a "Job saved" toast. |
 | [main_notifications](main_notifications.md) | canonical | [main-notifications](../schema/screens/main-notifications.screen.json) | Keyword/news tabs, filter chips, bell-leading notification list. |
 | [main_notifications_keywords](main_notifications_keywords.md) | canonical | — | Bottom-sheet keyword multi-select triggered from [main_notifications](main_notifications.md)'s filter chip. |
-| [main_company](main_company.md) | canonical | [main-company](../schema/screens/main-company.screen.json) | Company-scoped feed with company chip row, Overview callout, HOT/BEST eyebrows. |
+| [main_company](main_company.md) | canonical | [main-company](../schema/screens/main-company.screen.json) | Company-scoped feed with company chip row, Overview banner, HOT/BEST eyebrows. |
 | [post](post.md) | canonical | [post](../schema/screens/post.screen.json) | Single-post detail with toolbar, body, embedded poll, footer notice. |
 | [post_comments](post_comments.md) | canonical | [post-comments](../schema/screens/post-comments.screen.json) | Threaded comments with sort/jump controls and persistent compose bar. |
-| [compose](compose.md) | canonical | [compose](../schema/screens/compose.screen.json) | Post composition modal with Cancel/Post bar, pickers, title input, coaching callout. |
+| [compose](compose.md) | canonical | [compose](../schema/screens/compose.screen.json) | Post composition modal with Cancel/Post bar, pickers, title input, coaching banner. |
 | [compose_channel](compose_channel.md) | canonical | [compose-channel](../schema/screens/compose-channel.screen.json) | Bottom-sheet channel picker paired with [compose](compose.md). |
 | [compose_kr](compose_kr.md) | canonical | [compose-kr](../schema/screens/compose-kr.screen.json) | Korean-locale compose with megaphone promotion CTA + coachmark + 'attempts remaining' quota. |
 | [compose_kr_promotion](compose_kr_promotion.md) | canonical | [compose-kr-promotion](../schema/screens/compose-kr-promotion.screen.json) | Bottom-sheet purchase flow for the promotion-link feature, triggered from [compose_kr](compose_kr.md). |

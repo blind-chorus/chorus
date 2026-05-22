@@ -14,7 +14,10 @@ export default defineConfig({
   treeshake: true,
   external: ["react", "react-dom", "@blind-dsai/tokens"],
   loader: { ".jsx": "jsx", ".js": "jsx" },
-  jsx: "automatic",
+  esbuildOptions(options) {
+    options.jsx = "automatic";
+    options.jsxImportSource = "react";
+  },
   onSuccess: async () => {
     cpSync("src/styles.css", "dist/styles.css");
   },

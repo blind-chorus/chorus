@@ -16,7 +16,7 @@ Expanded post-composition surface — the same modal as [[compose]] after the us
 - **Identity row** — `list/text`: leading person icon, "Google • iisooas" (company • alias). Read-only here.
 - **Title input** — `form-field/input`, no chrome, placeholder "Write a specific title". Renders at `sys.typo.heading.md` bold.
 - **Body input** — `form-field/input` multiline, separated from the title by a hairline divider, placeholder copy "Keep it relevant. If the community flags your post for going off topic it will be invisible to the community."
-- **Mention helper row** — inline coaching: leading `@` glyph, secondary text "Tap here to mention companies or job titles and get answers faster". Functions as an inline call to the `@` mention insert affordance, not a callout container.
+- **Mention helper row** — inline coaching: leading `@` glyph, secondary text "Tap here to mention companies or job titles and get answers faster". Functions as an inline call to the `@` mention insert affordance, not a banner container.
 - **Offer/Poll FAB** — `button/fab` with `appearance: secondary`: pill geometry, `sys.color.surfaceContainerHigh` background, `sys.color.onSurface` label, leading `+`, label "Create an Offer or Poll". Floats to the right above the Popular Tags band; not docked to the keyboard. Single-tap commits — opens the offer/poll insertion sheet (out of scope for this pattern).
 - **Popular Tags row** — leading neutral label "Popular Tags:", then a row of `chip/tag` items with `appearance: accent` (pale-blue surface + blue label): `#sellside`, `#ib`, `#interview`. Horizontally scrollable.
 - **Invisible to Coworkers band** — same `list/text` checkbox row as [[compose]], on the sunken surface band.
@@ -46,7 +46,7 @@ Expanded post-composition surface — the same modal as [[compose]] after the us
 
 - This is the *expanded* sibling of [[compose]] — same modal frame, more controls visible because the editor has focus. Do not treat as a separate surface; treat as the same modal in a later state.
 - The "Create an Offer or Poll" pill **IS** a `button/fab` with `appearance: secondary` — the neutral-surface FAB variant in [fab.spec.json](../schema/components/button/fab.spec.json). It is the canonical commit on this surface (entry to the structured-post flow); Post in the top bar is finalize chrome (`button/text`), not a competing FAB. The ≤1-FAB rule is satisfied.
-- The mention helper row is *not* a `callout` — it has no container surface, just inline guidance text. Treat as a `list/text` row with a leading `@` glyph.
+- The mention helper row is *not* a `banner` — it has no container surface, just inline guidance text. Treat as a `list/text` row with a leading `@` glyph.
 - Popular Tags chips use `chip/tag` with `appearance: accent` (informational, tonal pale-primary), not `chip/filter` (toggleable filter). Tapping inserts the tag into the body, it doesn't toggle filter state. The accent appearance is what makes the row read as a clickable suggestion strip rather than passive metadata.
 - The bottom toolbar trio (image / `@` / `#`) is the *insert* row, separate from the post-level option rows above. Do not fuse with the "Hide company name" checkbox conceptually — the checkbox is right-aligned on the same row only because of horizontal density, not because it belongs to the toolbar.
 - Demo strings render English per AGENTS.md rule 7.

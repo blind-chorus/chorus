@@ -2,7 +2,7 @@
   "$schema": "./screen.schema.json",
   "slug": "main-home",
   "name": "Main Home",
-  "description": "The default landing surface — a vertically scrolling Feed of authored posts, framed by lightweight discovery affordances (channel rail, recruiter callout, keyword-subscription row) above the fold. Optimized for low-friction scanning: density is high, chrome is thin. The only persistent commit is the TabBar's accent 'Create' entry, so no FAB is used on this screen.",
+  "description": "The default landing surface — a vertically scrolling Feed of authored posts, framed by lightweight discovery affordances (channel rail, recruiter banner, keyword-subscription row) above the fold. Optimized for low-friction scanning: density is high, chrome is thin. The only persistent commit is the TabBar's accent 'Create' entry, so no FAB is used on this screen.",
   "useCases": [
     "default landing feed",
     "open the app",
@@ -31,22 +31,22 @@
       "note": "Horizontally scrollable channel + feed-mode rail. 'For You / Recent / Popular' are feed-mode chips inside the rail, not a `tabs/underline` set — the rail is the navigation primitive here."
     },
     "promo": {
-      "family": "callout",
+      "family": "banner",
       "props": {
         "title": "We're hiring designers",
         "body": "Open roles on the Chorus team — read the brief.",
         "dismissible": true
       },
-      "note": "Recruiter promo callout. Soft surface, not modal."
+      "note": "Recruiter promo banner. Soft surface, not modal."
     },
     "keyword": {
-      "family": "callout",
+      "family": "banner",
       "props": {
         "body": "Subscribed to #design-system — you'll see new posts here.",
         "dismissible": true,
         "leading": "bell"
       },
-      "note": "Keyword-subscription callout variant: bell leading, X trailing. Sits directly under the promo callout — keep them as two discrete callouts, do not fuse."
+      "note": "Keyword-subscription banner variant: bell leading, X trailing. Sits directly under the promo banner — keep them as two discrete banners, do not fuse."
     },
     "body": {
       "family": "feed",
@@ -86,7 +86,7 @@
   "rules": [
     "No FAB on this screen — the TabBar 'Create' tab carries the canonical commit. Adding a `button/fab` would duplicate the affordance.",
     "Feed-mode chips (For You / Recent / Popular) live inside `channel-rail`, not `tabs/underline`. Do not promote to a tabset.",
-    "Promo + keyword rows are two discrete callouts, not one fused block.",
+    "Promo + keyword rows are two discrete banners, not one fused block.",
     "Do not stack a second NavigationBar inside body — section labels belong inside row chrome."
   ],
   "swappable": {

@@ -56,11 +56,11 @@ Reverse index from natural-language intent to family + sub-component. Read this 
 | short focused commit anchored to bottom of viewport | `bottom-sheet`      |
 | confirmation prompt, centered                       | `dialog`            |
 | destructive confirmation                            | `dialog` with destructive primary action |
-| inline notice inside the content column             | `callout / info` or `/ neutral` (not modal) |
+| inline notice inside the content column             | `banner / accent` or `/ default` (not modal) |
 | transient post-action confirmation (saved, copied)  | `toast` (non-modal, auto-dismiss) |
 | trigger-anchored hint over a hovered/focused control | `tooltip` (non-modal, hover/focus-driven) |
 
-**Disambiguate**: `bottom-sheet`/`dialog` are modal — require a trigger elsewhere. `callout` is not modal; lives in the content column. `toast` is non-modal and self-dismissing — reach for it only when the action has already landed and no decision is needed. `tooltip` is non-modal and floats over a specific trigger — reach for it only when the message describes a hovered/focused control.
+**Disambiguate**: `bottom-sheet`/`dialog` are modal — require a trigger elsewhere. `banner` is not modal; lives in the content column. `toast` is non-modal and self-dismissing — reach for it only when the action has already landed and no decision is needed. `tooltip` is non-modal and floats over a specific trigger — reach for it only when the message describes a hovered/focused control.
 
 ## Inputs
 
@@ -86,4 +86,4 @@ Reverse index from natural-language intent to family + sub-component. Read this 
 - **Tag chip vs Badge**: `chip/tag` = text metadata; `badge` = numeric count attached to a host.
 - **List vs Feed**: same-kind rows → List. Authored content stream → Feed.
 - **BottomSheet vs Dialog**: short/actionable/one-thumb → BottomSheet. Confirmation or image-led → Dialog.
-- **Callout vs BottomSheet**: in-flow context → Callout. Demands commit before continuing → BottomSheet.
+- **Banner vs BottomSheet**: in-flow context → Banner. Demands commit before continuing → BottomSheet.

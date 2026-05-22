@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Badge, BottomSheet, Button, Callout, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FormField, FormFieldGroup, List, NavigationBar, PostCarousel, ProfileCarousel, Section, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
+import { Badge, BottomSheet, Button, Banner, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FormField, FormFieldGroup, List, NavigationBar, PostCarousel, ProfileCarousel, Section, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
 import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, DownwardIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MenuIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
@@ -1665,60 +1665,60 @@ export const PREVIEWS = {
     ),
   },
 
-  'callout/default': {
+  'banner/default': {
     states: false,
     render: () => (
       <Frame>
-        <Callout
+        <Banner
           appearance="default"
           action={{ label: 'How levels work', href: '#level' }}
         >
           Stay active in the community to level up and unlock more of what the app offers.
-        </Callout>
+        </Banner>
       </Frame>
     ),
   },
 
-  'callout/accent': {
+  'banner/accent': {
     states: false,
     render: () => (
       <Frame>
-        <Callout
+        <Banner
           appearance="accent"
           action={{ label: 'How levels work', href: '#level' }}
         >
           Stay active in the community to level up and unlock more of what the app offers.
-        </Callout>
+        </Banner>
       </Frame>
     ),
   },
 
-  'callout/with-thumbnail': {
+  'banner/with-thumbnail': {
     states: false,
     render: () => (
       <Frame>
-        <Callout
+        <Banner
           appearance="accent"
           thumbnail={<Thumbnail size={40} alt="Channel" src={IMG.brandChip} />}
           action={{ label: 'How levels work', href: '#level' }}
         >
           Stay active in the community to level up and unlock more of what the app offers.
-        </Callout>
+        </Banner>
       </Frame>
     ),
   },
 
-  'callout/with-icon': {
+  'banner/with-icon': {
     states: false,
     render: () => (
       <Frame>
-        <Callout
+        <Banner
           appearance="accent"
           icon={<StarIcon size={24} />}
           action={{ label: 'How levels work', href: '#level' }}
         >
           Stay active in the community to level up and unlock more of what the app offers.
-        </Callout>
+        </Banner>
       </Frame>
     ),
   },

@@ -44,10 +44,10 @@
         { "leading": "radio", "label": "Move to Meta" },
         { "leading": "radio", "label": "Take a sabbatical first" }
       ],
-      "note": "Poll options inside a `callout`-shaped container with a leading coral Poll icon, 'Number Participants' header, and 'Select only one answer' helper. The callout surface is implicit in the poll region's chrome."
+      "note": "Poll options inside a `banner`-shaped container with a leading coral Poll icon, 'Number Participants' header, and 'Select only one answer' helper. The banner surface is implicit in the poll region's chrome."
     },
     "notice": {
-      "family": "callout",
+      "family": "banner",
       "props": {
         "body": "You cannot reply to flagged/deleted comment.",
         "leading": "info",
@@ -58,7 +58,7 @@
   },
   "rules": [
     "Preserve both meta lines on the author block (channel·time, then workplace·role·username). Collapsing into one loses identity context that is load-bearing in Blind.",
-    "The bottom notice strip is non-modal and persistent for this state — model as `callout`, not `toast`.",
+    "The bottom notice strip is non-modal and persistent for this state — model as `banner`, not `toast`.",
     "'blind' wordmark in the nav title is muted and not a screen title — do not promote it to `sys.color.onSurface`.",
     "Inline entity underlines and hashtag color are tokenized text styles, not arbitrary `<span>` overrides."
   ]

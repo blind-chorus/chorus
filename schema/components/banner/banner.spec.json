@@ -1,8 +1,8 @@
 {
   "$schema": "../../spec.schema.json",
-  "name": "Callout",
-  "family": "callout",
-  "description": "In-body explanation block — a tinted, self-contained card that sits within the reading flow but visually separates from it, used to teach a feature, surface a capability, or annotate content with a short paragraph and an optional follow-through link. Reach for Callout when a passage of body copy needs a brief aside that the reader can scan or skip, not when the message requires a decision (use Dialog or Bottom Sheet) or carries an alert weight (a future Banner family).",
+  "name": "Banner",
+  "family": "banner",
+  "description": "In-body explanation block — a tinted, self-contained card that sits within the reading flow but visually separates from it, used to teach a feature, surface a capability, or annotate content with a short paragraph and an optional follow-through link. Reach for Banner when a passage of body copy needs a brief aside that the reader can scan or skip, not when the message requires a decision (use Dialog or Bottom Sheet) or carries a transient confirmation weight (use Toast).",
   "element": "div",
   "props": {
     "appearance": {
@@ -16,7 +16,7 @@
     "icon": {
       "type": "node",
       "optional": true,
-      "description": "A 24 × 24 glyph at the container's leading edge. Inherits the callout's foreground (`currentColor`) so the mark reads as part of the body copy. Ignored when `thumbnail` is also passed."
+      "description": "A 24 × 24 glyph at the container's leading edge. Inherits the banner's foreground (`currentColor`) so the mark reads as part of the body copy. Ignored when `thumbnail` is also passed."
     },
     "thumbnail": {
       "type": "node",
@@ -42,7 +42,7 @@
     },
     "icon": {
       "required": false,
-      "description": "24 × 24 glyph slot. Paints in `currentColor` so the icon inherits the callout's foreground.",
+      "description": "24 × 24 glyph slot. Paints in `currentColor` so the icon inherits the banner's foreground.",
       "accepts": [
         "icon"
       ]
@@ -89,17 +89,17 @@
       "background": "sys.color.secondaryContainer",
       "foreground": "sys.color.onSecondaryContainer",
       "actionColor": "sys.color.primary",
-      "note": "Body sits in muted onSecondaryContainer; the action link steps to primary so it carries the only chromatic emphasis. Bound to secondaryContainer (not surfaceVariant) to stay visible on raised surfaces in dark mode. The neutral information aside — the canonical Callout."
+      "note": "Body sits in muted onSecondaryContainer; the action link steps to primary so it carries the only chromatic emphasis. Bound to secondaryContainer (not surfaceVariant) to stay visible on raised surfaces in dark mode. The neutral information aside — the canonical Banner."
     },
     "accent": {
       "background": "sys.color.primaryContainer",
       "foreground": "sys.color.onPrimaryContainer",
       "actionColor": "inherit",
-      "note": "Both body and action paint in the primary family so the whole callout reads as one highlighted block. Reach for `accent` when the aside should pull more attention — feature explainers, capability nudges."
+      "note": "Both body and action paint in the primary family so the whole banner reads as one highlighted block. Reach for `accent` when the aside should pull more attention — feature explainers, capability nudges."
     }
   },
   "behavior": {
     "actionLink": "When present, renders as an <a> and accepts either href (browser navigation) or onClick (consumer-controlled). Underline persists at rest so the link reads as actionable inside the muted block.",
-    "role": "Container carries role='note' so screen readers announce the callout as an aside."
+    "role": "Container carries role='note' so screen readers announce the banner as an aside."
   }
 }

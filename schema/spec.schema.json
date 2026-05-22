@@ -19,7 +19,7 @@
     "subcomponent": {
       "type": "string",
       "pattern": "^[a-z][a-z0-9-]*$",
-      "description": "kebab-case sub-component slug. Omit on single-spec families (badge, callout, …); required when the family folder contains more than one spec."
+      "description": "kebab-case sub-component slug. Omit on single-spec families (badge, banner, …); required when the family folder contains more than one spec."
     },
     "description": {
       "type": "string",

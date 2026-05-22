@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://chorus.design/schema/family.schema.json",
   "title": "Chorus family root spec",
-  "description": "Machine-readable root for a component family. One file per family at schema/components/<family>/<family>.spec.json. Declares the family's identity, taxonomy axes (form / flavor / variant), and the list of sub-components — so external consumers do not have to crawl the family's prose .md to discover its structure. A family root MUST exist whether the family is single-spec (badge, callout, …) or sub-component (button, tabs, …); single-spec families simply list a single sub-component or none. Sub-component style details live in the matching <sub>.spec.json, not here.",
+  "description": "Machine-readable root for a component family. One file per family at schema/components/<family>/<family>.spec.json. Declares the family's identity, taxonomy axes (form / flavor / variant), and the list of sub-components — so external consumers do not have to crawl the family's prose .md to discover its structure. A family root MUST exist whether the family is single-spec (badge, banner, …) or sub-component (button, tabs, …); single-spec families simply list a single sub-component or none. Sub-component style details live in the matching <sub>.spec.json, not here.",
   "type": "object",
   "required": ["family", "name", "description", "subcomponents"],
   "properties": {

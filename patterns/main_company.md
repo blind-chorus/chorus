@@ -7,14 +7,14 @@ recipe: ../schema/screens/main-company.screen.json
 
 ## Intent
 
-The user's company-context surface — posts scoped to their employer ("My Company") or followed companies ("Following"). The page distinguishes itself from Home by an explicit company filter chip row directly under the tabs, plus a collapsible "Overview" callout that orients new arrivals.
+The user's company-context surface — posts scoped to their employer ("My Company") or followed companies ("Following"). The page distinguishes itself from Home by an explicit company filter chip row directly under the tabs, plus a collapsible "Overview" banner that orients new arrivals.
 
 ## Layout
 
 - **Header** — `navigation-bar / page`: leading menu, title "Company", trailing search + profile.
 - **Top tabs** — `tabs / underline`: "MY COMPANY" active (uppercase tracking), "FOLLOWING" inactive.
 - **Company-scope chip row** — `chip / filter` row: "🔒 Amazon" filled black (active company chip with lock leading icon), "@ Amazon", "Pulse", "Reviews", "Lab…". Horizontally scrollable.
-- **Overview callout** — `callout` with title "Overview", body text, trailing chevron-down for collapse. Soft surface, not modal.
+- **Overview banner** — `banner` with title "Overview", body text, trailing chevron-down for collapse. Soft surface, not modal.
 - **Section header** — "▾ RECENT" — collapsible section divider with uppercase label.
 - **"While you were away…" rail** — intrinsic mini-divider with leading clock emoji.
 - **Feed** — `feed / feed` posts; each post has a leading "HOT" or "ALL TIME BEST" category eyebrow in colored small-caps (coral / blue) above the author row.
@@ -31,7 +31,7 @@ The user's company-context surface — posts scoped to their employer ("My Compa
 - [[navigation-bar/page]]
 - [[tabs/underline]] — MY COMPANY / FOLLOWING.
 - [[chip/filter]] — company-scope filter row with lock and @-prefixed variants.
-- [[callout]] — collapsible Overview block.
+- [[banner]] — collapsible Overview block.
 - [[feed/feed]] — post stream with category eyebrow.
 - [[tab-bar]]
 

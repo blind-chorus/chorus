@@ -29,13 +29,13 @@
       ]
     },
     "promo": {
-      "family": "callout",
+      "family": "banner",
       "props": {
         "title": "Recruiters are looking at your profile",
         "body": "Turn on visibility to start getting messages.",
         "leading": "image"
       },
-      "note": "Warm-surface promo callout sitting between the tabs and the filter row. Carries an illustration on the right; color pair travels together (AGENTS.md rule 2)."
+      "note": "Warm-surface promo banner sitting between the tabs and the filter row. Carries an illustration on the right; color pair travels together (AGENTS.md rule 2)."
     },
     "filters": {
       "family": "chip",

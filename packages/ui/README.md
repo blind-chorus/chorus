@@ -43,14 +43,14 @@ No-script default is light; set the attribute server-side or in an inline `<scri
 ## Usage
 
 ```jsx
-import { Button, Chip, Callout } from '@blind-dsai/ui';
+import { Button, Chip, Banner } from '@blind-dsai/ui';
 
 export default function Example() {
   return (
     <>
       <Button variant="standard" appearance="filled">Save</Button>
       <Chip appearance="assist">Filter</Chip>
-      <Callout tone="info">Heads up.</Callout>
+      <Banner appearance="accent">Heads up.</Banner>
     </>
   );
 }

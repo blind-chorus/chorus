@@ -12,7 +12,7 @@ Entry point for new accounts — step 1 of a 5-step Sign Up flow. Steers the use
 
 - **Header** — `navigation-bar / page`: leading back chevron, centered title "Sign Up", trailing step indicator "1 of 5" in muted weight.
 - **Section heading** — display heading "Verify to join the community" in `sys.typo.heading.lg` bold.
-- **Trust link row** — leading shield icon + `button / text` "Patented Security & Encryption" in accent blue (underlined). Below it, subhead "To protect anonymity, we do not store emails." in secondary weight. The pair is informational, not a callout surface.
+- **Trust link row** — leading shield icon + `button / text` "Patented Security & Encryption" in accent blue (underlined). Below it, subhead "To protect anonymity, we do not store emails." in secondary weight. The pair is informational, not a banner surface.
 - **Email input** — `form-field / input` with placeholder "Enter work email", full width.
 - **OR divider** — horizontal hairline rules flanking a centered "OR" label in `sys.typo.label.sm` secondary. Standard separator-with-label idiom; not a component on its own.
 - **SSO buttons** — two stacked `button / standard` (secondary / outlined) with leading brand icons: "Continue with Apple", "Continue with Facebook".

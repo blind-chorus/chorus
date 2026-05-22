@@ -2329,9 +2329,9 @@ export function VoiceContent() {
    category. Mirrors the side-nav order in `apps/docs/lib/nav.js`. */
 const COMPONENT_INDEX = [
   ['badge',         'Badge',         'Numeric count pill (medium / small) that attaches to a host label — channel entry, list row, thumbnail corner — and reports the unread or update count.'],
+  ['banner',        'Banner',        'An in-body tinted block (default / accent) that explains a feature or annotates content — short paragraph plus an optional follow-through link, with no decision attached.'],
   ['bottom-sheet',  'Bottom Sheet',  'A bottom-anchored panel rising from the viewport edge over a scrim — drag handle, scrollable content (title / body / custom), and a pinned primary action; for explanations and decisions that need more room than a Dialog.'],
   ['button',        'Button',        'The action-surface family — Standard Button (three sizes × four appearances), FAB (canvas-anchored floating commit), Icon / Text / Toolbar Buttons (icon-only, link-shaped, dense-inline), Toggle (reversible Follow ↔ Following), and Check (option-toggle with leading checkbox).'],
-  ['callout',       'Callout',       'An in-body tinted block (info / neutral) that explains a feature or annotates content — short paragraph plus an optional follow-through link, with no decision attached.'],
   ['channel-list',  'Channel List',  'A swipeable pager of channel suggestions — three rows per page (Thumbnail 48 + name / followers / description + Toggle Button), with the next page peeking to invite the swipe.'],
   ['channel-rail',  'Channel Rail',  'A horizontally-scrolling rail of subscribed channels — circular thumbnail + name, with an edge fade indicating off-screen items and an optional trailing "View all" action.'],
   ['chip',          'Chip',          'A small, content-shaped control or label — Filter (selectable, single-toggle) and Tag (informational metadata).'],

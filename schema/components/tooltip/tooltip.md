@@ -1,6 +1,6 @@
 # Tooltip
 
-A trigger-anchored explanation bubble — a small contrast-toned surface with a caret that points at the host element. Reach for it to surface a label or short hint that does not fit on the trigger itself ("Manage" on an icon button, a coach-mark on a newly-shipped affordance). Prefer [Callout](../callout/callout.md) when the message belongs inline in the reading flow rather than floating over it, and [Toast](../toast/toast.md) when the message confirms a recent user action rather than describing a hovered/focused control.
+A trigger-anchored explanation bubble — a small contrast-toned surface with a caret that points at the host element. Reach for it to surface a label or short hint that does not fit on the trigger itself ("Manage" on an icon button, a coach-mark on a newly-shipped affordance). Prefer [Banner](../banner/banner.md) when the message belongs inline in the reading flow rather than floating over it, and [Toast](../toast/toast.md) when the message confirms a recent user action rather than describing a hovered/focused control.
 
 ## Default
 
@@ -132,5 +132,5 @@ Container carries no interactive state. The optional action button follows the s
 
 - **Lifecycle.** Presentational. Owner code mounts the Tooltip while the trigger is hovered or focused, and unmounts it when the trigger loses both. Typical reveal delay is ~400ms on hover (immediate on focus); the component does not manage the timer.
 - **Role.** Container carries `role="tooltip"`. The trigger MUST own `aria-describedby` pointing at the tooltip's id so screen readers associate the hint with the host element.
-- **Copy.** Tooltip text may run longer than a button label, but should stay intuitive at a glance — a single phrase the reader can absorb in one beat. If the message needs more than that, it likely belongs in a [Callout](../callout/callout.md) (in-flow context) or a [Dialog](../dialog/dialog.md) (commit-rank explanation).
-- **Reach for this when** the message describes a hovered or focused control. **Skip when** the message belongs in the reading flow (use [Callout](../callout/callout.md)) or confirms a recent action (use [Toast](../toast/toast.md)).
+- **Copy.** Tooltip text may run longer than a button label, but should stay intuitive at a glance — a single phrase the reader can absorb in one beat. If the message needs more than that, it likely belongs in a [Banner](../banner/banner.md) (in-flow context) or a [Dialog](../dialog/dialog.md) (commit-rank explanation).
+- **Reach for this when** the message describes a hovered or focused control. **Skip when** the message belongs in the reading flow (use [Banner](../banner/banner.md)) or confirms a recent action (use [Toast](../toast/toast.md)).

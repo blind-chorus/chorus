@@ -177,6 +177,10 @@ export const NAV = [
         label: 'Badge',
       },
       {
+        href: '/components/banner',
+        label: 'Banner',
+      },
+      {
         href: '/components/bottom-sheet',
         label: 'Bottom sheet',
       },
@@ -192,10 +196,6 @@ export const NAV = [
           { href: '/components/button/toggle', label: 'Toggle' },
           { href: '/components/button/toolbar', label: 'Toolbar' },
         ],
-      },
-      {
-        href: '/components/callout',
-        label: 'Callout',
       },
       {
         href: '/components/channel-list',

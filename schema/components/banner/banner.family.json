@@ -1,0 +1,21 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "banner",
+  "name": "Banner",
+  "description": "Inline notice surface — a tonal aside that highlights supplementary context inside the content column. Two tones: `accent` (primary-tinted, worth pulling the eye to) and `default` (quiet `secondaryContainer`, supplementary). Single-spec family.",
+  "useCases": [
+    "inline notice",
+    "supplementary context",
+    "tonal aside",
+    "in-flow tip"
+  ],
+  "spec": "banner.md",
+  "subcomponents": [
+    {
+      "slug": "banner",
+      "spec": "banner.spec.json",
+      "md": "banner.md",
+      "default": true
+    }
+  ]
+}

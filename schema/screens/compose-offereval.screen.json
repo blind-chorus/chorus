@@ -69,7 +69,7 @@
           "label": "Tap here to mention companies or job titles and get answers faster"
         }
       ],
-      "note": "Inline coaching row. NOT a `callout` — there's no container surface; just an inline `list/text` row with a leading `@` glyph. Tapping triggers the mention insert flow."
+      "note": "Inline coaching row. NOT a `banner` — there's no container surface; just an inline `list/text` row with a leading `@` glyph. Tapping triggers the mention insert flow."
     },
     "fab": {
       "family": "button",
@@ -117,7 +117,7 @@
   "rules": [
     "Top action bar is NOT a `navigation-bar` sub — same as [[compose]]. Cancel + Post are `button/text` chrome, not FABs.",
     "The 'Create an Offer or Poll' floating pill is `button/fab` with `appearance: secondary` (neutral surface, not brand). It is the canonical commit on this surface; Post in the top bar is finalize chrome.",
-    "Mention helper row is `list/text` with a leading `@` glyph, NOT a `callout` — there is no container surface.",
+    "Mention helper row is `list/text` with a leading `@` glyph, NOT a `banner` — there is no container surface.",
     "Popular Tags row uses `chip/tag` (informational), not `chip/filter` — tapping inserts, it does not toggle filter state.",
     "The bottom toolbar's `Hide company name` checkbox shares the row with the insert triggers for layout density; do not conflate the two semantically.",
     "Channel picker row is the paired trigger for [[compose-channel]] — that bottom sheet's trigger lives in this recipe."
