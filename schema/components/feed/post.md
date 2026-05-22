@@ -122,6 +122,40 @@ import { Feed } from '@blind-dsai/ui';
 />
 ```
 
+### Group
+
+Three Post cards bundled vertically inside a `<FeedGroup>` semantic wrapper — used for thread-grouped or topic-bundled feeds where consecutive posts belong together. The wrapper adds no surface chrome: each inner Post keeps its own padding and hairline bottom divider, so the bundle reads as a continuous slice of the stream while the wrapper carries the intent (`role="region"` + optional `aria-label`). 3 is the canonical demo count; the wrapper accepts any number of Post children.
+
+```preview
+feed/post-group
+---
+import { Feed, FeedGroup } from '@blind-dsai/ui';
+
+<FeedGroup label="Today's top discussions">
+  <Feed
+    channel="Channel"
+    timestamp="2h"
+    title="First post in the bundle"
+    body="Short excerpt for the first post. Two lines max before the clamp kicks in."
+    engagement={{ likes: 240, comments: 12, views: 1840 }}
+  />
+  <Feed
+    channel="Channel"
+    timestamp="3h"
+    title="Second post — same topic, different angle"
+    body="Another excerpt. The wrapper carries the bundle intent so the posts read as one continuous slice."
+    engagement={{ likes: 96, comments: 4, views: 720 }}
+  />
+  <Feed
+    channel="Channel"
+    timestamp="5h"
+    title="Third post wraps the bundle"
+    body="Final excerpt. The last post's bottom divider closes the bundle the same way a standalone Post would."
+    engagement={{ likes: 58, comments: 2, views: 410 }}
+  />
+</FeedGroup>
+```
+
 ### Full composition
 
 Every optional slot present.
@@ -163,6 +197,7 @@ import { Feed } from '@blind-dsai/ui';
 - **citation** *(optional)* — inline link-share card with leading hero and source mark.
 - **mention** *(optional)* — tap-anywhere `@Mention` line under the body.
 - **engagement** — footer row of `xsmall` [Text Buttons](../button/text.md) — Likes / Comments commit, Views non-interactive.
+- **bottom divider** *(intrinsic)* — hairline `outlineVariant` seam at the card's bottom edge so consecutive Posts in a stream share a deliberate divider rhythm. Painted via `border-bottom`; layout-safe under `box-sizing: border-box`.
 
 ## Anatomy
 
@@ -178,7 +213,8 @@ import { Feed } from '@blind-dsai/ui';
 | channel-row  | Single row, siblings at 8px (`sys.layout.inline.md`) gap |
 | meta         | 12 / Regular, `onSurfaceVariant`. Each item `<a>`; middot at `sys.layout.inline.sm` (4px), decorative. |
 | title → body | 8px vertical gap |
-| title        | `heading.md` (20 / Semibold), `onSurface`, single-line truncate |
+| title        | `heading.sm` (16 / Semibold), `onSurface`, single-line truncate |
+| bottom divider | `sys.borderWidth.hairline` × `sys.color.outlineVariant` — `border-bottom` on the card so consecutive posts in a stream share a deliberate seam. |
 | body         | 14 / Regular, `onSurfaceVariant`, two-line clamp |
 | thumbnail    | 80×80, `radius.sm`, `surfaceContainerHigh` fallback. When `stacked`, overlays `MultipleIcon` at `sys.icon.md`, `ref.palette.white.1000`, 4px top-right inset |
 | poll         | `surfaceVariant` fill, `radius.md`, 12×16 padding, 48px min-height, 14px body. Leading `PollFillIcon` + label (`Poll`) painted in `sys.color.brand` at 4px gap, 12px to divider, 12px to count. |
@@ -209,3 +245,4 @@ Feed itself is not a focus target; each focusable control paints its own ring pe
 - **Like aligns to the content rail by default** via Text Button's [optical alignment](../button/text.md#optical-alignment).
 - **Comments commits; Views does not.** Views renders as a non-interactive `<span>` — no hover, no focus ring, no `cursor: pointer`.
 - **Channel and meta are independent links.** Middot separators are decorative (`aria-hidden`) and outside the link hit area.
+- **`<FeedGroup>` bundles consecutive Posts.** Three (or more) Post cards stacked inside one semantic wrapper for thread-grouped or topic-bundled feeds. The group adds no surface chrome — each inner Post keeps its own padding and hairline bottom divider, so the bundle reads as a continuous slice of the stream. The wrapper carries intent via `role="region"` + optional `aria-label`.

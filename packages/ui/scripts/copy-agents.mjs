@@ -4,7 +4,7 @@
 //
 // Sources (in the monorepo) → destinations (inside this package):
 //   ../../AGENTS.md                       → agents/AGENTS.md
-//   ../../prompt/DESIGN_PRINCIPLES.md     → agents/DESIGN_PRINCIPLES.md
+//   ../../prompt/LOVABLE.md               → agents/LOVABLE.md
 //   ../../schema/catalog.md               → agents/catalog.md
 //   ../../schema/manifest.json            → agents/manifest.json
 //   ../../schema/DESIGN.md                → agents/DESIGN.md
@@ -29,7 +29,7 @@ const repoRoot = resolve(pkgRoot, "..", "..");
 
 const transfers = [
   { from: "AGENTS.md", to: "agents/AGENTS.md" },
-  { from: "prompt/DESIGN_PRINCIPLES.md", to: "agents/DESIGN_PRINCIPLES.md" },
+  { from: "prompt/LOVABLE.md", to: "agents/LOVABLE.md" },
   { from: "schema/catalog.md", to: "agents/catalog.md" },
   { from: "schema/manifest.json", to: "agents/manifest.json" },
   { from: "schema/DESIGN.md", to: "agents/DESIGN.md" },

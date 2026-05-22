@@ -38,7 +38,7 @@
     "./agents/catalog.md": "./agents/catalog.md",
     "./agents/manifest.json": "./agents/manifest.json",
     "./agents/DESIGN.md": "./agents/DESIGN.md",
-    "./agents/DESIGN_PRINCIPLES.md": "./agents/DESIGN_PRINCIPLES.md",
+    "./agents/LOVABLE.md": "./agents/LOVABLE.md",
     "./agents/patterns/": "./agents/patterns/",
     "./agents/components/": "./agents/components/",
     "./agents/screens/": "./agents/screens/",

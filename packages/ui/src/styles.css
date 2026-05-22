@@ -856,6 +856,22 @@ span.chorus-chip {
      layout token — see DESIGN.md → "No raw numeric or color literals". */
   max-width: 480px;
   box-sizing: border-box;
+  /* Hairline bottom divider — every Post / Ad card ends with a 1px
+     outlineVariant seam so consecutive cards in a stream read as one
+     rhythm. border-bottom is layout-safe under box-sizing: border-box. */
+  border-bottom: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+}
+
+/* FeedGroup — semantic wrapper that bundles 3 (or more) Post cards
+   vertically. The group adds no surface chrome; each inner Post keeps
+   its own padding + bottom divider, so the bundle reads as a continuous
+   sub-stream while the wrapper carries the intent (role=region,
+   aria-label). Used for thread-grouped or topic-bundled feeds. */
+.chorus-feed-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 480px;
 }
 
 .chorus-feed__flag {
@@ -987,16 +1003,16 @@ span.chorus-chip {
   gap: var(--sys-layout-stack-xs);
 }
 
-/* Bound to `heading.md` (20 / Semibold) per the Feed spec. Doubled-class
+/* Bound to `heading.sm` (16 / Semibold) per the Feed spec. Doubled-class
    specificity (0,2,0) so the rule wins against any ambient
    `.page-content h3` style when the title is rendered as an <h3>. Same
    guard the ChannelList label uses. */
 .chorus-feed .chorus-feed__title {
   margin: 0;
-  font-size: var(--sys-typo-heading-md-size);
-  font-weight: var(--sys-typo-heading-md-weight);
-  line-height: var(--sys-typo-heading-md-line);
-  letter-spacing: var(--sys-typo-heading-md-tracking);
+  font-size: var(--sys-typo-heading-sm-size);
+  font-weight: var(--sys-typo-heading-sm-weight);
+  line-height: var(--sys-typo-heading-sm-line);
+  letter-spacing: var(--sys-typo-heading-sm-tracking);
   color: var(--sys-color-onSurface);
   white-space: nowrap;
   overflow: hidden;
@@ -1274,6 +1290,9 @@ span.chorus-chip {
   max-width: 480px;
   border-radius: var(--sys-radius-md);
   box-sizing: border-box;
+  /* Hairline bottom divider — mirrors the Feed Post seam so an Ad
+     drops into a Post stream without breaking the inter-card rhythm. */
+  border-bottom: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
 }
 
 .chorus-feed-ad__brand {
@@ -1348,10 +1367,10 @@ span.chorus-chip {
 
 .chorus-feed-ad .chorus-feed-ad__title {
   margin: 0;
-  font-size: var(--sys-typo-heading-md-size);
-  font-weight: var(--sys-typo-heading-md-weight);
-  line-height: var(--sys-typo-heading-md-line);
-  letter-spacing: var(--sys-typo-heading-md-tracking);
+  font-size: var(--sys-typo-heading-sm-size);
+  font-weight: var(--sys-typo-heading-sm-weight);
+  line-height: var(--sys-typo-heading-sm-line);
+  letter-spacing: var(--sys-typo-heading-sm-tracking);
   color: var(--sys-color-onSurface);
   white-space: nowrap;
   overflow: hidden;

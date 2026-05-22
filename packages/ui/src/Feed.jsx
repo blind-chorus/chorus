@@ -261,3 +261,22 @@ export function Feed({
     </article>
   );
 }
+
+/* FeedGroup — semantic wrapper that bundles consecutive Feed Posts
+   (canonical case: 3 stacked) into one thread-grouped or topic-bundled
+   sub-stream. The group adds no surface chrome — each inner Post keeps
+   its own padding + hairline bottom divider — so the bundle reads as a
+   continuous slice of the stream while the wrapper carries intent via
+   role="region" + an optional aria-label. */
+export function FeedGroup({ label, className, children, ...rest }) {
+  return (
+    <section
+      className={joinClasses('chorus-feed-group', className)}
+      role="region"
+      aria-label={label}
+      {...rest}
+    >
+      {children}
+    </section>
+  );
+}

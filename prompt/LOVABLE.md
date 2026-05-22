@@ -1,6 +1,8 @@
-# DESIGN_PRINCIPLES.md — Chorus design principles for the Lovable agent
+# LOVABLE.md — Chorus persona for the Lovable agent
 
-When a Lovable / Cursor / Claude prompt is vague about visual style, the model fills the gap with whatever the prompt's adjectives suggest. Prompts that say *"clean, minimal, white background, subtle hierarchy, no decoration"* get back exactly that — uncolored, image-less wireframes — even with the full Chorus system available in the workspace.
+Lovable-specific. Cursor / Claude Code / other Chorus-aware agents read the universal contract in [`AGENTS.md`](../AGENTS.md); this file is what you paste into Lovable to get a Chorus-faithful workspace.
+
+When a Lovable prompt is vague about visual style, the model fills the gap with whatever the prompt's adjectives suggest. Prompts that say *"clean, minimal, white background, subtle hierarchy, no decoration"* get back exactly that — uncolored, image-less wireframes — even with the full Chorus system available in the workspace.
 
 This file is the **single source** for what to tell Lovable. It has two paste-blocks and reference material:
 
@@ -67,7 +69,7 @@ The package self-contains the docs you need. Read these directly from `node_modu
 | `agents/components/<family>/<family>.family.json` | Family-level metadata: sub-component list, default sub, use-cases. Use it to walk *all* subs of a family before picking one. |
 | `agents/patterns/<name>.md` | Per-screen reference recipes — intent, layout anatomy, tokens-in-use, components. Visual ground truth for composition. (PNGs live at <https://github.com/blind-dsai/chorus/tree/main/patterns> — fetch only if you have vision and the brief is layout-heavy.) |
 | `agents/screens/<slug>.screen.json` | Pre-validated full-screen recipe tree. Pattern `.md` frontmatter cites these via `recipe:`; fetch the JSON when you want the exact component sequence + slot fills the docs site renders from. |
-| `agents/DESIGN_PRINCIPLES.md` | This file. |
+| `agents/LOVABLE.md` | This file. |
 
 **DESIGN.md is too large to load in full.** Grep the specific section heading you need:
 
@@ -202,9 +204,21 @@ Do not choose components based on visual adjectives. Map the user's intent to th
 
 ### 🖼️ Image Areas & Thumbnails
 
-* Every single avatar, logo, article thumbnail, post media, or banner illustration must use `<Thumbnail>` or the dedicated `thumbnail` slot.
-* **No Placeholders:** Do not use icon-in-a-tinted-circle or letters-in-a-div.
-* **Default Asset:** If no real asset is available, use the placeholder thumbnail shipped with the package. The package serves it at `@blind-dsai/ui/placeholder_thumbnail.png` — copy it into your app's `public/` once at setup, then reference as `src="/placeholder_thumbnail.png"`. If the file is missing, surface a "Chorus gap" rather than substituting an icon-in-a-circle.
+* Every single avatar, logo, article thumbnail, post media, or banner illustration must use `<Thumbnail>` or the dedicated `thumbnail` slot. **Never** render an icon-in-a-tinted-circle, a letter-in-a-div, an empty grey block, or a raw `<img>` outside the slot contract.
+* **Fill order (top wins).** Walk this ladder per image slot — stop at the first match:
+  1. **Real project asset.** A logo, avatar, or screenshot the user / app actually owns. Reference by its real path (e.g. `/logos/acme.svg`, an uploaded CDN URL).
+  2. **Context-appropriate free stock.** When the brief gives a clear subject (a coffee shop, a hiking app, a "modern office" recruiting banner, a named city for a travel card), reach for a free, hot-linkable photo from a permissive source — **prefer Unsplash**, fall back to Pexels. Pick the photo by **subject keyword**, paste the canonical CDN URL into `src`, and **keep the URL stable** (do not re-randomize per render). Acceptable URL shapes:
+     - `https://images.unsplash.com/photo-<id>?auto=format&fit=crop&w=<width>&q=80`
+     - `https://images.pexels.com/photos/<id>/pexels-photo-<id>.jpeg?auto=compress&w=<width>`
+     Size the `w=` to the slot's rendered footprint (`w=80` for a 40-rung avatar, `w=320` for a Feed thumbnail, `w=1200` for a hero) — over-fetching hurts perf without visible gain.
+  3. **Placeholder.** Only when neither 1 nor 2 applies (truly subject-less scaffold, "Lorem-ipsum" mock row). Use the package placeholder served at `@blind-dsai/ui/placeholder_thumbnail.png` — copy it into your app's `public/` once at setup, then reference as `src="/placeholder_thumbnail.png"`.
+* **Photo selection — keep Chorus calm.** Chorus reads as near-monochromatic neutral with a single restrained blue accent. Photo choices should match that mood:
+  * Prefer desaturated, soft-light, single-subject compositions (workspace, architecture, nature detail, candid portrait).
+  * **Avoid** saturated-red / orange / loud-yellow dominant frames that fight the brand accent, busy multi-subject collages, AI-generated stock that reads as plasticky, and heavy brand-logo photography (Coca-Cola can, etc.).
+  * For avatars without a named person, prefer neutral-background candid portraits over studio headshots — Chorus is a community product, not a corporate directory.
+* **Slot footprint is owned by the component.** The Unsplash photo lives inside `<Thumbnail>` / the `thumbnail` slot — never restyle the wrapper, never pass `style={{ borderRadius: ... }}` or `className` to fight the slot's geometry. Only `src` and `alt` change. The component's intrinsic radius, ratio, and dim-tone fallback (`surfaceContainerHigh` underlay for load failure) stay intact.
+* **Always pass meaningful `alt`.** Match the photo's subject (e.g. `alt="Empty modern office lounge"`), not the component role (`alt="thumbnail"`). Accessibility floor is not optional.
+* **Never invent a stock-photo URL.** Lovable must paste a real, reachable Unsplash / Pexels CDN URL. If you can't reach a real one (no network, brief too vague), drop to rung 3 (the placeholder) and surface a one-line *"no context-appropriate photo inferred for <slot>; using placeholder"* note in your response.
 
 ### 🛡️ Tone-Adjective Disarming
 
@@ -280,7 +294,7 @@ run the §A.0 install step from the system prompt, post the one-line
 readiness summary, and only then proceed. If they are already in
 package.json, you may proceed directly. The agent docs you need ship
 inside the package at @blind-dsai/ui/agents/ (AGENTS.md, catalog.md,
-manifest.json, DESIGN.md, DESIGN_PRINCIPLES.md, patterns/*.md) — read
+manifest.json, DESIGN.md, LOVABLE.md, patterns/*.md) — read
 those, not GitHub. If this project already contains shadcn / Tailwind
 color utilities / raw hex / hand-rolled cards, you are in a brownfield
 project — execute the §D drift audit + migration protocol BEFORE you
@@ -366,7 +380,13 @@ If you don't name image slots in the prompt, the model will omit them and the sc
 - "Each article card has a `<Feed>` `thumbnail` slot with the post cover."
 - "Each insight banner has a `<Banner>` `thumbnail` slot showing the cited author's avatar."
 
-When you don't have a real asset, the placeholder path `/placeholder_thumbnail.png` is the documented default (copy the file once from `@blind-dsai/ui/placeholder_thumbnail.png` into your app's `public/`).
+**Sourcing the image.** Lovable follows the ladder from §1 → §C → "Image Areas & Thumbnails":
+
+1. Real asset the project owns (uploaded logo, screenshot, user-supplied URL).
+2. **Context-appropriate Unsplash / Pexels photo** — when the brief implies a subject, paste a canonical CDN URL (`https://images.unsplash.com/photo-<id>?auto=format&fit=crop&w=<width>&q=80`). Pick the photo to match Chorus's calm, near-monochromatic mood — desaturated single-subject compositions over loud / saturated stock. Size the `w=` to the slot footprint (avatar w=80, thumbnail w=320, hero w=1200).
+3. Package placeholder (`/placeholder_thumbnail.png`) only when no subject can be inferred.
+
+In the brief, **name the subject** so Lovable can pick a sensible photo without guessing — *"a Feed card about a SF-based fintech standup, thumbnail of a modern office lounge"* gets a better photo than *"a Feed card with an office image"*. Subject specificity is what flips Lovable from rung 3 (placeholder) up to rung 2 (real Unsplash photo).
 
 ---
 

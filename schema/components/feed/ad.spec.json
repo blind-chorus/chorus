@@ -17,7 +17,7 @@
     },
     "onDismiss": { "type": "function", "optional": true, "description": "Fires when the trailing close (X) is tapped. Omit to render the card without a dismiss affordance." },
     "dismissLabel": { "type": "string", "optional": true, "description": "Accessible label for the trailing close button. Defaults to 'Dismiss ad'." },
-    "title": { "type": "string", "optional": true, "description": "Ad headline. heading.md (20 / Semibold) / onSurface. Single line; truncates with ellipsis." },
+    "title": { "type": "string", "optional": true, "description": "Ad headline. heading.sm (16 / Semibold) / onSurface. Single line; truncates with ellipsis." },
     "body": { "type": "string", "optional": true, "description": "Ad body copy. body.sm (14 / Regular) / onSurfaceVariant. Two-line clamp with trailing ellipsis." },
     "media": {
       "type": "object",
@@ -41,7 +41,7 @@
   "slots": {
     "brand": { "required": true, "description": "Top row: 32-rung Thumbnail + a two-line text block (brand name on top, `Sponsored` subtitle underneath). Brand name MUST be non-empty — the row is the ad's legal attribution surface and cannot ship without it. The row is non-interactive at the container level — the only commit in this region is the trailing close button.", "accepts": ["thumbnail", "text"] },
     "dismiss": { "required": false, "description": "Trailing 16px CloseIcon rendered as a bare icon button. Appears only when `onDismiss` is wired. Inherits Icon Button's 24-rung hit area without painting Icon Button chrome — the row reads as a flat brand strip.", "accepts": ["button"] },
-    "title": { "required": false, "description": "Ad headline. heading.md / onSurface. Single line; truncates.", "accepts": ["text"] },
+    "title": { "required": false, "description": "Ad headline. heading.sm / onSurface. Single line; truncates.", "accepts": ["text"] },
     "body": { "required": false, "description": "Ad body excerpt. body.sm / onSurfaceVariant. Two-line clamp.", "accepts": ["text"] },
     "cta-group": { "required": true, "description": "Hero media + CTA bonded into one `radius.md` (8) clip with `overflow: hidden` and no internal gap. Media is required; the CTA is optional but typical." },
     "media": {
@@ -69,8 +69,10 @@
     "dismissIconSize": "sys.icon.md",
     "dismissColor": "sys.color.onSurfaceVariant",
     "dismissHitArea": 24,
-    "titleTypo": "sys.typo.heading.md",
+    "titleTypo": "sys.typo.heading.sm",
     "titleColor": "sys.color.onSurface",
+    "containerBottomDividerWidth": "sys.borderWidth.hairline",
+    "containerBottomDividerColor": "sys.color.outlineVariant",
     "bodyTypo": "sys.typo.body.sm",
     "bodyColor": "sys.color.onSurfaceVariant",
     "bodyLineClamp": 2,
@@ -100,6 +102,7 @@
     "ctaGroupBondsMediaAndCta": "Hero media and the CTA share a `radius.md` clip with no internal gap; the CTA's own `border-radius` is zeroed so its squared bottom edge meets the group's outer round.",
     "ctaColorIsFreeFormHex": "`cta.color` accepts any Hex string supplied by the ad client. Only the button surface fill and border swap — typography, size, and full-width geometry stay on the Standard Button tokens.",
     "slotOmissionCollapses": "`title`, `body`, and `dismiss` are opt-in — when any is absent the layout reflows without reserved whitespace. `brand.name` and `media` are required and may NOT be omitted.",
+    "containerBottomDivider": "Each Ad card carries the same hairline bottom divider as a Post (`sys.borderWidth.hairline` × `sys.color.outlineVariant`) so a sponsored placement drops into a Post stream without breaking the inter-card seam rhythm.",
     "truncationNotWrap": "`title` truncates; `body` clamps to two lines.",
     "dismissOptIn": "Default placements omit the trailing X; it only renders when `onDismiss` is wired.",
     "ctaCommitsAlone": "FeedAd has no engagement row. The cta-group, when present, carries a single full-width Standard Button — never two CTAs."

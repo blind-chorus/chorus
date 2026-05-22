@@ -82,7 +82,7 @@ The package self-contains the docs an LLM agent needs. After `npm install`, they
 
 | File | Purpose |
 | :--- | :--- |
-| `agents/DESIGN_PRINCIPLES.md` | Lovable system-prompt source — paste §1 once per session, §2 per task. |
+| `agents/LOVABLE.md` | Lovable system-prompt source — paste §1 once per session, §2 per task. |
 | `agents/AGENTS.md` | Hard contract every Chorus-aware agent obeys. |
 | `agents/catalog.md` | Intent → component map. |
 | `agents/manifest.json` | Component inventory. |

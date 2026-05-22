@@ -56,7 +56,7 @@ import { FeedAd } from '@blind-dsai/ui';
 
 - **brand** *(required)* — leading row: 32-rung [Thumbnail](../thumbnail/thumbnail.md) + brand name (`label.md` / `onSurface`) + `Sponsored` subtitle (`caption.md` / `onSurfaceVariant`) stacked underneath. `brand.name` MUST be a non-empty string — every placement carries an explicit brand attribution. Subtitle defaults to `Sponsored`; consumers may override but cannot drop it.
 - **dismiss** *(optional)* — trailing 16px close icon, only rendered when `onDismiss` is wired.
-- **title** *(optional)* — single-line headline (`heading.md` / `onSurface`).
+- **title** *(optional)* — single-line headline (`heading.sm` / `onSurface`).
 - **body** *(optional)* — two-line clamped excerpt (`body.sm` / `onSurfaceVariant`).
 - **cta-group** *(required)* — the foot slab. The hero **media** is required; the CTA is optional but typical. Media (16:10) and the full-width [Standard Button](../button/standard.md) sit flush inside a single `radius.md` clip with no internal gap. `cta.color` accepts an advertiser-supplied Hex that swaps the button fill and border; every other token binding stays intact.
 - **media** *(required)* — hero creative inside the cta-group. Image asset (PNG / JPG / WebP / SVG); fill `src` with `/placeholder_thumbnail.png` when scaffolding without a real ad creative.
@@ -72,8 +72,9 @@ import { FeedAd } from '@blind-dsai/ui';
 | brand subtitle   | `sys.typo.caption.md` (12 / Regular), `onSurfaceVariant`. Defaults to `Sponsored`. |
 | dismiss          | 16px `CloseIcon` inside a 24-rung hit area, `onSurfaceVariant` glyph, no chrome at rest |
 | title → body     | 8px vertical gap (`sys.layout.stack.xs`) |
-| title            | `heading.md` (20 / Semibold), `onSurface`, single-line truncate |
+| title            | `heading.sm` (16 / Semibold), `onSurface`, single-line truncate |
 | body             | 14 / Regular, `onSurfaceVariant`, two-line clamp |
+| bottom divider   | `sys.borderWidth.hairline` × `sys.color.outlineVariant` — `border-bottom` on the card so a sponsored placement drops into a Post stream without breaking the inter-card seam rhythm. |
 | cta-group        | `radius.md` (8px) clip wrapping media + CTA, `overflow: hidden`, no internal gap |
 | media            | Full inline width, 16:10 aspect ratio, no own radius (the group clips). Runtime fallback when `src` is missing or fails to load: `background-image: url('/placeholder_thumbnail.png')` over a `surfaceContainerHigh` base. |
 | cta              | [Standard Button](../button/standard.md) — `fullWidth`, `medium`, `primary` by default, **`border-radius: 0`** so the squared bottom edge meets the group's clip. `cta.color` overrides the surface fill with a free-form Hex. |

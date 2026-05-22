@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Badge, BottomSheet, Button, Banner, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FormField, FormFieldGroup, List, NavigationBar, PostCarousel, ProfileCarousel, Section, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
+import { Badge, BottomSheet, Button, Banner, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, List, NavigationBar, PostCarousel, ProfileCarousel, Section, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
 import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, DownwardIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MenuIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
@@ -1368,6 +1368,48 @@ export const PREVIEWS = {
           mention="@all-members"
           engagement={{ likes: 4820, comments: 192, views: 27410 }}
         />
+      </Frame>
+    ),
+  },
+
+  /* feed/post-group — three Post cards bundled vertically inside a
+     <FeedGroup> wrapper. The group adds no surface chrome; each inner
+     Post keeps its own padding and hairline bottom divider so the bundle
+     reads as a continuous slice of the stream. Used for thread-grouped
+     or topic-bundled feeds. */
+  'feed/post-group': {
+    states: false,
+    render: () => (
+      <Frame>
+        <FeedGroup label="Today's top discussions">
+          <Feed
+            avatar={{ src: IMG.breadAvatar, alt: 'Sourdough Bakers' }}
+            channel="Sourdough Bakers"
+            timestamp="2h"
+            meta={['Brooklyn, NY', '@crustcrumb']}
+            title="The 30-hour cold proof finally clicked"
+            body="Tried it three times before and got the same flat, dense crumb. The fourth attempt I lowered the hydration five points and skipped the second stretch-and-fold. Open crumb, blistered crust, the works."
+            engagement={{ likes: 1240, comments: 87, views: 9320 }}
+          />
+          <Feed
+            avatar={{ src: IMG.gameAvatar, alt: 'Indie Game Dev' }}
+            channel="Indie Game Dev"
+            timestamp="3h"
+            meta={['Solo dev', '@pixelshep']}
+            title="Shipping the prototype before the polish phase ate me alive"
+            body="Six months of feature creep almost killed the project. Cut three subsystems, locked the scope to one core loop, and got the playable build out by Friday — feedback was sharper than any of the demo days we delayed for."
+            engagement={{ likes: 412, comments: 36, views: 3210 }}
+          />
+          <Feed
+            avatar={{ src: IMG.plantsAvatar, alt: 'Indoor Plants' }}
+            channel="Indoor Plants"
+            timestamp="5h"
+            meta={['Apartment grower', '@leafy']}
+            title="North-facing window plant rotation — what actually survived a year"
+            body="Started with sixteen plants, ended the year with eleven still healthy. The winners were the ones I stopped repositioning every season — turns out the real variable was how often I disturbed the root system, not the light."
+            engagement={{ likes: 308, comments: 28, views: 2410 }}
+          />
+        </FeedGroup>
       </Frame>
     ),
   },

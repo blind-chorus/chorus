@@ -8,7 +8,7 @@ export { Chip } from './Chip.jsx';
 export { Dialog } from './Dialog.jsx';
 export { Tabs } from './Tabs.jsx';
 export { Tab } from './Tab.jsx';
-export { Feed } from './Feed.jsx';
+export { Feed, FeedGroup } from './Feed.jsx';
 export { FeedAd } from './FeedAd.jsx';
 export { PostCarousel } from './PostCarousel.jsx';
 export { ProfileCarousel } from './ProfileCarousel.jsx';
