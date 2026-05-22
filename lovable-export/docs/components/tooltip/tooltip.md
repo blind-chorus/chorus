@@ -4,7 +4,7 @@ A trigger-anchored explanation bubble — a small contrast-toned surface with a 
 
 ## Default
 
-The brand-blue bubble — body text only. `primary` fill with `onPrimary` foreground (both theme-stable, so the bubble reads the same in light and dark mode). 32 min-height, asymmetric 12 × 6 inset (12 inline / 6 block) so the bubble keeps a pill-like silhouette, `radius.lg` corners, overlay elevation. Caret renders on the edge facing the trigger.
+The brand-blue bubble — body text only. `primary` fill with `onPrimary` foreground (both theme-stable, so the bubble reads the same in light and dark mode). 32 min-height, symmetric 12 inset (`sys.layout.container.sm` on every edge), `radius.lg` corners, overlay elevation. Caret renders on the edge facing the trigger.
 
 ```preview
 tooltip/default
@@ -48,7 +48,7 @@ import { Tooltip, Button } from '@blind-dsai/ui';
 
 ### Multi-line with action
 
-When the body wraps past one line, the action slot drops below the body in a stacked layout. The body-to-action gap goes from 6 (inline) to 12 (block) so the stacked action sits as a distinct row rather than crowding the wrapped text.
+When the body wraps past one line, the action slot drops below the body in a stacked layout. The body-to-action gap goes from 12 (inline) to 6 (block) so the wrapped action sits closer to the body it belongs to — the stacked action reads as part of the same group rather than a new row.
 
 ```preview
 tooltip/multiline-action
@@ -96,7 +96,7 @@ Choosing between the two is intent-driven. The `default` tooltip is the right re
 
 ## Slots
 
-- **container** — bubble surface with the caret. Inline flex; asymmetric inset (12 inline × 6 block) so the bubble reads as a pill rather than a square; 32 min-height; content-driven width up to a 240 cap; `sys.radius.lg` corners; `sys.elevation.overlay` shadow. `role="tooltip"`.
+- **container** — bubble surface with the caret. Inline flex; symmetric 12 inset on every edge; 32 min-height; content-driven width up to a 240 cap; `sys.radius.lg` corners; `sys.elevation.overlay` shadow. `role="tooltip"`.
 - **caret** — pointer tail on the edge facing the trigger. 8px footprint; inherits the container fill; flips per `placement` (top edge → caret on the bottom; bottom edge → caret on the top); the `-start` / `-end` aligners shift it along the parallel axis.
 - **body** — hint copy. `body.sm` / Regular / inherits container foreground. Wraps within the 240 cap.
 - **action** *(optional)* — a Button node. Canonical binding `<Button variant="text" size="small" appearance="onPrimary">` for the default tooltip, or `appearance="inverse"` for the inverse tooltip. Inline next to the body when the body is single-line; drops below the body once the body wraps.
@@ -105,12 +105,12 @@ Choosing between the two is intent-driven. The `default` tooltip is the right re
 
 | Slot      | Token bindings |
 |-----------|----------------|
-| container | Fill + foreground per appearance, `sys.radius.lg` (12) corners, `sys.layout.container.sm` (12) inline padding × `ref.space.75` (6) block padding, 32 min-height, 240 max-width (content-driven up to the cap), `sys.elevation.overlay` shadow |
+| container | Fill + foreground per appearance, `sys.radius.lg` (12) corners, `sys.layout.container.sm` (12) padding on every edge, 32 min-height, 240 max-width (content-driven up to the cap), `sys.elevation.overlay` shadow |
 | caret     | 8px footprint, inherits container fill, flipped to the edge facing the trigger per `placement`, `sys.layout.inline.sm` (4) offset between caret tip and trigger |
 | body      | `sys.typo.body.sm` (14 / Regular), color inherits, wraps within the max-width cap |
-| action    | Pass-through Button node. Canonical bindings: `Button variant="text" size="small" appearance="onPrimary"` (default appearance) or `appearance="inverse"` (inverse appearance). Inline gap from body = `ref.space.75` (6); block gap when the body wraps = `sys.layout.inline.lg` (12). |
+| action    | Pass-through Button node. Canonical bindings: `Button variant="text" size="small" appearance="onPrimary"` (default appearance) or `appearance="inverse"` (inverse appearance). Inline gap from body = `ref.space.150` (12); block gap when the body wraps = `ref.space.75` (6). |
 
-`ref.space.75` (6) is the 6px reference-tier step; `sys.layout.*` does not currently expose a 6px rung, so the inline action gap binds to the reference tier per the system's "`sys.*` first, `ref.*` if no semantic alias" rule.
+`ref.space.150` (12) and `ref.space.75` (6) are reference-tier steps; `sys.layout.inline.*` and `sys.layout.stack.*` do not currently expose a 12-constant or 6-constant rung (the constant bands skip these values, and `inline.lg` shifts to 16 on web), so the tooltip's gaps bind to the reference tier per the system's "`sys.*` first, `ref.*` if no semantic alias" rule.
 
 ## Alignment
 

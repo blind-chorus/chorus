@@ -60,11 +60,6 @@ import { SearchIcon } from '@blind-dsai/ui/icons';
 <Button variant="icon" icon={<SearchIcon />} aria-label="Search" state="focused" />
 ```
 
-## Slots
-
-- **icon** — required glyph, sized at the rung's icon token. Inherits foreground via `currentColor` per the [family icon-colour rule](./button.md#icon-colour-inheritance-family-wide).
-- **aria-label** — required accessible name; Icon Button has no visible text.
-
 ## Appearance
 
 Two appearances. `default` is the canonical chrome for every regular page surface; `inverse` swaps to the inverse cluster for use inside Toast / coach-mark / snackbar hosts. Geometry stays identical; only the glyph colour pair flips.
@@ -73,6 +68,11 @@ Two appearances. `default` is the canonical chrome for every regular page surfac
 |-------------|---------------|--------|----------------------------------|----------------------|
 | `default`   | `transparent` | none   | `sys.color.onSurface`            | Every regular page surface. |
 | `inverse`   | `transparent` | none   | `sys.color.inverseOnSurface`     | For use inside an inverse host (Toast dismiss, coach-mark close). |
+
+## Slots
+
+- **icon** — required glyph, sized at the rung's icon token. Inherits foreground via `currentColor` per the [family icon-colour rule](./button.md#icon-colour-inheritance-family-wide).
+- **aria-label** — required accessible name; Icon Button has no visible text.
 
 ## Anatomy
 

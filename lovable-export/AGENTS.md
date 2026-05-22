@@ -55,7 +55,7 @@ When the prompt uses tone adjectives ("clean", "minimal", "subtle", "no decorati
 
 A "clean Korean product screen" rendered as gray text on white with no images and no brand accent is a **failed translation** of the prompt, not a faithful one. The seed at [`src/routes/index.tsx`](src/routes/index.tsx) is the reference for how to balance restraint with brand presence.
 
-See [`PROMPTING.md`](PROMPTING.md) for the user-facing version of this contract — the copy-paste preamble, intent map, and the list of anti-patterns to refuse.
+See [`DESIGN_PRINCIPLES.md`](DESIGN_PRINCIPLES.md) for the user-facing version of this contract — the five design principles, copy-paste preamble, intent map, and the list of anti-patterns to refuse.
 
 ---
 

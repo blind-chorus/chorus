@@ -1,6 +1,10 @@
 :root {
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
   --site-nav-height: 60px;
+  /* Side-nav rail / drawer column width — shared by `.side-nav` itself and
+     the `.app-main` left offset at the laptop tier. Single source so the
+     two stay in lockstep. */
+  --side-nav-width: 400px;
   /* Contrast foregrounds for overlay palette swatches (neutral.50 / neutral.900). */
   --ref-palette-fg-light: #f9fafb;
   --ref-palette-fg-dark: #111827;
@@ -326,9 +330,10 @@ code {
 
 /* ========== Side nav (left-pinned panel) ==========
    Pinned to the viewport's left edge below the top nav. Two render modes
-   share the same chrome (400px column, padded, with a right border):
-   a permanent rail at the laptop tier, and a toggleable drawer below it.
-   `display` gates which mode is active; everything else stays the same. */
+   share the same chrome (`--side-nav-width` column, padded, with a right
+   border): a permanent rail at the laptop tier, and a toggleable drawer
+   below it. `display` gates which mode is active; everything else stays
+   the same. */
 .side-nav {
   position: fixed;
   top: var(--site-nav-height);
@@ -336,7 +341,7 @@ code {
   left: 0;
   display: none;
   flex-direction: column;
-  width: 400px;
+  width: var(--side-nav-width);
   max-width: 100%;
   padding: var(--sys-layout-container-md) var(--sys-layout-page-md);
   border-right: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
@@ -581,7 +586,7 @@ code {
 /* Laptop ≥1100px — reserve space for the pinned side-nav rail. */
 @media (min-width: 1100px) {
   .app-main {
-    margin-left: 400px;
+    margin-left: var(--side-nav-width);
   }
 }
 

@@ -1,6 +1,6 @@
 # lovable-export
 
-> **Designing in Lovable?** Read [`PROMPTING.md`](PROMPTING.md) first — it has the copy-paste preamble and the intent → component map that keep Lovable on Chorus components even when the prompt is vague about visual style. [`AGENTS.md`](AGENTS.md) is the matching contract the model is expected to follow; the seed at [`src/routes/index.tsx`](src/routes/index.tsx) is the canonical composition example.
+> **Designing in Lovable?** Read [`DESIGN_PRINCIPLES.md`](DESIGN_PRINCIPLES.md) first — §1 is the agent's system prompt (paste once per session: five design principles, hard rules, intent table, pre-flight checklist), §2 is the short user-turn preamble (paste at the top of each task), §3 onward is operational reference (intent rewrites, image-area rule, tone-balance phrases, workflow). [`AGENTS.md`](AGENTS.md) is the matching machine contract the model is expected to follow; the seed at [`src/routes/index.tsx`](src/routes/index.tsx) is the canonical composition example.
 
 Mirror of the [chorus-lovable-template-v1](https://github.com/blind-dsai/chorus-lovable-template-v1) layout, generated from this repo so we can keep the chorus monorepo as the source of truth while still using Lovable's GitHub-synced editor.
 
@@ -43,7 +43,7 @@ In short: select every entry inside `lovable-export/` (configs, `src/`, `public/
 
 ### Files chorus owns (safe to overwrite)
 
-Root configs, `AGENTS.md`, `PROMPTING.md`, `docs/`, and `src/components/chorus/` are fully chorus-managed.
+Root configs, `AGENTS.md`, `DESIGN_PRINCIPLES.md`, `docs/`, and `src/components/chorus/` are fully chorus-managed.
 
 ### Files in the shared zone (watch for conflicts)
 

@@ -49,7 +49,7 @@
     },
     "action": {
       "required": false,
-      "description": "Optional slot accepting a Button node. Canonical bindings: `Button variant=\"text\" size=\"small\" appearance=\"onPrimary\"` (default tooltip) or `appearance=\"inverse\"` (inverse tooltip). Inline next to the body when the body is single-line; drops below the body once the body wraps. Inline gap from body = `ref.space.75` (6); block gap when stacked = `sys.layout.inline.lg` (12).",
+      "description": "Optional slot accepting a Button node. Canonical bindings: `Button variant=\"text\" size=\"small\" appearance=\"onPrimary\"` (default tooltip) or `appearance=\"inverse\"` (inverse tooltip). Inline next to the body when the body is single-line; drops below the body once the body wraps. Inline gap from body = `ref.space.150` (12); block gap when stacked = `ref.space.75` (6) so the wrapped action reads as part of the same group rather than a new row.",
       "accepts": ["button"]
     }
   },
@@ -58,9 +58,9 @@
     "maxWidth": "240px",
     "radius": "sys.radius.lg",
     "paddingInline": "sys.layout.container.sm",
-    "paddingBlock": "ref.space.75",
-    "actionInlineGap": "ref.space.75",
-    "actionBlockGap": "sys.layout.inline.lg",
+    "paddingBlock": "sys.layout.container.sm",
+    "actionInlineGap": "ref.space.150",
+    "actionBlockGap": "ref.space.75",
     "triggerOffset": "sys.layout.inline.sm",
     "viewportSafeArea": "sys.layout.container.md",
     "caretSize": "8px",

@@ -82,12 +82,58 @@ const [open, setOpen] = useState(false);
 </>
 ```
 
+### Nested step
+
+The sheet can host a **drill-in step** without spawning a second modal. The consumer swaps the title, content, and primary action between renders; passing `onBack` paints a leading back chevron — an Icon Button rendering `BackwardIcon` at `sys.icon.lg` (24px), with `sys.layout.inline.md` (8px) between the glyph and the title. Card chrome, scrim, drag handle, and actions footer stay identical across steps so the transition reads as a same-surface page change, not a new modal.
+
+```preview
+bottom-sheet/nested-step
+---
+import { useState } from 'react';
+import { BottomSheet, Button, FormField, List } from '@blind-dsai/ui';
+
+const [open, setOpen] = useState(false);
+const [step, setStep] = useState('root');
+const [value, setValue] = useState('');
+
+<>
+  <Button appearance="primary" onClick={() => { setStep('root'); setOpen(true); }}>Open sheet</Button>
+  <BottomSheet
+    open={open}
+    onClose={() => setOpen(false)}
+    title={step === 'root' ? 'Yearly Equity Value' : 'RSUs'}
+    onBack={step === 'rsus' ? () => setStep('root') : undefined}
+    primaryAction={{ label: 'Save', onClick: () => setOpen(false) }}
+  >
+    {step === 'root' ? (
+      <List
+        variant="radio"
+        items={[
+          { id: 'rsus', label: 'RSUs', onClick: () => setStep('rsus') },
+          { id: 'none', label: 'None' },
+        ]}
+      />
+    ) : (
+      <FormField
+        variant="input"
+        leadingIcon="$"
+        placeholder="Ex: 100,000"
+        value={value}
+        onChange={setValue}
+        autoFocus
+      />
+    )}
+  </BottomSheet>
+</>
+```
+
 ## Slots
 
 - **scrim** — translucent black overlay; dims the host. Clicking fires `onClose`. Aligns the card to the bottom edge.
 - **container** — the sheet card. `surfaceContainerHigh` fill, `radius.xl` top corners (bottom flat), `elevation.sheet` shadow, `max-width: 480px`.
 - **drag handle** — small grey pill centred at the top; decorative dismissal cue.
 - **content** — scrollable region holding title, body, and custom children. Title: `heading.lg` / Semibold / `onSurface`. Body: `body.md` / Regular / `onSurfaceVariant`.
+- **back** — optional leading back chevron rendered only when the consumer wires `onBack`. Delegates to [Button](../button/icon.md) `variant="icon"` with [BackwardIcon](../button/icon.md) at `sys.icon.lg` and `sys.layout.inline.md` between glyph and title.
 - **actions** — pinned footer holding the action stack. Primary on top, secondary below; both stretch to the inner width. Primary = `Button appearance="primary"`; secondary = `Button appearance="secondary"`.
 
 ## Anatomy
@@ -99,6 +145,7 @@ const [open, setOpen] = useState(false);
 | drag handle  | 48 × 4px pill, `onSurfaceVariant @ 40%`, `sys.radius.full`, 8px vertical gutter |
 | content      | Flex column, 16px padding, 16px between children, vertical scroll on overflow |
 | title        | `sys.typo.heading.lg` (24 / Semibold), `onSurface` |
+| back chevron | Optional. [Icon Button](../button/icon.md) → `BackwardIcon` at `sys.icon.lg` (24), `sys.color.onSurface`. Glyph aligns to the title's leading edge via the Icon Button optical-alignment default. `sys.layout.inline.md` (8px) glyph → title gap. |
 | body         | `sys.typo.body.md` (16 / Regular), `onSurfaceVariant` |
 | actions      | Flex column, 8px between buttons, 16px padding on all four sides |
 | primary CTA  | [Button](../button/button.md) `appearance="primary"`, `size="large"`, `fullWidth` |
@@ -124,3 +171,4 @@ Sheet itself isn't a focus target; primary and secondary slots inherit [Button �
 - **Elevated actions footer.** While content is overflowing, footer gains an upward drop shadow (`0 -2px 6px black/4%, 0 -8px 16px black/8%`) so it reads as pinned above the scrolling content.
 - **Keyboard handling.** When a hosted input opens the virtual keyboard, the scrim absorbs the keyboard height as `padding-bottom` via the CSS custom property `--bottom-sheet-keyboard-inset`, translating the card up so the actions footer rides above the keyboard's top edge. Read at runtime from `window.innerHeight - visualViewport.height` on `visualViewport.resize`; resets to `0px` on dismissal.
 - **Portal rendering.** Renders into a portal at `document.body` by default. Pass `inline` to scope to the nearest positioned ancestor.
+- **Nested step.** A sheet can drive a same-surface drill-in. Passing `onBack` paints the leading back chevron; the component is otherwise stateless about which step is active. The consumer owns the step (e.g. `useState`) and swaps `title` / `children` / `primaryAction` / `onBack` between renders. Card chrome, scrim, handle, and actions footer remain identical across steps.

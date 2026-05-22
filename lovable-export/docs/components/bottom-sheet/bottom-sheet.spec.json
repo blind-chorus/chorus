@@ -11,6 +11,8 @@
     "body": { "type": "node", "optional": true },
     "primaryAction": { "type": "object", "optional": true, "description": "{ label, onClick } — delegates to Button appearance='primary', size='large', fullWidth." },
     "secondaryAction": { "type": "object", "optional": true, "description": "{ label, onClick } — delegates to Button appearance='secondary', size='large', fullWidth." },
+    "onBack": { "type": "function", "optional": true, "description": "When supplied, the sheet is a nested step inside its host flow — a back chevron (Icon Button → BackwardIcon, sys.icon.lg, sys.layout.inline.md gap to the title) is rendered at the title's leading edge and invokes onBack on click. Consumer owns step state; the component only paints the chevron." },
+    "backLabel": { "type": "string", "default": "Back", "description": "Accessible name on the back Icon Button. Only consulted when onBack is set." },
     "children": { "type": "node", "optional": true },
     "inline": { "type": "boolean", "default": false, "description": "When true, scopes the scrim and card to the nearest positioned ancestor instead of portaling to document.body." }
   },
@@ -20,6 +22,7 @@
     "dragHandle": { "required": true, "intrinsic": true, "description": "Small grey pill centred at the top of the card. Decorative — interaction lives in scrim click + Esc key." },
     "content": { "required": true, "intrinsic": true, "description": "Scrollable region holding title, body, and any custom children. The component composes this from `title` + `body` + `actions` + any children — consumers do not provide a separate `content` node." },
     "title": { "required": false, "description": "heading.lg / Semibold / onSurface.", "accepts": ["text"] },
+    "back": { "required": false, "description": "Optional leading back chevron, rendered only when the host wires `onBack`. Delegates to Button variant='icon' with BackwardIcon at sys.icon.lg and an 8px (sys.layout.inline.md) gap to the title. Icon Button's optical-alignment default places the glyph at the title's leading edge so the row stays flush with the content padding.", "accepts": ["button"] },
     "body": { "required": false, "description": "body.md / Regular / onSurfaceVariant.", "accepts": ["text"] },
     "actions": { "required": false, "description": "Pinned footer holding the action stack. Primary on top, secondary below. Both stretch to the card's inner width.", "accepts": ["button"] }
   },
@@ -41,6 +44,10 @@
     "actionsPadding": "sys.layout.container.md",
     "titleTypo": "sys.typo.heading.lg",
     "titleColor": "sys.color.onSurface",
+    "backIcon": "BackwardIcon",
+    "backIconSize": "sys.icon.lg",
+    "backIconColor": "sys.color.onSurface",
+    "backToTitleGap": "sys.layout.inline.md",
     "bodyTypo": "sys.typo.body.md",
     "bodyColor": "sys.color.onSurfaceVariant"
   },
@@ -62,6 +69,7 @@
     "overflow": "When content exceeds max-height, the content slot scrolls internally while drag handle and actions footer stay pinned. Card is a flex column; handle and actions are flex: 0 0 auto; content is flex: 1 1 auto with overflow-y: auto.",
     "elevatedActionsFooter": "While content overflows, the actions footer carries a subtle upward drop shadow (0 -2px 6px black/4%, 0 -8px 16px black/8%) over its surfaceContainerHigh fill so it reads as pinned above the scrolling content. The shadow fades when content fits without scroll.",
     "keyboardInset": "When a hosted input opens the virtual keyboard, the scrim absorbs the keyboard height as padding-bottom via the CSS custom property --bottom-sheet-keyboard-inset. Because the scrim aligns the card with align-items: flex-end, the inset pushes the entire card (and therefore the pinned actions footer) above the keyboard's top edge. Read at runtime from window.innerHeight - visualViewport.height on visualViewport.resize; reset to 0px when the keyboard dismisses.",
-    "portalRendering": "By default renders into a portal at document.body. Pass inline to scope to the nearest positioned ancestor."
+    "portalRendering": "By default renders into a portal at document.body. Pass inline to scope to the nearest positioned ancestor.",
+    "nestedStep": "A sheet can host a drill-in step inside itself — when the consumer supplies `onBack`, a BackwardIcon Button paints at the title's leading edge with `sys.layout.inline.md` between glyph and title. The component itself is stateless about which step is active: the consumer swaps `title` / `children` / `primaryAction` / `onBack` between renders. The card, scrim, handle, and actions footer remain identical across steps so the transition reads as a same-surface drill-in, not a new modal."
   }
 }

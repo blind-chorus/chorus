@@ -126,7 +126,7 @@
     "bodyTypo": "14",
     "glyph": "CompensationFillIcon",
     "glyphColor": "sys.color.success",
-    "glyphColorResolved": "ref.palette.green.500 (#008838)",
+    "glyphColorResolved": "ref.palette.green.500",
     "labelColor": "sys.color.success",
     "labelLiteral": "Offer",
     "anatomy": "Identical to `poll` — same surfaceVariant slab, same 48 min-height, same leading sub-container + divider + participant count. Differs only in the glyph (CompensationFillIcon) and the editorial tone (success / green-500 instead of brand)."

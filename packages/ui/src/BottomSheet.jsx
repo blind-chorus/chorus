@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from './Button.jsx';
+import { BackwardIcon } from './icons/index.js';
 import { useBodyScrollLock, usePortalTarget } from './internal/scrimPortal.js';
 import { joinClasses } from './spec-utils.js';
 
@@ -14,6 +15,8 @@ export function BottomSheet({
   children,
   primaryAction,
   secondaryAction,
+  onBack,
+  backLabel = 'Back',
   inline = false,
   className,
   'aria-label': ariaLabel,
@@ -99,7 +102,21 @@ export function BottomSheet({
       >
         <div className="chorus-bottom-sheet__handle" aria-hidden="true" />
         <div ref={contentRef} className="chorus-bottom-sheet__content">
-          {title ? <h2 className="chorus-bottom-sheet__title">{title}</h2> : null}
+          {title ? (
+            onBack ? (
+              <div className="chorus-bottom-sheet__title-row">
+                <Button
+                  variant="icon"
+                  icon={<BackwardIcon />}
+                  aria-label={backLabel}
+                  onClick={onBack}
+                />
+                <h2 className="chorus-bottom-sheet__title">{title}</h2>
+              </div>
+            ) : (
+              <h2 className="chorus-bottom-sheet__title">{title}</h2>
+            )
+          ) : null}
           {body ? <p className="chorus-bottom-sheet__body">{body}</p> : null}
           {children}
         </div>

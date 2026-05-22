@@ -10,6 +10,10 @@ export interface BottomSheetProps extends React.HTMLAttributes<HTMLDivElement> {
   primaryAction?: Record<string, any>;
   /** { label, onClick } — delegates to Button appearance='secondary', size='large', fullWidth. */
   secondaryAction?: Record<string, any>;
+  /** When supplied, the sheet is a nested step inside its host flow — a back chevron (Icon Button → BackwardIcon, sys.icon.lg, sys.layout.inline.md gap to the title) is rendered at the title's leading edge and invokes onBack on click. Consumer owns step state; the component only paints the chevron. */
+  onBack?: (...args: any[]) => void;
+  /** Accessible name on the back Icon Button. Only consulted when onBack is set. */
+  backLabel?: string;
   children?: React.ReactNode;
   /** When true, scopes the scrim and card to the nearest positioned ancestor instead of portaling to document.body. */
   inline?: boolean;
@@ -19,6 +23,7 @@ export interface BottomSheetProps extends React.HTMLAttributes<HTMLDivElement> {
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from './Button';
+import { BackwardIcon } from './icons/index';
 import { useBodyScrollLock, usePortalTarget } from './internal/scrimPortal';
 import { joinClasses } from './spec-utils';
 
@@ -30,6 +35,8 @@ export function BottomSheet({
   children,
   primaryAction,
   secondaryAction,
+  onBack,
+  backLabel = 'Back',
   inline = false,
   className,
   'aria-label': ariaLabel,
@@ -115,7 +122,21 @@ export function BottomSheet({
       >
         <div className="chorus-bottom-sheet__handle" aria-hidden="true" />
         <div ref={contentRef} className="chorus-bottom-sheet__content">
-          {title ? <h2 className="chorus-bottom-sheet__title">{title}</h2> : null}
+          {title ? (
+            onBack ? (
+              <div className="chorus-bottom-sheet__title-row">
+                <Button
+                  variant="icon"
+                  icon={<BackwardIcon />}
+                  aria-label={backLabel}
+                  onClick={onBack}
+                />
+                <h2 className="chorus-bottom-sheet__title">{title}</h2>
+              </div>
+            ) : (
+              <h2 className="chorus-bottom-sheet__title">{title}</h2>
+            )
+          ) : null}
           {body ? <p className="chorus-bottom-sheet__body">{body}</p> : null}
           {children}
         </div>

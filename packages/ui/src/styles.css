@@ -2542,6 +2542,17 @@ span.chorus-chip {
   color: var(--sys-color-onSurface);
 }
 
+/* Nested-step title row — when the sheet drives a drill-in, an Icon
+   Button (BackwardIcon, sys.icon.lg / 24px) sits to the left of the
+   title with `sys.layout.inline.md` (8px) between them. Icon Button's
+   optical-alignment default places the GLYPH at the title's leading
+   edge automatically, so the visible 8px gap is glyph-to-text. */
+.chorus-bottom-sheet__title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-md);
+}
+
 .chorus-bottom-sheet__body {
   margin: 0;
   font-size: var(--sys-typo-body-md-size);
@@ -3877,25 +3888,33 @@ span.chorus-chip {
    inverse cluster for screens already saturated with primary tone.
    The component owns chrome + caret; positioning relative to the
    trigger (16-token viewport safe area, 4-token trigger offset) and
-   the show/hide lifecycle are the host's job. Asymmetric inset
-   (12 inline × 6 block) so the bubble reads as a pill rather than
-   a square; 32 min-height, 240 max-width, body.sm typography. The
-   optional `action` slot accepts a small text button bound to the
-   matching `onPrimary` (default) or `inverse` (inverse) appearance.
+   the show/hide lifecycle are the host's job. Symmetric 12 inset
+   (`sys.layout.container.sm` on every edge) gives the bubble a card-
+   like footprint; 32 min-height, 240 max-width, body.sm typography.
+   The optional `action` slot accepts a small text button bound to
+   the matching `onPrimary` (default) or `inverse` (inverse) appearance.
 
-   Body-to-action gap: column 6 (inline, body and button on one row),
-   row 12 (block, button wraps below the body). `flex-wrap` drives
-   the row split. */
+   Body-to-action gap: column 12 (inline, body and button on one row),
+   row 6 (block, button wraps below the body). The wrapped row sits
+   closer than the inline gap so the stacked action reads as one
+   group with the body rather than as a new row. `flex-wrap` drives
+   the split.
+
+   12-const inline gap and 6-const block gap have no matching
+   `sys.layout.inline.*` / `sys.layout.stack.*` rung (the constant
+   bands skip these values), so the gaps bind to `ref.space.150` /
+   `ref.space.75` per the system's "`sys.*` first, `ref.*` if no
+   semantic alias" rule. */
 .chorus-tooltip {
   position: relative;
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
-  row-gap: var(--sys-layout-inline-lg);
-  column-gap: var(--ref-space-75);
+  row-gap: var(--ref-space-75);
+  column-gap: var(--ref-space-150);
   min-height: 32px;
   max-width: 240px;
-  padding: var(--ref-space-75) var(--sys-layout-container-sm);
+  padding: var(--sys-layout-container-sm);
   border-radius: var(--sys-radius-lg);
   box-shadow: var(--sys-elevation-overlay);
 }

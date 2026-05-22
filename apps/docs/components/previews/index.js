@@ -233,6 +233,55 @@ function RadioListDemo() {
   );
 }
 
+/* Bottom Sheet — nested-step demo. The consumer owns step state; the
+   sheet only paints the back chevron when `onBack` is wired. */
+function BottomSheetNestedStepDemo() {
+  const [step, setStep] = useState('rsus');
+  const [value, setValue] = useState('rsus');
+  const [amount, setAmount] = useState('');
+  return (
+    <BottomSheet
+      inline
+      open
+      onClose={() => {}}
+      title={step === 'root' ? 'Yearly Equity Value' : 'RSUs'}
+      onBack={step === 'rsus' ? () => setStep('root') : undefined}
+      primaryAction={{ label: 'Save', onClick: () => {} }}
+    >
+      {step === 'root' ? (
+        <List
+          variant="radio"
+          value={value}
+          onChange={(next) => { setValue(next); if (next === 'rsus') setStep('rsus'); }}
+          aria-label="Equity type"
+          /* Negate the sheet content slot's inline padding so the List
+             stretches edge-to-edge and its OWN container padding becomes
+             the visual leading edge — the row content (radio + label)
+             lands flush with the title above. Same pattern as
+             bottom-sheet/overflow. */
+          style={{
+            marginInline: 'calc(-1 * var(--sys-layout-container-md))',
+            width: 'calc(100% + 2 * var(--sys-layout-container-md))',
+            maxWidth: 'none',
+          }}
+          items={[
+            { value: 'rsus', label: 'RSUs' },
+            { value: 'none', label: 'None' },
+          ]}
+        />
+      ) : (
+        <FormField
+          variant="input"
+          leadingIcon="$"
+          placeholder="Ex: 100,000"
+          value={amount}
+          onChange={setAmount}
+        />
+      )}
+    </BottomSheet>
+  );
+}
+
 /* Registry of preview specimens referenced from component spec markdown via
    ` ```preview\n<id>\n``` ` fences. The component spec markdown
    (`schema/components/<name>/<name>.md`) is the single source of truth for
@@ -1744,6 +1793,11 @@ export const PREVIEWS = {
         <IOSKeyboard />
       </div>
     ),
+  },
+
+  'bottom-sheet/nested-step': {
+    states: false,
+    render: () => <BottomSheetNestedStepDemo />,
   },
 
   'dialog/default': {
