@@ -1,21 +1,17 @@
 #!/usr/bin/env node
-// Regenerates lovable-export/ as a 3-bucket "manual import" staging tree
-// matched to the macOS Finder drag/drop workflow into the Lovable target
-// repo (see lovable-export/IMPORT.md):
+// Regenerates lovable-export/ as a flat mirror of the Lovable-connected
+// GitHub repo template (see lovable-export/IMPORT.md). The user's import
+// workflow is a single macOS Finder drag of every entry inside
+// lovable-export/ onto the cloned Lovable repo, with "Replace All" on the
+// merge prompt — so the tree here must match the target layout 1:1.
 //
-//   import/step1-merge-to-root/    → dragged to repo root, "Merge"
-//     ├ public/                    (generated: shared image assets)
-//     └ src/                       (generated: styles.css; tracked: routes, lib, ...)
-//   import/step2-replace-to-root/  → dragged to repo root, "Replace"
-//     ├ docs/                      (generated: chorus docs/specs/tokens/patterns)
+//   lovable-export/
+//     ├ public/                (generated: shared image assets)
+//     ├ src/styles.css         (generated: tokens + Tailwind theme)
+//     ├ src/components/chorus/ (generated: ported chorus components + specs)
+//     ├ src/{routes,lib,hooks,...}  (tracked: TanStack scaffold)
+//     ├ docs/                  (generated: chorus docs/specs/tokens/patterns)
 //     └ {package.json, AGENTS.md, ...}  (tracked: config + guides)
-//   import/step3-replace-to-src/   → dragged into target's src/, "Replace"
-//     └ components/chorus/         (generated: ported chorus components + specs)
-//
-// The split exists because the three buckets land at different filesystem
-// depths (root vs root vs src/), and macOS Finder can't choose
-// merge-vs-replace per-folder inside a single drag. Each generated output
-// MUST live in exactly one of the three buckets — there is no flat mirror.
 //
 // Run via `npm run build:lovable` from the repo root.
 
@@ -26,13 +22,10 @@ import { fileURLToPath } from "node:url";
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, "..");
 const tokensCssPath = resolve(repoRoot, "schema/tokens/tokens.css");
-const importDir = resolve(repoRoot, "lovable-export/import");
-const step1Dir = resolve(importDir, "step1-merge-to-root");
-const step2Dir = resolve(importDir, "step2-replace-to-root");
-const step3Dir = resolve(importDir, "step3-replace-to-src");
-const outPath = resolve(step1Dir, "src/styles.css");
-const docsOutDir = resolve(step2Dir, "docs");
-const componentsOutDir = resolve(step3Dir, "components/chorus");
+const exportDir = resolve(repoRoot, "lovable-export");
+const outPath = resolve(exportDir, "src/styles.css");
+const docsOutDir = resolve(exportDir, "docs");
+const componentsOutDir = resolve(exportDir, "src/components/chorus");
 const COMPONENTS_README = `# \`src/components/chorus/\`
 
 **This folder is the chorus design system surface inside the Lovable repo.**
@@ -43,8 +36,8 @@ Contents are generated from the chorus monorepo (\`packages/ui/src/\`) and synch
 
 When building UI with the Lovable editor:
 
-1. **Use \`@/components/chorus/*\` first.** It carries the chorus design language — tokens, spacing, radius, focus rings, color pairs, no-layout strokes — already wired in.
-2. Fall back to \`@/components/ui/*\` (shadcn) only when no chorus equivalent exists for the primitive you need.
+1. **Use \`@/components/chorus/*\` for every UI primitive.** It carries the chorus design language — tokens, spacing, radius, focus rings, color pairs, no-layout strokes — already wired in.
+2. **Do not introduce \`@/components/ui/*\` (shadcn) primitives.** The export deliberately ships no \`ui/\` folder. If a primitive you need doesn't exist in chorus, file a chorus issue / PR — never paper over the gap with shadcn or raw Tailwind.
 3. Never restyle a chorus component with raw Tailwind colors / arbitrary pixel values. If you need a variant that doesn't exist, that is a chorus change — request it upstream rather than patching here.
 
 See the root \`AGENTS.md\` and \`docs/DESIGN.md\` for the full design contract.
@@ -57,17 +50,21 @@ const BASELINE = `@import "tailwindcss" source(none);
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system definition.
+ * Chorus design system — PRIMARY contract.
  *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
+ * The actual chorus tokens (--sys-*, --ref-*, component-level vars) are
+ * appended at the bottom of this file from schema/tokens/. Those are the
+ * values you MUST use when composing UI: read them via the chorus
+ * components under @/components/chorus/*, which already wire them.
  *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * The shadcn @theme inline + oklch :root/.dark blocks below are a Tailwind
+ * baseline kept verbatim so the Tailwind/vite pipeline boots. They are NOT
+ * the design system. Do NOT introduce new components or screens that
+ * consume bg-primary / text-foreground / arbitrary Tailwind colors —
+ * that bypasses chorus and the design contract in
+ * lovable-export/AGENTS.md. There is no shadcn fallback path here:
+ * @/components/ui/ deliberately ships empty; missing primitives belong as
+ * issues against the chorus repo, not as ad-hoc shadcn additions.
  */
 
 @theme inline {
@@ -229,7 +226,7 @@ async function syncPublicAssets() {
   // resolve inside the Lovable repo too. `placeholder_thumbnail.png` is the
   // canonical image-area fallback (runtime load failures + design-time mocks);
   // `blind_logo_red.png` is the Blind brand mark.
-  const publicOutDir = resolve(step1Dir, "public");
+  const publicOutDir = resolve(exportDir, "public");
   await mkdir(publicOutDir, { recursive: true });
   const assets = ["placeholder_thumbnail.png", "blind_logo_red.png"];
   for (const asset of assets) {
@@ -299,16 +296,20 @@ async function syncDocs() {
     [".md", ".png"],
   );
 
-  // High-level chorus consumption guide and the icons usage guide.
-  await copyDoc(
-    resolve(repoRoot, "CONSUMING.md"),
-    resolve(docsOutDir, "CONSUMING.md"),
-  );
-  await mkdir(resolve(docsOutDir, "icons"), { recursive: true });
-  await copyDoc(
-    resolve(repoRoot, "schema/icons/README.md"),
-    resolve(docsOutDir, "icons", "README.md"),
-  );
+  // NOTE: deliberately do NOT ship CONSUMING.md or icons/README.md into the
+  // export.
+  //
+  // CONSUMING.md opens with `npm install @blind-dsai/tokens @blind-dsai/ui`
+  // instructions that are correct in the chorus monorepo context but
+  // actively misleading inside a Lovable repo (where chorus is overlaid as
+  // src/components/chorus/* and the npm packages don't exist). The Lovable
+  // section at the bottom isn't enough to overcome the file's opening
+  // framing — an agent reading the top first concludes "I need to npm
+  // install" and never reaches the overlay section.
+  //
+  // icons/README.md is currently a placeholder ("Planned. Not yet
+  // implemented.") with no agent value. When real icon docs land, restore
+  // this copy.
 
   console.log(`synced docs → ${docsOutDir}`);
 }
@@ -317,6 +318,16 @@ async function syncComponents() {
   // Wipe and rebuild components/chorus/ each run.
   await rm(componentsOutDir, { recursive: true, force: true });
   await mkdir(componentsOutDir, { recursive: true });
+
+  // Build a basename → spec-path map by scanning every family.json. Used as
+  // a fallback when a ported .jsx file does NOT directly import a spec: e.g.
+  // Section.jsx fans out to sub-impls but is best understood through its
+  // family's spec. PascalCase keys come from sub-slug kebab → pascal
+  // (`bottom-sheet` → `BottomSheet`, `post-carousel` → `PostCarousel`).
+  // Collisions (the same PascalCase name in two families) are dropped so the
+  // mapping never silently picks the wrong family.
+  const basenameToSpec = await buildBasenameSpecMap();
+  const basenameToFamily = await buildBasenameFamilyMap();
 
   // packages/ui/src — port .jsx and .js into TypeScript (Lovable's idiom)
   // and copy .css as-is. Skip the icon build pipeline: svg/, build-icons.mjs,
@@ -328,7 +339,7 @@ async function syncComponents() {
     if (!/\.(jsx|js|css)$/.test(relPath)) return false;
     if (relPath.startsWith("icons/") && relPath !== "icons/index.js") return false;
     return true;
-  }, "", referencedSpecs);
+  }, "", referencedSpecs, basenameToSpec, basenameToFamily);
 
   // Copy every schema spec the components actually import, so the chorus
   // folder is self-contained inside the Lovable repo (no `../../../schema/`
@@ -353,7 +364,7 @@ async function syncComponents() {
 // are untyped — strict mode would reject them otherwise. Relative-import
 // extensions are stripped (`./foo.jsx` → `./foo`); bundler-mode resolution
 // finds the new file by name.
-async function portTree(srcDir, destDir, predicate, relPrefix = "", referencedSpecs) {
+async function portTree(srcDir, destDir, predicate, relPrefix = "", referencedSpecs, basenameToSpec, basenameToFamily) {
   const entries = await readdir(srcDir, { withFileTypes: true });
   let createdDir = false;
   const ensureDir = async () => {
@@ -367,7 +378,7 @@ async function portTree(srcDir, destDir, predicate, relPrefix = "", referencedSp
     const relPath = relPrefix ? `${relPrefix}/${entry.name}` : entry.name;
     const srcPath = resolve(srcDir, entry.name);
     if (entry.isDirectory()) {
-      await portTree(srcPath, resolve(destDir, entry.name), predicate, relPath, referencedSpecs);
+      await portTree(srcPath, resolve(destDir, entry.name), predicate, relPath, referencedSpecs, basenameToSpec, basenameToFamily);
       continue;
     }
     if (!entry.isFile() || !predicate(relPath)) continue;
@@ -385,10 +396,317 @@ async function portTree(srcDir, destDir, predicate, relPrefix = "", referencedSp
     const depth = relPath.split("/").length - 1; // 0 = top level, 1 = internal/, ...
     const specPrefix = depth === 0 ? "./specs" : `${"../".repeat(depth)}specs`;
     let rewritten = stripRelativeExtensions(source);
-    rewritten = rewriteSchemaSpecImports(rewritten, specPrefix, referencedSpecs);
+    const fileSpecs = new Set();
+    rewritten = rewriteSchemaSpecImports(rewritten, specPrefix, referencedSpecs, fileSpecs);
     const banner = "// @ts-nocheck — ported from chorus (untyped). Edit upstream, then re-run `npm run build:lovable`.\n";
+
+    // Phase-1 type surface: if the ported file imports exactly one
+    // spec.json, derive a TypeScript Props interface from it and annotate
+    // the public function signature. This makes prop names, value sets,
+    // and optionality visible to any TS-aware editor (and to AI agents
+    // reading the file) — without us hand-writing types for 30+ files.
+    // Family-wrapper files (like Button.jsx) that fan out to sub-impls
+    // don't import a single spec and fall through this branch; their
+    // types stay derived from the per-sub files. forwardRef wrappers also
+    // skip — the signature shape doesn't fit the simple regex.
+    const baseName = outName.replace(/\.(tsx|ts)$/, "");
+    // Pick the spec to derive Props from. First preference: a spec the file
+    // already imports (most accurate — that's literally what the impl reads).
+    // Fallback: a family-level spec mapped by file basename (covers wrappers
+    // that fan out to sub-impls without importing the spec themselves).
+    let typeSpecRel = null;
+    if (fileSpecs.size === 1) {
+      [typeSpecRel] = [...fileSpecs];
+    } else if (isJsx && depth === 0 && basenameToSpec?.has(baseName)) {
+      typeSpecRel = basenameToSpec.get(baseName);
+    }
+    let typesGenerated = false;
+    if (isJsx && typeSpecRel && !/forwardRef\s*\(/.test(rewritten)) {
+      try {
+        const spec = JSON.parse(
+          await readFile(resolve(repoRoot, "schema/components", typeSpecRel), "utf8"),
+        );
+        const interfaceName = `${baseName}Props`;
+        const elementType = htmlElementToTsType(spec.element);
+        const propsInterface = specToPropsInterface(spec, interfaceName, elementType, typeSpecRel);
+        rewritten = injectPropsInterface(rewritten, propsInterface, interfaceName);
+        typesGenerated = true;
+      } catch (err) {
+        console.warn(`type-gen skipped for ${relPath}: ${err.message}`);
+      }
+    }
+    // Fallback for family-wrapper files (variant-dispatchers — Button, Tabs,
+    // Section, etc.) that don't reduce to a single spec. We can't safely
+    // synthesize one Props interface, but we can hand the agent a navigable
+    // pointer to the per-sub specs in this folder. The JSDoc lands directly
+    // above the export so editor tooltips surface it.
+    if (isJsx && !typesGenerated && depth === 0 && basenameToFamily?.has(baseName)) {
+      const family = basenameToFamily.get(baseName);
+      const blockComment = renderFamilyJsdoc(family, specPrefix);
+      if (blockComment) rewritten = injectFamilyJsdoc(rewritten, blockComment);
+    }
+
     await writeFile(resolve(destDir, outName), banner + rewritten, "utf8");
   }
+}
+
+// Walk schema/components/*/<family>.family.json files, collect every
+// subcomponent's spec path, and key it by the PascalCase name the chorus
+// source file most likely uses (`bottom-sheet` → `BottomSheet`,
+// `post-carousel` → `PostCarousel`). Collisions (the same sub-slug across
+// families — e.g. `thumbnail` is both `thumbnail/thumbnail.spec.json` and
+// `list/thumbnail.spec.json`) are resolved in favor of the family-rooted
+// sub (slug === family name); other collisions are dropped to avoid
+// silently picking the wrong family.
+async function buildBasenameSpecMap() {
+  const componentsRoot = resolve(repoRoot, "schema/components");
+  const families = await readdir(componentsRoot, { withFileTypes: true });
+  // First pass: collect every candidate per PascalCase key with provenance.
+  const candidates = new Map(); // pascal → [{ family, slug, specRel }, ...]
+  for (const fam of families) {
+    if (!fam.isDirectory()) continue;
+    const famJsonPath = resolve(componentsRoot, fam.name, `${fam.name}.family.json`);
+    let famJson;
+    try {
+      famJson = JSON.parse(await readFile(famJsonPath, "utf8"));
+    } catch {
+      continue;
+    }
+    const familyPascal = famJson.name ?? kebabToPascal(fam.name);
+    for (const sub of famJson.subcomponents ?? []) {
+      if (!sub?.spec) continue;
+      const slug = sub.slug ?? sub.spec.replace(/\.spec\.json$/, "");
+      const pascal = kebabToPascal(slug);
+      const specRel = `${fam.name}/${sub.spec}`;
+      const list = candidates.get(pascal) ?? [];
+      list.push({ family: fam.name, slug, specRel });
+      candidates.set(pascal, list);
+      // Also register the "<Family><Sub>" concatenation (e.g. "FeedAd" for
+      // feed family + ad sub) so top-level wrapper files that prefix the
+      // family name still find their spec.
+      if (slug !== fam.name) {
+        const concat = `${familyPascal}${pascal}`;
+        const concatList = candidates.get(concat) ?? [];
+        concatList.push({ family: fam.name, slug, specRel });
+        candidates.set(concat, concatList);
+      }
+    }
+  }
+  // Second pass: resolve each pascal key to a single spec, or skip it.
+  const map = new Map();
+  for (const [pascal, list] of candidates) {
+    if (list.length === 1) {
+      map.set(pascal, list[0].specRel);
+      continue;
+    }
+    const familyRooted = list.filter((c) => c.family === c.slug);
+    if (familyRooted.length === 1) {
+      map.set(pascal, familyRooted[0].specRel);
+    }
+    // Otherwise ambiguous — leave it out.
+  }
+  return map;
+}
+
+// Map a top-level chorus file basename (PascalCase) to the chorus family
+// it dispatches across. Used to inject JSDoc pointers into variant-
+// wrapper files that don't reduce to a single spec.
+async function buildBasenameFamilyMap() {
+  const componentsRoot = resolve(repoRoot, "schema/components");
+  const families = await readdir(componentsRoot, { withFileTypes: true });
+  const map = new Map();
+  for (const fam of families) {
+    if (!fam.isDirectory()) continue;
+    const famJsonPath = resolve(componentsRoot, fam.name, `${fam.name}.family.json`);
+    let famJson;
+    try {
+      famJson = JSON.parse(await readFile(famJsonPath, "utf8"));
+    } catch {
+      continue;
+    }
+    // The family-wrapper file is named after the family's `name` (when set)
+    // or the kebab→pascal of the family slug. Both Button.jsx (family
+    // `button`, name "Button") and BottomSheet.jsx (`bottom-sheet`, "BottomSheet")
+    // fall out of this mapping.
+    const wrapperName = famJson.name ?? kebabToPascal(fam.name);
+    map.set(wrapperName, {
+      family: fam.name,
+      subcomponents: famJson.subcomponents ?? [],
+    });
+  }
+  return map;
+}
+
+// Render a JSDoc block for a family wrapper that lists each sub-component's
+// variant slug + spec path. Designed so an AI editor reading the file
+// learns which `variant` values exist and where to look up each one's prop
+// contract.
+function renderFamilyJsdoc(family, specPrefix) {
+  const subs = family.subcomponents ?? [];
+  if (subs.length === 0) return null;
+  const lines = [
+    `/**`,
+    ` * ${family.family} family wrapper. Dispatches to a per-variant impl;`,
+    ` * each variant's full prop contract lives in its own spec.`,
+    ` *`,
+  ];
+  for (const sub of subs) {
+    if (!sub?.spec) continue;
+    const flag = sub.default ? " (default)" : "";
+    lines.push(` * @see ${specPrefix}/${family.family}/${sub.spec} — variant="${sub.slug}"${flag}`);
+  }
+  lines.push(` */`);
+  return lines.join("\n");
+}
+
+// Insert the JSDoc block immediately before the first `export function` /
+// `export const`. Falls back to prepending at the end of the import block.
+function injectFamilyJsdoc(source, jsdoc) {
+  const exportRe = /^(?:export\s+(?:function|const|class|default)\b)/m;
+  const m = exportRe.exec(source);
+  if (m) {
+    return source.slice(0, m.index) + jsdoc + "\n" + source.slice(m.index);
+  }
+  return source + "\n\n" + jsdoc + "\n";
+}
+
+function kebabToPascal(slug) {
+  return slug
+    .split("-")
+    .map((part) => (part ? part[0].toUpperCase() + part.slice(1) : part))
+    .join("");
+}
+
+// Map an HTML element name (from spec.element) to the matching TS DOM
+// interface. Falls back to HTMLElement for anything not explicitly mapped.
+function htmlElementToTsType(element) {
+  if (!element || typeof element !== "string") return "HTMLElement";
+  const map = {
+    button: "HTMLButtonElement",
+    a: "HTMLAnchorElement",
+    input: "HTMLInputElement",
+    textarea: "HTMLTextAreaElement",
+    select: "HTMLSelectElement",
+    label: "HTMLLabelElement",
+    form: "HTMLFormElement",
+    img: "HTMLImageElement",
+    div: "HTMLDivElement",
+    span: "HTMLSpanElement",
+    p: "HTMLParagraphElement",
+    h1: "HTMLHeadingElement",
+    h2: "HTMLHeadingElement",
+    h3: "HTMLHeadingElement",
+    h4: "HTMLHeadingElement",
+    h5: "HTMLHeadingElement",
+    h6: "HTMLHeadingElement",
+    ul: "HTMLUListElement",
+    ol: "HTMLOListElement",
+    li: "HTMLLIElement",
+    nav: "HTMLElement",
+    section: "HTMLElement",
+    article: "HTMLElement",
+    header: "HTMLElement",
+    footer: "HTMLElement",
+    main: "HTMLElement",
+    aside: "HTMLElement",
+    dialog: "HTMLDialogElement",
+  };
+  return map[element.toLowerCase()] ?? "HTMLElement";
+}
+
+// Convert a single spec.props.<name> entry to a TypeScript type expression.
+// Spec prop type vocabulary (see schema/spec.schema.json): enum, literal,
+// boolean, node, string, number, function, object. Both `enum` and `literal`
+// carry a `values: [...]` array of allowed string values — render as a
+// string-literal union so callers get autocomplete on the value set.
+function specPropToTsType(prop) {
+  switch (prop.type) {
+    case "enum":
+    case "literal":
+      return Array.isArray(prop.values) && prop.values.length
+        ? prop.values.map((v) => JSON.stringify(v)).join(" | ")
+        : "string";
+    case "boolean":
+      return "boolean";
+    case "node":
+      return "React.ReactNode";
+    case "string":
+      return "string";
+    case "number":
+      return "number";
+    case "function":
+      // Callback shape isn't encoded in specs; widen to a general handler.
+      // Common cases (onClick, onClose) accept zero or one event arg.
+      return "(...args: any[]) => void";
+    case "object":
+      // Shapes are described in free-form prose (e.g. "{ label, onClick }").
+      // Keep them open so callers can pass any object matching the prose.
+      return "Record<string, any>";
+    default:
+      return "unknown";
+  }
+}
+
+// Build a TypeScript interface declaration from a spec's props block.
+// Optionality: a prop is optional if it declares `optional: true` OR carries
+// a `default` (consumer doesn't have to pass it). The interface extends
+// React.HTMLAttributes<E> so passthrough HTML props (className, style, aria-*,
+// data-*, event handlers) remain typed.
+function specToPropsInterface(spec, interfaceName, elementType, specRel) {
+  const lines = [
+    `/** Props for ${spec.name ?? interfaceName.replace(/Props$/, "")}${spec.subcomponent ? ` (${spec.subcomponent})` : ""}. Generated from schema/components/${specRel} — edit there, then re-run \`npm run build:lovable\`. */`,
+    `export interface ${interfaceName} extends React.HTMLAttributes<${elementType}> {`,
+  ];
+  const props = spec.props ?? {};
+  for (const [name, prop] of Object.entries(props)) {
+    if (prop.description) {
+      lines.push(`  /** ${prop.description.replace(/\*\//g, "*\\/")} */`);
+    }
+    const isOptional = prop.optional === true || prop.default !== undefined;
+    const tsType = specPropToTsType(prop);
+    const key = /^[A-Za-z_$][\w$]*$/.test(name) ? name : JSON.stringify(name);
+    lines.push(`  ${key}${isOptional ? "?" : ""}: ${tsType};`);
+  }
+  // If any slot accepts text/node, expose `children`. Most chorus components
+  // surface their primary slot via children.
+  const slots = spec.slots ?? {};
+  const hasNodeSlot = Object.values(slots).some(
+    (s) => Array.isArray(s.accepts) && (s.accepts.includes("text") || s.accepts.includes("node")),
+  );
+  if (hasNodeSlot && !("children" in props)) {
+    lines.push(`  children?: React.ReactNode;`);
+  }
+  lines.push(`}`);
+  return lines.join("\n");
+}
+
+// Inject the generated Props interface near the top of the ported file and
+// annotate the first `export function Foo({...})` (or `export function Foo({\n…})`)
+// signature with `: <InterfaceName>`. If no such signature is found, the
+// interface is still emitted as a standalone export — useful as a reference
+// even if hover types don't land.
+function injectPropsInterface(source, interfaceText, interfaceName) {
+  // Inject AFTER the last import line so the interface lives in the file's
+  // declaration zone, not above its own dependencies.
+  const importLineRe = /^(?:import\b[^\n]*\n|export\s+\{[^}]*\}\s+from\s+[^\n]*\n)+/m;
+  const lead = source.match(importLineRe);
+  const insertion = `\n${interfaceText}\n`;
+  let out;
+  if (lead && lead.index === 0) {
+    out = source.slice(0, lead[0].length) + insertion + source.slice(lead[0].length);
+  } else {
+    out = insertion + source;
+  }
+  // Annotate the destructured-arg `export function Name(\n  { … }\n)` so hover
+  // resolves to the typed interface. Uses [\s\S]*? to span multi-line patterns.
+  const fnRe = new RegExp(
+    `(export\\s+function\\s+\\w+\\s*\\(\\s*\\{[\\s\\S]*?\\}\\s*)(\\))`,
+    "m",
+  );
+  if (fnRe.test(out)) {
+    out = out.replace(fnRe, `$1: ${interfaceName}$2`);
+  }
+  return out;
 }
 
 // Stricter JSX detector. Looks for closing tags (`</foo>`), self-closing
@@ -419,11 +737,12 @@ function stripRelativeExtensions(source) {
 // under the chorus folder's own `specs/` directory. Also record the matched
 // `<family>/<file>.spec.json` in `referencedSpecs` so the caller can copy
 // each spec file alongside the component source.
-function rewriteSchemaSpecImports(source, specPrefix, referencedSpecs) {
+function rewriteSchemaSpecImports(source, specPrefix, referencedSpecs, fileSpecs) {
   return source.replace(
     /(from\s+['"]|import\(\s*['"])(?:\.\.\/)+schema\/components\/([^'"]+\.spec\.json)(['"])/g,
     (_match, lead, specRel, quote) => {
       if (referencedSpecs) referencedSpecs.add(specRel);
+      if (fileSpecs) fileSpecs.add(specRel);
       return `${lead}${specPrefix}/${specRel}${quote}`;
     },
   );

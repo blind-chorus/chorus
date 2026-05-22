@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": false,
+  "tsx": true,
+  "tailwind": {
+    "css": "src/styles.css",
+    "baseColor": "slate",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "lucide",
+  "rtl": false,
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "chorus": "@/components/chorus",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "registries": {
+    "chorus": {
+      "url": "@/components/chorus",
+      "headers": {
+        "X-Chorus-Notice": "Use @/components/chorus/* for ALL UI primitives. This export ships no @/components/ui/ folder — there is no shadcn fallback. If a primitive seems missing, that's a chorus gap; file it upstream instead of regenerating shadcn primitives. Never restyle chorus components with raw Tailwind colors or arbitrary pixel values."
+      }
+    }
+  }
+}

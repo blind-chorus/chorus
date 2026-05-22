@@ -76,23 +76,19 @@ import lightTokens from "@blind-dsai/tokens/resolved.light.json" with { type: "j
 
 If you're building inside [Lovable](https://lovable.dev), don't `npm install` the packages — Lovable only syncs via GitHub and expects a Vite/TanStack-Router source tree. This repo ships that tree pre-built at [`lovable-export/`](lovable-export), regenerated from `schema/` + `packages/ui/` by `npm run build:lovable`.
 
-The handoff is a one-way **manual overlay** into your Lovable-connected GitHub repo (typically a fork of [`chorus-lovable-template-v1`](https://github.com/blind-dsai/chorus-lovable-template-v1)). `lovable-export/` is pre-organized into three buckets matched to a macOS Finder drag/drop workflow:
+The handoff is a one-way **manual overlay** into the GitHub repo Lovable created when you connected the project (e.g. `lov-test-v2-bobjobs`). `lovable-export/` mirrors that template's layout 1:1, so the import is a single Finder drag:
 
-```
-lovable-export/import/
-├── step1-merge-to-root/    → drop on repo root,  pick "Merge"
-├── step2-replace-to-root/  → drop on repo root,  pick "Replace"
-└── step3-replace-to-src/   → drop into src/,     pick "Replace"
-```
+1. Clone the Lovable-connected GitHub repo locally.
+2. In Finder, select every entry inside `lovable-export/` (configs, `src/`, `public/`, `docs/`, dotfiles) and drag onto the cloned repo's root.
+3. Choose **"Replace All"** so renamed/removed chorus files don't leave stale copies.
 
-Full step-by-step (with rationale for each option) is in [`lovable-export/IMPORT.md`](lovable-export/IMPORT.md). After the three drags: `git status` to review, `bun install` only if `package.json` changed, commit, push. Lovable picks up the change on its next sync.
+Full procedure is in [`lovable-export/IMPORT.md`](lovable-export/IMPORT.md). Afterward: `git status` to review, `bun install` only if `package.json` changed, commit, push. Lovable picks up the change on its next sync.
 
 **Hard rules:**
 
-- **Three buckets, three drags.** The split exists because the buckets land at different depths (root vs root vs `src/`) and macOS Finder can't choose merge-vs-replace per-folder mid-drag. Don't merge them or rsync the whole `lovable-export/` directly — that would dump the `import/` wrapper into the target repo.
-- **Preserve editor-managed files.** Step 1 is "Merge" precisely so `.lovable/`, `bun.lock`, `src/components/ui/*` (shadcn primitives Lovable installs on demand), and Lovable-authored routes survive.
-- **One-way sync.** chorus → lovable only. Anything you want to keep across re-exports must live in chorus (`schema/`, `packages/ui/`, `patterns/`). Lovable-side edits outside the chorus-owned paths (steps 2 & 3 contents) survive; edits inside them get overwritten on the next sync.
-- **Re-run before each copy.** `npm run build:lovable` is idempotent and wipes the generated outputs (`step2/docs/`, `step3/components/chorus/`, `step1/public/`, `step1/src/styles.css`) on each run, so the export always matches current chorus state.
+- **Drag the contents, not the folder.** Otherwise you'll create a nested `lovable-export/` inside the target repo.
+- **One-way sync.** chorus → lovable only. Anything you want to keep across re-exports must live in chorus (`schema/`, `packages/ui/`, `patterns/`). Lovable-side edits outside the chorus-owned paths survive; edits inside `src/components/chorus/`, `docs/`, or any root config get overwritten on the next sync.
+- **Re-run before each copy.** `npm run build:lovable` is idempotent and wipes the generated outputs (`docs/`, `src/components/chorus/`, `public/*.png`, `src/styles.css`) on each run, so the export always matches current chorus state.
 
 Files we own and overwrite, files in the shared zone, and the full rationale are documented in [`lovable-export/README.md`](lovable-export/README.md). The agent contract Lovable's editor reads after the copy is [`lovable-export/AGENTS.md`](lovable-export/AGENTS.md).
 

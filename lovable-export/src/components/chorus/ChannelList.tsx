@@ -1,0 +1,123 @@
+// @ts-nocheck — ported from chorus (untyped). Edit upstream, then re-run `npm run build:lovable`.
+import { Thumbnail } from './Thumbnail';
+import { Button } from './Button';
+import { joinClasses } from './spec-utils';
+
+/** Props for ChannelList. Generated from schema/components/channel-list/channel-list.spec.json — edit there, then re-run `npm run build:lovable`. */
+export interface ChannelListProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Section title. */
+  label: string;
+  /** { label, href? , onClick? } — trailing text link in the header. */
+  headerAction?: Record<string, any>;
+  /** Array of channel descriptors: { value, name, followers, description, thumbnail, active?, onToggle? }. */
+  items: React.ReactNode;
+  children?: React.ReactNode;
+}
+
+/* ChannelList — a vertically-stacked block of channel suggestions
+   rendered as a swipeable pager. Each page shows exactly three rows
+   (Thumbnail 48 + name / followers / description + a Toggle Button on
+   the trailing edge); the next page peeks at the trailing side of the
+   viewport to invite the horizontal swipe.
+
+   The component is presentation-only for the row body — tapping the
+   avatar / text column does not route. The only commit affordance per
+   row is the trailing Toggle Button, whose `active` state is owned by
+   the consumer (forwarded through each item's `active` + `onToggle`).
+   Pages of three are a hard contract: when `items.length` is not a
+   multiple of three, the last page is padded with empty placeholders
+   so the swipe rhythm holds. */
+
+const ROWS_PER_PAGE = 3;
+
+function chunk(items, size) {
+  const out = [];
+  for (let i = 0; i < items.length; i += size) {
+    out.push(items.slice(i, i + size));
+  }
+  if (out.length === 0) return out;
+  const last = out[out.length - 1];
+  while (last.length < size) last.push(null);
+  return out;
+}
+
+export function ChannelList({
+  label,
+  headerAction,
+  items = [],
+  followLabel = 'Follow',
+  followingLabel = 'Following',
+  className,
+  'aria-label': ariaLabel,
+  ...rest
+}: ChannelListProps) {
+  const pages = chunk(items, ROWS_PER_PAGE);
+  return (
+    <section
+      className={joinClasses('chorus-channel-list', className)}
+      aria-label={ariaLabel ?? label}
+      {...rest}
+    >
+      {(label || headerAction) ? (
+        <header className="chorus-channel-list__header">
+          {label ? <h3 className="chorus-channel-list__label">{label}</h3> : <span />}
+          {headerAction ? (
+            <Button
+              variant="text"
+              size="xsmall"
+              appearance="accent"
+              className="chorus-channel-list__header-action"
+              href={headerAction.href ?? '#'}
+              onClick={headerAction.onClick}
+            >
+              {headerAction.label}
+            </Button>
+          ) : null}
+        </header>
+      ) : null}
+      <div className="chorus-channel-list__pager" role="group" aria-label="Channel pages">
+        {pages.map((page, pageIdx) => (
+          <div key={pageIdx} className="chorus-channel-list__page">
+            {page.map((item, rowIdx) =>
+              item ? (
+                <Row
+                  key={item.value ?? rowIdx}
+                  item={item}
+                  followLabel={followLabel}
+                  followingLabel={followingLabel}
+                />
+              ) : (
+                <div key={`pad-${rowIdx}`} className="chorus-channel-list__row chorus-channel-list__row--pad" aria-hidden="true" />
+              )
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Row({ item, followLabel, followingLabel }) {
+  const { name, followers, description, active, onToggle, thumbnail } = item;
+  return (
+    <div className="chorus-channel-list__row">
+      <span className="chorus-channel-list__avatar">
+        <Thumbnail size={48} {...(thumbnail ?? { alt: name })} />
+      </span>
+      <span className="chorus-channel-list__text">
+        <span className="chorus-channel-list__name">{name}</span>
+        {followers ? <span className="chorus-channel-list__followers">{followers}</span> : null}
+        {description ? <span className="chorus-channel-list__description">{description}</span> : null}
+      </span>
+      <span className="chorus-channel-list__action">
+        <Button
+          variant="toggle"
+          active={!!active}
+          onClick={onToggle}
+        >
+          {active ? followingLabel : followLabel}
+        </Button>
+      </span>
+    </div>
+  );
+}
