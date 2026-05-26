@@ -72,7 +72,7 @@
     "visualReuse": {
       "type": "string",
       "enum": ["open", "locked"],
-      "description": "How strictly the family's intent binds component choice. `open` (default for most families) — an agent MAY reach for the component on visual-fit grounds even when the brief's intent does not match `useCases` verbatim; anatomy invariants (slot grammar, token bindings, intrinsic geometry) still apply. `locked` — the component MUST only be used when the brief's intent matches `useCases`; visual-only reuse is forbidden because the component's interaction contract (focus trap, auto-dismiss, ARIA live region, form semantics, hover/focus trigger) breaks when the component sits in the wrong role. Only families whose contract is the interaction (dialog, bottom-sheet, toast, tooltip, form-field) should be locked; visual containers (section, banner, feed, list, etc.) are open."
+      "description": "How strictly the family's intent binds component choice. `open` allows visual-fit reuse outside `useCases`; `locked` restricts the family to its canonical role because the interaction contract is the point. See `AGENTS.md` § Design principles (#5) for the full contract and the locked roster."
     },
     "notes": {
       "type": "string",

@@ -1,6 +1,5 @@
 import { defineConfig } from "tsup";
 import { cpSync } from "node:fs";
-import { spawnSync } from "node:child_process";
 
 export default defineConfig({
   entry: {
@@ -21,13 +20,14 @@ export default defineConfig({
   },
   onSuccess: async () => {
     cpSync("src/styles.css", "dist/styles.css");
-    // Generate dist/index.d.ts + dist/icons/index.d.ts from schema/components/.
-    // Source is .jsx without TS types, so tsup's own `dts` flag cannot derive
-    // declarations. The script reads every <sub>.spec.json and emits a typed
-    // surface (incl. discriminated unions for multi-sub families).
-    const r = spawnSync(process.execPath, ["scripts/build-types.mjs"], {
-      stdio: "inherit",
-    });
-    if (r.status !== 0) throw new Error("build-types failed");
+    // Generate dist/index.d.{ts,cts} + dist/icons/index.d.{ts,cts} from
+    // schema/components/<family>/<sub>.spec.json. The import path is wrapped
+    // in a URL hop so esbuild does NOT see it as a static import and try to
+    // bundle the script (which has a shebang esbuild would reject). The
+    // script then resolves its own paths off import.meta.url, so tsup's cwd
+    // doesn't matter — runs the same from packages/ui or repo root. Using
+    // import() (not spawnSync) skips a fresh-Node startup, saving ~120ms.
+    const buildTypesUrl = new URL("./scripts/build-types.mjs", import.meta.url).href;
+    await import(buildTypesUrl);
   },
 });
