@@ -50,6 +50,12 @@ And the Pretendard typeface (the only face Chorus speaks):
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 ```
 
+Then copy the bundled placeholder image into the consumer app's public root so every scaffold below (which fills image-area slots with `src="/placeholder.png"`) resolves at runtime instead of 404-ing into a broken-image overlay. The CSS layer's image-area fallback is *already* a data URL (inlined into `styles.css` as the `--chorus-placeholder-image` var), so a missing PNG never produces an empty surface — but a 404'd inline `<img>` still paints a browser broken-image glyph on top. One command at setup (same in Vite / Next / Remix — every framework serves `public/` at root), then forget about it:
+
+```bash
+cp node_modules/@blind-dsai/ui/placeholder.png public/
+```
+
 After install, **actually fetch** four files from the installed package before posting readiness — you must have read them, not just listed their paths:
 
 1. `node_modules/@blind-dsai/ui/agents/manifest.json` — enumerates the 18 families.
@@ -59,7 +65,7 @@ After install, **actually fetch** four files from the installed package before p
 
 Then post the readiness line in **this exact shape** so the user can verify the prep actually happened:
 
-> *"✅ Chorus ready: @blind-dsai/ui@\<version\>, tokens.css + styles.css wired at \<entry-file\>. Read: manifest (\<N families\>), catalog (locked: dialog/bottom-sheet/toast/tooltip/form-field; open: \<13 names\>), dist/index.d.ts (typed exports — FormField variants resolved: input/search/select), \<family\>/\<sub\>.spec.json. Removed legacy shim: \<path or 'none'\>. Standing by for the screen brief — next turn: §A.2 pattern → §A.3 spec re-read → §A.4 page-shell skeleton → compose."*
+> *"✅ Chorus ready: @blind-dsai/ui@\<version\>, tokens.css + styles.css wired at \<entry-file\>, public/placeholder.png copied from node_modules. Read: manifest (\<N families\>), catalog (locked: dialog/bottom-sheet/toast/tooltip/form-field; open: \<13 names\>), dist/index.d.ts (typed exports — FormField variants resolved: input/search/select), \<family\>/\<sub\>.spec.json. Removed legacy shim: \<path or 'none'\>. Standing by for the screen brief — next turn: §A.2 pattern → §A.3 spec re-read → §A.4 page-shell skeleton → compose."*
 
 This sentence is the contract — the user reads it to confirm you are not about to grep `dist/index.js` for component names. **Do NOT** abbreviate the four bracketed evidence items; **do NOT** post readiness if any of them is unread. Then **wait** for the user's screen-specific brief. Do NOT pre-generate a sample home screen, a demo card, or "an example to show install worked." The user's next turn is the trigger.
 

@@ -301,6 +301,29 @@ Same rule for search input (`variant="search"` — Tabs/NavigationBar don't have
 
 ---
 
+## 13. Image-area `<img src="/placeholder.png">` 404 in the consumer's public root
+
+**Rule violated**: [`LOVABLE.md`](LOVABLE.md) § A.0 — the bundled `placeholder.png` MUST be copied into the consumer app's `public/` once at setup.
+
+Every image-area scaffold across this catalogue (`<Thumbnail src="/placeholder.png">`, `<FeedAd media={{ src: '/placeholder.png' }}>`, `<ProfileCarousel items={[{ cover: { src: '/placeholder.png' } }]} />`, …) addresses a **root-relative URL**. Vite / Next / Remix serve the asset from the consumer's `public/` root; if the file is not there, the browser fetches `/placeholder.png` → 404 → paints a broken-image glyph **on top of** the CSS layer's data-URL background. The CSS layer alone is not enough — the inline `<img>` is opaque over the background, so a 404'd `<img>` will overlay a broken-image icon onto an otherwise correctly-painted placeholder area.
+
+**Diagnostic (run before composing):** open DevTools → Network, refresh, look for a 404 on `/placeholder.png`. If the request is missing entirely it means the scaffold did not address an image-area slot at all (a different anti-pattern — see #8); if it 404s, you skipped the §A.0 copy step.
+
+```bash
+# ❌ Wrong — package installed, scaffolds reference /placeholder.png, but consumer's public/ is empty.
+#    Result: every image-area slot paints a broken-image glyph over the CSS fallback.
+npm install @blind-dsai/ui @blind-dsai/tokens
+# (no copy step)
+
+# ✅ Right — one command after install, then every scaffold below resolves.
+npm install @blind-dsai/ui @blind-dsai/tokens
+cp node_modules/@blind-dsai/ui/placeholder.png public/
+```
+
+Do NOT work around this by inventing a stock URL, swapping in an inline SVG wordmark, hiding the `<img>` with `display: none`, or pointing every `src` at the CDN-hosted PNG — those all break the §A.0 contract and the AGENTS.md "one universal placeholder" rule. The fix is the one-line `cp`; the scaffolds stay as-shipped.
+
+---
+
 ## When you spot one of these, what to do
 
 1. Stop composing.

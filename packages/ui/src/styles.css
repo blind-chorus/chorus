@@ -91,6 +91,24 @@ textarea {
   font-family: inherit;
 }
 
+/* ============================================================
+   Image-area placeholder asset.
+
+   Surfaces with an image slot (`.chorus-thumbnail`,
+   `.chorus-feed-ad__media`, `.chorus-profile-carousel__cover`, …) paint
+   a fallback PNG as `background-image` so a missing or failed `<img>`
+   still resolves to an image rather than an empty surface tone. The
+   asset is inlined as a data URL here — a `url("/placeholder.png")`
+   would depend on the consumer copying the PNG to their public root
+   (Vite/Next/Remix `/public`, Lovable, …) and silently 404s otherwise.
+   Inlining costs ~7 KB once in the bundled CSS and removes the entire
+   consumer-setup step. Override per-instance with the same custom
+   property if a brand-specific placeholder is needed.
+============================================================ */
+:root {
+  --chorus-placeholder-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAE2FJREFUeAHt3Q9zFFW+x+HeVdlVlAgSCCrKSklp7ft/Kbd2SwsvgigQIARZY0np3vnNpaksS0im53TPZL7PU5VCSwnM5EyfT5/+96e9J8/+3QEAUf7cAQBxBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQCABAACBBAAABBIAABBIAABAIAEAAIEEAAAEEgAAEEgAAEAgAQAAgQQAAAQSAAAQSAAAQKD/A4MV7wM43pl3AAAAAElFTkSuQmCC");
+}
+
 .chorus-button--standard {
   box-sizing: border-box;
   display: inline-flex;
@@ -1409,7 +1427,7 @@ span.chorus-chip {
   width: 100%;
   aspect-ratio: 16 / 10;
   background-color: var(--sys-color-surfaceContainerHigh);
-  background-image: url("/placeholder.png");
+  background-image: var(--chorus-placeholder-image);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1752,7 +1770,7 @@ span.chorus-chip {
   width: 100%;
   height: 88px;
   background-color: var(--sys-color-surfaceContainerHigh);
-  background-image: url("/placeholder.png");
+  background-image: var(--chorus-placeholder-image);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1935,7 +1953,7 @@ span.chorus-chip {
   height: 100%;
   border-radius: var(--sys-radius-full);
   background-color: var(--sys-color-surfaceContainerHigh);
-  background-image: url("/placeholder.png");
+  background-image: var(--chorus-placeholder-image);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
