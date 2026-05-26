@@ -80,6 +80,7 @@ The package self-contains the docs you need. Read these directly from `node_modu
 | `agents/components/<family>/<family>.family.json` | Family-level metadata: sub-component list, default sub, use-cases. Use it to walk *all* subs of a family before picking one. |
 | `agents/patterns/<name>.md` | Per-screen reference recipes — intent, layout anatomy, tokens-in-use, components. Visual ground truth for composition. (PNGs live at <https://github.com/blind-dsai/chorus/tree/main/patterns> — fetch only if you have vision and the brief is layout-heavy.) |
 | `agents/screens/<slug>.screen.json` | Pre-validated full-screen recipe tree. Pattern `.md` frontmatter cites these via `recipe:`; fetch the JSON when you want the exact component sequence + slot fills the docs site renders from. |
+| `agents/icons.keywords.json` | Icon intent → name map: `{ "PollIcon": ["poll", "vote", "ballot"], … }`. Read this when you need to pick an icon by intent without grepping `dist/icons/index.d.ts`. The component is then imported from `@blind-dsai/ui/icons` by exact name. |
 | `agents/LOVABLE.md` | This file. |
 
 **DESIGN.md is too large to load in full.** Grep the specific section heading you need:

@@ -19,7 +19,7 @@
 // `@blind-dsai/ui/placeholder_thumbnail.png`:
 //   ../../apps/docs/public/placeholder_thumbnail.png → placeholder_thumbnail.png
 
-import { cpSync, existsSync, mkdirSync, statSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, rmSync, statSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -27,19 +27,30 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = resolve(__dirname, "..");
 const repoRoot = resolve(pkgRoot, "..", "..");
 
+// Wipe the agents/ tree before recreating so renamed/removed families
+// (e.g. channel-list → suggestion-list) don't linger as ghost entries
+// alongside the new ones — cpSync is additive, not a mirror.
+const agentsRoot = resolve(pkgRoot, "agents");
+rmSync(agentsRoot, { recursive: true, force: true });
+
 const transfers = [
   { from: "AGENTS.md", to: "agents/AGENTS.md" },
   { from: "prompt/LOVABLE.md", to: "agents/LOVABLE.md" },
   { from: "schema/catalog.md", to: "agents/catalog.md" },
   { from: "schema/manifest.json", to: "agents/manifest.json" },
   { from: "schema/DESIGN.md", to: "agents/DESIGN.md" },
+  // Icon intent → name map. The runtime exports live at
+  // `@blind-dsai/ui/icons`; this JSON is the keyword routing the agent
+  // uses to pick an icon by intent (e.g. "vote" → PollIcon) without
+  // grepping dist/icons/index.d.ts.
+  { from: "packages/ui/src/icons/keywords.json", to: "agents/icons.keywords.json" },
 ];
 
 const optional = [
   { from: "apps/docs/public/placeholder_thumbnail.png", to: "placeholder_thumbnail.png" },
 ];
 
-mkdirSync(resolve(pkgRoot, "agents"), { recursive: true });
+mkdirSync(agentsRoot, { recursive: true });
 
 for (const { from, to } of transfers) {
   const src = resolve(repoRoot, from);
