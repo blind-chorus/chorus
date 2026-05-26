@@ -76,6 +76,7 @@
     { "family": "navigation-bar", "root": "components/navigation-bar/navigation-bar.family.json" },
     { "family": "section",        "root": "components/section/section.family.json" },
     { "family": "skeleton",       "root": "components/skeleton/skeleton.family.json" },
+    { "family": "status-tag",     "root": "components/status-tag/status-tag.family.json" },
     { "family": "switch",         "root": "components/switch/switch.family.json" },
     { "family": "accordion",      "root": "components/accordion/accordion.family.json" },
     { "family": "tab-bar",        "root": "components/tab-bar/tab-bar.family.json" },

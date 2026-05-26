@@ -2039,15 +2039,15 @@ span.chorus-chip {
   isolation: isolate;
 }
 
-/* Inter-row divider — inset symmetrically from BOTH inline edges by the
-   row's inline padding (container.md, 16px each side) so the rule reads
-   as separating *content*, not the container. The last row omits the
-   divider via :not(:last-child). */
+/* Inter-row divider — inset from the leading edge by the row's inline
+   padding (container.md) so the rule reads as separating *content*,
+   not the container. The last row omits the divider via
+   :not(:last-child). */
 .chorus-list__row:not(:last-child)::after {
   content: '';
   position: absolute;
   left: var(--sys-layout-container-md);
-  right: var(--sys-layout-container-md);
+  right: 0;
   bottom: 0;
   height: var(--sys-borderWidth-hairline);
   background: var(--sys-color-outlineVariant);
@@ -4200,6 +4200,40 @@ span.chorus-chip {
   left: auto;
   right: var(--sys-layout-container-sm);
   transform: rotate(45deg);
+}
+
+/* ============================================================
+   StatusTag — small inline status pill
+============================================================ */
+/* 16-rung tonal pill sized for the trailing edge of a row label. Two
+   appearances on a single emphasis axis: `neutral` (quiet
+   surfaceContainerHighest + onSurfaceVariant) and `error`
+   (errorContainer + onErrorContainer). Decorative — no hover /
+   pressed / focus / disabled paint. The 10px text is sub-`sys.typo`
+   so we bind directly to `ref.fontSize.125` per the system's
+   "`sys.*` first, `ref.*` if no semantic alias" rule (see DESIGN.md
+   § Token tiers). */
+.chorus-status-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sys-layout-container-3xs) var(--sys-layout-container-2xs);
+  border-radius: var(--sys-radius-xs);
+  font-size: var(--ref-fontSize-125);
+  font-weight: var(--sys-typo-label-md-weight);
+  line-height: 1.2;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.chorus-status-tag--neutral {
+  background: var(--sys-color-surfaceContainerHighest);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.chorus-status-tag--error {
+  background: var(--sys-color-errorContainer);
+  color: var(--sys-color-onErrorContainer);
 }
 
 /* ============================================================

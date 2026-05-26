@@ -88,7 +88,6 @@
     "leadingLabelGap": "sys.layout.inline.md",
     "dividerWidth": "sys.borderWidth.hairline",
     "dividerColor": "sys.color.outlineVariant",
-    "dividerInsetInline": "sys.layout.container.md",
     "labelTypo": "16 / Regular",
     "labelColor": "sys.color.onSurface",
     "supportingTypo": "14 / Regular",

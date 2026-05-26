@@ -1,0 +1,22 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "status-tag",
+  "name": "StatusTag",
+  "description": "Small inline status pill — a tonal label-style mark sized for the trailing edge of a row label (10px text, 4px inline / 2px block padding, `sys.radius.xs` corners). Two appearances on a single emphasis axis: `neutral` (quiet `surfaceContainerHighest` + `onSurfaceVariant` — the informational default: pending, draft, queued) and `error` (`errorContainer` + `onErrorContainer` — the rejection / blocked state). Decorative — never an interactive surface. Distinct from [chip/tag](../chip/tag.md): Chip is a 32px-rung selectable / dismissable pill that lives in chip rows; StatusTag is a 16px-rung non-interactive mark that sits inline next to a row label. Single-spec family.",
+  "useCases": [
+    "row-label status annotation (pending / approved / rejected)",
+    "trailing inline status mark on a list / settings row",
+    "inline state pill in a feed-post header"
+  ],
+  "visualReuse": "locked",
+  "layoutInset": "inline",
+  "spec": "status-tag.md",
+  "subcomponents": [
+    {
+      "slug": "status-tag",
+      "spec": "status-tag.spec.json",
+      "md": "status-tag.md",
+      "default": true
+    }
+  ]
+}

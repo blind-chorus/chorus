@@ -8,7 +8,7 @@ A vertically-stacked sequence of rows for menus, settings panels, picker sheets,
 
 ## Cross-sub contract
 
-- **Container.** Vertical stack, transparent fill (inherits the parent surface). Rows separated by a 1px `outlineVariant` divider inset 16px (`layout.container.md`) on **both** the leading and trailing edges so the rule reads as separating *content*, not the container. No outer radius — corner shape belongs to the wrapping container.
+- **Container.** Vertical stack, transparent fill (inherits the parent surface). Rows separated by a 1px `outlineVariant` divider inset 16px (`layout.container.md`) from the leading edge so the rule reads as separating *content*, not the container. No outer radius — corner shape belongs to the wrapping container.
 - **Row geometry.** 12px block / 16px inline padding; min-height 48px; leading-to-label gap `layout.inline.md` (8px). Row grows when `supportingText` is present.
 - **Label column.** Label: 16px / Regular / `onSurface`. SupportingText: 14px / Regular / `onSurfaceVariant`, 2px below label. Both truncate with ellipsis.
 - **States.** `selected` exists only on Radio. The whole row is the interactive surface.

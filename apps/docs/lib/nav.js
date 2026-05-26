@@ -243,10 +243,10 @@ export const NAV = [
         href: '/components/list',
         label: 'List',
         subs: [
-          { href: '/components/list/text',      label: 'Text list' },
-          { href: '/components/list/radio',     label: 'Radio list' },
-          { href: '/components/list/thumbnail', label: 'Thumbnail list' },
-          { href: '/components/list/nav',       label: 'Nav list' },
+          { href: '/components/list/text',      label: 'Text' },
+          { href: '/components/list/radio',     label: 'Radio' },
+          { href: '/components/list/thumbnail', label: 'Thumbnail' },
+          { href: '/components/list/nav',       label: 'Nav' },
         ],
       },
       {
@@ -273,6 +273,11 @@ export const NAV = [
       {
         href: '/components/skeleton',
         label: 'Skeleton',
+        wip: true,
+      },
+      {
+        href: '/components/status-tag',
+        label: 'Status tag',
         wip: true,
       },
       {

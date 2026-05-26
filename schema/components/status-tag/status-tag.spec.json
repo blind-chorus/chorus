@@ -1,0 +1,69 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "StatusTag",
+  "family": "status-tag",
+  "description": "Small inline status pill sized for the trailing edge of a row label. Tonal label-style chrome — `surfaceContainerHighest` + `onSurfaceVariant` in `neutral`, `errorContainer` + `onErrorContainer` in `error`. 10px text, 4px inline / 2px block padding, `sys.radius.xs` corners. Decorative — `role='status'` only, never a `<button>`. The two appearances are the only emphasis axis; chromatic primary / accent fills are forbidden so a row never reads as having two competing affordances.",
+  "element": "span",
+  "props": {
+    "appearance": {
+      "type": "enum",
+      "values": ["neutral", "error"],
+      "default": "neutral",
+      "description": "Tonal fill / foreground pair. `neutral` is the quiet informational default; `error` is the rejection / blocked / failed state."
+    },
+    "children": {
+      "type": "node",
+      "required": true,
+      "description": "Tag label text. Single line; should be a short word or phrase (≤ 6 chars in Latin, ≤ 4 in CJK). Wraps would push the pill onto two lines and break the inline-with-label rhythm — keep it short instead."
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "description": "Tonal pill. Carries `role='status'`. Inline-block layout so the host row's baseline aligns with the label next to it.",
+      "intrinsic": true
+    },
+    "label": {
+      "required": true,
+      "description": "Tag text. `ref.fontSize.125` (10px) / Semibold / appearance-bound foreground.",
+      "accepts": ["text"]
+    }
+  },
+  "sizing": {
+    "paddingBlock": "sys.layout.container.3xs",
+    "paddingInline": "sys.layout.container.2xs",
+    "radius": "sys.radius.xs",
+    "labelFontSize": "ref.fontSize.125",
+    "labelFontWeight": "sys.typo.label.md.weight",
+    "labelLineHeight": "1.2",
+    "labelGapFromHostLabel": "sys.layout.container.2xs"
+  },
+  "appearances": {
+    "neutral": {
+      "background": "sys.color.surfaceContainerHighest",
+      "foreground": "sys.color.onSurfaceVariant",
+      "note": "The quiet informational default. Pair with statuses that describe an in-progress / awaiting state — 'pending', 'draft', 'queued', 'in review'."
+    },
+    "error": {
+      "background": "sys.color.errorContainer",
+      "foreground": "sys.color.onErrorContainer",
+      "note": "The rejection / blocked / failed state. Pair with statuses that describe a terminal negative outcome — 'rejected', 'failed', 'blocked'. Keep usage scarce — every error pill on a screen competes with the others for attention."
+    }
+  },
+  "states": {
+    "default": { "overlay": null, "note": "StatusTag has no lifecycle state — it is decorative. No hover / pressed / focus / disabled paint." }
+  },
+  "behavior": {
+    "decorativeOnly": "StatusTag never carries `onClick` / `href` / `tabIndex`. It is a label-style mark only; if the consumer needs the state to be tappable, wrap the host row (List row, NavCard) in the interactive surface and keep StatusTag inert.",
+    "ariaRole": "Container carries `role='status'` so screen readers announce the tag as a status update, not as a generic span.",
+    "composition": "Sized to sit next to a List row's label with a `sys.layout.container.2xs` (4px) inline gap (see Use cases). The label column owns the gap, NOT the tag.",
+    "truncationNotWrap": "Container is `inline-block` and `white-space: nowrap` — long content overflows the row layout instead of wrapping the pill onto two lines. Keep labels short."
+  },
+  "forbidden": [
+    "StatusTag rendered as a `<button>` / `<a href>` — the family is decorative; if the state needs to be tappable, the host row owns the click target",
+    "primary / accent / chromatic fill on either appearance — the family carries only `neutral` and `error`; new states (success, warning, info) must land as new appearances in the spec, never as ad-hoc colour overrides",
+    "StatusTag placed inside a chip row as if it were a Chip — visual rung (16px vs 32px) and interaction model (decorative vs selectable / dismissable) are different; chip/filter or chip/tag is the right rung for chip rows",
+    "StatusTag laid out flush against the host label with zero gap — always pay `sys.layout.container.2xs` (4px) of inline whitespace between the row label and the tag",
+    "long phrases wrapped onto a second line inside the pill — container is `nowrap`; if the phrase is long, the label is wrong, not the pill"
+  ]
+}

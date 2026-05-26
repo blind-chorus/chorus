@@ -21,6 +21,47 @@ import { List } from '@blind-dsai/ui';
 />
 ```
 
+## Use cases
+
+### With trailing action
+
+A Text Button in the row's `trailingIcon` slot — the canonical "directory row + small commit" composition. Reach for it on follow / join / invite rows where the leading Thumbnail anchors the entity and the trailing button carries the only commit. The row body stays informational; the button is the only tap target for the action.
+
+```preview
+list/thumbnail-with-trailing-action
+---
+import { Button, List } from '@blind-dsai/ui';
+
+<List
+  variant="thumbnail"
+  aria-label="채널 추천"
+  items={[
+    {
+      value: 'product',
+      label: '프로덕트 디자인',
+      supportingText: '동료 1,204명이 참여 중',
+      thumbnail: { alt: '프로덕트 디자인', shape: 'circle' },
+      trailingIcon: (
+        <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
+          팔로우
+        </Button>
+      ),
+    },
+    {
+      value: 'frontend',
+      label: '프론트엔드 개발',
+      supportingText: '동료 892명이 참여 중',
+      thumbnail: { alt: '프론트엔드 개발', shape: 'circle' },
+      trailingIcon: (
+        <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
+          팔로우
+        </Button>
+      ),
+    },
+  ]}
+/>
+```
+
 ## Slots
 
 - **container** — outer vertical stack (delegates to family).

@@ -21,6 +21,7 @@ export { NavCard, NavCardGroup } from './NavCard.jsx';
 export { NavigationBar } from './NavigationBar.jsx';
 export { Section } from './Section.jsx';
 export { Skeleton, SkeletonGroup } from './Skeleton.jsx';
+export { StatusTag } from './StatusTag.jsx';
 export { Switch } from './Switch.jsx';
 export { Accordion } from './Accordion.jsx';
 export { TabBar } from './TabBar.jsx';

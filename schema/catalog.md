@@ -103,8 +103,9 @@ Each row resolves to a typed React component — `<FormField variant="search" pl
 | numeric unread / update count                | `badge`           |
 | inline image (avatar, list leading, channel) | `thumbnail`       |
 | instant-commit on/off toggle                 | `switch`          |
+| inline status mark next to a row label       | `status-tag`      |
 
-**Disambiguate**: `switch` = single binary on/off that commits the moment it flips (notifications on/off, privacy toggle). For multi-option pickers use `list / radio`; for actions that need confirmation use `button` + `dialog`; for "selected" facet state in a chip row use `chip / filter`.
+**Disambiguate**: `switch` = single binary on/off that commits the moment it flips (notifications on/off, privacy toggle). For multi-option pickers use `list / radio`; for actions that need confirmation use `button` + `dialog`; for "selected" facet state in a chip row use `chip / filter`. `status-tag` = a SMALL (16-rung, 10px text) decorative status pill inline next to a row label — "pending", "rejected", "draft"; for a 32-rung interactive chip in a chip row use `chip / tag`; for a numeric count attached to an icon / thumbnail use `badge`.
 
 ## Loading & placeholder
 

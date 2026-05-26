@@ -22,6 +22,45 @@ import { List } from '@blind-dsai/ui';
 />
 ```
 
+## Use cases
+
+### With trailing action
+
+A Text Button dropped into the row's `trailingIcon` slot turns a display row into a row + action affordance — the row label stays informational (no `onClick` on the row itself), and the trailing button is the only commit target. Reach for it on settings rows that pair a value with a small "change / edit / view" action.
+
+```preview
+list/text-with-trailing-action
+---
+import { Button, List } from '@blind-dsai/ui';
+
+<List
+  variant="text"
+  aria-label="알림 채널"
+  items={[
+    {
+      value: 'email',
+      label: '이메일',
+      supportingText: 'work@example.com',
+      trailingIcon: (
+        <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
+          변경
+        </Button>
+      ),
+    },
+    {
+      value: 'sms',
+      label: 'SMS',
+      supportingText: '+82 10-****-1234',
+      trailingIcon: (
+        <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
+          변경
+        </Button>
+      ),
+    },
+  ]}
+/>
+```
+
 ## Slots
 
 - **container** — outer vertical stack (delegates to family).

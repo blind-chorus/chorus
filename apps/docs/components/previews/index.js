@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Accordion, Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, ProfileCarousel, Section, Skeleton, SkeletonGroup, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
+import { Accordion, Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, ProfileCarousel, Section, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
 import { PlusIcon, PlusSquareFillIcon, ChevronLeftIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, XIcon, BuildingIcon, BuildingFillIcon, ArrowDownIcon, ChevronRightIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, EllipsisHorizontalIcon, BellIcon, BellFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
@@ -2724,6 +2724,138 @@ export const PREVIEWS = {
             Email, push, and in-app notification preferences.
           </Accordion.Item>
         </Accordion>
+      </Frame>
+    ),
+  },
+
+  /* StatusTag — small inline status pill. Two appearances on a single
+     emphasis axis: neutral (informational default) and error (rejection
+     / blocked). Decorative, never a button. */
+  'status-tag/default': {
+    states: false,
+    render: () => <StatusTag>대기중</StatusTag>,
+  },
+
+  'status-tag/error': {
+    states: false,
+    render: () => <StatusTag appearance="error">승인 거절</StatusTag>,
+  },
+
+  'status-tag/list-row': {
+    states: false,
+    render: () => (
+      <Frame>
+        <List
+          variant="thumbnail"
+          aria-label="채널 신청 현황"
+          items={[
+            {
+              value: 'ch-2',
+              label: (
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--sys-layout-container-2xs)' }}>
+                  유저생성채널2
+                  <StatusTag>대기중</StatusTag>
+                </span>
+              ),
+              thumbnail: { alt: '유저생성채널2', shape: 'circle' },
+            },
+            {
+              value: 'ch-3',
+              label: (
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--sys-layout-container-2xs)' }}>
+                  유저생성채널3
+                  <StatusTag appearance="error">승인 거절</StatusTag>
+                </span>
+              ),
+              thumbnail: { alt: '유저생성채널3', shape: 'circle' },
+            },
+          ]}
+        />
+      </Frame>
+    ),
+  },
+
+  'status-tag/inline': {
+    states: false,
+    render: () => (
+      <Frame>
+        <p style={{ fontSize: 'var(--sys-typo-body-sm-size)', color: 'var(--sys-color-onSurface)', margin: 0 }}>
+          공유 문서 <StatusTag>대기중</StatusTag> 가 검토 대기 중입니다.
+        </p>
+      </Frame>
+    ),
+  },
+
+  /* List — Text & Thumbnail trailing-action use cases. A Text Button
+     dropped into the row's trailing slot turns a display row into a
+     row + action affordance without changing the row's primary
+     interaction model. */
+  'list/text-with-trailing-action': {
+    states: false,
+    render: () => (
+      <Frame>
+        <List
+          variant="text"
+          aria-label="알림 채널"
+          items={[
+            {
+              value: 'email',
+              label: '이메일',
+              supportingText: 'work@example.com',
+              trailingIcon: (
+                <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
+                  변경
+                </Button>
+              ),
+            },
+            {
+              value: 'sms',
+              label: 'SMS',
+              supportingText: '+82 10-****-1234',
+              trailingIcon: (
+                <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
+                  변경
+                </Button>
+              ),
+            },
+          ]}
+        />
+      </Frame>
+    ),
+  },
+
+  'list/thumbnail-with-trailing-action': {
+    states: false,
+    render: () => (
+      <Frame>
+        <List
+          variant="thumbnail"
+          aria-label="채널 추천"
+          items={[
+            {
+              value: 'product',
+              label: '프로덕트 디자인',
+              supportingText: '동료 1,204명이 참여 중',
+              thumbnail: { alt: '프로덕트 디자인', shape: 'circle' },
+              trailingIcon: (
+                <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
+                  팔로우
+                </Button>
+              ),
+            },
+            {
+              value: 'frontend',
+              label: '프론트엔드 개발',
+              supportingText: '동료 892명이 참여 중',
+              thumbnail: { alt: '프론트엔드 개발', shape: 'circle' },
+              trailingIcon: (
+                <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
+                  팔로우
+                </Button>
+              ),
+            },
+          ]}
+        />
       </Frame>
     ),
   },
