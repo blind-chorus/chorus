@@ -1,0 +1,73 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Skeleton",
+  "family": "skeleton",
+  "description": "Single tonal placeholder block painted on `sys.color.surfaceContainerHighest` with a slow opacity pulse (`0.5 → 1 → 0.5` over 1.6s). Three shapes select the default footprint and corner radius: `text` (16px high, full-width — single line of body copy), `block` (80px high, full-width — image / card body) and `circle` (40 × 40, fully rounded — avatar). Consumer-supplied `width` / `height` props override the default footprint. Compose multiple Skeletons inside `SkeletonGroup` to mirror the rhythm of the content being loaded.",
+  "element": "span",
+  "props": {
+    "shape": {
+      "type": "enum",
+      "values": ["text", "block", "circle"],
+      "default": "text",
+      "description": "Selects the default footprint and corner radius. `text` and `block` paint as a `sys.radius.xs` corner; `circle` ignores radius and renders as a perfect round."
+    },
+    "width": {
+      "type": "union",
+      "members": ["number", "string"],
+      "optional": true,
+      "description": "Overrides the default inline footprint. Numbers are coerced to `px`; strings pass through (`100%`, `'12rem'`, …). When omitted, `text` and `block` stretch to 100% of the host; `circle` keeps a 40 × 40 footprint."
+    },
+    "height": {
+      "type": "union",
+      "members": ["number", "string"],
+      "optional": true,
+      "description": "Overrides the default block footprint. Numbers are coerced to `px`. When omitted, `text` is 16px, `block` is 80px, `circle` is 40px."
+    },
+    "aria-label": {
+      "type": "string",
+      "optional": true,
+      "description": "Accessible label announced by screen readers. Defaults to `'Loading'`."
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "description": "Tonal block. `sys.color.surfaceContainerHighest` fill, shape-dependent radius, no stroke. Carries the pulse animation. `role='status'` + `aria-live='polite'` so screen readers announce the loading state without yanking focus.",
+      "intrinsic": true
+    }
+  },
+  "sizing": {
+    "background": "sys.color.surfaceContainerHighest",
+    "radiusText": "sys.radius.xs",
+    "radiusBlock": "sys.radius.xs",
+    "radiusCircle": "9999px",
+    "defaultTextHeight": "16px",
+    "defaultBlockHeight": "80px",
+    "defaultCircleSize": "40px",
+    "groupGap": "sys.layout.stack.xs"
+  },
+  "appearances": {
+    "default": {
+      "background": "sys.color.surfaceContainerHighest",
+      "note": "The only fill tone — Skeleton has no emphasis axis. The pulse modulates opacity, not hue, so the placeholder stays anonymous against any host surface."
+    }
+  },
+  "states": {
+    "default": {
+      "animation": "chorus-skeleton-pulse 1.6s ease-in-out infinite",
+      "note": "Opacity oscillates between `sys.state.skeleton.min` (0.5) and 1. The animation respects `prefers-reduced-motion: reduce` — pulse halts and the block stays at full opacity."
+    }
+  },
+  "behavior": {
+    "ariaLive": "Container carries `role='status'` and `aria-live='polite'` so screen readers announce the loading state without interrupting the user's current focus. The visible block is decorative — the announcement comes from `aria-label` (defaults to `'Loading'`).",
+    "reducedMotion": "Under `@media (prefers-reduced-motion: reduce)` the pulse animation is suppressed entirely; the block stays at full opacity.",
+    "footprintOverrides": "`width` / `height` props win over the shape's default footprint, including for `circle` (a circle Skeleton at `width=60 height=60` stays a 60-rung round)."
+  },
+  "forbidden": [
+    "skeleton fill stepped to `sys.color.primary` or any chromatic tone — the placeholder must read as anonymous chrome, not as a content tone",
+    "shimmer / gradient sweep animation — Chorus skeletons modulate opacity only (one motion axis keeps the tier readable under reduced-motion fallback)",
+    "skeleton stacked vertically without a SkeletonGroup wrapper — group via SkeletonGroup so the 8px gap stays consistent across compositions",
+    "skeleton kept on-screen after the real content resolves — the placeholder must swap out atomically, not cross-fade with the loaded data",
+    "skeleton used as a permanent low-priority placeholder (empty-state / no-data illustration) — that role is an inline illustration + body copy, not a pulsing placeholder"
+  ]
+}

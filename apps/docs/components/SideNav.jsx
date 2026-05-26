@@ -54,6 +54,7 @@ function SideNavItem({ item, pathname }) {
       >
         <span className="side-nav-chevron" aria-hidden="true">{hasSubs ? <Chevron /> : null}</span>
         <span className="side-nav-label">{item.label}</span>
+        {item.wip ? <span className="side-nav-wip" aria-label="Work in progress">WIP</span> : null}
       </Link>
       {hasSubs && expanded ? (
         <ul className="side-nav-subs">

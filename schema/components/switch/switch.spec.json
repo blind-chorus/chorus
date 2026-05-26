@@ -1,0 +1,122 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Switch",
+  "family": "switch",
+  "description": "Pill-shaped track (52 × 32) with a circular thumb (28 × 28) that translates between the two ends. Off paints the track in `surfaceContainerHighest` with an `outlineVariant` hairline stroke and an `onSurfaceVariant` thumb; on paints the track in `primary` and the thumb in `onPrimary` so the on-state reads chromatically. Whole control is the click target — the thumb is decorative. Instant commit: `onCheckedChange` fires the moment the thumb moves.",
+  "element": "button",
+  "props": {
+    "checked": {
+      "type": "boolean",
+      "optional": true,
+      "description": "Controlled value. When provided, the consumer owns the state; pair with `onCheckedChange`."
+    },
+    "defaultChecked": {
+      "type": "boolean",
+      "default": false,
+      "description": "Uncontrolled initial value. Ignored when `checked` is also passed."
+    },
+    "onCheckedChange": {
+      "type": "function",
+      "optional": true,
+      "description": "Called with `(nextChecked, event)` the moment the user flips the switch."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "aria-label": {
+      "type": "string",
+      "optional": true,
+      "description": "Accessible label. Required when the Switch is not paired with a visible label via `aria-labelledby` or a wrapping `<label>`."
+    },
+    "aria-labelledby": {
+      "type": "string",
+      "optional": true,
+      "description": "ID of the element that names this Switch. Mutually exclusive with `aria-label`."
+    },
+    "forcedState": {
+      "type": "literal",
+      "values": ["hovered", "pressed", "focused"],
+      "optional": true,
+      "description": "Docs-only — pins the switch to a single visual state via `data-force-state`. Not for production use."
+    }
+  },
+  "slots": {
+    "track": {
+      "required": true,
+      "description": "Pill-shaped container. 52 × 32, fully rounded. Carries the click handler, the focus ring, and the state-overlay paint. `role='switch'`, `aria-checked` reflects on/off.",
+      "intrinsic": true
+    },
+    "thumb": {
+      "required": true,
+      "description": "Circular knob inside the track. 28 × 28, fully rounded. Translates between the leading and trailing ends on toggle. Decorative — never a separate hit target.",
+      "intrinsic": true
+    }
+  },
+  "sizing": {
+    "trackWidth": "52px",
+    "trackHeight": "32px",
+    "trackRadius": "9999px",
+    "thumbSize": "28px",
+    "thumbInset": "2px",
+    "thumbTravel": "20px",
+    "thumbRadius": "9999px",
+    "outlineWidth": "sys.borderWidth.hairline",
+    "outlineColor": "sys.color.outlineVariant",
+    "transitionDuration": "120ms",
+    "transitionTiming": "ease-out"
+  },
+  "appearances": {
+    "off": {
+      "trackBackground": "sys.color.surfaceContainerHighest",
+      "trackOutline": "sys.color.outlineVariant",
+      "thumbBackground": "sys.color.onSurfaceVariant",
+      "note": "Resting muted tone. The hairline outline reads the track as a discrete affordance even when both the track and the host surface are quiet."
+    },
+    "on": {
+      "trackBackground": "sys.color.primary",
+      "trackOutline": "transparent",
+      "thumbBackground": "sys.color.onPrimary",
+      "note": "Chromatic on-state. The outline disappears so the filled track reads as one solid block. Thumb steps to `onPrimary` so the contrast against the filled track stays legible."
+    }
+  },
+  "states": {
+    "default": { "overlay": null },
+    "hovered": {
+      "overlay": { "color": "label", "opacity": "sys.state.hover" }
+    },
+    "pressed": {
+      "overlay": { "color": "label", "opacity": "sys.state.pressed" }
+    },
+    "disabled": {
+      "containerOpacity": "sys.state.disabled",
+      "pointerEvents": "none",
+      "note": "Both the on and off appearance fade to `sys.state.disabled`. The thumb stays at the position dictated by `checked`."
+    }
+  },
+  "focusIndicator": {
+    "description": "Keyboard-focus visual painted as a three-layer outward ring on the track's outer edge.",
+    "composition": "outward",
+    "compositionReason": "Switch sits inline next to siblings with whitespace around it (form rows, settings list trailing slots); an outward ring reads cleanly without colliding with neighbouring affordances.",
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset",
+      "implementation": "outset box-shadow on the track's `::after` overlay."
+    },
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  },
+  "behavior": {
+    "instantCommit": "`onCheckedChange` fires the moment the user releases the click / Space / Enter. No confirmation step.",
+    "clickTarget": "Whole track is clickable. The thumb is decorative — never a separate hit target.",
+    "keyboardActivation": "Space and Enter both toggle the value when the switch holds focus."
+  },
+  "forbidden": [
+    "switch used for an action that needs confirmation (a destructive commit, an action with an undo) — wrap that in a Button + Dialog instead",
+    "track outline removed in the off state — the hairline outline is the only edge that holds the affordance when the host is quiet",
+    "thumb rendered as a separate focusable / clickable element — only the track carries focus and click",
+    "trailing label or icon painted inside the track — the on/off contract is the whole control; any label sits outside the Switch (in a List row label, a FormField label, etc.)",
+    "switch laid out next to its label without a 12px / `sys.layout.inline.md` gap — the gap stops the label from reading as if it were part of the control"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "accordion",
+  "name": "Accordion",
+  "description": "Vertical stack of expandable rows. Each item exposes a trigger header (label + auto-rendered trailing chevron that rotates 180° on expand) and a content body that paints below it when open. Two modes select how many items can be open at once: `type='single'` (one open at a time — collapsible by default) and `type='multiple'` (any number open). Rows tile flush with a hairline `outlineVariant` divider between them. Single-spec family.",
+  "useCases": [
+    "FAQ block",
+    "terms-of-service / policy sections",
+    "expandable filter group",
+    "settings group with infrequent edits",
+    "long-form content carved into scannable sections"
+  ],
+  "visualReuse": "open",
+  "layoutInset": "full-bleed",
+  "spec": "accordion.md",
+  "subcomponents": [
+    {
+      "slug": "accordion",
+      "spec": "accordion.spec.json",
+      "md": "accordion.md",
+      "default": true
+    }
+  ]
+}

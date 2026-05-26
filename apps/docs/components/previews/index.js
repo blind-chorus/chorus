@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, ProfileCarousel, Section, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
+import { Accordion, Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, ProfileCarousel, Section, Skeleton, SkeletonGroup, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
 import { PlusIcon, PlusSquareFillIcon, ChevronLeftIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, XIcon, BuildingIcon, BuildingFillIcon, ArrowDownIcon, ChevronRightIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, EllipsisHorizontalIcon, BellIcon, BellFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
@@ -2546,6 +2546,185 @@ export const PREVIEWS = {
         <Tooltip placement="bottom">Tooltip text</Tooltip>
         <Tooltip placement="bottom-end">Tooltip text</Tooltip>
       </div>
+    ),
+  },
+
+  /* Skeleton — tonal loading placeholder that previews the footprint of
+     content still being fetched. Three shapes (text/block/circle); group
+     them inside SkeletonGroup to mirror the rhythm of a list row, feed
+     post, or card. */
+  'skeleton/default': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Skeleton />
+      </Frame>
+    ),
+  },
+
+  'skeleton/block': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Skeleton shape="block" height={120} />
+      </Frame>
+    ),
+  },
+
+  'skeleton/circle': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Skeleton shape="circle" />
+      </Frame>
+    ),
+  },
+
+  'skeleton/list-row': {
+    states: false,
+    render: () => (
+      <Frame>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--sys-layout-inline-md)',
+            padding: 'var(--sys-layout-container-xs) var(--sys-layout-container-md)',
+          }}
+        >
+          <Skeleton shape="circle" />
+          <SkeletonGroup aria-label="Loading row" style={{ flex: 1 }}>
+            <Skeleton width="60%" />
+            <Skeleton width="40%" />
+          </SkeletonGroup>
+        </div>
+      </Frame>
+    ),
+  },
+
+  'skeleton/feed-post': {
+    states: false,
+    render: () => (
+      <Frame>
+        <SkeletonGroup aria-label="Loading post" style={{ padding: 'var(--sys-layout-container-md)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sys-layout-inline-md)' }}>
+            <Skeleton shape="circle" width={32} height={32} />
+            <SkeletonGroup style={{ flex: 1 }}>
+              <Skeleton width="40%" />
+              <Skeleton width="25%" />
+            </SkeletonGroup>
+          </div>
+          <Skeleton width="85%" height={20} />
+          <Skeleton />
+          <Skeleton width="70%" />
+          <Skeleton shape="block" height={180} />
+        </SkeletonGroup>
+      </Frame>
+    ),
+  },
+
+  /* Switch — binary on/off pill. Off paints muted track with a hairline
+     outline; on paints `primary` track. Instant commit (no confirmation
+     step). */
+  'switch/default': {
+    states: false,
+    render: () => <Switch defaultChecked aria-label="Notifications" />,
+  },
+
+  'switch/off': {
+    states: false,
+    render: () => <Switch defaultChecked={false} aria-label="Notifications" />,
+  },
+
+  'switch/disabled': {
+    states: false,
+    render: () => (
+      <div style={{ display: 'flex', gap: 'var(--sys-layout-inline-md)' }}>
+        <Switch defaultChecked={false} disabled aria-label="Off, disabled" />
+        <Switch defaultChecked disabled aria-label="On, disabled" />
+      </div>
+    ),
+  },
+
+  'switch/with-label': {
+    states: false,
+    render: () => (
+      <Frame>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 'var(--sys-layout-inline-md)',
+            padding: 'var(--sys-layout-container-xs) var(--sys-layout-container-md)',
+          }}
+        >
+          <span id="notif-label" style={{ fontSize: 'var(--sys-typo-body-sm-size)', color: 'var(--sys-color-onSurface)' }}>
+            Push notifications
+          </span>
+          <Switch defaultChecked aria-labelledby="notif-label" />
+        </div>
+      </Frame>
+    ),
+  },
+
+  /* Accordion — vertical stack of expandable rows. type='single' allows
+     one open at a time; type='multiple' allows any number. Rows tile
+     flush with a hairline outlineVariant divider. */
+  'accordion/default': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Accordion type="single" defaultValue="why" aria-label="Frequently asked questions">
+          <Accordion.Item value="why" label="Why does Blind anonymise posts?">
+            Anonymity is the only way employees can compare salaries, escalate misconduct, or ask candid culture questions without retaliation. Verified company badges keep the channel trustworthy without unmasking the author.
+          </Accordion.Item>
+          <Accordion.Item value="verify" label="How is my company verified?">
+            Sign up with your corporate email — the verification code lands in your inbox, never on a public profile. Once verified, the badge persists across job changes (we re-verify when you update your employer).
+          </Accordion.Item>
+          <Accordion.Item value="data" label="What can other users see?">
+            Other users see your company badge, your career stage, and the content you post. Your email, name, and exact title are never exposed.
+          </Accordion.Item>
+        </Accordion>
+      </Frame>
+    ),
+  },
+
+  'accordion/multiple': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Accordion type="multiple" defaultValue={['salary', 'tenure']} aria-label="Active filters">
+          <Accordion.Item value="salary" label="Compensation">
+            Filter posts by salary range, equity, sign-on bonus.
+          </Accordion.Item>
+          <Accordion.Item value="tenure" label="Tenure">
+            Filter authors by years at current company.
+          </Accordion.Item>
+          <Accordion.Item value="role" label="Role">
+            Filter by IC level, manager track, or specialty.
+          </Accordion.Item>
+        </Accordion>
+      </Frame>
+    ),
+  },
+
+  'accordion/disabled-item': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Accordion type="single" aria-label="Account settings">
+          <Accordion.Item value="profile" label="Profile">
+            Display name, avatar, bio.
+          </Accordion.Item>
+          <Accordion.Item value="billing" label="Billing" disabled>
+            Available for verified enterprise accounts only.
+          </Accordion.Item>
+          <Accordion.Item value="notifications" label="Notifications">
+            Email, push, and in-app notification preferences.
+          </Accordion.Item>
+        </Accordion>
+      </Frame>
     ),
   },
 };

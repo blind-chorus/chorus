@@ -460,6 +460,29 @@ code {
   min-width: 0;
 }
 
+/* WIP pill — small trailing tag on a side-nav link that flags the entry as
+   work-in-progress. Outlined pill on `surfaceContainerHighest` so it reads
+   as chrome rather than a chromatic primary affordance; the row's hover /
+   active overlays still paint underneath it. Temporary — removed on the
+   nav entry once the component is considered ready. */
+.side-nav-wip {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--sys-layout-container-2xs);
+  height: 16px;
+  border-radius: var(--sys-radius-xs);
+  background: var(--sys-color-surfaceContainerHighest);
+  color: var(--sys-color-onSurfaceVariant);
+  font-size: 10px;
+  font-weight: var(--sys-typo-label-sm-weight);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+  box-shadow: inset 0 0 0 var(--sys-borderWidth-hairline) var(--sys-color-outlineVariant);
+}
+
 /* Chevron — visual cue only (the row itself is the toggle target). Down by
    default; rotates 90° anti-clockwise (▶) when the parent carries
    `.is-collapsed`. Width is fixed so a chevron-bearing label and a chevron-

@@ -1,0 +1,23 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "switch",
+  "name": "Switch",
+  "description": "Binary on/off control — a pill-shaped track with a circular thumb that translates between the two ends. The off state reads as a muted `surfaceContainerHighest` track; the on state paints the track in `primary` so the contract reads chromatically without an inline label. Use for instant-commit settings where the change applies the moment the thumb moves; reach for a [Button](../button/button.md) when the commit needs a confirmation step. Single-spec family.",
+  "useCases": [
+    "instant-commit settings toggle",
+    "notification on/off",
+    "privacy / visibility toggle",
+    "list row trailing-slot toggle"
+  ],
+  "visualReuse": "locked",
+  "layoutInset": "inline",
+  "spec": "switch.md",
+  "subcomponents": [
+    {
+      "slug": "switch",
+      "spec": "switch.spec.json",
+      "md": "switch.md",
+      "default": true
+    }
+  ]
+}

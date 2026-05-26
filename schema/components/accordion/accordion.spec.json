@@ -1,0 +1,166 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Accordion",
+  "family": "accordion",
+  "description": "Vertical stack of expandable rows. Each `Accordion.Item` renders a trigger header (label + auto-rendered 16px chevron that rotates from `0°` to `180°` on expand) over a content body that paints below when open. Rows tile flush with a hairline `outlineVariant` divider between them; no per-item outline or rounded surface. The chevron is decorative — the entire trigger header is the click target.",
+  "element": "div",
+  "props": {
+    "type": {
+      "type": "enum",
+      "values": ["single", "multiple"],
+      "default": "single",
+      "description": "`single` allows one open item at a time; `multiple` allows any number. Affects how `value` and `defaultValue` are typed."
+    },
+    "value": {
+      "type": "union",
+      "members": ["string", "string[]"],
+      "optional": true,
+      "description": "Controlled open-state. `string` for `type='single'`, `string[]` for `type='multiple'`. Pair with `onValueChange`."
+    },
+    "defaultValue": {
+      "type": "union",
+      "members": ["string", "string[]"],
+      "optional": true,
+      "description": "Uncontrolled initial open-state. Ignored when `value` is also passed."
+    },
+    "onValueChange": {
+      "type": "function",
+      "optional": true,
+      "description": "Called with the next open-state (`string | null` for single, `string[]` for multiple) when the user toggles an item."
+    },
+    "collapsible": {
+      "type": "boolean",
+      "default": true,
+      "description": "Single-mode only. When `false`, an open item cannot be collapsed by clicking its own trigger — one item is always open. Ignored when `type='multiple'`."
+    },
+    "children": {
+      "type": "node",
+      "required": true,
+      "description": "One or more `Accordion.Item` children."
+    }
+  },
+  "itemProps": {
+    "value": {
+      "type": "string",
+      "required": true,
+      "description": "Unique identifier used to track the item's open-state in the Accordion."
+    },
+    "label": {
+      "type": "string",
+      "required": true,
+      "description": "Trigger header text. Single line; wraps to a second line when long, no truncation."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "children": {
+      "type": "node",
+      "required": true,
+      "description": "Content body rendered when the item is open."
+    },
+    "forcedState": {
+      "type": "literal",
+      "values": ["hovered", "pressed", "focused"],
+      "optional": true,
+      "description": "Docs-only — pins the trigger to a single visual state via `data-force-state`. Not for production use."
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "description": "Outer stack. Transparent fill so the host surface tone reads through. `role='region'` carries the accordion's accessible name (`aria-label`).",
+      "intrinsic": true
+    },
+    "item": {
+      "required": true,
+      "description": "Single expandable row. Hairline `outlineVariant` divider painted as a bottom inset box-shadow on every row except the last. `data-state='open' | 'closed'` reflects the current open-state.",
+      "intrinsic": true
+    },
+    "trigger": {
+      "required": true,
+      "description": "Header button. Holds the label and the auto-rendered trailing chevron. `role='button'`, `aria-expanded` reflects open-state, `aria-controls` references the content region.",
+      "intrinsic": true
+    },
+    "label": {
+      "required": true,
+      "description": "Trigger label. `body.sm` / Semibold / `onSurface`. Wraps to a second line; no truncation.",
+      "accepts": ["text"]
+    },
+    "chevron": {
+      "required": true,
+      "description": "Auto-rendered 16px `ChevronDownIcon` at `onSurfaceVariant`. Rotates from `0°` to `180°` over 120ms `ease-out` on expand. Decorative.",
+      "intrinsic": true
+    },
+    "content": {
+      "required": true,
+      "description": "Body region. Paints flush below the trigger when open; uses `hidden` attribute when closed (no `display: none` strip — keeps screen-reader-only content focusable in inspectors).",
+      "accepts": ["text", "icon", "button", "list", "form-field"]
+    }
+  },
+  "sizing": {
+    "triggerMinHeight": "48px",
+    "triggerPaddingBlock": "sys.layout.container.xs",
+    "triggerPaddingInline": "sys.layout.container.md",
+    "triggerLabelTypo": "sys.typo.body.sm",
+    "triggerLabelWeight": "sys.typo.label.md.weight",
+    "triggerLabelColor": "sys.color.onSurface",
+    "chevronSize": "sys.icon.md",
+    "chevronColor": "sys.color.onSurfaceVariant",
+    "chevronGap": "sys.layout.inline.md",
+    "chevronRotationDuration": "120ms",
+    "chevronRotationTiming": "ease-out",
+    "contentPaddingBlock": "sys.layout.container.xs",
+    "contentPaddingInline": "sys.layout.container.md",
+    "contentBodyTypo": "sys.typo.body.sm",
+    "contentBodyColor": "sys.color.onSurfaceVariant",
+    "dividerWidth": "sys.borderWidth.hairline",
+    "dividerColor": "sys.color.outlineVariant"
+  },
+  "appearances": {
+    "default": {
+      "background": "transparent",
+      "note": "The only appearance — Accordion paints no fill of its own. The host surface tone reads through every row. Reach for a wrapping [Section](../section/section.md) when the accordion needs its own labelled region."
+    }
+  },
+  "states": {
+    "default": { "overlay": null },
+    "hovered": {
+      "overlay": { "color": "label", "opacity": "sys.state.hover" }
+    },
+    "pressed": {
+      "overlay": { "color": "label", "opacity": "sys.state.pressed" }
+    },
+    "disabled": {
+      "containerOpacity": "sys.state.disabled",
+      "pointerEvents": "none"
+    }
+  },
+  "focusIndicator": {
+    "description": "Keyboard-focus visual painted as an inward 3-layer ring inside the trigger's footprint. Composes over whichever lifecycle state the trigger is in.",
+    "composition": "inward",
+    "compositionReason": "Items tile flush with only a hairline `outlineVariant` divider between them; an outward ring would overlap the divider and the neighbouring row.",
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset",
+      "implementation": "inset box-shadow on the trigger's `::before` overlay."
+    },
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  },
+  "behavior": {
+    "clickTarget": "Whole trigger header is the click target. The chevron is decorative — never a separate hit target.",
+    "keyboardActivation": "Space and Enter both toggle the item when the trigger holds focus. Arrow up/down moves focus between triggers.",
+    "single": "In `type='single'` mode, opening an item closes the previously open one. With `collapsible={true}` (default), clicking the open item closes it too — leaving zero open items.",
+    "multiple": "In `type='multiple'` mode, each trigger toggles its own item independently. `value` is a string array.",
+    "wrapNotTruncate": "Trigger label wraps onto a second line when long; the row grows. Truncation would hide the affordance from being scannable.",
+    "chevronRotation": "120ms `ease-out` transform on the chevron's rotation. Under `prefers-reduced-motion: reduce` the rotation snaps instantly."
+  },
+  "forbidden": [
+    "item rendered as its own outlined rounded surface — Accordion tiles items flush with a hairline divider; outlined-card stacks are NavCardGroup, not an accordion",
+    "chevron replaced with a plus / minus glyph — the family uses the rotating chevron contract; alt glyphs read as a different affordance (an add action, a remove action)",
+    "content body painted with a chromatic fill (primaryContainer, etc.) — the body inherits the host surface tone; chromatic emphasis on an accordion body reads as a Banner aside, not a content section",
+    "destructive commit fired inline inside the content body without a Button wrapper — destructive commits open a Dialog / BottomSheet, never fire from a raw content link"
+  ]
+}

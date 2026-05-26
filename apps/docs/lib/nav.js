@@ -173,6 +173,11 @@ export const NAV = [
        component or sub. */
     items: [
       {
+        href: '/components/accordion',
+        label: 'Accordion',
+        wip: true,
+      },
+      {
         href: '/components/badge',
         label: 'Badge',
       },
@@ -264,6 +269,16 @@ export const NAV = [
           { href: '/components/section/post-carousel', label: 'Post carousel' },
           { href: '/components/section/profile-carousel', label: 'Profile carousel' },
         ],
+      },
+      {
+        href: '/components/skeleton',
+        label: 'Skeleton',
+        wip: true,
+      },
+      {
+        href: '/components/switch',
+        label: 'Switch',
+        wip: true,
       },
       {
         href: '/components/tab-bar',

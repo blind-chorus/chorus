@@ -4202,3 +4202,306 @@ span.chorus-chip {
   transform: rotate(45deg);
 }
 
+/* ============================================================
+   Skeleton — tonal loading placeholder with opacity pulse
+============================================================ */
+/* `surfaceContainerHighest` block painted with a slow opacity pulse
+   (0.5 → 1 → 0.5, 1.6s `ease-in-out`). Three shapes select the default
+   footprint and corner radius. The pulse animates `opacity` only — no
+   gradient sweep — so the placeholder reads as anonymous chrome and
+   degrades cleanly under `prefers-reduced-motion: reduce`. */
+@keyframes chorus-skeleton-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.chorus-skeleton {
+  display: block;
+  background: var(--sys-color-surfaceContainerHighest);
+  animation: chorus-skeleton-pulse 1.6s ease-in-out infinite;
+}
+
+.chorus-skeleton--text {
+  width: 100%;
+  height: 16px;
+  border-radius: var(--sys-radius-xs);
+}
+
+.chorus-skeleton--block {
+  width: 100%;
+  height: 80px;
+  border-radius: var(--sys-radius-xs);
+}
+
+.chorus-skeleton--circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+}
+
+.chorus-skeleton-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-xs);
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chorus-skeleton {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* ============================================================
+   Switch — binary on/off pill with translating thumb
+============================================================ */
+/* 52 × 32 pill track + 28 × 28 thumb. Off paints surface-tone track
+   with a hairline outline; on paints `primary` track with no outline.
+   Thumb translates 20px between the two ends. Whole track is the click
+   target — the thumb is decorative. Outward focus ring matches Switch's
+   "stands inline with whitespace around it" placement; the rest stroke
+   stays a no-layout inset box-shadow. */
+.chorus-switch {
+  --switch-track-bg: var(--sys-color-surfaceContainerHighest);
+  --switch-track-outline: var(--sys-color-outlineVariant);
+  --switch-thumb-bg: var(--sys-color-onSurfaceVariant);
+  --switch-thumb-offset: 0px;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 52px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 9999px;
+  background: var(--switch-track-bg);
+  /* Hairline rest stroke as an inset box-shadow so the off-track reads
+     as a discrete affordance against a quiet host without paying any
+     box-model space for the stroke. */
+  box-shadow: inset 0 0 0 var(--sys-borderWidth-hairline) var(--switch-track-outline);
+  cursor: pointer;
+  isolation: isolate;
+  transition:
+    background 120ms ease-out,
+    box-shadow 120ms ease-out;
+  flex: 0 0 auto;
+}
+
+.chorus-switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: var(--switch-thumb-bg);
+  transform: translateX(var(--switch-thumb-offset));
+  transition:
+    background 120ms ease-out,
+    transform 120ms ease-out;
+}
+
+/* On — `primary` track, `onPrimary` thumb, outline disappears so the
+   filled track reads as one solid block. Thumb translates to the
+   trailing end (52 - 28 - 2*2 = 20). */
+.chorus-switch[data-state='on'] {
+  --switch-track-bg: var(--sys-color-primary);
+  --switch-track-outline: transparent;
+  --switch-thumb-bg: var(--sys-color-onPrimary);
+  --switch-thumb-offset: 20px;
+}
+
+.chorus-switch:hover {
+  background: color-mix(
+    in srgb,
+    var(--sys-color-onSurface) calc(var(--sys-state-hover) * 100%),
+    var(--switch-track-bg)
+  );
+}
+
+.chorus-switch:active,
+.chorus-switch[data-force-state='pressed'] {
+  background: color-mix(
+    in srgb,
+    var(--sys-color-onSurface) calc(var(--sys-state-pressed) * 100%),
+    var(--switch-track-bg)
+  );
+}
+
+/* Outward focus ring on a dedicated `::after` overlay so the rest
+   stroke (inset box-shadow on the track itself) and the focus ring
+   don't fight. */
+.chorus-switch::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: none;
+  transition: box-shadow 120ms ease;
+}
+
+.chorus-switch:focus-visible {
+  outline: none;
+}
+
+.chorus-switch:focus-visible::after,
+.chorus-switch[data-force-state='focused']::after {
+  box-shadow:
+    0 0 0 var(--sys-borderWidth-thin) var(--sys-color-focus),
+    0 0 0 calc(var(--sys-borderWidth-thin) + var(--sys-borderWidth-hairline)) var(--sys-color-focusInset);
+}
+
+.chorus-switch:disabled,
+.chorus-switch[data-disabled='true'] {
+  opacity: var(--sys-state-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Accordion — stack of expandable rows with rotating chevron
+============================================================ */
+/* Rows tile flush with a hairline `outlineVariant` divider painted as
+   the trigger's bottom inset box-shadow (no `border:` — composes
+   cleanly with the inward focus ring). The chevron rotates 180° on
+   expand; inward focus ring matches list/nav's "flush row, hairline
+   divider" placement. */
+.chorus-accordion {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.chorus-accordion__item {
+  /* Hairline divider on every row except the last. Painted as a bottom
+     inset box-shadow so the row never pays box-model space for the
+     stroke. */
+  box-shadow: inset 0 calc(-1 * var(--sys-borderWidth-hairline)) 0 0 var(--sys-color-outlineVariant);
+}
+
+.chorus-accordion__item:last-child {
+  box-shadow: none;
+}
+
+.chorus-accordion__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sys-layout-inline-md);
+  width: 100%;
+  min-height: 48px;
+  padding: var(--sys-layout-container-xs) var(--sys-layout-container-md);
+  border: 0;
+  background: transparent;
+  color: var(--sys-color-onSurface);
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  transition: background 120ms ease;
+}
+
+.chorus-accordion__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
+  font-weight: var(--sys-typo-label-md-weight);
+  letter-spacing: var(--sys-typo-body-sm-tracking);
+  color: var(--sys-color-onSurface);
+}
+
+.chorus-accordion__chevron {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--sys-icon-md);
+  height: var(--sys-icon-md);
+  color: var(--sys-color-onSurfaceVariant);
+  transition: transform 120ms ease-out;
+}
+
+.chorus-accordion__item[data-state='open'] .chorus-accordion__chevron {
+  transform: rotate(180deg);
+}
+
+.chorus-accordion__trigger:hover {
+  background: color-mix(
+    in srgb,
+    var(--sys-color-onSurface) calc(var(--sys-state-hover) * 100%),
+    transparent
+  );
+}
+
+.chorus-accordion__trigger:active,
+.chorus-accordion__trigger[data-force-state='pressed'] {
+  background: color-mix(
+    in srgb,
+    var(--sys-color-onSurface) calc(var(--sys-state-pressed) * 100%),
+    transparent
+  );
+}
+
+/* Inward focus ring — matches list/nav. Painted on a `::before`
+   overlay so it sits inside the trigger's footprint and never escapes
+   into a neighbour row. */
+.chorus-accordion__trigger::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: none;
+  transition: box-shadow 120ms ease;
+}
+
+.chorus-accordion__trigger:focus-visible {
+  outline: none;
+}
+
+.chorus-accordion__trigger:focus-visible::before,
+.chorus-accordion__trigger[data-force-state='focused']::before {
+  box-shadow:
+    inset 0 0 0 var(--sys-borderWidth-thin) var(--sys-color-focus),
+    inset 0 0 0 calc(var(--sys-borderWidth-thin) + var(--sys-borderWidth-hairline)) var(--sys-color-focusInset);
+}
+
+.chorus-accordion__trigger:disabled,
+.chorus-accordion__item[data-disabled='true'] {
+  opacity: var(--sys-state-disabled);
+  cursor: not-allowed;
+}
+
+.chorus-accordion__item[data-disabled='true'] .chorus-accordion__trigger {
+  pointer-events: none;
+}
+
+.chorus-accordion__content {
+  padding: var(--sys-layout-container-xs) var(--sys-layout-container-md);
+}
+
+.chorus-accordion__content[hidden] {
+  display: none;
+}
+
+.chorus-accordion__content-inner {
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
+  font-weight: var(--sys-typo-body-sm-weight);
+  letter-spacing: var(--sys-typo-body-sm-tracking);
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chorus-accordion__chevron,
+  .chorus-switch,
+  .chorus-switch__thumb {
+    transition: none;
+  }
+}
+

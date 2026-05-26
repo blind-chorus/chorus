@@ -1,0 +1,24 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "skeleton",
+  "name": "Skeleton",
+  "description": "Loading placeholder — a tonal block on `surfaceContainerHighest` with a slow opacity pulse that previews the footprint of content still being fetched. Three shapes share one anatomy and diverge only on the default footprint and corner radius: `text` (16px-line block, full-width default), `block` (rectangular fill — image, card body), `circle` (avatar-sized round). Compose multiple Skeletons inside `SkeletonGroup` to mirror the rhythm of a list row, feed post, or card. Single-spec family.",
+  "useCases": [
+    "list row loading state",
+    "feed post loading state",
+    "card / image-area placeholder",
+    "avatar placeholder",
+    "deferred-fetch chrome before the data resolves"
+  ],
+  "visualReuse": "open",
+  "layoutInset": "inline",
+  "spec": "skeleton.md",
+  "subcomponents": [
+    {
+      "slug": "skeleton",
+      "spec": "skeleton.spec.json",
+      "md": "skeleton.md",
+      "default": true
+    }
+  ]
+}

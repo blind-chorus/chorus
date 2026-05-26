@@ -45,10 +45,11 @@ When in doubt: open families are recipes, locked families are rules.
 | avatar-anchored rows (channels, DMs)         | `list / thumbnail`       |
 | drill-in rows with trailing chevron          | `list / nav`             |
 | standalone drill-in card (single row)        | `nav-card`               |
+| expandable titled sections (FAQ, T&C)        | `accordion`              |
 | authored content stream (posts, comments)    | `feed / feed`            |
 | follow suggestions block                     | `suggestion-list`           |
 
-**Disambiguate**: `feed` = authored content (author, body, footer). `list` = menus/settings/pickers (stacked rows, hairline divider chrome). `nav-card` = a SINGLE drill-in row as its own bounded outlined card — reach for it when one drill-in needs to read as its own affordance, not as one entry in a stack. `suggestion-list` = labelled swipeable block of follow-suggestions (channels, people, companies, topics — same anatomy).
+**Disambiguate**: `feed` = authored content (author, body, footer). `list` = menus/settings/pickers (stacked rows, hairline divider chrome). `nav-card` = a SINGLE drill-in row as its own bounded outlined card — reach for it when one drill-in needs to read as its own affordance, not as one entry in a stack. `accordion` = stacked rows that EXPAND in place rather than drill-in — reach for it when each row holds short content the user opens to read (FAQ, T&C, expandable filter group). `suggestion-list` = labelled swipeable block of follow-suggestions (channels, people, companies, topics — same anatomy).
 
 ## Horizontal content surfaces
 
@@ -101,6 +102,17 @@ Each row resolves to a typed React component — `<FormField variant="search" pl
 | informational / dismissable metadata pill    | `chip / tag`      |
 | numeric unread / update count                | `badge`           |
 | inline image (avatar, list leading, channel) | `thumbnail`       |
+| instant-commit on/off toggle                 | `switch`          |
+
+**Disambiguate**: `switch` = single binary on/off that commits the moment it flips (notifications on/off, privacy toggle). For multi-option pickers use `list / radio`; for actions that need confirmation use `button` + `dialog`; for "selected" facet state in a chip row use `chip / filter`.
+
+## Loading & placeholder
+
+| Intent                                                | Family + sub          |
+| ----------------------------------------------------- | --------------------- |
+| in-flight content placeholder (mirrors content shape) | `skeleton`            |
+
+**Disambiguate**: `skeleton` = an *in-flight* tonal block that previews where content will land. Reach for it when data is loading and the host would otherwise paint as an empty surface. NOT for empty states (no data yet) — those use an illustration + body copy, not a pulsing placeholder.
 
 ## Disambiguation cheat sheet
 
