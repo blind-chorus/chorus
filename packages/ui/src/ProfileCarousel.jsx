@@ -5,6 +5,7 @@ import { Button } from './Button.jsx';
 import { Thumbnail } from './Thumbnail.jsx';
 import { joinClasses } from './spec-utils.js';
 import { PulseFillIcon, StarFillIcon, ThumbUpFillIcon } from './icons/index.js';
+import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 
 /* ProfileCarousel — horizontally-scrolling rail of profile-style cards
    (channels / user profiles / company channels). Sibling to PostCarousel:
@@ -36,6 +37,8 @@ export function ProfileCarousel({
   const cards = items.slice(0, MAX_CARDS);
   const pagerRef = useRef(null);
   const cardRefs = useRef([]);
+  const rootRef = useRef(null);
+  useFullBleedGuard(rootRef, 'ProfileCarousel');
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
@@ -60,6 +63,7 @@ export function ProfileCarousel({
 
   return (
     <div
+      ref={rootRef}
       className={joinClasses('chorus-profile-carousel', className)}
       aria-label={ariaLabel}
       {...rest}

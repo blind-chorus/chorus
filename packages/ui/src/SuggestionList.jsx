@@ -1,6 +1,10 @@
+'use client';
+
+import { useRef } from 'react';
 import { Thumbnail } from './Thumbnail.jsx';
 import { Button } from './Button.jsx';
 import { joinClasses } from './spec-utils.js';
+import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 
 /* SuggestionList — a vertically-stacked block of follow suggestions
    rendered as a swipeable pager. Each page shows exactly three rows
@@ -41,8 +45,11 @@ export function SuggestionList({
   ...rest
 }) {
   const pages = chunk(items, ROWS_PER_PAGE);
+  const ref = useRef(null);
+  useFullBleedGuard(ref, 'SuggestionList');
   return (
     <section
+      ref={ref}
       className={joinClasses('chorus-suggestion-list', className)}
       aria-label={ariaLabel ?? label}
       {...rest}

@@ -6,6 +6,8 @@ Editorial collections of popular posts ride alongside Feed cards via the [Sectio
 
 **Reach for this when** the column is an open-ended stream of authored items (posts, comments, discussion threads, timeline entries) or a sponsored placement that needs to tile cleanly into that stream. **Skip when** the rows are same-kind chrome with no author voice (use [List](../list/list.md)), the collection is a finite curated set rendered horizontally (use [Section · Post Carousel](../section/post-carousel.md)), or the entries are channel / profile cards (use [Section · Profile Carousel](../section/profile-carousel.md) or [SuggestionList](../suggestion-list/suggestion-list.md)). Pick the sub by the commit surface: authored content with engagement row → [Post](./post.md); sponsored placement with hero + CTA slab → [Ad](./ad.md).
 
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. Both subs pay their own internal `sys.layout.container.md` (16px) inline padding via the card chrome; do **not** wrap the Feed in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the feed-item author block lands at a different inset than the section headings and list rows above / below it. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Cross-sub contract
 
 The two subs share a column — the contract below holds across the family so authored posts and sponsored placements tile cleanly in the same stream.

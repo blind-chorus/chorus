@@ -121,6 +121,6 @@ Same recipe as [Text Button](./text.md#states): rest, hovered, pressed, disabled
 
 Standard `:focus-visible` ring. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
 
-## ARIA
+## Accessibility
 
 Toggle button — the component sets `aria-pressed={checked}` automatically. Do NOT model as a checkbox input (no associated form value, no name/value pair). For a form-bound checkbox, reach for `<input type="checkbox">` (out-of-system at present).

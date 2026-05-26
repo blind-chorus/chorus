@@ -4,6 +4,7 @@ import { useLayoutEffect, useRef } from 'react';
 import spec from '../../../../schema/components/tabs/underline.spec.json';
 import { useTabsContext } from './TabsContext.js';
 import { useScrollOverflow } from './useScrollOverflow.js';
+import { useFullBleedGuard } from './useFullBleedGuard.js';
 import { tokenToCss, typoStyles, joinClasses } from '../spec-utils.js';
 
 /* Drive the single sliding indicator element. The indicator is a
@@ -104,6 +105,7 @@ export function TabsUnderline({ className, style, children, ...rest }) {
   useAdaptiveFit(ref);
   useScrollOverflow(ref);
   useSlidingIndicator(ref, indicatorRef, value);
+  useFullBleedGuard(ref, 'Tabs');
 
   const s = spec.sizing;
   const composedStyle = {

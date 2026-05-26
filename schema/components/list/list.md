@@ -4,6 +4,8 @@ A vertically-stacked sequence of rows for menus, settings panels, picker sheets,
 
 **Reach for this when** the rows are same-kind chrome — settings entries, menu options, single-select picker rows, drill-in navigation, directory rows. **Skip when** the rows are authored content with author + body + footer (use [Feed](../feed/feed.md)) or a horizontal collection of curated cards (use [Section](../section/section.md)). Pick the sub by the leading slot: no leading → [Text](./text.md); single-select radio → [Radio](./radio.md); 40px avatar → [Thumbnail](./thumbnail.md); trailing chevron → [Nav](./nav.md).
 
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. Each row pays its own `12px block / 16px inline` padding via `layout.container.*`; do **not** wrap the List in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the row leading edge (radio glyph, thumbnail, label start) lands at a different inset than the section headings and feed-item author blocks around it. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — established precedent in `bottom-sheet/overflow` and `bottom-sheet/nested-step`. See [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Cross-sub contract
 
 - **Container.** Vertical stack, transparent fill (inherits the parent surface). Rows separated by a 1px `outlineVariant` divider. No outer radius — corner shape belongs to the wrapping container.

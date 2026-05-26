@@ -96,9 +96,11 @@ Screen-recipe validator: [`schema/lint/validate-screen.mjs`](schema/lint/validat
 npm run lint                 # everything below
 npm run lint:screens         # validate every recipe in manifest.json#/screens
 npm run lint:tokens          # token usage + hex collisions (informational by default)
+npm run lint:layout-inset    # family catalog + per-recipe layoutInset audit
 npm run test:screens         # screen validator negative-case suite
-node schema/lint/validate-screen.mjs settings    # one recipe by slug
-node schema/lint/validate-tokens.mjs --strict    # fail on cross-family hex collisions
+node schema/lint/validate-screen.mjs settings        # one recipe by slug
+node schema/lint/validate-tokens.mjs --strict        # fail on cross-family hex collisions
+node schema/lint/validate-layout-inset.mjs settings  # one recipe by slug
 ```
 
 Checked:
@@ -114,9 +116,14 @@ Checked:
 6. **Token usage.** Every `sys.*`/`ref.*`/`comp.*` in `schema/components/*.spec.json` and `packages/ui/src/**/*.jsx` resolves in `resolved.<theme>.json`. Hard fail.
 7. **Hex collisions.** Same-theme `sys.color.*` keys resolving to the same hex are reported. Cross-family collisions print informationally; `--strict` fails.
 
+**Layout inset** ([`validate-layout-inset.mjs`](schema/lint/validate-layout-inset.mjs)):
+8. **Catalog audit.** Every family in `manifest.json` declares `layoutInset` (`full-bleed` / `bounded-surface` / `inline`). Hard fail.
+9. **Inline atom at page level.** A recipe region whose family is `inline` triggers a warning unless the `note` names an intended group composition (`bar`, `row`, `rail`, `group`, `stack`, `toolbar`, `pinned`, `full-width`) or the region is `fab` (carve-out). Informational — does not fail the run.
+10. **Bounded-surface hosting full-bleed child.** A `bounded-surface` region (dialog, bottom-sheet, toast, tooltip) whose `props` / `items` nest a `full-bleed` family must mention the negative-margin opt-out idiom in its `note` / `rules` (keywords: `marginInline`, `margin-inline`, `negative margin`, `opt-out`, `bleed`) so the rendering agent breaks the surface's padding correctly. Informational.
+
 Not yet automated:
 
-8. **Visual regression.** Composition renders under both `resolved.light` and `resolved.dark`. Use `npm run dev` for spot-checks.
+11. **Visual regression.** Composition renders under both `resolved.light` and `resolved.dark`. Use `npm run dev` for spot-checks.
 
 ---
 

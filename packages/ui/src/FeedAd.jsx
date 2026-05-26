@@ -1,9 +1,11 @@
 'use client';
 
+import { useRef } from 'react';
 import { Button } from './Button.jsx';
 import { Thumbnail } from './Thumbnail.jsx';
 import { joinClasses } from './spec-utils.js';
 import { XIcon } from './icons/index.js';
+import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 
 /* FeedAd — the `ad` sub-component of the Feed family. In-feed sponsored
    placement that rides the same column as the default Feed card. The
@@ -62,9 +64,11 @@ export function FeedAd({
      surface. Only the fill and border swap; every other Standard Button
      token binding stays intact. */
   const ctaStyle = cta?.color ? { background: cta.color, borderColor: cta.color } : undefined;
+  const ref = useRef(null);
+  useFullBleedGuard(ref, 'FeedAd');
 
   return (
-    <article className={joinClasses('chorus-feed-ad', className)} {...rest}>
+    <article ref={ref} className={joinClasses('chorus-feed-ad', className)} {...rest}>
       <BrandRow brand={brand} onDismiss={onDismiss} dismissLabel={dismissLabel} />
 
       {(title || body) ? (

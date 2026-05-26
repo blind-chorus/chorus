@@ -9,6 +9,8 @@ Both subs share the same pager geometry — a `ref.space.500` (40px) trailing pe
 
 **Reach for this when** a finite, curated set of cards belongs together under a labelled heading and reads as a horizontal swipeable rail — "Popular posts this week", "Recommended channels", "Hot companies right now". **Skip when** the collection is an open-ended scrolling stream of authored items (use [Feed](../feed/feed.md)), a vertical list of same-kind rows (use [List](../list/list.md)), or a channel directory that needs the channel-specific row chrome (use [SuggestionList](../suggestion-list/suggestion-list.md)). Pick the sub by the card shape: post cards → [Post carousel](./post-carousel.md); profile / channel / company cards → [Profile carousel](./profile-carousel.md).
 
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. The Section owns its own header padding and the carousel pager bleeds to the trailing edge via negative margin; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the section label and first carousel card land at different insets than the headings, list rows, and feed cards around them. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Cross-sub contract
 
 ### Header anatomy

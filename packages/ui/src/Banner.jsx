@@ -1,4 +1,8 @@
+'use client';
+
+import { useRef } from 'react';
 import { joinClasses } from './spec-utils.js';
+import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 
 /* Banner — a self-contained block that explains a feature, capability,
    or piece of content sitting *within* the body flow but visually
@@ -15,8 +19,11 @@ export function Banner({
   className,
   ...rest
 }) {
+  const ref = useRef(null);
+  useFullBleedGuard(ref, 'Banner');
   return (
     <div
+      ref={ref}
       className={joinClasses('chorus-banner', `chorus-banner--${appearance}`, className)}
       role="note"
       {...rest}

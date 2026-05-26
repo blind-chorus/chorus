@@ -2,6 +2,8 @@
 
 A circular image — the unit used to identify a channel, a feed author, or any small-rung image inside a denser composition. Two optional badges ride on the container without changing its footprint: an **update dot** at the top-right, and a **logo badge** at the bottom-right. A pure visual primitive — it carries no label of its own.
 
+**Layout inset.** `inline` — slot atom. No page-rail responsibility; the surrounding container places it. Lives inside another component's leading slot (List row leading, Feed author block, AvatarRail item, SuggestionList row, NavigationBar leading) — never as a sibling of `full-bleed` page rows. The host component picks the rung (16 / 20 / 24 / 32 / 40 / 48) and positions the Thumbnail within its own padding.
+
 ## Default
 
 The base form — image only, no badges. Thumbnail is an **image-first** primitive: the `src` prop expects a real image asset URL (PNG / JPG / WebP / SVG), and the slot is meant to resolve to an `<img>`, not to a glyph or text. When the composition is a mock-up and no real channel / author image exists, fill `src` with the bundled placeholder asset `/placeholder.png` rather than omitting it — the empty-surface fallback is for runtime load failures, not for design-time scaffolding.

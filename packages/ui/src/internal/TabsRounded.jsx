@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import spec from '../../../../schema/components/tabs/rounded.spec.json';
 import { useScrollOverflow } from './useScrollOverflow.js';
+import { useFullBleedGuard } from './useFullBleedGuard.js';
 import { tokenToCss, joinClasses } from '../spec-utils.js';
 
 /* Rounded Tabs container. Geometry is identical to Segmented (delegates
@@ -18,6 +19,7 @@ import { tokenToCss, joinClasses } from '../spec-utils.js';
 export function TabsRounded({ className, style, children, ...rest }) {
   const ref = useRef(null);
   useScrollOverflow(ref);
+  useFullBleedGuard(ref, 'Tabs');
   const composedStyle = {
     '--tabs-container-padding-block': tokenToCss(spec.sizing.containerPaddingBlock),
     '--tabs-container-padding-inline': tokenToCss(spec.sizing.containerPaddingInline),

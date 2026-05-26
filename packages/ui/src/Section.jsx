@@ -1,5 +1,9 @@
+'use client';
+
+import { useRef } from 'react';
 import { Button } from './Button.jsx';
 import { joinClasses } from './spec-utils.js';
+import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 
 /* Section — a labelled page region. Wraps a section heading and an
    optional trailing 'See all' link above a free-form body slot. The
@@ -18,8 +22,11 @@ export function Section({
   'aria-label': ariaLabel,
   ...rest
 }) {
+  const ref = useRef(null);
+  useFullBleedGuard(ref, 'Section');
   return (
     <section
+      ref={ref}
       className={joinClasses('chorus-section', className)}
       aria-label={ariaLabel ?? label}
       {...rest}

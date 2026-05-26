@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import spec from '../../../../schema/components/tabs/segmented.spec.json';
 import { useScrollOverflow } from './useScrollOverflow.js';
+import { useFullBleedGuard } from './useFullBleedGuard.js';
 import { tokenToCss, joinClasses } from '../spec-utils.js';
 
 /* Segmented Tabs container. Visual chrome of the segments themselves is
@@ -20,6 +21,7 @@ import { tokenToCss, joinClasses } from '../spec-utils.js';
 export function TabsSegmented({ className, style, children, ...rest }) {
   const ref = useRef(null);
   useScrollOverflow(ref);
+  useFullBleedGuard(ref, 'Tabs');
   const s = spec.sizing;
   const composedStyle = {
     '--tabs-container-padding-block': tokenToCss(s.containerPaddingBlock),

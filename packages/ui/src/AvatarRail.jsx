@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { Button } from './Button.jsx';
 import { Thumbnail } from './Thumbnail.jsx';
 import { useScrollOverflow } from './internal/useScrollOverflow.js';
+import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 import { joinClasses } from './spec-utils.js';
 
 /* AvatarRail — a horizontal strip of avatar entry points. Each item is
@@ -34,8 +35,11 @@ export function AvatarRail({
      only when content actually lives past the visible edge. */
   const trackRef = useRef(null);
   useScrollOverflow(trackRef);
+  const rootRef = useRef(null);
+  useFullBleedGuard(rootRef, 'AvatarRail');
   return (
     <nav
+      ref={rootRef}
       className={joinClasses('chorus-avatar-rail', className)}
       aria-label={ariaLabel ?? 'Entities'}
       {...rest}

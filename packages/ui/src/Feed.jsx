@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Button } from './Button.jsx';
 import { Thumbnail } from './Thumbnail.jsx';
 import { joinClasses } from './spec-utils.js';
+import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 import {
   CompensationFillIcon,
   HeartFillIcon,
@@ -175,8 +176,10 @@ export function Feed({
   className,
   ...rest
 }) {
+  const ref = useRef(null);
+  useFullBleedGuard(ref, 'Feed');
   return (
-    <article className={joinClasses('chorus-feed', className)} {...rest}>
+    <article ref={ref} className={joinClasses('chorus-feed', className)} {...rest}>
       {flag ? <div className="chorus-feed__flag">{flag}</div> : null}
 
       <header className="chorus-feed__header">

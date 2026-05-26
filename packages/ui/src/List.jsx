@@ -4,6 +4,7 @@ import { useCallback, useId, useRef, useState } from 'react';
 import { ChevronDownIcon, RadioIcon, RadioFillIcon } from './icons/index.js';
 import { Thumbnail } from './Thumbnail.jsx';
 import { joinClasses } from './spec-utils.js';
+import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 
 /* List — vertical sequence of rows for menus, settings panels, picker
    sheets. One anatomy (row: leading + label column + trailing) drives
@@ -38,7 +39,9 @@ export function List({
   const role = isRadio ? 'radiogroup' : 'list';
   const groupName = useId();
   const rowsRef = useRef([]);
+  const containerRef = useRef(null);
   const [focusIndex, setFocusIndex] = useState(0);
+  useFullBleedGuard(containerRef, 'List');
 
   const onRowKey = useCallback(
     (e, idx, item) => {
@@ -64,6 +67,7 @@ export function List({
 
   return (
     <div
+      ref={containerRef}
       className={joinClasses('chorus-list', `chorus-list--${variant}`, className)}
       role={role}
       aria-label={ariaLabel}

@@ -5,6 +5,7 @@ import { Button } from './Button.jsx';
 import { Thumbnail } from './Thumbnail.jsx';
 import { joinClasses } from './spec-utils.js';
 import { VerifiedFillIcon, EyeIcon } from './icons/index.js';
+import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 
 /* PostCarousel — the `carousel` sub-component of the Feed family. A
    horizontally-scrolling pager of up to 5 compact post cards. The
@@ -27,6 +28,8 @@ export function PostCarousel({
   const cards = items.slice(0, MAX_CARDS);
   const pagerRef = useRef(null);
   const cardRefs = useRef([]);
+  const rootRef = useRef(null);
+  useFullBleedGuard(rootRef, 'PostCarousel');
   const [activeIndex, setActiveIndex] = useState(0);
 
   /* Pagination dots are decorative; the active dot reflects the current
@@ -54,6 +57,7 @@ export function PostCarousel({
 
   return (
     <div
+      ref={rootRef}
       className={joinClasses('chorus-post-carousel', className)}
       aria-label={ariaLabel}
       {...rest}

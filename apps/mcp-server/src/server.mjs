@@ -34,6 +34,17 @@
 //     validate_screen(recipe)  → run the screen validator on an arbitrary
 //                                recipe object (in-memory; does not require
 //                                the recipe to be saved to disk)
+//     validate_layout_inset(recipe)
+//                              → run the layoutInset validator on a recipe.
+//                                Surfaces inline-at-page-level + bounded-
+//                                surface hosting full-bleed warnings.
+//     check_layout_inset(snippet)
+//                              → heuristic scan of a JSX / HTML snippet for
+//                                full-bleed Chorus components wrapped in a
+//                                padding-inline parent (className="px-*",
+//                                Tailwind p[xs]-N, style={{ padding… }}).
+//                                Self-check hook for agents before they
+//                                commit a compose step.
 //
 // Run via stdio:
 //     node apps/mcp-server/src/server.mjs
@@ -51,6 +62,10 @@ import {
   loadSpec,
   validateRecipe,
 } from "../../../schema/lint/validate-screen.mjs";
+import {
+  buildLayoutInsetMap,
+  validateRecipe as validateLayoutInsetRecipe,
+} from "../../../schema/lint/validate-layout-inset.mjs";
 import { readJson } from "../../../schema/lint/utils.mjs";
 
 const SELF = fileURLToPath(import.meta.url);
@@ -259,6 +274,40 @@ const TOOLS = [
       additionalProperties: false,
     },
   },
+  {
+    name: "validate_layout_inset",
+    description:
+      "Run the layoutInset validator on a screen-recipe object. Catalog audit (every family declares layoutInset) + per-region warnings: inline atom at page level, bounded-surface hosting full-bleed nested binding without the negative-margin opt-out hint. Mirrors `npm run lint:layout-inset`. Use this before authoring a new screen.json to confirm region role / family pairing.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        recipe: {
+          type: "object",
+          description:
+            "Screen recipe in the shape of schema/screens/screen.schema.json. Minimally: { slug, name, description, regions }.",
+        },
+      },
+      required: ["recipe"],
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "check_layout_inset",
+    description:
+      "Heuristic scan of a JSX / HTML snippet for layoutInset=full-bleed Chorus components (List, Feed, Section, NavigationBar, TabBar, Tabs, AvatarRail, SuggestionList, Banner, FeedAd, PostCarousel, ProfileCarousel) wrapped in a padding-inline parent — Tailwind `px-N` / `p-N`, inline `style={{ padding… }}`, `paddingInline:`, or `padding-inline:` CSS. Reports each hit with line number, the offending wrapper, and the wrapped Chorus component name. Self-check hook agents can call BEFORE committing a compose step — paste the JSX you are about to ship and discard / regenerate when any hit is reported.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        snippet: {
+          type: "string",
+          description:
+            "JSX or HTML source to scan. May include surrounding context; the scanner walks character-by-character looking for full-bleed component openings preceded by an opening parent tag with padding-inline.",
+        },
+      },
+      required: ["snippet"],
+      additionalProperties: false,
+    },
+  },
 ];
 
 // ---- Tool implementations ---------------------------------------------
@@ -457,7 +506,195 @@ const toolHandlers = {
       issues,
     });
   },
+
+  validate_layout_inset({ recipe }) {
+    if (!recipe || typeof recipe !== "object") {
+      return asError("recipe must be an object");
+    }
+    const manifest = loadManifest();
+    const { map, missing } = buildLayoutInsetMap(manifest);
+    const { issues, warnings } = validateLayoutInsetRecipe(recipe, map);
+    return asTextContent({
+      slug: recipe.slug ?? "(unnamed)",
+      ok: issues.length === 0,
+      catalogMissingLayoutInset: missing,
+      issueCount: issues.length,
+      issues,
+      warningCount: warnings.length,
+      warnings,
+    });
+  },
+
+  check_layout_inset({ snippet }) {
+    if (typeof snippet !== "string" || snippet.length === 0) {
+      return asError("snippet must be a non-empty string");
+    }
+    return asTextContent(scanSnippetForFullBleedWrappers(snippet));
+  },
 };
+
+// ---- check_layout_inset helper ----------------------------------------
+//
+// Heuristic scanner. Walks the snippet character-by-character — when it
+// hits the opening tag of a known full-bleed Chorus component, it scans
+// BACKWARD through the surrounding text for the nearest enclosing opening
+// element and checks whether that element carries any padding-inline
+// signal: Tailwind `px-N` / `p-N` / `pl-N` / `pr-N`, a `style={{ … }}`
+// block with `padding` / `paddingInline`, or raw CSS `padding-inline:` /
+// `padding-left:` / `padding-right:` in an inline style attribute. Hits
+// outside opening JSX tags (text content, comments, string literals) are
+// ignored by a simple bracket-depth heuristic.
+
+const FULL_BLEED_COMPONENT_NAMES = [
+  "List",
+  "Feed",
+  "FeedAd",
+  "FeedGroup",
+  "Section",
+  "NavigationBar",
+  "TabBar",
+  "Tabs",
+  "AvatarRail",
+  "SuggestionList",
+  "Banner",
+  "PostCarousel",
+  "ProfileCarousel",
+];
+
+const FULL_BLEED_RE = new RegExp(
+  `<(${FULL_BLEED_COMPONENT_NAMES.join("|")})\\b`,
+  "g",
+);
+
+const PARENT_PADDING_SIGNALS = [
+  // Tailwind utility classes — px-N, p-N (any non-zero), pl-N, pr-N, ps-N, pe-N.
+  // Match within a className="…" or className={'…'} attribute.
+  {
+    re: /class(?:Name)?=["'`][^"'`]*\bp[xlrse]?-(?!0\b)\d/i,
+    label: "Tailwind padding utility",
+  },
+  // Inline JSX style object with padding / paddingInline / paddingLeft / paddingRight.
+  {
+    re: /style=\{\{[^}]*\bpadding(?:Inline(?:Start|End)?|Left|Right)?\s*:/i,
+    label: "inline style={{ padding… }}",
+  },
+  // Raw CSS in an inline style="" attribute (HTML form).
+  {
+    re: /style=["'][^"']*\bpadding(?:-inline(?:-start|-end)?|-left|-right)?\s*:[^0]/i,
+    label: "inline style=\"padding…\"",
+  },
+];
+
+function lineOf(snippet, index) {
+  let line = 1;
+  for (let i = 0; i < index && i < snippet.length; i++) {
+    if (snippet[i] === "\n") line += 1;
+  }
+  return line;
+}
+
+// Tokenize all JSX/HTML tags in the snippet into an array of
+// { kind: 'open'|'close'|'self', name, start, end, text } records, in
+// source order. Brace-aware so `style={{ … }}` does not confuse `>`.
+function tokenizeTags(snippet) {
+  const tokens = [];
+  for (let i = 0; i < snippet.length; i++) {
+    if (snippet[i] !== "<") continue;
+    const isCloser = snippet[i + 1] === "/";
+    // Find name
+    let nameStart = isCloser ? i + 2 : i + 1;
+    let nameEnd = nameStart;
+    const nameRe = /[A-Za-z][A-Za-z0-9_:.-]*/y;
+    nameRe.lastIndex = nameStart;
+    const nameMatch = nameRe.exec(snippet);
+    if (!nameMatch || nameMatch.index !== nameStart) continue;
+    nameEnd = nameStart + nameMatch[0].length;
+    const name = nameMatch[0];
+    // Find tag close `>`, brace-aware
+    let braceDepth = 0;
+    let close = -1;
+    for (let j = nameEnd; j < snippet.length; j++) {
+      const c = snippet[j];
+      if (c === "{") braceDepth += 1;
+      else if (c === "}") braceDepth -= 1;
+      else if (c === ">" && braceDepth === 0) {
+        close = j;
+        break;
+      }
+    }
+    if (close === -1) continue;
+    const isSelfClosing = snippet[close - 1] === "/";
+    tokens.push({
+      kind: isCloser ? "close" : isSelfClosing ? "self" : "open",
+      name,
+      start: i,
+      end: close,
+      text: snippet.slice(i, close + 1),
+    });
+    i = close;
+  }
+  return tokens;
+}
+
+// Ancestor stack of opening tags enclosing `atIndex`. Walks the token list
+// forward maintaining a stack — push on `open`, pop on `close` matching by
+// name. The stack at the moment we cross `atIndex` is the ancestor chain,
+// outermost first.
+function ancestorsAt(tokens, atIndex) {
+  const stack = [];
+  for (const t of tokens) {
+    if (t.start >= atIndex) break;
+    if (t.kind === "open") stack.push(t);
+    else if (t.kind === "close") {
+      // Pop the most recent open with matching name.
+      for (let i = stack.length - 1; i >= 0; i--) {
+        if (stack[i].name === t.name) {
+          stack.splice(i, 1);
+          break;
+        }
+      }
+    }
+    // self-closing tags do not affect the stack.
+  }
+  return stack;
+}
+
+function scanSnippetForFullBleedWrappers(snippet) {
+  const hits = [];
+  const tokens = tokenizeTags(snippet);
+  for (const match of snippet.matchAll(FULL_BLEED_RE)) {
+    const componentName = match[1];
+    const idx = match.index ?? 0;
+    const ancestors = ancestorsAt(tokens, idx);
+    if (ancestors.length === 0) continue;
+    const parent = ancestors[ancestors.length - 1];
+    const offending = PARENT_PADDING_SIGNALS.find((s) => s.re.test(parent.text));
+    if (!offending) continue;
+    // The page shell IS supposed to pay the gutter once. Only flag this
+    // padding-inline parent when it is itself nested inside another opening
+    // tag (i.e. it is a wrapper, not the outermost shell).
+    if (ancestors.length < 2) continue;
+    hits.push({
+      component: componentName,
+      line: lineOf(snippet, idx),
+      signal: offending.label,
+      parentTag: parent.text.length > 160 ? parent.text.slice(0, 160) + "…" : parent.text,
+      ancestorDepth: ancestors.length,
+      remediation:
+        `<${componentName}> is layoutInset="full-bleed" — must be a direct child of the page shell (or any surface that pays the gutter), no padding-inline wrapper. ` +
+        "Either remove the parent's padding-inline (the page shell pays the gutter once at <main>), or — if the parent is a bounded surface (Card / Dialog / BottomSheet / Sheet) — apply the negative-margin opt-out: " +
+        "marginInline: 'calc(-1 * var(--sys-layout-container-md))', width: 'calc(100% + 2 * var(--sys-layout-container-md))', maxWidth: 'none'. See LOVABLE.md §A.4 + AGENTS.md § Composition rules.",
+    });
+  }
+  return {
+    ok: hits.length === 0,
+    hitCount: hits.length,
+    hits,
+    scannedComponents: FULL_BLEED_COMPONENT_NAMES,
+    note:
+      "Heuristic: flags padding-inline wrappers around full-bleed components when that wrapper is nested inside another opening tag in the snippet (i.e. it is not the outermost element / page shell). The outermost wrapper is treated as the page shell and exempted, since the shell is supposed to pay the gutter once. Snippets that contain only the inner composition (no shell) cannot be distinguished from a shell — include the page shell wrapper for accurate results.",
+  };
+}
 
 // ---- Resource handler --------------------------------------------------
 

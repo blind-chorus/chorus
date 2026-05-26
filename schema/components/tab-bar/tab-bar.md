@@ -2,6 +2,8 @@
 
 The **bottom tab bar** — a horizontal strip pinned to the bottom of the app that exposes top-level destinations (Home / Company / Explore / Jobs / Notifications) in one tap. Each item stacks a 24px glyph above a 10/Regular label; the active item shows the filled companion glyph at `onSurface` while inactive items render the outline at `onSurfaceVariant`. An item may opt into `appearance="primary"` to render a tile-shaped commit affordance — the conventional **Create** entry at the trailing end.
 
+**Layout inset.** `full-bleed` — pinned chrome at the bottom of the page shell, stretching edge-to-edge. The bar owns its own internal padding and tile geometry; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the destination tiles land at a different inset than the page content above them. Sits *outside* the `<main>` that pays `sys.layout.page.*` — TabBar is a sibling of NavigationBar in the page shell skeleton, not a `<main>` child. See [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 The canonical five-destination bar. First item is active.

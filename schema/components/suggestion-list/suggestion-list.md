@@ -2,6 +2,8 @@
 
 A vertically-stacked block of channel recommendations rendered as a swipeable pager. One page shows three channel rows; the next page peeks at the trailing edge to invite the swipe. Each row pairs a 48px [Thumbnail](../thumbnail/thumbnail.md), a stacked text column (name / followers / description), and a trailing [Toggle Button](../button/toggle.md) flipping between "Follow" and "Following".
 
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. The container pays its own `24px block / 16px inline` padding and the pager bleeds out via negative margin to expose the next-page peek; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the section label and row avatars land at a different inset than the headings and list rows around them. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 A two-page list (six channels) with a "See all" action in the header.

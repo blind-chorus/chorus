@@ -4,6 +4,7 @@ import { isValidElement, useState, useRef, useEffect } from 'react';
 import { Button } from './Button.jsx';
 import { ChevronLeftIcon, XCircleFillIcon, MenuIcon } from './icons/index.js';
 import { joinClasses } from './spec-utils.js';
+import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 
 /* NavigationBar — the top app bar. Two sub-flavors share one component
    (`variant="home" | "page"`), each rendering a single horizontal strip
@@ -81,9 +82,12 @@ export function NavigationBar({
   className,
   ...rest
 }) {
+  const ref = useRef(null);
+  useFullBleedGuard(ref, 'NavigationBar');
   if (variant === 'search') {
     return (
       <SearchBar
+        forwardRef={ref}
         value={value}
         defaultValue={defaultValue}
         placeholder={placeholder ?? 'Search by keyword'}
@@ -109,6 +113,7 @@ export function NavigationBar({
     const trailingEl = renderSlot(trailing);
     return (
       <header
+        ref={ref}
         className={joinClasses('chorus-navigation-bar', 'chorus-navigation-bar--page', className)}
         {...rest}
       >
@@ -123,6 +128,7 @@ export function NavigationBar({
   const actions = Array.isArray(trailingActions) ? trailingActions : [];
   return (
     <header
+      ref={ref}
       className={joinClasses('chorus-navigation-bar', 'chorus-navigation-bar--home', className)}
       {...rest}
     >
@@ -150,6 +156,7 @@ export function NavigationBar({
    to fill the freed space when the clear collapses, but never reflows
    its leading edge so the caret stays pixel-stable. */
 function SearchBar({
+  forwardRef,
   value,
   defaultValue,
   placeholder,
@@ -205,6 +212,7 @@ function SearchBar({
 
   return (
     <header
+      ref={forwardRef}
       className={joinClasses('chorus-navigation-bar', 'chorus-navigation-bar--search', className)}
       {...rest}
     >

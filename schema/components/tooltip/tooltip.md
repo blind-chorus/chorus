@@ -2,6 +2,8 @@
 
 A trigger-anchored explanation bubble — a small contrast-toned surface with a caret that points at the host element. Reach for it to surface a label or short hint that does not fit on the trigger itself ("Manage" on an icon button, a coach-mark on a newly-shipped affordance). Prefer [Banner](../banner/banner.md) when the message belongs inline in the reading flow rather than floating over it, and [Toast](../toast/toast.md) when the message confirms a recent user action rather than describing a hovered/focused control.
 
+**Layout inset.** `bounded-surface` — its own popover shell anchored to a trigger element. Owns its outer padding and trigger-relative placement; not a sibling of `full-bleed` page rows and not subject to the page shell's `layout.page.*` gutter. Mount via a portal at the document root and position relative to the trigger, not inside the page content flow. See [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 The brand-blue bubble — body text only. `primary` fill with `onPrimary` foreground (both theme-stable, so the bubble reads the same in light and dark mode). 32 min-height, symmetric 12 inset (`sys.layout.container.sm` on every edge), `radius.lg` corners, overlay elevation. Caret renders on the edge facing the trigger.

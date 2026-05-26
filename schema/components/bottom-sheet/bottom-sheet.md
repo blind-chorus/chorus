@@ -2,6 +2,8 @@
 
 An edge-anchored interruption — a panel that rises from the bottom of the viewport, sits over a scrim, and holds richer content than a Dialog can. Reach for Bottom Sheet to steer the user toward a preferred action *without severing the flow they're in* — present enough to focus attention, light enough that dismissing returns them to where they were; prefer [Dialog](../dialog/dialog.md) when the decision must be committed before the flow can continue.
 
+**Layout inset.** `bounded-surface` — its own modal / popover shell. Owns its outer padding; not a sibling of `full-bleed` page rows. A `full-bleed` child placed inside (List / Feed / AvatarRail / Chip group / Tabs rail) MUST opt out via `marginInline: 'calc(-1 * var(--sys-layout-container-md))'` (matching `width`, `maxWidth: 'none'`) so its own row padding becomes the visual inset and the sheet title aligns with row leading content — established precedent in `bottom-sheet/overflow` and `bottom-sheet/nested-step`. See [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 An information-style sheet — title, body paragraph, and a stacked primary / secondary action pair.

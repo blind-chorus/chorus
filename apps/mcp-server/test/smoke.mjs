@@ -102,6 +102,8 @@ try {
       "resolve_token",
       "search_intent",
       "validate_screen",
+      "validate_layout_inset",
+      "check_layout_inset",
     ].every((n) => toolNames.includes(n)),
     `got [${toolNames.join(", ")}]`,
   );

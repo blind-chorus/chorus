@@ -1,7 +1,8 @@
 'use client';
 
-import { isValidElement } from 'react';
+import { isValidElement, useRef } from 'react';
 import { joinClasses } from './spec-utils.js';
+import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 
 /* TabBar — the bottom tab bar. A horizontal strip pinned to the bottom of
    the app surface that exposes the top-level destinations (Home / Company /
@@ -98,8 +99,11 @@ export function TabBar({
   ...rest
 }) {
   const rows = Array.isArray(items) ? items : [];
+  const ref = useRef(null);
+  useFullBleedGuard(ref, 'TabBar');
   return (
     <nav
+      ref={ref}
       className={joinClasses('chorus-tab-bar', className)}
       aria-label={ariaLabel}
       {...rest}

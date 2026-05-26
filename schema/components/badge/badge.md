@@ -4,6 +4,8 @@ A small brand-tone indicator attached to a host label — a channel entry, a lis
 
 **Reach for Numeric when** the count itself carries meaning (3 unread, 12 mentions, `99+` notifications) — the reader needs to know *how much*. **Reach for Dot when** the presence of activity is the whole signal — a corner flag on a Thumbnail or icon that says "something new here" without a magnitude. **Skip Badge entirely** when the marker is descriptive metadata (category, status, role) — use [Tag](../chip/tag.md) instead.
 
+**Layout inset.** `inline` — slot atom. No page-rail responsibility; the surrounding container places it. Lives anchored to a host (Thumbnail corner, List row label, icon glyph) or inside another component's slot — never as a sibling of `full-bleed` page rows.
+
 ## Numeric
 
 The labelled form — a short count sitting next to its host label. Two rungs (`medium` / `small`); a 1-character label collapses to a perfect circle, a 2-character or `99+` label stretches into a pill. The `count` prop applies the `99+` cap automatically; pass `children` for non-numeric labels (`NEW`).

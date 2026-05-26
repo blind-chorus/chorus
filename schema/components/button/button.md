@@ -2,6 +2,8 @@
 
 The action-surface family. **Standard Button** is the default inline filled / outlined / tertiary control; the rest of the family specialises by **shape · context · footprint**: a floating canvas commit (FAB), a glyph-only capsule (Icon Button), a chromeless inline link-shaped commit (Text Button), a dense capsule for toolbars and tabs (Toolbar Button), a reversible commit at the Toolbar footprint (Toggle Button), and an option-toggle commit surface with a leading checkbox (Check Button). Per-sub intent (when to reach for which) lives on each sub's own page.
 
+**Layout inset.** `inline` — slot atom. No page-rail responsibility; the surrounding container places it. Lives inside another component's slot (List row trailing, Section header trailing, NavigationBar trailing, BottomSheet action stack) or inside a layout `<div>` that already pays the page gutter. The FAB sub is the one exception — pinned to the page viewport, not the row rail.
+
 ## Cross-sub contract
 
 Three contracts hold across every member of the family — change one and every sub re-tones accordingly.
