@@ -2,7 +2,7 @@
   "$schema": "../../spec.schema.json",
   "name": "Accordion",
   "family": "accordion",
-  "description": "Vertical stack of expandable rows. Each `Accordion.Item` renders a trigger header (label + auto-rendered 16px chevron that rotates from `0°` to `180°` on expand) over a content body that paints below when open. Rows tile flush with a hairline `outlineVariant` divider between them; no per-item outline or rounded surface. The chevron is decorative — the entire trigger header is the click target.",
+  "description": "Vertical stack of expandable rows. Each `Accordion.Item` renders a trigger header (label + auto-rendered 16px chevron that rotates from `0°` to `180°` on expand) over a content body that paints below when open. The family is **edge-to-edge** (`layoutInset: full-bleed`): the Accordion sits flush against the page rail and pays its own `16px inline / 8px block` row padding via `layout.container.*` — wrapping it in another padding-inline / px-* container double-pays the gutter. Rows tile flush with a hairline `outlineVariant` divider inset 16px on BOTH the leading and trailing edges. Expanded content is indented an additional 16px on the leading edge so it reads as nested INSIDE the trigger's label column, and carries a 40px min-height to keep short bodies on a touch-target rhythm. The chevron is decorative — the entire trigger header is the click target.",
   "element": "div",
   "props": {
     "type": {
@@ -74,7 +74,7 @@
     },
     "item": {
       "required": true,
-      "description": "Single expandable row. Hairline `outlineVariant` divider painted as a bottom inset box-shadow on every row except the last. `data-state='open' | 'closed'` reflects the current open-state.",
+      "description": "Single expandable row. Hairline `outlineVariant` divider inset 16px (`layout.container.md`) on BOTH the leading and trailing edges, painted as an absolutely-positioned `::after` overlay on every row except the last. `data-state='open' | 'closed'` reflects the current open-state.",
       "intrinsic": true
     },
     "trigger": {
@@ -94,7 +94,7 @@
     },
     "content": {
       "required": true,
-      "description": "Body region. Paints flush below the trigger when open; uses `hidden` attribute when closed (no `display: none` strip — keeps screen-reader-only content focusable in inspectors).",
+      "description": "Body region. Paints below the trigger when open; uses `hidden` attribute when closed. Indented an extra `layout.container.md` (16px) on the LEADING edge so the body reads as nested inside the trigger's label column — total inline padding is `32px leading / 16px trailing`. Carries a `min-height: 40px` so short single-line bodies keep a touch-target rhythm.",
       "accepts": ["text", "icon", "button", "list", "form-field"]
     }
   },
@@ -111,11 +111,15 @@
     "chevronRotationDuration": "120ms",
     "chevronRotationTiming": "ease-out",
     "contentPaddingBlock": "sys.layout.container.xs",
-    "contentPaddingInline": "sys.layout.container.md",
+    "contentPaddingInlineStart": "calc(sys.layout.container.md * 2)",
+    "contentPaddingInlineEnd": "sys.layout.container.md",
+    "contentIndent": "sys.layout.container.md",
+    "contentMinHeight": "40px",
     "contentBodyTypo": "sys.typo.body.sm",
     "contentBodyColor": "sys.color.onSurfaceVariant",
     "dividerWidth": "sys.borderWidth.hairline",
-    "dividerColor": "sys.color.outlineVariant"
+    "dividerColor": "sys.color.outlineVariant",
+    "dividerInsetInline": "sys.layout.container.md"
   },
   "appearances": {
     "default": {
@@ -159,6 +163,10 @@
   },
   "forbidden": [
     "item rendered as its own outlined rounded surface — Accordion tiles items flush with a hairline divider; outlined-card stacks are NavCardGroup, not an accordion",
+    "Accordion wrapped in a parent `padding-inline` / `px-*` / `style={{ paddingInline: … }}` container outside a documented bounded surface — the family is full-bleed and double-pays the page gutter when an outer rail is also applied",
+    "expanded content body painted flush to the trigger's leading edge — content MUST sit at `32px` inline-start (trigger inline padding + a further `layout.container.md` indent) so the body reads as nested inside the row",
+    "expanded content body collapsed below `40px` min-height — short single-line bodies still need to land on a touch-target rhythm so the row's open-state reads as distinct from its closed-state",
+    "divider painted full-bleed (no inline inset) — the rule must be inset 16px on BOTH edges; a full-bleed rule reads as separating the container, not the rows",
     "chevron replaced with a plus / minus glyph — the family uses the rotating chevron contract; alt glyphs read as a different affordance (an add action, a remove action)",
     "content body painted with a chromatic fill (primaryContainer, etc.) — the body inherits the host surface tone; chromatic emphasis on an accordion body reads as a Banner aside, not a content section",
     "destructive commit fired inline inside the content body without a Button wrapper — destructive commits open a Dialog / BottomSheet, never fire from a raw content link"

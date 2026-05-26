@@ -2039,15 +2039,15 @@ span.chorus-chip {
   isolation: isolate;
 }
 
-/* Inter-row divider — inset from the leading edge by the row's inline
-   padding (container.md) so the rule reads as separating *content*,
-   not the container. The last row omits the divider via
-   :not(:last-child). */
+/* Inter-row divider — inset symmetrically from BOTH inline edges by the
+   row's inline padding (container.md, 16px each side) so the rule reads
+   as separating *content*, not the container. The last row omits the
+   divider via :not(:last-child). */
 .chorus-list__row:not(:last-child)::after {
   content: '';
   position: absolute;
   left: var(--sys-layout-container-md);
-  right: 0;
+  right: var(--sys-layout-container-md);
   bottom: 0;
   height: var(--sys-borderWidth-hairline);
   background: var(--sys-color-outlineVariant);
@@ -4365,11 +4365,14 @@ span.chorus-chip {
 /* ============================================================
    Accordion — stack of expandable rows with rotating chevron
 ============================================================ */
-/* Rows tile flush with a hairline `outlineVariant` divider painted as
-   the trigger's bottom inset box-shadow (no `border:` — composes
-   cleanly with the inward focus ring). The chevron rotates 180° on
-   expand; inward focus ring matches list/nav's "flush row, hairline
-   divider" placement. */
+/* Edge-to-edge (`full-bleed`) family. Rows tile flush with a hairline
+   `outlineVariant` divider inset 16px (`layout.container.md`) on BOTH
+   the leading and trailing edges so the rule reads as separating row
+   *content*, not the container. Composes the divider on a dedicated
+   `::after` overlay rather than a `border:` / full-bleed box-shadow so
+   the inset is honoured without paying any box-model space. The
+   chevron rotates 180° on expand; inward focus ring matches list/nav's
+   "flush row, hairline divider" placement. */
 .chorus-accordion {
   display: flex;
   flex-direction: column;
@@ -4377,14 +4380,19 @@ span.chorus-chip {
 }
 
 .chorus-accordion__item {
-  /* Hairline divider on every row except the last. Painted as a bottom
-     inset box-shadow so the row never pays box-model space for the
-     stroke. */
-  box-shadow: inset 0 calc(-1 * var(--sys-borderWidth-hairline)) 0 0 var(--sys-color-outlineVariant);
+  position: relative;
 }
 
-.chorus-accordion__item:last-child {
-  box-shadow: none;
+/* Symmetric-inset hairline divider on every item except the last. */
+.chorus-accordion__item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: var(--sys-layout-container-md);
+  right: var(--sys-layout-container-md);
+  bottom: 0;
+  height: var(--sys-borderWidth-hairline);
+  background: var(--sys-color-outlineVariant);
+  pointer-events: none;
 }
 
 .chorus-accordion__trigger {
@@ -4481,8 +4489,20 @@ span.chorus-chip {
   pointer-events: none;
 }
 
+/* Expanded content. Indented by an extra `layout.container.md` (16px)
+   on the leading edge — so the body sits visibly INSIDE the trigger's
+   label column, making the parent ↔ child hierarchy readable at a
+   glance. Trailing edge stays at the row's 16px inline padding.
+   `min-height: 40px` keeps short single-line bodies on a touch-target
+   rhythm and prevents collapsed-looking content rows. */
 .chorus-accordion__content {
-  padding: var(--sys-layout-container-xs) var(--sys-layout-container-md);
+  padding:
+    var(--sys-layout-container-xs)
+    var(--sys-layout-container-md)
+    var(--sys-layout-container-xs)
+    calc(var(--sys-layout-container-md) * 2);
+  min-height: 40px;
+  box-sizing: border-box;
 }
 
 .chorus-accordion__content[hidden] {
