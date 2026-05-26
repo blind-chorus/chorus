@@ -35,25 +35,25 @@ import { Button, List } from '@blind-dsai/ui';
 
 <List
   variant="text"
-  aria-label="알림 채널"
+  aria-label="Notification channels"
   items={[
     {
       value: 'email',
-      label: '이메일',
+      label: 'Email',
       supportingText: 'work@example.com',
       trailingIcon: (
         <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
-          변경
+          Edit
         </Button>
       ),
     },
     {
       value: 'sms',
       label: 'SMS',
-      supportingText: '+82 10-****-1234',
+      supportingText: '+1 (415) ***-2487',
       trailingIcon: (
         <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
-          변경
+          Edit
         </Button>
       ),
     },

@@ -2733,12 +2733,12 @@ export const PREVIEWS = {
      / blocked). Decorative, never a button. */
   'status-tag/default': {
     states: false,
-    render: () => <StatusTag>대기중</StatusTag>,
+    render: () => <StatusTag>Pending</StatusTag>,
   },
 
   'status-tag/error': {
     states: false,
-    render: () => <StatusTag appearance="error">승인 거절</StatusTag>,
+    render: () => <StatusTag appearance="error">Rejected</StatusTag>,
   },
 
   'status-tag/list-row': {
@@ -2747,27 +2747,27 @@ export const PREVIEWS = {
       <Frame>
         <List
           variant="thumbnail"
-          aria-label="채널 신청 현황"
+          aria-label="Channel approval status"
           items={[
             {
               value: 'ch-2',
               label: (
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--sys-layout-container-2xs)' }}>
-                  유저생성채널2
-                  <StatusTag>대기중</StatusTag>
+                  User channel 2
+                  <StatusTag>Pending</StatusTag>
                 </span>
               ),
-              thumbnail: { alt: '유저생성채널2', shape: 'circle' },
+              thumbnail: { alt: 'User channel 2', shape: 'circle' },
             },
             {
               value: 'ch-3',
               label: (
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--sys-layout-container-2xs)' }}>
-                  유저생성채널3
-                  <StatusTag appearance="error">승인 거절</StatusTag>
+                  User channel 3
+                  <StatusTag appearance="error">Rejected</StatusTag>
                 </span>
               ),
-              thumbnail: { alt: '유저생성채널3', shape: 'circle' },
+              thumbnail: { alt: 'User channel 3', shape: 'circle' },
             },
           ]}
         />
@@ -2780,7 +2780,7 @@ export const PREVIEWS = {
     render: () => (
       <Frame>
         <p style={{ fontSize: 'var(--sys-typo-body-sm-size)', color: 'var(--sys-color-onSurface)', margin: 0 }}>
-          공유 문서 <StatusTag>대기중</StatusTag> 가 검토 대기 중입니다.
+          Shared document <StatusTag>Pending</StatusTag> is awaiting review.
         </p>
       </Frame>
     ),
@@ -2796,25 +2796,25 @@ export const PREVIEWS = {
       <Frame>
         <List
           variant="text"
-          aria-label="알림 채널"
+          aria-label="Notification channels"
           items={[
             {
               value: 'email',
-              label: '이메일',
+              label: 'Email',
               supportingText: 'work@example.com',
               trailingIcon: (
                 <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
-                  변경
+                  Edit
                 </Button>
               ),
             },
             {
               value: 'sms',
               label: 'SMS',
-              supportingText: '+82 10-****-1234',
+              supportingText: '+1 (415) ***-2487',
               trailingIcon: (
                 <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
-                  변경
+                  Edit
                 </Button>
               ),
             },
@@ -2830,27 +2830,27 @@ export const PREVIEWS = {
       <Frame>
         <List
           variant="thumbnail"
-          aria-label="채널 추천"
+          aria-label="Suggested channels"
           items={[
             {
               value: 'product',
-              label: '프로덕트 디자인',
-              supportingText: '동료 1,204명이 참여 중',
-              thumbnail: { alt: '프로덕트 디자인', shape: 'circle' },
+              label: 'Product Design',
+              supportingText: '1,204 colleagues following',
+              thumbnail: { alt: 'Product Design', shape: 'circle' },
               trailingIcon: (
                 <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
-                  팔로우
+                  Follow
                 </Button>
               ),
             },
             {
               value: 'frontend',
-              label: '프론트엔드 개발',
-              supportingText: '동료 892명이 참여 중',
-              thumbnail: { alt: '프론트엔드 개발', shape: 'circle' },
+              label: 'Frontend',
+              supportingText: '892 colleagues following',
+              thumbnail: { alt: 'Frontend', shape: 'circle' },
               trailingIcon: (
                 <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
-                  팔로우
+                  Follow
                 </Button>
               ),
             },

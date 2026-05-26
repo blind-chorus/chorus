@@ -4226,9 +4226,21 @@ span.chorus-chip {
   flex: 0 0 auto;
 }
 
+/* Neutral — the quiet informational default. Background steps with the
+   active theme so the pill stays a faint scrim on the host surface
+   rather than picking up the same tone as a surface-* container:
+     - light: `ref.palette.black.200` (≈8% black) — visible scrim over
+       any light surface tier.
+     - dark : `ref.palette.white.200` (≈8% white) — same role inverted.
+   Foreground stays bound to `onSurfaceVariant` so legibility tracks
+   the active palette automatically. */
 .chorus-status-tag--neutral {
-  background: var(--sys-color-surfaceContainerHighest);
+  background: var(--ref-palette-black-200);
   color: var(--sys-color-onSurfaceVariant);
+}
+
+[data-theme="dark"] .chorus-status-tag--neutral {
+  background: var(--ref-palette-white-200);
 }
 
 .chorus-status-tag--error {

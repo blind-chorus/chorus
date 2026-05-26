@@ -8,14 +8,14 @@ A small inline status pill — a tonal mark sized for the trailing edge of a row
 
 ## Default
 
-The `neutral` appearance — `surfaceContainerHighest` fill with an `onSurfaceVariant` foreground. The quiet informational state.
+The `neutral` appearance — a faint scrim of the inverse tone (`black.200` in light mode, `white.200` in dark) with an `onSurfaceVariant` foreground. The quiet informational state.
 
 ```preview
 status-tag/default
 ---
 import { StatusTag } from '@blind-dsai/ui';
 
-<StatusTag>대기중</StatusTag>
+<StatusTag>Pending</StatusTag>
 ```
 
 ## Error
@@ -27,7 +27,7 @@ status-tag/error
 ---
 import { StatusTag } from '@blind-dsai/ui';
 
-<StatusTag appearance="error">승인 거절</StatusTag>
+<StatusTag appearance="error">Rejected</StatusTag>
 ```
 
 ## Use cases
@@ -48,21 +48,21 @@ import { List, StatusTag, Thumbnail } from '@blind-dsai/ui';
       value: 'ch-2',
       label: (
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--sys-layout-container-2xs)' }}>
-          유저생성채널2
-          <StatusTag>대기중</StatusTag>
+          User channel 2
+          <StatusTag>Pending</StatusTag>
         </span>
       ),
-      thumbnail: { alt: '유저생성채널2', shape: 'circle' },
+      thumbnail: { alt: 'User channel 2', shape: 'circle' },
     },
     {
       value: 'ch-3',
       label: (
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--sys-layout-container-2xs)' }}>
-          유저생성채널3
-          <StatusTag appearance="error">승인 거절</StatusTag>
+          User channel 3
+          <StatusTag appearance="error">Rejected</StatusTag>
         </span>
       ),
-      thumbnail: { alt: '유저생성채널3', shape: 'circle' },
+      thumbnail: { alt: 'User channel 3', shape: 'circle' },
     },
   ]}
 />
@@ -78,7 +78,7 @@ status-tag/inline
 import { StatusTag } from '@blind-dsai/ui';
 
 <p style={{ font: '14px var(--sys-typo-fontFamily)', color: 'var(--sys-color-onSurface)' }}>
-  공유 문서 <StatusTag>대기중</StatusTag> 가 검토 대기 중입니다.
+  Shared document <StatusTag>Pending</StatusTag> is awaiting review.
 </p>
 ```
 
@@ -97,10 +97,10 @@ import { StatusTag } from '@blind-dsai/ui';
 
 ## Appearance
 
-| Appearance | Container fill                       | Foreground                       | When to reach                                                                  |
-|------------|--------------------------------------|----------------------------------|-------------------------------------------------------------------------------|
-| `neutral`  | `sys.color.surfaceContainerHighest`  | `sys.color.onSurfaceVariant`     | The quiet informational default. In-progress / awaiting states — "pending", "draft", "queued", "in review". |
-| `error`    | `sys.color.errorContainer`           | `sys.color.onErrorContainer`     | The rejection / blocked / failed state. Use sparingly — competing error pills on one screen dilute each other. |
+| Appearance | Container fill                                                              | Foreground                       | When to reach                                                                  |
+|------------|-----------------------------------------------------------------------------|----------------------------------|-------------------------------------------------------------------------------|
+| `neutral`  | `ref.palette.black.200` (light) / `ref.palette.white.200` (dark)            | `sys.color.onSurfaceVariant`     | The quiet informational default. A faint scrim of the inverse tone in either theme so the pill stays visible on every surface tier. In-progress / awaiting states — "pending", "draft", "queued", "in review". |
+| `error`    | `sys.color.errorContainer`                                                  | `sys.color.onErrorContainer`     | The rejection / blocked / failed state. Use sparingly — competing error pills on one screen dilute each other. |
 
 ## States
 

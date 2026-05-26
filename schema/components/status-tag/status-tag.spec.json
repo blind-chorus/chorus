@@ -40,9 +40,12 @@
   },
   "appearances": {
     "neutral": {
-      "background": "sys.color.surfaceContainerHighest",
+      "background": {
+        "light": "ref.palette.black.200",
+        "dark": "ref.palette.white.200"
+      },
       "foreground": "sys.color.onSurfaceVariant",
-      "note": "The quiet informational default. Pair with statuses that describe an in-progress / awaiting state — 'pending', 'draft', 'queued', 'in review'."
+      "note": "The quiet informational default. Background is a faint scrim of the inverse tone — `ref.palette.black.200` (~8% black) in light mode, `ref.palette.white.200` (~8% white) in dark — so the pill stays visible against every surface tier in either theme. Pair with statuses that describe an in-progress / awaiting state — 'pending', 'draft', 'queued', 'in review'."
     },
     "error": {
       "background": "sys.color.errorContainer",

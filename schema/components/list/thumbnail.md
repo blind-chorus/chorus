@@ -34,27 +34,27 @@ import { Button, List } from '@blind-dsai/ui';
 
 <List
   variant="thumbnail"
-  aria-label="채널 추천"
+  aria-label="Suggested channels"
   items={[
     {
       value: 'product',
-      label: '프로덕트 디자인',
-      supportingText: '동료 1,204명이 참여 중',
-      thumbnail: { alt: '프로덕트 디자인', shape: 'circle' },
+      label: 'Product Design',
+      supportingText: '1,204 colleagues following',
+      thumbnail: { alt: 'Product Design', shape: 'circle' },
       trailingIcon: (
         <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
-          팔로우
+          Follow
         </Button>
       ),
     },
     {
       value: 'frontend',
-      label: '프론트엔드 개발',
-      supportingText: '동료 892명이 참여 중',
-      thumbnail: { alt: '프론트엔드 개발', shape: 'circle' },
+      label: 'Frontend',
+      supportingText: '892 colleagues following',
+      thumbnail: { alt: 'Frontend', shape: 'circle' },
       trailingIcon: (
         <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
-          팔로우
+          Follow
         </Button>
       ),
     },
