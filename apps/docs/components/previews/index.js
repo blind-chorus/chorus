@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, List, NavigationBar, PostCarousel, ProfileCarousel, Section, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
+import { Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, ProfileCarousel, Section, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
 import { PlusIcon, PlusSquareFillIcon, ChevronLeftIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, XIcon, BuildingIcon, BuildingFillIcon, ArrowDownIcon, ChevronRightIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, EllipsisHorizontalIcon, BellIcon, BellFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
@@ -1916,6 +1916,92 @@ export const PREVIEWS = {
             { value: 'account',  label: 'Account' },
           ]}
         />
+      </Frame>
+    ),
+  },
+
+  /* NavCard — single bounded drill-in card. Outlined surface with label
+     + auto chevron; whole card is the drill-in tap target. Single-card
+     counterpart to list/nav (which stacks multiple rows). */
+  'nav-card/default': {
+    states: false,
+    render: () => (
+      <Frame>
+        <NavCard label="Cell label here" href="#" />
+      </Frame>
+    ),
+  },
+
+  'nav-card/supporting': {
+    states: false,
+    render: () => (
+      <Frame>
+        <NavCard
+          label="Saved posts"
+          supportingText="47 posts across 9 channels"
+          href="#"
+        />
+      </Frame>
+    ),
+  },
+
+  'nav-card/leading-icon': {
+    states: false,
+    render: () => (
+      <Frame>
+        <NavCard
+          label="Notifications"
+          leading={<BellIcon size={16} />}
+          href="#"
+        />
+      </Frame>
+    ),
+  },
+
+  'nav-card/leading-thumbnail': {
+    states: false,
+    render: () => (
+      <Frame>
+        <NavCard
+          label="Hyundai Motor"
+          supportingText="Private · My company"
+          leading={<Thumbnail size={32} alt="Hyundai" src={IMG.brandAuto} />}
+          href="#"
+        />
+      </Frame>
+    ),
+  },
+
+  'nav-card/group': {
+    states: false,
+    render: () => (
+      <Frame>
+        <NavCardGroup aria-label="Account">
+          <NavCard label="Profile" supportingText="Display name, avatar, bio" leading={<ProfileIcon size={16} />} href="#" />
+          <NavCard label="Saved posts" supportingText="47 posts across 9 channels" leading={<BookmarkIcon size={16} />} href="#" />
+          <NavCard label="Notifications" leading={<BellIcon size={16} />} href="#" />
+        </NavCardGroup>
+      </Frame>
+    ),
+  },
+
+  'nav-card/transparent': {
+    states: false,
+    render: () => (
+      <Frame>
+        <div
+          style={{
+            background: 'var(--sys-color-surfaceContainerLow)',
+            padding: 'var(--sys-layout-container-md)',
+            borderRadius: 'var(--sys-radius-lg)',
+          }}
+        >
+          <NavCardGroup aria-label="Account">
+            <NavCard appearance="transparent" label="Profile" supportingText="Display name, avatar, bio" leading={<ProfileIcon size={16} />} href="#" />
+            <NavCard appearance="transparent" label="Saved posts" supportingText="47 posts across 9 channels" leading={<BookmarkIcon size={16} />} href="#" />
+            <NavCard appearance="transparent" label="Notifications" leading={<BellIcon size={16} />} href="#" />
+          </NavCardGroup>
+        </div>
       </Frame>
     ),
   },

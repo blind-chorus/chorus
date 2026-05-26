@@ -1,0 +1,24 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "nav-card",
+  "name": "NavCard",
+  "description": "Bounded single-row navigation card — an outlined rounded surface with a leading label, optional supporting line, and an auto-rendered trailing chevron. The whole card is the drill-in tap target. Reach for it when a [List/nav](../list/nav.md) row needs to read as its own discrete affordance rather than as one entry in a stack — a standalone settings entry, a picker trigger between content blocks, or a bounded-surface drill-in where the host surface already supplies the stack rhythm. Single-spec family.",
+  "useCases": [
+    "standalone drill-in row",
+    "single settings entry",
+    "picker trigger",
+    "channel / scope selector card",
+    "bounded-surface drill-in"
+  ],
+  "visualReuse": "open",
+  "layoutInset": "full-bleed",
+  "spec": "nav-card.md",
+  "subcomponents": [
+    {
+      "slug": "nav-card",
+      "spec": "nav-card.spec.json",
+      "md": "nav-card.md",
+      "default": true
+    }
+  ]
+}

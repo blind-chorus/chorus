@@ -1,0 +1,155 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "NavCard",
+  "family": "nav-card",
+  "description": "Outlined, rounded single-row navigation card. Single label (optional supporting line) + auto-rendered trailing chevron over a `surface`-toned box with a hairline `outlineVariant` inset-shadow stroke and `radius.md` corners. Whole card is the click target — keyboard focus, hover overlay, and tap commit all sit on the card. Reach for it when one drill-in row needs to read as its own discrete affordance rather than as one entry in a [List/nav](../list/nav.md) stack.",
+  "element": "button",
+  "props": {
+    "label": {
+      "type": "string",
+      "required": true,
+      "description": "Primary card text. Single line; truncates with ellipsis."
+    },
+    "supportingText": {
+      "type": "string",
+      "optional": true,
+      "description": "Secondary line under the label. Single line; truncates with ellipsis."
+    },
+    "leading": {
+      "type": "node",
+      "optional": true,
+      "description": "Optional leading slot — a 16px icon glyph (renders in `currentColor`) or a 32-rung [Thumbnail](../thumbnail/thumbnail.md). When omitted the label sits flush at the inline padding edge."
+    },
+    "trailingIcon": {
+      "type": "node",
+      "optional": true,
+      "description": "Overrides the auto-rendered chevron. Pass a custom 16px glyph when the drill target isn't another navigation surface (inline expand-down arrow, external-link arrow)."
+    },
+    "appearance": {
+      "type": "enum",
+      "values": ["default", "transparent"],
+      "default": "default",
+      "description": "Container fill. `default` paints `sys.color.surface`. `transparent` removes the fill so the host surface (e.g. a `surfaceContainerLow` tonal band, a Section body) reads through — outline, label, and chevron stay intact."
+    },
+    "href": {
+      "type": "string",
+      "optional": true,
+      "description": "When provided, renders as `<a href>` instead of `<button>`. Mutually exclusive with `onClick` as the primary commit, though either may be combined for analytics."
+    },
+    "onClick": {
+      "type": "function",
+      "optional": true
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "forcedState": {
+      "type": "literal",
+      "values": ["hovered", "pressed", "focused"],
+      "optional": true,
+      "description": "Docs-only — pins the card to a single visual state via `data-force-state`. Not for production use."
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "description": "Outlined rounded box. `surface` fill, `radius.md` corners, hairline `outlineVariant` stroke painted as inset box-shadow (never `border:`). Whole container is the interactive target.",
+      "intrinsic": true
+    },
+    "leading": {
+      "required": false,
+      "description": "Optional leading slot at 16 × 16 (icon) or 32 × 32 (Thumbnail). Icon glyphs render in `currentColor`. Vertically centred against the label column.",
+      "accepts": ["icon", "thumbnail"]
+    },
+    "labelCol": {
+      "required": true,
+      "description": "Vertical column holding label and (optional) supportingText. `min-width: 0` so both lines truncate.",
+      "intrinsic": true
+    },
+    "label": {
+      "required": true,
+      "description": "Primary card text. 16px / Regular / `onSurface`. Single line; truncates with ellipsis.",
+      "accepts": ["text"]
+    },
+    "supportingText": {
+      "required": false,
+      "description": "Secondary line under the label. 14px / Regular / `onSurfaceVariant`, 2px below the label. Single line; truncates.",
+      "accepts": ["text"]
+    },
+    "trailingIcon": {
+      "required": false,
+      "description": "Auto-rendered right-pointing chevron at 16px, `onSurfaceVariant`. A `trailingIcon` prop overrides.",
+      "accepts": ["icon"]
+    }
+  },
+  "sizing": {
+    "radius": "sys.radius.md",
+    "minHeight": "48px",
+    "paddingBlock": "sys.layout.container.xs",
+    "paddingInline": "sys.layout.container.md",
+    "outlineWidth": "sys.borderWidth.hairline",
+    "outlineColor": "sys.color.outlineVariant",
+    "leadingGap": "sys.layout.inline.md",
+    "trailingGap": "sys.layout.inline.md",
+    "leadingIconSize": "sys.icon.md",
+    "labelTypo": "sys.typo.body.sm",
+    "labelColor": "sys.color.onSurface",
+    "supportingTypo": "sys.typo.caption.md",
+    "supportingColor": "sys.color.onSurfaceVariant",
+    "supportingOffset": "0",
+    "trailingIconSize": "sys.icon.md",
+    "trailingIconColor": "sys.color.onSurfaceVariant",
+    "groupGap": "sys.layout.stack.xs"
+  },
+  "appearances": {
+    "default": {
+      "background": "sys.color.surface",
+      "note": "Opaque surface fill. Use when NavCard sits on a transparent or distinct-tone host (page background, white space between sections)."
+    },
+    "transparent": {
+      "background": "transparent",
+      "note": "No fill — the host surface tone reads through. Reach for it when the card sits on a tonal band (a `surfaceContainerLow` strip, a Section's body, a BottomSheet's content slot) and should read as 'attached to' that tone rather than as its own opaque tier. Outline, label, chevron, and hover overlay are unchanged."
+    }
+  },
+  "states": {
+    "default": { "overlay": null },
+    "hovered": {
+      "overlay": { "color": "label", "opacity": "sys.state.hover" }
+    },
+    "pressed": {
+      "overlay": { "color": "label", "opacity": "sys.state.pressed" }
+    },
+    "disabled": {
+      "containerOpacity": "sys.state.disabled",
+      "pointerEvents": "none"
+    }
+  },
+  "focusIndicator": {
+    "description": "Keyboard-focus visual painted as a three-layer ring on the card's outer edge. Composes over whichever lifecycle state the card is in.",
+    "composition": "outward",
+    "compositionReason": "NavCard sits as its own bounded surface with margin to siblings; an outward ring reads cleanly without colliding with a neighbouring row's stroke.",
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset",
+      "implementation": "outset box-shadow on the container's `::after` overlay; the rest stroke stays painted on `::before` so the two layers don't fight."
+    },
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  },
+  "behavior": {
+    "clickTarget": "Whole card is clickable. The trailing chevron is never a separate hit target.",
+    "truncationNotWrap": "Both label and supportingText truncate; the card never grows to fit long text.",
+    "elementSwap": "Renders `<button>` by default; `<a href>` when `href` is set."
+  },
+  "forbidden": [
+    "border: painted as the rest stroke — must be inset box-shadow (no-layout strokes rule, DESIGN.md)",
+    "rest outline removed — the outlined chrome IS the defining shape of NavCard; without it the component is a list/nav row in disguise",
+    "stacked vertically with raw <div> gaps — group via the NavCardGroup wrapper so the 8px gap stays consistent across compositions",
+    "tightly stacked into a hairline-divider rail — for that anatomy use list/nav (NavCards in a NavCardGroup must each remain a discrete outlined card)",
+    "text-decoration underline on label or any descendant on hover — the whole card is the hit target with its own hover overlay; an underline doubles the affordance",
+    "trailing chevron replaced with a non-navigational glyph when the action is not a drill-in — use button/icon or a different component instead",
+    "destructive commit fired on card tap — destructive commits open a Dialog / BottomSheet, never fire inline"
+  ]
+}

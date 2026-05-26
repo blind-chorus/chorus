@@ -2144,6 +2144,156 @@ span.chorus-chip {
   transform: rotate(-90deg);
 }
 
+/* NavCard — single bounded drill-in card. Same row anatomy as list/nav
+   (label column + auto chevron) but wrapped in its own outlined rounded
+   surface. The hairline outline is painted as inset box-shadow per the
+   no-layout-strokes rule; focus is an OUTWARD ring (vs list/nav's inward)
+   because NavCard sits as its own surface with margin to siblings. */
+.chorus-nav-card {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-md);
+  padding: var(--sys-layout-container-xs) var(--sys-layout-container-md);
+  /* Touch-target floor — minimum tap height. Anatomy dimension, not a
+     layout token. */
+  min-height: 48px;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--sys-color-surface);
+  color: var(--sys-color-onSurface);
+  border: 0;
+  border-radius: var(--sys-radius-md);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  box-shadow: inset 0 0 0 var(--sys-borderWidth-hairline) var(--sys-color-outlineVariant);
+  transition: background 120ms ease;
+}
+
+/* The whole card is the hit target and gets its own hover overlay, so the
+   label and any nested `<a>` descendants MUST NEVER paint a text underline
+   — that would double-up two hover affordances on one surface. The host
+   docs site applies `:where(.page-content a):hover { text-decoration:
+   underline }`, so we override on every state explicitly. */
+.chorus-nav-card,
+.chorus-nav-card:hover,
+.chorus-nav-card:focus,
+.chorus-nav-card:focus-visible,
+.chorus-nav-card:active,
+.chorus-nav-card:visited {
+  text-decoration: none;
+}
+
+.chorus-nav-card:hover {
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-hover) * 100%), var(--sys-color-surface));
+}
+
+.chorus-nav-card:active,
+.chorus-nav-card[data-force-state="pressed"] {
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-pressed) * 100%), var(--sys-color-surface));
+}
+
+/* Transparent appearance — lets the host surface tone show through. Reach
+   for it when the card sits on a tonal band (surfaceContainerLow / etc.)
+   and should read as attached to that tone rather than as its own opaque
+   tier. The hairline outline + chevron + hover overlay all stay; only the
+   container fill changes. */
+.chorus-nav-card--transparent {
+  background: transparent;
+}
+
+.chorus-nav-card--transparent:hover {
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-hover) * 100%), transparent);
+}
+
+.chorus-nav-card--transparent:active,
+.chorus-nav-card--transparent[data-force-state="pressed"] {
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-pressed) * 100%), transparent);
+}
+
+/* Outward focus ring — paints OUTSIDE the card's outline so it never
+   collides with the hairline stroke. Composed on a dedicated `::after`
+   overlay; the rest stroke stays on the card's own box-shadow. */
+.chorus-nav-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: none;
+  transition: box-shadow 120ms ease;
+}
+
+.chorus-nav-card:focus-visible {
+  outline: none;
+}
+
+.chorus-nav-card:focus-visible::after,
+.chorus-nav-card[data-force-state="focused"]::after {
+  box-shadow:
+    0 0 0 var(--sys-borderWidth-thin) var(--sys-color-focus),
+    0 0 0 calc(var(--sys-borderWidth-thin) + var(--sys-borderWidth-hairline)) var(--sys-color-focusInset);
+}
+
+.chorus-nav-card[data-disabled="true"],
+.chorus-nav-card:disabled {
+  opacity: var(--sys-state-disabled);
+  cursor: not-allowed;
+}
+
+.chorus-nav-card__leading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.chorus-nav-card__label-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.chorus-nav-card__label {
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
+  font-weight: var(--sys-typo-body-sm-weight);
+  color: var(--sys-color-onSurface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chorus-nav-card__supporting {
+  font-size: var(--sys-typo-caption-md-size);
+  line-height: var(--sys-typo-caption-md-line);
+  color: var(--sys-color-onSurfaceVariant);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chorus-nav-card__trailing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sys-color-onSurfaceVariant);
+  flex: 0 0 auto;
+}
+
+/* NavCardGroup — vertical stack of NavCards with an 8px gap. No outline,
+   no padding of its own; lets each child card stay its own surface. */
+.chorus-nav-card-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-xs);
+  width: 100%;
+}
+
 /* Radio indicator — RadioIcon (outline) at rest, RadioFillIcon (filled)
    when selected. Both glyphs ship from `@blind-dsai/ui/icons`; the indicator
    only sets the foreground color so the icon picks the right tone via

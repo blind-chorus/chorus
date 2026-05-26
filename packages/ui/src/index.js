@@ -17,6 +17,7 @@ export { PostCarousel } from './PostCarousel.jsx';
 export { ProfileCarousel } from './ProfileCarousel.jsx';
 export { FormField, FormFieldGroup, Input, SearchBar, Select } from './FormField.jsx';
 export { List } from './List.jsx';
+export { NavCard, NavCardGroup } from './NavCard.jsx';
 export { NavigationBar } from './NavigationBar.jsx';
 export { Section } from './Section.jsx';
 export { TabBar } from './TabBar.jsx';

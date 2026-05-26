@@ -245,6 +245,10 @@ export const NAV = [
         ],
       },
       {
+        href: '/components/nav-card',
+        label: 'Nav card',
+      },
+      {
         href: '/components/navigation-bar',
         label: 'Navigation bar',
         subs: [

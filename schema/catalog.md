@@ -44,10 +44,11 @@ When in doubt: open families are recipes, locked families are rules.
 | single-select option group                   | `list / radio`           |
 | avatar-anchored rows (channels, DMs)         | `list / thumbnail`       |
 | drill-in rows with trailing chevron          | `list / nav`             |
+| standalone drill-in card (single row)        | `nav-card`               |
 | authored content stream (posts, comments)    | `feed / feed`            |
 | follow suggestions block                     | `suggestion-list`           |
 
-**Disambiguate**: `feed` = authored content (author, body, footer). `list` = menus/settings/pickers. `suggestion-list` = labelled swipeable block of follow-suggestions (channels, people, companies, topics — same anatomy).
+**Disambiguate**: `feed` = authored content (author, body, footer). `list` = menus/settings/pickers (stacked rows, hairline divider chrome). `nav-card` = a SINGLE drill-in row as its own bounded outlined card — reach for it when one drill-in needs to read as its own affordance, not as one entry in a stack. `suggestion-list` = labelled swipeable block of follow-suggestions (channels, people, companies, topics — same anatomy).
 
 ## Horizontal content surfaces
 
