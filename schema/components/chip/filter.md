@@ -61,11 +61,11 @@ Directional/dismiss glyph after the label — chevron-down to expand, "×" to cl
 chip/filter/trailing-icon
 ---
 import { Chip } from '@blind-dsai/ui';
-import { CloseIcon } from '@blind-dsai/ui/icons';
+import { XIcon } from '@blind-dsai/ui/icons';
 
 <Chip
   variant="filter"
-  trailingIcon={<CloseIcon />}
+  trailingIcon={<XIcon />}
 >
   Today
 </Chip>
@@ -104,7 +104,7 @@ Pair the chip rail with a trailing accent [Text Button](../button/text.md) (`siz
 chip/filter/with-trailing-action
 ---
 import { Chip, Button } from '@blind-dsai/ui';
-import { DownwardIcon } from '@blind-dsai/ui/icons';
+import { ArrowDownIcon } from '@blind-dsai/ui/icons';
 
 <div
   style={{
@@ -128,10 +128,10 @@ import { DownwardIcon } from '@blind-dsai/ui/icons';
       maskImage: 'linear-gradient(to right, black 0, black calc(100% - 48px), transparent 100%)',
     }}
   >
-    <Chip variant="filter" selected trailingIcon={<DownwardIcon />}>
+    <Chip variant="filter" selected trailingIcon={<ArrowDownIcon />}>
       All keywords
     </Chip>
-    <Chip variant="filter" selected trailingIcon={<DownwardIcon />}>
+    <Chip variant="filter" selected trailingIcon={<ArrowDownIcon />}>
       All channels
     </Chip>
     <Chip variant="filter">

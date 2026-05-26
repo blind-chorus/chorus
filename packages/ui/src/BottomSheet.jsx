@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from './Button.jsx';
-import { BackwardIcon } from './icons/index.js';
+import { ChevronLeftIcon } from './icons/index.js';
 import { useBodyScrollLock, usePortalTarget } from './internal/scrimPortal.js';
 import { joinClasses } from './spec-utils.js';
 
@@ -107,7 +107,7 @@ export function BottomSheet({
               <div className="chorus-bottom-sheet__title-row">
                 <Button
                   variant="icon"
-                  icon={<BackwardIcon />}
+                  icon={<ChevronLeftIcon />}
                   aria-label={backLabel}
                   onClick={onBack}
                 />

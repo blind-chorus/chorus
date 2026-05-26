@@ -38,6 +38,8 @@ rmSync(agentsRoot, { recursive: true, force: true });
 const transfers = [
   { from: "AGENTS.md", to: "agents/AGENTS.md" },
   { from: "prompt/LOVABLE.md", to: "agents/LOVABLE.md" },
+  { from: "prompt/compose.md", to: "agents/compose.md" },
+  { from: "prompt/anti-patterns.md", to: "agents/anti-patterns.md" },
   { from: "schema/catalog.md", to: "agents/catalog.md" },
   { from: "schema/manifest.json", to: "agents/manifest.json" },
   { from: "schema/DESIGN.md", to: "agents/DESIGN.md" },
@@ -46,6 +48,11 @@ const transfers = [
   // uses to pick an icon by intent (e.g. "vote" → PollIcon) without
   // grepping dist/icons/index.d.ts.
   { from: "packages/ui/src/icons/keywords.json", to: "agents/icons.keywords.json" },
+  // Per-token role + usage index. Pairs with resolved.*.json (values)
+  // and DESIGN.md (deep rationale) — this file is the routing layer
+  // so an agent maps "between cards in a section" → `stack.md` in a
+  // single read instead of grepping prose.
+  { from: "schema/tokens/tokens.usage.json", to: "agents/tokens.usage.json" },
 ];
 
 const optional = [

@@ -38,18 +38,24 @@
     "avatar": {
       "required": true,
       "description": "Centered circular avatar overlapping the cover band's bottom edge. Renders via the [Thumbnail](../thumbnail/thumbnail.md) component at `size={64}`. Every Thumbnail prop is forwarded verbatim; the carousel does not paint its own crop or image-area fallback.",
-      "accepts": ["thumbnail"],
+      "accepts": [
+        "thumbnail"
+      ],
       "rendersAs": "thumbnail:64"
     },
     "name": {
       "required": true,
       "description": "Entity name (channel / profile / company). `sys.typo.label.md` / Semibold / `sys.color.onSurface`. Centered; single line, truncates with ellipsis.",
-      "accepts": ["text"]
+      "accepts": [
+        "text"
+      ]
     },
     "followers": {
       "required": true,
       "description": "Follower count line. `sys.typo.caption.md` / Regular / `sys.color.onSurfaceVariant`. Centered; single line.",
-      "accepts": ["text"]
+      "accepts": [
+        "text"
+      ]
     },
     "metrics": {
       "required": false,
@@ -59,12 +65,16 @@
     "description": {
       "required": false,
       "description": "Two-line clamped descriptive paragraph that replaces the metrics row when present. `sys.typo.caption.md` / `sys.color.onSurfaceVariant`, centered. The slot reserves a fixed height of two `caption.md` lines so card height stays consistent across cards that carry metrics and cards that carry copy — extra content clamps with a trailing ellipsis.",
-      "accepts": ["text"]
+      "accepts": [
+        "text"
+      ]
     },
     "followAction": {
       "required": true,
       "description": "Trailing full-width [Toggle Button](../button/text.md) at the foot of the card. `Follow` (inactive) → `Following` (active). The carousel does not paint its own follow chrome — every state binding lives on the Toggle Button (Chip-toggle) contract, which paints `sys.color.primary` while inactive and a `surfaceContainerHigh` fill with a hairline outline while active so the followed state recedes.",
-      "accepts": ["button"],
+      "accepts": [
+        "button"
+      ],
       "rendersAs": "button:toggle (full-width inside card)"
     },
     "pagination": {
@@ -118,18 +128,60 @@
     "paginationInactiveColor": "sys.color.outlineVariant"
   },
   "itemProps": {
-    "id": { "type": "string", "optional": true },
-    "avatar": { "type": "object", "required": true, "description": "Forwarded to Thumbnail verbatim at size 64." },
-    "cover": { "type": "object", "optional": true, "description": "{ src?, alt? } — image-area override for the cover band. `src` accepts any URL; falls back to `/placeholder.png` (the universal Chorus image-area placeholder) when omitted. The slot is image-typed (same contract as `Thumbnail.src` / `FeedAd.media.src`) — `object-fit: cover` preserves aspect ratio and crops to the band's intrinsic 88px height." },
-    "name": { "type": "string", "required": true },
-    "followers": { "type": "string", "required": true },
-    "metrics": { "type": "node", "optional": true, "description": "Array of { icon, value, color? } where `icon` is one of 'star' | 'pulse' | 'thumb' or a custom ReactNode. Mutually exclusive with `description` — when both are passed, `description` wins." },
-    "description": { "type": "string", "optional": true, "description": "Two-line clamped paragraph that replaces the metrics row. Fixed-height slot — extra copy ellipsizes." },
-    "followed": { "type": "boolean", "default": false },
-    "onFollowChange": { "type": "function", "optional": true },
-    "followLabel": { "type": "string", "optional": true, "description": "Inactive label. Defaults to 'Follow'." },
-    "followingLabel": { "type": "string", "optional": true, "description": "Active label. Defaults to 'Following'." },
-    "onClick": { "type": "function", "optional": true }
+    "id": {
+      "type": "string",
+      "optional": true
+    },
+    "avatar": {
+      "type": "object",
+      "required": true,
+      "description": "Forwarded to Thumbnail verbatim at size 64."
+    },
+    "cover": {
+      "type": "object",
+      "optional": true,
+      "description": "{ src?, alt? } — image-area override for the cover band. `src` accepts any URL; falls back to `/placeholder.png` (the universal Chorus image-area placeholder) when omitted. The slot is image-typed (same contract as `Thumbnail.src` / `FeedAd.media.src`) — `object-fit: cover` preserves aspect ratio and crops to the band's intrinsic 88px height."
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "followers": {
+      "type": "string",
+      "required": true
+    },
+    "metrics": {
+      "type": "node",
+      "optional": true,
+      "description": "Array of { icon, value, color? } where `icon` is one of 'star' | 'pulse' | 'thumb' or a custom ReactNode. Mutually exclusive with `description` — when both are passed, `description` wins."
+    },
+    "description": {
+      "type": "string",
+      "optional": true,
+      "description": "Two-line clamped paragraph that replaces the metrics row. Fixed-height slot — extra copy ellipsizes."
+    },
+    "followed": {
+      "type": "boolean",
+      "default": false
+    },
+    "onFollowChange": {
+      "type": "function",
+      "optional": true
+    },
+    "followLabel": {
+      "type": "string",
+      "optional": true,
+      "description": "Inactive label. Defaults to 'Follow'."
+    },
+    "followingLabel": {
+      "type": "string",
+      "optional": true,
+      "description": "Active label. Defaults to 'Following'."
+    },
+    "onClick": {
+      "type": "function",
+      "optional": true
+    }
   },
   "states": {
     "note": "ProfileCarousel is not itself interactive — commit lives in each card's Toggle Button follow affordance and the optional card-level `onClick`. Each follows its own spec's state contract."
@@ -148,5 +200,12 @@
     "paginationDecorative": "Dots are decorative; tapping a dot does not scroll. Active state updates via IntersectionObserver on the snap targets.",
     "followToggleCommitsInPlace": "Tapping Follow flips the card's Toggle Button to Following and stays there. State is owned by the consumer via items[i].followed + onFollowChange.",
     "cardClickRoutes": "When an item carries `onClick`, the card surface becomes the click target. The follow toggle intercepts the tap so it routes independently."
-  }
+  },
+  "forbidden": [
+    "card outline painted as a raw `border:` — outline is an `::after` overlay layer because the card hosts a full-bleed cover band",
+    "cover band painted as an inline SVG wordmark — cover uses /placeholder.png via the image-area contract, object-fit: cover",
+    "Section heading composed inside the carousel — header + see-all link live on the Section wrapper",
+    "metrics row mixed with description in the same card — the spec declares them mutually exclusive (description replaces metrics when present)",
+    "fixed 176px card width altered — the carousel never reflows the card"
+  ]
 }

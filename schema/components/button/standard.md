@@ -70,12 +70,12 @@ A single optional icon rendered **before** the label — a context glyph (`+` fo
 button/standard/with-leading-icon
 ---
 import { Button } from '@blind-dsai/ui';
-import { AddIcon } from '@blind-dsai/ui/icons';
+import { PlusIcon } from '@blind-dsai/ui/icons';
 
 <Button
   appearance="primary"
   size="large"
-  leadingIcon={<AddIcon />}
+  leadingIcon={<PlusIcon />}
 >
   Add item
 </Button>

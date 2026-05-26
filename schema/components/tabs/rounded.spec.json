@@ -126,5 +126,9 @@
       "implementation": "inset box-shadow on the tab's `::after` overlay. Constrained strictly inside the tab's footprint and never exceeds it."
     },
     "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
-  }
+  },
+  "forbidden": [
+    "rounded tab radius below sys.radius.full — rounded variant is always fully rounded",
+    "active state painted with sys.color.brand — rounded tabs use sys.color.primaryContainer fill in selected state"
+  ]
 }

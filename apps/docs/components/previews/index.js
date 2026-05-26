@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
 import { Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, List, NavigationBar, PostCarousel, ProfileCarousel, Section, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
-import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, DownwardIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
+import { PlusIcon, PlusSquareFillIcon, ChevronLeftIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, XIcon, BuildingIcon, BuildingFillIcon, ArrowDownIcon, ChevronRightIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, EllipsisHorizontalIcon, BellIcon, BellFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
    (clean license for docs reuse). Helper builds query params for size +
@@ -375,7 +375,7 @@ export const PREVIEWS = {
   'button/standard/with-leading-icon': {
     sizes: BUTTON_SIZES,
     render: ({ size = 'large', state }) => (
-      <Button appearance="primary" size={size} state={state} leadingIcon={<AddIcon />}>
+      <Button appearance="primary" size={size} state={state} leadingIcon={<PlusIcon />}>
         Add item
       </Button>
     ),
@@ -398,7 +398,7 @@ export const PREVIEWS = {
   'button/fab/primary': {
     states: FAB_STATES,
     render: ({ state }) => (
-      <Button variant="fab" appearance="primary" state={state} icon={<AddIcon />}>
+      <Button variant="fab" appearance="primary" state={state} icon={<PlusIcon />}>
         Compose
       </Button>
     ),
@@ -406,7 +406,7 @@ export const PREVIEWS = {
   'button/fab/secondary': {
     states: FAB_STATES,
     render: ({ state }) => (
-      <Button variant="fab" appearance="secondary" state={state} icon={<AddIcon />}>
+      <Button variant="fab" appearance="secondary" state={state} icon={<PlusIcon />}>
         Compose
       </Button>
     ),
@@ -414,7 +414,7 @@ export const PREVIEWS = {
   'button/fab/icon': {
     states: FAB_STATES,
     render: ({ state }) => (
-      <Button variant="fab" appearance="primary" state={state} icon={<AddIcon />} aria-label="Add" />
+      <Button variant="fab" appearance="primary" state={state} icon={<PlusIcon />} aria-label="Add" />
     ),
   },
   'button/fab/text': {
@@ -426,7 +426,7 @@ export const PREVIEWS = {
   'button/fab/extended': {
     states: FAB_STATES,
     render: ({ state }) => (
-      <Button variant="fab" appearance="primary" state={state} icon={<AddIcon />}>Add item</Button>
+      <Button variant="fab" appearance="primary" state={state} icon={<PlusIcon />}>Add item</Button>
     ),
   },
 
@@ -440,7 +440,7 @@ export const PREVIEWS = {
   },
   'button/toolbar/leading-icon': {
     render: ({ state }) => (
-      <Button variant="toolbar" state={state} leadingIcon={<AddIcon />}>
+      <Button variant="toolbar" state={state} leadingIcon={<PlusIcon />}>
         Add row
       </Button>
     ),
@@ -466,13 +466,13 @@ export const PREVIEWS = {
   },
   'button/toolbar/icon-only': {
     render: ({ state }) => (
-      <Button variant="toolbar" state={state} leadingIcon={<AddIcon />} aria-label="Add" />
+      <Button variant="toolbar" state={state} leadingIcon={<PlusIcon />} aria-label="Add" />
     ),
   },
   'button/toolbar/group': {
     render: ({ state }) => (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--sys-layout-inline-sm)', flexWrap: 'wrap' }}>
-        <Button variant="toolbar" state={state} leadingIcon={<AddIcon />}>Add</Button>
+        <Button variant="toolbar" state={state} leadingIcon={<PlusIcon />}>Add</Button>
         <Button variant="toolbar" state={state}>Edit</Button>
         <Button variant="toolbar" state={state} trailingIcon={<CheckedIcon />}>Sort</Button>
       </div>
@@ -491,7 +491,7 @@ export const PREVIEWS = {
   'button/icon/inverse': {
     sizes: ['large', 'medium'],
     render: ({ size = 'medium', state }) => (
-      <Button variant="icon" size={size} appearance="inverse" icon={<CloseIcon />} aria-label="Dismiss" state={state} />
+      <Button variant="icon" size={size} appearance="inverse" icon={<XIcon />} aria-label="Dismiss" state={state} />
     ),
   },
   'button/icon/group': {
@@ -547,13 +547,13 @@ export const PREVIEWS = {
   'button/text/leading-icon': {
     sizes: ['medium', 'small', 'xsmall'],
     render: ({ size = 'medium', state }) => (
-      <Button variant="text" size={size} state={state} leadingIcon={<BackwardIcon />}>Back</Button>
+      <Button variant="text" size={size} state={state} leadingIcon={<ChevronLeftIcon />}>Back</Button>
     ),
   },
   'button/text/trailing-icon': {
     sizes: ['medium', 'small', 'xsmall'],
     render: ({ size = 'medium', state }) => (
-      <Button variant="text" size={size} state={state} trailingIcon={<ForwardIcon />}>Continue</Button>
+      <Button variant="text" size={size} state={state} trailingIcon={<ChevronRightIcon />}>Continue</Button>
     ),
   },
   'button/text/group': {
@@ -670,7 +670,7 @@ export const PREVIEWS = {
   },
   'chip/filter/trailing-icon': {
     render: ({ state }) => (
-      <Chip variant="filter" state={state} trailingIcon={<CloseIcon />}>
+      <Chip variant="filter" state={state} trailingIcon={<XIcon />}>
         Today
       </Chip>
     ),
@@ -722,8 +722,8 @@ export const PREVIEWS = {
               'linear-gradient(to right, black 0, black calc(100% - 48px), transparent 100%)',
           }}
         >
-          <Chip variant="filter" selected trailingIcon={<DownwardIcon />}>All keywords</Chip>
-          <Chip variant="filter" selected trailingIcon={<DownwardIcon />}>All channels</Chip>
+          <Chip variant="filter" selected trailingIcon={<ArrowDownIcon />}>All keywords</Chip>
+          <Chip variant="filter" selected trailingIcon={<ArrowDownIcon />}>All channels</Chip>
           <Chip variant="filter">Label</Chip>
           <Chip variant="filter">Saved</Chip>
         </div>
@@ -747,7 +747,7 @@ export const PREVIEWS = {
   },
   'chip/tag/dismissable': {
     render: ({ state }) => (
-      <Chip variant="tag" state={state} trailingIcon={<CloseIcon />}>Newsletter</Chip>
+      <Chip variant="tag" state={state} trailingIcon={<XIcon />}>Newsletter</Chip>
     ),
   },
   'chip/tag/group': {
@@ -982,7 +982,7 @@ export const PREVIEWS = {
           initialValue="posts"
           state={state}
           items={[
-            { value: 'posts',   label: 'Posts',   icon: <AddIcon /> },
+            { value: 'posts',   label: 'Posts',   icon: <PlusIcon /> },
             { value: 'replies', label: 'Replies' },
             { value: 'likes',   label: 'Likes',   icon: <CheckedIcon /> },
           ]}
@@ -1114,7 +1114,7 @@ export const PREVIEWS = {
           state={state}
           items={[
             { value: 'list', label: 'List', icon: <CheckedIcon /> },
-            { value: 'grid', label: 'Grid', icon: <AddIcon /> },
+            { value: 'grid', label: 'Grid', icon: <PlusIcon /> },
           ]}
         />
       </Frame>
@@ -1130,12 +1130,12 @@ export const PREVIEWS = {
      signal. Each renders the control with `state="focused"`; for tabs the
      ring is pinned to one tab via `focusedValue`. */
   'button/fab/focused': () => (
-    <Button variant="fab" appearance="primary" state="focused" icon={<AddIcon />}>
+    <Button variant="fab" appearance="primary" state="focused" icon={<PlusIcon />}>
       Compose
     </Button>
   ),
   'button/toolbar/focused': () => (
-    <Button variant="toolbar" state="focused" leadingIcon={<AddIcon />}>
+    <Button variant="toolbar" state="focused" leadingIcon={<PlusIcon />}>
       Add row
     </Button>
   ),
@@ -1146,7 +1146,7 @@ export const PREVIEWS = {
     <Chip variant="filter" state="focused">All</Chip>
   ),
   'chip/tag/focused': () => (
-    <Chip variant="tag" state="focused" trailingIcon={<CloseIcon />}>Newsletter</Chip>
+    <Chip variant="tag" state="focused" trailingIcon={<XIcon />}>Newsletter</Chip>
   ),
   'tabs/underline/focused': () => (
     <Frame>
@@ -2016,10 +2016,10 @@ export const PREVIEWS = {
       );
       return (
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sys-layout-inline-2xl)' }}>
-          {wrap(<NotificationIcon size={24} />)}
+          {wrap(<BellIcon size={24} />)}
           {wrap(<ChatIcon size={24} />)}
           {wrap(<MentionIcon size={24} />)}
-          {wrap(<NotificationIcon size={20} />)}
+          {wrap(<BellIcon size={20} />)}
           {wrap(<ChatIcon size={20} />)}
           {wrap(<MentionIcon size={20} />)}
         </div>
@@ -2132,7 +2132,7 @@ export const PREVIEWS = {
         <NavigationBar
           variant="page"
           title="Edit profile"
-          leading={{ icon: <BackwardIcon />, 'aria-label': 'Back' }}
+          leading={{ icon: <ChevronLeftIcon />, 'aria-label': 'Back' }}
           trailing={<Button variant="toolbar" appearance="accent">Save</Button>}
         />
       </Frame>
@@ -2145,7 +2145,7 @@ export const PREVIEWS = {
         <NavigationBar
           variant="page"
           title="Help center"
-          trailing={{ icon: <CloseIcon />, 'aria-label': 'Close' }}
+          trailing={{ icon: <XIcon />, 'aria-label': 'Close' }}
         />
       </Frame>
     ),
@@ -2157,8 +2157,8 @@ export const PREVIEWS = {
         <NavigationBar
           variant="page"
           title="Thread"
-          leading={{ icon: <BackwardIcon />, 'aria-label': 'Back' }}
-          trailing={{ icon: <MoreIcon />, 'aria-label': 'More' }}
+          leading={{ icon: <ChevronLeftIcon />, 'aria-label': 'Back' }}
+          trailing={{ icon: <EllipsisHorizontalIcon />, 'aria-label': 'More' }}
         />
       </Frame>
     ),
@@ -2170,7 +2170,7 @@ export const PREVIEWS = {
         <NavigationBar
           variant="page"
           title="Pick your interests"
-          leading={{ icon: <BackwardIcon />, 'aria-label': 'Back' }}
+          leading={{ icon: <ChevronLeftIcon />, 'aria-label': 'Back' }}
           trailing={{ label: 'Skip', href: '#skip' }}
         />
       </Frame>
@@ -2217,10 +2217,10 @@ export const PREVIEWS = {
             onChange={setValue}
             items={[
               { value: 'home',          label: 'Home',          icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
-              { value: 'company',       label: 'Company',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
+              { value: 'company',       label: 'Company',       icon: <BuildingIcon />,      activeIcon: <BuildingFillIcon /> },
               { value: 'explore',       label: 'Explore',       icon: <SearchIcon />,       activeIcon: <SearchFillIcon /> },
               { value: 'jobs',          label: 'Jobs',          icon: <BriefcaseIcon />,    activeIcon: <BriefcaseFillIcon /> },
-              { value: 'notifications', label: 'Notifications', icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
+              { value: 'notifications', label: 'Notifications', icon: <BellIcon />, activeIcon: <BellFillIcon /> },
             ]}
           />
         </Frame>
@@ -2239,11 +2239,11 @@ export const PREVIEWS = {
             onChange={setValue}
             items={[
               { value: 'home',          label: 'Home',          icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
-              { value: 'company',       label: 'Company',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
+              { value: 'company',       label: 'Company',       icon: <BuildingIcon />,      activeIcon: <BuildingFillIcon /> },
               { value: 'explore',       label: 'Explore',       icon: <SearchIcon />,       activeIcon: <SearchFillIcon /> },
               { value: 'jobs',          label: 'Jobs',          icon: <BriefcaseIcon />,    activeIcon: <BriefcaseFillIcon /> },
-              { value: 'notifications', label: 'Notifications', icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
-              { value: 'create',        label: 'Create',        icon: <AddSquareFillIcon />, appearance: 'primary' },
+              { value: 'notifications', label: 'Notifications', icon: <BellIcon />, activeIcon: <BellFillIcon /> },
+              { value: 'create',        label: 'Create',        icon: <PlusSquareFillIcon />, appearance: 'primary' },
             ]}
           />
         </Frame>
@@ -2282,10 +2282,10 @@ export const PREVIEWS = {
             onChange={setValue}
             items={[
               { value: 'home',          label: 'Home',                  icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
-              { value: 'company',       label: 'My organization',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
+              { value: 'company',       label: 'My organization',       icon: <BuildingIcon />,      activeIcon: <BuildingFillIcon /> },
               { value: 'explore',       label: 'Explore communities',   icon: <SearchIcon />,       activeIcon: <SearchFillIcon /> },
               { value: 'messages',      label: 'Direct messages',       icon: <ChatIcon />,         activeIcon: <ChatFillIcon /> },
-              { value: 'notifications', label: 'All notifications',     icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
+              { value: 'notifications', label: 'All notifications',     icon: <BellIcon />, activeIcon: <BellFillIcon /> },
             ]}
           />
         </Frame>
@@ -2301,10 +2301,10 @@ export const PREVIEWS = {
           value="home"
           items={[
             { value: 'home',          label: 'Home',          icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
-            { value: 'company',       label: 'Company',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
+            { value: 'company',       label: 'Company',       icon: <BuildingIcon />,      activeIcon: <BuildingFillIcon /> },
             { value: 'explore',       label: 'Explore',       icon: <SearchIcon />,       activeIcon: <SearchFillIcon />, forcedState: 'focused' },
             { value: 'jobs',          label: 'Jobs',          icon: <BriefcaseIcon />,    activeIcon: <BriefcaseFillIcon /> },
-            { value: 'notifications', label: 'Notifications', icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
+            { value: 'notifications', label: 'Notifications', icon: <BellIcon />, activeIcon: <BellFillIcon /> },
           ]}
         />
       </Frame>
@@ -2359,7 +2359,7 @@ export const PREVIEWS = {
             variant="icon"
             size="medium"
             appearance="inverse"
-            icon={<CloseIcon />}
+            icon={<XIcon />}
             aria-label="Dismiss"
             onClick={() => {}}
           />
@@ -2394,7 +2394,7 @@ export const PREVIEWS = {
             variant="icon"
             size="medium"
             appearance="inverse"
-            icon={<CloseIcon />}
+            icon={<XIcon />}
             aria-label="Dismiss"
             onClick={() => {}}
           />

@@ -10,12 +10,12 @@ The default FAB — brand-red fill anchoring the canvas's headline action.
 button/fab/primary
 ---
 import { Button } from '@blind-dsai/ui';
-import { AddIcon } from '@blind-dsai/ui/icons';
+import { PlusIcon } from '@blind-dsai/ui/icons';
 
 <Button
   variant="fab"
   appearance="primary"
-  icon={<AddIcon />}
+  icon={<PlusIcon />}
 >
   Compose
 </Button>
@@ -29,12 +29,12 @@ A theme-toned FAB that defers to the canvas's surface tones. Reach for this when
 button/fab/secondary
 ---
 import { Button } from '@blind-dsai/ui';
-import { AddIcon } from '@blind-dsai/ui/icons';
+import { PlusIcon } from '@blind-dsai/ui/icons';
 
 <Button
   variant="fab"
   appearance="secondary"
-  icon={<AddIcon />}
+  icon={<PlusIcon />}
 >
   Compose
 </Button>
@@ -50,12 +50,12 @@ Icon-only form — 48 × 48 circle with a 24px glyph. For universally legible ac
 button/fab/icon
 ---
 import { Button } from '@blind-dsai/ui';
-import { AddIcon } from '@blind-dsai/ui/icons';
+import { PlusIcon } from '@blind-dsai/ui/icons';
 
 <Button
   variant="fab"
   appearance="primary"
-  icon={<AddIcon />}
+  icon={<PlusIcon />}
   aria-label="Add"
 />
 ```
@@ -82,12 +82,12 @@ Icon + label form. Default for primary canvas commits where space allows (deskto
 button/fab/extended
 ---
 import { Button } from '@blind-dsai/ui';
-import { AddIcon } from '@blind-dsai/ui/icons';
+import { PlusIcon } from '@blind-dsai/ui/icons';
 
 <Button
   variant="fab"
   appearance="primary"
-  icon={<AddIcon />}
+  icon={<PlusIcon />}
 >
   Add item
 </Button>
@@ -101,9 +101,9 @@ Standard ring with the FAB's floating elevation stacked underneath. See [Focus r
 button/fab/focused
 ---
 import { Button } from '@blind-dsai/ui';
-import { AddIcon } from '@blind-dsai/ui/icons';
+import { PlusIcon } from '@blind-dsai/ui/icons';
 
-<Button variant="fab" appearance="primary" state="focused" icon={<AddIcon />}>
+<Button variant="fab" appearance="primary" state="focused" icon={<PlusIcon />}>
   Compose
 </Button>
 ```

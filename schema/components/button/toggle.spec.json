@@ -114,5 +114,10 @@
       "insetColor": "sys.color.focusInset"
     },
     "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
-  }
+  },
+  "forbidden": [
+    "active state painted with sys.color.primary fill — active is sys.color.surfaceContainerHigh + hairline outline (the active state recedes, not asserts)",
+    "rest state without an explicit `selected={false}` — toggle is a binary contract, never tristate",
+    "manual width override that breaks the full-card stretch when used inside ProfileCarousel.followAction"
+  ]
 }

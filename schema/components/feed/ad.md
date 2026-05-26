@@ -70,7 +70,7 @@ import { FeedAd } from '@blind-dsai/ui';
 | brand avatar     | [Thumbnail](../thumbnail/thumbnail.md) `size={32}` — delegated verbatim |
 | brand name       | `sys.typo.label.md` (14 / Semibold), `onSurface` |
 | brand subtitle   | `sys.typo.caption.md` (12 / Regular), `onSurfaceVariant`. Defaults to `Sponsored`. |
-| dismiss          | 16px `CloseIcon` inside a 24-rung hit area, `onSurfaceVariant` glyph, no chrome at rest |
+| dismiss          | 16px `XIcon` inside a 24-rung hit area, `onSurfaceVariant` glyph, no chrome at rest |
 | title → body     | 8px vertical gap (`sys.layout.stack.xs`) |
 | title            | `heading.sm` (16 / Semibold), `onSurface`, single-line truncate |
 | body             | 14 / Regular, `onSurfaceVariant`, two-line clamp |

@@ -152,5 +152,10 @@
     "ariaPressed": "Check Button is a toggle button. The component sets `aria-pressed={checked}` automatically and renders the matching checkbox glyph; consumers wire `onChange` (or `onClick` + setState) on the parent. Don't model it as a checkbox input — it is a `<button>` with toggle semantics, not a form control.",
     "iconColor": "The 24px checkbox glyph inherits the label color via `currentColor`, same as `icon` and `button/text`'s leading/trailing slots. Re-tones with appearance + disabled + hover.",
     "group": "Stacks vertically when multiple Check Buttons share an option band. Row gap follows `sys.layout.stack.md` between sibling checks; never use a wider gap that would visually disjoint sibling options."
-  }
+  },
+  "forbidden": [
+    "checkbox rendered as raw <input type=checkbox> without the chorus-button--check chrome",
+    "label split from the checkbox — the entire row is the click target",
+    "indeterminate state synthesized via opacity instead of the declared check state"
+  ]
 }

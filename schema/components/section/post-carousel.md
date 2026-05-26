@@ -64,7 +64,7 @@ import { Section, PostCarousel } from '@blind-dsai/ui';
   - **title** — post title; `sys.typo.label.md` / Semibold / `sys.color.onSurface`. Single line, truncates.
   - **body** — post excerpt; `sys.typo.body.sm` / Regular / `sys.color.onSurfaceVariant`. Three-line clamp.
   - **mention** *(optional)* — tap-anywhere mention / tag line; `sys.typo.body.sm` / `sys.color.primary` (not italic).
-  - **footer** — leading 'See more' [Text Button](../button/text.md) (`size={'xsmall'}`, `appearance={'secondary'}`) + trailing view count (`ViewIcon` at `sys.icon.md` + count, non-interactive `<span>`).
+  - **footer** — leading 'See more' [Text Button](../button/text.md) (`size={'xsmall'}`, `appearance={'secondary'}`) + trailing view count (`EyeIcon` at `sys.icon.md` + count, non-interactive `<span>`).
 - **pagination** — one dot per card. Active dot paints `sys.color.onSurface`; rest paint `sys.color.outlineVariant`. Decorative (`aria-hidden`).
 
 ## Anatomy

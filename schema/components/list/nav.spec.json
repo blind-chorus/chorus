@@ -6,24 +6,85 @@
   "description": "Drill-in navigation List variant. No leading slot; the trailing edge auto-renders a right-pointing chevron as the visual cue for \"tap to navigate further\". The whole row routes. Per-item `trailingIcon` still wins if supplied, so a row can opt out of the chevron for a different glyph.",
   "element": "ul",
   "props": {
-    "items": { "type": "node", "required": true, "description": "Array of row descriptors." }
+    "items": {
+      "type": "node",
+      "required": true,
+      "description": "Array of row descriptors."
+    }
   },
   "slots": {
-    "container": { "required": true, "description": "Outer scroll surface. Vertical stack with a transparent fill (inherits parent container tone); rows separated by a 1px outlineVariant divider, not a gap." },
-    "row": { "required": true, "description": "Single list item. Whole row is the interactive target." },
-    "leading": { "required": false, "description": "Omitted for the nav variant — no reserved leading whitespace.", "accepts": [] },
-    "label": { "required": true, "description": "Primary row text. 16px / Regular / onSurface. Single line; truncates with ellipsis.", "accepts": ["text"] },
-    "supportingText": { "required": false, "description": "Secondary line under label. 14px / Regular / onSurfaceVariant, 2px below label.", "accepts": ["text"] },
-    "trailingIcon": { "required": false, "description": "Auto-rendered right-pointing chevron at 16px (per-item `trailingIcon` wins if supplied).", "accepts": ["icon", "badge"] }
+    "container": {
+      "required": true,
+      "description": "Outer scroll surface. Vertical stack with a transparent fill (inherits parent container tone); rows separated by a 1px outlineVariant divider, not a gap."
+    },
+    "row": {
+      "required": true,
+      "description": "Single list item. Whole row is the interactive target."
+    },
+    "leading": {
+      "required": false,
+      "description": "Omitted for the nav variant — no reserved leading whitespace.",
+      "accepts": []
+    },
+    "label": {
+      "required": true,
+      "description": "Primary row text. 16px / Regular / onSurface. Single line; truncates with ellipsis.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "supportingText": {
+      "required": false,
+      "description": "Secondary line under label. 14px / Regular / onSurfaceVariant, 2px below label.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "trailingIcon": {
+      "required": false,
+      "description": "Auto-rendered right-pointing chevron at 16px (per-item `trailingIcon` wins if supplied).",
+      "accepts": [
+        "icon",
+        "badge"
+      ]
+    }
   },
   "rowProps": {
-    "value": { "type": "string", "required": true },
-    "label": { "type": "string", "required": true },
-    "supportingText": { "type": "string", "optional": true },
-    "trailingIcon": { "type": "node", "optional": true, "description": "Overrides the auto-rendered chevron." },
-    "disabled": { "type": "boolean", "default": false },
-    "onClick": { "type": "function", "optional": true },
-    "forcedState": { "type": "literal", "values": ["hovered", "pressed", "focused"], "optional": true, "description": "Docs-only — pins the row to a single visual state via `data-force-state`. Not for production use." }
+    "value": {
+      "type": "string",
+      "required": true
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "supportingText": {
+      "type": "string",
+      "optional": true
+    },
+    "trailingIcon": {
+      "type": "node",
+      "optional": true,
+      "description": "Overrides the auto-rendered chevron."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "onClick": {
+      "type": "function",
+      "optional": true
+    },
+    "forcedState": {
+      "type": "literal",
+      "values": [
+        "hovered",
+        "pressed",
+        "focused"
+      ],
+      "optional": true,
+      "description": "Docs-only — pins the row to a single visual state via `data-force-state`. Not for production use."
+    }
   },
   "sizing": {
     "rowPaddingBlock": "12px",
@@ -41,16 +102,34 @@
     "trailingIconColor": "sys.color.onSurfaceVariant"
   },
   "states": {
-    "default": { "overlay": null },
-    "hovered": { "overlay": { "color": "label", "opacity": "sys.state.hover" } },
-    "pressed": { "overlay": { "color": "label", "opacity": "sys.state.pressed" } },
-    "disabled": { "containerOpacity": "sys.state.disabled", "pointerEvents": "none" }
+    "default": {
+      "overlay": null
+    },
+    "hovered": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.hover"
+      }
+    },
+    "pressed": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.pressed"
+      }
+    },
+    "disabled": {
+      "containerOpacity": "sys.state.disabled",
+      "pointerEvents": "none"
+    }
   },
   "focusIndicator": {
     "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the row is in.",
     "composition": "inward",
     "compositionReason": "Rows tile the column flush with only a hairline `outlineVariant` divider between them; an outward ring would overlap the divider and the neighbouring row.",
-    "overlay": { "color": "label", "opacity": "sys.state.focus" },
+    "overlay": {
+      "color": "label",
+      "opacity": "sys.state.focus"
+    },
     "ring": {
       "outerWidth": "sys.borderWidth.thin",
       "outerColor": "sys.color.focus",
@@ -66,5 +145,10 @@
     "keyboardNavigation": "Arrow up/down moves focus between rows. Home and End jump to first / last.",
     "rowClickTarget": "Whole row is clickable. The trailing chevron is never a separate hit target.",
     "truncationNotWrap": "Both label and supportingText truncate; the row never grows to fit long text."
-  }
+  },
+  "forbidden": [
+    "trailing chevron omitted — the nav variant auto-renders the chevron",
+    "raw <a> rendered as the row — the row is the click target with onClick / href forwarded through the spec'd contract",
+    "destructive action fired on row tap — destructive commits open a Dialog / BottomSheet, never fire inline"
+  ]
 }

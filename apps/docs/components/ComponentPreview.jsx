@@ -10,7 +10,7 @@ import {
   CheckboxIcon,
   CheckboxFillIcon,
   DuplicateIcon,
-  ExpandIcon,
+  ChevronDownIcon,
 } from '@blind-dsai/ui/icons';
 import { PREVIEWS } from './previews';
 
@@ -220,7 +220,7 @@ function ToolbarSelect({ value, onChange, options }) {
         variant="text"
         size="xsmall"
         appearance="secondary"
-        trailingIcon={<ExpandIcon />}
+        trailingIcon={<ChevronDownIcon />}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={open ? listboxId : undefined}

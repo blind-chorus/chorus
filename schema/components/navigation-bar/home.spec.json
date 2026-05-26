@@ -7,15 +7,50 @@
   "description": "Landing-screen top bar — anchored to the top of a tab root (a feed, an inbox, a profile, a discover screen). A leading menu glyph + left-aligned title occupy the start of the row; up to three action icons (search, chat, profile / notifications) sit at the trailing edge. **The title slot defaults to the brand logotype rendered at 24px tall** (width auto, ratio preserved) so the landing rung of every Home tab opens with the product mark rather than a written page name. A string title is the fallback for screens that don't anchor a top-level brand identity (a secondary tab root, a feature surface, a dev screen); the fallback carries the system's largest page-level type rung (heading.lg, 24/Semibold) rather than the smaller drill-in rung used by Page, and shares the 24-tall rhythm of the logotype so the bar's height is unchanged across the two presentations.",
   "element": "header",
   "props": {
-    "variant": { "type": "literal", "value": "home" },
-    "title": { "type": "node", "required": true, "description": "Default: brand logotype `<img>` rendered at a fixed 24px height (width auto). Fallback: plain string rendered as `heading.lg` text that truncates with ellipsis." },
-    "onMenuClick": { "type": "function", "optional": true },
-    "trailingActions": { "type": "node", "optional": true, "description": "Up to three { icon, 'aria-label' } entries; laid out left-to-right with no inter-icon gap." }
+    "variant": {
+      "type": "literal",
+      "value": "home"
+    },
+    "title": {
+      "type": "node",
+      "required": true,
+      "description": "Default: brand logotype `<img>` rendered at a fixed 24px height (width auto). Fallback: plain string rendered as `heading.lg` text that truncates with ellipsis."
+    },
+    "onMenuClick": {
+      "type": "function",
+      "optional": true
+    },
+    "trailingActions": {
+      "type": "node",
+      "optional": true,
+      "description": "Up to three { icon, 'aria-label' } entries; laid out left-to-right with no inter-icon gap."
+    }
   },
   "slots": {
-    "leadingIcon": { "required": true, "intrinsic": true, "description": "Fixed — always the menu / hamburger icon (MenuIcon). Rendered as a transparent icon capsule with the 24px glyph centred.", "accepts": ["icon"] },
-    "title": { "required": true, "description": "Screen's identity. Default rendering is the brand logotype `<img>` at a fixed 24px height (width auto, ratio preserved) so every Home tab opens with the product mark. Falls back to a plain-text string at heading.lg / Semibold / onSurface (truncates with ellipsis) when the screen has no logotype affordance.", "accepts": ["text", "image"] },
-    "trailingActions": { "required": false, "description": "Array of up to three icon actions at the end of the row. Each renders as a transparent icon capsule; capsules sit flush with no inter-icon gap.", "accepts": ["icon", "button"] }
+    "leadingIcon": {
+      "required": true,
+      "intrinsic": true,
+      "description": "Fixed — always the menu / hamburger icon (MenuIcon). Rendered as a transparent icon capsule with the 24px glyph centred.",
+      "accepts": [
+        "icon"
+      ]
+    },
+    "title": {
+      "required": true,
+      "description": "Screen's identity. Default rendering is the brand logotype `<img>` at a fixed 24px height (width auto, ratio preserved) so every Home tab opens with the product mark. Falls back to a plain-text string at heading.lg / Semibold / onSurface (truncates with ellipsis) when the screen has no logotype affordance.",
+      "accepts": [
+        "text",
+        "image"
+      ]
+    },
+    "trailingActions": {
+      "required": false,
+      "description": "Array of up to three icon actions at the end of the row. Each renders as a transparent icon capsule; capsules sit flush with no inter-icon gap.",
+      "accepts": [
+        "icon",
+        "button"
+      ]
+    }
   },
   "sizing": {
     "containerPaddingBlock": "sys.layout.container.xs",
@@ -49,5 +84,11 @@
     "pageChrome": "Bar renders in the page flow at the top of the screen; the host page is responsible for pinning (position: sticky, etc.).",
     "titleTruncates": "Long page names truncate with ellipsis; the bar height stays at 56 regardless. Treat as a safety net — author concise titles.",
     "trailingIconCeiling": "Three is the conventional ceiling — a fourth action belongs in an overflow menu. The component does not enforce."
-  }
+  },
+  "forbidden": [
+    "brand color on the title / wordmark — header chrome stays on sys.color.surface; the wordmark paints sys.color.onSurface",
+    "more than three trailing actions — anatomy invariants cap at three",
+    "leading action different from the menu glyph — the home variant always opens with hamburger / menu",
+    "title bar height different from 56px — geometry is fixed across all navigation-bar subs"
+  ]
 }

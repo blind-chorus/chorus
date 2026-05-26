@@ -2,7 +2,7 @@
 
 import { isValidElement, useState, useRef, useEffect } from 'react';
 import { Button } from './Button.jsx';
-import { BackwardIcon, CloseCircleFillIcon, MenuIcon } from './icons/index.js';
+import { ChevronLeftIcon, XCircleFillIcon, MenuIcon } from './icons/index.js';
 import { joinClasses } from './spec-utils.js';
 
 /* NavigationBar — the top app bar. Two sub-flavors share one component
@@ -209,7 +209,7 @@ function SearchBar({
       {...rest}
     >
       <div className="chorus-navigation-bar__slot chorus-navigation-bar__slot--leading">
-        <IconSlot icon={<BackwardIcon />} aria-label={backLabel} onClick={onBack} />
+        <IconSlot icon={<ChevronLeftIcon />} aria-label={backLabel} onClick={onBack} />
       </div>
       <input
         ref={inputRef}
@@ -227,7 +227,7 @@ function SearchBar({
               secondary affordance (the user's primary act on this bar is
               typing); a 40 × 40 / 24-glyph capsule would over-claim weight
               against the bare input next to it. */}
-          <IconSlot icon={<CloseCircleFillIcon />} aria-label={clearLabel} onClick={handleClear} size="medium" />
+          <IconSlot icon={<XCircleFillIcon />} aria-label={clearLabel} onClick={handleClear} size="medium" />
         </div>
       ) : null}
     </header>

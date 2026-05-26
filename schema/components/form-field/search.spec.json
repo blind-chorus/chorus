@@ -53,7 +53,7 @@
     },
     "clear": {
       "required": false,
-      "description": "Trailing '×' button (CloseCircleFillIcon) that wipes the value and returns focus to the input. Rendered into the DOM whenever the value is non-empty and the field isn't disabled, but **shown only while the box is focused** — so it appears only in the active state with text to clear; hidden on an empty / blurred / disabled field.",
+      "description": "Trailing '×' button (XCircleFillIcon) that wipes the value and returns focus to the input. Rendered into the DOM whenever the value is non-empty and the field isn't disabled, but **shown only while the box is focused** — so it appears only in the active state with text to clear; hidden on an empty / blurred / disabled field.",
       "intrinsic": true
     }
   },
@@ -126,5 +126,10 @@
       "insetColor": "sys.color.focusInset"
     },
     "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
-  }
+  },
+  "forbidden": [
+    "leading search glyph as a separate hit area — the entire field is the click / focus target",
+    "clear glyph rendered when value is empty — the clear affordance only appears with content",
+    "search field stacked under a navigation-bar/search — the bar variant already embeds the search input"
+  ]
 }

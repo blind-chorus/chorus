@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from './Button.jsx';
 import { Thumbnail } from './Thumbnail.jsx';
 import { joinClasses } from './spec-utils.js';
-import { VerifiedFillIcon, ViewIcon } from './icons/index.js';
+import { VerifiedFillIcon, EyeIcon } from './icons/index.js';
 
 /* PostCarousel — the `carousel` sub-component of the Feed family. A
    horizontally-scrolling pager of up to 5 compact post cards. The
@@ -164,7 +164,7 @@ function Card({ item, innerRef, index }) {
           {moreLabel ?? 'See more'}
         </Button>
         <span className="chorus-post-carousel__card-views" role="status" aria-label={`Views — ${views}`}>
-          <ViewIcon />
+          <EyeIcon />
           <span>{views}</span>
         </span>
       </footer>

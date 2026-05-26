@@ -145,5 +145,10 @@
     "footprint": "Content-sized — no explicit width / height. The 40 (large) / 32 (medium) falls out of padding + icon + padding.",
     "group": "Horizontally-grouped Icon Buttons share a row gap of `sys.layout.inline.xl` (16) on both rungs. Because Icon Button applies optical alignment by default (each capsule's chrome bleeds outward by its 8px padding so the visible glyph is the layout box), the chrome-to-chrome gap IS the visible glyph-to-glyph distance — no per-capsule padding to add on top. The hover capsules of adjacent buttons each extend 8px beyond their glyph; with a 16px row gap, two hover capsules touch chrome-to-chrome but never collide.",
     "opticalAlignmentDefault": "Icon Button applies optical alignment as the **default** rendering rule, on all four sides: the capsule is transparent at rest, so the visible glyph (not the padded chrome) defines the button's layout edges. Implemented as a base `margin: calc(-1 × sys.layout.container.xs)` on `.chorus-button--icon`. Hover capsule still paints on every side — the chrome becomes a hover-only affordance, doubling as a hit-zone enlargement. Consumers do not opt in; alignment with the surrounding content rail just works."
-  }
+  },
+  "forbidden": [
+    "Icon button without aria-label",
+    "raw <button> with a chorus-icon class inside instead of the chorus-button--icon chrome",
+    "icon size below sys.icon.md (20px) — small icon buttons fail touch-target minima"
+  ]
 }

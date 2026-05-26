@@ -12,13 +12,21 @@
 //     chorus://design          → /schema/DESIGN.md
 //     chorus://manifest        → /schema/manifest.json
 //     chorus://catalog         → /schema/catalog.md
+//     chorus://compose         → /prompt/compose.md (composition cheatsheet)
+//     chorus://anti-patterns   → /prompt/anti-patterns.md (wrong-vs-right pairs)
 //     chorus://tokens/light    → /schema/tokens/resolved.light.json
 //     chorus://tokens/dark     → /schema/tokens/resolved.dark.json
+//     chorus://tokens/usage    → /schema/tokens/tokens.usage.json (per-token
+//                                role + slot allowlist)
 //
 //   Tools (callable functions):
 //     list_families            → enumerate every family + useCases
 //     get_family(family)       → that family's family.json
 //     get_spec(family, sub?)   → that sub-component's spec.json
+//     get_bundle(family, sub?) → spec + related tokens.usage entries +
+//                                screen recipes that use this family. The
+//                                single safe-context query — replaces the
+//                                3-step (spec → tokens → recipe) lookup.
 //     list_screens             → enumerate every screen recipe
 //     get_screen(slug)         → that recipe's screen.json
 //     resolve_token(key,theme?)→ resolved value (e.g. sys.color.primary)
@@ -106,6 +114,30 @@ const RESOURCES = [
     mimeType: "application/json",
     path: join(SCHEMA_DIR, "tokens", "resolved.dark.json"),
   },
+  {
+    uri: "chorus://tokens/usage",
+    name: "tokens.usage.json",
+    description:
+      "Per-token role + usage index. One entry per agent-pickable sys.* token with `role`, `usedFor[]`, `notFor[]`, `pairsWith`, `allowedComponents[]`, `forbiddenComponents[]`, `maxInstancesPerScreen`. Replaces grepping DESIGN.md prose — single read per token.",
+    mimeType: "application/json",
+    path: join(SCHEMA_DIR, "tokens", "tokens.usage.json"),
+  },
+  {
+    uri: "chorus://compose",
+    name: "compose.md",
+    description:
+      "One-page composition cheatsheet — spacing recipes, color quartet picker, type ramp picker, per-slot typography table, 10 composition guard rails. Skim before composing any new surface.",
+    mimeType: "text/markdown",
+    path: join(REPO_ROOT, "prompt", "compose.md"),
+  },
+  {
+    uri: "chorus://anti-patterns",
+    name: "anti-patterns.md",
+    description:
+      "Catalogue of common Chorus-failure shapes with wrong-vs-right code snippet pairs. If your output matches a ❌ snippet, discard and regenerate.",
+    mimeType: "text/markdown",
+    path: join(REPO_ROOT, "prompt", "anti-patterns.md"),
+  },
 ];
 
 // ---- Tool catalog ------------------------------------------------------
@@ -134,6 +166,23 @@ const TOOLS = [
     name: "get_spec",
     description:
       "Return the .spec.json for one sub-component. Omit `subcomponent` to get the family's default. Includes props, slots, sizes, appearances, states, behavior.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        family: { type: "string", description: "kebab-case family slug" },
+        subcomponent: {
+          type: "string",
+          description: "kebab-case sub-component slug; omit for default",
+        },
+      },
+      required: ["family"],
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "get_bundle",
+    description:
+      "Return a composition-ready bundle for one sub-component: the spec.json, the family's family.json (for visualReuse + layoutInset), every tokens.usage entry referenced inside the spec, and every screen recipe that uses this family. The single safe-context query — replaces the 3-step (spec → tokens → recipe) lookup an agent would otherwise do before composing. Prefer this over get_spec when you're about to write JSX.",
     inputSchema: {
       type: "object",
       properties: {
@@ -255,6 +304,82 @@ const toolHandlers = {
     const r = loadSpec(manifest, family, subcomponent);
     if (r.error) return asError(r.error);
     return asTextContent(r.spec);
+  },
+
+  get_bundle({ family, subcomponent }) {
+    const manifest = loadManifest();
+    const r = loadSpec(manifest, family, subcomponent);
+    if (r.error) return asError(r.error);
+    const familyEntry = loadFamily(manifest, family);
+    const familyJson = familyEntry?.family ?? null;
+
+    // Token-usage references — scan the spec recursively for sys.* paths
+    // and resolve each against tokens.usage.json.
+    const tokensUsage = readJson(
+      join(SCHEMA_DIR, "tokens", "tokens.usage.json"),
+    ).tokens;
+    const tokenRefs = new Set();
+    const TOKEN_RE = /\b(sys\.[a-zA-Z0-9.]+?)(?=[\s,;)"`*]|$)/g;
+    const walk = (node) => {
+      if (node == null) return;
+      if (typeof node === "string") {
+        for (const m of node.matchAll(TOKEN_RE)) tokenRefs.add(m[1]);
+        return;
+      }
+      if (Array.isArray(node)) {
+        for (const v of node) walk(v);
+        return;
+      }
+      if (typeof node === "object") for (const v of Object.values(node)) walk(v);
+    };
+    walk(r.spec);
+    const relatedTokenUsage = {};
+    for (const tok of [...tokenRefs].sort()) {
+      // Try the token verbatim, then strip trailing `.size`/`.weight`/...
+      // sub-paths to find the parent typo rung.
+      let entry = tokensUsage[tok];
+      if (!entry) {
+        const parent = tok.split(".").slice(0, 4).join(".");
+        entry = tokensUsage[parent];
+      }
+      if (entry) relatedTokenUsage[tok] = entry;
+    }
+
+    // Recipes that mention this family — manifest.screens carries
+    // { slug, root }; load each and check region.family.
+    const relatedRecipes = [];
+    for (const { slug, root } of manifest.screens ?? []) {
+      const screen = readJson(join(SCHEMA_DIR, root));
+      const usesFamily = Object.values(screen.regions ?? {}).some(
+        (region) => region?.family === family,
+      );
+      if (usesFamily) {
+        relatedRecipes.push({
+          slug,
+          name: screen.name,
+          description: screen.description,
+        });
+      }
+    }
+
+    return asTextContent({
+      family,
+      subcomponent: r.spec.subcomponent ?? subcomponent ?? null,
+      spec: r.spec,
+      familyMeta: familyJson
+        ? {
+            visualReuse: familyJson.visualReuse,
+            layoutInset: familyJson.layoutInset,
+            useCases: familyJson.useCases,
+          }
+        : null,
+      relatedTokenUsage,
+      relatedRecipes,
+      readNext: [
+        "chorus://compose — composition cheatsheet (spacing recipes, color quartet, type ramp, guard rails)",
+        "chorus://anti-patterns — wrong-vs-right snippet pairs",
+      ],
+    });
   },
 
   list_screens() {

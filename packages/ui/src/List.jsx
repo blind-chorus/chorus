@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useId, useRef, useState } from 'react';
-import { ExpandIcon, RadioIcon, RadioFillIcon } from './icons/index.js';
+import { ChevronDownIcon, RadioIcon, RadioFillIcon } from './icons/index.js';
 import { Thumbnail } from './Thumbnail.jsx';
 import { joinClasses } from './spec-utils.js';
 
@@ -114,7 +114,7 @@ export function List({
             </span>
             {variant === 'nav' && !item.trailingIcon ? (
               <span className="chorus-list__trailing chorus-list__nav-chevron" aria-hidden="true">
-                <ExpandIcon size={16} />
+                <ChevronDownIcon size={16} />
               </span>
             ) : item.trailingIcon ? (
               <span className="chorus-list__trailing" aria-hidden="true">

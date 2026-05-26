@@ -14,7 +14,7 @@ import { NavigationBar, Button } from '@blind-dsai/ui';
 <NavigationBar
   variant="page"
   title="Edit profile"
-  leading={{ icon: <BackwardIcon />, 'aria-label': 'Back' }}
+  leading={{ icon: <ChevronLeftIcon />, 'aria-label': 'Back' }}
   trailing={<Button variant="toolbar" appearance="accent">Save</Button>}
 />
 ```
@@ -33,8 +33,8 @@ import { NavigationBar } from '@blind-dsai/ui';
 <NavigationBar
   variant="page"
   title="Thread"
-  leading={{ icon: <BackwardIcon />, 'aria-label': 'Back' }}
-  trailing={{ icon: <MoreIcon />, 'aria-label': 'More' }}
+  leading={{ icon: <ChevronLeftIcon />, 'aria-label': 'Back' }}
+  trailing={{ icon: <EllipsisHorizontalIcon />, 'aria-label': 'More' }}
 />
 ```
 
@@ -50,7 +50,7 @@ import { NavigationBar } from '@blind-dsai/ui';
 <NavigationBar
   variant="page"
   title="Pick your interests"
-  leading={{ icon: <BackwardIcon />, 'aria-label': 'Back' }}
+  leading={{ icon: <ChevronLeftIcon />, 'aria-label': 'Back' }}
   trailing={{ label: 'Skip', href: '#skip' }}
 />
 ```
@@ -67,7 +67,7 @@ import { NavigationBar } from '@blind-dsai/ui';
 <NavigationBar
   variant="page"
   title="Help center"
-  trailing={{ icon: <CloseIcon />, 'aria-label': 'Close' }}
+  trailing={{ icon: <XIcon />, 'aria-label': 'Close' }}
 />
 ```
 

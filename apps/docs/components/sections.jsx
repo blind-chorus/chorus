@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import Link from 'next/link';
 import { Badge } from '@blind-dsai/ui';
-import { NotificationIcon, ChatIcon, MentionIcon } from '@blind-dsai/ui/icons';
+import { BellIcon, ChatIcon, MentionIcon } from '@blind-dsai/ui/icons';
 import { asset } from '../lib/asset';
 import { groupByPrefix, toCssVarName } from '../lib/tokens';
 import { slugify as slugifyTitle } from '../lib/slugify';
@@ -2025,13 +2025,13 @@ export function Iconography() {
       >
         <div className="component-preview">
           <div className="component-preview-stage" style={{ gap: 'var(--ref-space-400)', justifyContent: 'center' }}>
-            {[NotificationIcon, ChatIcon, MentionIcon].map((Icon, i) => (
+            {[BellIcon, ChatIcon, MentionIcon].map((Icon, i) => (
               <span key={`lg-${i}`} style={{ position: 'relative', display: 'inline-flex', color: 'var(--sys-color-onSurface)' }}>
                 <Icon size={24} />
                 <Badge size="dot-sm" style={{ position: 'absolute', top: 0, right: 0, transform: 'translate(25%, -25%)' }} />
               </span>
             ))}
-            {[NotificationIcon, ChatIcon, MentionIcon].map((Icon, i) => (
+            {[BellIcon, ChatIcon, MentionIcon].map((Icon, i) => (
               <span key={`md-${i}`} style={{ position: 'relative', display: 'inline-flex', color: 'var(--sys-color-onSurface)' }}>
                 <Icon size={20} />
                 <Badge size="dot-sm" style={{ position: 'absolute', top: 0, right: 0, transform: 'translate(25%, -25%)' }} />

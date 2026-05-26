@@ -42,7 +42,7 @@ These match the three-rule contract documented in DESIGN.md:
 
 ## Filled vs outlined pairs
 
-Many glyphs ship as a pair (`BookmarkIcon` / `BookmarkFillIcon`, `VisibleIcon` / `VisibleFillIcon`, `ReplyIcon` / `ReplyFillIcon`, `ThumbUpIcon` / `ThumbUpFillIcon`). The `Fill` suffix marks the **selected / committed** state of the same glyph — per DESIGN.md, fill vs outline is a state signal, not a stylistic choice. Use the outlined form at rest and switch to the filled form when the toggle is engaged; never swap to filled for emphasis.
+Many glyphs ship as a pair (`BookmarkIcon` / `BookmarkFillIcon`, `EyeIcon` / `EyeFillIcon`, `ReplyIcon` / `ReplyFillIcon`, `ThumbUpIcon` / `ThumbUpFillIcon`). The `Fill` suffix marks the **selected / committed** state of the same glyph — per DESIGN.md, fill vs outline is a state signal, not a stylistic choice. Use the outlined form at rest and switch to the filled form when the toggle is engaged; never swap to filled for emphasis.
 
 When adding a new glyph that has a state-active form, register both at the same time so callers don't have to invent the filled variant inline.
 

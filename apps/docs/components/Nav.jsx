@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { DayIcon, MenuIcon, NightIcon } from '@blind-dsai/ui/icons';
+import { SunIcon, MenuIcon, MoonIcon } from '@blind-dsai/ui/icons';
 import { Button } from './Button';
 import { useMobileNav } from './MobileNav';
 
 function ThemeIcon({ theme }) {
-  return theme === 'dark' ? <DayIcon /> : <NightIcon />;
+  return theme === 'dark' ? <SunIcon /> : <MoonIcon />;
 }
 
 export function Nav() {

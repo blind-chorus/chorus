@@ -6,24 +6,84 @@
   "description": "Plain-text List variant — display or navigation rows over the shared List anatomy. No leading slot; the whole row is the click target. The default variant of the List family.",
   "element": "ul",
   "props": {
-    "items": { "type": "node", "required": true, "description": "Array of row descriptors." }
+    "items": {
+      "type": "node",
+      "required": true,
+      "description": "Array of row descriptors."
+    }
   },
   "slots": {
-    "container": { "required": true, "description": "Outer scroll surface. Vertical stack with a transparent fill (inherits parent container tone); rows separated by a 1px outlineVariant divider, not a gap." },
-    "row": { "required": true, "description": "Single list item. Whole row is the interactive target." },
-    "leading": { "required": false, "description": "Omitted for the text variant — no reserved leading whitespace.", "accepts": [] },
-    "label": { "required": true, "description": "Primary row text. 16px / Regular / onSurface. Single line; truncates with ellipsis.", "accepts": ["text"] },
-    "supportingText": { "required": false, "description": "Secondary line under label. 14px / Regular / onSurfaceVariant, 2px below label.", "accepts": ["text"] },
-    "trailingIcon": { "required": false, "description": "16px icon at the trailing edge. Consumer-supplied (no auto-rendered glyph).", "accepts": ["icon", "badge"] }
+    "container": {
+      "required": true,
+      "description": "Outer scroll surface. Vertical stack with a transparent fill (inherits parent container tone); rows separated by a 1px outlineVariant divider, not a gap."
+    },
+    "row": {
+      "required": true,
+      "description": "Single list item. Whole row is the interactive target."
+    },
+    "leading": {
+      "required": false,
+      "description": "Omitted for the text variant — no reserved leading whitespace.",
+      "accepts": []
+    },
+    "label": {
+      "required": true,
+      "description": "Primary row text. 16px / Regular / onSurface. Single line; truncates with ellipsis.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "supportingText": {
+      "required": false,
+      "description": "Secondary line under label. 14px / Regular / onSurfaceVariant, 2px below label.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "trailingIcon": {
+      "required": false,
+      "description": "16px icon at the trailing edge. Consumer-supplied (no auto-rendered glyph).",
+      "accepts": [
+        "icon",
+        "badge"
+      ]
+    }
   },
   "rowProps": {
-    "value": { "type": "string", "required": true },
-    "label": { "type": "string", "required": true },
-    "supportingText": { "type": "string", "optional": true },
-    "trailingIcon": { "type": "node", "optional": true },
-    "disabled": { "type": "boolean", "default": false },
-    "onClick": { "type": "function", "optional": true },
-    "forcedState": { "type": "literal", "values": ["hovered", "pressed", "focused"], "optional": true, "description": "Docs-only — pins the row to a single visual state via `data-force-state` so the contract can be inspected in a static preview. Not for production use." }
+    "value": {
+      "type": "string",
+      "required": true
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "supportingText": {
+      "type": "string",
+      "optional": true
+    },
+    "trailingIcon": {
+      "type": "node",
+      "optional": true
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "onClick": {
+      "type": "function",
+      "optional": true
+    },
+    "forcedState": {
+      "type": "literal",
+      "values": [
+        "hovered",
+        "pressed",
+        "focused"
+      ],
+      "optional": true,
+      "description": "Docs-only — pins the row to a single visual state via `data-force-state` so the contract can be inspected in a static preview. Not for production use."
+    }
   },
   "sizing": {
     "rowPaddingBlock": "12px",
@@ -41,16 +101,34 @@
     "trailingIconColor": "sys.color.onSurfaceVariant"
   },
   "states": {
-    "default": { "overlay": null },
-    "hovered": { "overlay": { "color": "label", "opacity": "sys.state.hover" } },
-    "pressed": { "overlay": { "color": "label", "opacity": "sys.state.pressed" } },
-    "disabled": { "containerOpacity": "sys.state.disabled", "pointerEvents": "none" }
+    "default": {
+      "overlay": null
+    },
+    "hovered": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.hover"
+      }
+    },
+    "pressed": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.pressed"
+      }
+    },
+    "disabled": {
+      "containerOpacity": "sys.state.disabled",
+      "pointerEvents": "none"
+    }
   },
   "focusIndicator": {
     "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the row is in.",
     "composition": "inward",
     "compositionReason": "Rows tile the column flush with only a hairline `outlineVariant` divider between them; an outward ring would overlap the divider and the neighbouring row.",
-    "overlay": { "color": "label", "opacity": "sys.state.focus" },
+    "overlay": {
+      "color": "label",
+      "opacity": "sys.state.focus"
+    },
     "ring": {
       "outerWidth": "sys.borderWidth.thin",
       "outerColor": "sys.color.focus",
@@ -66,5 +144,10 @@
     "keyboardNavigation": "Arrow up/down moves focus between rows. Home and End jump to first / last.",
     "rowClickTarget": "Whole row is clickable when an `onClick` is bound to the item.",
     "truncationNotWrap": "Both label and supportingText truncate; the row never grows to fit long text."
-  }
+  },
+  "forbidden": [
+    "row leading content as a separate hit area — the entire row is the click target",
+    "trailing chevron painted — text variant has no drill-in affordance; use list/nav for drill-in rows",
+    "raw `border:` on the row — list seam is the family's bottom divider via outlineVariant"
+  ]
 }

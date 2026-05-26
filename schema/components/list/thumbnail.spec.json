@@ -6,25 +6,91 @@
   "description": "Avatar-anchored List variant — each row carries a 40px leading [Thumbnail](../thumbnail/thumbnail.md) (channel logo, source mark, profile photo). The label + supportingText column reads against the thumbnail; same click semantics as the text variant — no selection model.",
   "element": "ul",
   "props": {
-    "items": { "type": "node", "required": true, "description": "Array of row descriptors. Each item passes `thumbnail` props forwarded verbatim to the Thumbnail component." }
+    "items": {
+      "type": "node",
+      "required": true,
+      "description": "Array of row descriptors. Each item passes `thumbnail` props forwarded verbatim to the Thumbnail component."
+    }
   },
   "slots": {
-    "container": { "required": true, "description": "Outer scroll surface. Vertical stack with a transparent fill (inherits parent container tone); rows separated by a 1px outlineVariant divider, not a gap." },
-    "row": { "required": true, "description": "Single list item. Whole row is the interactive target." },
-    "leading": { "required": true, "description": "40px [Thumbnail](../thumbnail/thumbnail.md), vertically centred against the label column. Forwarded verbatim from item.thumbnail.", "accepts": ["thumbnail"] },
-    "label": { "required": true, "description": "Primary row text. 16px / Regular / onSurface. Single line; truncates with ellipsis.", "accepts": ["text"] },
-    "supportingText": { "required": false, "description": "Secondary line under label. 14px / Regular / onSurfaceVariant, 2px below label.", "accepts": ["text"] },
-    "trailingIcon": { "required": false, "description": "16px icon at the trailing edge. Consumer-supplied.", "accepts": ["icon", "badge"] }
+    "container": {
+      "required": true,
+      "description": "Outer scroll surface. Vertical stack with a transparent fill (inherits parent container tone); rows separated by a 1px outlineVariant divider, not a gap."
+    },
+    "row": {
+      "required": true,
+      "description": "Single list item. Whole row is the interactive target."
+    },
+    "leading": {
+      "required": true,
+      "description": "40px [Thumbnail](../thumbnail/thumbnail.md), vertically centred against the label column. Forwarded verbatim from item.thumbnail.",
+      "accepts": [
+        "thumbnail"
+      ]
+    },
+    "label": {
+      "required": true,
+      "description": "Primary row text. 16px / Regular / onSurface. Single line; truncates with ellipsis.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "supportingText": {
+      "required": false,
+      "description": "Secondary line under label. 14px / Regular / onSurfaceVariant, 2px below label.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "trailingIcon": {
+      "required": false,
+      "description": "16px icon at the trailing edge. Consumer-supplied.",
+      "accepts": [
+        "icon",
+        "badge"
+      ]
+    }
   },
   "rowProps": {
-    "value": { "type": "string", "required": true },
-    "label": { "type": "string", "required": true },
-    "supportingText": { "type": "string", "optional": true },
-    "thumbnail": { "type": "object", "required": true, "description": "Forwarded to Thumbnail verbatim (`src`, `alt`, optional `updateDot`, optional `logoBadge`)." },
-    "trailingIcon": { "type": "node", "optional": true },
-    "disabled": { "type": "boolean", "default": false },
-    "onClick": { "type": "function", "optional": true },
-    "forcedState": { "type": "literal", "values": ["hovered", "pressed", "focused"], "optional": true, "description": "Docs-only — pins the row to a single visual state via `data-force-state`. Not for production use." }
+    "value": {
+      "type": "string",
+      "required": true
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "supportingText": {
+      "type": "string",
+      "optional": true
+    },
+    "thumbnail": {
+      "type": "object",
+      "required": true,
+      "description": "Forwarded to Thumbnail verbatim (`src`, `alt`, optional `updateDot`, optional `logoBadge`)."
+    },
+    "trailingIcon": {
+      "type": "node",
+      "optional": true
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "onClick": {
+      "type": "function",
+      "optional": true
+    },
+    "forcedState": {
+      "type": "literal",
+      "values": [
+        "hovered",
+        "pressed",
+        "focused"
+      ],
+      "optional": true,
+      "description": "Docs-only — pins the row to a single visual state via `data-force-state`. Not for production use."
+    }
   },
   "sizing": {
     "rowPaddingBlock": "12px",
@@ -43,16 +109,34 @@
     "trailingIconColor": "sys.color.onSurfaceVariant"
   },
   "states": {
-    "default": { "overlay": null },
-    "hovered": { "overlay": { "color": "label", "opacity": "sys.state.hover" } },
-    "pressed": { "overlay": { "color": "label", "opacity": "sys.state.pressed" } },
-    "disabled": { "containerOpacity": "sys.state.disabled", "pointerEvents": "none" }
+    "default": {
+      "overlay": null
+    },
+    "hovered": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.hover"
+      }
+    },
+    "pressed": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.pressed"
+      }
+    },
+    "disabled": {
+      "containerOpacity": "sys.state.disabled",
+      "pointerEvents": "none"
+    }
   },
   "focusIndicator": {
     "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the row is in.",
     "composition": "inward",
     "compositionReason": "Rows tile the column flush with only a hairline `outlineVariant` divider between them; an outward ring would overlap the divider and the neighbouring row.",
-    "overlay": { "color": "label", "opacity": "sys.state.focus" },
+    "overlay": {
+      "color": "label",
+      "opacity": "sys.state.focus"
+    },
     "ring": {
       "outerWidth": "sys.borderWidth.thin",
       "outerColor": "sys.color.focus",
@@ -68,5 +152,10 @@
     "keyboardNavigation": "Arrow up/down moves focus between rows. Home and End jump to first / last.",
     "rowClickTarget": "Whole row is clickable when an `onClick` is bound to the item. The thumbnail is never a separate hit target.",
     "truncationNotWrap": "Both label and supportingText truncate; the row never grows to fit long text."
-  }
+  },
+  "forbidden": [
+    "thumbnail slot omitted — the variant requires a thumbnail leading slot",
+    "thumbnail rendered as a raw <img> outside the chorus-thumbnail slot wrapper",
+    "thumbnail size different from the row's intrinsic size"
+  ]
 }

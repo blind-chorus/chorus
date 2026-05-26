@@ -1,6 +1,6 @@
 # Select
 
-Input-shaped picker — the same box, label, helper, and error re-tone as [Input](./input.md), but read-only and ending in a `DownwardIcon` chevron. Clicking the box opens a Bottom Sheet with the option list; the chosen value is echoed back through `value`.
+Input-shaped picker — the same box, label, helper, and error re-tone as [Input](./input.md), but read-only and ending in a `ArrowDownIcon` chevron. Clicking the box opens a Bottom Sheet with the option list; the chosen value is echoed back through `value`.
 
 ## Default
 
@@ -75,7 +75,7 @@ Same two-appearance axis as [Input → Appearance](./input.md#appearance) — `d
 - **container** — same as [Input → Slots](./input.md#slots). Read-only.
 - **leading** *(optional)* — 16px decorative glyph at the inner-left edge. Same affordance as Input's leading icon.
 - **input** — read-only echo of the picked value (or placeholder when empty). Not editable.
-- **dropdown** — trailing `DownwardIcon` chevron (16px / `sys.icon.md`). Always present; clicking it fires `onOpen` and the parent box click does the same.
+- **dropdown** — trailing `ArrowDownIcon` chevron (16px / `sys.icon.md`). Always present; clicking it fires `onOpen` and the parent box click does the same.
 - **label** *(optional)* / **helper** *(optional)* — same anatomy as Input. Mutually-exclusive `count` is **not** offered (a read-only field has nothing to count).
 
 ## Sizes

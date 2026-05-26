@@ -72,7 +72,10 @@
     "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the segment is in. Re-anchored inside the segment from Filter chip's default outward composition because the Segmented row is a horizontal scroller.",
     "composition": "inward",
     "compositionReason": "The Tabs row is a horizontal scroller; an outward ring would clip at the row's top/bottom edges.",
-    "overlay": { "color": "label", "opacity": "sys.state.focus" },
+    "overlay": {
+      "color": "label",
+      "opacity": "sys.state.focus"
+    },
     "ring": {
       "outerWidth": "sys.borderWidth.thin",
       "outerColor": "sys.color.focus",
@@ -83,5 +86,10 @@
       "implementation": "inset box-shadow on the segment's `::after` overlay. Constrained strictly inside the segment's footprint and never exceeds it."
     },
     "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
-  }
+  },
+  "forbidden": [
+    "segmented control rendered with raw <button> children",
+    "active item painted with sys.color.primary fill — segmented active uses sys.color.surface fill on the selected pill (the rest of the row is surfaceContainer)",
+    "segmented row reflowing on selection — anatomy is no-layout"
+  ]
 }

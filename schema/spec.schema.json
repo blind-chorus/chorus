@@ -111,6 +111,11 @@
       "type": "object",
       "description": "Cross-cutting modifier axis that re-tones the component family (e.g. `destructive` swaps the primary palette → error palette). Mirrors the `## Flavors` / prose note in the .md. Optional.",
       "additionalProperties": { "type": "object", "additionalProperties": true }
+    },
+    "forbidden": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Hard one-line negative rules — anatomy invariants the agent must NOT violate when composing or re-implementing this sub. Authored as short, machine-greppable statements: 'radius < radius.full', 'border on rest state', 'raw <button> wrapper'. Read this alongside `slots` and `sizing` as the closed contract of what the sub must NOT do. Counterpart to the affordance prose in the matching .md."
     }
   },
   "additionalProperties": true

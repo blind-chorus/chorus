@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ExpandIcon } from '@blind-dsai/ui/icons';
+import { ChevronDownIcon } from '@blind-dsai/ui/icons';
 import { NAV } from '../lib/nav';
 import { useMobileNav } from './MobileNav';
 
@@ -16,12 +16,12 @@ function isActive(pathname, href) {
 }
 
 /* Single chevron — visual state cue only, never an interactive surface.
-   Always rendered as the down chevron (`ExpandIcon`); CSS rotates it 90°
+   Always rendered as the down chevron (`ChevronDownIcon`); CSS rotates it 90°
    anti-clockwise (▶) when the parent row carries `.is-collapsed`,
    mirroring Atlassian's nav pattern (chevron pre-fix the label, the whole
    row is the toggle target). */
 function Chevron() {
-  return <ExpandIcon className="side-nav-chevron-svg" size={16} />;
+  return <ChevronDownIcon className="side-nav-chevron-svg" size={16} />;
 }
 
 function SideNavItem({ item, pathname }) {

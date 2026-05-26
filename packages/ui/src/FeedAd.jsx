@@ -3,7 +3,7 @@
 import { Button } from './Button.jsx';
 import { Thumbnail } from './Thumbnail.jsx';
 import { joinClasses } from './spec-utils.js';
-import { CloseIcon } from './icons/index.js';
+import { XIcon } from './icons/index.js';
 
 /* FeedAd — the `ad` sub-component of the Feed family. In-feed sponsored
    placement that rides the same column as the default Feed card. The
@@ -28,7 +28,7 @@ function BrandRow({ brand, onDismiss, dismissLabel }) {
           onClick={onDismiss}
           aria-label={dismissLabel ?? 'Dismiss ad'}
         >
-          <CloseIcon size={16} />
+          <XIcon size={16} />
         </button>
       ) : null}
     </header>

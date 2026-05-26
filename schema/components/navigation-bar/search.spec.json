@@ -76,7 +76,7 @@
     },
     "trailing": {
       "required": false,
-      "description": "Clear (×) Icon Button hosting `CloseCircleFillIcon`. **Always uses Icon Button's `medium` size (32 × 32 capsule, 16px / `sys.icon.md` glyph)** — not the 40 × 40 / 24-glyph `large` size the leading back arrow uses. The clear is a secondary affordance (the user's primary act on this bar is typing); the smaller capsule keeps the clear from over-claiming weight against the bare input next to it. Rendered only when the value is non-empty and the field isn't disabled — wipes the value, keeps focus on the input, and disappears the moment the value goes back to empty. Differs from [Search bar](../form-field/search.md)'s clear which gates on focus too: this bar's host page is the search context, so a non-empty value is enough — there is no blurred state to hide it for.",
+      "description": "Clear (×) Icon Button hosting `XCircleFillIcon`. **Always uses Icon Button's `medium` size (32 × 32 capsule, 16px / `sys.icon.md` glyph)** — not the 40 × 40 / 24-glyph `large` size the leading back arrow uses. The clear is a secondary affordance (the user's primary act on this bar is typing); the smaller capsule keeps the clear from over-claiming weight against the bare input next to it. Rendered only when the value is non-empty and the field isn't disabled — wipes the value, keeps focus on the input, and disappears the moment the value goes back to empty. Differs from [Search bar](../form-field/search.md)'s clear which gates on focus too: this bar's host page is the search context, so a non-empty value is enough — there is no blurred state to hide it for.",
       "accepts": [
         "button"
       ]
@@ -138,5 +138,11 @@
     "backAffordance": "Leading back-arrow fires `onBack`. The bar does not own routing — host wires the navigation. The keyboard equivalent is Esc on an empty value.",
     "noTitle": "The bar deliberately omits a title. The search context is established by the page the user arrived on (a search route reached from a search trigger), and the placeholder names the field's intent. A separate title would compete for the same row.",
     "ime": "Input handles IME composition normally — `onChange` fires on every keystroke including composition events; `onSubmit` fires only on a real Enter (not on the IME-confirm Enter that closes a composition)."
-  }
+  },
+  "forbidden": [
+    "title bar height different from 56px",
+    "second top bar stacked above it — the search variant already owns the back affordance, no page bar above",
+    "input rendered outside the embedded slot — the input fills the bar, not a separate region",
+    "brand color on the input chrome"
+  ]
 }

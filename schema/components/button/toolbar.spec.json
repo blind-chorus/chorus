@@ -89,7 +89,10 @@
     "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the button is in. Visual ring is delegated to Filter chip's composition; this block restates the contract for external readers.",
     "composition": "outward",
     "compositionReason": "Action affordance with breathing room around it; the 3px outward extent is reserved by the surrounding toolbar row.",
-    "overlay": { "color": "label", "opacity": "sys.state.focus" },
+    "overlay": {
+      "color": "label",
+      "opacity": "sys.state.focus"
+    },
     "ring": {
       "outerWidth": "sys.borderWidth.thin",
       "outerColor": "sys.color.focus",
@@ -97,5 +100,10 @@
       "insetColor": "sys.color.focusInset"
     },
     "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
-  }
+  },
+  "forbidden": [
+    "Toolbar button without aria-label",
+    "Toolbar button used as a primary commit — toolbar is for dense secondary actions in a row",
+    "Mixing toolbar buttons with non-toolbar variants in the same row — the row geometry is the contract"
+  ]
 }

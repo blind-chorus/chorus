@@ -166,7 +166,10 @@
     "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Channel List's own rows are presentational (tap-to-route is not owned by the row body); this contract documents the composition any nested focus target inherits — the trailing Toggle Button paints its own outward ring per its spec, but any forthcoming row-level focus target tiles flush with hairline dividers and would use the Inward composition.",
     "composition": "inward",
     "compositionReason": "Rows tile the column with a hairline divider; an outward ring would overlap divider and neighbour row.",
-    "overlay": { "color": "label", "opacity": "sys.state.focus" },
+    "overlay": {
+      "color": "label",
+      "opacity": "sys.state.focus"
+    },
     "ring": {
       "outerWidth": "sys.borderWidth.thin",
       "outerColor": "sys.color.focus",
@@ -183,5 +186,11 @@
     "horizontalScrollSnap": "scroll-snap-type: x mandatory; each page declares scroll-snap-align: start.",
     "nextPagePeek": "Pager bleeds out by container.md (the container's right padding) via negative margin-right so the peek isn't clipped. Page basis composes the inter-page gap (inline.xl) plus the visible peek (inline.md, 8px) into one calc — the 8px peek holds across the responsive breakpoint.",
     "toggleCommitsInPlace": "Tapping 'Follow' flips the row's button to 'Following' and stays there. State is owned by the consumer via items[i].active + onToggle."
-  }
+  },
+  "forbidden": [
+    "row leading thumbnail rendered outside the chorus-thumbnail slot",
+    "follow action rendered as button/standard — the follow affordance is button/toggle per the spec",
+    "pager-style scroll snap removed — the swipeable pager is the family contract",
+    "more than the declared page-of-rows shown at once — overflow is the swipeable affordance, not a wrap"
+  ]
 }

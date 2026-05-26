@@ -77,12 +77,22 @@
   "focusIndicator": {
     "description": "The bar itself isn't a focus target. Its action slots inherit each control's own focus composition — Icon Button → Outward, Toolbar Button → Outward, Text Button → Outward — so the ring belongs to whichever control the keyboard lands on. See the contained sub-components for the visual contract.",
     "composition": "delegated",
-    "delegatesTo": ["../button/icon.spec.json#/focusIndicator", "../button/toolbar.spec.json#/focusIndicator", "../button/text.spec.json#/focusIndicator"],
+    "delegatesTo": [
+      "../button/icon.spec.json#/focusIndicator",
+      "../button/toolbar.spec.json#/focusIndicator",
+      "../button/text.spec.json#/focusIndicator"
+    ],
     "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
   },
   "behavior": {
     "titleCentring": "Title is anchored to the bar's geometric horizontal centre via a `1fr auto 1fr` grid (equal-width side regions). Side slots anchor at the start / end of their respective halves and cannot push the title off-centre — even when the leading and trailing controls are very different widths.",
     "titleTruncates": "Long page names truncate with ellipsis; the bar never grows past 56px. Treat as a safety net — author concise titles.",
     "backAffordance": "Leading slot is conventionally the back-arrow icon, but the component does not own back routing — host wires onClick or wraps an <a href>."
-  }
+  },
+  "forbidden": [
+    "leading action different from back chevron — the page variant always opens with the back affordance",
+    "title not center-aligned — page bar title is centered, never left-aligned",
+    "title bar height different from 56px",
+    "brand color on the title"
+  ]
 }

@@ -54,11 +54,11 @@ A context glyph before the label — tag for "Filters", calendar for "Pick date"
 button/toolbar/leading-icon
 ---
 import { Button } from '@blind-dsai/ui';
-import { AddIcon } from '@blind-dsai/ui/icons';
+import { PlusIcon } from '@blind-dsai/ui/icons';
 
 <Button
   variant="toolbar"
-  leadingIcon={<AddIcon />}
+  leadingIcon={<PlusIcon />}
 >
   Add row
 </Button>
@@ -90,11 +90,11 @@ Glyph-only Toolbar Button in a 32×32 square — for universally recognizable ac
 button/toolbar/icon-only
 ---
 import { Button } from '@blind-dsai/ui';
-import { AddIcon } from '@blind-dsai/ui/icons';
+import { PlusIcon } from '@blind-dsai/ui/icons';
 
 <Button
   variant="toolbar"
-  leadingIcon={<AddIcon />}
+  leadingIcon={<PlusIcon />}
   aria-label="Add"
 />
 ```
@@ -107,10 +107,10 @@ Adjacent Toolbar Buttons share the same `4px` gap (`sys.layout.inline.sm`) as [F
 button/toolbar/group
 ---
 import { Button } from '@blind-dsai/ui';
-import { AddIcon, CheckedIcon } from '@blind-dsai/ui/icons';
+import { PlusIcon, CheckedIcon } from '@blind-dsai/ui/icons';
 
 <div style={{ display: 'flex', gap: 4 }}>
-  <Button variant="toolbar" leadingIcon={<AddIcon />}>
+  <Button variant="toolbar" leadingIcon={<PlusIcon />}>
     Add
   </Button>
   <Button variant="toolbar">
@@ -130,9 +130,9 @@ Hairline stroke is kept underneath the standard ring (see [Focus ring compositio
 button/toolbar/focused
 ---
 import { Button } from '@blind-dsai/ui';
-import { AddIcon } from '@blind-dsai/ui/icons';
+import { PlusIcon } from '@blind-dsai/ui/icons';
 
-<Button variant="toolbar" state="focused" leadingIcon={<AddIcon />}>
+<Button variant="toolbar" state="focused" leadingIcon={<PlusIcon />}>
   Add row
 </Button>
 ```

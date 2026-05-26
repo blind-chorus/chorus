@@ -57,5 +57,11 @@
   "behavior": {
     "lifecycle": "Owner code mounts the Toast when a user action lands and unmounts it after a fixed beat (~1.6s for a no-action toast, ~6s when an action slot is present). The component itself is presentational — it does not manage its own timer.",
     "role": "Container carries role='status' and aria-live='polite' so screen readers announce the confirmation without interrupting the user's current focus."
-  }
+  },
+  "forbidden": [
+    "Toast painted with sys.color.surface — toast uses sys.color.inverseSurface fill + inverseOnSurface text",
+    "Toast as a blocking commit prompt — destructive prompts use Dialog or BottomSheet; toast is for non-blocking feedback",
+    "Toast persistent (no auto-dismiss)",
+    "More than one toast stacked — toast queue is single-at-a-time"
+  ]
 }

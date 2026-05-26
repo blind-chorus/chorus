@@ -191,7 +191,7 @@ import { Feed } from '@blind-dsai/ui';
 - **channel** + **timestamp** + **followAction** *(optional)* — header row: channel link, relative time, inline Follow/Following affordance.
 - **meta** — middot-separated author metadata links; single line, truncates.
 - **title** + **body** — post title (single line, truncates) over a two-line clamped excerpt.
-- **thumbnail** *(optional)* — 80×80 trailing image; overlays `MultipleIcon` when `stacked`.
+- **thumbnail** *(optional)* — 80×80 trailing image; overlays `SquareStackIcon` when `stacked`.
 - **poll** *(optional)* — inline banner with leading `PollFillIcon` (brand tone), label `Poll`, divider, and participant count.
 - **offer** *(optional)* — inline banner with leading `CompensationFillIcon` (success / green-500 tone), label `Offer`, divider, and participant count. Same chrome as `poll`; carries an offer-evaluation post (current salary or competing offer surfaced for community input). Label is constrained to `Poll` or `Offer` across both modules combined — no other string is valid.
 - **citation** *(optional)* — inline link-share card with leading hero and source mark.
@@ -216,7 +216,7 @@ import { Feed } from '@blind-dsai/ui';
 | title        | `heading.sm` (16 / Semibold), `onSurface`, single-line truncate |
 | bottom divider | `sys.borderWidth.hairline` × `sys.color.outlineVariant` — `border-bottom` on the card so consecutive posts in a stream share a deliberate seam. |
 | body         | 14 / Regular, `onSurfaceVariant`, two-line clamp |
-| thumbnail    | 80×80, `radius.sm`, `surfaceContainerHigh` fallback. When `stacked`, overlays `MultipleIcon` at `sys.icon.md`, `ref.palette.white.1000`, 4px top-right inset |
+| thumbnail    | 80×80, `radius.sm`, `surfaceContainerHigh` fallback. When `stacked`, overlays `SquareStackIcon` at `sys.icon.md`, `ref.palette.white.1000`, 4px top-right inset |
 | poll         | `surfaceVariant` fill, `radius.md`, 12×16 padding, 48px min-height, 14px body. Leading `PollFillIcon` + label (`Poll`) painted in `sys.color.brand` at 4px gap, 12px to divider, 12px to count. |
 | offer        | Identical chrome to `poll` — `surfaceVariant` fill, `radius.md`, 12×16 padding, 48px min-height, 14px body. Leading `CompensationFillIcon` + label (`Offer`) painted in `sys.color.success` (`ref.palette.green.500`) at 4px gap, 12px to divider, 12px to count. |
 | citation     | Text-column `surfaceVariant`, `radius.md`, 120px-wide hero. 12px padding, 8px gap between title and source. All text at 12px. Source mark 16×16 at 4px radius, 4px to source name. |

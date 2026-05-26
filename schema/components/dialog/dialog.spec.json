@@ -138,5 +138,11 @@
     "focusManagement": "On open, focus moves to the primary action so Enter commits. Focus returns to the previously-focused element on close (consumer-managed via onClose).",
     "bodyScrollLock": true,
     "portalRendering": "By default renders into a portal at document.body. Pass inline to scope to the nearest positioned ancestor; that ancestor must declare position: relative and overflow: hidden."
-  }
+  },
+  "forbidden": [
+    "Dialog without a scrim — dialog is a page-blocking modal and requires the scrim layer",
+    "Dialog without a paired triggering action — modal opens are always commit-triggered, never auto-on-mount",
+    "Dialog body without a primary action — every dialog has a commit (even informational dialogs carry an Acknowledge / Close action)",
+    "Dialog stacked on top of another dialog — pre-overlay flow is sequential, not stacked"
+  ]
 }

@@ -84,7 +84,7 @@ const [open, setOpen] = useState(false);
 
 ### Nested step
 
-The sheet can host a **drill-in step** without spawning a second modal. The consumer swaps the title, content, and primary action between renders; passing `onBack` paints a leading back chevron — an Icon Button rendering `BackwardIcon` at `sys.icon.lg` (24px), with `sys.layout.inline.md` (8px) between the glyph and the title. Card chrome, scrim, drag handle, and actions footer stay identical across steps so the transition reads as a same-surface page change, not a new modal.
+The sheet can host a **drill-in step** without spawning a second modal. The consumer swaps the title, content, and primary action between renders; passing `onBack` paints a leading back chevron — an Icon Button rendering `ChevronLeftIcon` at `sys.icon.lg` (24px), with `sys.layout.inline.md` (8px) between the glyph and the title. Card chrome, scrim, drag handle, and actions footer stay identical across steps so the transition reads as a same-surface page change, not a new modal.
 
 ```preview
 bottom-sheet/nested-step
@@ -133,7 +133,7 @@ const [value, setValue] = useState('');
 - **container** — the sheet card. `surfaceContainerHigh` fill, `radius.xl` top corners (bottom flat), `elevation.sheet` shadow, `max-width: 480px`.
 - **drag handle** — small grey pill centred at the top; decorative dismissal cue.
 - **content** — scrollable region holding title, body, and custom children. Title: `heading.lg` / Semibold / `onSurface`. Body: `body.md` / Regular / `onSurfaceVariant`.
-- **back** — optional leading back chevron rendered only when the consumer wires `onBack`. Delegates to [Button](../button/icon.md) `variant="icon"` with [BackwardIcon](../button/icon.md) at `sys.icon.lg` and `sys.layout.inline.md` between glyph and title.
+- **back** — optional leading back chevron rendered only when the consumer wires `onBack`. Delegates to [Button](../button/icon.md) `variant="icon"` with [ChevronLeftIcon](../button/icon.md) at `sys.icon.lg` and `sys.layout.inline.md` between glyph and title.
 - **actions** — pinned footer holding the action stack. Primary on top, secondary below; both stretch to the inner width. Primary = `Button appearance="primary"`; secondary = `Button appearance="secondary"`.
 
 ## Anatomy
@@ -145,7 +145,7 @@ const [value, setValue] = useState('');
 | drag handle  | 48 × 4px pill, `onSurfaceVariant @ 40%`, `sys.radius.full`, 8px vertical gutter |
 | content      | Flex column, 16px padding, 16px between children, vertical scroll on overflow |
 | title        | `sys.typo.heading.lg` (24 / Semibold), `onSurface` |
-| back chevron | Optional. [Icon Button](../button/icon.md) → `BackwardIcon` at `sys.icon.lg` (24), `sys.color.onSurface`. Glyph aligns to the title's leading edge via the Icon Button optical-alignment default. `sys.layout.inline.md` (8px) glyph → title gap. |
+| back chevron | Optional. [Icon Button](../button/icon.md) → `ChevronLeftIcon` at `sys.icon.lg` (24), `sys.color.onSurface`. Glyph aligns to the title's leading edge via the Icon Button optical-alignment default. `sys.layout.inline.md` (8px) glyph → title gap. |
 | body         | `sys.typo.body.md` (16 / Regular), `onSurfaceVariant` |
 | actions      | Flex column, 8px between buttons, 16px padding on all four sides |
 | primary CTA  | [Button](../button/button.md) `appearance="primary"`, `size="large"`, `fullWidth` |

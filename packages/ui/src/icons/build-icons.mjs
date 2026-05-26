@@ -30,11 +30,78 @@ const KEYWORD_MAP = existsSync(KEYWORDS_PATH)
   ? JSON.parse(readFileSync(KEYWORDS_PATH, "utf8"))
   : {};
 
-// Aliases — call sites that should keep working after the regeneration but
-// don't have a 1:1 svg file. Keep this list small and obvious; new code
-// should import the canonical name.
+// Aliases — call sites that should keep working after the regeneration
+// but don't have a 1:1 svg file. Two groups:
+//   1. Semantic shortcuts — different intent label for the same glyph
+//      (CopyIcon → DuplicateIcon, VisibleIcon → EyeIcon, MicIcon →
+//      MicrophoneIcon).
+//   2. Deprecated function-named aliases — kept for backward compat
+//      after the function-name → shape-name rename pass (e.g. ViewIcon
+//      → EyeIcon, AddIcon → PlusIcon, CloseIcon → XIcon). New code
+//      should import the canonical shape name; the alias resolves to
+//      the same component so existing imports keep compiling.
 const ALIASES = {
+  // Semantic shortcuts.
   CopyIcon: "DuplicateIcon",
+  MicIcon: "MicrophoneIcon",
+  // Deprecated function-named aliases (function → shape rename, 2026-05).
+  ViewIcon: "EyeIcon",
+  ViewFillIcon: "EyeFillIcon",
+  VisibleIcon: "EyeIcon",
+  VisibleFillIcon: "EyeFillIcon",
+  InvisibleIcon: "EyeOffIcon",
+  InvisibleFillIcon: "EyeOffFillIcon",
+  AddIcon: "PlusIcon",
+  AddCircleIcon: "PlusCircleIcon",
+  AddCircleFillIcon: "PlusCircleFillIcon",
+  AddSquareIcon: "PlusSquareIcon",
+  AddSquareFillIcon: "PlusSquareFillIcon",
+  CloseIcon: "XIcon",
+  CloseCircleIcon: "XCircleIcon",
+  CloseCircleFillIcon: "XCircleFillIcon",
+  CollapseIcon: "ChevronUpIcon",
+  ExpandIcon: "ChevronDownIcon",
+  BackwardIcon: "ChevronLeftIcon",
+  BackwardCircleIcon: "ChevronLeftCircleIcon",
+  BackwardCircleFillIcon: "ChevronLeftCircleFillIcon",
+  ForwardIcon: "ChevronRightIcon",
+  ForwardCircleIcon: "ChevronRightCircleIcon",
+  ForwardCircleFillIcon: "ChevronRightCircleFillIcon",
+  DownwardIcon: "ArrowDownIcon",
+  DownwardCircleIcon: "ArrowDownCircleIcon",
+  DownwardCircleFillIcon: "ArrowDownCircleFillIcon",
+  UpwardIcon: "ArrowUpIcon",
+  UpwardCircleIcon: "ArrowUpCircleIcon",
+  UpwardCircleFillIcon: "ArrowUpCircleFillIcon",
+  NotificationIcon: "BellIcon",
+  NotificationFillIcon: "BellFillIcon",
+  NotificationOffIcon: "BellOffIcon",
+  NotificationOffFillIcon: "BellOffFillIcon",
+  MoreIcon: "EllipsisHorizontalIcon",
+  MoreFillIcon: "EllipsisHorizontalFillIcon",
+  DayIcon: "SunIcon",
+  DayFillIcon: "SunFillIcon",
+  NightIcon: "MoonIcon",
+  NightFillIcon: "MoonFillIcon",
+  CompanyIcon: "BuildingIcon",
+  CompanyFillIcon: "BuildingFillIcon",
+  LockedIcon: "LockIcon",
+  LockedFillIcon: "LockFillIcon",
+  SecureIcon: "ShieldIcon",
+  SecureFillIcon: "ShieldFillIcon",
+  WarningIcon: "ExclamationCircleIcon",
+  WarningFillIcon: "ExclamationCircleFillIcon",
+  VoiceIcon: "MicrophoneIcon",
+  VoiceFillIcon: "MicrophoneFillIcon",
+  WebIcon: "GlobeIcon",
+  WebFillIcon: "GlobeFillIcon",
+  PhotoIcon: "CameraIcon",
+  PhotoFillIcon: "CameraFillIcon",
+  PictureIcon: "ImageIcon",
+  PictureFillIcon: "ImageFillIcon",
+  InsightsIcon: "ChartBarIcon",
+  InsightsFillIcon: "ChartBarFillIcon",
+  MultipleIcon: "SquareStackIcon",
 };
 
 const HYPHENATED_TO_JSX = {

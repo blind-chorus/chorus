@@ -14,6 +14,9 @@ Model Context Protocol server exposing the Chorus design system to AI agents —
 | `chorus://design` | [`schema/DESIGN.md`](../../schema/DESIGN.md) |
 | `chorus://tokens/light` | [`schema/tokens/resolved.light.json`](../../schema/tokens/resolved.light.json) |
 | `chorus://tokens/dark` | [`schema/tokens/resolved.dark.json`](../../schema/tokens/resolved.dark.json) |
+| `chorus://tokens/usage` | [`schema/tokens/tokens.usage.json`](../../schema/tokens/tokens.usage.json) — per-token role + slot allowlist |
+| `chorus://compose` | [`prompt/compose.md`](../../prompt/compose.md) — composition cheatsheet |
+| `chorus://anti-patterns` | [`prompt/anti-patterns.md`](../../prompt/anti-patterns.md) — wrong-vs-right pairs |
 
 **Tools** (callable functions):
 
@@ -22,6 +25,7 @@ Model Context Protocol server exposing the Chorus design system to AI agents —
 | `list_families` | Enumerate every family + sub-components + useCases |
 | `get_family(family)` | Return the family.json |
 | `get_spec(family, subcomponent?)` | Return the sub-component's spec.json |
+| `get_bundle(family, subcomponent?)` | **The single safe-context query.** Spec + family meta + every `tokens.usage` entry the spec references + every screen recipe that uses this family. Prefer this over `get_spec` when about to write JSX. |
 | `list_screens` | Enumerate every pre-validated screen recipe |
 | `get_screen(slug)` | Return the recipe |
 | `resolve_token(key, theme?)` | Look up a token's resolved `{ $value, $type }` |

@@ -102,5 +102,11 @@
   "behavior": {
     "actionLink": "When present, renders as an <a> and accepts either href (browser navigation) or onClick (consumer-controlled). Underline persists at rest so the link reads as actionable inside the muted block.",
     "role": "Container carries role='note' so screen readers announce the banner as an aside."
-  }
+  },
+  "forbidden": [
+    "default banner background painted with sys.color.brandContainer — informational banners use sys.color.primaryContainer; promotional banners use sys.color.surfaceContainerLow",
+    "banner thumbnail slot omitted when banner role carries imagery — empty image area is forbidden, fall back to /placeholder.png",
+    "banner used for transient confirmations — that role is the `toast` family (locked)",
+    "banner CTA rendered as raw <a> / <button> — use button/text inside the action slot"
+  ]
 }

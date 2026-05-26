@@ -66,10 +66,10 @@ The Dot rung painted at an icon's top-right — the same composition contract as
 badge/on-icon
 ---
 import { Badge } from '@blind-dsai/ui';
-import { NotificationIcon } from '@blind-dsai/ui/icons';
+import { BellIcon } from '@blind-dsai/ui/icons';
 
 <span style={{ position: 'relative', display: 'inline-flex' }}>
-  <NotificationIcon size={24} />
+  <BellIcon size={24} />
   <Badge size="dot-sm" style={{ position: 'absolute', top: 0, right: 0, transform: 'translate(25%, -25%)' }} />
 </span>
 ```

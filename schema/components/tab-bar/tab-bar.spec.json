@@ -41,12 +41,16 @@
     "icon": {
       "required": true,
       "description": "24px glyph centred above the label. Outline form when inactive; falls back to `activeIcon` (the filled companion) when active.",
-      "accepts": ["icon"]
+      "accepts": [
+        "icon"
+      ]
     },
     "label": {
       "required": true,
       "description": "Destination name. caption.sm / Regular. Single line; truncates with an ellipsis when the slot is narrower than the label.",
-      "accepts": ["text"]
+      "accepts": [
+        "text"
+      ]
     }
   },
   "sizing": {
@@ -55,7 +59,11 @@
     "containerPaddingBlock": "0",
     "containerPaddingInline": "0",
     "containerJustifyContent": "space-evenly",
-    "containerTopDivider": { "width": "sys.borderWidth.hairline", "color": "sys.color.outlineVariant", "implementation": "inset box-shadow on the container (does not contribute to layout)" },
+    "containerTopDivider": {
+      "width": "sys.borderWidth.hairline",
+      "color": "sys.color.outlineVariant",
+      "implementation": "inset box-shadow on the container (does not contribute to layout)"
+    },
     "itemFlex": "1 1 0",
     "itemMaxWidth": "80px",
     "itemPaddingBlock": "sys.layout.container.2xs",
@@ -75,14 +83,50 @@
     "note": "Primary (`appearance='primary'`) items paint only the icon in `sys.color.brand`; the label stays in the bar's default `onSurfaceVariant` so every label across the row reads as one rung."
   },
   "itemProps": {
-    "value": { "type": "string", "required": true },
-    "label": { "type": "string", "required": true },
-    "icon": { "type": "node", "required": true, "description": "Outline glyph used in the inactive state." },
-    "activeIcon": { "type": "node", "optional": true, "description": "Filled companion glyph used when the item is active. Falls back to `icon` when absent." },
-    "href": { "type": "string", "optional": true },
-    "onClick": { "type": "function", "optional": true },
-    "appearance": { "type": "literal", "values": ["primary"], "optional": true, "description": "Paint the icon in `sys.color.brand` — the 'Create' / 'Compose' commit affordance. Pair with a filled-tile glyph (e.g. AddSquareFillIcon) so the icon's own shape provides the tile and the brand fill paints it as the commit colour. The label stays in the bar's default `onSurfaceVariant` so the row's labels read as one rung — only the icon carries the brand emphasis. Primary items invoke a screen-covering overlay, NOT a sibling destination — they render in the fill glyph by default, never receive `aria-current='page'`, and never animate outline → fill (no resting/active states inside the bar)." },
-    "forcedState": { "type": "literal", "values": ["hovered", "pressed", "focused"], "optional": true, "description": "Docs-only — pins the item to a single visual state via `data-force-state` so the contract can be inspected in a static preview. Not for production use." }
+    "value": {
+      "type": "string",
+      "required": true
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "icon": {
+      "type": "node",
+      "required": true,
+      "description": "Outline glyph used in the inactive state."
+    },
+    "activeIcon": {
+      "type": "node",
+      "optional": true,
+      "description": "Filled companion glyph used when the item is active. Falls back to `icon` when absent."
+    },
+    "href": {
+      "type": "string",
+      "optional": true
+    },
+    "onClick": {
+      "type": "function",
+      "optional": true
+    },
+    "appearance": {
+      "type": "literal",
+      "values": [
+        "primary"
+      ],
+      "optional": true,
+      "description": "Paint the icon in `sys.color.brand` — the 'Create' / 'Compose' commit affordance. Pair with a filled-tile glyph (e.g. PlusSquareFillIcon) so the icon's own shape provides the tile and the brand fill paints it as the commit colour. The label stays in the bar's default `onSurfaceVariant` so the row's labels read as one rung — only the icon carries the brand emphasis. Primary items invoke a screen-covering overlay, NOT a sibling destination — they render in the fill glyph by default, never receive `aria-current='page'`, and never animate outline → fill (no resting/active states inside the bar)."
+    },
+    "forcedState": {
+      "type": "literal",
+      "values": [
+        "hovered",
+        "pressed",
+        "focused"
+      ],
+      "optional": true,
+      "description": "Docs-only — pins the item to a single visual state via `data-force-state` so the contract can be inspected in a static preview. Not for production use."
+    }
   },
   "states": {
     "default": {
@@ -128,5 +172,11 @@
     "fixedRow": "Author destinations to a five- or six-item ceiling so the per-slot width stays wide enough for the destination's short name to read without ellipsis at the system's narrowest mobile breakpoint.",
     "selectionModel": "Single-select. `value` is the active item's `value`; `onChange` fires after the item's own `onClick`. The component owns no internal state — host page is the source of truth.",
     "noNativeHomeBar": "The component renders just the bar itself; it does not draw or reserve space for an OS-level home indicator. The host shell handles safe-area inset and pinning."
-  }
+  },
+  "forbidden": [
+    "Create item not styled with sys.color.brand fill — the Create entry is the single brand-marked instance per screen",
+    "more than one Create / brand-marked item — brand instance cap on this row is exactly 1",
+    "tab-bar height different from the spec'd geometry — the row geometry is fixed across all routes",
+    "active state for non-Create items painted with brand color — non-Create items use sys.color.onSurface for both rest and active (active darkens via state overlay, not by color swap)"
+  ]
 }

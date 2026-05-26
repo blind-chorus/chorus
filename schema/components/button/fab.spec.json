@@ -96,5 +96,11 @@
       "insetColor": "sys.color.focusInset"
     },
     "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
-  }
+  },
+  "forbidden": [
+    "more than one fab per screen — the FAB is the single canonical commit",
+    "fab styled with sys.color.primary fill — the FAB carries sys.color.brand by anatomy contract",
+    "destructive flavor on a FAB — destructive commits live inside Dialog / BottomSheet, never a floating commit",
+    "fab placed inline in flow — it floats over content, anchored bottom-right by the page shell"
+  ]
 }

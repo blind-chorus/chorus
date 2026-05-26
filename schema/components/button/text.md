@@ -61,9 +61,9 @@ import { Button } from '@blind-dsai/ui';
 ```preview
 button/text/leading-icon
 ---
-import { Button, BackwardIcon } from '@blind-dsai/ui';
+import { Button, ChevronLeftIcon } from '@blind-dsai/ui';
 
-<Button variant="text" leadingIcon={<BackwardIcon />}>Back</Button>
+<Button variant="text" leadingIcon={<ChevronLeftIcon />}>Back</Button>
 ```
 
 ### With trailing icon
@@ -73,9 +73,9 @@ Destination glyph after the label at the same icon rung. Use when the affordance
 ```preview
 button/text/trailing-icon
 ---
-import { Button, ForwardIcon } from '@blind-dsai/ui';
+import { Button, ChevronRightIcon } from '@blind-dsai/ui';
 
-<Button variant="text" trailingIcon={<ForwardIcon />}>Continue</Button>
+<Button variant="text" trailingIcon={<ChevronRightIcon />}>Continue</Button>
 ```
 
 ### Group

@@ -36,45 +36,59 @@
     "avatar": {
       "required": true,
       "description": "Channel / author avatar — rendered by the [Thumbnail](../thumbnail/thumbnail.md) component at `size={40}`. Every Thumbnail prop (`src`, `alt`, `updateDot`, `logoBadge`) is forwarded verbatim. The carousel does not paint its own circular crop — Thumbnail owns the corner shape and the image-area fallback.",
-      "accepts": ["thumbnail"],
+      "accepts": [
+        "thumbnail"
+      ],
       "rendersAs": "thumbnail:40"
     },
     "verified": {
       "required": false,
       "description": "Inline `VerifiedFillIcon` at `sys.icon.md`, painted in `sys.color.primary` (resolves to `ref.palette.blue.500`). Sits to the **LEFT** of the channel name so the reader's eye lands on the trust signal first, then the name. Decorative — pair with a textual affordance elsewhere if the verified status itself is meaningful.",
-      "accepts": ["icon"],
+      "accepts": [
+        "icon"
+      ],
       "defaultIcon": "VerifiedFillIcon",
       "defaultIconColor": "sys.color.primary"
     },
     "channel": {
       "required": true,
       "description": "Channel / author name. `sys.typo.label.md` / Semibold / `sys.color.onSurface`. Single line; truncates. Sits to the right of the optional `verified` mark inside the channel-row sub-container.",
-      "accepts": ["text"]
+      "accepts": [
+        "text"
+      ]
     },
     "followAction": {
       "required": false,
       "description": "[Text Button](../button/text.md) (`size={'xsmall'}`) at the trailing edge of the card header. **Inactive** (`Follow`) uses `appearance={'accent'}` — the follow action is a navigation-shaped commit on the card, and the link-affordance rule applies. **Active** (`Following`) flips to `appearance={'default'}` so the followed state recedes into the body and the unfollowed alternative remains the visually loudest call. The carousel does not paint its own follow chrome — every state binding (rest, hover, pressed, focus) lives on the Text Button family.",
-      "accepts": ["button"],
+      "accepts": [
+        "button"
+      ],
       "rendersAs": "button:text:xsmall:accent (inactive) / button:text:xsmall:default (active)"
     },
     "title": {
       "required": true,
       "description": "Post title. `sys.typo.label.md` / Semibold / `sys.color.onSurface`. One line; truncates with ellipsis.",
-      "accepts": ["text"]
+      "accepts": [
+        "text"
+      ]
     },
     "body": {
       "required": true,
       "description": "Post excerpt. `sys.typo.body.sm` / Regular / `sys.color.onSurfaceVariant`. Three-line clamp with trailing ellipsis.",
-      "accepts": ["text"]
+      "accepts": [
+        "text"
+      ]
     },
     "mention": {
       "required": false,
       "description": "Tap-anywhere mention / tag line below the body. `sys.typo.body.sm` / `sys.color.primary` (no italic — the carousel card reads tags as part of its body block, unlike the Feed · Post card which italicises a single mention).",
-      "accepts": ["text"]
+      "accepts": [
+        "text"
+      ]
     },
     "footer": {
       "required": true,
-      "description": "Bottom row: leading `more` affordance + trailing view count. The 'See more' label renders as a [Text Button](../button/text.md) (`size={'xsmall'}`, `appearance={'secondary'}`) — same family as the card-header follow action — so both card affordances share one state contract. The view count renders as a non-interactive `<span>` matching the same `xsmall` rhythm (`ViewIcon` at `sys.icon.md` + `sys.typo.label.sm` / `sys.color.onSurfaceVariant`).",
+      "description": "Bottom row: leading `more` affordance + trailing view count. The 'See more' label renders as a [Text Button](../button/text.md) (`size={'xsmall'}`, `appearance={'secondary'}`) — same family as the card-header follow action — so both card affordances share one state contract. The view count renders as a non-interactive `<span>` matching the same `xsmall` rhythm (`EyeIcon` at `sys.icon.md` + `sys.typo.label.sm` / `sys.color.onSurfaceVariant`).",
       "intrinsic": true
     },
     "pagination": {
@@ -117,7 +131,7 @@
     "cardMentionColor": "sys.color.primary",
     "cardFooterTypo": "sys.typo.label.sm",
     "cardFooterColor": "sys.color.onSurfaceVariant",
-    "cardFooterIcon": "ViewIcon",
+    "cardFooterIcon": "EyeIcon",
     "cardFooterIconSize": "sys.icon.md",
     "paginationDotSize": "6px",
     "paginationDotGap": "sys.layout.inline.sm",
@@ -125,19 +139,60 @@
     "paginationInactiveColor": "sys.color.outlineVariant"
   },
   "itemProps": {
-    "id": { "type": "string", "optional": true },
-    "avatar": { "type": "object", "required": true, "description": "Forwarded to Thumbnail verbatim at size 40." },
-    "channel": { "type": "string", "required": true },
-    "verified": { "type": "boolean", "default": false },
-    "followAction": { "type": "boolean", "default": false },
-    "followed": { "type": "boolean", "default": false },
-    "onFollowChange": { "type": "function", "optional": true },
-    "title": { "type": "string", "required": true },
-    "body": { "type": "string", "required": true },
-    "mention": { "type": "string", "optional": true },
-    "views": { "type": "string", "required": true },
-    "moreLabel": { "type": "string", "optional": true, "description": "Trailing 'see more' label in the card footer. Defaults to 'See more'." },
-    "onClick": { "type": "function", "optional": true }
+    "id": {
+      "type": "string",
+      "optional": true
+    },
+    "avatar": {
+      "type": "object",
+      "required": true,
+      "description": "Forwarded to Thumbnail verbatim at size 40."
+    },
+    "channel": {
+      "type": "string",
+      "required": true
+    },
+    "verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "followAction": {
+      "type": "boolean",
+      "default": false
+    },
+    "followed": {
+      "type": "boolean",
+      "default": false
+    },
+    "onFollowChange": {
+      "type": "function",
+      "optional": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "body": {
+      "type": "string",
+      "required": true
+    },
+    "mention": {
+      "type": "string",
+      "optional": true
+    },
+    "views": {
+      "type": "string",
+      "required": true
+    },
+    "moreLabel": {
+      "type": "string",
+      "optional": true,
+      "description": "Trailing 'see more' label in the card footer. Defaults to 'See more'."
+    },
+    "onClick": {
+      "type": "function",
+      "optional": true
+    }
   },
   "states": {
     "note": "Container has no interactive state. Each card's commit affordances (the optional follow action, the 'see more' link) follow their own state contracts. The card body is presentational by default — pass `onClick` on an item to route the entire card."
@@ -156,5 +211,10 @@
     "paginationDecorative": "Dots are decorative (`aria-hidden`). They reflect the scroll position only; tapping a dot does not scroll. Active state updates via IntersectionObserver on the pager's snap targets.",
     "cardClickRoutes": "When an item carries `onClick`, the card surface becomes the click target. Header affordances (follow action) and footer affordances (more link) intercept the tap so each can route independently.",
     "insertionPolicy": "Editorial / ops control inserts the carousel between regular Feed cards according to placement policy — the component does not own that decision."
-  }
+  },
+  "forbidden": [
+    "card outline painted as a raw `border:` — outline is an inset box-shadow on the card",
+    "Section heading composed inside the carousel — header + see-all link live on the Section wrapper, never on the carousel itself",
+    "card width altered from the spec'd footprint — every post card paints the same width regardless of card count"
+  ]
 }

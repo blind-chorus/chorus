@@ -96,6 +96,7 @@ try {
       "list_families",
       "get_family",
       "get_spec",
+      "get_bundle",
       "list_screens",
       "get_screen",
       "resolve_token",
@@ -109,13 +110,16 @@ try {
   const resRes = await c.call("resources/list");
   const uris = (resRes.result?.resources ?? []).map((r) => r.uri);
   check(
-    "resources/list includes agents+manifest+tokens",
+    "resources/list includes agents+manifest+tokens+compose+anti-patterns+usage",
     [
       "chorus://agents",
       "chorus://manifest",
       "chorus://catalog",
       "chorus://tokens/light",
       "chorus://tokens/dark",
+      "chorus://tokens/usage",
+      "chorus://compose",
+      "chorus://anti-patterns",
     ].every((u) => uris.includes(u)),
   );
 
@@ -155,6 +159,28 @@ try {
   check(
     "get_spec(unknown sub) returns isError",
     bad.result?.isError === true,
+  );
+
+  // get_bundle(profile-carousel) — exercises spec + tokens.usage + recipes
+  const bundle = await c.call("tools/call", {
+    name: "get_bundle",
+    arguments: { family: "section", subcomponent: "profile-carousel" },
+  });
+  const bundleJson = JSON.parse(bundle.result?.content?.[0]?.text ?? "{}");
+  check(
+    "get_bundle(section/profile-carousel) carries spec + familyMeta + relatedTokenUsage + relatedRecipes",
+    bundleJson.spec?.name === "ProfileCarousel" &&
+      bundleJson.familyMeta?.layoutInset === "full-bleed" &&
+      bundleJson.familyMeta?.visualReuse === "open" &&
+      typeof bundleJson.relatedTokenUsage === "object" &&
+      Array.isArray(bundleJson.relatedRecipes),
+    `keys=${Object.keys(bundleJson).join(",")}`,
+  );
+  check(
+    "get_bundle relatedTokenUsage resolves sys.color.* tokens with role",
+    bundleJson.relatedTokenUsage?.["sys.color.surface"]?.role?.length > 0 &&
+      bundleJson.relatedTokenUsage?.["sys.color.outlineVariant"]?.role?.length > 0,
+    `keys=[${Object.keys(bundleJson.relatedTokenUsage ?? {}).slice(0, 5).join(",")}]`,
   );
 
   // resolve_token

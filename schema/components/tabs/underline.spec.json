@@ -123,5 +123,11 @@
       "implementation": "inset box-shadow on the tab's `::after` overlay (sits above the state-overlay `::before`, the label/icon, and the underline indicator). Constrained strictly inside the tab's footprint and never exceeds it."
     },
     "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
-  }
+  },
+  "forbidden": [
+    "active indicator painted with sys.color.brand — underline uses sys.color.primary for the indicator",
+    "tabs wrapped in extra horizontal padding — tabs is full-bleed by family declaration",
+    "tab label sizing below sys.typo.label.md (14px) — smaller text breaks Korean / CJK hierarchy",
+    "manual underline drawn via `border-bottom:` — indicator is the `::after` overlay, not a real border"
+  ]
 }

@@ -96,5 +96,10 @@
       "insetColor": "sys.color.focusInset"
     },
     "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
-  }
+  },
+  "forbidden": [
+    "radius below sys.radius.full",
+    "tag rendered as a clickable commit — tag is a metadata pill, not an action; the click target lives on the surrounding card / row",
+    "raw color override on a tag — tone is the surrounding container's secondary text color"
+  ]
 }

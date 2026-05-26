@@ -78,7 +78,7 @@
     },
     "clear": {
       "required": false,
-      "description": "Trailing '×' button (CloseCircleFillIcon) that wipes the value and returns focus to the input. Rendered into the DOM whenever the value is non-empty and the field isn't disabled, but **shown only while the box is focused** — so it appears only in the active state with text to clear; hidden on an empty / blurred / disabled field.",
+      "description": "Trailing '×' button (XCircleFillIcon) that wipes the value and returns focus to the input. Rendered into the DOM whenever the value is non-empty and the field isn't disabled, but **shown only while the box is focused** — so it appears only in the active state with text to clear; hidden on an empty / blurred / disabled field.",
       "intrinsic": true
     },
     "helper": {
@@ -185,5 +185,11 @@
       "insetColor": "sys.color.focusInset"
     },
     "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
-  }
+  },
+  "forbidden": [
+    "raw <input> styled with Tailwind / inline color — the input is wrapped in the chorus-field chrome that owns the stroke",
+    "active-state stroke painted with sys.color.primaryContainer — active stroke is sys.color.outline or sys.color.primary (per state), never the container tier",
+    "stroke painted via `border:` — stroke is an inset box-shadow on the field",
+    "helper text rendered outside the helperText slot"
+  ]
 }

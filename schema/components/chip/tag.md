@@ -40,11 +40,11 @@ Opt-out form — same chip with a trailing "×" to remove the tag. The trailing 
 chip/tag/dismissable
 ---
 import { Chip } from '@blind-dsai/ui';
-import { CloseIcon } from '@blind-dsai/ui/icons';
+import { XIcon } from '@blind-dsai/ui/icons';
 
 <Chip
   variant="tag"
-  trailingIcon={<CloseIcon />}
+  trailingIcon={<XIcon />}
 >
   Newsletter
 </Chip>
@@ -84,9 +84,9 @@ Only the **dismissable** tag is focusable; the case below shows that form. See [
 chip/tag/focused
 ---
 import { Chip } from '@blind-dsai/ui';
-import { CloseIcon } from '@blind-dsai/ui/icons';
+import { XIcon } from '@blind-dsai/ui/icons';
 
-<Chip variant="tag" state="focused" trailingIcon={<CloseIcon />}>
+<Chip variant="tag" state="focused" trailingIcon={<XIcon />}>
   Newsletter
 </Chip>
 ```

@@ -7,11 +7,17 @@
   "types": {
     "numeric": {
       "description": "Labelled count pill — the canonical Badge form. A 1-character label collapses to a perfect circle; 2+ characters or `99+` stretch into a content-growing pill.",
-      "sizes": ["medium", "small"]
+      "sizes": [
+        "medium",
+        "small"
+      ]
     },
     "dot": {
       "description": "Labelless update dot — the corner activity flag. Paints a 1px `surface`-color halo as `box-shadow` so it reads cleanly above any host imagery without enlarging its bounding box.",
-      "sizes": ["dot-md", "dot-sm"]
+      "sizes": [
+        "dot-md",
+        "dot-sm"
+      ]
     }
   },
   "props": {
@@ -88,5 +94,11 @@
       "labelTypo": null,
       "note": "Labelless 6 × 6 dot (`ref.space.75`) — Thumbnail's update flag at the 16 / 20 / 24 rungs."
     }
-  }
+  },
+  "forbidden": [
+    "badge painted with sys.color.brand outside the HOT / NEW / unread-count canon — brand on a badge is the marker, not a tint",
+    "badge rendered as a raw <span> with Tailwind — badge chrome owns the radius / padding / typography",
+    "more than one badge on the same anchor — the host slot is single-badge by anatomy",
+    "badge label below 12px (caption.md is the floor)"
+  ]
 }

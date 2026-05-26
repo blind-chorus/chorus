@@ -5,7 +5,7 @@ import inputSpec from '../../../schema/components/form-field/input.spec.json';
 import searchBarSpec from '../../../schema/components/form-field/search.spec.json';
 import selectSpec from '../../../schema/components/form-field/select.spec.json';
 import { tokenToCss, typoStyles, joinClasses } from './spec-utils.js';
-import { CloseCircleFillIcon, DownwardIcon, SearchIcon } from './icons/index.js';
+import { XCircleFillIcon, ArrowDownIcon, SearchIcon } from './icons/index.js';
 
 /* `hovered` / `pressed` / `active` are the field's interactive feedback
    states (pointer-driven in the real component). `focused` is the
@@ -147,7 +147,7 @@ function FormFieldBox({
           aria-label="Clear"
           onClick={handleClear}
         >
-          <CloseCircleFillIcon />
+          <XCircleFillIcon />
         </button>
       ) : null}
       {trailingSlot != null ? (
@@ -252,7 +252,7 @@ export function Select({ onOpen, value, defaultValue, placeholder, ...rest }) {
           aria-label="Open options"
           onClick={(e) => { e.stopPropagation(); handleOpen(); }}
         >
-          <DownwardIcon />
+          <ArrowDownIcon />
         </button>
       }
       {...rest}

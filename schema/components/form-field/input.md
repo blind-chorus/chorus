@@ -157,7 +157,7 @@ Placeholder vs. value is value-driven, not focus-driven — see [Behavior → Pl
 
 - **container** — the box. Owns transparent fill, the inset-`box-shadow` stroke, radius, padding, and focus ring.
 - **input** — editable text. Single line. Value in `Text` colour, placeholder in faint `Placeholder` colour; swap is value-driven.
-- **clear** — trailing "×" button (`CloseCircleFillIcon`). Shown only while the box is active and holds a non-empty value.
+- **clear** — trailing "×" button (`XCircleFillIcon`). Shown only while the box is active and holds a non-empty value.
 - **group** *(optional)* — wrapper holding label / box / helper / count when any is supplied.
 - **label** *(optional)* — visible label above the box. `sys.typo.label.md` / `sys.color.onSurface`.
 - **helper** *(optional)* — assistive text below the box, left-aligned. Mutually exclusive with `count`.

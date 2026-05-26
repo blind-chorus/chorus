@@ -23,16 +23,18 @@
     "./resolved.dark.json": "./resolved.dark.json",
     "./resolved.web.json": "./resolved.web.json",
     "./resolved.web.dark.json": "./resolved.web.dark.json",
+    "./tokens.usage.json": "./tokens.usage.json",
     "./tokens.css": "./tokens.css",
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "node build-resolved.mjs"
+    "build": "node build-resolved.mjs && node build-usage.mjs"
   },
   "files": [
     "*.json",
     "tokens.css",
     "build-resolved.mjs",
+    "build-usage.mjs",
     "README.md"
   ],
   "publishConfig": {

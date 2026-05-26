@@ -4,7 +4,7 @@
   "family": "form-field",
   "subcomponent": "select",
   "exportAlias": "Select",
-  "description": "Input-shaped picker — the same transparent-fill box, hairline-at-rest / thin-at-active inset box-shadow stroke, label / helper rungs and `error` re-tone as Input, but the field is read-only and the trailing slot carries a `DownwardIcon` chevron (16px / `sys.icon.md`). Clicking anywhere in the box fires `onOpen`, and the consumer raises a `BottomSheet` (or other surface) with the option list. The chosen value is echoed back through `value`. Supports an optional leading icon, sized to `sys.icon.md`, that pins at the inner-left edge — same affordance as Search bar's glyph.",
+  "description": "Input-shaped picker — the same transparent-fill box, hairline-at-rest / thin-at-active inset box-shadow stroke, label / helper rungs and `error` re-tone as Input, but the field is read-only and the trailing slot carries a `ArrowDownIcon` chevron (16px / `sys.icon.md`). Clicking anywhere in the box fires `onOpen`, and the consumer raises a `BottomSheet` (or other surface) with the option list. The chosen value is echoed back through `value`. Supports an optional leading icon, sized to `sys.icon.md`, that pins at the inner-left edge — same affordance as Search bar's glyph.",
   "element": "div",
   "props": {
     "variant": {
@@ -13,14 +13,32 @@
     },
     "appearance": {
       "type": "enum",
-      "values": ["default", "error"],
+      "values": [
+        "default",
+        "error"
+      ],
       "default": "default"
     },
-    "value": { "type": "string", "optional": true },
-    "defaultValue": { "type": "string", "optional": true },
-    "placeholder": { "type": "string", "optional": true },
-    "label": { "type": "node", "optional": true },
-    "helper": { "type": "node", "optional": true },
+    "value": {
+      "type": "string",
+      "optional": true
+    },
+    "defaultValue": {
+      "type": "string",
+      "optional": true
+    },
+    "placeholder": {
+      "type": "string",
+      "optional": true
+    },
+    "label": {
+      "type": "node",
+      "optional": true
+    },
+    "helper": {
+      "type": "node",
+      "optional": true
+    },
     "leadingIcon": {
       "type": "node",
       "optional": true,
@@ -31,27 +49,48 @@
       "optional": true,
       "description": "Fired when the field box or the trailing chevron is clicked. Consumers use this to raise a `BottomSheet` with the option list."
     },
-    "disabled": { "type": "boolean", "default": false }
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    }
   },
   "slots": {
-    "container": { "required": true, "intrinsic": true, "description": "The box — same as Input." },
+    "container": {
+      "required": true,
+      "intrinsic": true,
+      "description": "The box — same as Input."
+    },
     "leading": {
       "required": false,
       "description": "Optional 16px glyph at the inner-left edge. Decorative (`aria-hidden`).",
-      "accepts": ["icon"]
+      "accepts": [
+        "icon"
+      ]
     },
     "input": {
       "required": true,
       "description": "Read-only echo of the selected value (or the placeholder when empty).",
-      "accepts": ["text"]
+      "accepts": [
+        "text"
+      ]
     },
     "dropdown": {
       "required": true,
       "intrinsic": true,
-      "description": "Trailing chevron button (`DownwardIcon`, 16px). Always present, fires `onOpen`."
+      "description": "Trailing chevron button (`ArrowDownIcon`, 16px). Always present, fires `onOpen`."
     },
-    "label": { "required": false, "accepts": ["text"] },
-    "helper": { "required": false, "accepts": ["text"] }
+    "label": {
+      "required": false,
+      "accepts": [
+        "text"
+      ]
+    },
+    "helper": {
+      "required": false,
+      "accepts": [
+        "text"
+      ]
+    }
   },
   "sizing": {
     "minHeight": "ref.space.500",
@@ -95,11 +134,20 @@
     }
   },
   "states": {
-    "default": { "overlay": null, "border": "borderRest" },
-    "hovered": { "overlay": null, "border": "borderHover" },
+    "default": {
+      "overlay": null,
+      "border": "borderRest"
+    },
+    "hovered": {
+      "overlay": null,
+      "border": "borderHover"
+    },
     "pressed": {
       "border": "borderHover",
-      "overlay": { "color": "text", "opacity": "sys.state.pressed" }
+      "overlay": {
+        "color": "text",
+        "opacity": "sys.state.pressed"
+      }
     },
     "active": {
       "overlay": null,
@@ -118,7 +166,10 @@
     "description": "Same keyboard-focus indicator as Input — outward two-layer ring composed over the active stroke.",
     "composition": "outward",
     "compositionReason": "Action affordance with breathing room around it.",
-    "overlay": { "color": "label", "opacity": "sys.state.focus" },
+    "overlay": {
+      "color": "label",
+      "opacity": "sys.state.focus"
+    },
     "ring": {
       "outerWidth": "sys.borderWidth.thin",
       "outerColor": "sys.color.focus",
@@ -126,5 +177,9 @@
       "insetColor": "sys.color.focusInset"
     },
     "trigger": ":focus-visible"
-  }
+  },
+  "forbidden": [
+    "select rendered as a raw <select> — select variant wraps the native control with the chorus-field chrome",
+    "trailing chevron omitted — select always carries the trailing chevron in the rest state"
+  ]
 }

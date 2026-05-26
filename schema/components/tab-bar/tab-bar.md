@@ -10,17 +10,17 @@ The canonical five-destination bar. First item is active.
 tab-bar/default
 ---
 import { TabBar } from '@blind-dsai/ui';
-import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, BriefcaseIcon, BriefcaseFillIcon, NotificationIcon, NotificationFillIcon } from '@blind-dsai/ui/icons';
+import { HomeIcon, HomeFillIcon, BuildingIcon, BuildingFillIcon, SearchIcon, BriefcaseIcon, BriefcaseFillIcon, BellIcon, BellFillIcon } from '@blind-dsai/ui/icons';
 
 <TabBar
   aria-label="Primary"
   value="home"
   items={[
     { value: 'home',          label: 'Home',          icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
-    { value: 'company',       label: 'Company',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
+    { value: 'company',       label: 'Company',       icon: <BuildingIcon />,      activeIcon: <BuildingFillIcon /> },
     { value: 'explore',       label: 'Explore',       icon: <SearchIcon />,       activeIcon: <SearchFillIcon /> },
     { value: 'jobs',          label: 'Jobs',          icon: <BriefcaseIcon />,    activeIcon: <BriefcaseFillIcon /> },
-    { value: 'notifications', label: 'Notifications', icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
+    { value: 'notifications', label: 'Notifications', icon: <BellIcon />, activeIcon: <BellFillIcon /> },
   ]}
 />
 ```
@@ -29,24 +29,24 @@ import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, Brief
 
 ### With a primary "Create" item
 
-A bar including a primary-coloured **Create** affordance at the trailing end. The icon ([`AddSquareFillIcon`](../../packages/ui/src/icons/svg/AddSquareFill.svg)) is painted in `sys.color.brand` via `appearance="primary"` — the icon's shape provides the commit-tile look. Still occupies one equal-width slot.
+A bar including a primary-coloured **Create** affordance at the trailing end. The icon ([`PlusSquareFillIcon`](../../packages/ui/src/icons/svg/AddSquareFill.svg)) is painted in `sys.color.brand` via `appearance="primary"` — the icon's shape provides the commit-tile look. Still occupies one equal-width slot.
 
 ```preview
 tab-bar/with-primary
 ---
 import { TabBar } from '@blind-dsai/ui';
-import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, SearchFillIcon, BriefcaseIcon, BriefcaseFillIcon, NotificationIcon, NotificationFillIcon, AddSquareFillIcon } from '@blind-dsai/ui/icons';
+import { HomeIcon, HomeFillIcon, BuildingIcon, BuildingFillIcon, SearchIcon, SearchFillIcon, BriefcaseIcon, BriefcaseFillIcon, BellIcon, BellFillIcon, PlusSquareFillIcon } from '@blind-dsai/ui/icons';
 
 <TabBar
   aria-label="Primary"
   value="home"
   items={[
     { value: 'home',          label: 'Home',          icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
-    { value: 'company',       label: 'Company',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
+    { value: 'company',       label: 'Company',       icon: <BuildingIcon />,      activeIcon: <BuildingFillIcon /> },
     { value: 'explore',       label: 'Explore',       icon: <SearchIcon />,       activeIcon: <SearchFillIcon /> },
     { value: 'jobs',          label: 'Jobs',          icon: <BriefcaseIcon />,    activeIcon: <BriefcaseFillIcon /> },
-    { value: 'notifications', label: 'Notifications', icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
-    { value: 'create',        label: 'Create',        icon: <AddSquareFillIcon />, appearance: 'primary' },
+    { value: 'notifications', label: 'Notifications', icon: <BellIcon />, activeIcon: <BellFillIcon /> },
+    { value: 'create',        label: 'Create',        icon: <PlusSquareFillIcon />, appearance: 'primary' },
   ]}
 />
 ```
@@ -80,17 +80,17 @@ Labels exceeding their slot truncate with a single-line ellipsis. Author labels 
 tab-bar/truncation
 ---
 import { TabBar } from '@blind-dsai/ui';
-import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, SearchFillIcon, ChatIcon, ChatFillIcon, NotificationIcon, NotificationFillIcon } from '@blind-dsai/ui/icons';
+import { HomeIcon, HomeFillIcon, BuildingIcon, BuildingFillIcon, SearchIcon, SearchFillIcon, ChatIcon, ChatFillIcon, BellIcon, BellFillIcon } from '@blind-dsai/ui/icons';
 
 <TabBar
   aria-label="Primary"
   value="messages"
   items={[
     { value: 'home',          label: 'Home',                icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
-    { value: 'company',       label: 'My organization',     icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
+    { value: 'company',       label: 'My organization',     icon: <BuildingIcon />,      activeIcon: <BuildingFillIcon /> },
     { value: 'explore',       label: 'Explore communities', icon: <SearchIcon />,       activeIcon: <SearchFillIcon /> },
     { value: 'messages',      label: 'Direct messages',     icon: <ChatIcon />,         activeIcon: <ChatFillIcon /> },
-    { value: 'notifications', label: 'All notifications',   icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
+    { value: 'notifications', label: 'All notifications',   icon: <BellIcon />, activeIcon: <BellFillIcon /> },
   ]}
 />
 ```
@@ -103,17 +103,17 @@ Static design-review specimen — pins the keyboard-focus ring to a single desti
 tab-bar/focused
 ---
 import { TabBar } from '@blind-dsai/ui';
-import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, SearchFillIcon, BriefcaseIcon, BriefcaseFillIcon, NotificationIcon, NotificationFillIcon } from '@blind-dsai/ui/icons';
+import { HomeIcon, HomeFillIcon, BuildingIcon, BuildingFillIcon, SearchIcon, SearchFillIcon, BriefcaseIcon, BriefcaseFillIcon, BellIcon, BellFillIcon } from '@blind-dsai/ui/icons';
 
 <TabBar
   aria-label="Primary"
   value="home"
   items={[
     { value: 'home',          label: 'Home',          icon: <HomeIcon />,         activeIcon: <HomeFillIcon /> },
-    { value: 'company',       label: 'Company',       icon: <CompanyIcon />,      activeIcon: <CompanyFillIcon /> },
+    { value: 'company',       label: 'Company',       icon: <BuildingIcon />,      activeIcon: <BuildingFillIcon /> },
     { value: 'explore',       label: 'Explore',       icon: <SearchIcon />,       activeIcon: <SearchFillIcon />, forcedState: 'focused' },
     { value: 'jobs',          label: 'Jobs',          icon: <BriefcaseIcon />,    activeIcon: <BriefcaseFillIcon /> },
-    { value: 'notifications', label: 'Notifications', icon: <NotificationIcon />, activeIcon: <NotificationFillIcon /> },
+    { value: 'notifications', label: 'Notifications', icon: <BellIcon />, activeIcon: <BellFillIcon /> },
   ]}
 />
 ```
@@ -133,7 +133,7 @@ import { HomeIcon, HomeFillIcon, CompanyIcon, CompanyFillIcon, SearchIcon, Searc
 | item      | Flex column, icon over label; `flex: 1 1 0` with `max-width: 80px`; tap target is the full slot. State layer is a `sys.radius.md` rounded rectangle filling the slot |
 | icon      | `sys.color.onSurfaceVariant` → `sys.color.onSurface` (active) |
 | label     | `sys.typo.caption.sm` (10 / Regular); `onSurfaceVariant` → `onSurface` (active) |
-| primary   | When `appearance="primary"`, only the **icon** paints in `sys.color.brand`; the label stays in the bar's default `sys.color.onSurfaceVariant` so every label across the row reads as one rung. Pair with a filled-tile glyph (e.g. [`AddSquareFillIcon`](../../packages/ui/src/icons/svg/AddSquareFill.svg)) |
+| primary   | When `appearance="primary"`, only the **icon** paints in `sys.color.brand`; the label stays in the bar's default `sys.color.onSurfaceVariant` so every label across the row reads as one rung. Pair with a filled-tile glyph (e.g. [`PlusSquareFillIcon`](../../packages/ui/src/icons/svg/AddSquareFill.svg)) |
 
 ## Sizes
 

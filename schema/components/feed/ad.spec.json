@@ -10,15 +10,43 @@
       "required": true,
       "description": "{ name, subtitle?, avatar? } — leading brand row. `name` is **required** — every sponsored placement MUST carry an explicit brand name; never render the row with an empty / missing name (the row exists specifically to attribute the ad to a buyer). `avatar` is forwarded to Thumbnail verbatim at size 32. `subtitle` defaults to the literal `Sponsored`; override but cannot omit.",
       "fields": {
-        "name": { "type": "string", "required": true, "description": "Brand display name. Must be a non-empty string — the ad row is the legal attribution surface and cannot ship without it." },
-        "subtitle": { "type": "string", "optional": true, "description": "Override for the `Sponsored` subtitle. Cannot be empty." },
-        "avatar": { "type": "object", "optional": true, "description": "{ src, alt } — forwarded to Thumbnail at size 32." }
+        "name": {
+          "type": "string",
+          "required": true,
+          "description": "Brand display name. Must be a non-empty string — the ad row is the legal attribution surface and cannot ship without it."
+        },
+        "subtitle": {
+          "type": "string",
+          "optional": true,
+          "description": "Override for the `Sponsored` subtitle. Cannot be empty."
+        },
+        "avatar": {
+          "type": "object",
+          "optional": true,
+          "description": "{ src, alt } — forwarded to Thumbnail at size 32."
+        }
       }
     },
-    "onDismiss": { "type": "function", "optional": true, "description": "Fires when the trailing close (X) is tapped. Omit to render the card without a dismiss affordance." },
-    "dismissLabel": { "type": "string", "optional": true, "description": "Accessible label for the trailing close button. Defaults to 'Dismiss ad'." },
-    "title": { "type": "string", "optional": true, "description": "Ad headline. heading.sm (16 / Semibold) / onSurface. Single line; truncates with ellipsis." },
-    "body": { "type": "string", "optional": true, "description": "Ad body copy. body.sm (14 / Regular) / onSurfaceVariant. Two-line clamp with trailing ellipsis." },
+    "onDismiss": {
+      "type": "function",
+      "optional": true,
+      "description": "Fires when the trailing close (X) is tapped. Omit to render the card without a dismiss affordance."
+    },
+    "dismissLabel": {
+      "type": "string",
+      "optional": true,
+      "description": "Accessible label for the trailing close button. Defaults to 'Dismiss ad'."
+    },
+    "title": {
+      "type": "string",
+      "optional": true,
+      "description": "Ad headline. heading.sm (16 / Semibold) / onSurface. Single line; truncates with ellipsis."
+    },
+    "body": {
+      "type": "string",
+      "optional": true,
+      "description": "Ad body copy. body.sm (14 / Regular) / onSurfaceVariant. Two-line clamp with trailing ellipsis."
+    },
     "media": {
       "type": "object",
       "required": true,
@@ -32,26 +60,70 @@
           "placeholder": "/placeholder.png",
           "example": "/placeholder.png"
         },
-        "alt": { "type": "string", "required": true, "description": "Accessible description of the creative." }
+        "alt": {
+          "type": "string",
+          "required": true,
+          "description": "Accessible description of the creative."
+        }
       }
     },
-    "cta": { "type": "object", "optional": true, "description": "{ label, onClick?, color? } — the single full-width Standard Button at the foot. `color` accepts a free-form Hex supplied by the ad client; only the button fill and border swap, every other Standard Button token binding stays intact." },
-    "className": { "type": "string", "optional": true }
+    "cta": {
+      "type": "object",
+      "optional": true,
+      "description": "{ label, onClick?, color? } — the single full-width Standard Button at the foot. `color` accepts a free-form Hex supplied by the ad client; only the button fill and border swap, every other Standard Button token binding stays intact."
+    },
+    "className": {
+      "type": "string",
+      "optional": true
+    }
   },
   "slots": {
-    "brand": { "required": true, "description": "Top row: 32-rung Thumbnail + a two-line text block (brand name on top, `Sponsored` subtitle underneath). Brand name MUST be non-empty — the row is the ad's legal attribution surface and cannot ship without it. The row is non-interactive at the container level — the only commit in this region is the trailing close button.", "accepts": ["thumbnail", "text"] },
-    "dismiss": { "required": false, "description": "Trailing 16px CloseIcon rendered as a bare icon button. Appears only when `onDismiss` is wired. Inherits Icon Button's 24-rung hit area without painting Icon Button chrome — the row reads as a flat brand strip.", "accepts": ["button"] },
-    "title": { "required": false, "description": "Ad headline. heading.sm / onSurface. Single line; truncates.", "accepts": ["text"] },
-    "body": { "required": false, "description": "Ad body excerpt. body.sm / onSurfaceVariant. Two-line clamp.", "accepts": ["text"] },
-    "cta-group": { "required": true, "description": "Hero media + CTA bonded into one `radius.md` (8) clip with `overflow: hidden` and no internal gap. Media is required; the CTA is optional but typical." },
+    "brand": {
+      "required": true,
+      "description": "Top row: 32-rung Thumbnail + a two-line text block (brand name on top, `Sponsored` subtitle underneath). Brand name MUST be non-empty — the row is the ad's legal attribution surface and cannot ship without it. The row is non-interactive at the container level — the only commit in this region is the trailing close button.",
+      "accepts": [
+        "thumbnail",
+        "text"
+      ]
+    },
+    "dismiss": {
+      "required": false,
+      "description": "Trailing 16px XIcon rendered as a bare icon button. Appears only when `onDismiss` is wired. Inherits Icon Button's 24-rung hit area without painting Icon Button chrome — the row reads as a flat brand strip.",
+      "accepts": [
+        "button"
+      ]
+    },
+    "title": {
+      "required": false,
+      "description": "Ad headline. heading.sm / onSurface. Single line; truncates.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "body": {
+      "required": false,
+      "description": "Ad body excerpt. body.sm / onSurfaceVariant. Two-line clamp.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "cta-group": {
+      "required": true,
+      "description": "Hero media + CTA bonded into one `radius.md` (8) clip with `overflow: hidden` and no internal gap. Media is required; the CTA is optional but typical."
+    },
     "media": {
       "required": true,
       "description": "Hero image inside the cta-group. 16:10 aspect ratio, full inline width, no own corner radius (the group clips). **Required** for every placement — the surfaceContainerHigh fallback is a runtime safety net for load failures, not a design-time omission. When no real creative is available at scaffold time, fill with `/placeholder.png`.",
-      "accepts": ["image"],
+      "accepts": [
+        "image"
+      ],
       "assetType": "image",
       "placeholder": "/placeholder.png"
     },
-    "cta": { "required": false, "description": "Full-width Standard Button at the foot of the cta-group. `appearance` is `primary`, `size` is `medium`, `border-radius` is `0` (the group clips). `cta.color` overrides the button fill with a free-form advertiser Hex." }
+    "cta": {
+      "required": false,
+      "description": "Full-width Standard Button at the foot of the cta-group. `appearance` is `primary`, `size` is `medium`, `border-radius` is `0` (the group clips). `cta.color` overrides the button fill with a free-form advertiser Hex."
+    }
   },
   "sizing": {
     "containerFill": "sys.color.surface",
@@ -106,5 +178,10 @@
     "truncationNotWrap": "`title` truncates; `body` clamps to two lines.",
     "dismissOptIn": "Default placements omit the trailing X; it only renders when `onDismiss` is wired.",
     "ctaCommitsAlone": "FeedAd has no engagement row. The cta-group, when present, carries a single full-width Standard Button — never two CTAs."
-  }
+  },
+  "forbidden": [
+    "ad media slot rendered as a raw <img> outside the chorus-feed-ad__media slot wrapper — the slot owns the placeholder fallback and aspect ratio",
+    "ad CTA group placed outside the spec'd cta-group slot — the CTA row geometry is fixed",
+    "thumbnail-sized media — feed-ad media uses the larger hero-style footprint, distinct from feed/post thumbnail"
+  ]
 }

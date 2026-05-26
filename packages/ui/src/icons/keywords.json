@@ -15,52 +15,52 @@
     "like",
     "favorite"
   ],
-  "ViewIcon": [
+  "EyeIcon": [
     "view",
     "eye",
     "see",
     "views"
   ],
-  "ViewFillIcon": [
+  "EyeFillIcon": [
     "view",
     "eye",
     "see",
     "views",
     "filled"
   ],
-  "AddIcon": [
+  "PlusIcon": [
     "add",
     "plus",
     "new",
     "create"
   ],
-  "CloseIcon": [
+  "XIcon": [
     "close",
     "dismiss",
     "x",
     "cancel"
   ],
-  "CollapseIcon": [
+  "ChevronUpIcon": [
     "collapse",
     "chevron-up",
     "fold"
   ],
-  "DownwardIcon": [
+  "ArrowDownIcon": [
     "downward",
     "down",
     "arrow-down"
   ],
-  "ExpandIcon": [
+  "ChevronDownIcon": [
     "expand",
     "chevron-down",
     "unfold"
   ],
-  "InvisibleIcon": [
+  "EyeOffIcon": [
     "invisible",
     "hide",
     "eye-off"
   ],
-  "InvisibleFillIcon": [
+  "EyeOffFillIcon": [
     "invisible",
     "hide",
     "eye-off",
@@ -90,31 +90,18 @@
     "approve",
     "filled"
   ],
-  "UpwardIcon": [
+  "ArrowUpIcon": [
     "upward",
     "up",
     "arrow-up"
   ],
-  "VisibleIcon": [
-    "visible",
-    "show",
-    "eye",
-    "visibility"
-  ],
-  "VisibleFillIcon": [
-    "visible",
-    "show",
-    "eye",
-    "visibility",
-    "filled"
-  ],
-  "DayIcon": [
+  "SunIcon": [
     "day",
     "sun",
     "light",
     "theme"
   ],
-  "DayFillIcon": [
+  "SunFillIcon": [
     "day",
     "sun",
     "light",
@@ -158,13 +145,13 @@
     "hamburger",
     "navigation"
   ],
-  "BackwardIcon": [
+  "ChevronLeftIcon": [
     "back",
     "backward",
     "chevron-left",
     "previous"
   ],
-  "ForwardIcon": [
+  "ChevronRightIcon": [
     "forward",
     "chevron-right",
     "next"
@@ -181,13 +168,13 @@
     "top",
     "upward-bar"
   ],
-  "NightIcon": [
+  "MoonIcon": [
     "night",
     "moon",
     "dark",
     "theme"
   ],
-  "NightFillIcon": [
+  "MoonFillIcon": [
     "night",
     "moon",
     "dark",
@@ -232,13 +219,13 @@
     "rate",
     "filled"
   ],
-  "MultipleIcon": [
+  "SquareStackIcon": [
     "multiple",
     "stacked",
     "layers",
     "gallery"
   ],
-  "MultipleFillIcon": [
+  "SquareStackFillIcon": [
     "multiple",
     "stacked",
     "layers",
@@ -267,33 +254,33 @@
     "done",
     "confirm"
   ],
-  "LockedIcon": [
+  "LockIcon": [
     "locked",
     "lock",
     "private",
     "secure"
   ],
-  "LockedFillIcon": [
+  "LockFillIcon": [
     "locked",
     "lock",
     "private",
     "secure",
     "filled"
   ],
-  "AddCircleIcon": [
+  "PlusCircleIcon": [
     "add",
     "plus",
     "create",
     "circle"
   ],
-  "AddCircleFillIcon": [
+  "PlusCircleFillIcon": [
     "add",
     "plus",
     "create",
     "circle",
     "filled"
   ],
-  "CloseCircleIcon": [
+  "XCircleIcon": [
     "close",
     "dismiss",
     "clear",
@@ -301,7 +288,7 @@
     "x",
     "cancel"
   ],
-  "CloseCircleFillIcon": [
+  "XCircleFillIcon": [
     "close",
     "dismiss",
     "clear",
@@ -336,13 +323,13 @@
     "about",
     "filled"
   ],
-  "SecureIcon": [
+  "ShieldIcon": [
     "secure",
     "shield",
     "protected",
     "safety"
   ],
-  "SecureFillIcon": [
+  "ShieldFillIcon": [
     "secure",
     "shield",
     "protected",
@@ -362,13 +349,13 @@
     "trusted",
     "filled"
   ],
-  "WarningIcon": [
+  "ExclamationCircleIcon": [
     "warning",
     "alert",
     "caution",
     "error"
   ],
-  "WarningFillIcon": [
+  "ExclamationCircleFillIcon": [
     "warning",
     "alert",
     "caution",
@@ -419,12 +406,12 @@
     "speech",
     "filled"
   ],
-  "CompanyIcon": [
+  "BuildingIcon": [
     "company",
     "building",
     "office"
   ],
-  "CompanyFillIcon": [
+  "BuildingFillIcon": [
     "company",
     "building",
     "office",
@@ -465,14 +452,14 @@
     "house",
     "filled"
   ],
-  "InsightsIcon": [
+  "ChartBarIcon": [
     "insights",
     "chart",
     "analytics",
     "graph",
     "stats"
   ],
-  "InsightsFillIcon": [
+  "ChartBarFillIcon": [
     "insights",
     "chart",
     "analytics",
@@ -480,40 +467,40 @@
     "stats",
     "filled"
   ],
-  "MoreIcon": [
+  "EllipsisHorizontalIcon": [
     "more",
     "overflow",
     "ellipsis",
     "dots"
   ],
-  "MoreFillIcon": [
+  "EllipsisHorizontalFillIcon": [
     "more",
     "overflow",
     "ellipsis",
     "dots",
     "filled"
   ],
-  "NotificationIcon": [
+  "BellIcon": [
     "notification",
     "bell",
     "alert",
     "alarm"
   ],
-  "NotificationFillIcon": [
+  "BellFillIcon": [
     "notification",
     "bell",
     "alert",
     "alarm",
     "filled"
   ],
-  "NotificationOffIcon": [
+  "BellOffIcon": [
     "notification",
     "bell",
     "mute",
     "off",
     "silent"
   ],
-  "NotificationOffFillIcon": [
+  "BellOffFillIcon": [
     "notification",
     "bell",
     "mute",
@@ -521,23 +508,23 @@
     "silent",
     "filled"
   ],
-  "PhotoIcon": [
+  "CameraIcon": [
     "photo",
     "camera",
     "image"
   ],
-  "PhotoFillIcon": [
+  "CameraFillIcon": [
     "photo",
     "camera",
     "image",
     "filled"
   ],
-  "PictureIcon": [
+  "ImageIcon": [
     "picture",
     "image",
     "gallery"
   ],
-  "PictureFillIcon": [
+  "ImageFillIcon": [
     "picture",
     "image",
     "gallery",

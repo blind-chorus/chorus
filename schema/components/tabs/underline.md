@@ -28,10 +28,10 @@ A leading glyph before the label.
 tabs/underline/leading-icon
 ---
 import { Tabs, Tab } from '@blind-dsai/ui';
-import { AddIcon, CheckedIcon } from '@blind-dsai/ui/icons';
+import { PlusIcon, CheckedIcon } from '@blind-dsai/ui/icons';
 
 <Tabs variant="underline" value="posts" aria-label="Profile sections">
-  <Tab value="posts" leadingIcon={<AddIcon />}>Posts</Tab>
+  <Tab value="posts" leadingIcon={<PlusIcon />}>Posts</Tab>
   <Tab value="replies">Replies</Tab>
   <Tab value="likes" leadingIcon={<CheckedIcon />}>Likes</Tab>
 </Tabs>

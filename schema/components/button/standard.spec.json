@@ -194,5 +194,12 @@
     "fullWidth": {
       "width": "100%"
     }
-  }
+  },
+  "forbidden": [
+    "raw <button> wrapper styled with Tailwind / inline-style instead of the chorus-button--standard chrome",
+    "appearance=accent used as a primary commit (accent is for link affordance; primary commits use appearance=default with the default flavor)",
+    "destructive flavor used outside Dialog / BottomSheet primary-action context",
+    "raw `border:` declaration — the edge stroke is an inset box-shadow",
+    "manual focus ring via `outline:` — the ring is the `::after` overlay layer"
+  ]
 }

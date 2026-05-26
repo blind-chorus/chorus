@@ -23,9 +23,9 @@ Mirror for use inside an inverse host (Toast dismiss, coach-mark close). Glyph p
 button/icon/inverse
 ---
 import { Button } from '@blind-dsai/ui';
-import { CloseIcon } from '@blind-dsai/ui/icons';
+import { XIcon } from '@blind-dsai/ui/icons';
 
-<Button variant="icon" size="medium" appearance="inverse" icon={<CloseIcon />} aria-label="Dismiss" />
+<Button variant="icon" size="medium" appearance="inverse" icon={<XIcon />} aria-label="Dismiss" />
 ```
 
 ## Use cases

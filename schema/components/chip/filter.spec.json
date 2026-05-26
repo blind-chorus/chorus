@@ -114,5 +114,11 @@
       "insetColor": "sys.color.focusInset"
     },
     "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
-  }
+  },
+  "forbidden": [
+    "radius below sys.radius.full — filter chip is always a fully-rounded pill",
+    "filled gray rest state with no `selected` semantics — rest carries hairline outline + onSurface label; selected carries primaryContainer fill + onPrimaryContainer label",
+    "border declared via `border:` instead of inset box-shadow stroke",
+    "trailing chevron / icon as a separate hit area — the entire chip is the click target"
+  ]
 }

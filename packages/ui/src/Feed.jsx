@@ -8,10 +8,10 @@ import {
   CompensationFillIcon,
   HeartFillIcon,
   HeartIcon,
-  MultipleIcon,
+  SquareStackIcon,
   PollFillIcon,
   ReplyIcon,
-  ViewIcon,
+  EyeIcon,
 } from './icons/index.js';
 
 /* Feed — a vertically-stacked content card. The Feed primitive is pure
@@ -33,7 +33,7 @@ function CoverThumbnail({ alt, src, stacked }) {
       )}
       {stacked ? (
         <span className="chorus-feed__thumbnail-stack" aria-label="Multiple images" role="img">
-          <MultipleIcon size={16} />
+          <SquareStackIcon size={16} />
         </span>
       ) : null}
     </div>
@@ -147,7 +147,7 @@ function Engagement({ likes, comments, views, liked, onLikeChange }) {
           is the wrong shape because views isn't an action that has been
           turned off; it simply isn't an action. */}
       <span className="chorus-feed__views" role="status" aria-label={`Views — ${views}`}>
-        <span className="chorus-feed__views-icon" aria-hidden="true"><ViewIcon /></span>
+        <span className="chorus-feed__views-icon" aria-hidden="true"><EyeIcon /></span>
         <span>{views}</span>
       </span>
     </div>

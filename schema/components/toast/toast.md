@@ -42,14 +42,14 @@ A medium Icon Button (`appearance="inverse"`) on the trailing edge for explicit 
 toast/with-dismiss
 ---
 import { Toast, Button } from '@blind-dsai/ui';
-import { CloseIcon } from '@blind-dsai/ui/icons';
+import { XIcon } from '@blind-dsai/ui/icons';
 
 <Toast trailing={
   <Button
     variant="icon"
     size="medium"
     appearance="inverse"
-    icon={<CloseIcon />}
+    icon={<XIcon />}
     aria-label="Dismiss"
     onClick={() => {}}
   />
@@ -78,14 +78,14 @@ The body wraps up to two lines and truncates with an ellipsis past that. Pair wi
 toast/truncation
 ---
 import { Toast, Button } from '@blind-dsai/ui';
-import { CloseIcon } from '@blind-dsai/ui/icons';
+import { XIcon } from '@blind-dsai/ui/icons';
 
 <Toast trailing={
   <Button
     variant="icon"
     size="medium"
     appearance="inverse"
-    icon={<CloseIcon />}
+    icon={<XIcon />}
     aria-label="Dismiss"
     onClick={() => {}}
   />

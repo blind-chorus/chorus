@@ -27,11 +27,11 @@ A leading glyph in each segment — useful when the verb alone could read as any
 tabs/segmented/leading-icon
 ---
 import { Tabs, Tab } from '@blind-dsai/ui';
-import { CheckedIcon, AddIcon } from '@blind-dsai/ui/icons';
+import { CheckedIcon, PlusIcon } from '@blind-dsai/ui/icons';
 
 <Tabs variant="segmented" value="grid" aria-label="View mode">
   <Tab value="list" leadingIcon={<CheckedIcon />}>List</Tab>
-  <Tab value="grid" leadingIcon={<AddIcon />}>Grid</Tab>
+  <Tab value="grid" leadingIcon={<PlusIcon />}>Grid</Tab>
 </Tabs>
 ```
 
