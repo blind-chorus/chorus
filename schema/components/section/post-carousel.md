@@ -18,7 +18,7 @@ import { Section, PostCarousel } from '@blind-dsai/ui';
 <PostCarousel
   items={[
     {
-      avatar: { src: '/placeholder_thumbnail.png', alt: 'Channel' },
+      avatar: { src: '/placeholder.png', alt: 'Channel' },
       channel: 'Engineering',
       verified: true,
       followAction: true,
@@ -28,7 +28,7 @@ import { Section, PostCarousel } from '@blind-dsai/ui';
       views: '5K',
     },
     {
-      avatar: { src: '/placeholder_thumbnail.png', alt: 'Channel' },
+      avatar: { src: '/placeholder.png', alt: 'Channel' },
       channel: 'Compensation',
       verified: true,
       followAction: true,
@@ -38,7 +38,7 @@ import { Section, PostCarousel } from '@blind-dsai/ui';
       views: '12K',
     },
     {
-      avatar: { src: '/placeholder_thumbnail.png', alt: 'Channel' },
+      avatar: { src: '/placeholder.png', alt: 'Channel' },
       channel: 'Plant People',
       verified: false,
       followAction: true,

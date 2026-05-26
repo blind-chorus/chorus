@@ -276,7 +276,7 @@ The table below is the *first-pass* intent → component map. It is binding for 
      - `https://images.unsplash.com/photo-<id>?auto=format&fit=crop&w=<width>&q=80`
      - `https://images.pexels.com/photos/<id>/pexels-photo-<id>.jpeg?auto=compress&w=<width>`
      Size the `w=` to the slot's rendered footprint (`w=80` for a 40-rung avatar, `w=320` for a Feed thumbnail, `w=1200` for a hero) — over-fetching hurts perf without visible gain.
-  3. **Placeholder.** Only when neither 1 nor 2 applies (truly subject-less scaffold, "Lorem-ipsum" mock row). Use the package placeholder served at `@blind-dsai/ui/placeholder_thumbnail.png` — copy it into your app's `public/` once at setup, then reference as `src="/placeholder_thumbnail.png"`.
+  3. **Placeholder.** Only when neither 1 nor 2 applies (truly subject-less scaffold, "Lorem-ipsum" mock row). Use the package placeholder served at `@blind-dsai/ui/placeholder.png` — copy it into your app's `public/` once at setup, then reference as `src="/placeholder.png"`.
 * **Photo selection — keep Chorus calm.** Chorus reads as near-monochromatic neutral with a single restrained blue accent. Photo choices should match that mood:
   * Prefer desaturated, soft-light, single-subject compositions (workspace, architecture, nature detail, candid portrait).
   * **Avoid** saturated-red / orange / loud-yellow dominant frames that fight the brand accent, busy multi-subject collages, AI-generated stock that reads as plasticky, and heavy brand-logo photography (Coca-Cola can, etc.).
@@ -466,7 +466,7 @@ Hard requirements for this task:
   carry brand color through the appropriate token — do not render them
   as plain gray text.
 - Image areas (avatars, logos, article thumbs, post media) are real
-  <Thumbnail> or Feed `thumbnail` slots filled with `/placeholder_thumbnail.png`
+  <Thumbnail> or Feed `thumbnail` slots filled with `/placeholder.png`
   when no context-specific asset is available. NEVER substitute an icon-
   in-tinted-circle for an image area.
 
@@ -495,7 +495,7 @@ If you don't name image slots in the prompt, the model will omit them and the sc
 
 1. Real asset the project owns (uploaded logo, screenshot, user-supplied URL).
 2. **Context-appropriate Unsplash / Pexels photo** — when the brief implies a subject, paste a canonical CDN URL (`https://images.unsplash.com/photo-<id>?auto=format&fit=crop&w=<width>&q=80`). Pick the photo to match Chorus's calm, near-monochromatic mood — desaturated single-subject compositions over loud / saturated stock. Size the `w=` to the slot footprint (avatar w=80, thumbnail w=320, hero w=1200).
-3. Package placeholder (`/placeholder_thumbnail.png`) only when no subject can be inferred.
+3. Package placeholder (`/placeholder.png`) only when no subject can be inferred.
 
 In the brief, **name the subject** so Lovable can pick a sensible photo without guessing — *"a Feed card about a SF-based fintech standup, thumbnail of a modern office lounge"* gets a better photo than *"a Feed card with an office image"*. Subject specificity is what flips Lovable from rung 3 (placeholder) up to rung 2 (real Unsplash photo).
 

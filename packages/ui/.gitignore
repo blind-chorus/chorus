@@ -4,8 +4,9 @@
 # agents/ is hand-edited.
 agents/
 
-# Copied at prepublish from apps/docs/public/.
-placeholder_thumbnail.png
+# Copied at prepublish from apps/docs/public/. The universal Chorus
+# image-area placeholder, shared across every empty image slot.
+placeholder.png
 
 # Build artifacts.
 dist/

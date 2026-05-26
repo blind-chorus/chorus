@@ -2,7 +2,7 @@
 
 Sub-component of the [Feed](./feed.md) family. A sponsored placement that rides the same scrolling column as [Feed · Post](./post.md). The header trades a channel/author row for a brand row (32-rung [Thumbnail](../thumbnail/thumbnail.md) + brand name + a `Sponsored` subtitle + a trailing close affordance), the body block stays the same shape as Feed's title + excerpt, and the hero media and CTA are bonded into a single rounded slab at the foot. There is no engagement row — ads are not authored content.
 
-**Required slots.** Two pieces are non-negotiable in every FeedAd placement: an explicit `brand.name` (the row is the ad's legal attribution surface) and a hero `media` block with a non-empty `src` (an ad without a creative collapses to a text wall, which is not a shipped shape). When generating mock or scaffold compositions, fill `media.src` with the bundled placeholder `/placeholder_thumbnail.png` rather than omitting `media` — the runtime `surfaceContainerHigh` fallback is a load-failure safety net, not a design-time opt-out.
+**Required slots.** Two pieces are non-negotiable in every FeedAd placement: an explicit `brand.name` (the row is the ad's legal attribution surface) and a hero `media` block with a non-empty `src` (an ad without a creative collapses to a text wall, which is not a shipped shape). When generating mock or scaffold compositions, fill `media.src` with the bundled placeholder `/placeholder.png` rather than omitting `media` — the runtime `surfaceContainerHigh` fallback is a load-failure safety net, not a design-time opt-out.
 
 ## Default
 
@@ -16,12 +16,12 @@ import { FeedAd } from '@blind-dsai/ui';
 <FeedAd
   brand={{
     name: 'Acme Coffee',
-    avatar: { src: '/placeholder_thumbnail.png', alt: 'Acme Coffee logo' },
+    avatar: { src: '/placeholder.png', alt: 'Acme Coffee logo' },
   }}
   title="Your morning brew, on us."
   body="Sign up this week and your first bag of single-origin beans ships free — no subscription required."
   media={{
-    src: '/placeholder_thumbnail.png',
+    src: '/placeholder.png',
     alt: 'A flat-lay of freshly roasted coffee beans',
   }}
   cta={{ label: 'Claim your free bag', color: '#3DB1A3' }}
@@ -42,12 +42,12 @@ import { FeedAd } from '@blind-dsai/ui';
 <FeedAd
   brand={{
     name: 'Lumen Fitness',
-    avatar: { src: '/placeholder_thumbnail.png', alt: 'Lumen Fitness logo' },
+    avatar: { src: '/placeholder.png', alt: 'Lumen Fitness logo' },
   }}
   onDismiss={() => {}}
   title="Train smarter, not longer."
   body="Personalized 20-minute workouts that adapt to your recovery — free for the first 30 days, no card required."
-  media={{ src: '/placeholder_thumbnail.png', alt: 'An athlete mid-workout in a sunlit studio' }}
+  media={{ src: '/placeholder.png', alt: 'An athlete mid-workout in a sunlit studio' }}
   cta={{ label: 'Start your free trial', color: '#5E4BDB' }}
 />
 ```
@@ -59,7 +59,7 @@ import { FeedAd } from '@blind-dsai/ui';
 - **title** *(optional)* — single-line headline (`heading.sm` / `onSurface`).
 - **body** *(optional)* — two-line clamped excerpt (`body.sm` / `onSurfaceVariant`).
 - **cta-group** *(required)* — the foot slab. The hero **media** is required; the CTA is optional but typical. Media (16:10) and the full-width [Standard Button](../button/standard.md) sit flush inside a single `radius.md` clip with no internal gap. `cta.color` accepts an advertiser-supplied Hex that swaps the button fill and border; every other token binding stays intact.
-- **media** *(required)* — hero creative inside the cta-group. Image asset (PNG / JPG / WebP / SVG); fill `src` with `/placeholder_thumbnail.png` when scaffolding without a real ad creative.
+- **media** *(required)* — hero creative inside the cta-group. Image asset (PNG / JPG / WebP / SVG); fill `src` with `/placeholder.png` when scaffolding without a real ad creative.
 
 ## Anatomy
 
@@ -76,7 +76,7 @@ import { FeedAd } from '@blind-dsai/ui';
 | body             | 14 / Regular, `onSurfaceVariant`, two-line clamp |
 | bottom divider   | `sys.borderWidth.hairline` × `sys.color.outlineVariant` — `border-bottom` on the card so a sponsored placement drops into a Post stream without breaking the inter-card seam rhythm. |
 | cta-group        | `radius.md` (8px) clip wrapping media + CTA, `overflow: hidden`, no internal gap |
-| media            | Full inline width, 16:10 aspect ratio, no own radius (the group clips). Runtime fallback when `src` is missing or fails to load: `background-image: url('/placeholder_thumbnail.png')` over a `surfaceContainerHigh` base. |
+| media            | Full inline width, 16:10 aspect ratio, no own radius (the group clips). Runtime fallback when `src` is missing or fails to load: `background-image: url('/placeholder.png')` over a `surfaceContainerHigh` base. |
 | cta              | [Standard Button](../button/standard.md) — `fullWidth`, `medium`, `primary` by default, **`border-radius: 0`** so the squared bottom edge meets the group's clip. `cta.color` overrides the surface fill with a free-form Hex. |
 
 ## Sizes
@@ -94,7 +94,7 @@ FeedAd is not a focus target; each focusable child (dismiss button, CTA) paints 
 ## Behavior
 
 - **Brand name is required.** Every FeedAd carries an explicit `brand.name` — the row is the ad's legal attribution surface. Lovable / mock generators must never drop it; an empty brand name is not a valid placement.
-- **Hero media is required.** Every FeedAd carries a `media` block with a non-empty `src`. The `surfaceContainerHigh` fallback is a runtime load-failure safety net, not a design-time omission — use `/placeholder_thumbnail.png` when scaffolding without a real creative.
+- **Hero media is required.** Every FeedAd carries a `media` block with a non-empty `src`. The `surfaceContainerHigh` fallback is a runtime load-failure safety net, not a design-time omission — use `/placeholder.png` when scaffolding without a real creative.
 - **Brand subtitle is always present.** The literal defaults to `Sponsored` so every placement reads as sponsored content. Consumers may override the copy but cannot omit the row.
 - **Hero media and CTA are one slab.** They share a `radius.md` clip with no internal gap; the CTA's own corner radius is zeroed so its squared bottom edge meets the group's outer round.
 - **Free-form CTA color.** `cta.color` accepts any Hex string supplied by the ad client. Only the button surface fill and border swap — typography, size, and full-width geometry stay on the Standard Button tokens.

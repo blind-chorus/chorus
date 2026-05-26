@@ -15,9 +15,11 @@
 // — Finder drag from prompt/ into a Lovable chat still works the same.
 // The npm consumers get a flat agents/ tree via the copy below.
 //
-// Also copies the placeholder thumbnail so consumers can reference it via
-// `@blind-dsai/ui/placeholder_thumbnail.png`:
-//   ../../apps/docs/public/placeholder_thumbnail.png → placeholder_thumbnail.png
+// Also copies the universal image-area placeholder so consumers can
+// reference it via `@blind-dsai/ui/placeholder.png`. Used as the fallback
+// for every Chorus image slot — Thumbnail, FeedAd media, ProfileCarousel
+// cover, any future image-typed slot — not just thumbnails:
+//   ../../apps/docs/public/placeholder.png → placeholder.png
 
 import { cpSync, existsSync, mkdirSync, rmSync, statSync } from "node:fs";
 import { dirname, resolve } from "node:path";
@@ -47,7 +49,7 @@ const transfers = [
 ];
 
 const optional = [
-  { from: "apps/docs/public/placeholder_thumbnail.png", to: "placeholder_thumbnail.png" },
+  { from: "apps/docs/public/placeholder.png", to: "placeholder.png" },
 ];
 
 mkdirSync(agentsRoot, { recursive: true });

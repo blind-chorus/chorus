@@ -99,7 +99,7 @@ import { Section, ProfileCarousel } from '@blind-dsai/ui';
 - **container** — wraps the pager and pagination dots. No fill / padding — the surrounding [Section](./section.md) provides the chrome.
 - **pager** — horizontal scroll-snap track. `scroll-snap-type: x mandatory`; native scrollbar hidden.
 - **card** — one profile card per page; fixed at **176px** wide.
-  - **cover** — top band; `sys.color.surfaceContainerHigh` fill, 88px tall, holds the Blind logotype watermark behind the avatar.
+  - **cover** — top band; 88px tall image-area slot. Renders an `<img>` defaulting to the universal Chorus placeholder (`/placeholder.png`) — the same asset every empty image slot in the system falls back to. `object-fit: cover` preserves the image's aspect ratio while cropping to fill the band; `sys.color.surfaceContainerHigh` underlies as the no-image fallback tone. Consumers can override via `items[i].cover.src` (any URL).
   - **avatar** — [Thumbnail](../thumbnail/thumbnail.md) `size={64}`, centered and overlapping the cover band's bottom edge.
   - **name** — entity name; `sys.typo.label.md` / Semibold / `sys.color.onSurface`; centered, single line truncate.
   - **followers** — follower count; `sys.typo.caption.md` / `sys.color.onSurfaceVariant`; centered.
@@ -114,7 +114,7 @@ import { Section, ProfileCarousel } from '@blind-dsai/ui';
 |----------------|----------------|
 | pager          | `gap: sys.layout.inline.md`, negative trailing margin = `sys.layout.container.md`, `scroll-snap-type: x mandatory` |
 | card           | Fixed `width: 176px`, `sys.color.surface` fill, `sys.radius.md`, inset hairline outline, `scroll-snap-align: start` |
-| cover          | 88px tall, `sys.color.surfaceContainerHigh`, watermark centered at low opacity |
+| cover          | 88px tall image-area slot. Default `src` = `/placeholder.png` (universal image placeholder), `object-fit: cover`, `sys.color.surfaceContainerHigh` underlay |
 | avatar         | [Thumbnail](../thumbnail/thumbnail.md) `size={64}`, vertical center on cover's bottom edge |
 | name           | `sys.typo.label.md`, `sys.color.onSurface`, centered |
 | followers      | `sys.typo.caption.md`, `sys.color.onSurfaceVariant`, centered |

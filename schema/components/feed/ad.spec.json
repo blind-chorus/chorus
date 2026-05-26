@@ -22,15 +22,15 @@
     "media": {
       "type": "object",
       "required": true,
-      "description": "{ src, alt } — hero media block. **Required** for every FeedAd placement: an ad without a hero image collapses to a brand row + text wall, which is not a shipped FeedAd shape. Renders at 16:10 inside the cta-group's `radius.md` clip. When generating mock / scaffold placements without a real ad creative, fill `src` with `/placeholder_thumbnail.png` rather than omitting `media` — the `surfaceContainerHigh` fallback is a runtime safety net for load failures, not a design-time omission.",
+      "description": "{ src, alt } — hero media block. **Required** for every FeedAd placement: an ad without a hero image collapses to a brand row + text wall, which is not a shipped FeedAd shape. Renders at 16:10 inside the cta-group's `radius.md` clip. When generating mock / scaffold placements without a real ad creative, fill `src` with `/placeholder.png` rather than omitting `media` — the `surfaceContainerHigh` fallback is a runtime safety net for load failures, not a design-time omission.",
       "fields": {
         "src": {
           "type": "string",
           "assetType": "image",
           "required": true,
           "description": "URL of the hero creative — a raster (PNG / JPG / WebP) or vector (SVG) image asset. Must be present at design time.",
-          "placeholder": "/placeholder_thumbnail.png",
-          "example": "/placeholder_thumbnail.png"
+          "placeholder": "/placeholder.png",
+          "example": "/placeholder.png"
         },
         "alt": { "type": "string", "required": true, "description": "Accessible description of the creative." }
       }
@@ -46,10 +46,10 @@
     "cta-group": { "required": true, "description": "Hero media + CTA bonded into one `radius.md` (8) clip with `overflow: hidden` and no internal gap. Media is required; the CTA is optional but typical." },
     "media": {
       "required": true,
-      "description": "Hero image inside the cta-group. 16:10 aspect ratio, full inline width, no own corner radius (the group clips). **Required** for every placement — the surfaceContainerHigh fallback is a runtime safety net for load failures, not a design-time omission. When no real creative is available at scaffold time, fill with `/placeholder_thumbnail.png`.",
+      "description": "Hero image inside the cta-group. 16:10 aspect ratio, full inline width, no own corner radius (the group clips). **Required** for every placement — the surfaceContainerHigh fallback is a runtime safety net for load failures, not a design-time omission. When no real creative is available at scaffold time, fill with `/placeholder.png`.",
       "accepts": ["image"],
       "assetType": "image",
-      "placeholder": "/placeholder_thumbnail.png"
+      "placeholder": "/placeholder.png"
     },
     "cta": { "required": false, "description": "Full-width Standard Button at the foot of the cta-group. `appearance` is `primary`, `size` is `medium`, `border-radius` is `0` (the group clips). `cta.color` overrides the button fill with a free-form advertiser Hex." }
   },
@@ -80,7 +80,7 @@
     "ctaGroupRadius": "sys.radius.md",
     "mediaAspectRatio": "16 / 10",
     "mediaFallbackFill": "sys.color.surfaceContainerHigh",
-    "mediaFallbackImage": "/placeholder_thumbnail.png",
+    "mediaFallbackImage": "/placeholder.png",
     "mediaFallbackImageRendering": "background-image, cover, center — sits under the runtime <img>; visible only when the inline image is missing or fails to load, so the hero block still resolves to an image rather than an empty surface tone.",
     "ctaAppearance": "primary",
     "ctaSize": "medium",
@@ -97,7 +97,7 @@
   },
   "behavior": {
     "brandNameRequired": "Every FeedAd MUST carry an explicit `brand.name`. Lovable / mock generators must never drop it — the row is the ad's legal attribution surface, and a placement without a brand name is not a valid FeedAd.",
-    "mediaRequired": "Every FeedAd MUST carry a hero `media` block with a non-empty `src`. The `surfaceContainerHigh` fallback is a runtime safety net for load failures, not a design-time omission — at scaffold time, use the bundled `/placeholder_thumbnail.png` rather than omitting `media`.",
+    "mediaRequired": "Every FeedAd MUST carry a hero `media` block with a non-empty `src`. The `surfaceContainerHigh` fallback is a runtime safety net for load failures, not a design-time omission — at scaffold time, use the bundled `/placeholder.png` rather than omitting `media`.",
     "brandSubtitleAlwaysPresent": "The brand subtitle defaults to `Sponsored` so every placement reads as sponsored content. Consumers may override the copy but cannot omit the row.",
     "ctaGroupBondsMediaAndCta": "Hero media and the CTA share a `radius.md` clip with no internal gap; the CTA's own `border-radius` is zeroed so its squared bottom edge meets the group's outer round.",
     "ctaColorIsFreeFormHex": "`cta.color` accepts any Hex string supplied by the ad client. Only the button surface fill and border swap — typography, size, and full-width geometry stay on the Standard Button tokens.",

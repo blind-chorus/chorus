@@ -88,7 +88,7 @@ The package self-contains the docs an LLM agent needs. After `npm install`, they
 | `agents/manifest.json` | Component inventory. |
 | `agents/DESIGN.md` | Token model, four guiding principles, authorized literal exceptions. |
 
-Also shipped: `@blind-dsai/ui/placeholder_thumbnail.png` — copy once into your app's `public/` and reference as `src="/placeholder_thumbnail.png"`.
+Also shipped: `@blind-dsai/ui/placeholder.png` — copy once into your app's `public/` and reference as `src="/placeholder.png"`.
 
 ## Native sibling packages (pilot)
 

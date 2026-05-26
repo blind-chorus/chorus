@@ -16,7 +16,7 @@ const UNSPLASH = (path, size) => {
 
 const IMG = {
   // Sourdough loaf with open crumb — Monika Grabkowska
-  bread: asset('/placeholder_thumbnail.png'),
+  bread: asset('/placeholder.png'),
   breadCover: UNSPLASH('photo-1509440159596-0249088772ff', 320),
   breadAvatar: UNSPLASH('photo-1509440159596-0249088772ff', 160),
   breadHero16x9: UNSPLASH('photo-1509440159596-0249088772ff', [640, 360]),
@@ -1193,18 +1193,18 @@ export const PREVIEWS = {
   /* Thumbnail — small-rung circular image. */
   'thumbnail/default': {
     states: false,
-    render: () => <Thumbnail size={48} src={asset("/placeholder_thumbnail.png")} alt="Channel" />,
+    render: () => <Thumbnail size={48} src={asset("/placeholder.png")} alt="Channel" />,
   },
   'thumbnail/with-update-dot': {
     states: false,
-    render: () => <Thumbnail size={48} src={asset("/placeholder_thumbnail.png")} alt="Channel" updateDot />,
+    render: () => <Thumbnail size={48} src={asset("/placeholder.png")} alt="Channel" updateDot />,
   },
   'thumbnail/with-logo-badge': {
     states: false,
     render: () => (
       <Thumbnail
         size={48}
-        src={asset("/placeholder_thumbnail.png")}
+        src={asset("/placeholder.png")}
         alt="Channel"
         logoBadge={{ src: asset('/blind_logo_red.png'), alt: 'Workspace' }}
       />
@@ -1215,7 +1215,7 @@ export const PREVIEWS = {
     render: () => (
       <Thumbnail
         size={48}
-        src={asset("/placeholder_thumbnail.png")}
+        src={asset("/placeholder.png")}
         alt="Channel"
         updateDot
         logoBadge={{ src: asset('/blind_logo_red.png'), alt: 'Workspace' }}
@@ -1226,12 +1226,12 @@ export const PREVIEWS = {
     states: false,
     render: () => (
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sys-layout-inline-xl)' }}>
-        <Thumbnail size={48} src={asset("/placeholder_thumbnail.png")} alt="Channel A" updateDot />
-        <Thumbnail size={40} src={asset("/placeholder_thumbnail.png")} alt="Channel B" updateDot />
-        <Thumbnail size={32} src={asset("/placeholder_thumbnail.png")} alt="Channel C" updateDot />
-        <Thumbnail size={24} src={asset("/placeholder_thumbnail.png")} alt="Channel D" updateDot />
-        <Thumbnail size={20} src={asset("/placeholder_thumbnail.png")} alt="Channel E" updateDot />
-        <Thumbnail size={16} src={asset("/placeholder_thumbnail.png")} alt="Channel F" updateDot />
+        <Thumbnail size={48} src={asset("/placeholder.png")} alt="Channel A" updateDot />
+        <Thumbnail size={40} src={asset("/placeholder.png")} alt="Channel B" updateDot />
+        <Thumbnail size={32} src={asset("/placeholder.png")} alt="Channel C" updateDot />
+        <Thumbnail size={24} src={asset("/placeholder.png")} alt="Channel D" updateDot />
+        <Thumbnail size={20} src={asset("/placeholder.png")} alt="Channel E" updateDot />
+        <Thumbnail size={16} src={asset("/placeholder.png")} alt="Channel F" updateDot />
       </div>
     ),
   },
@@ -1995,7 +1995,7 @@ export const PREVIEWS = {
     sizes: ['medium', 'small'],
     render: ({ size = 'medium' }) => (
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sys-layout-inline-xl)' }}>
-        <Thumbnail size={size === 'small' ? 24 : 48} src={asset('/placeholder_thumbnail.png')} alt="Channel" updateDot />
+        <Thumbnail size={size === 'small' ? 24 : 48} src={asset('/placeholder.png')} alt="Channel" updateDot />
       </div>
     ),
   },

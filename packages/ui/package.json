@@ -55,13 +55,13 @@
     "./agents/patterns/": "./agents/patterns/",
     "./agents/components/": "./agents/components/",
     "./agents/screens/": "./agents/screens/",
-    "./placeholder_thumbnail.png": "./placeholder_thumbnail.png",
+    "./placeholder.png": "./placeholder.png",
     "./package.json": "./package.json"
   },
   "files": [
     "dist",
     "agents",
-    "placeholder_thumbnail.png",
+    "placeholder.png",
     "README.md"
   ],
   "scripts": {

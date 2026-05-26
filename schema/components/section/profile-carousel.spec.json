@@ -30,7 +30,9 @@
     },
     "cover": {
       "required": true,
-      "description": "Cover band at the top of the card. `sys.color.surfaceContainerHigh` fill, 88px tall, full card width. Holds the platform watermark (Blind logotype at low opacity) behind the avatar.",
+      "description": "Cover band at the top of the card — 88px tall, full card width. **Image-area slot, same contract as `.chorus-thumbnail` and `.chorus-feed-ad__media`**: a `<img>` paints the band, falling back to the universal Chorus placeholder PNG (`/placeholder.png`) when no `cover.src` is provided. The placeholder is *also* wired as the runtime CSS `background-image` on the band, so a missing/failed `<img>` still resolves to the placeholder rather than an empty surface tone. The image is `object-fit: cover` — aspect ratio preserved, cropped to fill — so the lowercase 'blind' wordmark centered in the placeholder stays visually centered in the band.",
+      "assetType": "image",
+      "placeholder": "/placeholder.png",
       "intrinsic": true
     },
     "avatar": {
@@ -79,13 +81,15 @@
     "pageSnapAnchor": "Cards stick to the leading edge of the pager (the Section's left padding). `scroll-snap-align: start` plus the pager's lack of leading margin produce this anchor.",
     "cardFill": "sys.color.surface",
     "cardOutline": "sys.borderWidth.hairline sys.color.outlineVariant",
+    "cardOutlineComposition": "overlay",
+    "cardOutlineCompositionNote": "Painted on a dedicated `::after` overlay layer (`position: absolute; inset: 0; z-index: 2; pointer-events: none`), not as an inset `box-shadow` on the card box itself. The card hosts an opaque full-bleed cover band at the top; an inset shadow on the card would be masked by that fill at the top edge. Same overlay idiom DESIGN.md prescribes for the focus ring — so the stroke renders above every child regardless of edge-painting content.",
     "cardRadius": "sys.radius.md",
     "cardWidth": "176px",
     "cardWidthNote": "Fixed pixel width — every profile card paints the same 176px footprint regardless of card count or screen width. The pager scrolls horizontally so the 176px footprint never reflows.",
     "cardStackGap": "sys.layout.stack.sm",
     "coverHeight": "88px",
-    "coverFill": "sys.color.surfaceContainerHigh",
-    "coverWatermark": "Blind logotype at low opacity (~0.18), centered. Decorative — `aria-hidden`.",
+    "coverFill": "sys.color.surfaceContainerHigh (background underlay — the placeholder image paints on top via `object-fit: cover`)",
+    "coverImageSource": "Same `/placeholder.png` asset every Chorus image-area slot falls back to. Cropped to fill the 88px band via `object-fit: cover` — the placeholder's centered 'blind' wordmark stays visually centered. Decorative — `aria-hidden`. Consumers can override per-item via `items[i].cover.src` (any image URL preserving the same `object-fit: cover` crop).",
     "avatarSize": 64,
     "avatarOverlap": "Avatar's vertical center sits on the cover band's bottom edge — the bottom half of the avatar bleeds onto the card surface. 2px surface halo separates the avatar from the cover band.",
     "nameTypo": "sys.typo.label.md",
@@ -116,7 +120,7 @@
   "itemProps": {
     "id": { "type": "string", "optional": true },
     "avatar": { "type": "object", "required": true, "description": "Forwarded to Thumbnail verbatim at size 64." },
-    "cover": { "type": "object", "optional": true, "description": "{ src?, watermarkSrc?, alt? } — overrides for the cover band. By default the band paints `surfaceContainerHigh` plus the Blind logotype watermark." },
+    "cover": { "type": "object", "optional": true, "description": "{ src?, alt? } — image-area override for the cover band. `src` accepts any URL; falls back to `/placeholder.png` (the universal Chorus image-area placeholder) when omitted. The slot is image-typed (same contract as `Thumbnail.src` / `FeedAd.media.src`) — `object-fit: cover` preserves aspect ratio and crops to the band's intrinsic 88px height." },
     "name": { "type": "string", "required": true },
     "followers": { "type": "string", "required": true },
     "metrics": { "type": "node", "optional": true, "description": "Array of { icon, value, color? } where `icon` is one of 'star' | 'pulse' | 'thumb' or a custom ReactNode. Mutually exclusive with `description` — when both are passed, `description` wins." },

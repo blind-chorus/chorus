@@ -22,6 +22,11 @@ const METRIC_KINDS = {
   thumb: { Icon: ThumbUpFillIcon, tone: 'var(--sys-color-primary)' },
 };
 
+// Universal Chorus image-area placeholder — shared across every empty
+// image slot (Thumbnail, FeedAd media, ProfileCarousel cover). Consumers
+// expose this file at `/placeholder.png` in their public/ directory.
+const PLACEHOLDER_IMAGE = '/placeholder.png';
+
 export function ProfileCarousel({
   items = [],
   className,
@@ -120,11 +125,11 @@ function Card({ item, innerRef, index }) {
       {...extraProps}
     >
       <div className="chorus-profile-carousel__cover" aria-hidden="true">
-        {cover?.src ? (
-          <img src={cover.src} alt={cover.alt ?? ''} />
-        ) : (
-          <span className="chorus-profile-carousel__cover-watermark">blind</span>
-        )}
+        <img
+          className="chorus-profile-carousel__cover-image"
+          src={cover?.src ?? PLACEHOLDER_IMAGE}
+          alt={cover?.alt ?? ''}
+        />
       </div>
 
       <div className="chorus-profile-carousel__avatar-wrap">
