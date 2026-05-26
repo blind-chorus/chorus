@@ -8,6 +8,7 @@
     "top-level destination switcher",
     "app-shell chrome — bottom"
   ],
+  "visualReuse": "open",
   "spec": "tab-bar.md",
   "subcomponents": [
     {

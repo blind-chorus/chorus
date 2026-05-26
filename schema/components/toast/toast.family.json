@@ -9,6 +9,7 @@
     "undo affordance",
     "non-blocking notice"
   ],
+  "visualReuse": "locked",
   "spec": "toast.md",
   "subcomponents": [
     {

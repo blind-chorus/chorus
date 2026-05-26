@@ -10,6 +10,7 @@
     "feed thumbnail",
     "circular image"
   ],
+  "visualReuse": "open",
   "spec": "thumbnail.md",
   "subcomponents": [
     {

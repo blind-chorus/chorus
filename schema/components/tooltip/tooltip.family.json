@@ -9,6 +9,7 @@
     "coach-mark banner",
     "compact disclosure"
   ],
+  "visualReuse": "locked",
   "spec": "tooltip.md",
   "subcomponents": [
     {

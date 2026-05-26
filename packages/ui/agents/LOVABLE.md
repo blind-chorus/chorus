@@ -50,7 +50,18 @@ And the Pretendard typeface (the only face Chorus speaks):
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 ```
 
-After install, post a single readiness line — *"✅ Chorus ready: @blind-dsai/ui@<version>, tokens.css + styles.css wired at <entry-file>. Standing by for the screen brief. On the next turn, my flow will be: §A.2 pattern lookup → §A.3 per-component spec.json + .md fetch → compose."* — and **wait** for the user's screen-specific brief. Do NOT pre-generate a sample home screen, a demo card, or "an example to show install worked." The mirror is verified by `node_modules/@blind-dsai/ui/package.json` existing, not by speculative UI. The user's next turn is the trigger.
+After install, **actually fetch** four files from the installed package before posting readiness — you must have read them, not just listed their paths:
+
+1. `node_modules/@blind-dsai/ui/agents/manifest.json` — enumerates the 18 families.
+2. `node_modules/@blind-dsai/ui/agents/catalog.md` — intent → component routing.
+3. `node_modules/@blind-dsai/ui/dist/index.d.ts` — the typed surface; this is where `<FormField variant="search" placeholder=…>` resolves to a concrete prop signature, not `ComponentType<any>`. **If your shim `.d.ts` exists in the consumer project (`src/types/blind-dsai-ui.d.ts` etc.), delete it — the package's own `dist/index.d.ts` is the source of truth and a `ComponentType<any>` shim will mask discriminated unions like the FormField variants.**
+4. `node_modules/@blind-dsai/ui/agents/components/<one-relevant-family>/<sub>.spec.json` — pick the family the brief most likely needs and read its sub specs, so the next turn's compose step does not start with grep.
+
+Then post the readiness line in **this exact shape** so the user can verify the prep actually happened:
+
+> *"✅ Chorus ready: @blind-dsai/ui@\<version\>, tokens.css + styles.css wired at \<entry-file\>. Read: manifest (\<N families\>), catalog (locked: dialog/bottom-sheet/toast/tooltip/form-field; open: \<13 names\>), dist/index.d.ts (typed exports — FormField variants resolved: input/search/select), \<family\>/\<sub\>.spec.json. Removed legacy shim: \<path or 'none'\>. Standing by for the screen brief — next turn: §A.2 pattern → §A.3 spec re-read → compose."*
+
+This sentence is the contract — the user reads it to confirm you are not about to grep `dist/index.js` for component names. **Do NOT** abbreviate the four bracketed evidence items; **do NOT** post readiness if any of them is unread. Then **wait** for the user's screen-specific brief. Do NOT pre-generate a sample home screen, a demo card, or "an example to show install worked." The user's next turn is the trigger.
 
 If the install fails (network, registry, peer-dep), surface the failure as a single line and stop — do NOT substitute hand-rolled stubs or copy components from elsewhere.
 
@@ -109,7 +120,7 @@ Before you write a JSX node for a Chorus component, read its contract. The catal
 
 Procedure per component:
 
-1. **Locate the family + sub** via `manifest.json` (`families[].slug` → `subcomponents[].slug`). When the intent maps to a family with multiple subs (e.g. `section` has `post-carousel` + `profile-carousel`; `button` has `standard` / `text` / `icon` / `fab` / `toggle` / `check` / `toolbar`), open `agents/components/<family>/<family>.family.json` and pick the sub whose `useCases` best match your brief.
+1. **Locate the family + sub** via `manifest.json` (`families[].slug` → `subcomponents[].slug`). When the intent maps to a family with multiple subs (e.g. `section` has `post-carousel` + `profile-carousel`; `button` has `standard` / `text` / `icon` / `fab` / `toggle` / `check` / `toolbar`), open `agents/components/<family>/<family>.family.json` and pick the sub whose `useCases` best match your brief. **Check the family's `visualReuse` flag while you have the file open** — `"open"` (default, 13 families: badge, banner, button, channel-list, channel-rail, chip, feed, list, navigation-bar, section, tab-bar, tabs, thumbnail) means you may pick this family on visual-fit grounds even when the brief's intent does not match `useCases` verbatim; `"locked"` (5 families: dialog, bottom-sheet, toast, tooltip, form-field) means the family is allowed ONLY in its canonical role and visual-only reuse is forbidden.
 2. **Read the sub's `spec.json` fully.** Specifically: `props` (required vs optional, type, default, allowed values), `slots` (what each slot is for, `accepts`, `rendersAs`, `intrinsic` vs content), any `tokens` block (token bindings the slot pre-declares).
 3. **Read the sub's `.md` for the *when/why*.** The spec gives you the *contract*; the .md gives you the **"Reach for this when … Skip when …"** rule and the **anatomy invariants**. Both matter — agents who read only spec.json miss the cross-sub family contract (header anatomy, surface ownership, etc.).
 4. **Honor slot kind.** If a slot says `intrinsic: true` it is painted by the component itself — you do NOT fill it. If it says `accepts: ["thumbnail"]` or `rendersAs: "thumbnail:40"`, the slot's content is a Chorus component, not a raw image / div.
@@ -132,10 +143,10 @@ Procedure per component:
 The five directives that govern every screen you compose. Apply them top-down — later principles never override earlier ones. The "Hard Rules" in section C are the machine-checkable carve-outs of these principles.
 
 1. **Design-system-first (Source of Truth).** Chorus is the source of truth for every surface you design. Start from Chorus tokens, components, and patterns — not from generic UI libraries, screenshot inference, or invented values. Begin every task by reading `@blind-dsai/ui/agents/manifest.json` + `agents/catalog.md`.
-2. **Component flexibility — extrapolate, don't fork.** Chorus components ship with reference compositions and per-spec guidelines. Read the intent and respect each component's anatomy invariants (slot grammar, sizing tokens, state contract), but feel free to flex how a component is composed (slot fill, layout placement, modifier props) to fit a specific UI/UX context. The contract is the token bindings and the spec's slot rules, not the example screenshot. **Never wrap a Chorus component to restyle it — re-compose with the slots the component already gives you.**
+2. **Component flexibility — extrapolate, don't fork.** Chorus components ship with reference compositions and per-spec guidelines. Read the intent and respect each component's anatomy invariants (slot grammar, sizing tokens, state contract), but feel free to flex how a component is composed (slot fill, layout placement, modifier props) to fit a specific UI/UX context. The contract is the token bindings and the spec's slot rules, not the example screenshot. The family's `visualReuse` flag in `<family>.family.json` says how far that flexibility extends — **`visualReuse: "open"` families** (`section`, `banner`, `feed`, `list`, `button`, `chip`, `badge`, `navigation-bar`, `tab-bar`, `tabs`, `channel-list`, `channel-rail`, `thumbnail` — the visual containers) may be reached for **on visual-fit grounds even when the brief's intent does not match `useCases` verbatim** — e.g. `<Feed>` as a generic article-card surface, `<Section>` as any labelled block. **`visualReuse: "locked"` families** (`dialog`, `bottom-sheet`, `toast`, `tooltip`, `form-field`) MUST only be used in their canonical role — the interaction contract is the point. Anatomy invariants (slot grammar, token bindings, intrinsic geometry) still apply in both tiers. **Never wrap a Chorus component to restyle it — re-compose with the slots the component already gives you.**
 3. **New surfaces stay token-true.** When Chorus has no component for what the surface needs, design a brand-new screen or primitive. The design MUST still resolve every color, spacing, typography, radius, and border-width through Chorus design tokens and the foundation rules in `agents/DESIGN.md`. **No raw hex, no off-scale px, no Tailwind color utilities, no third-party type ramp** — that is the floor regardless of how novel the composition is.
 4. **Lego-block composition.** Build new surfaces by combining and extending existing Chorus components like Lego blocks — nest, group, sequence, and re-purpose primitives in creative arrangements. Token usage stays non-negotiable; the components themselves are the flexible part. A novel screen should still read as one harmony with the rest of the system — a user landing on it should not feel they crossed into a different product.
-5. **UX-pattern consistency.** Pick components from the interaction the user expects — `Dialog` for modal commits, `BottomSheet` for committed-sheet flows, `Toast` for non-blocking feedback, `List` for menus/pickers, `Feed` for authored content streams. Across a single flow, behavior, motion, and affordance language stay predictable; do not reach for a `Chip` when the user expects a `Button`, or a `Dialog` when a `Toast` is the right rung.
+5. **UX-pattern consistency.** Pick components from the interaction the user expects when that interaction is the whole point — `Dialog` for modal commits, `BottomSheet` for committed-sheet flows, `Toast` for non-blocking feedback, `Tooltip` for trigger-anchored hints, `FormField` for real text entry. These five families are `visualReuse: "locked"` and MUST NOT be borrowed for the visual shape alone — focus trap, auto-dismiss, ARIA live region, hover/focus trigger, and `<input>` semantics are the contract. The other thirteen families (`visualReuse: "open"`) carry interaction defaults too — `List` for menus/pickers, `Feed` for authored content, `Chip` vs `Button` for facet vs commit — but those defaults are *first suggestions*, not rules; you may pick by visual fit when the design calls for it. Across a single flow, keep behavior, motion, and affordance language predictable regardless of which tier the components come from.
 
 ---
 
@@ -168,7 +179,7 @@ Page horizontal inset is paid **exactly once** — by the page shell. Every full
 
 ### 🏷️ Component Selection by Intent
 
-Do not choose components based on visual adjectives. Map the user's intent to the canonical Chorus token:
+The table below is the *first-pass* intent → component map. It is binding for `visualReuse: "locked"` families (`dialog`, `bottom-sheet`, `toast`, `tooltip`, `form-field` — marked *(locked)* below): never use them outside their canonical role, because the interaction contract (focus trap, auto-dismiss, ARIA live region, hover/focus trigger, `<input>` semantics) is the point. For the other thirteen families (`visualReuse: "open"`) the table is a strong default but visual-fit reuse is allowed — picking `<Feed>` for a generic article-card surface, `<Section>` for any labelled block, `<Banner>` for a tonal aside outside a literal "notice" is fine as long as anatomy invariants (slot grammar, token bindings, intrinsic geometry) hold:
 
 | User Intent / Phrase | Target Chorus Component | Configuration / Variants |
 | :--- | :--- | :--- |
@@ -186,11 +197,11 @@ Do not choose components based on visual adjectives. Map the user's intent to th
 | "filter chip row" | `Chip` | `variant="filter"` |
 | "tag pill" | `Chip` | `variant="tag"` |
 | "insight / aside / banner" | `Banner` | `variant="default" \| "accent"` |
-| "confirmation prompt" | `Dialog` | - |
-| "one-thumb action sheet" | `BottomSheet` | - |
-| "transient confirmation" | `Toast` | - |
-| "trigger-anchored hint" | `Tooltip` | - |
-| "labeled text field" | `FormField` | `variant="input"` |
+| "confirmation prompt" | `Dialog` *(locked)* | - |
+| "one-thumb action sheet" | `BottomSheet` *(locked)* | - |
+| "transient confirmation" | `Toast` *(locked)* | - |
+| "trigger-anchored hint" | `Tooltip` *(locked)* | - |
+| "labeled text field" | `FormField` *(locked)* | `variant="input"` |
 | "unread count / numeric pill" | `Badge` | - |
 | "avatar / logo / leading image / thumbnail"| `Thumbnail` | Requires `src` property |
 
@@ -256,7 +267,7 @@ You are NOT permitted to "match the existing style" of a brownfield codebase as 
 
 ## E. Post-Generation Pre-Flight Checklist
 
-Before presenting the output, run this sanity check. If any box is checked, you must **discard and regenerate** the code:
+Before presenting the output, run this sanity check. If any box is checked, you must **discard and regenerate** the code. The list audits *anatomy* (token usage, slot grammar, import hygiene) and the five `visualReuse: "locked"` interaction contracts — it does NOT punish a `visualReuse: "open"` family for being used outside its canonical intent (e.g. a `Feed`-shaped surface hosting a non-post summary is allowed as long as slot grammar and token bindings hold):
 
 * [ ] Raw `<button>` or `<a>` tag used as a CTA.
 * [ ] A card component built as a generic `<div>` with `border` and `rounded-lg` (Must be `Section`/`Feed`/`Banner`).

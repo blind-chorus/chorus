@@ -69,6 +69,11 @@
       "items": { "type": "string" },
       "description": "Free-form intent strings an agent can match against natural-language requests. Used by the catalog (schema/catalog.md) and by intent-driven pickers (Lovable / v0 / Cursor). Examples for `button`: ['primary commit', 'inline action', 'save and continue']. Keep entries short and concrete — synonyms, not full sentences."
     },
+    "visualReuse": {
+      "type": "string",
+      "enum": ["open", "locked"],
+      "description": "How strictly the family's intent binds component choice. `open` (default for most families) — an agent MAY reach for the component on visual-fit grounds even when the brief's intent does not match `useCases` verbatim; anatomy invariants (slot grammar, token bindings, intrinsic geometry) still apply. `locked` — the component MUST only be used when the brief's intent matches `useCases`; visual-only reuse is forbidden because the component's interaction contract (focus trap, auto-dismiss, ARIA live region, form semantics, hover/focus trigger) breaks when the component sits in the wrong role. Only families whose contract is the interaction (dialog, bottom-sheet, toast, tooltip, form-field) should be locked; visual containers (section, banner, feed, list, etc.) are open."
+    },
     "notes": {
       "type": "string",
       "description": "Optional free-form note for downstream consumers (e.g. \"chip and toolbar share the same visual chrome — contract divergence is intent only\")."

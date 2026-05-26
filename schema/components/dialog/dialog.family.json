@@ -10,6 +10,7 @@
     "centred modal",
     "short form"
   ],
+  "visualReuse": "locked",
   "spec": "dialog.md",
   "subcomponents": [
     {

@@ -9,6 +9,7 @@
     "tonal aside",
     "in-flow tip"
   ],
+  "visualReuse": "open",
   "spec": "banner.md",
   "subcomponents": [
     {

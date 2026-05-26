@@ -10,6 +10,7 @@
     "in-place mode toggle",
     "list-grid toggle"
   ],
+  "visualReuse": "open",
   "spec": "tabs.md",
   "subcomponents": [
     {

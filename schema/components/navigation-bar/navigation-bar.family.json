@@ -10,6 +10,7 @@
     "search top bar",
     "back navigation"
   ],
+  "visualReuse": "open",
   "spec": "navigation-bar.md",
   "subcomponents": [
     {

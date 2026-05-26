@@ -8,6 +8,7 @@
     "compact horizontal channel switcher",
     "one-thumb channel nav"
   ],
+  "visualReuse": "open",
   "spec": "channel-rail.md",
   "subcomponents": [
     {

@@ -12,6 +12,7 @@
     "channel carousel",
     "company carousel"
   ],
+  "visualReuse": "open",
   "spec": "section.md",
   "subcomponents": [
     {

@@ -9,6 +9,7 @@
     "discover channels",
     "horizontal-paged channel suggestions"
   ],
+  "visualReuse": "open",
   "spec": "channel-list.md",
   "subcomponents": [
     {

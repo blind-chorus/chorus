@@ -12,6 +12,7 @@
     "avatar-anchored rows",
     "directory rows"
   ],
+  "visualReuse": "open",
   "spec": "list.md",
   "subcomponents": [
     {

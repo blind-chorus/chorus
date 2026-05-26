@@ -10,6 +10,7 @@
     "metadata pill",
     "dismissable opt-out"
   ],
+  "visualReuse": "open",
   "spec": "chip.md",
   "subcomponents": [
     {

@@ -10,6 +10,7 @@
     "confirmation prompt",
     "one-thumb reach decision"
   ],
+  "visualReuse": "locked",
   "spec": "bottom-sheet.md",
   "subcomponents": [
     {

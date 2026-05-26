@@ -11,6 +11,7 @@
     "sheet-driven option picker",
     "labelled select+input pairing (e.g. country code + number)"
   ],
+  "visualReuse": "locked",
   "spec": "form-field.md",
   "subcomponents": [
     {

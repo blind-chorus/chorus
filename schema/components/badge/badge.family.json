@@ -9,6 +9,7 @@
     "numeric indicator",
     "host attachment"
   ],
+  "visualReuse": "open",
   "spec": "badge.md",
   "subcomponents": [
     {
