@@ -55,6 +55,6 @@
     "Density differs between 'My Channels' and 'Following' rows by design — do not flatten."
   ],
   "swappable": {
-    "body": ["list", "channel-list"]
+    "body": ["list", "suggestion-list"]
   }
 }

@@ -14,7 +14,7 @@ import { useEffect } from 'react';
    Re-measures on user scroll (passive listener) and on container
    resize (ResizeObserver, covers font load, viewport change, and
    surrounding layout reflow). Shared across the three Tabs variants
-   and ChannelRail-style horizontal rows. */
+   and AvatarRail-style horizontal rows. */
 export function useScrollOverflow(ref) {
   useEffect(() => {
     const el = ref.current;

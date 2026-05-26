@@ -12,7 +12,7 @@ The default landing surface — a vertically scrolling feed of authored posts, f
 ## Layout
 
 - **Header** — `navigation-bar / home`: leading menu (hamburger), wordmark "blind" center-left, trailing icon cluster (message, bell, profile).
-- **Channel rail** — `channel-rail` directly under the bar; horizontally scrollable channel chips with leading emoji/avatar. "For You" / "Recent" / "Popular" function as feed-mode chips with one selected (filled black).
+- **Channel rail** — `avatar-rail` directly under the bar; horizontally scrollable channel chips with leading emoji/avatar. "For You" / "Recent" / "Popular" function as feed-mode chips with one selected (filled black).
 - **Promo banner** — `banner` with image, headline + body, dismissible. Soft surface (`sys.color.surfaceContainerHigh`-ish), not modal.
 - **Keyword subscription row** — secondary banner-style row, bell-leading, "X" trailing.
 - **Section header** — "While you were away…" intrinsic header above the feed proper.
@@ -29,7 +29,7 @@ The default landing surface — a vertically scrolling feed of authored posts, f
 ## Components
 
 - [[navigation-bar/home]] — top chrome.
-- [[channel-rail]] — channel + feed-mode rail.
+- [[avatar-rail]] — channel + feed-mode rail.
 - [[banner]] — recruiter promo + keyword subscription rows.
 - [[feed/feed]] — post stream.
 - [[tab-bar]] — bottom nav, 6 items including Create as accent.

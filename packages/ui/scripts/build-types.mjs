@@ -165,6 +165,12 @@ function pickRefDomType(specs) {
   return doms.size === 1 ? [...doms][0] : "HTMLElement";
 }
 
+/** spec.exportAlias may be a single string or an array; always iterate. */
+function normalizeAlias(value) {
+  if (!value) return [];
+  return Array.isArray(value) ? value : [value];
+}
+
 // ───────────────────────── load + group ─────────────────────────
 
 const manifest = loadManifest();
@@ -204,6 +210,10 @@ const lines = [
 
 const seenInterfaces = new Set();
 const exportDecls = [];
+/** Aliases declared via spec.exportAlias — extra export names pointing at the
+ *  same props type as their source spec. Collected during the main loop and
+ *  emitted at the end so they sit visually below the canonical exports. */
+const aliasEntries = []; // { aliasName, sourcePropsType, refDom }
 
 for (const [reactName, specs] of exportMap) {
   const refDom = pickRefDomType(specs);
@@ -217,6 +227,9 @@ for (const [reactName, specs] of exportMap) {
       seenInterfaces.add(ifaceName);
     }
     exportDecls.push({ reactName, propsType: ifaceName, refDom });
+    for (const alias of normalizeAlias(specs[0].spec.exportAlias)) {
+      aliasEntries.push({ aliasName: alias, sourcePropsType: ifaceName, refDom });
+    }
   } else {
     const subIfaces = [];
     lines.push(`// ── ${reactName} (multi-sub: ${specs.map((s) => s.sub.slug ?? "—").join(", ")}) ──`);
@@ -235,6 +248,13 @@ for (const [reactName, specs] of exportMap) {
         seenInterfaces.add(ifaceName);
       }
       subIfaces.push(ifaceName);
+      for (const alias of normalizeAlias(spec.exportAlias)) {
+        aliasEntries.push({
+          aliasName: alias,
+          sourcePropsType: ifaceName,
+          refDom: elementToDomType(spec.element),
+        });
+      }
     }
     const unionName = `${reactName}Props`;
     lines.push(`export type ${unionName} =`);
@@ -244,9 +264,14 @@ for (const [reactName, specs] of exportMap) {
   }
 }
 
-// src/index.js exports without a spec → permissive fallback (FormFieldGroup,
-// FeedGroup, Tab — wrappers/groups that don't have their own spec yet).
-const specBackedExports = new Set(exportDecls.map((e) => e.reactName));
+// src/index.js exports without a spec OR an alias declaration → permissive
+// fallback (FormFieldGroup, FeedGroup, Tab — wrappers/groups that don't have
+// their own spec yet). Alias names are spec-backed via spec.exportAlias and
+// stay out of the fallback bucket so their typed surface survives.
+const specBackedExports = new Set([
+  ...exportDecls.map((e) => e.reactName),
+  ...aliasEntries.map((a) => a.aliasName),
+]);
 const fallbackExports = exportsList.filter((n) => !specBackedExports.has(n));
 
 if (fallbackExports.length > 0) {
@@ -265,6 +290,17 @@ const allExports = [
 ];
 for (const { reactName, propsType, refDom } of allExports) {
   lines.push(`export const ${reactName}: React.ForwardRefExoticComponent<${propsType} & React.RefAttributes<${refDom}>>;`);
+}
+
+if (aliasEntries.length > 0) {
+  lines.push("");
+  lines.push("// ── Aliases ── (additional export names declared via spec.exportAlias).");
+  lines.push("// Each alias drops the `variant` discriminator — the runtime wrapper locks it,");
+  lines.push("// so consumers don't need to repeat the variant in JSX.");
+  for (const { aliasName, sourcePropsType, refDom } of aliasEntries) {
+    lines.push(`export type ${aliasName}Props = Omit<${sourcePropsType}, "variant">;`);
+    lines.push(`export const ${aliasName}: React.ForwardRefExoticComponent<${aliasName}Props & React.RefAttributes<${refDom}>>;`);
+  }
 }
 
 const indexOut = lines.join("\n") + "\n";

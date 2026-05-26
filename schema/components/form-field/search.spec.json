@@ -3,6 +3,7 @@
   "name": "FormField",
   "family": "form-field",
   "subcomponent": "search",
+  "exportAlias": "SearchBar",
   "description": "Single-line search field — a search-shaped sibling of Input. Same transparent-fill box, same hairline-at-rest / thin-at-active inset box-shadow stroke (so the box model is untouched in every state), same placeholder-vs-value colour rules, same focus ring, same trailing clear button. Two anatomy differences from Input — a leading `SearchIcon` glyph pinned at the box's inner-left edge so the field reads as a search affordance before the user types, and the corner radius steps from `sys.radius.md` to `sys.radius.full` (pill). **Search Bar is a bare box only — it does not accept a `label`, `helper`, or `maxLength`**, and so never renders the field-group wrapper; it also carries no `error` appearance — error reporting belongs to a labelled field. A search rung sits in chrome (a header bar, a list filter, a sheet's top) where the affordance is carried by the leading glyph and the placeholder; stacking a visible label or a `current/max` count on top of that competes with the search affordance instead of reinforcing it. Reach for [Input](./input.md) when the rung needs a labelled / counted form field or an error treatment.",
   "element": "input",
   "props": {

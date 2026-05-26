@@ -7,11 +7,11 @@ A vertically-stacked block of channel recommendations rendered as a swipeable pa
 A two-page list (six channels) with a "See all" action in the header.
 
 ```preview
-channel-list/default
+suggestion-list/default
 ---
-import { ChannelList } from '@blind-dsai/ui';
+import { SuggestionList } from '@blind-dsai/ui';
 
-<ChannelList
+<SuggestionList
   label="Recommended channels"
   headerAction={{ label: 'See all', href: '/channels' }}
   items={[

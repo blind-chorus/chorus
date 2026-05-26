@@ -29,6 +29,13 @@
       "type": "string",
       "description": "The DOM element the root slot renders as (`button`, `div`, `input`, `span`, …)."
     },
+    "exportAlias": {
+      "oneOf": [
+        { "type": "string", "pattern": "^[A-Z][A-Za-z0-9]*$" },
+        { "type": "array", "items": { "type": "string", "pattern": "^[A-Z][A-Za-z0-9]*$" }, "minItems": 1 }
+      ],
+      "description": "Optional extra PascalCase export name (or array of names) re-pointed at this spec — used to give a sub-component a shorter / more familiar runtime name (Sheet for BottomSheet, Input/SearchBar/Select for FormField sub-components) and to keep deprecated historical names alive (ChannelList for SuggestionList). The build-types generator emits each alias as `<Alias>Props = Omit<SourceProps, \"variant\">` + a matching component export, so consumers don't need to repeat the variant discriminator. src/index.js MUST re-export the runtime component under every alias name."
+    },
     "props": {
       "type": "object",
       "description": "Public React props. Each entry describes one prop's type and default; the shape varies per prop kind (enum / literal / boolean / string / number / node / function).",

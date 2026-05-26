@@ -1,0 +1,22 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "avatar-rail",
+  "name": "AvatarRail",
+  "description": "Compact horizontal strip of avatar entry points — each item routes to an entity (channel, person, brand, topic) with a single tap. The rail sits above a feed or inside a sidebar and gives the visitor a quick switcher across the entities they follow. Single-spec family. Historically shipped as ChannelRail; that name is kept as a deprecated alias.",
+  "useCases": [
+    "followed entities rail",
+    "horizontal avatar switcher",
+    "story-style quick nav",
+    "one-thumb entity nav"
+  ],
+  "visualReuse": "open",
+  "spec": "avatar-rail.md",
+  "subcomponents": [
+    {
+      "slug": "avatar-rail",
+      "spec": "avatar-rail.spec.json",
+      "md": "avatar-rail.md",
+      "default": true
+    }
+  ]
+}

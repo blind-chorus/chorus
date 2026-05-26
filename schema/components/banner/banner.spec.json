@@ -2,6 +2,7 @@
   "$schema": "../../spec.schema.json",
   "name": "Banner",
   "family": "banner",
+  "exportAlias": "Alert",
   "description": "In-body explanation block — a tinted, self-contained card that sits within the reading flow but visually separates from it, used to teach a feature, surface a capability, or annotate content with a short paragraph and an optional follow-through link. Reach for Banner when a passage of body copy needs a brief aside that the reader can scan or skip, not when the message requires a decision (use Dialog or Bottom Sheet) or carries a transient confirmation weight (use Toast).",
   "element": "div",
   "props": {

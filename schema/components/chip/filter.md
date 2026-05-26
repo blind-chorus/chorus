@@ -98,7 +98,7 @@ import { Chip } from '@blind-dsai/ui';
 
 ### With trailing action
 
-Pair the chip rail with a trailing accent [Text Button](../button/text.md) (`size='small'`, `appearance='accent'`) for a destination that sits outside the filter axis — managing the whole set, opening keyword settings, jumping to an editor. The button is **not** a filter toggle. Composition mirrors [Channel rail · With overflow](../channel-rail/channel-rail.md#with-overflow): chip track scrolls horizontally with a trailing 48px `mask-image` fade that only paints while overflowing; the button stays pinned outside the scroll viewport with a `sys.layout.inline.xl` gap.
+Pair the chip rail with a trailing accent [Text Button](../button/text.md) (`size='small'`, `appearance='accent'`) for a destination that sits outside the filter axis — managing the whole set, opening keyword settings, jumping to an editor. The button is **not** a filter toggle. Composition mirrors [Channel rail · With overflow](../avatar-rail/avatar-rail.md#with-overflow): chip track scrolls horizontally with a trailing 48px `mask-image` fade that only paints while overflowing; the button stays pinned outside the scroll viewport with a `sys.layout.inline.xl` gap.
 
 ```preview
 chip/filter/with-trailing-action

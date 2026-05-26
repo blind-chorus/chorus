@@ -22,7 +22,7 @@ Agents **prefer cloning a recipe over from-scratch composition**. Slot-fill, fam
   },
   "rules": ["Recipe-specific guardrails an agent must respect when varying."],
   "swappable": {
-    "body": ["feed", "channel-list"]
+    "body": ["feed", "suggestion-list"]
   }
 }
 ```
@@ -30,7 +30,7 @@ Agents **prefer cloning a recipe over from-scratch composition**. Slot-fill, fam
 ### Region semantics
 
 - **`top`** — top bar. Always `navigation-bar/*` (or omitted on fullscreen overlays).
-- **`body`** — main scrollable content. One of `list`, `feed`, `channel-list`, `channel-rail`, or a one-off composition.
+- **`body`** — main scrollable content. One of `list`, `feed`, `suggestion-list`, `avatar-rail`, or a one-off composition.
 - **`bottom`** — persistent bottom region (segmented tabs, primary action row). Often empty.
 - **`fab`** — ≤1 FAB per screen (see [AGENTS.md](../../AGENTS.md) hard rules).
 - **`overlay`** — `bottom-sheet` or `dialog` triggered from elsewhere. Pair its trigger in another region's `note`.

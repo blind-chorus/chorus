@@ -2,11 +2,12 @@ import { Thumbnail } from './Thumbnail.jsx';
 import { Button } from './Button.jsx';
 import { joinClasses } from './spec-utils.js';
 
-/* ChannelList — a vertically-stacked block of channel suggestions
+/* SuggestionList — a vertically-stacked block of follow suggestions
    rendered as a swipeable pager. Each page shows exactly three rows
    (Thumbnail 48 + name / followers / description + a Toggle Button on
    the trailing edge); the next page peeks at the trailing side of the
-   viewport to invite the horizontal swipe.
+   viewport to invite the horizontal swipe. Anatomy is entity-agnostic —
+   suggested channels, people, companies, topics all share the same shape.
 
    The component is presentation-only for the row body — tapping the
    avatar / text column does not route. The only commit affordance per
@@ -29,7 +30,7 @@ function chunk(items, size) {
   return out;
 }
 
-export function ChannelList({
+export function SuggestionList({
   label,
   headerAction,
   items = [],
@@ -42,19 +43,19 @@ export function ChannelList({
   const pages = chunk(items, ROWS_PER_PAGE);
   return (
     <section
-      className={joinClasses('chorus-channel-list', className)}
+      className={joinClasses('chorus-suggestion-list', className)}
       aria-label={ariaLabel ?? label}
       {...rest}
     >
       {(label || headerAction) ? (
-        <header className="chorus-channel-list__header">
-          {label ? <h3 className="chorus-channel-list__label">{label}</h3> : <span />}
+        <header className="chorus-suggestion-list__header">
+          {label ? <h3 className="chorus-suggestion-list__label">{label}</h3> : <span />}
           {headerAction ? (
             <Button
               variant="text"
               size="xsmall"
               appearance="accent"
-              className="chorus-channel-list__header-action"
+              className="chorus-suggestion-list__header-action"
               href={headerAction.href ?? '#'}
               onClick={headerAction.onClick}
             >
@@ -63,9 +64,9 @@ export function ChannelList({
           ) : null}
         </header>
       ) : null}
-      <div className="chorus-channel-list__pager" role="group" aria-label="Channel pages">
+      <div className="chorus-suggestion-list__pager" role="group" aria-label="Suggestion pages">
         {pages.map((page, pageIdx) => (
-          <div key={pageIdx} className="chorus-channel-list__page">
+          <div key={pageIdx} className="chorus-suggestion-list__page">
             {page.map((item, rowIdx) =>
               item ? (
                 <Row
@@ -75,7 +76,7 @@ export function ChannelList({
                   followingLabel={followingLabel}
                 />
               ) : (
-                <div key={`pad-${rowIdx}`} className="chorus-channel-list__row chorus-channel-list__row--pad" aria-hidden="true" />
+                <div key={`pad-${rowIdx}`} className="chorus-suggestion-list__row chorus-suggestion-list__row--pad" aria-hidden="true" />
               )
             )}
           </div>
@@ -88,16 +89,16 @@ export function ChannelList({
 function Row({ item, followLabel, followingLabel }) {
   const { name, followers, description, active, onToggle, thumbnail } = item;
   return (
-    <div className="chorus-channel-list__row">
-      <span className="chorus-channel-list__avatar">
+    <div className="chorus-suggestion-list__row">
+      <span className="chorus-suggestion-list__avatar">
         <Thumbnail size={48} {...(thumbnail ?? { alt: name })} />
       </span>
-      <span className="chorus-channel-list__text">
-        <span className="chorus-channel-list__name">{name}</span>
-        {followers ? <span className="chorus-channel-list__followers">{followers}</span> : null}
-        {description ? <span className="chorus-channel-list__description">{description}</span> : null}
+      <span className="chorus-suggestion-list__text">
+        <span className="chorus-suggestion-list__name">{name}</span>
+        {followers ? <span className="chorus-suggestion-list__followers">{followers}</span> : null}
+        {description ? <span className="chorus-suggestion-list__description">{description}</span> : null}
       </span>
-      <span className="chorus-channel-list__action">
+      <span className="chorus-suggestion-list__action">
         <Button
           variant="toggle"
           active={!!active}

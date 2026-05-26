@@ -837,7 +837,7 @@ The underline appears **only on hover** because resting text already inherits hi
 }
 ```
 
-**Scope** — apply to: inline prose hyperlinks, mention chips written as plain `@name` ink, citation source attributions, channel-rail labels under thumbnails, "View all" / "See more" footer affordances, any navigation row whose entire interactive surface is a single text label. **Do not apply to** buttons (they carry their own fill + state overlay), Filter / Tag chips (capsule + container pair), card-shaped links like the Feed citation surface (the card *is* the affordance, not the inline link).
+**Scope** — apply to: inline prose hyperlinks, mention chips written as plain `@name` ink, citation source attributions, avatar-rail labels under thumbnails, "View all" / "See more" footer affordances, any navigation row whose entire interactive surface is a single text label. **Do not apply to** buttons (they carry their own fill + state overlay), Filter / Tag chips (capsule + container pair), card-shaped links like the Feed citation surface (the card *is* the affordance, not the inline link).
 
 #### Caret
 

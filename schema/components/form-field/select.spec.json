@@ -3,6 +3,7 @@
   "name": "FormField",
   "family": "form-field",
   "subcomponent": "select",
+  "exportAlias": "Select",
   "description": "Input-shaped picker — the same transparent-fill box, hairline-at-rest / thin-at-active inset box-shadow stroke, label / helper rungs and `error` re-tone as Input, but the field is read-only and the trailing slot carries a `DownwardIcon` chevron (16px / `sys.icon.md`). Clicking anywhere in the box fires `onOpen`, and the consumer raises a `BottomSheet` (or other surface) with the option list. The chosen value is echoed back through `value`. Supports an optional leading icon, sized to `sys.icon.md`, that pins at the inner-left edge — same affordance as Search bar's glyph.",
   "element": "div",
   "props": {

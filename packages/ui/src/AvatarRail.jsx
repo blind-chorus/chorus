@@ -6,11 +6,11 @@ import { Thumbnail } from './Thumbnail.jsx';
 import { useScrollOverflow } from './internal/useScrollOverflow.js';
 import { joinClasses } from './spec-utils.js';
 
-/* ChannelRail — a horizontal strip of channel entry points. Each item is
-   an anchor that routes to a channel / company page; the rail is
-   navigation, not a picker. Items compose a 48-rung Thumbnail (with
-   optional updateDot / logoBadge passing through) and a single-line
-   label below. An optional trailing action ("View all", "Manage") lives
+/* AvatarRail — a horizontal strip of avatar entry points. Each item is
+   an anchor that routes to an entity (channel, person, brand, topic)
+   page; the rail is navigation, not a picker. Items compose a 48-rung
+   Thumbnail (with optional updateDot / logoBadge passing through) and
+   a single-line label below. An optional trailing action ("View all", "Manage") lives
    at the end of the row, vertically centred against the avatar so the
    text reads as part of the rail rhythm, not as a second row.
 
@@ -20,7 +20,7 @@ import { joinClasses } from './spec-utils.js';
    etc.). If the consumer needs framework-level routing, wrap each item
    in their Link primitive and pass `as` (future). */
 
-export function ChannelRail({
+export function AvatarRail({
   items = [],
   trailingAction,
   className,
@@ -36,26 +36,26 @@ export function ChannelRail({
   useScrollOverflow(trackRef);
   return (
     <nav
-      className={joinClasses('chorus-channel-rail', className)}
-      aria-label={ariaLabel ?? 'Channels'}
+      className={joinClasses('chorus-avatar-rail', className)}
+      aria-label={ariaLabel ?? 'Entities'}
       {...rest}
     >
       <div
         ref={trackRef}
-        className="chorus-channel-rail__track"
+        className="chorus-avatar-rail__track"
       >
         {items.map((item) => (
           <a
             key={item.value}
             href={item.href ?? '#'}
-            className="chorus-channel-rail__item"
+            className="chorus-avatar-rail__item"
             aria-label={item.ariaLabel ?? item.label}
             onClick={item.href ? undefined : (e) => e.preventDefault()}
           >
-            <span className="chorus-channel-rail__avatar">
+            <span className="chorus-avatar-rail__avatar">
               <Thumbnail size={48} {...(item.thumbnail ?? { alt: item.label })} />
             </span>
-            <span className="chorus-channel-rail__label">{item.label}</span>
+            <span className="chorus-avatar-rail__label">{item.label}</span>
           </a>
         ))}
       </div>
@@ -64,7 +64,7 @@ export function ChannelRail({
           variant="text"
           size="small"
           appearance="accent"
-          className="chorus-channel-rail__trailing"
+          className="chorus-avatar-rail__trailing"
           href={trailingAction.href ?? '#'}
           onClick={trailingAction.onClick}
         >

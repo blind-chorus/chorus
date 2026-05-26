@@ -2,8 +2,11 @@ export { Badge } from './Badge.jsx';
 export { Banner } from './Banner.jsx';
 export { BottomSheet } from './BottomSheet.jsx';
 export { Button } from './Button.jsx';
-export { ChannelList } from './ChannelList.jsx';
-export { ChannelRail } from './ChannelRail.jsx';
+export { SuggestionList } from './SuggestionList.jsx';
+export { AvatarRail } from './AvatarRail.jsx';
+// Deprecated aliases — historical names. Prefer SuggestionList / AvatarRail.
+export { SuggestionList as ChannelList } from './SuggestionList.jsx';
+export { AvatarRail as ChannelRail } from './AvatarRail.jsx';
 export { Chip } from './Chip.jsx';
 export { Dialog } from './Dialog.jsx';
 export { Tabs } from './Tabs.jsx';
@@ -12,7 +15,7 @@ export { Feed, FeedGroup } from './Feed.jsx';
 export { FeedAd } from './FeedAd.jsx';
 export { PostCarousel } from './PostCarousel.jsx';
 export { ProfileCarousel } from './ProfileCarousel.jsx';
-export { FormField, FormFieldGroup } from './FormField.jsx';
+export { FormField, FormFieldGroup, Input, SearchBar, Select } from './FormField.jsx';
 export { List } from './List.jsx';
 export { NavigationBar } from './NavigationBar.jsx';
 export { Section } from './Section.jsx';
@@ -20,3 +23,13 @@ export { TabBar } from './TabBar.jsx';
 export { Thumbnail } from './Thumbnail.jsx';
 export { Toast } from './Toast.jsx';
 export { Tooltip } from './Tooltip.jsx';
+
+// shadcn / Material naming aliases — same runtime components under the
+// names AI consumers and external designers most often reach for.
+// Each alias is declared in its source spec.json via `exportAlias`,
+// which is what the typed-surface generator consumes.
+export { BottomSheet as Sheet } from './BottomSheet.jsx';
+export { Banner as Alert } from './Banner.jsx';
+export { Thumbnail as Avatar } from './Thumbnail.jsx';
+export { NavigationBar as AppBar } from './NavigationBar.jsx';
+export { TabBar as BottomNav } from './TabBar.jsx';

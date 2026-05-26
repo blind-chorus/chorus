@@ -100,7 +100,7 @@ Inward — cards tile inside a horizontal scroll viewport with hairline outlines
 ## Behavior
 
 - **Max 5 cards.** Items beyond index 4 are silently dropped (`items.slice(0, 5)`) so editorial / ops mistakes never blow out the section.
-- **Header anatomy delegates to ChannelList.** The label and headerAction bindings are the same family contract as [ChannelList](../channel-list/channel-list.md) — retune there, not here.
+- **Header anatomy delegates to SuggestionList.** The label and headerAction bindings are the same family contract as [SuggestionList](../suggestion-list/suggestion-list.md) — retune there, not here.
 - **One card per page, scroll-snap.** `scroll-snap-type: x mandatory`; each card declares `scroll-snap-align: start`. The pager bleeds out by `sys.layout.container.md` on the trailing edge so the next-card peek is never clipped.
 - **Guaranteed 40px peek.** The visible width of the next card at the trailing edge is pinned to `ref.space.500` (40px) — a raw `ref.space.*` step rather than a `sys.layout.*` rung so the visibility floor is fixed-pixel and does not shift at the responsive breakpoint. Card basis is `calc(100% - sys.layout.inline.md - ref.space.500)`, so the inter-card gap plus the peek subtract from the pager's inline space in lock-step.
 - **Sticks to the leading padding on swipe.** After every swipe, the snapped card aligns flush with the container's `sys.layout.container.md` left padding — it 'sticks' to the leading edge of the pager. The trailing edge of the same snap state always holds the 40px peek; the two are one geometry contract, not two independent rules.

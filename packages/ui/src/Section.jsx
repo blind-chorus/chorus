@@ -3,8 +3,8 @@ import { joinClasses } from './spec-utils.js';
 
 /* Section — a labelled page region. Wraps a section heading and an
    optional trailing 'See all' link above a free-form body slot. The
-   header anatomy is the family-wide source of truth — ChannelList and
-   FeedCarousel paint the same header internally. The schema spec
+   header anatomy is the family-wide source of truth — SuggestionList
+   and FeedCarousel paint the same header internally. The schema spec
    (schema/components/section/section.md) is the canonical contract.
 
    Link-affordance rule: the trailing headerAction is a Text Button

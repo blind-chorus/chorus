@@ -1,8 +1,9 @@
 {
   "$schema": "../../spec.schema.json",
-  "name": "ChannelList",
-  "family": "channel-list",
-  "description": "Vertically-stacked block of channel recommendations rendered as a swipeable pager. One page shows three channel rows; the next page peeks at the trailing edge to invite the swipe. Each row pairs a Thumbnail at the 48 rung with a stacked text column (channel name, follower count, description) and a trailing Toggle Button that flips between 'Follow' and 'Following'.",
+  "name": "SuggestionList",
+  "family": "suggestion-list",
+  "exportAlias": "ChannelList",
+  "description": "Vertically-stacked block of follow suggestions rendered as a swipeable pager. One page shows three rows; the next page peeks at the trailing edge to invite the swipe. Each row pairs a Thumbnail at the 48 rung with a stacked text column (display name, follower / meta count, description) and a trailing Toggle Button that flips between 'Follow' and 'Following'. Anatomy is entity-agnostic — suggested channels, suggested people, suggested companies, suggested topics all share the same shape.",
   "element": "div",
   "props": {
     "label": {

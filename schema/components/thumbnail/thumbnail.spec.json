@@ -2,6 +2,7 @@
   "$schema": "../../spec.schema.json",
   "name": "Thumbnail",
   "family": "thumbnail",
+  "exportAlias": "Avatar",
   "description": "Circular image — the unit used to identify a channel, a feed item's author, or any small-rung image that needs to live inside a denser composition (lists, feed rows, comment threads, mention rails). The image fills the whole footprint at full radius; two optional badges ride on the container without changing its footprint: an update dot at the top-right, and a logo badge at the bottom-right. A pure visual primitive — it never carries a label of its own.",
   "element": "div",
   "props": {

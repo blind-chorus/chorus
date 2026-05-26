@@ -73,7 +73,7 @@
         },
         "items": {
           "type": "array",
-          "description": "Row / item data for list-shaped components (list, feed, channel-list, channel-rail, tabs).",
+          "description": "Row / item data for list-shaped components (list, feed, suggestion-list, avatar-rail, tabs).",
           "items": { "type": "object", "additionalProperties": true }
         },
         "note": {

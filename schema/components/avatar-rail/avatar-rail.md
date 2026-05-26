@@ -7,11 +7,11 @@ A horizontal strip of channel entry points — each item routes to a channel or 
 A four-channel rail with a trailing "View all" action.
 
 ```preview
-channel-rail/default
+avatar-rail/default
 ---
-import { ChannelRail } from '@blind-dsai/ui';
+import { AvatarRail } from '@blind-dsai/ui';
 
-<ChannelRail
+<AvatarRail
   aria-label="Subscribed channels"
   items={[
     { value: 'hyundai',  label: 'Hyundai Motor',  href: '/channels/hyundai',  thumbnail: { alt: 'Hyundai', updateDot: true } },
@@ -30,11 +30,11 @@ import { ChannelRail } from '@blind-dsai/ui';
 When the rail carries more items than the container fits, it scrolls horizontally.
 
 ```preview
-channel-rail/overflow
+avatar-rail/overflow
 ---
-import { ChannelRail } from '@blind-dsai/ui';
+import { AvatarRail } from '@blind-dsai/ui';
 
-<ChannelRail
+<AvatarRail
   aria-label="Subscribed channels"
   items={[
     { value: 'hyundai',   label: 'Hyundai Motor',   href: '/channels/hyundai',   thumbnail: { alt: 'Hyundai', updateDot: true } },

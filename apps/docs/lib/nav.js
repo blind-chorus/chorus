@@ -198,11 +198,11 @@ export const NAV = [
         ],
       },
       {
-        href: '/components/channel-list',
+        href: '/components/suggestion-list',
         label: 'Channel list',
       },
       {
-        href: '/components/channel-rail',
+        href: '/components/avatar-rail',
         label: 'Channel rail',
       },
       {

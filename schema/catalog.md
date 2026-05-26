@@ -6,7 +6,7 @@ Reverse index from natural-language intent to family + sub-component. Read this 
 
 Each family declares `visualReuse: "open" | "locked"` in its `<family>.family.json`. The catalog respects that flag.
 
-- **Open (default, 13 families)** — `badge`, `banner`, `button`, `channel-list`, `channel-rail`, `chip`, `feed`, `list`, `navigation-bar`, `section`, `tab-bar`, `tabs`, `thumbnail`. The intent table is the *first* suggestion, but the agent MAY reach for these on visual-fit grounds even when the brief's intent does not match the row verbatim — e.g. using `<Feed>` as a generic article-card surface, `<Banner>` as a tonal aside outside a literal "notice" context, `<Section>` as any labelled editorial block. Anatomy invariants (slot grammar, token bindings, intrinsic geometry) still apply.
+- **Open (default, 13 families)** — `badge`, `banner`, `button`, `suggestion-list`, `avatar-rail`, `chip`, `feed`, `list`, `navigation-bar`, `section`, `tab-bar`, `tabs`, `thumbnail`. The intent table is the *first* suggestion, but the agent MAY reach for these on visual-fit grounds even when the brief's intent does not match the row verbatim — e.g. using `<Feed>` as a generic article-card surface, `<Banner>` as a tonal aside outside a literal "notice" context, `<Section>` as any labelled editorial block. Anatomy invariants (slot grammar, token bindings, intrinsic geometry) still apply.
 - **Locked (5 families)** — `dialog`, `bottom-sheet`, `toast`, `tooltip`, `form-field`. MUST only be used when the brief's intent matches a row. Their contract IS the interaction — focus trap, auto-dismiss, ARIA live region, form semantics, hover/focus trigger. Borrowing the visual shape without the role breaks the behavior. Marked *(locked)* in the tables below.
 
 When in doubt: open families are recipes, locked families are rules.
@@ -45,15 +45,15 @@ When in doubt: open families are recipes, locked families are rules.
 | avatar-anchored rows (channels, DMs)         | `list / thumbnail`       |
 | drill-in rows with trailing chevron          | `list / nav`             |
 | authored content stream (posts, comments)    | `feed / feed`            |
-| channel directory                            | `channel-list`           |
+| follow suggestions block                     | `suggestion-list`           |
 
-**Disambiguate**: `feed` = authored content (author, body, footer). `list` = menus/settings/pickers. `channel-list` is channel directories only.
+**Disambiguate**: `feed` = authored content (author, body, footer). `list` = menus/settings/pickers. `suggestion-list` = labelled swipeable block of follow-suggestions (channels, people, companies, topics — same anatomy).
 
 ## Horizontal content surfaces
 
 | Intent                                  | Family + sub             |
 | --------------------------------------- | ------------------------ |
-| compact horizontal channel nav          | `channel-rail`           |
+| compact horizontal entity quick-nav      | `avatar-rail`           |
 | section tabs with sliding indicator     | `tabs / underline`       |
 | chip-shaped tab row with leading icons  | `tabs / rounded`         |
 | in-place mode toggle (List ↔ Grid)      | `tabs / segmented`       |

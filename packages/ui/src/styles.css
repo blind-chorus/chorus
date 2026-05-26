@@ -2131,7 +2131,7 @@ span.chorus-chip {
    track owns the horizontal scroll; the trailing action sits outside
    the scroll viewport so "View all" stays anchored to the rail's right
    edge regardless of how far the user scrolls the avatars. */
-.chorus-channel-rail {
+.chorus-avatar-rail {
   background: var(--sys-color-surface);
   width: 100%;
   box-sizing: border-box;
@@ -2142,7 +2142,7 @@ span.chorus-chip {
   overflow: hidden;
 }
 
-.chorus-channel-rail__track {
+.chorus-avatar-rail__track {
   display: flex;
   align-items: flex-start;
   gap: var(--sys-layout-inline-md);
@@ -2162,16 +2162,16 @@ span.chorus-chip {
    its scroll width exceeds the visible width. When content fits, the
    attribute is `"false"` and no mask paints — the rail never carries
    a permanent decoration that lies about its scroll state. */
-.chorus-channel-rail__track[data-overflow-end="true"] {
+.chorus-avatar-rail__track[data-overflow-end="true"] {
   -webkit-mask-image: linear-gradient(to right, black 0, black calc(100% - 48px), transparent 100%);
           mask-image: linear-gradient(to right, black 0, black calc(100% - 48px), transparent 100%);
 }
 
-.chorus-channel-rail__track::-webkit-scrollbar {
+.chorus-avatar-rail__track::-webkit-scrollbar {
   display: none;
 }
 
-.chorus-channel-rail__item {
+.chorus-avatar-rail__item {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -2196,22 +2196,22 @@ span.chorus-chip {
    would otherwise stack a second underline on top, doubling the
    visual stroke. Suppress the anchor-level decoration on hover so
    only the label span's controlled 1px line renders. */
-.chorus-channel-rail__item:hover {
+.chorus-avatar-rail__item:hover {
   text-decoration: none;
 }
 
-.chorus-channel-rail__item:hover .chorus-channel-rail__label {
+.chorus-avatar-rail__item:hover .chorus-avatar-rail__label {
   text-decoration: underline;
   text-decoration-thickness: var(--sys-borderWidth-hairline);
   text-underline-offset: var(--sys-layout-inline-xs);
 }
 
-.chorus-channel-rail__item:focus-visible {
+.chorus-avatar-rail__item:focus-visible {
   outline: var(--sys-borderWidth-hairline) solid var(--sys-color-focus);
   outline-offset: var(--sys-layout-inline-xs);
 }
 
-.chorus-channel-rail__avatar {
+.chorus-avatar-rail__avatar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2221,7 +2221,7 @@ span.chorus-chip {
 /* Channel label — column width = avatar rung (48) + a small overhang
    (inline.sm = 4) so long names truncate without pushing neighbours.
    Composed value, derived from anatomy + a layout token. */
-.chorus-channel-rail__label {
+.chorus-avatar-rail__label {
   width: calc(48px + 2 * var(--sys-layout-inline-sm));
   font-size: var(--sys-typo-label-sm-size);
   line-height: var(--sys-typo-label-sm-line);
@@ -2240,7 +2240,7 @@ span.chorus-chip {
    row. The Text Button handles every other visual concern (label
    rung, hover overlay, focus ring); this rule only keeps the flex
    sizing and vertical anchor. */
-.chorus-channel-rail__trailing {
+.chorus-avatar-rail__trailing {
   flex: 0 0 auto;
   align-self: center;
 }
@@ -2252,7 +2252,7 @@ span.chorus-chip {
    clipped; with gap = inline.xl (16 mobile / 24 web) and a page basis
    that subtracts that gap and an inline.md (8) peek, exactly 8px of
    the next page surfaces at the trailing edge regardless of viewport. */
-.chorus-channel-list {
+.chorus-suggestion-list {
   background: var(--sys-color-surface);
   width: 100%;
   box-sizing: border-box;
@@ -2262,7 +2262,7 @@ span.chorus-chip {
   gap: var(--sys-layout-stack-lg);
 }
 
-.chorus-channel-list__header {
+.chorus-suggestion-list__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2273,7 +2273,7 @@ span.chorus-chip {
    `.page-content h3` style in the docs site without falling back to
    `!important`. The component should be paint-stable wherever it
    embeds; this is the cheapest guard. */
-.chorus-channel-list .chorus-channel-list__label {
+.chorus-suggestion-list .chorus-suggestion-list__label {
   margin: 0;
   font-size: var(--sys-typo-heading-md-size);
   line-height: var(--sys-typo-heading-md-line);
@@ -2289,7 +2289,7 @@ span.chorus-chip {
    peek width is pinned to inline.md (8) by composing the page basis
    from the gap + the peek; both terms are tokens, so the geometry
    holds across the responsive token shift on web. */
-.chorus-channel-list__pager {
+.chorus-suggestion-list__pager {
   display: flex;
   gap: var(--sys-layout-inline-xl);
   margin-right: calc(-1 * var(--sys-layout-container-md));
@@ -2300,11 +2300,11 @@ span.chorus-chip {
   -webkit-overflow-scrolling: touch;
 }
 
-.chorus-channel-list__pager::-webkit-scrollbar {
+.chorus-suggestion-list__pager::-webkit-scrollbar {
   display: none;
 }
 
-.chorus-channel-list__page {
+.chorus-suggestion-list__page {
   flex: 0 0 calc(100% - var(--sys-layout-inline-xl) - var(--sys-layout-inline-md));
   display: flex;
   flex-direction: column;
@@ -2318,7 +2318,7 @@ span.chorus-chip {
    The line spans from there to the row's right edge, sitting in the
    row's stack.sm bottom padding. Applies to every row in the page —
    including the last — for an even rhythm. */
-.chorus-channel-list__row {
+.chorus-suggestion-list__row {
   position: relative;
   display: flex;
   align-items: center;
@@ -2327,7 +2327,7 @@ span.chorus-chip {
   padding-bottom: var(--sys-layout-stack-sm);
 }
 
-.chorus-channel-list__row::after {
+.chorus-suggestion-list__row::after {
   content: '';
   position: absolute;
   left: calc(48px + var(--sys-layout-inline-lg));
@@ -2337,23 +2337,23 @@ span.chorus-chip {
   background: var(--sys-color-outlineVariant);
 }
 
-.chorus-channel-list__row--pad {
+.chorus-suggestion-list__row--pad {
   visibility: hidden;
   height: 48px;
 }
 
-.chorus-channel-list__row--pad::after {
+.chorus-suggestion-list__row--pad::after {
   display: none;
 }
 
-.chorus-channel-list__avatar {
+.chorus-suggestion-list__avatar {
   flex: 0 0 48px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
-.chorus-channel-list__text {
+.chorus-suggestion-list__text {
   flex: 1 1 auto;
   min-width: 0;
   display: flex;
@@ -2361,37 +2361,37 @@ span.chorus-chip {
   gap: var(--sys-layout-stack-3xs);
 }
 
-.chorus-channel-list__name,
-.chorus-channel-list__followers,
-.chorus-channel-list__description {
+.chorus-suggestion-list__name,
+.chorus-suggestion-list__followers,
+.chorus-suggestion-list__description {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   display: block;
 }
 
-.chorus-channel-list__name {
+.chorus-suggestion-list__name {
   font-size: var(--sys-typo-label-md-size);
   line-height: var(--sys-typo-label-md-line);
   font-weight: var(--sys-typo-label-md-weight);
   color: var(--sys-color-onSurface);
 }
 
-.chorus-channel-list__followers {
+.chorus-suggestion-list__followers {
   font-size: var(--sys-typo-caption-md-size);
   line-height: var(--sys-typo-caption-md-line);
   font-weight: var(--sys-typo-caption-md-weight);
   color: var(--sys-color-onSurface);
 }
 
-.chorus-channel-list__description {
+.chorus-suggestion-list__description {
   font-size: var(--sys-typo-caption-md-size);
   line-height: var(--sys-typo-caption-md-line);
   font-weight: var(--sys-typo-caption-md-weight);
   color: var(--sys-color-onSurfaceVariant);
 }
 
-.chorus-channel-list__action {
+.chorus-suggestion-list__action {
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;

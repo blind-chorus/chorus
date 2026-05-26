@@ -3,6 +3,7 @@
   "name": "NavigationBar",
   "family": "navigation-bar",
   "subcomponent": "home",
+  "exportAlias": "AppBar",
   "description": "Landing-screen top bar — anchored to the top of a tab root (a feed, an inbox, a profile, a discover screen). A leading menu glyph + left-aligned title occupy the start of the row; up to three action icons (search, chat, profile / notifications) sit at the trailing edge. **The title slot defaults to the brand logotype rendered at 24px tall** (width auto, ratio preserved) so the landing rung of every Home tab opens with the product mark rather than a written page name. A string title is the fallback for screens that don't anchor a top-level brand identity (a secondary tab root, a feature surface, a dev screen); the fallback carries the system's largest page-level type rung (heading.lg, 24/Semibold) rather than the smaller drill-in rung used by Page, and shares the 24-tall rhythm of the logotype so the bar's height is unchanged across the two presentations.",
   "element": "header",
   "props": {

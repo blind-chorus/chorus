@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Badge, BottomSheet, Button, Banner, ChannelList, ChannelRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, List, NavigationBar, PostCarousel, ProfileCarousel, Section, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
+import { Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, List, NavigationBar, PostCarousel, ProfileCarousel, Section, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
 import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, DownwardIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MenuIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
@@ -34,7 +34,7 @@ const IMG = {
   // Abstract pattern for moderator / community banner
   modCover: UNSPLASH('photo-1517245386807-bb43f82c33c4', 320),
   modAvatar: UNSPLASH('photo-1517245386807-bb43f82c33c4', 160),
-  // ChannelRail brand-channel avatars. Real brand logos are off-limits
+  // AvatarRail brand-channel avatars. Real brand logos are off-limits
   // (trademark); these Unsplash photos depict the industry the channel
   // covers — automotive, consumer electronics, semiconductor, etc. — so
   // the rail reads as a varied set of company channels without using
@@ -49,7 +49,7 @@ const IMG = {
   brandSuv: UNSPLASH('photo-1542362567-b07e54358753', 160),           // suv
 };
 
-/* App-width-filling components (NavigationBar, Feed, ChannelList, Channel
+/* App-width-filling components (NavigationBar, Feed, SuggestionList, Channel
    Rail, Dialog inline, BottomSheet inline, FormField, …) cap at 400px so
    the preview stage reads as a mobile-app viewport regardless of the
    browser's actual width. Compact specimens (Button, Chip, Badge) skip
@@ -152,7 +152,7 @@ function TabsDemo({ variant, items, initialValue, focusedValue }) {
 }
 
 /* Dialog is shown always-open so the specimen reads as the dialog
-   itself — same pattern as Feed, ChannelList, every other block
+   itself — same pattern as Feed, SuggestionList, every other block
    component. `onClose` is a no-op inside the preview frame. */
 function DialogDefaultDemo() {
   return (
@@ -187,7 +187,7 @@ function DialogWithImageDemo() {
    `following` boolean toggled by its trailing Toggle Button. The demo
    seeds a couple of rows as already-following so visitors can read
    both states (Follow / Following) on the live block. */
-function ChannelListDemo() {
+function SuggestionListDemo() {
   const seed = [
     { value: 'sourdough', name: 'Sourdough Bakers', followers: '12.4K Followers', description: 'Open-crumb obsession, cold-proof timing, starter help.', thumbnail: { src: IMG.breadAvatar,  alt: 'Sourdough Bakers' }, following: false },
     { value: 'indiedev',  name: 'Indie Game Devs',  followers: '8,210 Followers', description: 'Shipping logs, postmortems, marketing on a budget.', thumbnail: { src: IMG.gameAvatar,   alt: 'Indie Game Devs' }, following: false },
@@ -203,7 +203,7 @@ function ChannelListDemo() {
     onToggle: () => setRows((prev) => prev.map((p) => (p.value === r.value ? { ...p, following: !p.following } : p))),
   }));
   return (
-    <ChannelList
+    <SuggestionList
       label="Recommended channels"
       headerAction={{ label: 'See all', href: '#all' }}
       items={items}
@@ -1470,7 +1470,7 @@ export const PREVIEWS = {
   /* FeedCarousel — the `carousel` sub of the Feed family. Up to 5 compact
      post cards under a single section header, with a one-card-per-page
      scroll-snap pager and decorative pagination dots. Header anatomy
-     delegates verbatim to ChannelList. */
+     delegates verbatim to SuggestionList. */
   'section/post-carousel-default': {
     states: false,
     render: () => (
@@ -1635,11 +1635,11 @@ export const PREVIEWS = {
   /* Channel Rail — horizontal strip of channel entry points. Items are
      anchors that route to a channel page; the trailing action is a
      "View all" link to the full directory. */
-  'channel-rail/default': {
+  'avatar-rail/default': {
     states: false,
     render: () => (
       <Frame>
-        <ChannelRail
+        <AvatarRail
           aria-label="Subscribed channels"
           items={[
             { value: 'hyundai', label: 'Hyundai Motor', href: '#hyundai', thumbnail: { src: IMG.brandAuto,   alt: 'Hyundai',       updateDot: true } },
@@ -1653,11 +1653,11 @@ export const PREVIEWS = {
     ),
   },
 
-  'channel-rail/overflow': {
+  'avatar-rail/overflow': {
     states: false,
     render: () => (
       <Frame>
-        <ChannelRail
+        <AvatarRail
           aria-label="Subscribed channels"
           items={[
             { value: 'hyundai', label: 'Hyundai Motor',  href: '#hyundai', thumbnail: { src: IMG.brandAuto,      alt: 'Hyundai',       updateDot: true } },
@@ -1857,11 +1857,11 @@ export const PREVIEWS = {
      Toggle Button); the next page peeks to invite the horizontal
      swipe. The demo seeds two rows as already-following so visitors
      can read both Follow / Following states inline. */
-  'channel-list/default': {
+  'suggestion-list/default': {
     states: false,
     render: () => (
       <Frame>
-        <ChannelListDemo />
+        <SuggestionListDemo />
       </Frame>
     ),
   },

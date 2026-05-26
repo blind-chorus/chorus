@@ -7,7 +7,7 @@ Page-region wrapper for editorial collections — a labelled block with a leadin
 
 Both subs share the same pager geometry — a `ref.space.500` (40px) trailing peek and a leading-padding sticky snap anchor — so editorial collections of posts and profiles tile cleanly side by side.
 
-**Reach for this when** a finite, curated set of cards belongs together under a labelled heading and reads as a horizontal swipeable rail — "Popular posts this week", "Recommended channels", "Hot companies right now". **Skip when** the collection is an open-ended scrolling stream of authored items (use [Feed](../feed/feed.md)), a vertical list of same-kind rows (use [List](../list/list.md)), or a channel directory that needs the channel-specific row chrome (use [ChannelList](../channel-list/channel-list.md)). Pick the sub by the card shape: post cards → [Post carousel](./post-carousel.md); profile / channel / company cards → [Profile carousel](./profile-carousel.md).
+**Reach for this when** a finite, curated set of cards belongs together under a labelled heading and reads as a horizontal swipeable rail — "Popular posts this week", "Recommended channels", "Hot companies right now". **Skip when** the collection is an open-ended scrolling stream of authored items (use [Feed](../feed/feed.md)), a vertical list of same-kind rows (use [List](../list/list.md)), or a channel directory that needs the channel-specific row chrome (use [SuggestionList](../suggestion-list/suggestion-list.md)). Pick the sub by the card shape: post cards → [Post carousel](./post-carousel.md); profile / channel / company cards → [Profile carousel](./profile-carousel.md).
 
 ## Cross-sub contract
 
@@ -18,7 +18,7 @@ Every Section paints the same heading + optional trailing link, regardless of th
 - **Label** — `sys.typo.heading.md` / Semibold / `sys.color.onSurface`. Leading position.
 - **headerAction** *(optional)* — trailing [Text Button](../button/text.md) (`size={'xsmall'}`, `appearance={'accent'}`) per the link-affordance rule.
 
-This header is the family-wide source of truth; [ChannelList](../channel-list/channel-list.md) paints the same header internally. Retune bindings here.
+This header is the family-wide source of truth; [SuggestionList](../suggestion-list/suggestion-list.md) paints the same header internally. Retune bindings here.
 
 ### Surface + padding
 

@@ -20,7 +20,7 @@
       "note": "home variant — leading menu (hamburger), wordmark title left-of-center, trailing icon cluster (message, bell, profile)."
     },
     "rail": {
-      "family": "channel-rail",
+      "family": "avatar-rail",
       "items": [
         { "avatar": { "family": "thumbnail" }, "label": "For You" },
         { "avatar": { "family": "thumbnail" }, "label": "Recent" },
@@ -85,7 +85,7 @@
   },
   "rules": [
     "No FAB on this screen — the TabBar 'Create' tab carries the canonical commit. Adding a `button/fab` would duplicate the affordance.",
-    "Feed-mode chips (For You / Recent / Popular) live inside `channel-rail`, not `tabs/underline`. Do not promote to a tabset.",
+    "Feed-mode chips (For You / Recent / Popular) live inside `avatar-rail`, not `tabs/underline`. Do not promote to a tabset.",
     "Promo + keyword rows are two discrete banners, not one fused block.",
     "Do not stack a second NavigationBar inside body — section labels belong inside row chrome."
   ],

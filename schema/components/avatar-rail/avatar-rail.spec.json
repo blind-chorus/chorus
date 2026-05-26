@@ -1,8 +1,9 @@
 {
   "$schema": "../../spec.schema.json",
-  "name": "ChannelRail",
-  "family": "channel-rail",
-  "description": "Horizontal strip of channel entry points — each item routes to a channel or company page. The rail sits above a feed or inside a profile sidebar and gives the visitor one tap to jump into the channels they follow. Every item composes a Thumbnail (with optional updateDot) and a single-line label; an optional trailing action ('View all', 'Manage') lives at the end of the row.",
+  "name": "AvatarRail",
+  "family": "avatar-rail",
+  "exportAlias": "ChannelRail",
+  "description": "Horizontal strip of avatar entry points — each item routes to an entity (channel, person, brand, topic) page. The rail sits above a feed or inside a sidebar and gives the visitor one tap to jump into the entities they follow. Every item composes a Thumbnail (with optional updateDot) and a single-line label; an optional trailing action ('View all', 'Manage') lives at the end of the row.",
   "element": "div",
   "props": {
     "aria-label": {

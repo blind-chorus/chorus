@@ -3,6 +3,7 @@
   "name": "FormField",
   "family": "form-field",
   "subcomponent": "input",
+  "exportAlias": "Input",
   "description": "Single-line text field. Transparent-fill box (so it adopts whatever surface it sits on — a bottom sheet, a card, the page) whose visible stroke is an inset box-shadow, never a `border`, so it costs zero layout in every state — the field's height is exactly content + padding (a 24px line-box + 2 × 8px = 40px). Rest/hover stroke is 1px `hairline`, the active stroke steps to 2px `thin`; going active never moves the field's footprint or caret. The placeholder shows in a faint `placeholder` colour while the field is empty and the value in `text` colour once it isn't (value-driven). A trailing clear button appears only while the field is active and holds text. An optional `label` above and `helper` text or `maxLength` character count below (the two are mutually exclusive) wrap the box in a field group. The Chorus focus ring is a position:absolute overlay layer; an error appearance re-tones the whole container.",
   "element": "input",
   "props": {

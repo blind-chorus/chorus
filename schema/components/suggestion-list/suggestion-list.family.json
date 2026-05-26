@@ -1,0 +1,22 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "suggestion-list",
+  "name": "SuggestionList",
+  "description": "Swipeable pager of follow-suggestions — labelled block where each page shows three rows of (avatar + name + meta lines + trailing Follow toggle). Built around the recommendation pattern (suggested channels, suggested people, suggested companies, suggested topics) but the anatomy is content-neutral. Single-spec family. Historically shipped as ChannelList; that name is kept as a deprecated alias.",
+  "useCases": [
+    "suggested entities to follow",
+    "recommendations block",
+    "discover panel",
+    "horizontal-paged suggestion cards"
+  ],
+  "visualReuse": "open",
+  "spec": "suggestion-list.md",
+  "subcomponents": [
+    {
+      "slug": "suggestion-list",
+      "spec": "suggestion-list.spec.json",
+      "md": "suggestion-list.md",
+      "default": true
+    }
+  ]
+}

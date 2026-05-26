@@ -191,9 +191,13 @@ function FormFieldBox({
   );
 }
 
-function FormFieldInput(props) {
+/* Input — the labelled `variant="input"` shape, exported as its own
+ * runtime name so consumers can write `<Input label=… />` instead of
+ * `<FormField variant="input" label=… />`. Same props, same render. */
+export function Input(props) {
   return <FormFieldBox spec={inputSpec} subcomponent="input" {...props} />;
 }
+const FormFieldInput = Input;
 
 /* Search bar — same field as Input with a leading `SearchIcon` pinned at
    the inner-left edge and a `sys.radius.full` pill corner. The glyph is
@@ -204,7 +208,7 @@ function FormFieldInput(props) {
    visible label / count rung competes with that rather than reinforcing
    it. The props are stripped here so a stray pass at the call site can't
    re-introduce the field-group wrapper. */
-function FormFieldSearchBar({
+export function SearchBar({
   label: _label,
   helper: _helper,
   maxLength: _maxLength,
@@ -221,6 +225,7 @@ function FormFieldSearchBar({
     />
   );
 }
+const FormFieldSearchBar = SearchBar;
 
 /* Select — Input-shaped sibling that opens a bottom sheet instead of
    accepting keystrokes. Visually the same box as `input` (label, helper,
@@ -229,7 +234,7 @@ function FormFieldSearchBar({
    anywhere on the box (or the chevron) fires `onOpen`, and the consumer
    raises a `BottomSheet` with the option list. The chosen value is
    echoed back through `value`. */
-function FormFieldSelect({ onOpen, value, defaultValue, placeholder, ...rest }) {
+export function Select({ onOpen, value, defaultValue, placeholder, ...rest }) {
   const handleOpen = () => onOpen?.();
   return (
     <FormFieldBox
@@ -255,6 +260,7 @@ function FormFieldSelect({ onOpen, value, defaultValue, placeholder, ...rest }) 
   );
 }
 
+const FormFieldSelect = Select;
 const VARIANTS = {
   input: FormFieldInput,
   'search': FormFieldSearchBar,
