@@ -10,6 +10,7 @@
     "non-blocking notice"
   ],
   "visualReuse": "locked",
+  "layoutInset": "bounded-surface",
   "spec": "toast.md",
   "subcomponents": [
     {

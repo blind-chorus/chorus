@@ -11,6 +11,7 @@
     "back navigation"
   ],
   "visualReuse": "open",
+  "layoutInset": "full-bleed",
   "spec": "navigation-bar.md",
   "subcomponents": [
     {

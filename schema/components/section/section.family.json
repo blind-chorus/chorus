@@ -13,6 +13,7 @@
     "company carousel"
   ],
   "visualReuse": "open",
+  "layoutInset": "full-bleed",
   "spec": "section.md",
   "subcomponents": [
     {

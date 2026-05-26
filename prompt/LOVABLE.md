@@ -59,7 +59,7 @@ After install, **actually fetch** four files from the installed package before p
 
 Then post the readiness line in **this exact shape** so the user can verify the prep actually happened:
 
-> *"✅ Chorus ready: @blind-dsai/ui@\<version\>, tokens.css + styles.css wired at \<entry-file\>. Read: manifest (\<N families\>), catalog (locked: dialog/bottom-sheet/toast/tooltip/form-field; open: \<13 names\>), dist/index.d.ts (typed exports — FormField variants resolved: input/search/select), \<family\>/\<sub\>.spec.json. Removed legacy shim: \<path or 'none'\>. Standing by for the screen brief — next turn: §A.2 pattern → §A.3 spec re-read → compose."*
+> *"✅ Chorus ready: @blind-dsai/ui@\<version\>, tokens.css + styles.css wired at \<entry-file\>. Read: manifest (\<N families\>), catalog (locked: dialog/bottom-sheet/toast/tooltip/form-field; open: \<13 names\>), dist/index.d.ts (typed exports — FormField variants resolved: input/search/select), \<family\>/\<sub\>.spec.json. Removed legacy shim: \<path or 'none'\>. Standing by for the screen brief — next turn: §A.2 pattern → §A.3 spec re-read → §A.4 page-shell skeleton → compose."*
 
 This sentence is the contract — the user reads it to confirm you are not about to grep `dist/index.js` for component names. **Do NOT** abbreviate the four bracketed evidence items; **do NOT** post readiness if any of them is unread. Then **wait** for the user's screen-specific brief. Do NOT pre-generate a sample home screen, a demo card, or "an example to show install worked." The user's next turn is the trigger.
 
@@ -128,7 +128,60 @@ Procedure per component:
 5. **Never invent props.** If the spec does not list a prop, it doesn't exist. Do not pass `className`, `style`, `wrapperClassName`, `containerStyle`, etc. to a Chorus component — restyling happens through Chorus tokens at the global level, never through wrappers.
 6. **Sub-component swaps require re-reading.** Switching from `<Button variant="standard">` to `<Button variant="text">` is *not* the same component — they have different specs (different appearance options, different size rungs). Re-read the target sub's spec.json before swapping.
 
-### A.4 Import contract
+### A.4 Page-shell skeleton — the one-gutter contract
+
+The single most common failure pattern in Chorus output is **misaligned left rails**: the page shell pays `var(--sys-layout-page-md)` *and* a child component (Section / List / Feed / Banner / Tabs / Chip group / AvatarRail) also wraps itself in another `padding-inline`. The two insets stack, so Section H2 lands at one rail, list-row leading content at another, chip first item at a third — readers see the misalignment immediately. The contract is: **shell pays inset once, every full-bleed child stretches edge-to-edge inside it.**
+
+To make this mechanical, each `<family>.family.json` declares `layoutInset`:
+
+* `"full-bleed"` — the family stretches edge-to-edge inside the page shell. **Do NOT wrap it in another `padding-inline` div.** It owns its own row / header padding internally via `layout.container.*`. Families: `navigation-bar`, `tab-bar`, `tabs`, `section`, `feed`, `list`, `banner`, `suggestion-list`, `avatar-rail`, `chip` (when arranged as a group). Eleven families total.
+* `"bounded-surface"` — its own modal / popover shell (Dialog, BottomSheet, Toast, Tooltip). It owns its outer padding and is not a sibling of full-bleed page rows. Compose its *contents* the same way — full-bleed children inside the surface get the negative-margin opt-out (§ Visual alignment in §C).
+* `"inline"` — slot atom (Button, Badge, Thumbnail, FormField, Chip-as-atom). No rail responsibility; the surrounding container places it.
+
+Open the relevant `<family>.family.json` before composing each region; the `layoutInset` value tells you whether the family belongs on the shared page rail.
+
+**Canonical page-shell template — copy this verbatim:**
+
+```jsx
+<div className="page-shell">
+  {/* NavigationBar is full-bleed — sits flush at the top, no wrapper */}
+  <NavigationBar variant="home" … />
+
+  <main
+    style={{
+      paddingInline: 'var(--sys-layout-page-md)',
+      paddingBlock:  'var(--sys-layout-stack-md)',
+      display:       'flex',
+      flexDirection: 'column',
+      gap:           'var(--sys-layout-stack-lg)',
+    }}
+  >
+    {/* Every full-bleed child below stretches edge-to-edge inside <main>.
+        NONE of them carries its own `padding-inline` or `className="px-*"`. */}
+    <Tabs variant="underline" … />
+    <Section label="…" headerAction={…}>…</Section>
+    <Banner … />
+    <Feed items={…} />
+    <List … />
+  </main>
+
+  {/* TabBar is full-bleed and pinned — outside <main>, no shell padding */}
+  <TabBar … />
+</div>
+```
+
+**Anti-patterns — these break the shared rail. Do NOT:**
+
+* ❌ `<Section style={{ paddingInline: 'var(--sys-layout-container-md)' }} … />` — Section already pays its own internal padding; this double-pays.
+* ❌ `<div className="px-4"><Feed … /></div>` — Tailwind padding wraps a `full-bleed` family. Same double-pay.
+* ❌ `<div style={{ padding: 16 }}><List … /></div>` — raw-px wrapper around `list` (full-bleed). Both the px literal *and* the wrapping inset are violations.
+* ❌ Letting any `full-bleed` family inherit a *narrower* parent (e.g. inside a `<Card style={{ padding: 16 }}>`). When `full-bleed` sits inside a `bounded-surface`, the child must opt out via the negative-margin idiom — see §C → Visual alignment & layout grouping.
+
+**Mental check before writing JSX for any region:**
+
+> *"Open `<family>.family.json`. What is `layoutInset`? If `full-bleed`, this component sits as a direct child of `<main>` with no wrapper, no inline `paddingInline`, no `className="px-*"`. If `bounded-surface`, it's not a page-rail sibling — render it as an overlay. If `inline`, it lives inside a slot of another component."*
+
+### A.5 Import contract
 
 * **Components:** `import { Button, Section, List, Feed, Thumbnail, ... } from "@blind-dsai/ui";`
 * **Icons:** `import { Plus, ChevronRight, ... } from "@blind-dsai/ui/icons";`
@@ -288,6 +341,48 @@ Before presenting the output, run this sanity check. If any box is checked, you 
 * [ ] Inside a Dialog / BottomSheet: the sheet title, the leading content of any list row inside it, and the primary action label do NOT all sit at one shared inset from the card edge (Apply the recursive opt-out idiom above).
 * [ ] Vertical sibling spacing applied as `margin-top` on each child instead of `gap: var(--sys-layout-stack-*)` on the shared parent.
 
+### Rail self-diagnostic — run this in the dev preview console before declaring "done"
+
+The rail items above (full-bleed double-padding, shared vertical line, sheet-inside opt-out) are visual contracts; visual contracts are checkable. After the screen renders, paste the snippet below in the preview's browser console — it measures every full-bleed child's actual left edge and fails loudly if they disagree by more than 1px. **If the snippet reports misalignment, do NOT ship — discard and regenerate the page shell per §A.4.**
+
+```js
+(() => {
+  // Full-bleed container selectors — each one's outer left/right edges
+  // must land on the page shell's content-box rail. Extend if you compose
+  // with additional surfaces; individual rows (e.g. `.chorus-list__row`)
+  // and atoms (`.chorus-chip`, `.chorus-button`) are NOT rail-responsible.
+  const sels = [
+    '.chorus-navigation-bar',
+    '.chorus-tab-bar',
+    '.chorus-tabs',
+    '.chorus-section',
+    '.chorus-feed',
+    '.chorus-feed-ad',
+    '.chorus-list',
+    '.chorus-banner',
+    '.chorus-suggestion-list',
+    '.chorus-avatar-rail',
+  ];
+  const rows = sels.flatMap(sel =>
+    [...document.querySelectorAll(sel)].map(el => {
+      const r = el.getBoundingClientRect();
+      return { sel, left: Math.round(r.left), right: Math.round(window.innerWidth - r.right) };
+    })
+  );
+  if (!rows.length) { console.log('No full-bleed children on this page.'); return; }
+  const leftSet = new Set(rows.map(r => r.left));
+  const rightSet = new Set(rows.map(r => r.right));
+  console.table(rows);
+  if (leftSet.size > 1 || rightSet.size > 1) {
+    console.error(`❌ Rail misalignment — left rails: [${[...leftSet].join(', ')}], right rails: [${[...rightSet].join(', ')}]. Every full-bleed child should share one left + one right inset. Fix per LOVABLE.md §A.4.`);
+  } else {
+    console.log(`✅ Rail aligned — every full-bleed child at left=${[...leftSet][0]}px, right=${[...rightSet][0]}px.`);
+  }
+})();
+```
+
+`left` and `right` here are pixel distances from the viewport edges — *every* full-bleed family should produce the same pair. If your screen has a `<Dialog>` / `<BottomSheet>` open, run the snippet with the overlay open *and* closed: full-bleed children inside the surface must share the surface's inner rail (one shared inset from the surface's content box, not from the viewport).
+
 ---
 
 **Proceed to the screen-specific brief. Apply all constraints above flawlessly.**
@@ -346,20 +441,24 @@ Hard requirements for this task:
 - Every visible color, spacing, radius, type ramp MUST resolve to a
   Chorus token (`var(--sys-*)` / `var(--ref-*)`). No raw hex, no Tailwind
   color utilities, no off-scale px.
-- Horizontal page inset is paid ONCE at the page shell via
-  `var(--sys-layout-page-*)`. Full-bleed siblings (Section, List, Feed,
-  Banner, AvatarRail, Chip groups, NavigationBar) stretch edge-to-edge
-  inside that shell — never re-wrap them in `layout.container.*`
-  horizontal padding. The same rule applies recursively INSIDE bounded
-  surfaces (Card, Dialog, BottomSheet, Sheet): if a List / Feed /
-  AvatarRail / Chip-group sits inside one, the child MUST opt out via
-  `marginInline: 'calc(-1 * var(--sys-layout-container-md))'` (matching
-  `width` and `maxWidth: 'none'`) so its OWN row padding becomes the
-  visual inset — sheet title and list-row leading content must land at
+- Start the screen from the §A.4 page-shell skeleton — one `<main>` with
+  `paddingInline: var(--sys-layout-page-md)`, every full-bleed child as a
+  direct sibling with NO additional `padding-inline` / Tailwind `px-*` /
+  `style={{ padding: … }}` wrapper. Open each region's `<family>.family.json`
+  before rendering and check `layoutInset`: `full-bleed` → direct child of
+  `<main>`, no wrapper; `bounded-surface` → render as overlay, not a sibling;
+  `inline` → goes inside another component's slot. The same rule applies
+  recursively INSIDE bounded surfaces (Card, Dialog, BottomSheet, Sheet):
+  if a List / Feed / AvatarRail / Chip-group sits inside one, the child
+  MUST opt out via `marginInline: 'calc(-1 * var(--sys-layout-container-md))'`
+  (matching `width` and `maxWidth: 'none'`) so its OWN row padding becomes
+  the visual inset — sheet title and list-row leading content must land at
   the same vertical line. Every section H2, list-row leading edge, and
-  chip-group first chip MUST share that single rail. Vertical rhythm
-  is `gap: var(--sys-layout-stack-*)` on the shared parent, not
-  `margin-top` on each child.
+  chip-group first chip MUST share that single rail. Vertical rhythm is
+  `gap: var(--sys-layout-stack-*)` on the shared parent, not `margin-top`
+  on each child. After the screen renders, RUN the §E rail self-diagnostic
+  snippet in the preview console — a mismatch on `left` / `right` means
+  discard and regenerate, do NOT ship.
 - CTAs use Button variants explicitly: primary commit → Button (standard,
   filled); secondary commit → Button variant=text appearance=accent;
   icon-only → Button variant=icon; floating canonical → Button variant=fab.

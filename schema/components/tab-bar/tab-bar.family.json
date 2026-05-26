@@ -9,6 +9,7 @@
     "app-shell chrome — bottom"
   ],
   "visualReuse": "open",
+  "layoutInset": "full-bleed",
   "spec": "tab-bar.md",
   "subcomponents": [
     {

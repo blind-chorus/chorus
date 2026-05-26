@@ -15,6 +15,7 @@
     "brand placement"
   ],
   "visualReuse": "open",
+  "layoutInset": "full-bleed",
   "spec": "feed.md",
   "subcomponents": [
     {

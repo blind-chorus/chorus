@@ -13,6 +13,7 @@
     "directory rows"
   ],
   "visualReuse": "open",
+  "layoutInset": "full-bleed",
   "spec": "list.md",
   "subcomponents": [
     {

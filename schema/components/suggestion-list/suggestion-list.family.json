@@ -10,6 +10,7 @@
     "horizontal-paged suggestion cards"
   ],
   "visualReuse": "open",
+  "layoutInset": "full-bleed",
   "spec": "suggestion-list.md",
   "subcomponents": [
     {

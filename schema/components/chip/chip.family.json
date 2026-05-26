@@ -11,6 +11,7 @@
     "dismissable opt-out"
   ],
   "visualReuse": "open",
+  "layoutInset": "inline",
   "spec": "chip.md",
   "subcomponents": [
     {

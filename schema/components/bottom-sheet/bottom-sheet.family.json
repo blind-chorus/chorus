@@ -11,6 +11,7 @@
     "one-thumb reach decision"
   ],
   "visualReuse": "locked",
+  "layoutInset": "bounded-surface",
   "spec": "bottom-sheet.md",
   "subcomponents": [
     {

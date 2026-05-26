@@ -74,6 +74,11 @@
       "enum": ["open", "locked"],
       "description": "How strictly the family's intent binds component choice. `open` allows visual-fit reuse outside `useCases`; `locked` restricts the family to its canonical role because the interaction contract is the point. See `AGENTS.md` § Design principles (#5) for the full contract and the locked roster."
     },
+    "layoutInset": {
+      "type": "string",
+      "enum": ["full-bleed", "bounded-surface", "inline"],
+      "description": "How the family contributes to the page's horizontal-rail contract — the machine-readable form of the 'one gutter, paid once' rule in AGENTS.md § Composition rules. `full-bleed`: the family stretches edge-to-edge inside the page shell's content box and pays its own internal padding via `layout.container.*` on its rows/header — agents MUST NOT wrap it in an extra `padding-inline` div. `bounded-surface`: the family is its own modal/popover shell (Dialog, BottomSheet, Toast, Tooltip) — it owns its outer padding and is not a sibling of full-bleed page rows. `inline`: slot atom (Button, Badge, Thumbnail, FormField, Chip-as-atom) — has no rail responsibility; the surrounding container places it. Agents read this field to decide whether the family belongs on the shared page rail; recipe validators read it to detect double-padded compositions."
+    },
     "notes": {
       "type": "string",
       "description": "Optional free-form note for downstream consumers (e.g. \"chip and toolbar share the same visual chrome — contract divergence is intent only\")."

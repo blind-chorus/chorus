@@ -11,6 +11,7 @@
     "list-grid toggle"
   ],
   "visualReuse": "open",
+  "layoutInset": "full-bleed",
   "spec": "tabs.md",
   "subcomponents": [
     {

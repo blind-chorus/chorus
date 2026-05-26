@@ -10,6 +10,7 @@
     "host attachment"
   ],
   "visualReuse": "open",
+  "layoutInset": "inline",
   "spec": "badge.md",
   "subcomponents": [
     {

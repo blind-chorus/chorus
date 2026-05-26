@@ -10,6 +10,7 @@
     "compact disclosure"
   ],
   "visualReuse": "locked",
+  "layoutInset": "bounded-surface",
   "spec": "tooltip.md",
   "subcomponents": [
     {

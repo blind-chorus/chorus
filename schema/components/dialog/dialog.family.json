@@ -11,6 +11,7 @@
     "short form"
   ],
   "visualReuse": "locked",
+  "layoutInset": "bounded-surface",
   "spec": "dialog.md",
   "subcomponents": [
     {

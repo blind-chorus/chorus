@@ -12,6 +12,7 @@
     "labelled select+input pairing (e.g. country code + number)"
   ],
   "visualReuse": "locked",
+  "layoutInset": "inline",
   "spec": "form-field.md",
   "subcomponents": [
     {

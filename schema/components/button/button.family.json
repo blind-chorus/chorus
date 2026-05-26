@@ -17,6 +17,7 @@
     "item-use toggle"
   ],
   "visualReuse": "open",
+  "layoutInset": "inline",
   "spec": "button.md",
   "subcomponents": [
     {
