@@ -1,4 +1,4 @@
-# Channel rail
+# Avatar rail
 
 A horizontal strip of channel entry points — each item routes to a channel or company page. Composes a [Thumbnail](../thumbnail/thumbnail.md) (optional `updateDot`) and a single-line label; an optional trailing action lives at the end.
 

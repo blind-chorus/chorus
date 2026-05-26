@@ -15,7 +15,7 @@ import { tokenToCss, joinClasses } from '../spec-utils.js';
    toggles `data-overflow-end` whenever the row's scroll width exceeds
    its visible width — the mask rule in styles.css keys off that
    attribute. */
-export function TabsRounded({ fullWidth: _ignored, className, style, children, ...rest }) {
+export function TabsRounded({ className, style, children, ...rest }) {
   const ref = useRef(null);
   useScrollOverflow(ref);
   const composedStyle = {

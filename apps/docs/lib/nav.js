@@ -199,11 +199,11 @@ export const NAV = [
       },
       {
         href: '/components/suggestion-list',
-        label: 'Channel list',
+        label: 'Suggestion list',
       },
       {
         href: '/components/avatar-rail',
-        label: 'Channel rail',
+        label: 'Avatar rail',
       },
       {
         href: '/components/chip',

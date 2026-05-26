@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
 import { Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, List, NavigationBar, PostCarousel, ProfileCarousel, Section, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
-import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, DownwardIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MenuIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
+import { AddIcon, AddSquareFillIcon, BackwardIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, CloseIcon, CompanyIcon, CompanyFillIcon, DownwardIcon, ForwardIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, MoreIcon, NotificationIcon, NotificationFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
    (clean license for docs reuse). Helper builds query params for size +

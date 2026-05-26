@@ -1164,7 +1164,7 @@ code {
    to the right of the token text so a color row reads its value without a
    separate preview column. Hairline overlay border keeps very light or
    transparent fills legible against the chip's tinted background. */
-.token-chip__swatch {
+.token-chip-swatch {
   display: inline-block;
   width: 12px;
   height: 12px;
@@ -1509,7 +1509,7 @@ strong code {
    show/hide. */
 .component-preview-action-tooltip {
   position: absolute;
-  top: calc(100% + var(--sys-layout-stack-2xs, 4px));
+  top: calc(100% + var(--sys-layout-stack-2xs));
   right: 0;
   z-index: 1;
   padding: var(--sys-layout-container-2xs) var(--sys-layout-container-sm);
@@ -1791,7 +1791,7 @@ ol.rule-list > li {
    its X edge sits flush with the parent item's text — the nested list
    reads as a continuation of the lead-in line, not as indented chrome. */
 .rule-list li ol.rule-list > li {
-  --chip-top-inset: 0px;
+  --chip-top-inset: 0;
   padding-left: calc(var(--chip-size) + var(--sys-layout-inline-md));
 }
 

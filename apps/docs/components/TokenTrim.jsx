@@ -139,7 +139,7 @@ export function TokenChip({ children, className, swatch }) {
      preview column. The swatch is `aria-hidden` and empty, so the chip's
      `textContent` (the clipboard payload) stays the canonical token name. */
   const swatchEl = swatch ? (
-    <span className="token-chip__swatch" aria-hidden="true" style={{ background: swatch }} />
+    <span className="token-chip-swatch" aria-hidden="true" style={{ background: swatch }} />
   ) : null;
   return <code className={cls} data-token={stripped} title={stripped}>{display}{swatchEl}</code>;
 }

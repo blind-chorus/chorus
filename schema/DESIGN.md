@@ -31,9 +31,9 @@ Four convictions follow from the *your voice matters* premise — the principles
 
 Chorus covers the foundations — tokens, typography, spacing, color, elevation, and the primitive components built on top of them — and the documentation that keeps them coherent as the product and the community grow.
 
-#### Visual theme & Atmosphere
+#### Visual theme & atmosphere
 
-Chorus is the design language of a community product where text volume is high, mixed-script (Hangul + Latin) is the norm, and the brand voice is *clear, calm, trustworthy*. The system reads the way a well-tuned chorus sounds: distinct voices arranged into one coherent whole, no single voice loud enough to drown the others. Visually, that translates to a near-monochromatic neutral foundation, a single restrained brand accent (Blue 500 `#2563eb`), and shape and tone choices that prefer composure over expressiveness.
+Chorus is the design language of a community product with high text volume and mixed-script (Hangul + Latin) typography. Pretendard is the only typeface; the accent is a single restrained blue; surfaces ride a neutral-grayscale family with one inverse layer.
 
 The single typeface is **Pretendard**, chosen for its mixed-script (Hangul + Latin) balance — see [Font family](#font-family).
 
@@ -196,7 +196,7 @@ Organized along an explicit hierarchy:
 
 `onSurface` is the canonical foreground for the entire stack — every container tier reads against it.
 
-###### Base & Variants
+###### Base & variants
 
 | Token                    | Role                                                                                         |
 |--------------------------|----------------------------------------------------------------------------------------------|
@@ -334,7 +334,7 @@ Five purpose categories × three size levels = 15 type roles, each composed of f
 | `typo.caption.md`  | 12 px               | 400 Regular  | 1.5 normal | 0.02em wide   | Default caption. Timestamps, byline text, card metadata, image captions. |
 | `typo.caption.sm`  | 10 px               | 400 Regular  | 1.5 normal | 0.02em wide   | Smallest caption — legal fine print, dense metadata columns, data-dense tables. Use sparingly. |
 
-#### Tracking & Line-height principles
+#### Tracking & line-height principles
 
 Three rules govern how weight, tracking, and line-height combine across the fifteen `typo.*` roles — so each property carries consistent meaning regardless of which cell of the grid it lands in.
 
@@ -394,7 +394,7 @@ Hyphenated compounds inside a segment (`line-height`, `top-level`) do **not** st
 
 A single icon family aligned to the typographic grid: sizes ride a four-step `icon.*` scale that mirrors the type ladder, and color always inherits from the same `on*` foreground rule as the surrounding text — so an icon never needs its own color token, and the size token only encodes "which type role do I sit beside."
 
-#### Family & Style
+#### Family & style
 
 Chorus uses **one icon family** for the entire product. Mixing libraries (Material Symbols + Heroicons + custom) drifts in stroke weight, terminal style, and corner radius the moment the catalogue grows past a few dozen glyphs; one family keeps the visual language coherent without per-icon review.
 
@@ -413,7 +413,7 @@ Two canonical sizes that align to the type ladder rather than introducing a new 
 
 The grid is **drawing-area, not bounding-box**. A 16px icon should occupy ~13px of optical weight inside a 16px frame — the breathing margin is what keeps icons aligned with descender-free text. Glyphs designed to a literal 16×16 fill always read too heavy beside the type.
 
-#### Color & State
+#### Color & state
 
 Icons consume the same `on*` foreground tokens as the text they sit with — never a dedicated icon color.
 
@@ -422,7 +422,7 @@ Icons consume the same `on*` foreground tokens as the text they sit with — nev
 - **Inactive / disabled** — inherit from the surrounding `state.disabled` opacity; do not pre-darken the icon SVG.
 - **Status icons** (success/error checks, alert glyphs) follow the accent role they signal: `color.success` for success glyphs, `color.error` for error glyphs, paired with their `on*` foreground when sitting on a filled accent surface.
 
-#### Alignment & Layout participation
+#### Alignment & layout participation
 
 Icons participate in `layout.inline.*` like any other inline element — the gap between an icon and its label is `layout.inline.md` by default, `layout.inline.sm` inside compact controls. Don't compensate with `margin` overrides; the gap token is the contract.
 
@@ -438,7 +438,7 @@ A glyph qualifies for the library when it satisfies all three: drawn on the 24×
 
 The procedural details — folder layout, registration recipe, naming conventions — live next to the library code at [`packages/ui/src/icons/README.md`](../packages/ui/src/icons/README.md). DESIGN.md owns the *principle*; the implementation guide owns the *recipe*.
 
-### Spacing & Layout
+### Spacing & layout
 
 An 8px base materializes into a percentage-keyed reference scale, then composes into four orthogonal layout axes — `page` → `container` → `stack` → `inline` — each owning one spatial relationship and stepping up automatically on web. Once the axes are named, [Composition recipes](#composition-recipes) at the end of this chapter pin down *which step* of each axis to pick for the five compositional situations (section-section gap, intra-section rhythm, section padding, body text size, nested padding) every product surface runs into — so two designers laying out unrelated screens land on the same rhythm.
 
@@ -660,7 +660,7 @@ This is composition, not a new vocabulary: apply the existing `radius.*` value t
 
 Do not approximate a capsule with `radius.2xl` or any finite step — the corners drift as content length changes, and a row of pills with the same token reads as visibly different shapes. If you want a capsule, use `full`.
 
-### Border & Stroke
+### Border & stroke
 
 A four-step stroke-width scale paired with the existing color and radius tokens — borders are *width × color × shape*, and the width is the only axis that didn't have a token until now.
 
@@ -709,7 +709,7 @@ Three lift levels along a single ascending intensity axis, plus one direction-sp
 | `elevation.overlay`    | `0 4px 12px black/8%, 0 16px 48px black/20%`                                      | Page-level overlay demanding user focus. Modals, dialogs, popovers, full-screen prompts that sit above a scrim and block interaction below. |
 | `elevation.sheet`      | `0 -2px 6px black/4%, 0 -8px 24px black/16%`                                      | Edge-anchored panel projecting shadow away from its anchored edge (here, anchored bottom — shadow rises). Bottom sheets, side drawers, pinned panels. |
 
-### State layers & Focus
+### State layers & focus
 
 A single rule expresses every interactive state — paint a translucent layer of the element's foreground over its base, at the opacity defined by the state — and pairs with a three-layer focus ring for keyboard accessibility.
 
@@ -945,7 +945,7 @@ Contrast is enforced by the **paired-token rule**: every fill ships with its own
 - **Lower-emphasis text uses `onSurfaceVariant`** — still ≥ 4.5:1 against every surface tone, deliberately one step lighter than `onSurface` so a two-tier text hierarchy stays inside the contrast contract.
 - **Disabled is the exception.** `state.disabled` (40% element opacity) drops below AA on purpose — disabled controls are not interactive, so the WCAG 1.4.3 inactive-component carve-out applies. Never use `disabled` styling to convey live information.
 
-#### Touch & Pointer targets
+#### Touch & pointer targets
 
 Mobile tap targets are governed by `layout.container.sm` (12 → 16px padding) on default-size controls, producing a default control height around **40–48px** depending on label size — comfortably above the 44px iOS / 48px Material guideline.
 
@@ -964,7 +964,7 @@ Every interactive control must be reachable, operable, and visible to a keyboard
 - **Arrow-key navigation inside composite widgets** (tab bars, menus, toolbars, listboxes) follows the [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/) — Left/Right inside a tab strip, Up/Down inside a menu, Home/End to jump to ends.
 - **Focus must never be trapped** outside an explicit modal context. Modals trap focus while open and restore it to the trigger on close.
 
-#### Screen reader & Assistive tech
+#### Screen reader & assistive tech
 
 - **Visible label is the accessible label.** A button reading "Save" has its accessible name as "Save"; never duplicate or contradict in `aria-label`.
 - **Icon-only controls require an accessible name** via `aria-label` (or visually-hidden text). Decorative icons next to a text label use `aria-hidden="true"` so the icon doesn't double-announce.
@@ -973,19 +973,19 @@ Every interactive control must be reachable, operable, and visible to a keyboard
 - **Error association** uses `aria-describedby` pointing at the helper-text node, plus `aria-invalid="true"` on the field — color alone never carries the error.
 - **Don't override `lang`.** Mixed-script content stays under one root `<html lang="ko">` (or `en`); `<span lang>` only when a fragment genuinely switches language. Screen readers use `lang` to pick the right voice and pronunciation.
 
-#### Motion & Animation
+#### Motion & animation
 
 - **Respect `prefers-reduced-motion: reduce`.** Collapse transitions to 0ms (or near-zero) and skip transform-based animations. Treat reduced-motion as the safe default the rest of the system has to opt out of, not as an afterthought.
 - **No flashing more than 3 times per second** anywhere — WCAG 2.3.1 hard requirement. Most likely failure mode is loading skeletons; cap pulse rate at 2 Hz.
 - **Auto-advancing carousels and auto-playing video are forbidden** without user control. If they exist, the user must be able to pause, stop, or hide them.
 
-#### Visual & Cognitive
+#### Visual & cognitive
 
 - **Don't convey meaning by color alone.** Required-field markers, error states, status pills all pair color with text or an icon. The data-viz palette section makes this explicit; the rule applies system-wide.
 - **Resize support to 200%.** Type scales in rem (anchored to user preference); layout doesn't break, no horizontal scroll appears at zoom 200%.
 - **Reflow at 320 CSS pixels.** Mobile-narrow content reflows without horizontal scroll except for elements that genuinely need 2D scrolling (tables, code blocks, maps).
 - **`prefers-contrast: more`** is honored where it matters — increase border weight from `borderWidth.hairline` to `borderWidth.thin`, switch `outlineVariant` to `outline`, drop tonal elevation cues in favor of explicit borders.
-- **Plain language.** Error messages, empty states, and primary actions use the [Voice & Content](#voice--content) chapter's rules — short sentences, no jargon, the user's language.
+- **Plain language.** Error messages, empty states, and primary actions use the [Voice & content](#voice--content) chapter's rules — short sentences, no jargon, the user's language.
 
 #### Internationalization
 
@@ -1039,11 +1039,11 @@ What to avoid — the patterns that erode the system's meaning, accessibility gu
 
 ---
 
-## Voice & Content
+## Voice & content
 
-### Voice & Content
+### Voice & content
 
-What the system *says* matters as much as how it looks. Voice & Content is the writing layer of Chorus — the rules that keep button labels, error messages, empty states, and microcopy coherent across surfaces and across translations.
+What the system *says* matters as much as how it looks. Voice & content is the writing layer of Chorus — the rules that keep button labels, error messages, empty states, and microcopy coherent across surfaces and across translations.
 
 #### Voice principles
 
@@ -1082,7 +1082,7 @@ Three lines max: **what this surface is for · why it's empty right now · the o
 
 The CTA inside an empty state is often the surface's primary action — make it primary visually too (`color.primary` button).
 
-#### Loading & Success
+#### Loading & success
 
 - **Loading copy** describes the action, not "Loading…". "Saving your draft", "Sending invite", "Loading 3 of 12 posts". Concrete progress beats a vague spinner caption.
 - **Success copy is short and past-tense.** "Saved.", "Sent.", "Copied to clipboard." — the period is doing work. Never use exclamation marks (`Saved!`); the brand voice is calm.
@@ -1136,7 +1136,7 @@ What stays in this chapter is the **shape every primitive should take** plus the
 
 ### Empty states
 
-Three lines max — see [Empty states](#empty-states) in Voice & Content for the writing rules. The visual composition:
+Three lines max — see [Empty states](#empty-states) in Voice & content for the writing rules. The visual composition:
 
 - **Optional illustration** at `icon.xl` or larger, centered, color `color.onSurfaceVariant` (illustrations stay monochrome unless they carry brand-moment intent).
 - **Headline** in `typo.heading.sm` color `color.onSurface`, `layout.stack.sm` below illustration.
@@ -1144,7 +1144,7 @@ Three lines max — see [Empty states](#empty-states) in Voice & Content for the
 - **Primary CTA** as a default-size primary button, `layout.stack.md` below body.
 - Whole composition centered inside the surface that would otherwise hold the data.
 
-### Loading & Skeleton states
+### Loading & skeleton states
 
 - **Spinners** for indeterminate loads under ~1 second of expected wait. Use `color.primary` for foreground motion on neutral surfaces; reserve to a single spinner per view.
 - **Skeleton placeholders** for content shapes that will arrive — feed cards, list rows, profile headers. Skeleton color is `color.surfaceContainerHigh`; the pulse animation runs at 1.5–2 Hz (well below the WCAG flash threshold) and respects `prefers-reduced-motion: reduce` (no animation; show the skeleton statically).

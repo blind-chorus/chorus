@@ -1,4 +1,4 @@
-# Screen Recipes
+# Screen recipes
 
 Pre-validated screen-level compositions. Each `*.screen.json` binds regions (`top`/`body`/`bottom`/`fab`/`overlay`) to families + sub-components from `schema/components/`, with concrete demo data inline.
 

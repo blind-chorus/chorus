@@ -6,7 +6,7 @@ import { asset } from '../lib/asset';
 import { groupByPrefix, toCssVarName } from '../lib/tokens';
 import { slugify as slugifyTitle } from '../lib/slugify';
 import { SemTable } from './SemTable';
-import { TokenChip, TokenTrimScope, TokenTrimContext } from './TokenTrim';
+import { TokenChip, TokenTrimScope } from './TokenTrim';
 
 // Render the inline-markdown subset DESIGN.md uses inside table Role cells:
 // `code`, **strong**. No links / lists / nesting — keep it small.

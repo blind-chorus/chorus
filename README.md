@@ -2,9 +2,7 @@
 
 ## Purpose
 
-Chorus is a design system built to be **read by agents**. Specs, tokens, and components are published as a machine-readable contract so that AI agents can compose advanced, fully-styled prototypes directly from the system — no guesswork, no drift, no manual translation between intent and implementation.
-
-Humans benefit from the same source of truth: one canonical spec drives the docs site, the React package, and every downstream renderer.
+Chorus is a design system built to be **read by agents** — a machine-readable contract that lets AI tools compose prototypes directly from the source.
 
 ---
 
