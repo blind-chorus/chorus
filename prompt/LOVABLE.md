@@ -177,7 +177,9 @@ Open `<family>.family.json` before composing each region.
 
 ```jsx
 <div className="page-shell">
-  {/* NavigationBar is full-bleed — flush at top, no wrapper */}
+  {/* NavigationBar is full-bleed AND pays its own viewport safe-area-inset-top
+      (status-bar / notch zone), so the shell DOES NOT add padding-top on the
+      outer div or on <main>. Stacking would double-inset the bar by the notch height. */}
   <NavigationBar variant="home" … />
 
   <main
@@ -198,10 +200,13 @@ Open `<family>.family.json` before composing each region.
     <List … />
   </main>
 
-  {/* TabBar is full-bleed + pinned — outside <main>, no shell padding */}
+  {/* TabBar is full-bleed + pinned AND pays its own viewport safe-area-inset-bottom
+      (home-indicator / gesture zone). Outside <main>; no shell padding-bottom. */}
   <TabBar … />
 </div>
 ```
+
+**Viewport safe-area contract.** `NavigationBar` (all three subs) and `TabBar` each own the viewport-edge safe area on their respective sides: NavigationBar's block-top padding stacks `env(safe-area-inset-top)` onto its `container.xs` breathing room so the bar's `surface` fill extends through the device status-bar / notch zone; TabBar's block-bottom padding pays `env(safe-area-inset-bottom)` so its fill extends through the home-indicator / gesture zone. **Do NOT add `padding-top: env(safe-area-inset-top)` to the page shell or `<main>` when NavigationBar is rendered at the top**, and do NOT add `padding-bottom: env(safe-area-inset-bottom)` when TabBar is rendered at the bottom — the bars already pay it and a shell-level inset would stack, leaving the content row pushed *below* the bar's full chrome by the notch / indicator height.
 
 **Anti-patterns — DO NOT:**
 

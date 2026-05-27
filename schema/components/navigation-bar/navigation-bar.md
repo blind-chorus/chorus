@@ -4,6 +4,8 @@ The top app bar — a horizontal strip pinned to the top of a screen that names 
 
 **Layout inset.** `full-bleed` — sits flush at the top of the page shell. The bar owns its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. The bar is pinned chrome, not a `<main>` child — sits *outside* the `<main>` that pays `sys.layout.page.*`. See [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
+**Viewport safe area.** The bar's block padding stacks `env(safe-area-inset-top)` on top of the canonical `container.xs` (8) breathing room — so its `surface` background extends through the device status-bar / notch zone above the 56-tall content row, and scrolled body content does not bleed through the transparent system chrome. On non-mobile viewports `env()` resolves to 0 and the bar collapses to its original 8 / 16 padding. **The page shell MUST NOT add its own `padding-top: env(safe-area-inset-top)` when a NavigationBar is rendered at the top** — the bar already pays it, and stacking would double-inset the row by the notch height.
+
 ## Cross-sub contract
 
 - **Container.** Horizontal strip with **16px inline + 8px block padding** (`sys.layout.container.md` × `sys.layout.container.xs`), `surface` fill, **min-height 56**. Inter-slot gap is `sys.layout.inline.xl` (16).

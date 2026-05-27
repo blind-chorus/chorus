@@ -54,8 +54,10 @@
   },
   "sizing": {
     "containerPaddingBlock": "sys.layout.container.xs",
+    "containerPaddingBlockTop": "calc(env(safe-area-inset-top, 0px) + sys.layout.container.xs)",
     "containerPaddingInline": "sys.layout.container.md",
     "minHeight": "56px",
+    "viewportSafeArea": "Bar's block-top padding stacks env(safe-area-inset-top) on top of container.xs so the surface fill extends through the device status-bar / notch zone — scrolled body content does not bleed through the transparent system chrome. Bar is the owner of the viewport-top inset; page shell MUST NOT re-pay it via its own padding-top.",
     "leadingTitleGap": "sys.layout.inline.xl",
     "titleTrailingGap": "sys.layout.inline.xl",
     "trailingIconGap": "sys.layout.inline.xl",

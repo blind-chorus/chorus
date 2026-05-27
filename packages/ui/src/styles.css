@@ -3525,7 +3525,18 @@ span.chorus-chip {
   box-sizing: border-box;
   width: 100%;
   min-height: 56px;
-  padding: var(--sys-layout-container-xs) var(--sys-layout-container-md);
+  /* Block padding stacks the viewport's safe-area-inset-top onto the
+     canonical container.xs (8) breathing room. The bar's `surface`
+     background fills the status-bar / notch zone above the 56-tall
+     content row so scrolled body content doesn't bleed through the
+     transparent system chrome on mobile. On non-mobile viewports the
+     `env()` call resolves to 0 and the bar collapses back to its
+     original 8 / 16 padding — the contract is "bar pays its own
+     viewport-top inset", paid lazily. */
+  padding:
+    calc(env(safe-area-inset-top, 0px) + var(--sys-layout-container-xs))
+    var(--sys-layout-container-md)
+    var(--sys-layout-container-xs);
   background: var(--sys-color-surface);
   color: var(--sys-color-onSurface);
 }
@@ -4096,7 +4107,14 @@ span.chorus-chip {
   width: 100%;
   box-sizing: border-box;
   min-height: 56px;
-  padding: 0;
+  /* Block padding pays the viewport's safe-area-inset-bottom so the
+     bar's `surface` background extends through the home-indicator
+     zone on devices that have one (iPhone gesture bar etc.). The
+     56-tall row of tab items sits above the inset; on non-mobile
+     viewports the `env()` call resolves to 0 and the bar stays at
+     its original 56-tall footprint. Inline padding stays 0 — tab
+     items are equal-width and span the full row. */
+  padding: 0 0 env(safe-area-inset-bottom, 0px);
   background: var(--sys-color-surface);
   color: var(--sys-color-onSurface);
   /* Top hairline divider — separates the bar from the scrolling content

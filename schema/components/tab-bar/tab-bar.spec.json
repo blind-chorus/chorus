@@ -57,7 +57,9 @@
     "containerFill": "sys.color.surface",
     "containerMinHeight": "56px",
     "containerPaddingBlock": "0",
+    "containerPaddingBlockEnd": "env(safe-area-inset-bottom, 0px)",
     "containerPaddingInline": "0",
+    "viewportSafeArea": "Bar's block-bottom padding pays env(safe-area-inset-bottom) so its surface fill extends through the device home-indicator / gesture zone below the 56-tall content row. Bar is the owner of the viewport-bottom inset; page shell MUST NOT re-pay it via its own padding-bottom.",
     "containerJustifyContent": "space-evenly",
     "containerTopDivider": {
       "width": "sys.borderWidth.hairline",

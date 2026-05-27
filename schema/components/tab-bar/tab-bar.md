@@ -4,6 +4,8 @@ The **bottom tab bar** — a horizontal strip pinned to the bottom of the app ex
 
 **Layout inset.** `full-bleed` — pinned chrome at the bottom of the page shell, stretching edge-to-edge. Bar owns its internal padding and tile geometry; do **not** wrap in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Sits *outside* the `<main>` that pays `sys.layout.page.*` — TabBar is a sibling of NavigationBar in the page shell skeleton, not a `<main>` child. See [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
+**Viewport safe area.** The bar's block-bottom padding pays `env(safe-area-inset-bottom)` so its `surface` background extends through the device home-indicator / gesture zone below the 56-tall content row. On non-mobile viewports `env()` resolves to 0 and the bar collapses to its original 56-tall footprint. **The page shell MUST NOT add its own `padding-bottom: env(safe-area-inset-bottom)` when a TabBar is rendered at the bottom** — the bar already pays it, and stacking would double-inset the row by the gesture-zone height.
+
 ## Default
 
 The canonical five-destination bar. First item is active.
@@ -171,4 +173,4 @@ The container has no interactive state. Each item carries the lifecycle below �
 - **`appearance="primary"` items don't swap.** Primary invokes a screen-covering overlay rather than navigating; never receives `aria-current="page"`.
 - **Single-select.** `value` names the active item; `onChange` fires after the item's `onClick`. Component owns no internal state.
 - **Items are anchors or buttons.** `href` → `<a>`; no `href` → `<button>`. Routing belongs to the host framework.
-- **Fixed row.** Never wraps, never scrolls. Author to a five- or six-item ceiling. Host shell handles safe-area inset and pinning.
+- **Fixed row.** Never wraps, never scrolls. Author to a five- or six-item ceiling. **Bar pays its own `env(safe-area-inset-bottom)` via block-bottom padding**, so the surface fill extends through the home-indicator / gesture zone without the host shell needing to thread a padding-bottom — pinning (`position: fixed` / `position: sticky`) is still the host's job.
