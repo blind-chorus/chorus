@@ -17,7 +17,7 @@ The recipes below answer the five compositional situations every product surface
 | `sys.layout.page.lg` (24→40px) | Marketing / editorial / landing. |
 | `sys.layout.page.xl` (40→64px) | Showcase heroes only. |
 
-**Paid once at the page shell.** Full-bleed children (Section, List, Feed, Banner, AvatarRail, Chip group, NavigationBar, TabBar, Tabs, SuggestionList) inherit it — never re-pay `padding-inline` on the child. See LOVABLE.md §A.4.
+**Paid once at the page shell.** All **twelve full-bleed families** inherit it — `navigation-bar`, `tab-bar`, `tabs`, `section`, `feed`, `list`, `nav-card`, `banner`, `accordion`, `suggestion-list`, `avatar-rail`, `chip` (group). Never re-pay `padding-inline` on the child. See LOVABLE.md §A.4.
 
 ### Surface interior padding
 
