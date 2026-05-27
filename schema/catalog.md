@@ -13,6 +13,8 @@ When in doubt: open families are recipes, locked families are rules.
 
 ## Top bars
 
+**Layout**: every entry is `layoutInset: full-bleed` — direct child of `<main>`, no wrapper `padding-inline`.
+
 | Intent                                | Family + sub                       |
 | ------------------------------------- | ---------------------------------- |
 | landing screen header, title bar      | `navigation-bar / home`            |
@@ -22,6 +24,8 @@ When in doubt: open families are recipes, locked families are rules.
 **Disambiguate**: never stack two NavigationBars. Pick by *screen kind*, not *content kind*.
 
 ## Action commits
+
+**Layout**: every entry is `layoutInset: inline` — an atom that needs grouping (action row, toolbar, button group) to sit at page level. Exception: `button / fab` is viewport-anchored fixed-position chrome and lives outside the page's normal stack.
 
 | Intent                                     | Family + sub                  |
 | ------------------------------------------ | ----------------------------- |
@@ -38,6 +42,8 @@ When in doubt: open families are recipes, locked families are rules.
 
 ## Vertical content surfaces
 
+**Layout**: every entry is `layoutInset: full-bleed` — direct child of `<main>`, no wrapper `padding-inline`. When nested inside `<Section>` / `<Feed>` (another full-bleed host that pays its own chrome), pass `embedded` so background + padding defer to the host — see [`AGENTS.md` § Composition rules](../AGENTS.md#composition-rules).
+
 | Intent                                       | Family + sub             |
 | -------------------------------------------- | ------------------------ |
 | settings / menu / picker rows                | `list / text` or `/ nav` |
@@ -53,6 +59,8 @@ When in doubt: open families are recipes, locked families are rules.
 
 ## Horizontal content surfaces
 
+**Layout**: every entry is `layoutInset: full-bleed` — direct child of `<main>`, no wrapper `padding-inline`. When nested inside `<Section>` / `<Feed>`, pass `embedded` so chrome defers to the host — see [`AGENTS.md` § Composition rules](../AGENTS.md#composition-rules).
+
 | Intent                                  | Family + sub             |
 | --------------------------------------- | ------------------------ |
 | compact horizontal entity quick-nav      | `avatar-rail`           |
@@ -62,18 +70,22 @@ When in doubt: open families are recipes, locked families are rules.
 
 ## Modal surfaces
 
-| Intent                                              | Family + sub        |
-| --------------------------------------------------- | ------------------- |
-| short focused commit anchored to bottom of viewport | `bottom-sheet` *(locked)* |
-| confirmation prompt, centered                       | `dialog` *(locked)* |
-| destructive confirmation                            | `dialog` *(locked)* with destructive primary action |
-| inline notice inside the content column             | `banner / accent` or `/ default` (not modal) |
-| transient post-action confirmation (saved, copied)  | `toast` *(locked)* — non-modal, auto-dismiss |
-| trigger-anchored hint over a hovered/focused control | `tooltip` *(locked)* — non-modal, hover/focus-driven |
+**Layout**: mixed — column below. `bounded-surface` floats *above* the page (portal-mounted, viewport-anchored, owns its safe area). `banner` is the outlier — it's `full-bleed` and lives **in** the content column, not above it; it's listed here only because it's the in-flow alternative to a modal prompt.
+
+| Intent                                              | Family + sub                                                | layoutInset       |
+| --------------------------------------------------- | ----------------------------------------------------------- | ----------------- |
+| short focused commit anchored to bottom of viewport | `bottom-sheet` *(locked)*                                   | `bounded-surface` |
+| confirmation prompt, centered                       | `dialog` *(locked)*                                         | `bounded-surface` |
+| destructive confirmation                            | `dialog` *(locked)* with destructive primary action         | `bounded-surface` |
+| inline notice inside the content column             | `banner / accent` or `/ default` (not modal — in-flow aside)| **`full-bleed`** ⚠ |
+| transient post-action confirmation (saved, copied)  | `toast` *(locked)* — non-modal, auto-dismiss                | `bounded-surface` |
+| trigger-anchored hint over a hovered/focused control | `tooltip` *(locked)* — non-modal, hover/focus-driven       | `bounded-surface` |
 
 **Disambiguate**: `bottom-sheet`/`dialog` are modal — require a trigger elsewhere. `banner` is not modal; lives in the content column. `toast` is non-modal and self-dismissing — reach for it only when the action has landed and no decision is needed. `tooltip` is non-modal and floats over a specific trigger — only when the message describes a hovered/focused control.
 
 ## Inputs
+
+**Layout**: every entry in the table below is `layoutInset: inline` — `<FormField>` wraps inline within a form column. The Search sub-table further down mixes layouts (NavBar vs FormField).
 
 | Intent                                | Family + sub               |
 | ------------------------------------- | -------------------------- |
@@ -86,15 +98,17 @@ When in doubt: open families are recipes, locked families are rules.
 
 "Search" maps to three different Chorus rungs by where the field sits. Do NOT default to the first that comes to mind — and do NOT fall back to a hand-rolled `<input>`. All three exist and are typed in `dist/index.d.ts`:
 
-| Surface (where the field lives)                                | Component                                            | Why                                                                                                                          |
-| -------------------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| **Top bar takes the whole row** (search mode of a screen)       | `<NavigationBar variant="search">`                   | The bar IS the field. Owns back chevron + bare input + clear button as one chrome unit. Use when entering "search mode" of a screen. |
-| **Inline filter / list-top / sheet-top** (chrome, not a form)   | `<FormField variant="search">`                       | The bare pill — leading magnifier glyph, focus-only clear button, no label / helper / maxLength. The affordance is the glyph. |
-| **Inside a real form** (search-shaped input that needs a label) | `<FormField variant="input" leadingIcon={<SearchIcon/>} label="…" helper="…">` | Use when the field needs a visible label, helper text, error appearance, or character count — `search` has none of those.    |
+| Surface (where the field lives)                                | Component                                            | layoutInset    | Why                                                                                                                          |
+| -------------------------------------------------------------- | ---------------------------------------------------- | -------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Top bar takes the whole row** (search mode of a screen)       | `<NavigationBar variant="search">`                   | `full-bleed`   | The bar IS the field. Owns back chevron + bare input + clear button as one chrome unit. Use when entering "search mode" of a screen. |
+| **Inline filter / list-top / sheet-top** (chrome, not a form)   | `<FormField variant="search">`                       | `inline`       | The bare pill — leading magnifier glyph, focus-only clear button, no label / helper / maxLength. The affordance is the glyph. |
+| **Inside a real form** (search-shaped input that needs a label) | `<FormField variant="input" leadingIcon={<SearchIcon/>} label="…" helper="…">` | `inline` | Use when the field needs a visible label, helper text, error appearance, or character count — `search` has none of those.    |
 
 Each row resolves to a typed React component — `<FormField variant="search" placeholder="…" onChange={…}>` autocompletes from `dist/index.d.ts`. IDE shows `ComponentType<any>`? You're reading a stale shim — delete it and re-resolve.
 
 ## Compact controls
+
+**Layout**: every entry is `layoutInset: inline` — sits inside another component's slot (List leading, Banner trailing, Feed footer, Thumbnail corner), never at page level on its own.
 
 | Intent                                       | Family + sub      |
 | -------------------------------------------- | ----------------- |
@@ -108,6 +122,8 @@ Each row resolves to a typed React component — `<FormField variant="search" pl
 **Disambiguate**: `switch` = single binary on/off that commits the moment it flips (notifications, privacy). For multi-option pickers use `list / radio`; for actions needing confirmation use `button` + `dialog`; for "selected" facet state in a chip row use `chip / filter`. `status-tag` = SMALL (16-rung, 10px text) decorative status pill inline next to a row label — "pending", "rejected", "draft". For a 32-rung interactive chip use `chip / tag`; for a numeric count attached to an icon/thumbnail use `badge`.
 
 ## Loading & placeholder
+
+**Layout**: every entry is `layoutInset: inline` — placed where the real content will land, taking the slot's footprint.
 
 | Intent                                                | Family + sub          |
 | ----------------------------------------------------- | --------------------- |
