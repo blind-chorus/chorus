@@ -2,6 +2,8 @@
 
 Input-shaped picker — the same box, label, helper, and error re-tone as [Input](./input.md), but read-only and ending in a `ArrowDownIcon` chevron. Clicking the box opens a Bottom Sheet with the option list; the chosen value is echoed back through `value`.
 
+**Layout inset.** `inline` — Select ships no padding outside its own box chrome. It sits inside the host form column (a settings page, a Dialog body, a BottomSheet form group) with the host paying the surrounding stack rhythm and inline padding. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 The neutral at-rest field — transparent fill, hairline `outlineVariant` stroke, placeholder in the faint `outline` colour. The trailing 16px chevron signals that the field opens a sheet rather than a caret.

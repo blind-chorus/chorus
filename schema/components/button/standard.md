@@ -1,10 +1,14 @@
 # Standard
 
-The default inline action surface — a labelled commit that lives inline with content (form submit, dialog confirm, row action). Two independent axes: **size** (`large` / `medium` / `small`) chosen by the surrounding surface, **appearance** (`primary` / `secondary` / `outlined` / `tertiary`) by the action's emphasis. Reach for [FAB](./fab.md) when the commit must float above scrolling content, [Text Button](./text.md) when the rung is body-text-sized, or [Toolbar Button](./toolbar.md) inside a dense toolbar row.
+The default inline action surface — a labelled commit (form submit, dialog confirm, row action). Two independent axes: **size** (`large` / `medium` / `small`) chosen by the surface, **appearance** (`primary` / `secondary` / `outlined` / `tertiary`) by emphasis.
+
+**Reach for this when** you need a labelled commit inline with content — Save, Continue, Confirm, Cancel. **Skip when** the commit must float above scrolling content ([FAB](./fab.md)), the rung is body-text-sized ([Text Button](./text.md)), or the row is a dense toolbar ([Toolbar Button](./toolbar.md)).
+
+**Layout inset.** inline — the button is content-sized (or `fullWidth`) and inherits its surface's padding; it contributes no chrome of its own.
 
 ## Default
 
-The single highest-emphasis action on a view — `appearance="primary"`. Use **one per view** — Save, Continue, Confirm, Submit.
+The single highest-emphasis action — `appearance="primary"`. One per view (Save, Continue, Confirm, Submit).
 
 ```preview
 button/standard/default
@@ -16,7 +20,9 @@ import { Button } from '@blind-dsai/ui';
 </Button>
 ```
 
-## Secondary
+## Use cases
+
+### Secondary
 
 Lower-emphasis tier paired against `primary` — opposing actions (Cancel beside Save) or quieter alternatives. Safe to repeat on a single view.
 
@@ -30,9 +36,9 @@ import { Button } from '@blind-dsai/ui';
 </Button>
 ```
 
-## Outlined
+### Outlined
 
-Bordered blue-on-transparent Button paired beside `primary` as a **supplementary** option (*See more*, *Learn more*, *Skip for now*). For opposing paths use `secondary` instead.
+Bordered blue-on-transparent Button paired beside `primary` as a supplementary option (*See more*, *Learn more*, *Skip for now*). For opposing paths use `secondary`.
 
 ```preview
 button/standard/outlined
@@ -44,7 +50,7 @@ import { Button } from '@blind-dsai/ui';
 </Button>
 ```
 
-## Tertiary
+### Tertiary
 
 Neutral grey ghost — transparent at rest, label in `sys.color.onSurfaceVariant`. Reads as a button only on hover.
 
@@ -58,13 +64,9 @@ import { Button } from '@blind-dsai/ui';
 </Button>
 ```
 
-## Use cases
-
-Compositional recipes that hold across every appearance.
-
 ### With leading icon
 
-A single optional icon rendered **before** the label — a context glyph (`+` for Add, `↓` for Download). Inherits label color via `currentColor` (`sys.icon.lg` 24 on `large`, `sys.icon.md` 16 on `medium`/`small`). The Standard Button does not carry a trailing icon.
+Single optional icon before the label — context glyph. Inherits label color via `currentColor` (`sys.icon.lg` on `large`, `sys.icon.md` on `medium`/`small`).
 
 ```preview
 button/standard/with-leading-icon
@@ -83,7 +85,7 @@ import { PlusIcon } from '@blind-dsai/ui/icons';
 
 ### Full width
 
-Button stretched to fill the surrounding column (`width: 100%`). Default mobile shape for `large`/`medium` primary commits — hero surfaces, empty states, onboarding, login. On wider surfaces fall back to content-sized.
+Button stretched to fill the column (`width: 100%`). Default mobile shape for hero surfaces, empty states, onboarding, login. On wider surfaces fall back to content-sized.
 
 ```preview
 button/standard/full-width
@@ -101,7 +103,7 @@ import { Button } from '@blind-dsai/ui';
 
 ### Group
 
-Adjacent Buttons share an **8px** gap (`sys.layout.inline.md` horizontal / `sys.layout.stack.xs` vertical). Horizontal: outlined left, primary right. Vertical: primary top, secondary below. Groups of more than two fall back to the surrounding surface's rhythm.
+Adjacent Buttons share an **8px** gap (`sys.layout.inline.md` horizontal / `sys.layout.stack.xs` vertical). Horizontal: outlined left, primary right. Vertical: primary top, secondary below.
 
 ```preview
 button/standard/group
@@ -135,7 +137,7 @@ import { Button } from '@blind-dsai/ui';
 
 ### Truncation
 
-When the column is narrower than the label's natural width, the label clips with an ellipsis (`text-overflow: ellipsis; white-space: nowrap`) instead of wrapping. Buttons are single-line by contract.
+When the column is narrower than the label's natural width, the label clips with an ellipsis instead of wrapping — Buttons are single-line by contract.
 
 ```preview
 button/standard/truncation
@@ -166,23 +168,23 @@ import { Button } from '@blind-dsai/ui';
 </Button>
 ```
 
+## Slots
+
+- **label** — accessible name. Required, single line; long labels truncate.
+- **leadingIcon** (optional) — context glyph before the label. Inherits via `currentColor` — see [Button → Icon colour inheritance](./button.md#icon-colour-inheritance).
+
+The Standard Button does not carry a trailing icon.
+
 ## Appearance
 
-Four appearances cover the commit-emphasis ladder. A **destructive** flavor swaps the `primary` family → `error` family across whichever appearance and is reserved for irreversible actions. Each specimen above carries a **Disabled** toggle.
+A **destructive** flavor swaps the `primary` family → `error` family across whichever appearance, reserved for irreversible actions.
 
 | Appearance  | Background    | Border (1px)            | Label color                       | Notes                                                                 |
 |-------------|---------------|--------------------------|-----------------------------------|-----------------------------------------------------------------------|
 | `primary`   | `sys.color.primary`            | —                        | `sys.color.onPrimary`             | Single highest-emphasis action; one per view. |
-| `secondary` | `sys.color.secondaryContainer` | —                        | `sys.color.onSecondaryContainer`  | Lower-emphasis tier; covers opposing-action and quieter-alternative roles. |
-| `outlined`  | `transparent`                  | `sys.color.primary` (`sys.borderWidth.hairline`) | `sys.color.primary`               | Supplementary option beside `primary` (*See more*, *Learn more*). |
-| `tertiary`  | `transparent`                  | —                        | `sys.color.onSurfaceVariant`      | Lowest-emphasis neutral ghost for quiet inline actions. |
-
-## Slots
-
-- **label** — accessible name. Required, single line; long labels truncate (see [Truncation](#truncation)).
-- **leadingIcon** (optional) — context glyph before the label. Inherits the label colour via `currentColor` — see [Button → Icon colour inheritance](./button.md#icon-colour-inheritance).
-
-The Standard Button does not carry a trailing icon.
+| `secondary` | `sys.color.secondaryContainer` | —                        | `sys.color.onSecondaryContainer`  | Lower-emphasis tier; opposing-action and quieter-alternative roles. |
+| `outlined`  | `transparent`                  | `sys.color.primary` (`sys.borderWidth.hairline`) | `sys.color.primary`               | Supplementary option beside `primary`. |
+| `tertiary`  | `transparent`                  | —                        | `sys.color.onSurfaceVariant`      | Lowest-emphasis neutral ghost. |
 
 ## Sizes
 
@@ -192,11 +194,11 @@ The Standard Button does not carry a trailing icon.
 | `medium` | `sys.layout.container.xs` × `sys.layout.container.md` (8 × 16)      | `sys.layout.inline.md` (8)    | `ref.space.500` (40) ‡   | **160** ⁂                  | `sys.radius.md` (8)   | `sys.typo.label.md` (14, semibold) | `sys.icon.md` (16)  |
 | `small`  | `sys.layout.container.2xs` × `sys.layout.container.sm` (4 × 12)     | `sys.layout.inline.sm` (4)    | `ref.space.400` (32) ‡   | **160** ⁂                  | `sys.radius.sm` (4) † | `sys.typo.label.md` (14, semibold) | `sys.icon.md` (16)  |
 
-† **Token gap:** small Button's intended radius is 6px; implementation falls back to `sys.radius.sm` (4) until a 6px step lands.
+† Small Button's intended radius is 6px; implementation falls back to `sys.radius.sm` (4) until a 6px step lands.
 
-‡ **min-height** binds to raw `ref.space.*` — `sys.*` does not currently expose 32 / 40 / 48 px steps.
+‡ `min-height` binds raw `ref.space.*` — `sys.*` does not expose 32 / 40 / 48 px steps.
 
-⁂ **Min-width 160px** is fixed across sizes so a row of buttons reads as one composition. `fullWidth` and [Truncation](#truncation) override the floor.
+⁂ **Min-width 160px** is fixed across sizes so a row of buttons reads as one composition. `fullWidth` and `truncate` override.
 
 ## States
 
@@ -209,8 +211,9 @@ The Standard Button does not carry a trailing icon.
 
 ## Focus indicator
 
-Standard ring (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)) drawn as a `position: absolute` pseudo-element so it never affects layout. Trigger: `:focus-visible`.
+Standard outward ring drawn as a `position: absolute` pseudo-element so it never affects layout. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
 
 ## Behavior
 
-The Standard Button is a chrome-aligned filled form — no optical compensation, layout by chrome (see [Button → Optical alignment](./button.md#optical-alignment)). Long labels truncate inline rather than wrapping; the min-width floor (160px) keeps a row of buttons reading as one composition unless `fullWidth` or `truncate` overrides it.
+- **Chrome-aligned filled form** — no optical compensation; layout by chrome (see [Button → Optical alignment](./button.md#optical-alignment)).
+- **Single line.** Long labels truncate inline; the 160px min-width floor keeps a row of buttons reading as one composition unless `fullWidth` or `truncate` overrides.

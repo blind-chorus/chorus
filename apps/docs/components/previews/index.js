@@ -1543,6 +1543,48 @@ export const PREVIEWS = {
     ),
   },
 
+  /* Section · Post Carousel — editorial cards: same one-card-per-page
+     pager, but each card drops `verified` and `followAction`. The header
+     collapses to avatar + channel name. Surfaces a stripped-down
+     editorial composition where the card is informational only. */
+  'section/post-carousel-editorial': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Section label="Editor picks" headerAction={{ label: 'See all', href: '#' }}>
+          <PostCarousel
+            items={[
+              {
+                id: 'staying',
+                avatar: { src: IMG.plantAvatar, alt: 'Career' },
+                channel: 'Career',
+                title: 'The quiet math of staying versus leaving',
+                body: 'Salary checks, offer evaluations, and the long thread that runs longer than any single conversation can.',
+                views: '18K',
+              },
+              {
+                id: 'refresh',
+                avatar: { src: IMG.plantAvatar, alt: 'Compensation' },
+                channel: 'Compensation',
+                title: 'Equity refresh negotiations — what actually moves',
+                body: 'A read on the conversations that get an actual refresh on the calendar versus the ones that get a polite no.',
+                views: '9K',
+              },
+              {
+                id: 'migration',
+                avatar: { src: IMG.plantAvatar, alt: 'Engineering' },
+                channel: 'Engineering',
+                title: 'The migration that finally landed after three quarters',
+                body: 'Internal postmortem turned editorial — the scaffolding that held the rewrite together when the timeline did not.',
+                views: '14K',
+              },
+            ]}
+          />
+        </Section>
+      </Frame>
+    ),
+  },
+
   /* Section · Profile Carousel — horizontal rail of profile-style cards
      (channels, profiles, companies). Cards fixed at 176px, Toggle Button
      follow affordance, max 5 cards. */
@@ -1880,6 +1922,35 @@ export const PREVIEWS = {
     ),
   },
 
+  /* Suggestion list without a header action — the trailing "See all"
+     link is omitted, so the header collapses to just the section
+     label. Surfaces the entity-agnostic anatomy: same row shape carries
+     suggested people, not just channels. */
+  'suggestion-list/no-header-action': {
+    states: false,
+    render: () => {
+      function Demo() {
+        const seed = [
+          { value: 'jordan',  name: 'Jordan Lee',    followers: '342 Followers',  description: 'PM at a logistics startup. Mostly here for the threads on roadmap reviews.',     thumbnail: { src: IMG.brandChat,    alt: 'Jordan Lee' },    following: false },
+          { value: 'taylor',  name: 'Taylor Brooks', followers: '1.1K Followers', description: 'Frontend engineer. Writes about the bits between the framework and the user.', thumbnail: { src: IMG.gameAvatar,   alt: 'Taylor Brooks' }, following: true  },
+          { value: 'morgan',  name: 'Morgan Park',   followers: '512 Followers',  description: 'Designer-turned-PM. Notes on the handoff layer.',                              thumbnail: { src: IMG.plantAvatar,  alt: 'Morgan Park' },   following: false },
+        ];
+        const [rows, setRows] = useState(seed);
+        const items = rows.map((r) => ({
+          ...r,
+          active: r.following,
+          onToggle: () => setRows((prev) => prev.map((p) => (p.value === r.value ? { ...p, following: !p.following } : p))),
+        }));
+        return <SuggestionList label="People you may know" items={items} />;
+      }
+      return (
+        <Frame>
+          <Demo />
+        </Frame>
+      );
+    },
+  },
+
   /* List — text variant (default). Plain rows; no selection model.
      Staged as a community member's "Account" menu — the rows are the
      surfaces every social product reaches for. */
@@ -1911,6 +1982,68 @@ export const PREVIEWS = {
         <RadioListDemo />
       </Frame>
     ),
+  },
+
+  /* List — radio variant with supportingText on every row. Demonstrates
+     the optional secondary line under the label — same 12 / 16 row
+     padding, the row grows vertically to hold the supporting line. */
+  'list/radio-with-supporting': {
+    states: false,
+    render: () => {
+      function Demo() {
+        const [value, setValue] = useState('trending');
+        return (
+          <List
+            variant="radio"
+            value={value}
+            onChange={setValue}
+            aria-label="Sort posts by"
+            items={[
+              { value: 'newest',     label: 'Newest first',  supportingText: 'Most recent posts at the top' },
+              { value: 'trending',   label: 'Trending',      supportingText: 'Active threads from the last 24h' },
+              { value: 'most-liked', label: 'Most liked',    supportingText: 'Highest like count this week' },
+              { value: 'oldest',     label: 'Oldest first',  supportingText: 'Earliest posts at the top' },
+            ]}
+          />
+        );
+      }
+      return (
+        <Frame>
+          <Demo />
+        </Frame>
+      );
+    },
+  },
+
+  /* List — radio variant with one row pinned to `disabled: true`. The
+     row's pointer-events are suppressed and it paints at
+     `sys.state.disabled` opacity; the radio indicator dims with the row. */
+  'list/radio-disabled-item': {
+    states: false,
+    render: () => {
+      function Demo() {
+        const [value, setValue] = useState('week');
+        return (
+          <List
+            variant="radio"
+            value={value}
+            onChange={setValue}
+            items={[
+              { value: 'day',     label: 'Day' },
+              { value: 'week',    label: 'Week' },
+              { value: 'month',   label: 'Month' },
+              { value: 'quarter', label: 'Quarter', disabled: true },
+              { value: 'year',    label: 'Year' },
+            ]}
+          />
+        );
+      }
+      return (
+        <Frame>
+          <Demo />
+        </Frame>
+      );
+    },
   },
 
   /* List — focus indicator stage. A nav-variant list with one row
@@ -2033,6 +2166,28 @@ export const PREVIEWS = {
             { value: 'profile',  label: 'Profile',         supportingText: 'Display name, avatar, bio' },
             { value: 'channels', label: 'My channels',     supportingText: '12 joined · 3 muted' },
             { value: 'notif',    label: 'Notifications' },
+            { value: 'privacy',  label: 'Privacy' },
+            { value: 'account',  label: 'Account' },
+          ]}
+        />
+      </Frame>
+    ),
+  },
+
+  /* List — nav variant with one row overriding the auto chevron via
+     `items[i].trailingIcon`. Surfaces the per-row override path the
+     spec calls out: a Badge on Notifications keeps the chevron on
+     every sibling row but replaces it on this one. */
+  'list/nav-trailing-override': {
+    states: false,
+    render: () => (
+      <Frame>
+        <List
+          variant="nav"
+          items={[
+            { value: 'profile',  label: 'Profile',       supportingText: 'Display name, avatar, bio' },
+            { value: 'channels', label: 'My channels',   supportingText: '12 joined · 3 muted' },
+            { value: 'notif',    label: 'Notifications', trailingIcon: <Badge>3</Badge> },
             { value: 'privacy',  label: 'Privacy' },
             { value: 'account',  label: 'Account' },
           ]}
@@ -2296,6 +2451,43 @@ export const PREVIEWS = {
     render: () => (
       <Frame>
         <NavigationBar variant="search" placeholder="Search by keyword" autoFocus={false} onBack={() => {}} />
+      </Frame>
+    ),
+  },
+
+  /* Search bar with a non-empty value. The placeholder swaps for an
+     onSurface text value, and the trailing clear (×) — Icon Button's
+     `medium` 32 × 32 capsule, smaller than the leading back-arrow on
+     purpose — appears. */
+  'navigation-bar/search/with-value': {
+    states: false,
+    render: () => (
+      <Frame>
+        <NavigationBar
+          variant="search"
+          placeholder="Search by keyword"
+          defaultValue="lighting"
+          autoFocus={false}
+          onBack={() => {}}
+        />
+      </Frame>
+    ),
+  },
+
+  /* Search bar disabled. Whole bar dims to `sys.state.disabled` opacity,
+     caret hides, clear (×) suppressed regardless of value. */
+  'navigation-bar/search/disabled': {
+    states: false,
+    render: () => (
+      <Frame>
+        <NavigationBar
+          variant="search"
+          placeholder="Search by keyword"
+          defaultValue="lighting"
+          disabled
+          autoFocus={false}
+          onBack={() => {}}
+        />
       </Frame>
     ),
   },

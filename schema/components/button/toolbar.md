@@ -1,10 +1,14 @@
 # Toolbar
 
-Dense inline action — a 32-tall capsule for toolbars, table-row actions, and inline menu triggers where the standard [Button](./button.md) would crowd. Chrome shared with [Filter chip](../chip/filter.md) and [Tabs Segmented](../tabs/segmented.md) so a mixed row reads at one density; divergence is intent (Toolbar fires actions, Filter toggles selection, Segmented enforces single-select).
+Dense inline action — a 32-tall capsule for toolbars, table-row actions, and inline menu triggers. Chrome shared with [Filter chip](../chip/filter.md) and [Tabs Segmented](../tabs/segmented.md) so a mixed row reads at one density; divergence is intent (Toolbar fires, Filter toggles, Segmented enforces single-select).
+
+**Reach for this when** a dense row needs an inline action — toolbar opener, table-row action, inline menu trigger. **Skip when** the standard inline shape fits ([Button](./button.md)), the affordance floats above content ([FAB](./fab.md)), or the row is body-text density ([Text Button](./text.md)).
+
+**Layout inset.** inline — content-sized; inherits the surrounding row's padding and gap.
 
 ## Default
 
-The base shape — label-only on the Filter-chip chrome. The lower-emphasis tier for dense rows where no entry should claim commit-rank attention.
+The base shape — label-only on the Filter-chip chrome.
 
 ```preview
 button/toolbar/default
@@ -16,9 +20,11 @@ import { Button } from '@blind-dsai/ui';
 </Button>
 ```
 
-## Accent
+## Use cases
 
-The single-commit form — brand-blue fill, `onPrimary` label. Reach for it when the Toolbar Button IS the surface's commit affordance.
+### Accent
+
+Brand-blue fill, `onPrimary` label — the single-commit form. Reach for it when the Toolbar Button IS the surface's commit affordance.
 
 ```preview
 button/toolbar/accent
@@ -30,9 +36,9 @@ import { Button } from '@blind-dsai/ui';
 </Button>
 ```
 
-## Inverse
+### Inverse
 
-Mirror for use inside an inverse host (snackbars, coach-mark surfaces). Same chrome geometry as `default`; the colour pair flips to the inverse cluster.
+Mirror for inverse hosts (snackbars, coach-mark surfaces). Same geometry; colour pair flips to the inverse cluster.
 
 ```preview
 button/toolbar/inverse
@@ -44,11 +50,9 @@ import { Button } from '@blind-dsai/ui';
 </Button>
 ```
 
-## Use cases
-
 ### With icon
 
-A context glyph before the label — tag for "Filters", calendar for "Pick date". Same composition as Filter chip's leading slot.
+Context glyph before the label — tag for "Filters", calendar for "Pick date".
 
 ```preview
 button/toolbar/leading-icon
@@ -66,7 +70,7 @@ import { PlusIcon } from '@blind-dsai/ui/icons';
 
 ### With trailing icon
 
-Directional/destination glyph after the label — chevron-down for "opens a menu", "×" for "clear". Unlike standard [Button](./button.md), Toolbar Button carries trailing icons because its role is often *trigger* rather than commit.
+Directional/destination glyph — chevron-down "opens a menu", "×" "clear". Unlike standard [Button](./button.md), Toolbar Button carries trailing icons because its role is often *trigger* rather than commit.
 
 ```preview
 button/toolbar/trailing-icon
@@ -84,7 +88,7 @@ import { CheckedIcon } from '@blind-dsai/ui/icons';
 
 ### Icon only
 
-Glyph-only Toolbar Button in a 32×32 square — for universally recognizable actions ("+", refresh, "×"). Requires `aria-label`. When the label slot is absent, inline padding drops from `sys.layout.container.sm` (12) to `sys.layout.container.xs` (8) so the glyph centers in a perfect square — same rule as [FAB](./fab.md#sizes).
+Glyph-only Toolbar Button in a 32×32 square. Requires `aria-label`. When the label slot is absent, inline padding drops to `sys.layout.container.xs` (8) so the glyph centers.
 
 ```preview
 button/toolbar/icon-only
@@ -101,7 +105,7 @@ import { PlusIcon } from '@blind-dsai/ui/icons';
 
 ### Group
 
-Adjacent Toolbar Buttons share the same `4px` gap (`sys.layout.inline.sm`) as [Filter chip's group](../chip/filter.md#group). Mix freely with Filter chips in a single toolbar.
+Adjacent Toolbar Buttons share the same `4px` gap (`sys.layout.inline.sm`) as Filter chips. Mix freely with Filter chips.
 
 ```preview
 button/toolbar/group
@@ -124,7 +128,7 @@ import { PlusIcon, CheckedIcon } from '@blind-dsai/ui/icons';
 
 ### Focus indicator
 
-Hairline stroke is kept underneath the standard ring (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)).
+Hairline stroke is kept underneath the standard ring.
 
 ```preview
 button/toolbar/focused
@@ -137,23 +141,21 @@ import { PlusIcon } from '@blind-dsai/ui/icons';
 </Button>
 ```
 
-## Appearance
-
-Three appearances. `default` is the base inline action; `accent` flips to the brand commit colour for the row's one commit; `inverse` swaps to the inverse cluster for use inside Toast / coach-mark hosts. Only the container ↔ label colour pair flips; geometry stays identical. Each specimen above carries a **Disabled** toggle.
-
-| Appearance  | Background                          | Border                                          | Label / icon                       | When to reach for it |
-|-------------|-------------------------------------|--------------------------------------------------|------------------------------------|----------------------|
-| `default`   | `sys.color.surfaceContainerHigh`    | 1px `sys.color.outlineVariant`                   | `sys.color.onSurface`              | Quiet inline action in a row of peers — a toolbar opener "Filters ⌄", an "Edit" beside a row title. Mirrors [Filter chip's](../chip/filter.md) unselected chrome. |
-| `accent`    | `sys.color.primary`                 | none                                             | `sys.color.onPrimary`              | The single commit affordance on the surface — a [Page](../navigation-bar/page.md) bar's "Save" / "Done". Never two in the same row. |
-| `inverse`   | `sys.color.inverseSurface`          | none                                             | `sys.color.inverseOnSurface`       | For use inside an inverse host (Toast action chip, coach-mark trigger). |
-
-Destructive is intentionally **not** an appearance here — for inline destructive commits reach for the standard [Button](./button.md) `secondary` flavored as `destructive` so the warning weight isn't swallowed by the dense Toolbar rung.
-
 ## Slots
 
 - **label** — accessible name. Required, single line.
-- **leadingIcon** (optional) — context glyph before the label. Inherits colour via `currentColor` per the [family rule](./button.md#icon-colour-inheritance-family-wide).
-- **trailingIcon** (optional) — directional/destination glyph after the label. Same inheritance as leading.
+- **leadingIcon** (optional) — context glyph before the label.
+- **trailingIcon** (optional) — directional/destination glyph after the label.
+
+## Appearance
+
+Only the container ↔ label colour pair flips; geometry stays identical. For inline destructive commits reach for the standard [Button](./button.md) `secondary` flavored as `destructive`.
+
+| Appearance  | Background                          | Border                                          | Label / icon                       | When to reach for it |
+|-------------|-------------------------------------|--------------------------------------------------|------------------------------------|----------------------|
+| `default`   | `sys.color.surfaceContainerHigh`    | 1px `sys.color.outlineVariant`                   | `sys.color.onSurface`              | Quiet inline action — toolbar opener, "Edit" beside a row title. |
+| `accent`    | `sys.color.primary`                 | none                                             | `sys.color.onPrimary`              | The single commit — a [Page](../navigation-bar/page.md) bar's "Save". Never two in a row. |
+| `inverse`   | `sys.color.inverseSurface`          | none                                             | `sys.color.inverseOnSurface`       | Inside an inverse host (Toast, coach-mark). |
 
 ## Sizes
 
@@ -169,21 +171,19 @@ A single fixed 32px footprint across breakpoints.
 | Label                             | 12 / Semibold        | `sys.typo.label.sm`                |
 | Icon                              | 16px                 | `sys.icon.md`                      |
 
-‡ **min-height** binds to raw `ref.space.*` — `sys.*` does not expose a 32px step. Footprint shared with [Filter chip](../chip/filter.md) and [Tabs Segmented](../tabs/segmented.md).
+‡ Footprint shared with [Filter chip](../chip/filter.md) and [Tabs Segmented](../tabs/segmented.md).
 
-† **Slot gap is `0`** — see [Filter → Sizes](../chip/filter.md#sizes).
+† See [Filter → Sizes](../chip/filter.md#sizes).
 
 ## States
-
-The focus ring is a `position: absolute` pseudo-element so it never affects layout.
 
 | State      | Overlay opacity            | Additional                                                                 |
 |------------|----------------------------|-----------------------------------------------------------------------------|
 | `default`  | —                          | Container + label at rest.                                                  |
-| `hovered`  | `sys.state.hover` (8%)     | Pointer-driven via `:hover`.                                                |
-| `pressed`  | `sys.state.pressed` (16%)  | Pointer-driven via `:active`.                                               |
-| `disabled` | overlay suppressed         | Container at `sys.state.disabled` (40%) opacity, hairline stroke kept (the variant's identity is the stroke), focus ring suppressed, `cursor: not-allowed`. |
+| `hovered`  | `sys.state.hover` (8%)     | `:hover`.                                                                   |
+| `pressed`  | `sys.state.pressed` (16%)  | `:active`.                                                                  |
+| `disabled` | overlay suppressed         | Container at `sys.state.disabled` (40%) opacity, hairline stroke kept, focus ring suppressed, `cursor: not-allowed`. |
 
 ## Focus indicator
 
-Standard ring with hairline stroke kept underneath (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)). Trigger: `:focus-visible`.
+Standard outward ring with hairline stroke kept underneath. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).

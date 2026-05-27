@@ -27,12 +27,33 @@ import { SuggestionList } from '@blind-dsai/ui';
 />
 ```
 
+## Use cases
+
+### Without header action
+
+The header collapses to just a section label — no trailing "See all" link. Reach for it when there's no broader index page to route to (the suggestions on this surface ARE the whole set, or the surface is itself the index).
+
+```preview
+suggestion-list/no-header-action
+---
+import { SuggestionList } from '@blind-dsai/ui';
+
+<SuggestionList
+  label="People you may know"
+  items={[
+    { value: 'jordan',  name: 'Jordan Lee',     followers: '342 Followers',  description: 'PM at a logistics startup. Mostly here for the threads on roadmap reviews.', thumbnail: { alt: 'Jordan Lee' } },
+    { value: 'taylor',  name: 'Taylor Brooks',  followers: '1.1K Followers', description: 'Frontend engineer. Writes about the bits between the framework and the user.', thumbnail: { alt: 'Taylor Brooks' } },
+    { value: 'morgan',  name: 'Morgan Park',    followers: '512 Followers',  description: 'Designer-turned-PM. Notes on the handoff layer.', thumbnail: { alt: 'Morgan Park' } },
+  ]}
+/>
+```
+
 ## Slots
 
 - **container** — `surface` block with 24px block / 16px inline padding. Holds the header above the pager.
 - **header** — single row at the top; section label leading, optional text-link action trailing. Anchored outside the pager.
 - **label** — section title. `heading.md` (20px / Semibold) / `onSurface`.
-- **headerAction** *(optional)* — [`xsmall` Text Button](../button/text.md), `primary` appearance. Renders as `<a>` when `href` is set.
+- **headerAction** *(optional)* — [`xsmall` Text Button](../button/text.md), `accent` appearance. Renders as `<a>` when `href` is set.
 - **pager** — horizontally-scrolling track with mandatory inline scroll-snap; native scrollbar hidden. Next page peeks at the trailing edge.
 - **page** — one swipe target. Vertical stack of exactly three rows.
 - **row** — channel suggestion. Flex: avatar → text column → trailing toggle.
@@ -50,7 +71,7 @@ import { SuggestionList } from '@blind-dsai/ui';
 | container      | `surface` fill, 24px block / 16px inline padding, vertical stack |
 | header         | Flex row, items centred, `space-between`. Container stack (`sys.layout.stack.lg` = 24px) separates from pager. |
 | label          | `heading.md` / Semibold / `onSurface` |
-| headerAction   | `xsmall` [Text Button](../button/text.md), `primary` appearance |
+| headerAction   | `xsmall` [Text Button](../button/text.md), `accent` appearance |
 | pager          | Horizontal scroll, `scroll-snap-type: x mandatory`, scrollbar hidden; `sys.layout.inline.xl` (16/24px) gap; bleeds via `margin-right: -1 × sys.layout.container.md` |
 | page           | `flex: 0 0 calc(100% - sys.layout.inline.xl - sys.layout.inline.md)` so the next page leading edge shows by 8px; `scroll-snap-align: start`; `sys.layout.stack.sm` (12px) between rows |
 | row            | Flex row, items centred; 12px avatar↔text and text↔toggle; 12px bottom padding; `::after` divider 1px / `outlineVariant`, left-anchored to text column (60px from row left) |
@@ -58,15 +79,9 @@ import { SuggestionList } from '@blind-dsai/ui';
 | textColumn     | Flex column, `min-width: 0`, 2px stack between lines |
 | trailingAction | [Toggle Button](../button/toggle.md), `variant="toggle"` |
 
-## Sizes
-
-A single rung. Avatar size (48), header type, action type, and the three-rows-per-page contract are fixed.
-
 ## States
 
-Container has no interactive state. Each row's only interactive surface is its **trailingAction** — a Toggle Button obeying the [Toggle Button](../button/toggle.md) state contract. Row body is presentational; tapping the row does not route.
-
-The **headerAction** is an `xsmall` Text Button (rendered as `<a>` when `href` is set) — carries Text Button hover overlay + standard focus ring.
+Container has no interactive state. Each row's only interactive surface is its **trailingAction** — a Toggle Button obeying the [Toggle Button](../button/toggle.md) state contract. Row body is presentational; tapping the row does not route. The **headerAction** is an `xsmall` Text Button (rendered as `<a>` when `href` is set) — carries Text Button hover overlay + standard focus ring.
 
 ## Focus indicator
 
@@ -78,3 +93,4 @@ Row body is presentational; the only row-level focus target is the trailing Togg
 - **Horizontal scroll-snap.** `scroll-snap-type: x mandatory`; each page declares `scroll-snap-align: start`.
 - **Next-page peek.** Pager bleeds out by `sys.layout.container.md` via negative margin. Page basis composes inter-page gap (`inline.xl`) plus visible peek (`inline.md` = 8px) in one `calc`. Peek is the only swipe affordance.
 - **Toggle commits in place.** State is owned by the consumer — `active` and `onToggle` forward per row through `items`.
+- **Entity-agnostic anatomy.** The same row shape carries suggested channels, people, companies, or topics — pass through `items[i]` without changing the spec.

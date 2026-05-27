@@ -4,6 +4,8 @@ Sub-component of the [Feed](./feed.md) family. A sponsored placement that rides 
 
 **Required slots.** Two pieces are non-negotiable in every FeedAd placement: an explicit `brand.name` (the row is the ad's legal attribution surface) and a hero `media` block with a non-empty `src` (an ad without a creative collapses to a text wall, which is not a shipped shape). When generating mock or scaffold compositions, fill `media.src` with the bundled placeholder `/placeholder.png` rather than omitting `media` — the runtime `surfaceContainerHigh` fallback is a load-failure safety net, not a design-time opt-out.
 
+**Layout inset.** `full-bleed` — FeedAd sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. It pays its own `16px inline / 12px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the ad edge lands at a different inset than the feed posts and section headings around it. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 The base composition — brand row (no dismiss), headline, body excerpt, and a hero + CTA slab. Dismiss is opt-in, so the default placement omits it; the CTA fill is plumbed through with the advertiser's brand Hex via `cta.color`.

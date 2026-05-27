@@ -114,23 +114,42 @@ Promote single-spec → sub-component when a second role forces forking slot voc
 
 ## Authoring pattern
 
-Specs follow `DESIGN.md`'s writing pattern:
+Specs follow `DESIGN.md`'s writing pattern. Every sub / single-spec md uses the **same ordered scaffold** so an external reader (agent, designer) can scan any component the same way:
 
-- **Lead with the one-line role.** First sentence tells the reader whether to keep reading.
-- **No leading `>` callout.** Deferral to `DESIGN.md` is global; do not restate per-file. First element after the description paragraph is the first `##` heading.
-- **`## Slots`** — named regions (`container`, `label`, `leadingIcon`, …). Bullet list, one line each.
-- **`## Anatomy`** — table mapping slot → tokens for the default variant. When choosing a step of `layout.container.*` / `layout.stack.*` / `sys.typo.body.*`, consult [`DESIGN.md` § Composition recipes](../DESIGN.md#composition-recipes) — the five recipes name the canonical step.
-- **`## Variants`** (when present) — bullet list; how each variant's bindings differ from default.
-- **`## Sizes`** (when present) — table of size → typo/icon/padding bindings.
-- **`## States`** — hover/focus/pressed/disabled/error/selected behavior. Defers state-overlay and focus-ring details to `DESIGN.md`.
-- **`## Behavior`** (when present) — keyboard, focus-trap, dismissal, motion. Observable but not a token binding.
-- **Demo sections** (`## Default`, `## With <slot>`, `## <Variant name>`, `## Full composition`) — one `##` per live example, each wrapping a single `preview/<id>` fence. **Ordered as a progression:**
-  1. **`## Default`** (or `## Default (<variant>)`) — base form. Always first.
-  2. **Composition cases** (`## With flag`, `## With thumbnails`, …) — one per *additive slot*. Order by frequency in product surfaces.
-  3. **Variant cases** (`## Radio`, `## Underline`, …) — one per *interaction/appearance variant*. Order matches the `## Variants` bullet list.
-  4. **`## Full composition`** — every optional slot present. Always last; only when the family has enough slots to make all-on interesting.
+1. **Intro paragraph** — 2–3 short paragraphs, no preceding `##`:
+   - One-line role (what the component IS).
+   - One short paragraph with `**Reach for this when** …` and `**Skip when** …`. List 2–3 product situations each.
+   - One short paragraph titled `**Layout inset.** <full-bleed | bounded-surface | inline>` — what the family contributes to the page rail contract.
+2. **`## Default`** — base form: one short prose sentence + a single ```` ```preview ```` fence.
+3. **`## Use cases`** — group heading. Children are `### Composition cases` (additive slots, e.g. `With supporting text`, `With leading icon`, …) and then `### Variants` (interaction / appearance variants, e.g. `Indeterminate`, `Surface (opaque)`, `Disabled item`). One short prose paragraph + one preview fence per `###`. Order: additive slots first (by frequency), then variants. Default-first is non-negotiable.
+4. **`## Slots`** — bullet list, one line per slot.
+5. **`## Anatomy`** — table mapping slot → tokens for the canonical form. When choosing a step of `layout.container.*` / `layout.stack.*` / `sys.typo.body.*`, consult [`DESIGN.md` § Composition recipes](../DESIGN.md#composition-recipes).
+6. **`## Appearance`** (when ≥ 2 appearances) — table of appearance → fill / foreground / when-to-reach.
+7. **`## Sizes`** (when ≥ 2 sizes) — table of size → typo / icon / padding bindings. Omit when the family is single-rung.
+8. **`## States`** (when the component is interactive) — table of state → overlay / additional. Defers overlay and focus-ring details to `DESIGN.md`.
+9. **`## Focus indicator`** (when keyboard-focusable) — one short paragraph: composition (inward / outward), trigger, link to `DESIGN.md § Focus ring composition`.
+10. **`## Behavior`** (when present) — bullet list, 4–6 bullets. Keyboard, focus-trap, dismissal, motion. Observable but not a token binding.
 
-  Default first is non-negotiable. New demos slot into the right band rather than appending to the end.
+Family-overview md (the file at `<family>.md` when the family has multiple subs) is the **scaffold-light** variant: intro paragraph + `## Cross-sub contract` + `## Sub-components`. No demos there — demos live on each sub.
+
+The `## Forbidden` rules stay in `<sub>.spec.json`; the md never duplicates them.
+
+### Volume bands
+
+Sub / single-spec md should fall in **80–160 lines**. Family-overview md in **20–40 lines**. Specific volume guides:
+
+| Section | Target |
+|---|---|
+| Intro (role + reach/skip + layout inset) | 4–8 lines (≤ 2 short paragraphs) |
+| Each demo prose (under `## Default` or under a `###`) | 1 paragraph (1–3 sentences). The preview fence carries the rest. |
+| `## Slots` bullets | ≤ 8 slots, one line each |
+| `## Anatomy` table | ≤ 8 rows |
+| `## Behavior` bullets | 4–6 bullets, one line each |
+| `## Use cases` | 2–4 `###` children for narrow families; 4–6 for compound families (Button / Chip / Feed). Past 6, split the family. |
+
+If an md is significantly longer than this, the intro is probably restating what the spec already says — trim that, not the demos.
+
+Omit sections when the component has nothing to say. Tables narrow; prose one paragraph per idea; tokens written `<group>.<name>` (`color.primary`, `layout.container.sm`).
 
 ### Preview widths
 

@@ -2,6 +2,8 @@
 
 The icon-only commit surface — circular transparent target carrying a single glyph. Use when the control's identity is the glyph ([Navigation bar](../navigation-bar/navigation-bar.md) search/chat, [Dialog](../dialog/dialog.md) dismiss, feed-row "⋯"). Two rungs: `large` 40 × 40 for page chrome and `medium` 32 × 32 for inside-control density.
 
+**Layout inset.** `inline` — IconButton ships no padding outside its own circular target. It sits inside its host slot (a NavigationBar trailing rail, a Dialog header, a feed-row action cluster) with the host paying the surrounding rhythm. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 Transparent capsule with a single glyph in `onSurface`. `large` (40 × 40 / 24-glyph) is the default; flip Size to `medium` (32 × 32 / 16-glyph) for the dense inside-control rung.

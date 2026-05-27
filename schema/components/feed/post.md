@@ -1,10 +1,14 @@
 # Post
 
-Sub-component of the [Feed](./feed.md) family. The authored-content card — the unit of a scrolling feed. Composes a flag, an author row, a body block (title + clamped excerpt + optional thumbnail), optional inline modules (poll, citation, mention), and an engagement footer. Every block beyond the author row is optional. For the sponsored-placement counterpart see [Feed · Ad](./ad.md).
+Sub-component of the [Feed](./feed.md) family. The authored-content card — the unit of a scrolling feed. Composes a flag, author row, body block (title + clamped excerpt + optional thumbnail), optional inline modules (poll, offer, citation, mention), and an engagement footer.
+
+**Reach for this when** rendering a single user-authored entry — text post, poll, offer evaluation, link share. **Skip when** the placement is sponsored ([Feed · Ad](./ad.md)) or the row is a metric summary rather than authored content.
+
+**Layout inset.** full-bleed — Post contributes its own surface padding (`container.lg` block × `container.md` inline) and a hairline bottom divider, so a stream of Posts tiles edge-to-edge inside the feed column.
 
 ## Default
 
-The base composition — channel header, title, two-line body, thumbnail, mention, and engagement footer. No `flag` in the default.
+Channel header, title, two-line body, thumbnail, mention, engagement footer. No `flag`.
 
 ```preview
 feed/post-default
@@ -29,7 +33,7 @@ import { Feed } from '@blind-dsai/ui';
 
 ### With flag
 
-The optional `flag` slot — a single-word editorial label (`HOT`, `NEW`, `PINNED`). Use sparingly.
+Optional single-word editorial label (`HOT`, `NEW`, `PINNED`). Use sparingly.
 
 ```preview
 feed/post-with-flag
@@ -53,7 +57,7 @@ import { Feed } from '@blind-dsai/ui';
 
 ### With poll
 
-A poll module sits between the body block and the mention/engagement footer. Leading `PollFillIcon` + label paint in `sys.color.brand`; the label is constrained to the literal `Poll`.
+Inline poll module between body and mention/footer. Leading `PollFillIcon` + label paint in `sys.color.brand`; label is constrained to the literal `Poll`.
 
 ```preview
 feed/post-with-poll
@@ -77,7 +81,7 @@ import { Feed } from '@blind-dsai/ui';
 
 ### With offer evaluation
 
-An offer-evaluation module — the author publishes their current salary or a competing offer and asks the community for better-option signals. Identical chrome to `with-poll`, but the leading glyph swaps to `CompensationFillIcon` and both the glyph and the label paint in `sys.color.success` (resolves to `ref.palette.green.500`). The label is constrained to the literal `Offer`.
+Same chrome as `poll`; leading glyph swaps to `CompensationFillIcon` and both glyph and label paint in `sys.color.success`. Label constrained to the literal `Offer`.
 
 ```preview
 feed/post-with-offer
@@ -101,7 +105,7 @@ import { Feed } from '@blind-dsai/ui';
 
 ### With citation
 
-A citation module naming an external source. Hero image is flush-left at 120px wide; title two-line-clamped.
+Citation module naming an external source. Hero image flush-left at 120px wide; title two-line-clamped.
 
 ```preview
 feed/post-with-citation
@@ -124,7 +128,7 @@ import { Feed } from '@blind-dsai/ui';
 
 ### Group
 
-Three Post cards bundled vertically inside a `<FeedGroup>` semantic wrapper — used for thread-grouped or topic-bundled feeds where consecutive posts belong together. The wrapper adds no surface chrome: each inner Post keeps its own padding and hairline bottom divider, so the bundle reads as a continuous slice of the stream while the wrapper carries the intent (`role="region"` + optional `aria-label`). 3 is the canonical demo count; the wrapper accepts any number of Post children.
+Three (or more) Post cards bundled inside `<FeedGroup>` for thread-grouped or topic-bundled feeds. The wrapper adds no chrome — inner Posts keep padding and divider; the wrapper carries intent (`role="region"` + optional `aria-label`).
 
 ```preview
 feed/post-group
@@ -186,46 +190,37 @@ import { Feed } from '@blind-dsai/ui';
 
 ## Slots
 
-- **flag** *(optional)* — single-word editorial label (`HOT`, `NEW`, `PINNED`).
+- **flag** *(optional)* — single-word editorial label.
 - **avatar** — channel thumbnail at the 32 rung.
-- **channel** + **timestamp** + **followAction** *(optional)* — header row: channel link, relative time, inline Follow/Following affordance.
+- **channel** + **timestamp** + **followAction** *(optional)* — header row.
 - **meta** — middot-separated author metadata links; single line, truncates.
-- **title** + **body** — post title (single line, truncates) over a two-line clamped excerpt.
+- **title** + **body** — title (single line, truncates) over a two-line clamped excerpt.
 - **thumbnail** *(optional)* — 80×80 trailing image; overlays `SquareStackIcon` when `stacked`.
-- **poll** *(optional)* — inline banner with leading `PollFillIcon` (brand tone), label `Poll`, divider, and participant count.
-- **offer** *(optional)* — inline banner with leading `CompensationFillIcon` (success / green-500 tone), label `Offer`, divider, and participant count. Same chrome as `poll`; carries an offer-evaluation post (current salary or competing offer surfaced for community input). Label is constrained to `Poll` or `Offer` across both modules combined — no other string is valid.
+- **poll** / **offer** *(optional)* — inline banners sharing chrome. Label constrained to `Poll` or `Offer`.
 - **citation** *(optional)* — inline link-share card with leading hero and source mark.
 - **mention** *(optional)* — tap-anywhere `@Mention` line under the body.
 - **engagement** — footer row of `xsmall` [Text Buttons](../button/text.md) — Likes / Comments commit, Views non-interactive.
-- **bottom divider** *(intrinsic)* — hairline `outlineVariant` seam at the card's bottom edge so consecutive Posts in a stream share a deliberate divider rhythm. Painted via `border-bottom`; layout-safe under `box-sizing: border-box`.
+- **bottom divider** *(intrinsic)* — hairline `outlineVariant` seam at the card's bottom edge.
 
 ## Anatomy
 
 | Slot         | Token bindings |
 |--------------|----------------|
-| container    | `surface` fill, `sys.layout.container.lg` (24px mobile / 32px web) block × `sys.layout.container.md` (16px) inline padding, `sys.layout.stack.md` between blocks |
-| flag         | `label.sm` / Semibold, `brand` foreground. Optional; omitted by default. |
+| container    | `surface` fill, `sys.layout.container.lg` (24/32) block × `sys.layout.container.md` (16) inline padding, `sys.layout.stack.md` between blocks |
+| flag         | `label.sm` / Semibold, `brand` foreground |
 | avatar       | [Thumbnail](../thumbnail/thumbnail.md) `size={32}` — delegated verbatim |
-| header layout| Avatar + text column as a row, vertically centred |
-| channel      | 12 / Semibold, `onSurface`. `<a>`; hover underline on link; focus = hairline `sys.color.focus` at `sys.radius.xs`. |
+| channel      | 12 / Semibold, `onSurface`. `<a>`; hover underline; focus = hairline `sys.color.focus` at `sys.radius.xs` |
 | timestamp    | 12 / Regular, `outline` |
 | followAction | 12 / Semibold, `primary` (inactive) → `onSurfaceVariant` (active) |
-| channel-row  | Single row, siblings at 8px (`sys.layout.inline.md`) gap |
-| meta         | 12 / Regular, `onSurfaceVariant`. Each item `<a>`; middot at `sys.layout.inline.sm` (4px), decorative. |
-| title → body | 8px vertical gap |
-| title        | `heading.sm` (16 / Semibold), `onSurface`, single-line truncate |
-| bottom divider | `sys.borderWidth.hairline` × `sys.color.outlineVariant` — `border-bottom` on the card so consecutive posts in a stream share a deliberate seam. |
+| meta         | 12 / Regular, `onSurfaceVariant`. Each `<a>`; middot at `sys.layout.inline.sm` (4px), decorative |
+| title        | `heading.sm` (16 / Semibold), `onSurface`, single-line truncate. 8px to body |
 | body         | 14 / Regular, `onSurfaceVariant`, two-line clamp |
-| thumbnail    | 80×80, `radius.sm`, `surfaceContainerHigh` fallback. When `stacked`, overlays `SquareStackIcon` at `sys.icon.md`, `ref.palette.white.1000`, 4px top-right inset |
-| poll         | `surfaceVariant` fill, `radius.md`, 12×16 padding, 48px min-height, 14px body. Leading `PollFillIcon` + label (`Poll`) painted in `sys.color.brand` at 4px gap, 12px to divider, 12px to count. |
-| offer        | Identical chrome to `poll` — `surfaceVariant` fill, `radius.md`, 12×16 padding, 48px min-height, 14px body. Leading `CompensationFillIcon` + label (`Offer`) painted in `sys.color.success` (`ref.palette.green.500`) at 4px gap, 12px to divider, 12px to count. |
-| citation     | Text-column `surfaceVariant`, `radius.md`, 120px-wide hero. 12px padding, 8px gap between title and source. All text at 12px. Source mark 16×16 at 4px radius, 4px to source name. |
+| thumbnail    | 80×80, `radius.sm`, `surfaceContainerHigh` fallback. `stacked` overlays `SquareStackIcon` at `sys.icon.md`, `ref.palette.white.1000`, 4px top-right inset |
+| poll / offer | `surfaceVariant` fill, `radius.md`, 12×16 padding, 48px min-height, 14px body. Leading icon + label at 4px gap, 12px to divider, 12px to count. `poll` paints `brand`; `offer` paints `success` (`ref.palette.green.500`) |
+| citation     | Text-column `surfaceVariant`, `radius.md`, 120px-wide hero. 12px padding, 8px gap title↔source. All text 12px. Source mark 16×16 at 4px radius, 4px to source name |
 | mention      | `body.sm`, `primary`, italic |
-| engagement   | `xsmall` [Text Buttons](../button/text.md) (Likes / Comments) + static `<span>` (Views). 16px glyph + 12 / Regular label, 4×8 padding, 4px glyph↔count gap. Row gap 12px. Rest `onSurfaceVariant`; active Like retones label to `sys.color.brand` with `HeartFillIcon`. Optical alignment by default. |
-
-## Sizes
-
-A single rung. The card stretches to its column (`width: 100%`); on web a feed column typically caps at `comp-content-max`.
+| engagement   | `xsmall` [Text Buttons](../button/text.md) + static `<span>` (Views). 16px glyph + 12 / Regular label, 4×8 padding, 4px gap. Row gap 12px. Active Like retones label to `sys.color.brand` with `HeartFillIcon` |
+| bottom divider | `sys.borderWidth.hairline` × `sys.color.outlineVariant` — `border-bottom` on the card |
 
 ## States
 
@@ -233,16 +228,13 @@ Feed is not itself interactive — interaction lives in the controls it carries.
 
 ## Focus indicator
 
-Feed itself is not a focus target; each focusable control paints its own ring per its spec (Text Button / link rings are Outward by default). Composition for any future card-level focus target: Inward — Feed cards tile with a hairline divider between them. Trigger: `:focus-visible`.
+Feed itself is not a focus target; each focusable control paints its own ring per its spec. Card-level focus targets compose inward. Trigger: `:focus-visible`.
 
 ## Behavior
 
-- **Slot omission collapses without leaving a gap.** Optional blocks drop out entirely. `flag` is opt-in — most posts render without one.
-- **Truncation, not wrap.** `meta` and `title` truncate; `body` clamps to two lines.
-- **Thumbnail rides the title + body block.** A flex sibling, so the body's two-line clamp computes against reduced inline width.
-- **Engagement counters do not reflow.** Footer stays single-line; tiny screens scroll the row.
-- **Like is a toggle.** Tapping increments the count and swaps `HeartIcon` for `HeartFillIcon` filled in `sys.color.brand` via a `--button-text-label` override. Tap again to revert. Controlled (`liked` + `onLikeChange`) or uncontrolled.
-- **Like aligns to the content rail by default** via Text Button's [optical alignment](../button/text.md#optical-alignment).
-- **Comments commits; Views does not.** Views renders as a non-interactive `<span>` — no hover, no focus ring, no `cursor: pointer`.
-- **Channel and meta are independent links.** Middot separators are decorative (`aria-hidden`) and outside the link hit area.
-- **`<FeedGroup>` bundles consecutive Posts.** Three (or more) Post cards stacked inside one semantic wrapper for thread-grouped or topic-bundled feeds. The group adds no surface chrome — each inner Post keeps its own padding and hairline bottom divider, so the bundle reads as a continuous slice of the stream. The wrapper carries intent via `role="region"` + optional `aria-label`.
+- **Slot omission collapses without a gap.** Optional blocks drop out entirely.
+- **Truncation, not wrap.** `meta`/`title` truncate; `body` clamps to two lines; thumbnail is a flex sibling so the clamp computes against reduced inline width.
+- **Like is a toggle.** Tapping swaps `HeartIcon` → `HeartFillIcon` filled in `sys.color.brand` via a `--button-text-label` override and increments the count. Controlled (`liked` + `onLikeChange`) or uncontrolled. Aligns to the content rail via Text Button's [optical alignment](../button/text.md#optical-alignment).
+- **Comments commits; Views does not.** Views is a non-interactive `<span>` — no hover, focus ring, or `cursor: pointer`.
+- **Channel and meta are independent links.** Middot separators are decorative (`aria-hidden`) and outside link hit areas.
+- **`<FeedGroup>` bundles consecutive Posts.** Semantic wrapper only — inner Posts keep their own padding and bottom divider.

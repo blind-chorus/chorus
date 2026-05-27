@@ -2,6 +2,8 @@
 
 Sub-component of the [Section](./section.md) family. A horizontally-scrolling rail of fixed-width (176px) profile cards — channels, user profiles, or company channels grouped under a single editorial heading. Each card carries a cover band, a 64-rung [Thumbnail](../thumbnail/thumbnail.md) avatar overlapping the cover, an entity name + follower count, a metrics row or two-line description, and a trailing full-width follow [Toggle Button](../button/text.md). The section heading and `See all` link live on the [Section](./section.md) wrapper — ProfileCarousel is the *content* only.
 
+**Layout inset.** `full-bleed` — ProfileCarousel is an **edge-to-edge** family. It sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it so the rail can bleed off the trailing edge into the swipe-affordance zone. The rail pays its own `16px inline` rail padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the first card lands at a different inset than the section heading and the cards in neighbour rails. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 The base composition — three profile cards under a Section heading.

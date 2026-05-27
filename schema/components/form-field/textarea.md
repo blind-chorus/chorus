@@ -4,6 +4,8 @@ The multi-line cousin of [input](./input.md) — identical chrome contract (tran
 
 **Reach for this when** the value naturally spans multiple lines: compose surfaces, bug reports, profile bios, comment composers. **Skip when** the value is single-line ([input](./input.md)), needs a leading magnifier glyph ([search](./search.md)), or opens a sheet-driven option list ([select](./select.md)).
 
+**Layout inset.** `inline` — Textarea ships no padding outside its own box chrome. It sits inside the host form column (a settings page, a Dialog body, a BottomSheet compose surface) with the host paying the surrounding stack rhythm and inline padding. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 A labeled multi-line field with helper text. Four rows tall by default; the user can drag the resize handle in the bottom-right to grow it taller.

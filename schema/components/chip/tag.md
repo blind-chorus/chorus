@@ -2,6 +2,8 @@
 
 The informational chip — square-cornered label naming attached metadata. Use for taxonomy on rows, cards, or profiles — categories, statuses, or labels describing the content; prefer [Badge](../badge/badge.md) when the marker signals unread / new activity on a host rather than describing it. Shorter than Filter (24 vs 32 min-height) with `sys.radius.sm` corners. Two appearances: `default` paints a translucent black/white overlay (light → `ref.palette.black.200`, dark → `ref.palette.white.200`) so the tag adopts whatever surface sits behind it; `accent` paints a tonal pale-primary container with primary label for tags that need to pop against the surface.
 
+**Layout inset.** `inline` — Tag ships no padding outside its own pill chrome. It sits inside whichever host row holds it (a list-row label cluster, a profile-card meta strip, a feed-post header) with the host paying the surrounding gap and column padding. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 Translucent overlay fill, label-only. Reads as attached metadata against the surrounding surface — the overlay tints the surface one step darker (light mode) or lighter (dark mode) instead of locking to a single container tone. This is the default appearance — omit the `appearance` prop or pass `appearance="default"` explicitly.

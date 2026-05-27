@@ -2,9 +2,13 @@
 
 The single-line text field — a bordered, transparent-fill box for short values. An optional label and either helper text or a `maxLength` count compose it into a labeled group; the `error` appearance re-tones fill / text / stroke to the error family.
 
+**Reach for this when** capturing a short single-line value — name, email, search query, comment subject. **Skip when** the value is multi-line (use a textarea), a one-of-many selection (use a select), or a free-form search input with built-in results (use the [search](./search.md) sub-component).
+
+**Layout inset.** inline — the field is content-sized inside its surface's padding; with `label` / `helper` / `maxLength` it wraps in a `.chorus-field-group` flex column.
+
 ## Default
 
-The neutral at-rest field — transparent fill, hairline `outlineVariant` stroke, placeholder in the faint `outline` colour. Type into the live specimen to see the full lifecycle — placeholder → value, stroke steps up, trailing clear ("×") appears at the right edge.
+Transparent fill, hairline `outlineVariant` stroke, placeholder in the faint `outline` colour. Type in to see the lifecycle: placeholder → value, stroke steps up, trailing clear ("×") appears.
 
 ```preview
 form-field/input/default
@@ -14,9 +18,11 @@ import { FormField } from '@blind-dsai/ui';
 <FormField variant="input" placeholder="Place holder" />
 ```
 
-## Error
+## Use cases
 
-The failed field — `errorContainer` wash, full-strength `error` stroke, `onErrorContainer` text. The assistive helper rung below the box re-tones to `sys.color.error` so the message reads as the error caption.
+### Error
+
+`errorContainer` wash, full-strength `error` stroke, `onErrorContainer` text. Assistive helper rung re-tones to `sys.color.error`.
 
 ```preview
 form-field/input/error
@@ -32,7 +38,7 @@ import { FormField } from '@blind-dsai/ui';
 />
 ```
 
-The `helper` rung is intentionally **optional** on every appearance — pass nothing and the error field still re-tones the box without an assistive caption below it. Reach for the helper-less form when the surrounding row already carries the failure message.
+The `helper` rung is optional on every appearance — pass nothing and the error field still re-tones the box. Reach for the helper-less form when the surrounding row already carries the failure message.
 
 ```preview
 form-field/input/error-no-helper
@@ -47,13 +53,9 @@ import { FormField } from '@blind-dsai/ui';
 />
 ```
 
-## Use cases
-
 ### Label, assistive text & count
 
-When any of `label` / `helper` / `maxLength` is supplied, the box is wrapped in a `.chorus-field-group` (flex column at `sys.layout.stack.xs` between rungs). Label sits above; helper or count sits below — helper at the left, count at the right.
-
-**Helper and count are mutually exclusive.** Pass both and the count is shown, `helper` ignored.
+When any of `label` / `helper` / `maxLength` is supplied, the box wraps in a `.chorus-field-group` flex column at `sys.layout.stack.xs` between rungs. Label sits above; helper or count below — helper left, count right. **Helper and count are mutually exclusive**; pass both and the count wins.
 
 | Slot                | Token (typography)            | Token (colour)               | Notes |
 |---------------------|-------------------------------|------------------------------|-------|
@@ -93,7 +95,7 @@ import { FormField } from '@blind-dsai/ui';
 
 ### Leading icon
 
-An optional `leadingIcon` (16px / `sys.icon.md`) pins at the inner-left edge — same affordance and footprint as Search bar's glyph. Decorative (`aria-hidden`); tracks the field's active text colour (`sys.color.onSurface` on the default appearance, `sys.color.onErrorContainer` on `error`) so the glyph reads as part of the typed content rather than a recessed affordance. Also available on the [`select`](./select.md) sub-component.
+Optional `leadingIcon` (16px / `sys.icon.md`) pinned at the inner-left edge. Decorative (`aria-hidden`); tracks the field's active text colour. Also available on [`select`](./select.md).
 
 ```preview
 form-field/input/with-leading-icon
@@ -112,7 +114,7 @@ import { LocationIcon } from '@blind-dsai/ui/icons';
 
 ### Group
 
-Compose multiple Inputs into a single column via `<FormFieldGroup>`. Each rung keeps its own label / helper / count, and the group inserts `sys.layout.stack.md` (16px) between rungs — the same vertical rhythm a section of stacked labelled controls already uses. Reach for it for sign-up / profile forms where the labels stay per-field.
+Compose multiple Inputs into a column via `<FormFieldGroup>`. Each rung keeps its own label / helper / count; the group inserts `sys.layout.stack.md` (16px) between rungs. Reach for it for sign-up / profile forms.
 
 ```preview
 form-field/input/group
@@ -128,7 +130,7 @@ import { FormField, FormFieldGroup } from '@blind-dsai/ui';
 
 ### Focus indicator
 
-The accessibility ring layered on top of the `active` border re-tone — see [DESIGN.md → Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Accessibility ring layered on top of the `active` border re-tone.
 
 ```preview
 form-field/input/focused
@@ -142,26 +144,24 @@ import { FormField } from '@blind-dsai/ui';
 />
 ```
 
-## Appearance
-
-One axis — **appearance** — with two values. Each specimen above carries a **Disabled** toggle in its toolbar.
-
-| Appearance | Background                    | Border (rest)                                       | Text                          | Placeholder                   | When to reach for it                                                                                  |
-|------------|-------------------------------|-----------------------------------------------------|-------------------------------|-------------------------------|--------------------------------------------------------------------------------------------------------|
-| `default`  | `transparent`                 | `sys.color.outlineVariant` (`borderWidth.hairline`) | `sys.color.onSurface`         | `sys.color.outline`           | The neutral field — transparent fill so the field adopts whatever surface sits behind it.              |
-| `error`    | `sys.color.errorContainer`    | `sys.color.error` (`borderWidth.hairline`)          | `sys.color.onErrorContainer`  | `sys.color.onErrorContainer`  | The failed field — a low-chroma red wash plus a full-strength `error` stroke so the field is unmistakable. |
-
-Placeholder vs. value is value-driven, not focus-driven — see [Behavior → Placeholder vs. value](#behavior).
-
 ## Slots
 
 - **container** — the box. Owns transparent fill, the inset-`box-shadow` stroke, radius, padding, and focus ring.
-- **input** — editable text. Single line. Value in `Text` colour, placeholder in faint `Placeholder` colour; swap is value-driven.
+- **input** — editable text. Single line. Value-driven placeholder swap.
 - **clear** — trailing "×" button (`XCircleFillIcon`). Shown only while the box is active and holds a non-empty value.
 - **group** *(optional)* — wrapper holding label / box / helper / count when any is supplied.
-- **label** *(optional)* — visible label above the box. `sys.typo.label.md` / `sys.color.onSurface`.
+- **label** *(optional)* — visible label above the box.
 - **helper** *(optional)* — assistive text below the box, left-aligned. Mutually exclusive with `count`.
 - **count** *(optional)* — `current/max` count below the box, right-aligned. Mutually exclusive with `helper`.
+
+## Appearance
+
+| Appearance | Background                    | Border (rest)                                       | Text                          | Placeholder                   |
+|------------|-------------------------------|-----------------------------------------------------|-------------------------------|-------------------------------|
+| `default`  | `transparent`                 | `sys.color.outlineVariant` (`borderWidth.hairline`) | `sys.color.onSurface`         | `sys.color.outline`           |
+| `error`    | `sys.color.errorContainer`    | `sys.color.error` (`borderWidth.hairline`)          | `sys.color.onErrorContainer`  | `sys.color.onErrorContainer`  |
+
+Placeholder vs. value is value-driven, not focus-driven.
 
 ## Sizes
 
@@ -178,15 +178,13 @@ A single fixed footprint.
 | Text / placeholder                | 16 / Regular         | `sys.typo.body.md`                 |
 | Clear icon                        | 16px                 | `sys.icon.md`                      |
 
-‡ Height is exactly `content + padding` (24px line-box + 2 × 8px padding). `min-height` binds raw `ref.space.500` because `sys.*` does not expose a 40px control-height step.
+‡ Height is exactly `content + padding` (24px line-box + 2 × 8px). `min-height` binds raw `ref.space.500`.
 
-⁋ **The stroke never touches the box model** — no `border` property; the visible stroke is an inset `box-shadow`. Zero layout cost, so the field's footprint is pixel-stable in every state. See [DESIGN.md → Border & Stroke](../../DESIGN.md#border-scale).
+⁋ Stroke is an inset `box-shadow`, never a `border` — zero layout cost; footprint pixel-stable in every state. See [DESIGN.md → Border & Stroke](../../DESIGN.md#border-scale).
 
 ## States
 
-Four interactive states: `default`, `hovered`, `pressed`, `active`. The load-bearing one is `active` — the field has the caret; stroke re-tones to `sys.color.onSurface` at 2px. Keyboard focus is a separate accessibility indicator (see [Focus indicator](#focus-indicator-1)).
-
-All borders below are an inset `box-shadow`, never a `border` — every row changes only colour / width.
+Four interactive states. The load-bearing one is `active` — the field has the caret; stroke re-tones to `sys.color.onSurface` at 2px.
 
 | State      | Stroke (inset box-shadow)                                                 | Additional |
 |------------|---------------------------------------------------------------------------|------------|
@@ -198,10 +196,10 @@ All borders below are an inset `box-shadow`, never a `border` — every row chan
 
 ## Focus indicator
 
-Standard ring on a `position: absolute` pseudo-element — never affects layout. Suppressed while `disabled`. Trigger: `:focus-visible`.
+Standard outward ring on a `position: absolute` pseudo-element — never affects layout. Suppressed while `disabled`. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
 
 ## Behavior
 
-- **Clear button.** Shown only while active and holding a non-empty value. Clicking empties the value, fires `onClear`, returns focus. Real `<button>`, keyboard-reachable, `aria-label="Clear"`.
-- **Placeholder vs. value.** Placeholder shows only while empty; never the field's only accessible name — pair with a visible label or `aria-label`.
+- **Clear button** shown only while active and holding a non-empty value. Click empties, fires `onClear`, returns focus. Real `<button>`, keyboard-reachable, `aria-label="Clear"`.
+- **Placeholder vs. value** value-driven. Placeholder shows only while empty; never the field's only accessible name — pair with a visible label or `aria-label`.
 - **Single line.** Long values scroll horizontally within the box.

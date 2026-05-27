@@ -2,6 +2,8 @@
 
 Avatar-anchored List sub-component — each row is fronted by a 40px leading [Thumbnail](../thumbnail/thumbnail.md). Same click semantics as the [Text sub](./text.md). Row geometry, typography, divider, state overlays, and inward focus ring all delegate to the [family-wide rules](./list.md); this sub documents the leading Thumbnail slot.
 
+**Layout inset.** `full-bleed` — Thumbnail list is an **edge-to-edge** family. It sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. Each row pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap the list in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the rows land at a different inset than the section headings and other lists around them. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 A list anchored by leading thumbnails — channel / source / author rows. Thumbnail is fixed at the 40 rung, vertically centred against the label column.

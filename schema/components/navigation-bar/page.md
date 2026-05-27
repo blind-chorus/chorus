@@ -2,6 +2,8 @@
 
 The drill-in top bar — anchored to every screen one step inside a flow. The page name sits centred; a leading slot (typically a back-arrow icon) and a trailing slot (a [Toolbar Button](../button/toolbar.md), text link, or single icon) flank it. Title type drops from Home's `typo.heading.lg` to `typo.heading.sm` (16/Semibold).
 
+**Layout inset.** `full-bleed` — Page is an **edge-to-edge** family. It sits as a direct child of the page shell at the top of the route and stretches edge-to-edge inside it. The bar pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the title and flanking slots land at a different inset than the page body underneath. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 A drill-in bar with back-arrow leading and a **primary**-toned "Save" [Toolbar Button](../button/toolbar.md) trailing.

@@ -2,6 +2,8 @@
 
 Commit-and-record action — a Toolbar-footprint button with two states. **Inactive** invites the commit (`primary` fill); **active** records it (`surfaceContainerHigh` + hairline `outlineVariant`). Use for reversible actions that persist across views — follows, subscriptions, joins.
 
+**Layout inset.** `inline` — ToggleButton ships no padding outside its own chrome. It sits inside its host slot (a profile card footer, a channel header, a list-row trailing slot) with the host paying the surrounding rhythm. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Inactive
 
 The at-rest urging form — `primary` fill, no border. Reach for this whenever the action is offered but not yet taken.

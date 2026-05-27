@@ -2,6 +2,8 @@
 
 The rounded-rectangle tab row — each tab a self-contained chip with a required leading icon and label. Shares its visual chrome with [Segmented](./segmented.md) and [Filter chip](../chip/filter.md) verbatim — **the single divergence is the corner radius**, which steps from `sys.radius.full` (capsule) to `sys.radius.md` (8). Reads as a soft rounded rectangle rather than a pill.
 
+**Layout inset.** `full-bleed` — Rounded tabs is an **edge-to-edge** family. It sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. The row pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the tabs land at a different inset than the page body and section headings around them. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 The bare headline form — labels carry the meaning, no glyphs.

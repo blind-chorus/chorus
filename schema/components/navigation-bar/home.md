@@ -2,6 +2,8 @@
 
 The landing-screen top bar — anchored to the top of a tab root (a feed, an inbox, a profile). A leading menu glyph + left-aligned page name occupy the start; up to three action icons (search, chat, profile) sit at the trailing edge. The title carries the system's largest page-level type rung (`typo.heading.lg`, 24/Semibold).
 
+**Layout inset.** `full-bleed` — Home is an **edge-to-edge** family. It sits as a direct child of the page shell at the top of the route and stretches edge-to-edge inside it. The bar pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the title and trailing actions land at a different inset than the page body underneath. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 The canonical Home bar — menu glyph, brand logotype at 24px tall, and three trailing actions (search, chat, profile).

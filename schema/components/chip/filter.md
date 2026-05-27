@@ -1,10 +1,14 @@
 # Filter
 
-The selectable chip — capsule-shaped toggle for refining a set. **Unselected** is a transparent hairline-outlined pill that adopts whatever surface sits behind it; **selected** swaps to an inverse fill. Optional leading and trailing icons compose around the label without changing footprint. Use Filter to let the user narrow a set by toggling one or more independent criteria — multiple chips can be on at once; prefer [Segmented](../tabs/segmented.md) when the choices are mutually-exclusive view modes (List ↔ Grid).
+The selectable chip — capsule-shaped toggle for refining a set. **Unselected** is a transparent hairline-outlined pill that adopts whatever surface sits behind it; **selected** swaps to an inverse fill. Optional leading and trailing icons compose without changing footprint.
+
+**Reach for this when** the user narrows a set by toggling one or more independent criteria — multiple chips can be on at once. **Skip when** the choices are mutually-exclusive view modes — use [Segmented](../tabs/segmented.md) instead.
+
+**Layout inset.** inline — the chip is content-sized and inherits its surface's padding; rails compose via gap, not chrome.
 
 ## Default
 
-At-rest form — transparent fill with a hairline `outlineVariant` stroke so the chip sits on any underlying surface without colliding with the surface ladder. Use in rows of choices the user hasn't acted on yet.
+At-rest form — transparent fill with a hairline `outlineVariant` stroke so the chip sits on any surface without colliding with the surface ladder.
 
 ```preview
 chip/filter/unselected
@@ -16,9 +20,11 @@ import { Chip } from '@blind-dsai/ui';
 </Chip>
 ```
 
-## Selected
+## Use cases
 
-Active form — inverse-toned fill. Use the same chip element across both states and toggle the `selected` flag.
+### Selected
+
+Active form — inverse-toned fill. Toggle the `selected` flag on the same chip element across both states.
 
 ```preview
 chip/filter/selected
@@ -32,8 +38,6 @@ import { Chip } from '@blind-dsai/ui';
   All
 </Chip>
 ```
-
-## Use cases
 
 ### With icon
 
@@ -98,7 +102,7 @@ import { Chip } from '@blind-dsai/ui';
 
 ### With trailing action
 
-Pair the chip rail with a trailing accent [Text Button](../button/text.md) (`size='small'`, `appearance='accent'`) for a destination that sits outside the filter axis — managing the whole set, opening keyword settings, jumping to an editor. The button is **not** a filter toggle. Composition mirrors [Channel rail · With overflow](../avatar-rail/avatar-rail.md#with-overflow): chip track scrolls horizontally with a trailing 48px `mask-image` fade that only paints while overflowing; the button stays pinned outside the scroll viewport with a `sys.layout.inline.xl` gap.
+Pair the chip rail with a trailing accent [Text Button](../button/text.md) (`size='small'`, `appearance='accent'`) for a destination outside the filter axis — managing the set, opening keyword settings. The button is **not** a filter toggle. The chip track scrolls horizontally with a trailing 48px `mask-image` fade that paints only while overflowing; the button stays pinned outside the scroll viewport at `sys.layout.inline.xl` gap.
 
 ```preview
 chip/filter/with-trailing-action
@@ -149,7 +153,7 @@ import { ArrowDownIcon } from '@blind-dsai/ui/icons';
 
 ### Focus indicator
 
-Both selection states take the same standard ring; the case below shows unselected. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Both selection states take the same standard ring; case below shows unselected.
 
 ```preview
 chip/filter/focused
@@ -181,18 +185,20 @@ Single fixed footprint; consistent across breakpoints.
 | Label                             | 12 / Semibold        | `sys.typo.label.sm`                |
 | Icon                              | 16px                 | `sys.icon.md`                      |
 
-‡ **min-height** binds raw `ref.space.*` — `sys.*` exposes no 32px step. Footprint shared with [Toolbar button](../button/toolbar.md) and [Tabs segmented](../tabs/segmented.md).
+‡ Footprint shared with [Toolbar button](../button/toolbar.md) and [Tabs segmented](../tabs/segmented.md).
 
-† **Slot gap is `0`**; visible icon-to-label rhythm comes from the label-slot inset. The label slot adds another `container.2xs` only on sides where text touches an edge — text-only chips clear 16px on each side (12 + 4); icon + text chips keep the icon flush at 12px with a 4px label inset and trailing 12px padding.
+† Visible icon-to-label rhythm comes from the label-slot inset.
 
 ## Variants
 
-A single visual variant — the selected/unselected toggle is a state on the same chip. The container/label pair swaps wholesale on selection.
+Single visual variant; the selected/unselected toggle swaps the container/label pair wholesale.
 
-| State        | Background                          | Border (always 1px `sys.borderWidth.hairline`)          | Label / icon color                | Notes                                                                |
-|--------------|-------------------------------------|---------------------------------------------------------|-----------------------------------|----------------------------------------------------------------------|
-| unselected   | `transparent`                       | `sys.color.outlineVariant`                              | `sys.color.onSurface`             | Transparent fill plus the hairline outline carries the edge — the chip adopts whatever surface sits behind it. |
-| selected     | `sys.color.inverseSurface`          | `transparent`                                           | `sys.color.inverseOnSurface`      | Inverse fill so the chosen chip stands out. Border colour goes transparent but its 1px width is held, so footprint never changes between states. |
+| State        | Background                          | Border (1px `sys.borderWidth.hairline`)                 | Label / icon color                |
+|--------------|-------------------------------------|---------------------------------------------------------|-----------------------------------|
+| unselected   | `transparent`                       | `sys.color.outlineVariant`                              | `sys.color.onSurface`             |
+| selected     | `sys.color.inverseSurface`          | `transparent`                                           | `sys.color.inverseOnSurface`      |
+
+On `selected`, the border colour goes transparent but its 1px width is held, so footprint never changes.
 
 ## States
 
@@ -205,4 +211,4 @@ A single visual variant — the selected/unselected toggle is a state on the sam
 
 ## Focus indicator
 
-Standard ring drawn as a `position: absolute` pseudo-element so it never affects layout. Inside a [Tabs](../tabs/segmented.md) row the same layer is re-anchored inward. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Standard outward ring on a `position: absolute` pseudo-element so it never affects layout. Inside a [Tabs](../tabs/segmented.md) row the same layer is re-anchored inward. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).

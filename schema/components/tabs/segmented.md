@@ -2,6 +2,8 @@
 
 The inline view-mode toggle — a row of mutually-exclusive selectors for in-place mode changes (List ↔ Grid, Day ↔ Week ↔ Month). Exactly one option is active at a time; reach for [Underline](./underline.md) for panel-switching navigation, or [Filter](../chip/filter.md) when the user can toggle multiple independent criteria at once.
 
+**Layout inset.** `full-bleed` — Segmented tabs is an **edge-to-edge** family. It sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. The row pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the tabs land at a different inset than the page body and section headings around them. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 The headline form — a 2-segment List / Grid view toggle.

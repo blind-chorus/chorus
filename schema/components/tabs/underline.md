@@ -2,6 +2,8 @@
 
 The canonical content-section switcher — a horizontal row of tabs anchored above a panel of content, with a single 2px `onSurface` indicator that slides between the active tab's bottom edge on selection. Use this when moving between *peer panels* of the same surface. For in-place mode changes, reach for [Segmented](./segmented.md).
 
+**Layout inset.** `full-bleed` — Underline tabs is an **edge-to-edge** family. It sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it so the underline indicator can travel between the actual page edges. The row pays its own `16px inline` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the tabs land at a different inset than the page body underneath. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Default
 
 The headline form — three peer panels switched by a tab row. The row is **Adaptive** (see [Behavior → Adaptive width](#adaptive-width)).

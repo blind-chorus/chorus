@@ -2,6 +2,8 @@
 
 Floating action button — surface-elevated commit anchored to the canvas, reachable while content scrolls (mobile list canvases, drawing surfaces, feeds). Use as the *single* headline action of a scrollable canvas; prefer [Standard Button](./standard.md) when the action lives inline with content (forms, rows, dialogs) rather than floating above it. Independent contract from the standard Button: single fixed sizing rung, label and icon both optional (at least one present), pill geometry (`sys.radius.full`), floating elevation (`sys.elevation.floating`).
 
+**Layout inset.** `inline` — FAB ships no padding outside its own pill chrome. It sits inside whichever overlay container anchors it to the canvas (a fixed positioner, a bottom-right docked layer) with the host paying the surrounding offset to the page rail and safe-area inset. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
 ## Primary
 
 The default FAB — brand-red fill anchoring the canvas's headline action.
