@@ -4,6 +4,8 @@ An in-body explanation block — a tinted card sitting within the reading flow w
 
 **Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge. Owns its internal padding via `layout.container.*`; do **not** wrap in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
+**Safe zone — 16 inline / 8 block.** Banner's surround is **`sys.layout.container.md` (16)** horizontal + **`sys.layout.stack.xs` (8)** vertical. The horizontal 16 is paid once by the page shell's `layout.page.md` gutter (Banner stretches to its edges); the vertical 8 is paid by the **parent** as `gap: var(--sys-layout-stack-xs)` on the column that hosts Banner and its siblings. Banner itself owns no outer margin — never wrap it in a `padding-block` div, never re-wrap it in `<Section>` to "get spacing", and never paint per-child `margin-block`. One parent, one `gap`. Violating this re-introduces the double-pay pattern [`AGENTS.md`](../../../AGENTS.md#composition-rules) prohibits.
+
 ## Default
 
 The muted appearance — body in `onSecondaryContainer`, action link in `primary`. Supplementary asides the reader can pass over without missing the main flow.

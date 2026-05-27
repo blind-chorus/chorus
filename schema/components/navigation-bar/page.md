@@ -93,7 +93,7 @@ import { NavigationBar } from '@blind-dsai/ui';
 - **leading** (optional) — typically a 24px back-arrow icon, rendered as a transparent icon capsule.
 - **title** — page's name. Required, single line, `typo.heading.sm` (16/Semibold) `onSurface`, centred. Ellipsis on narrow.
 - **trailing** (optional) — exactly one affordance. Three accepted shapes:
-  1. A single 24px icon (transparent capsule).
+  1. A single 24px icon (transparent capsule). **Prefer the object form `trailing={{ icon, 'aria-label' }}` — the component then renders the 24px Icon Button internally and the `sys.icon.lg` contract is guaranteed.** If a raw `<Button variant="icon" />` node is passed instead, it MUST carry `size="large"` (= `sys.icon.lg` / 24); `size="medium"` resolves to `sys.icon.md` (16) and breaks symmetry with the leading slot.
   2. A [Toolbar Button](../button/toolbar.md) with a label — "Save", "Done", "Edit".
   3. A [Text Button](../button/text.md) — `primary`-coloured 16/Semibold inline action sized at `typo.heading.sm`.
 

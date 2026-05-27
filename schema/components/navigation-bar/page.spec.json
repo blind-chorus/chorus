@@ -22,7 +22,7 @@
     "trailing": {
       "type": "node",
       "optional": true,
-      "description": "One affordance — Icon Button / Toolbar Button / Text Button."
+      "description": "One affordance — Icon Button / Toolbar Button / Text Button. **Prefer the object form `{ icon, 'aria-label' }` for the icon case** — the component then renders the 24px Icon Button internally and the `sys.icon.lg` contract is guaranteed. If a raw `<Button variant=\"icon\" />` node is passed instead, it MUST carry `size=\"large\"` (= `sys.icon.lg` / 24); `size=\"medium\"` resolves to `sys.icon.md` (16) and breaks symmetry with the leading slot."
     }
   },
   "slots": {
@@ -93,6 +93,7 @@
     "leading action different from back chevron — the page variant always opens with the back affordance",
     "title not center-aligned — page bar title is centered, never left-aligned",
     "title bar height different from 56px",
-    "brand color on the title"
+    "brand color on the title",
+    "raw <Button variant=\"icon\" size=\"medium\" /> in the trailing slot — medium resolves to sys.icon.md (16) and breaks symmetry with the leading 24px back-arrow. Use the object form `trailing={{ icon, 'aria-label' }}` or pass `size=\"large\"` explicitly."
   ]
 }

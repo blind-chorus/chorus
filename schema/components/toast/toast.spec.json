@@ -31,10 +31,16 @@
     },
     "trailing": {
       "required": false,
-      "description": "Optional trailing slot — accepts a Button node directly. Canonical bindings: `Button variant=\"text\" size=\"small\" appearance=\"inverse\"` for an action affordance, or `Button variant=\"icon\" size=\"medium\" appearance=\"inverse\"` for explicit dismissal. Anchored to the right edge with a flex gap from the body.",
+      "description": "Optional trailing slot — accepts a Button node directly. Canonical bindings: `Button variant=\"text\" size=\"small\" appearance=\"inverse\"` for an action affordance, or `Button variant=\"icon\" size=\"medium\" appearance=\"inverse\"` for explicit dismissal. **`appearance=\"inverse\"` is mandatory** — toast paints `inverseSurface`, so a Text Button with the default `primary` appearance produces an unreadable primary-on-inverseSurface failure mode. Anchored to the right edge with a flex gap from the body.",
       "accepts": [
         "button"
-      ]
+      ],
+      "buttonContract": {
+        "appearance": {
+          "required": "inverse",
+          "rationale": "Toast paints inverseSurface; only the inverse cluster reads legibly. The default link-affordance `primary` Text Button (the canonical Section header / card header `See all` color) is forbidden here — it falls back to primary blue against the dark toast fill and fails contrast."
+        }
+      }
     }
   },
   "sizing": {
@@ -46,6 +52,17 @@
     "safeArea": "sys.layout.container.xs",
     "slotGap": "sys.layout.inline.xl",
     "bodyTypo": "sys.typo.body.sm"
+  },
+  "position": {
+    "anchor": "viewport-bottom-center",
+    "css": "position: fixed; bottom: 0; left: 50%; transform: translateX(-50%)",
+    "safeArea": {
+      "token": "sys.layout.container.xs",
+      "value": "8px",
+      "applies": "all four sides from the viewport edge"
+    },
+    "maxWidth": "min(400px, 100vw - 16px)",
+    "note": "Toast is always bottom-center of the viewport, never bottom-left, bottom-right, or inline. The 8px safe area on all four sides is non-negotiable; max-width grows up to 400 or `100vw - 16` (whichever is smaller), so the 8px horizontal safe area is preserved even on narrow viewports. External renderers MUST anchor the portal to the document root."
   },
   "appearances": {
     "default": {
@@ -62,6 +79,11 @@
     "Toast painted with sys.color.surface — toast uses sys.color.inverseSurface fill + inverseOnSurface text",
     "Toast as a blocking commit prompt — destructive prompts use Dialog or BottomSheet; toast is for non-blocking feedback",
     "Toast persistent (no auto-dismiss)",
-    "More than one toast stacked — toast queue is single-at-a-time"
+    "More than one toast stacked — toast queue is single-at-a-time",
+    "Toast anchored bottom-left, bottom-right, top-anything, or inline inside the content flow — toast is bottom-center of the viewport only; any edge alignment breaks the focus-attention contract and collides with the safe-area inset",
+    "Toast horizontal safe area below 8px (sys.layout.container.xs) — the 8px left/right margin from the viewport edge is the non-negotiable floor; reducing it allows the strip to touch the screen edge on narrow viewports",
+    "Toast max-width exceeding `min(400px, 100vw - 16px)` — at viewports < 416px the strip MUST shrink so 8px safe area on each side is preserved",
+    "Toast trailing Button with appearance=\"default\" — toast paints inverseSurface, so the default link-affordance `primary` blue Text Button reads as unreadable primary-on-inverseSurface. Both action (`text` / `small`) and dismiss (`icon` / `medium`) MUST carry appearance=\"inverse\"",
+    "Toast trailing Button rendered as raw <a> / <button> or a non-Button node — the trailing slot is typed `button`; the inverse-cluster binding is what makes the affordance legible"
   ]
 }
