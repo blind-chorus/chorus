@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { joinClasses } from './spec-utils.js';
 import { Badge } from './Badge.jsx';
 
@@ -12,7 +15,16 @@ import { Badge } from './Badge.jsx';
 
    The component never falls back to text — `image` is the only content
    slot. Consumers pass `src` (and `alt`); when the asset hasn't loaded
-   the surface tone alone holds the row's rhythm. */
+   the surface tone alone holds the row's rhythm.
+
+   Load-failure handling: a CSS `background-image` placeholder is always
+   painted on `.chorus-thumbnail__image`. When `<img>` is present, it
+   overlays the placeholder. If the asset 404s or fails to decode, we
+   drop the <img> from the tree so the background placeholder becomes
+   visible — otherwise the browser paints its broken-image glyph on top
+   and the slot looks worse than "no image at all". The failed-src
+   bookkeeping is keyed by URL so a later prop change to a fresh src
+   re-tries the load. */
 
 const SIZES = [16, 20, 24, 32, 40, 48];
 
@@ -35,6 +47,10 @@ export function Thumbnail({
      at the 32 / 40 / 48 rungs, `dot-sm` (6×6) below — so the corner
      flag, the rung name, and the Badge family stay in lockstep. */
   const dotSize = px >= 32 ? 'dot-md' : 'dot-sm';
+  const [failedSrc, setFailedSrc] = useState(null);
+  const [failedBadgeSrc, setFailedBadgeSrc] = useState(null);
+  const imgSrc = src && src !== failedSrc ? src : null;
+  const badgeSrc = logoBadge?.src && logoBadge.src !== failedBadgeSrc ? logoBadge.src : null;
   return (
     <span
       className={joinClasses('chorus-thumbnail', `chorus-thumbnail--${px}`, className)}
@@ -45,14 +61,14 @@ export function Thumbnail({
       {...rest}
     >
       <span className="chorus-thumbnail__image">
-        {src ? <img src={src} alt={alt} /> : null}
+        {imgSrc ? <img src={imgSrc} alt={alt} onError={() => setFailedSrc(src)} /> : null}
       </span>
       {updateDot ? (
         <Badge size={dotSize} className="chorus-thumbnail__dot" />
       ) : null}
       {logoBadge ? (
         <span className="chorus-thumbnail__badge" aria-hidden="true">
-          {logoBadge.src ? <img src={logoBadge.src} alt="" /> : null}
+          {badgeSrc ? <img src={badgeSrc} alt="" onError={() => setFailedBadgeSrc(logoBadge.src)} /> : null}
         </span>
       ) : null}
     </span>
