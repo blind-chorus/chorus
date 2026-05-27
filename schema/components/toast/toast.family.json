@@ -2,7 +2,7 @@
   "$schema": "../../family.schema.json",
   "family": "toast",
   "name": "Toast",
-  "description": "Transient confirmation strip — a short status message anchored to the viewport edge, surfaced after a user action lands (saved, copied, sent). Inverse-toned by default so the message contrasts with any underlying page tier without per-surface tuning. Single-spec family.",
+  "description": "Transient confirmation strip \u2014 a short status message anchored to the viewport edge, surfaced after a user action lands (saved, copied, sent). Inverse-toned by default so the message contrasts with any underlying page tier without per-surface tuning. Single-spec family.",
   "useCases": [
     "transient confirmation",
     "post-action status",
@@ -11,6 +11,7 @@
   ],
   "visualReuse": "locked",
   "layoutInset": "bounded-surface",
+  "wrapperGuidance": "Renders into a body portal (or owns its own surface chrome). Place the call as a sibling of the page shell \u2014 do NOT wrap in a layout container, padding div, or className=\"px-*\". Full-bleed children inside the surface body get the negative-margin opt-out \u2014 see AGENTS.md \u00a7 Composition rules.",
   "spec": "toast.md",
   "subcomponents": [
     {

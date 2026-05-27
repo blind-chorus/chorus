@@ -154,9 +154,9 @@ The single most common failure pattern in Chorus output is **misaligned left rai
 
 To make this mechanical, each `<family>.family.json` declares `layoutInset`:
 
-* `"full-bleed"` — the family stretches edge-to-edge inside the page shell. **Do NOT wrap it in another `padding-inline` div.** It owns its own row / header padding internally via `layout.container.*`. Families: `navigation-bar`, `tab-bar`, `tabs`, `section`, `feed`, `list`, `banner`, `suggestion-list`, `avatar-rail`, `chip` (when arranged as a group). Eleven families total.
-* `"bounded-surface"` — its own modal / popover shell (Dialog, BottomSheet, Toast, Tooltip). It owns its outer padding and is not a sibling of full-bleed page rows. Compose its *contents* the same way — full-bleed children inside the surface get the negative-margin opt-out (§ Visual alignment in §C).
-* `"inline"` — slot atom (Button, Badge, Thumbnail, FormField, Chip-as-atom). No rail responsibility; the surrounding container places it.
+* `"full-bleed"` — the family stretches edge-to-edge inside the page shell. **Do NOT wrap it in another `padding-inline` div.** It owns its own row / header padding internally via `layout.container.*`. **Twelve full-bleed families — memorize this list:** `navigation-bar`, `tab-bar`, `tabs`, `section`, `feed`, `list`, `nav-card`, `banner`, `accordion`, `suggestion-list`, `avatar-rail`, `chip` (when arranged as a group). Whenever you reach for one of these by name, the JSX is a **direct child** of the page-shell `<main>` — no wrapping div, no inline `paddingInline`, no `className="px-*"`, no `style={{ padding }}`. If the visual gutter is wrong, the fix is to adjust the page-shell `paddingInline` once at `<main>`, never to add padding on a full-bleed child.
+* `"bounded-surface"` — its own modal / popover / off-canvas shell (`Dialog`, `BottomSheet`, `SideSheet`, `Toast`, `Tooltip`). Renders into a body portal (the four sheet/dialog primitives) or owns its own surface chrome. Not a sibling of full-bleed page rows — never wrap it in a layout container. Compose its *contents* the same way — full-bleed children inside the surface get the negative-margin opt-out (§ Visual alignment in §C).
+* `"inline"` — slot atom (`Button`, `Badge`, `Thumbnail`, `FormField`, `Header`, `StatusTag`, `Switch`, `Progress`, `Skeleton`, `Chip`-as-atom). No rail responsibility; the surrounding container places it.
 
 Open the relevant `<family>.family.json` before composing each region; the `layoutInset` value tells you whether the family belongs on the shared page rail.
 

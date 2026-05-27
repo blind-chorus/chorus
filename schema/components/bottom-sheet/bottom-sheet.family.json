@@ -12,6 +12,7 @@
   ],
   "visualReuse": "locked",
   "layoutInset": "bounded-surface",
+  "wrapperGuidance": "Renders into a body portal (or owns its own surface chrome). Place the call as a sibling of the page shell \u2014 do NOT wrap in a layout container, padding div, or className=\"px-*\". Full-bleed children inside the surface body get the negative-margin opt-out \u2014 see AGENTS.md \u00a7 Composition rules.",
   "spec": "bottom-sheet.md",
   "subcomponents": [
     {

@@ -58,6 +58,19 @@
         "type": "object",
         "properties": {
           "required": { "type": "boolean" },
+          "agentRequired": {
+            "type": "boolean",
+            "description": "When true, the slot is required at scaffold / generation time even if `required: false`. The runtime may still gracefully reflow when the slot is undefined (for legitimate downstream consumers), but agents MUST always fill it — typically with a Chorus placeholder when no real subject is implied. Closes the common 'slot is optional so I'll skip it' agent failure mode."
+          },
+          "omittedBehavior": {
+            "type": "string",
+            "enum": ["collapse", "error", "intrinsic-fallback"],
+            "description": "What happens at runtime when the slot is undefined. `collapse` — layout reflows without reserved whitespace (Feed thumbnail omitted). `error` — slot is required for the sub's anatomy; omitting it is a contract violation (List/thumbnail leading). `intrinsic-fallback` — the component auto-renders a default fill (e.g. NavCard auto-chevron when no trailing icon supplied)."
+          },
+          "fallbackOnMissingSrc": {
+            "type": "string",
+            "description": "Token-bound fill the slot paints when the prop is PRESENT but its `src` field is empty / fails to load. Distinct from `omittedBehavior` (which governs the slot being absent). Canonical value: `sys.color.surfaceContainerHigh` — the dim-tone runtime safety net. Used by image-bearing slots (Thumbnail, FeedAd media, Feed post thumbnail). NOT a license for agents to scaffold without `src`."
+          },
           "intrinsic": {
             "type": "boolean",
             "description": "When true, this slot is filled by the component itself (auto-rendered chrome: scrim, drag handle, fixed menu icon, container shell) rather than by the consumer. Validators MUST NOT flag an unprovided intrinsic slot as missing, even when `required: true`."

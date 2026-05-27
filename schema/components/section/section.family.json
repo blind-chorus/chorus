@@ -2,7 +2,7 @@
   "$schema": "../../family.schema.json",
   "family": "section",
   "name": "Section",
-  "description": "Page-region wrapper for editorial collections — a labelled block with a leading section heading and an optional trailing `See all` link, hosting a horizontal carousel of cards underneath. Two sub-component shapes ride the same Section chrome: **post-carousel** — a swipeable rail of compact post cards (curated popular posts, paid / verified-account priority placements); **profile-carousel** — a swipeable rail of profile-style cards (channels, user profiles, company channels). Both share the same pager geometry (40px guaranteed trailing peek, leading-padding sticky anchor) so editorial collections of posts and profiles tile cleanly. The Section component itself is the wrapper exported as `<Section>`; the two carousel shapes export as `<PostCarousel>` and `<ProfileCarousel>` and are always composed *inside* a Section.",
+  "description": "Page-region wrapper for editorial collections \u2014 a labelled block with a leading section heading and an optional trailing `See all` link, hosting a horizontal carousel of cards underneath. Two sub-component shapes ride the same Section chrome: **post-carousel** \u2014 a swipeable rail of compact post cards (curated popular posts, paid / verified-account priority placements); **profile-carousel** \u2014 a swipeable rail of profile-style cards (channels, user profiles, company channels). Both share the same pager geometry (40px guaranteed trailing peek, leading-padding sticky anchor) so editorial collections of posts and profiles tile cleanly. The Section component itself is the wrapper exported as `<Section>`; the two carousel shapes export as `<PostCarousel>` and `<ProfileCarousel>` and are always composed *inside* a Section.",
   "useCases": [
     "section heading",
     "labelled editorial collection",
@@ -14,6 +14,7 @@
   ],
   "visualReuse": "open",
   "layoutInset": "full-bleed",
+  "wrapperGuidance": "Owns its inline padding internally. Place as a direct child of the page-shell <main> (or any host that pays the gutter once). Do NOT wrap in a padding-inline div, className=\"px-*\", or style={{ padding }} \u2014 the page rail is paid once at the shell, never on the full-bleed child. Inside a bounded surface (Dialog / BottomSheet / SideSheet), apply the negative-margin opt-out \u2014 see AGENTS.md \u00a7 Composition rules.",
   "spec": "section.md",
   "subcomponents": [
     {

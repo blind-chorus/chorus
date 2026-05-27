@@ -2,7 +2,7 @@
   "$schema": "../../family.schema.json",
   "family": "banner",
   "name": "Banner",
-  "description": "Inline notice surface — a tonal aside that highlights supplementary context inside the content column. Two tones: `accent` (primary-tinted, worth pulling the eye to) and `default` (quiet `secondaryContainer`, supplementary). Single-spec family.",
+  "description": "Inline notice surface \u2014 a tonal aside that highlights supplementary context inside the content column. Two tones: `accent` (primary-tinted, worth pulling the eye to) and `default` (quiet `secondaryContainer`, supplementary). Single-spec family.",
   "useCases": [
     "inline notice",
     "supplementary context",
@@ -11,6 +11,7 @@
   ],
   "visualReuse": "open",
   "layoutInset": "full-bleed",
+  "wrapperGuidance": "Owns its inline padding internally. Place as a direct child of the page-shell <main> (or any host that pays the gutter once). Do NOT wrap in a padding-inline div, className=\"px-*\", or style={{ padding }} \u2014 the page rail is paid once at the shell, never on the full-bleed child. Inside a bounded surface (Dialog / BottomSheet / SideSheet), apply the negative-margin opt-out \u2014 see AGENTS.md \u00a7 Composition rules.",
   "spec": "banner.md",
   "subcomponents": [
     {

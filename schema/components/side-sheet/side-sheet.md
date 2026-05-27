@@ -6,7 +6,7 @@ The composition is free-form via `children` — the canonical fill is a [Header]
 
 **Reach for this when** an off-canvas column belongs next to the current page — a navigation drawer, a channel / topic / saved-item directory, a filter rail, a settings pane. **Skip when** the surface is a committed-sheet flow with a single primary action (use [BottomSheet](../bottom-sheet/bottom-sheet.md)), a confirmation prompt (use [Dialog](../dialog/dialog.md)), a labelled in-flow block (use [Section](../section/section.md)), or a permanent app-shell navigation (use [TabBar](../tab-bar/tab-bar.md) / [NavigationBar](../navigation-bar/navigation-bar.md)).
 
-**Layout inset.** `full-bleed` — SideSheet IS the host. It paints its own surface, owns the viewport's leading / trailing edge, and the body owns its own gutter. Compose primitives directly inside `children` without wrapping them in extra padding.
+**Layout inset.** `bounded-surface` — SideSheet is a portal-rendered modal-like surface (same family as `BottomSheet` / `Dialog`). It paints its own off-canvas card, owns the body's gutter, and renders into a `document.body` portal so it never sits inside the page shell's flow. Compose primitives directly inside `children`; full-bleed children (List, Feed, Banner) negate the body's inline padding via the negative-margin opt-out — see [AGENTS.md § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 

@@ -29,7 +29,10 @@
     },
     "leading": {
       "required": true,
-      "description": "Thumbnail at the leading edge, vertically centred against the label column. Density `comfortable` renders at 40px, `compact` renders at 32px. Forwarded verbatim from item.thumbnail.",
+      "agentRequired": true,
+      "omittedBehavior": "error",
+      "fallbackOnMissingSrc": "sys.color.surfaceContainerHigh",
+      "description": "Thumbnail at the leading edge, vertically centred against the label column. Density `comfortable` renders at 40px, `compact` renders at 32px. Forwarded verbatim from item.thumbnail. `omittedBehavior: error` because every row in this variant MUST carry a thumbnail (use list/text or list/nav when no leading image is needed). `fallbackOnMissingSrc` is the dim-tone fill the Thumbnail paints when `src` is empty / fails to load — at scaffold time, agents fill `src` with `/placeholder.png` rather than relying on the fallback.",
       "accepts": [
         "thumbnail"
       ]

@@ -2,7 +2,7 @@
   "$schema": "../../family.schema.json",
   "family": "tooltip",
   "name": "Tooltip",
-  "description": "Trigger-anchored explanation bubble — a small contrast-toned surface with a caret pointing at the element it describes. Reach for it to surface a label or short hint that does not fit on the trigger itself; prefer [Banner](../banner/banner.md) when the message belongs in the reading flow rather than over it, and [Toast](../toast/toast.md) when the message confirms a recent action rather than describing a hovered/focused control. Single-spec family.",
+  "description": "Trigger-anchored explanation bubble \u2014 a small contrast-toned surface with a caret pointing at the element it describes. Reach for it to surface a label or short hint that does not fit on the trigger itself; prefer [Banner](../banner/banner.md) when the message belongs in the reading flow rather than over it, and [Toast](../toast/toast.md) when the message confirms a recent action rather than describing a hovered/focused control. Single-spec family.",
   "useCases": [
     "trigger-anchored hint",
     "icon-button label",
@@ -11,6 +11,7 @@
   ],
   "visualReuse": "locked",
   "layoutInset": "bounded-surface",
+  "wrapperGuidance": "Renders into a body portal (or owns its own surface chrome). Place the call as a sibling of the page shell \u2014 do NOT wrap in a layout container, padding div, or className=\"px-*\". Full-bleed children inside the surface body get the negative-margin opt-out \u2014 see AGENTS.md \u00a7 Composition rules.",
   "spec": "tooltip.md",
   "subcomponents": [
     {
@@ -20,5 +21,5 @@
       "default": true
     }
   ],
-  "notes": "Initial scaffold — visual contract may iterate. Surface binds to the inverse cluster (per DESIGN.md's tooltip note) so the bubble reads against any underlying page tier without per-host tuning; action-button bindings mirror Toast."
+  "notes": "Initial scaffold \u2014 visual contract may iterate. Surface binds to the inverse cluster (per DESIGN.md's tooltip note) so the bubble reads against any underlying page tier without per-host tuning; action-button bindings mirror Toast."
 }

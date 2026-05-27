@@ -148,7 +148,10 @@
     "thumbnail": {
       "type": "object",
       "required": true,
-      "description": "Forwarded to Thumbnail verbatim — src, alt, updateDot, logoBadge."
+      "agentRequired": true,
+      "omittedBehavior": "error",
+      "fallbackOnMissingSrc": "sys.color.surfaceContainerHigh",
+      "description": "Forwarded to Thumbnail verbatim — src, alt, updateDot, logoBadge. Agents MUST pass `src`; fill `/placeholder.png` when no real subject is implied. `fallbackOnMissingSrc` is the runtime safety net for load failures, not a scaffold-time omission license."
     },
     "active": {
       "type": "boolean",

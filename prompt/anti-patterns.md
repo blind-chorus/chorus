@@ -61,25 +61,35 @@ Brand red is allowed on `button/fab`, `tab-bar/item--primary`, `badge`, `feed/po
 
 ## 3. Page padding paid by the page shell *and* the child component
 
-**Rule violated**: `family.json#layoutInset: "full-bleed"` + LOVABLE.md §A.4 — *page inset is paid once at the shell*. Section / List / Feed / Banner / AvatarRail / NavigationBar are all `full-bleed`; they own their internal padding and stretch edge-to-edge inside the shell.
+**Rule violated**: `family.json#layoutInset: "full-bleed"` + LOVABLE.md §A.4 — *page inset is paid once at the shell*. **Twelve full-bleed families** own their own gutter and must NEVER be wrapped in a `padding-inline` div, `className="px-*"`, or `style={{ padding }}`:
+
+`navigation-bar`, `tab-bar`, **`tabs`**, `section`, `feed`, `list`, `nav-card`, `banner`, `accordion`, `suggestion-list`, `avatar-rail`, `chip` (group).
+
+Tabs in particular trips up agents because its inner track LOOKS like it might need centering — it doesn't. Tabs pays its own inline padding internally; wrapping it adds a second gutter and the underline indicator no longer aligns with the page rail.
 
 ```jsx
-// ❌ Wrong — page padding paid twice (shell px-4 + Section's wrapper px-4)
+// ❌ Wrong — page padding paid twice (shell px-4 + child wrapper px-4)
 <main className="px-4">
+  <div className="px-4">
+    <Tabs variant="underline" value={tab} onChange={setTab}>…</Tabs>
+  </div>
   <div className="px-4">
     <Section label="Top channels">…</Section>
   </div>
-  <div className="px-4">
+  <div style={{ padding: 16 }}>
     <Feed items={…} />
   </div>
 </main>
 
 // ✅ Right — shell pays padding-inline once, full-bleed children stretch
 <main style={{ paddingInline: 'var(--sys-layout-page-md)', display: 'flex', flexDirection: 'column', gap: 'var(--sys-layout-stack-lg)' }}>
+  <Tabs variant="underline" value={tab} onChange={setTab}>…</Tabs>
   <Section label="Top channels">…</Section>
   <Feed items={…} />
 </main>
 ```
+
+**Mental check before writing JSX**: if the component name is in the twelve-family list above, the call is a *direct child* of `<main>`. No wrapper. If you feel the urge to add `padding` for "alignment", the page shell's `padding-inline` is what needs adjusting — never a child wrapper.
 
 After rendering, run the [§E rail self-diagnostic snippet](LOVABLE.md) — every full-bleed child should share the same `left` / `right` rail.
 

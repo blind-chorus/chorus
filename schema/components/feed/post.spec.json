@@ -175,7 +175,10 @@
     },
     "thumbnail": {
       "required": false,
-      "description": "80×80 square image at the trailing edge of the title/body block. radius.sm. When the post carries 2+ images, overlays a `SquareStackIcon` badge at the top-right corner (16px / white / 4 inset on top + right).",
+      "agentRequired": true,
+      "omittedBehavior": "collapse",
+      "fallbackOnMissingSrc": "sys.color.surfaceContainerHigh",
+      "description": "80×80 square image at the trailing edge of the title/body block. radius.sm. `omittedBehavior: collapse` is a runtime safety net — when the prop is undefined the slot drops out of the layout (no reserved whitespace). `agentRequired: true` overrides this for scaffold/generation time: agents MUST always pass a `thumbnail` prop, falling back to `src: \"/placeholder.png\"` when no real subject is implied. `fallbackOnMissingSrc` is the dim-tone fill the component paints when `thumbnail` is present but `src` fails to load (network error or empty string). When the post carries 2+ images, overlays a `SquareStackIcon` badge at the top-right corner (16px / white / 4 inset on top + right).",
       "accepts": [
         "thumbnail"
       ]

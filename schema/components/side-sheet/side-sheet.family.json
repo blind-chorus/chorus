@@ -12,7 +12,8 @@
     "sub-navigation overlay"
   ],
   "visualReuse": "open",
-  "layoutInset": "full-bleed",
+  "layoutInset": "bounded-surface",
+  "wrapperGuidance": "Renders into a body portal — its own modal-like surface. Treat the same as BottomSheet / Dialog: do not wrap the `<SideSheet>` call in any layout container; place it as a sibling of the page shell so the portal mounts at body root. Full-bleed children inside the sheet body negate the body's inline padding via the negative-margin opt-out (see AGENTS.md § Composition rules).",
   "spec": "side-sheet.md",
   "subcomponents": [
     {

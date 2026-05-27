@@ -2,7 +2,7 @@
   "$schema": "../../family.schema.json",
   "family": "nav-card",
   "name": "NavCard",
-  "description": "Bounded single-row navigation card — an outlined rounded surface with a leading label, optional supporting line, and an auto-rendered trailing chevron. The whole card is the drill-in tap target. Reach for it when a [List/nav](../list/nav.md) row needs to read as its own discrete affordance rather than as one entry in a stack — a standalone settings entry, a picker trigger between content blocks, or a bounded-surface drill-in where the host surface already supplies the stack rhythm. Single-spec family.",
+  "description": "Bounded single-row navigation card \u2014 an outlined rounded surface with a leading label, optional supporting line, and an auto-rendered trailing chevron. The whole card is the drill-in tap target. Reach for it when a [List/nav](../list/nav.md) row needs to read as its own discrete affordance rather than as one entry in a stack \u2014 a standalone settings entry, a picker trigger between content blocks, or a bounded-surface drill-in where the host surface already supplies the stack rhythm. Single-spec family.",
   "useCases": [
     "standalone drill-in row",
     "single settings entry",
@@ -12,6 +12,7 @@
   ],
   "visualReuse": "open",
   "layoutInset": "full-bleed",
+  "wrapperGuidance": "Owns its inline padding internally. Place as a direct child of the page-shell <main> (or any host that pays the gutter once). Do NOT wrap in a padding-inline div, className=\"px-*\", or style={{ padding }} \u2014 the page rail is paid once at the shell, never on the full-bleed child. Inside a bounded surface (Dialog / BottomSheet / SideSheet), apply the negative-margin opt-out \u2014 see AGENTS.md \u00a7 Composition rules.",
   "spec": "nav-card.md",
   "subcomponents": [
     {

@@ -2,7 +2,7 @@
   "$schema": "../../family.schema.json",
   "family": "suggestion-list",
   "name": "SuggestionList",
-  "description": "Swipeable pager of follow-suggestions — labelled block where each page shows three rows of (avatar + name + meta lines + trailing Follow toggle). Built around the recommendation pattern (suggested channels, suggested people, suggested companies, suggested topics) but the anatomy is content-neutral. Single-spec family. Historically shipped as ChannelList; that name is kept as a deprecated alias.",
+  "description": "Swipeable pager of follow-suggestions \u2014 labelled block where each page shows three rows of (avatar + name + meta lines + trailing Follow toggle). Built around the recommendation pattern (suggested channels, suggested people, suggested companies, suggested topics) but the anatomy is content-neutral. Single-spec family. Historically shipped as ChannelList; that name is kept as a deprecated alias.",
   "useCases": [
     "suggested entities to follow",
     "recommendations block",
@@ -11,6 +11,7 @@
   ],
   "visualReuse": "open",
   "layoutInset": "full-bleed",
+  "wrapperGuidance": "Owns its inline padding internally. Place as a direct child of the page-shell <main> (or any host that pays the gutter once). Do NOT wrap in a padding-inline div, className=\"px-*\", or style={{ padding }} \u2014 the page rail is paid once at the shell, never on the full-bleed child. Inside a bounded surface (Dialog / BottomSheet / SideSheet), apply the negative-margin opt-out \u2014 see AGENTS.md \u00a7 Composition rules.",
   "spec": "suggestion-list.md",
   "subcomponents": [
     {
