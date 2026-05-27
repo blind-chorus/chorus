@@ -510,9 +510,17 @@ Hard requirements:
 - Active tab indicators, like counts, D-day urgency, brand CTAs carry
   brand color through the right token — not plain gray text.
 - Image areas (avatars, logos, article thumbs, post media) are real
-  `<Thumbnail>` or Feed `thumbnail` slots filled with `/placeholder.png`
-  when no context-specific asset is available. NEVER substitute an
-  icon-in-tinted-circle.
+  `<Thumbnail>` or Feed `thumbnail` slots. **Default to a real photo
+  from the Unsplash image API** — paste a canonical CDN URL of shape
+  `https://images.unsplash.com/photo-<id>?auto=format&fit=crop&w=<width>&q=80`,
+  pick the `<id>` by the subject the brief implies (named brand,
+  industry, role, city, mood), and size `w=` to the slot (`w=80` for
+  avatars, `w=320` for Feed thumbs / row leading, `w=1200` for hero
+  media). Keep the URL stable per slot — no re-randomizing on re-render.
+  Fall back to `/placeholder.png` ONLY when no subject can be inferred
+  from the brief. NEVER substitute an icon-in-tinted-circle, a raw
+  `<img>` outside the slot, an inline SVG wordmark, or an invented
+  / unreachable URL.
 
 If a section doesn't name a component, infer from
 `@blind-dsai/ui/agents/catalog.md`. Do not wrap Chorus components to
