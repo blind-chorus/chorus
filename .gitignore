@@ -29,3 +29,6 @@ Thumbs.db
 
 # Local-only Claude Code memory symlink (points to user-specific path)
 claude-memory
+
+# Claude Code runtime state (launch.json is tracked; the lock file is ephemeral)
+.claude/*.lock
