@@ -59,7 +59,8 @@
     "thumbnail": {
       "type": "object",
       "optional": true,
-      "description": "80×80 trailing image; { src, alt, stacked? }. When `stacked === true` (2+ images attached), the thumbnail overlays a `SquareStackIcon` glyph at its top-right corner — see `sizing.thumbnailMultipleBadge` for the full anatomy."
+      "agentRequired": true,
+      "description": "80×80 trailing image; { src, alt, stacked? }. **Agents must always pass this slot at scaffold / generation time** — fill `src` with a real subject photo when implied, the bundled `/placeholder.png` otherwise. The `optional` flag and the `slotOmissionCollapses` rule are RUNTIME contracts (a Feed still reflows cleanly when a downstream consumer drops thumbnail for a verified text-only post); they are NOT a license for agents to omit the slot. See `forbidden` below — omission at scaffold time is forbidden. When `stacked === true` (2+ images attached), the thumbnail overlays a `SquareStackIcon` glyph at its top-right corner — see `sizing.thumbnailMultipleBadge` for the full anatomy."
     },
     "poll": {
       "type": "object",
@@ -328,7 +329,7 @@
     "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
   },
   "behavior": {
-    "slotOmissionCollapses": "Optional blocks (flag, followAction, thumbnail, poll, offer, citation, mention) drop out of the layout entirely when absent — no reserved whitespace. flag in particular is opt-in.",
+    "slotOmissionCollapses": "Runtime safety net — when these optional blocks (flag, followAction, thumbnail, poll, offer, citation, mention) are absent the layout reflows cleanly with no reserved whitespace. This is a graceful-degradation contract for downstream consumers, NOT a license for agents to omit slots at scaffold time. `thumbnail` in particular is `agentRequired` (see props.thumbnail) — agents must always pass it with `/placeholder.png` when no subject photo is implied.",
     "containerBottomDivider": "Each Post card carries a hairline bottom divider (`sys.borderWidth.hairline` × `sys.color.outlineVariant`) so consecutive cards in a stream read with a deliberate inter-card seam. The divider is `border-bottom` on the card itself — layout-safe under `box-sizing: border-box`, no shadow tricks needed. Inside a `<FeedGroup>` (the 3-up bundle case), the inner posts keep their dividers and the group's last card carries the same outer-bottom divider as a standalone Post — the rhythm is identical, the wrapper is purely semantic.",
     "groupCase": "Three (or more) Post cards bundled vertically inside a `<FeedGroup>` semantic wrapper. Used for thread-grouped or topic-bundled feeds where consecutive posts belong together. The group adds no extra surface chrome — each Post keeps its own `surface` fill, `container.lg/md` padding, and bottom divider; the wrapper only contributes a `role=\"region\"` + optional `aria-label` for the bundle's intent. There is no fixed item count contract; 3 is the canonical demo case.",
     "tagBannerLabelConstrained": "The poll and offer banners share one closed enum for their leading label: `\"Poll\"` or `\"Offer\"`. Each module defaults to its own literal when `label` is omitted; passing any other string is a contract violation.",
@@ -341,7 +342,7 @@
     "channelAndMetaAreLinks": "Channel name and every `meta` item are independent links. The middot separator between meta items is decorative (`aria-hidden`) and sits outside each link's hit area, so the hover underline never spans the separator."
   },
   "forbidden": [
-    "thumbnail slot omitted — every feed post carries the thumbnail slot, falling back to /placeholder.png when no subject is implied",
+    "thumbnail slot omitted at scaffold / agent time — every feed post MUST pass a `thumbnail` prop. Fill `src` with a real subject photo when implied, the bundled `/placeholder.png` otherwise. The runtime `slotOmissionCollapses` reflow is a safety net for downstream consumers, NOT permission for agents to skip the slot",
     "author meta collapsed into a single line — the two meta rows (channel · time / workplace · role · username) are anatomy invariants",
     "engagement footer rendered with raw <button> — like / comments / views are button/text + non-interactive span (views) per the spec",
     "active-like color painted with sys.color.primary — active-like uses sys.color.brand via the --button-text-label plumbing var",

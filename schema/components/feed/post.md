@@ -195,7 +195,7 @@ import { Feed } from '@blind-dsai/ui';
 - **channel** + **timestamp** + **followAction** *(optional)* — header row.
 - **meta** — middot-separated author metadata links; single line, truncates.
 - **title** + **body** — title (single line, truncates) over a two-line clamped excerpt.
-- **thumbnail** *(optional)* — 80×80 trailing image; overlays `SquareStackIcon` when `stacked`.
+- **thumbnail** *(optional at runtime, agent-required at scaffold time)* — 80×80 trailing image; overlays `SquareStackIcon` when `stacked`. Agents MUST always pass this slot — fill `src` with a real subject photo when implied, `/placeholder.png` otherwise. The runtime omission-collapse is a safety net for downstream consumers, not a license to skip the slot at generation time.
 - **poll** / **offer** *(optional)* — inline banners sharing chrome. Label constrained to `Poll` or `Offer`.
 - **citation** *(optional)* — inline link-share card with leading hero and source mark.
 - **mention** *(optional)* — tap-anywhere `@Mention` line under the body.
