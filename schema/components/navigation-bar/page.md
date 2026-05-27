@@ -40,7 +40,7 @@ import { NavigationBar } from '@blind-dsai/ui';
 />
 ```
 
-### With Text Button trailing
+### With text button trailing
 
 The trailing slot carries a [Text Button](../button/text.md) — typically a "Skip" affordance or "Done" commit. Reads as inline 16/Semibold `primary` type at rest.
 

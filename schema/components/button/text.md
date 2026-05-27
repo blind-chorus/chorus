@@ -32,7 +32,7 @@ import { Button } from '@blind-dsai/ui';
 <Button variant="text" appearance="accent">Skip</Button>
 ```
 
-### OnPrimary
+### On primary
 
 Always-white label for use on top of a `primary`-filled host (Tooltip `default`). Both tokens are theme-stable, so the label stays white in either theme.
 

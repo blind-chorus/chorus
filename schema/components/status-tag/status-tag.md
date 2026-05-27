@@ -32,7 +32,7 @@ import { StatusTag } from '@blind-dsai/ui';
 
 ## Use cases
 
-### On a List row
+### On a list row
 
 The canonical pairing — a `list/thumbnail` row whose label carries a trailing StatusTag. The tag sits next to the label text with a `sys.layout.container.2xs` (4px) inline gap, vertically centred against the label's optical mid-line. The gap belongs to the label column (a flex row holding `<label-text><StatusTag/>`); StatusTag itself carries no outer margin.
 
