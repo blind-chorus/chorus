@@ -7,7 +7,7 @@ recipe: ../schema/screens/compose-kr.screen.json
 
 ## Intent
 
-Korean-locale expanded compose surface that introduces the *promotion-link* affordance. Same modal frame as [[compose]] / [[compose_offereval]], but the insert toolbar gains a fourth megaphone icon, a teaching coachmark (blue speech-bubble tooltip "📢 홍보 글을 올릴 수 있어요!") points at it, and a right-aligned "3회 남음" quota chip reports remaining promotion attempts. Tapping the megaphone opens [[compose_kr_promotion]] as a bottom sheet (the purchase / activation flow). Body, mention, and option rows are the same shape as the rest of the compose family; localization is incidental, the megaphone + quota + coachmark trio is the load-bearing change.
+Korean-locale expanded compose surface introducing the *promotion-link* affordance. Same modal frame as [[compose]] / [[compose_offereval]], plus a fourth megaphone icon in the insert toolbar, a teaching coachmark ("📢 홍보 글을 올릴 수 있어요!") pointing at it, and a right-aligned "3회 남음" quota chip. Tapping the megaphone opens [[compose_kr_promotion]] as a bottom sheet. The megaphone + quota + coachmark trio is the load-bearing change.
 
 ## Layout
 
@@ -17,9 +17,9 @@ Korean-locale expanded compose surface that introduces the *promotion-link* affo
 - **Title input** — `form-field/input`, placeholder "제목을 입력해 주세요".
 - **Body input** — `form-field/input` multiline, hairline-divided from title. Placeholder copy is policy guidance (off-topic + illegal content warnings).
 - **Mention helper row** — `list/text` with leading `@` glyph, secondary text "멘션할 회사, 업계, 직군을 선택하세요."
-- **Coachmark overlay** — transient teaching tooltip: blue rounded-rectangle bubble with white label "📢 홍보 글을 올릴 수 있어요!" and a downward arrow point anchored at the megaphone icon below. Auto-dismissing / interaction-dismissed; not in the component library — overlay-only chrome.
-- **Invisible to Coworkers band** — `button/check` medium row on the sunken surface band, partially covered by the coachmark in the source screenshot.
-- **Insert toolbar** — row of FOUR leading `button/icon` triggers (image attach, `@` mention, `#` hashtag, **megaphone**) with a trailing right-aligned cluster: red "3회 남음" quota text + "회사명 비공개" `button/check` medium. The megaphone is the new affordance; tapping it opens [[compose_kr_promotion]].
+- **Coachmark overlay** — transient teaching tooltip: blue rounded bubble with white label "📢 홍보 글을 올릴 수 있어요!" and downward arrow anchored to the megaphone icon. Auto/interaction-dismissed; overlay-only chrome, not in the component library.
+- **Invisible to Coworkers band** — `button/check` medium row on the sunken surface band.
+- **Insert toolbar** — FOUR leading `button/icon` triggers (image attach, `@` mention, `#` hashtag, **megaphone**) with trailing right-aligned cluster: red "3회 남음" quota text + "회사명 비공개" `button/check` medium. Megaphone opens [[compose_kr_promotion]].
 - **Keyboard** — system Korean keyboard intrinsic; not part of Chorus.
 
 ## Tokens in use
@@ -43,8 +43,8 @@ Korean-locale expanded compose surface that introduces the *promotion-link* affo
 
 ## Notes
 
-- This is the Korean-locale pattern. AGENTS.md rule 7 still applies to recipes — demo strings inside the paired [`compose-kr.screen.json`](../schema/screens/compose-kr.screen.json) recipe render English. The Korean copy in this `.md` is the source pattern for visual fidelity only.
-- The megaphone icon in the toolbar is the **paired trigger** for the [[compose_kr_promotion]] bottom sheet. AGENTS.md composition rule: every bottom-sheet must have a paired trigger; that trigger lives here.
-- The coachmark tooltip is a teaching overlay that points at the megaphone icon — it is *not* a `banner` (no container body content, it is a coachmark with a directional arrow) and not a `toast` (it is anchored to a target element, not screen-bottom). Out-of-system; model as a separate concern, not as a Chorus component.
-- "3회 남음" quota is the remaining-attempts indicator. Painted in the brand/warning color to communicate scarcity. When attempts reach zero, this label should soft-pivot to a disabled state (out of scope for this pattern; document on a follow-up promotion-quota pattern if/when it becomes canonical).
-- The "실속" yellow tag in [[compose_kr_promotion]] is an out-of-system warm-tone tag (motivation for a future `chip/tag` warm-accent variant). For now, model with a note and keep the visual deviation acknowledged.
+- Korean-locale pattern. Per AGENTS.md rule 7, demo strings in the paired [`compose-kr.screen.json`](../schema/screens/compose-kr.screen.json) render English; Korean copy here is for visual fidelity only.
+- The megaphone icon is the **paired trigger** for the [[compose_kr_promotion]] bottom sheet (AGENTS.md composition rule).
+- Coachmark tooltip is *not* a `banner` (directional arrow, no container body) and not a `toast` (anchored to a target). Out-of-system; do not synthesize a Chorus component.
+- "3회 남음" is a remaining-attempts indicator in brand/warning color. Soft-pivots to disabled at zero (out of scope here).
+- The "실속" yellow tag in [[compose_kr_promotion]] is an out-of-system warm-tone tag — motivation for a future `chip/tag` warm-accent variant.

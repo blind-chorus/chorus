@@ -1,6 +1,6 @@
 # Bottom sheet
 
-An edge-anchored interruption — a panel that rises from the bottom of the viewport, sits over a scrim, and holds richer content than a Dialog can. Reach for Bottom Sheet to steer the user toward a preferred action *without severing the flow they're in* — present enough to focus attention, light enough that dismissing returns them to where they were; prefer [Dialog](../dialog/dialog.md) when the decision must be committed before the flow can continue.
+An edge-anchored interruption — a panel that rises from the bottom of the viewport, sits over a scrim, and holds richer content than a Dialog can. Reach for Bottom Sheet to steer the user toward a preferred action *without severing the flow* — present enough to focus attention, light enough that dismissing returns them to where they were; prefer [Dialog](../dialog/dialog.md) when the decision must be committed before the flow can continue.
 
 **Layout inset.** `bounded-surface` — its own modal / popover shell. Owns its outer padding; not a sibling of `full-bleed` page rows. A `full-bleed` child placed inside (List / Feed / AvatarRail / Chip group / Tabs rail) MUST opt out via `marginInline: 'calc(-1 * var(--sys-layout-container-md))'` (matching `width`, `maxWidth: 'none'`) so its own row padding becomes the visual inset and the sheet title aligns with row leading content — established precedent in `bottom-sheet/overflow` and `bottom-sheet/nested-step`. See [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
@@ -33,7 +33,7 @@ const [open, setOpen] = useState(false);
 
 ### Overflow
 
-When content exceeds the card's `max-height`, the content slot scrolls internally — handle and actions remain pinned, and the footer gains its `is-elevated` upward shadow.
+When content exceeds the card's `max-height`, the content slot scrolls internally — handle and actions stay pinned, and the footer gains its `is-elevated` upward shadow.
 
 ```preview
 bottom-sheet/overflow
@@ -60,7 +60,7 @@ const [open, setOpen] = useState(false);
 
 ### Keyboard
 
-When the sheet hosts an input that summons the virtual keyboard, the card lifts above the keyboard's top edge so the actions footer stays reachable — handle and footer stay pinned, content scrolls to keep the focused input in view.
+When the sheet hosts an input that summons the virtual keyboard, the card lifts above the keyboard's top edge so the actions footer stays reachable. Handle and footer pinned; content scrolls to keep the focused input in view.
 
 ```preview
 bottom-sheet/keyboard
@@ -86,7 +86,7 @@ const [open, setOpen] = useState(false);
 
 ### Nested step
 
-The sheet can host a **drill-in step** without spawning a second modal. The consumer swaps the title, content, and primary action between renders; passing `onBack` paints a leading back chevron — an Icon Button rendering `ChevronLeftIcon` at `sys.icon.lg` (24px), with `sys.layout.inline.md` (8px) between the glyph and the title. Card chrome, scrim, drag handle, and actions footer stay identical across steps so the transition reads as a same-surface page change, not a new modal.
+The sheet can host a **drill-in step** without spawning a second modal. The consumer swaps the title, content, and primary action between renders; passing `onBack` paints a leading back chevron — an Icon Button rendering `ChevronLeftIcon` at `sys.icon.lg` (24px), with `sys.layout.inline.md` (8px) between glyph and title. Card chrome, scrim, drag handle, and actions footer stay identical across steps.
 
 ```preview
 bottom-sheet/nested-step

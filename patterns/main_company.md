@@ -7,7 +7,7 @@ recipe: ../schema/screens/main-company.screen.json
 
 ## Intent
 
-The user's company-context surface — posts scoped to their employer ("My Company") or followed companies ("Following"). The page distinguishes itself from Home by an explicit company filter chip row directly under the tabs, plus a collapsible "Overview" banner that orients new arrivals.
+Company-context surface — posts scoped to the user's employer ("My Company") or followed companies ("Following"). Distinguished from Home by an explicit company filter chip row under the tabs and a collapsible "Overview" banner.
 
 ## Layout
 
@@ -37,6 +37,6 @@ The user's company-context surface — posts scoped to their employer ("My Compa
 
 ## Notes
 
-- The lock 🔒 leading icon on the active company chip signals private/employee-only scope — preserve when modeling.
-- Category eyebrow ("HOT", "ALL TIME BEST") sits *above* the author row, not inside the title. Treat as a feed-post `eyebrow` slot or `chip/tag` variant; do not bake into the title string.
-- "▾ RECENT" is a collapsible section header, not a tab — agents should not swap in `tabs/*` here.
+- Lock 🔒 leading icon on the active company chip signals private/employee-only scope — preserve.
+- Category eyebrow ("HOT", "ALL TIME BEST") sits *above* the author row, not in the title. Model as feed-post `eyebrow` slot or `chip/tag` variant; do not bake into title string.
+- "▾ RECENT" is a collapsible section header, not a tab — do not swap in `tabs/*`.

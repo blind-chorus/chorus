@@ -6,13 +6,13 @@ recipe: ../schema/screens/settings.screen.json
 
 ## Intent
 
-A drill-in settings surface — a page-style top bar over a vertical list of grouped preference rows. Each row is itself a drill-in into a sub-screen; destructive commits (sign out, delete account) escalate to a BottomSheet rather than firing inline. There is no FAB — there is no canonical commit at this level.
+Drill-in settings surface — page-style top bar over a vertical list of grouped preference rows. Each row drills into a sub-screen; destructive commits (sign out, delete account) escalate to a BottomSheet rather than firing inline. No FAB — no canonical commit at this level.
 
 ## Layout
 
 - **Header** — `navigation-bar / page`: leading back chevron + centered title ("Settings"). No trailing action cluster.
-- **Body** — `list / nav`: vertical stack of preference rows. Each row carries a primary label and a single-line supporting text describing what lives behind the drill-in; the `nav` variant auto-renders the trailing chevron, so consumers must not paint their own. Rows are the click target — the chevron is not a separate hit area.
-- **Overlay** — `bottom-sheet` triggered by destructive rows (e.g. `Sign out`): title + body copy, primary action carries the button family's `destructive` flavor, secondary action is `Cancel`. The overlay never appears inline; the row commit is to *open the sheet*, not to perform the destructive action.
+- **Body** — `list / nav`: vertical stack of preference rows. Each row: primary label + single-line supporting text. `nav` auto-renders the trailing chevron — do not paint your own. Rows are the click target; chevron is not a separate hit area.
+- **Overlay** — `bottom-sheet` triggered by destructive rows (e.g. `Sign out`): title + body copy, primary action with `destructive` flavor, secondary action `Cancel`. Never inline — row commit *opens the sheet*, not performs the action.
 - **No FAB, no tab bar inside the drill-in.** The back chevron is the only way back.
 
 ## Tokens in use
@@ -31,7 +31,7 @@ A drill-in settings surface — a page-style top bar over a vertical list of gro
 
 ## Notes
 
-- **Destructive commits never fire inline.** Even when a row reads as a verb ("Sign out", "Delete account"), the row's tap opens the sheet — the *sheet* owns the irreversible action.
-- **List variant stays `nav`.** Switching to `text` would drop the chevron and break the drill-in affordance contract.
-- **Overlay swap is allowed.** The recipe declares `swappable.overlay: [bottom-sheet, dialog]` — Dialog is the alternative when the surface is small or the destructive copy needs more emphasis.
-- Sub-screens reached from rows are themselves drill-ins (back chevron + page title) — keep the bar variant consistent across the flow.
+- **Destructive commits never fire inline.** Even verb-shaped rows ("Sign out", "Delete account") open the sheet — the *sheet* owns the irreversible action.
+- **List variant stays `nav`.** `text` drops the chevron and breaks the drill-in affordance contract.
+- **Overlay swap allowed.** Recipe declares `swappable.overlay: [bottom-sheet, dialog]` — Dialog when surface is small or destructive copy needs emphasis.
+- Sub-screens reached from rows are themselves drill-ins — keep the bar variant consistent across the flow.

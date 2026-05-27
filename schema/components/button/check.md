@@ -1,12 +1,12 @@
 # Check
 
-Option-toggle commit surface — a [Text Button](./text.md) with a required leading checkbox glyph that flips outline → fill with the `checked` state, plus an optional middle icon. Use when an option is committed alongside (or selected for) the surface's main action — the canonical Blind use is an in-app item-use affordance ("Use this perk?") that toggles state before the primary commit fires. Two sizes (`medium` / `small`) where the **checkbox footprint** is the visual differentiator: medium pairs a 24px checkbox with 12-rank text, small drops the checkbox to 16px alongside the same 12-rank text. Appearances and state behavior mirror Text Button; the optional middle icon stays at 16px on both rungs.
+Option-toggle commit — a [Text Button](./text.md) with a required leading checkbox glyph that flips outline → fill on `checked`, plus an optional middle icon. Use when an option is committed alongside the surface's main action (canonical Blind use: in-app item-use affordance, "Use this perk?"). Two sizes (`medium` / `small`) where the **checkbox footprint** is the visual differentiator: medium pairs a 24px checkbox with 12-rank text; small drops the checkbox to 16px. Appearances and state behavior mirror Text Button; the optional middle icon stays at 16px on both rungs.
 
-**Layout inset.** `inline` — CheckButton ships no padding outside its own chrome. It sits inside its host slot (a Dialog confirmation row, a BottomSheet option strip, a perk-card footer) with the host paying the surrounding rhythm. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `inline` — ships no padding outside its own chrome. Sits inside a host slot (Dialog confirmation row, BottomSheet option strip, perk-card footer) with the host paying surrounding rhythm. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-Leading 24px checkbox outline + label, no optional icon. The base neutral appearance — `onSurfaceVariant` label.
+Leading 24px checkbox outline + label, no optional icon. Base neutral appearance — `onSurfaceVariant` label.
 
 ```preview
 button/check/default
@@ -47,7 +47,7 @@ import { Button } from '@blind-dsai/ui';
 
 ## Inverse
 
-Mirror appearance for use inside an inverse host (Toast, coach-mark, snackbar). Label paints in `sys.color.inverseOnSurface` so it reads against the host's `inverseSurface` fill.
+Mirror for inverse hosts (Toast, coach-mark, snackbar). Label paints `sys.color.inverseOnSurface` against the host's `inverseSurface` fill.
 
 ```preview
 button/check/inverse
@@ -63,7 +63,7 @@ import { Button } from '@blind-dsai/ui';
 
 ### Checked
 
-The same row with `checked={true}` — checkbox glyph flips to the filled square. State overlays follow the label color.
+Same row with `checked={true}` — checkbox glyph flips to the filled square. State overlays follow the label color.
 
 ```preview
 button/check/checked
@@ -77,7 +77,7 @@ import { Button } from '@blind-dsai/ui';
 
 ### With middle icon
 
-Optional 16px icon between checkbox and label. Use sparingly — most rows do not need it. Canonical case is an item-use row where the middle glyph names the item being consumed.
+Optional 16px icon between checkbox and label. Use sparingly — most rows don't need it. Canonical case: an item-use row where the middle glyph names the item being consumed.
 
 ```preview
 button/check/icon
@@ -92,7 +92,7 @@ import { BookmarkFillIcon } from '@blind-dsai/ui/icons';
 
 ## Appearance
 
-Three appearances. `default` is the base neutral toggle; `accent` paints the label in the brand commit colour for one option per row; `inverse` swaps to the inverse cluster for use inside Toast / coach-mark / snackbar hosts.
+Three appearances. `default` is the base neutral toggle; `accent` paints the label in the brand commit colour (one option per row); `inverse` for Toast / coach-mark / snackbar hosts.
 
 | Appearance | Background (rest) | Label color                  | When to reach for it                                                  |
 |-----------|-------------------|------------------------------|-----------------------------------------------------------------------|
@@ -102,13 +102,13 @@ Three appearances. `default` is the base neutral toggle; `accent` paints the lab
 
 ## Slots
 
-- **checkbox** *(intrinsic, 24 / 16px)* — leading glyph rendered by the component based on the `checked` prop. 24px on `medium`, 16px on `small`. Consumers do NOT pass an icon node here; only `checked`.
-- **icon** *(optional, 16px)* — middle context glyph between checkbox and label. 16px on every rung. Inherits the label color via `currentColor`. `aria-hidden`.
+- **checkbox** *(intrinsic, 24 / 16px)* — leading glyph rendered by the component based on `checked`. 24px on `medium`, 16px on `small`. Consumers do NOT pass an icon node; only `checked`.
+- **icon** *(optional, 16px)* — middle context glyph between checkbox and label. Inherits label color via `currentColor`. `aria-hidden`.
 - **label** *(required)* — accessible name. Single line.
 
 ## Sizes
 
-Two rungs. Text rank is identical (`sys.typo.label.sm`, 12) — the visual size difference comes from the checkbox footprint.
+Two rungs. Text rank identical (`sys.typo.label.sm`, 12) — the visual difference comes from the checkbox footprint.
 
 | Size   | Min-height | Padding (block × inline) | Label                    | Checkbox | Icon | Slot gap |
 |--------|------------|--------------------------|--------------------------|----------|------|----------|
@@ -117,7 +117,7 @@ Two rungs. Text rank is identical (`sys.typo.label.sm`, 12) — the visual size 
 
 ## States
 
-Same recipe as [Text Button](./text.md#states): rest, hovered, pressed, disabled. Hover / pressed overlays paint `--button-check-label` at `sys.state.hover` / `sys.state.pressed`. Disabled drops container opacity to `sys.state.disabled` and suppresses the focus ring.
+Same recipe as [Text Button](./text.md#states): rest, hovered, pressed, disabled. Hover/pressed overlays paint `--button-check-label` at `sys.state.hover` / `sys.state.pressed`. Disabled drops container opacity to `sys.state.disabled` and suppresses the focus ring.
 
 ## Focus indicator
 
@@ -125,4 +125,4 @@ Standard `:focus-visible` ring. See [Focus ring composition](../../DESIGN.md#foc
 
 ## Accessibility
 
-Toggle button — the component sets `aria-pressed={checked}` automatically. Do NOT model as a checkbox input (no associated form value, no name/value pair). For a form-bound checkbox, reach for `<input type="checkbox">` (out-of-system at present).
+Toggle button — sets `aria-pressed={checked}` automatically. Do NOT model as a checkbox input (no form value, no name/value pair). For a form-bound checkbox, reach for `<input type="checkbox">` (out-of-system at present).

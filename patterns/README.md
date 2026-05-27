@@ -1,12 +1,12 @@
 # Patterns
 
-Canonical visual references for Chorus. Each pattern pairs an image (`<slug>.png`) with a spec note (`<slug>.md`) that explains intent, layout, tokens, and components in use.
+Canonical visual references for Chorus. Each pattern pairs an image (`<slug>.png`) with a spec note (`<slug>.md`) covering intent, layout, tokens, and components.
 
-Purpose: when an agent composes a new screen or picks a token, it should be able to look at a real, signed-off pixel target and the rationale behind it — not just the schema. Schemas say *what is allowed*; patterns say *what good looks like*.
+Schemas say *what is allowed*; patterns say *what good looks like*.
 
 ## Precedence (read this first)
 
-Patterns are **descriptive**, not prescriptive. The list below is **authority on conflict**, distinct from the [`AGENTS.md`](../AGENTS.md) "Read order" (which is the *intake sequence* for picking up the system). Read order says where to look first; precedence says who wins when two sources disagree.
+Patterns are **descriptive**, not prescriptive. The list below is **authority on conflict**, distinct from [`AGENTS.md`](../AGENTS.md) "Read order" (the *intake sequence*). Read order = where to look first; precedence = who wins when two sources disagree.
 
 1. **Hard rules** in [`AGENTS.md`](../AGENTS.md) — always win.
 2. **Component specs** in [`schema/components/<family>/<sub>.spec.json`](../schema/components) and [`schema/DESIGN.md`](../schema/DESIGN.md) — authoritative for props, slots, sizes, appearances, states, and cross-cutting design rules.
@@ -16,11 +16,11 @@ Patterns are **descriptive**, not prescriptive. The list below is **authority on
 
 ## How agents should use this
 
-1. Before composing a new screen, scan this directory for the closest intent match (use `status: canonical` first).
-2. Read the `.md` to understand which tokens, components, and layout decisions are load-bearing.
-3. Pull the image into context if pixel-level alignment matters (spacing rhythm, hierarchy, dark/light parity).
-4. Cross-check against the relevant `*.spec.json` and `resolved.*.json` — those are the contract; this is the inspiration.
-5. Prefer cloning a recipe in [`schema/screens/`](../schema/screens) when one matches the pattern.
+1. Scan for the closest intent match (use `status: canonical` first).
+2. Read the `.md` for load-bearing tokens, components, and layout decisions.
+3. Pull the image in if pixel-level alignment matters (spacing rhythm, hierarchy, dark/light parity).
+4. Cross-check against `*.spec.json` and `resolved.*.json` — those are the contract; this is the inspiration.
+5. Prefer cloning a recipe in [`schema/screens/`](../schema/screens) when one matches.
 
 ## File layout
 

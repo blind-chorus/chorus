@@ -1,8 +1,8 @@
 # Suggestion list
 
-A vertically-stacked block of channel recommendations rendered as a swipeable pager. One page shows three channel rows; the next page peeks at the trailing edge to invite the swipe. Each row pairs a 48px [Thumbnail](../thumbnail/thumbnail.md), a stacked text column (name / followers / description), and a trailing [Toggle Button](../button/toggle.md) flipping between "Follow" and "Following".
+A vertically-stacked block of channel recommendations rendered as a swipeable pager. One page shows three channel rows; the next peeks at the trailing edge to invite the swipe. Each row pairs a 48px [Thumbnail](../thumbnail/thumbnail.md), a stacked text column (name / followers / description), and a trailing [Toggle Button](../button/toggle.md) flipping between "Follow" and "Following".
 
-**Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. The container pays its own `24px block / 16px inline` padding and the pager bleeds out via negative margin to expose the next-page peek; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the section label and row avatars land at a different inset than the headings and list rows around them. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge. Container pays its own `24px block / 16px inline` padding and the pager bleeds via negative margin to expose the next-page peek; do **not** wrap in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
@@ -31,7 +31,7 @@ import { SuggestionList } from '@blind-dsai/ui';
 
 ### Without header action
 
-The header collapses to just a section label — no trailing "See all" link. Reach for it when there's no broader index page to route to (the suggestions on this surface ARE the whole set, or the surface is itself the index).
+The header collapses to just a section label — no trailing "See all" link. Reach for it when there's no broader index page to route to.
 
 ```preview
 suggestion-list/no-header-action
@@ -81,16 +81,16 @@ import { SuggestionList } from '@blind-dsai/ui';
 
 ## States
 
-Container has no interactive state. Each row's only interactive surface is its **trailingAction** — a Toggle Button obeying the [Toggle Button](../button/toggle.md) state contract. Row body is presentational; tapping the row does not route. The **headerAction** is an `xsmall` Text Button (rendered as `<a>` when `href` is set) — carries Text Button hover overlay + standard focus ring.
+Container has no interactive state. Each row's only interactive surface is its **trailingAction** — a Toggle Button obeying the [Toggle Button](../button/toggle.md) state contract. Row body is presentational; tapping the row does not route. The **headerAction** is an `xsmall` Text Button (rendered as `<a>` when `href` is set).
 
 ## Focus indicator
 
-Row body is presentational; the only row-level focus target is the trailing Toggle Button (Outward ring per its spec). headerAction also paints its own Outward ring. Composition for any future row-level focus target: Inward — rows tile with a hairline divider. Trigger: `:focus-visible`.
+Row body is presentational; the only row-level focus target is the trailing Toggle Button (Outward ring). headerAction also paints its own Outward ring. Composition for any future row-level focus target: Inward — rows tile with a hairline divider. Trigger: `:focus-visible`.
 
 ## Behavior
 
-- **Pages of three rows.** A page is always exactly three rows; the final page pads with empty space rather than collapsing.
+- **Pages of three rows.** A page is exactly three rows; the final page pads with empty space rather than collapsing.
 - **Horizontal scroll-snap.** `scroll-snap-type: x mandatory`; each page declares `scroll-snap-align: start`.
-- **Next-page peek.** Pager bleeds out by `sys.layout.container.md` via negative margin. Page basis composes inter-page gap (`inline.xl`) plus visible peek (`inline.md` = 8px) in one `calc`. Peek is the only swipe affordance.
+- **Next-page peek.** Pager bleeds out by `sys.layout.container.md` via negative margin. Page basis composes inter-page gap (`inline.xl`) plus visible peek (`inline.md` = 8px) in one `calc`.
 - **Toggle commits in place.** State is owned by the consumer — `active` and `onToggle` forward per row through `items`.
-- **Entity-agnostic anatomy.** The same row shape carries suggested channels, people, companies, or topics — pass through `items[i]` without changing the spec.
+- **Entity-agnostic anatomy.** Same row shape carries channels, people, companies, or topics.

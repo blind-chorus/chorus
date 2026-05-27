@@ -8,7 +8,7 @@ The selectable chip — capsule-shaped toggle for refining a set. **Unselected**
 
 ## Default
 
-At-rest form — transparent fill with a hairline `outlineVariant` stroke so the chip sits on any surface without colliding with the surface ladder.
+At-rest — transparent fill with a hairline `outlineVariant` stroke so the chip sits on any surface without colliding with the surface ladder.
 
 ```preview
 chip/filter/unselected
@@ -24,7 +24,7 @@ import { Chip } from '@blind-dsai/ui';
 
 ### Selected
 
-Active form — inverse-toned fill. Toggle the `selected` flag on the same chip element across both states.
+Active — inverse-toned fill. Toggle the `selected` flag on the same chip element.
 
 ```preview
 chip/filter/selected
@@ -102,7 +102,7 @@ import { Chip } from '@blind-dsai/ui';
 
 ### With trailing action
 
-Pair the chip rail with a trailing accent [Text Button](../button/text.md) (`size='small'`, `appearance='accent'`) for a destination outside the filter axis — managing the set, opening keyword settings. The button is **not** a filter toggle. The chip track scrolls horizontally with a trailing 48px `mask-image` fade that paints only while overflowing; the button stays pinned outside the scroll viewport at `sys.layout.inline.xl` gap.
+Pair the chip rail with a trailing accent [Text Button](../button/text.md) (`size='small'`, `appearance='accent'`) for a destination outside the filter axis — managing the set, opening keyword settings. The button is **not** a filter toggle. The chip track scrolls horizontally with a trailing 48px `mask-image` fade painted only while overflowing; the button stays pinned outside the scroll viewport at `sys.layout.inline.xl` gap.
 
 ```preview
 chip/filter/with-trailing-action

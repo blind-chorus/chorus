@@ -2,13 +2,13 @@
 
 A vertical stack of expandable rows. Each item exposes a trigger header (label + auto-rendered trailing chevron that rotates `180°` on expand) and a content body that paints below it when open. Rows tile flush with a hairline `outlineVariant` divider between them.
 
-**Reach for this when** a list of titled sections is too long to keep open all at once — FAQs, T&C sections, an expandable filter group, a settings group with infrequent edits, or long-form content carved into scannable pieces. **Skip when** the section bodies are short enough to read inline (use a [Section](../section/section.md) per group instead, leaving the bodies open), the user needs to act on the labels rather than read into them (use a [List/nav](../list/nav.md) for drill-in or a [List/radio](../list/radio.md) for single-select), or every item should be visible at once with no toggle (just stack [Section](../section/section.md)s).
+**Reach for this when** a list of titled sections is too long to keep open at once — FAQs, T&C sections, expandable filter groups, settings groups with infrequent edits. **Skip when** the bodies are short enough to read inline (use [Section](../section/section.md) per group), the user needs to act on the labels rather than read into them (use [List/nav](../list/nav.md) or [List/radio](../list/radio.md)), or every item should be visible at once with no toggle (stack [Section](../section/section.md)s).
 
-**Layout inset.** `full-bleed` — Accordion is an **edge-to-edge** family. It sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. Each row pays its own `16px inline / 8px block` padding via `layout.container.*`. When composing a screen out of Chorus families, do **not** wrap the Accordion in another `padding-inline` / `px-*` / `style={{ padding: … }}` div — the page rail will double-pay and the Accordion's rows will land at a different inset than the section headings and list rows around it. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge. Each row pays its own `16px inline / 8px block` padding via `layout.container.*`. Do **not** wrap in another `padding-inline` / `px-*` / `style={{ padding: … }}` div — the page rail will double-pay. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-The single-mode form. One item open at a time; clicking an open item collapses it (`collapsible={true}` by default), so the stack can rest with everything closed.
+The single-mode form. One item open at a time; clicking an open item collapses it (`collapsible={true}` by default).
 
 ```preview
 accordion/default
@@ -32,7 +32,7 @@ import { Accordion } from '@blind-dsai/ui';
 
 ### Multiple
 
-`type="multiple"` lets the user open any number of items at once. Use it when the rows are independent and the user is likely to read across several at the same time — comparing T&C clauses, expanding several filter groups, reviewing multiple policy sections.
+`type="multiple"` lets the user open any number of items at once. Use when rows are independent and the user reads across several — comparing T&C clauses, expanding filter groups, reviewing policy sections.
 
 ```preview
 accordion/multiple
@@ -54,7 +54,7 @@ import { Accordion } from '@blind-dsai/ui';
 
 ### Disabled item
 
-A single `disabled` row fades to `sys.state.disabled` opacity and ignores click / keyboard activation. The row stays in the DOM so the surrounding items keep their stable index — useful when an item is temporarily gated.
+A `disabled` row fades to `sys.state.disabled` opacity and ignores click / keyboard activation. Stays in the DOM so surrounding items keep their stable index.
 
 ```preview
 accordion/disabled-item
@@ -114,14 +114,14 @@ Inward 3-layer ring painted inside the trigger's footprint via a `::before` over
 
 ## Behavior
 
-- **Edge-to-edge composition.** Accordion is `layoutInset: full-bleed`. Compose screens so the Accordion is a direct child of the page shell (or a surface that already pays the page gutter). Wrapping it in another `padding-inline` / `px-*` div double-pays the rail and the rows land off-grid from the section headings and list rows around them. Use the negative-margin opt-out inside a bounded surface (Card / Dialog / BottomSheet).
-- **Inset divider.** The 1px `outlineVariant` rule between items is inset 16px on both inline edges so it reads as separating row *content*, not the container.
-- **Indented content.** The expanded body sits one extra 16px in from the trigger's label edge so the parent ↔ child hierarchy is readable at a glance.
-- **Whole trigger header is the click target.** The chevron is decorative.
-- **Element swap.** Each trigger is a `<button>`; the content region is a `<div role="region">` with the `hidden` attribute toggled.
+- **Edge-to-edge composition.** `layoutInset: full-bleed` — direct child of the page shell. Wrapping in another `padding-inline` / `px-*` div double-pays the rail. Use the negative-margin opt-out inside a bounded surface.
+- **Inset divider.** 1px `outlineVariant` rule inset 16px on both inline edges so it reads as separating row *content*, not the container.
+- **Indented content.** Expanded body sits one extra 16px in from the trigger's label edge for parent ↔ child hierarchy.
+- **Whole trigger header is the click target.** Chevron is decorative.
+- **Element swap.** Trigger is `<button>`; content region is `<div role="region">` with `hidden` toggled.
 - **Keyboard.** Space / Enter toggle. Arrow up/down moves focus between triggers.
 - **Single mode.** Opening one item closes the previously open one. With `collapsible={true}` (default), clicking the open item closes it.
-- **Multiple mode.** Each trigger toggles its own item independently. `value` is a `string[]`.
-- **Wrap, not truncate.** Trigger labels wrap to a second line when long — the row grows. Truncation would hide the affordance from being scannable.
-- **Content min-height.** Open content carries a `40px` floor so short single-line bodies still read as a distinct expanded row rather than as a flicker below the trigger.
-- **Reduced motion.** The chevron rotation snaps instantly under `prefers-reduced-motion: reduce`.
+- **Multiple mode.** Each trigger toggles independently. `value` is a `string[]`.
+- **Wrap, not truncate.** Trigger labels wrap to a second line; the row grows.
+- **Content min-height.** Open content carries a `40px` floor so short bodies read as a distinct expanded row.
+- **Reduced motion.** Chevron rotation snaps instantly under `prefers-reduced-motion: reduce`.

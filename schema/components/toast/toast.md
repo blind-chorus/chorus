@@ -1,8 +1,8 @@
 # Toast
 
-A transient confirmation strip that floats above the page after a user action lands — saved, copied, sent, retried. Use to confirm a system outcome the user just triggered (proof an action landed, without altering the page beneath); prefer [Banner](../banner/banner.md) when the message is contextual to the content itself, not tied to a recent action. Inverse-toned by default so the message contrasts with any underlying page tier (canvas, raised card, scrim) without per-surface tuning. The strip grows with its content up to a 400 max-width (capped further to viewport-minus-safe-area on narrow screens), so a short phrase reads as a compact pill and a longer message stays a recognisable shape rather than a banner. Owner code mounts the Toast when the action resolves and unmounts it after a fixed beat; the component itself is presentational.
+A transient confirmation strip that floats above the page after a user action lands — saved, copied, sent, retried. Use to confirm a system outcome the user just triggered; prefer [Banner](../banner/banner.md) when the message is contextual to the content itself. Inverse-toned by default so the message contrasts with any underlying page tier. The strip grows with content up to a 400 max-width (capped to viewport-minus-safe-area on narrow screens). Owner code mounts the Toast and unmounts after a fixed beat; the component is presentational.
 
-**Layout inset.** `bounded-surface` — its own floating shell that sits *above* the page, not in it. Owns its outer padding and viewport-anchored placement (safe-area inset, max-width 400); not a sibling of `full-bleed` page rows and not subject to the page shell's `layout.page.*` gutter. Mount via a portal at the document root, not inside `<main>`. See [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `bounded-surface` — floating shell *above* the page. Owns its outer padding and viewport-anchored placement (safe-area inset, max-width 400); not subject to the page shell's `layout.page.*` gutter. Mount via a portal at the document root, not inside `<main>`. See [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
@@ -20,7 +20,7 @@ import { Toast } from '@blind-dsai/ui';
 
 ### With action
 
-A small Text Button (`appearance="inverse"`) on the trailing edge for follow-through (Undo, Retry, View). When the trailing slot is present the toast stays on screen longer (~6s) so the user has time to reach for it. The Button node is passed directly so the call site spells out the sub-component the Toast delegates to.
+A small Text Button (`appearance="inverse"`) on the trailing edge for follow-through (Undo, Retry, View). With the trailing slot present, the toast stays on screen longer (~6s). The Button node is passed directly so the call site spells out the sub-component.
 
 ```preview
 toast/with-action
@@ -38,7 +38,7 @@ import { Toast, Button } from '@blind-dsai/ui';
 
 ### With dismiss
 
-A medium Icon Button (`appearance="inverse"`) on the trailing edge for explicit dismissal — used when the toast carries information the user may want to read at their own pace. The Icon Button is composed at the call site (rather than via a shorthand object) so the `appearance="inverse"` binding stays visible alongside the rest of the surface contract.
+A medium Icon Button (`appearance="inverse"`) on the trailing edge for explicit dismissal — used when the toast carries information the user may want to read at their own pace. Composed at the call site so the `appearance="inverse"` binding stays visible.
 
 ```preview
 toast/with-dismiss
@@ -62,7 +62,7 @@ import { XIcon } from '@blind-dsai/ui/icons';
 
 ### Max width
 
-The strip grows with its content until it hits the 400 cap (or the viewport-minus-safe-area cap on narrow screens). Past that, the body wraps onto a second line rather than letting the strip stretch into a banner. Use a body just long enough to fill the cap to see the wrap point.
+Strip grows until it hits the 400 cap (or viewport-minus-safe-area on narrow screens). Past that, the body wraps onto a second line rather than letting the strip stretch into a banner.
 
 ```preview
 toast/max-width
@@ -74,7 +74,7 @@ import { Toast } from '@blind-dsai/ui';
 
 ### Truncation
 
-The body wraps up to two lines and truncates with an ellipsis past that. Pair with a trailing dismiss when the message is the kind of status the user may want to read at their own pace — the truncated tail signals "there's more here, but it doesn't block you." Body, trailing button, and any leading glyph stay vertically centred on the container's cross axis.
+Body wraps up to two lines and truncates with an ellipsis past that. Pair with a trailing dismiss when the message is status the user may want to read at their own pace. Body, trailing button, and any leading glyph stay vertically centred on the container's cross axis.
 
 ```preview
 toast/truncation
@@ -98,7 +98,7 @@ import { XIcon } from '@blind-dsai/ui/icons';
 
 ## Appearance
 
-A single appearance — inverse. The inverse pair (`inverseSurface` / `inverseOnSurface`) is the only one the toast renders in; this is by intent, not omission. A toast that paints in a surface-family tone would read as part of the underlying page rather than as a status message floating above it.
+A single appearance — inverse. The inverse pair (`inverseSurface` / `inverseOnSurface`) is the only one the toast renders in. A toast in a surface-family tone would read as part of the underlying page rather than a status message floating above it.
 
 | Appearance | Container fill              | Foreground                       | When to use |
 |------------|-----------------------------|----------------------------------|-------------|
@@ -124,6 +124,6 @@ Container carries no interactive state. The trailing button follows the standard
 
 ## Behavior
 
-- **Lifecycle.** The component is presentational. Owner code mounts the Toast when an action resolves and unmounts it after a fixed beat — ~1.6s for a no-action toast (the read time of a short phrase), ~6s when an action slot is present so the user has time to reach for the affordance. Hover does not pause the timer; the contract is that toasts are non-essential.
-- **Position.** Bottom-center of the viewport with a `sys.layout.container.xs` (8) safe area on all sides. Multiple concurrent toasts stack from bottom up.
-- **Role.** Container carries `role="status"` and `aria-live="polite"` so screen readers announce the confirmation without interrupting the user's current focus. The trailing button is a discrete interactive child and remains keyboard-reachable while the toast is mounted.
+- **Lifecycle.** Presentational. Owner code mounts the Toast and unmounts after a fixed beat — ~1.6s for a no-action toast, ~6s when an action slot is present. Hover does not pause the timer; toasts are non-essential.
+- **Position.** Bottom-center of the viewport with `sys.layout.container.xs` (8) safe area on all sides. Multiple concurrent toasts stack from bottom up.
+- **Role.** Container carries `role="status"` and `aria-live="polite"` so screen readers announce the confirmation without interrupting focus. The trailing button is a discrete interactive child and remains keyboard-reachable.

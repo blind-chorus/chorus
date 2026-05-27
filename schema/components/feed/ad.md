@@ -1,14 +1,14 @@
 # Ad
 
-Sub-component of the [Feed](./feed.md) family. A sponsored placement that rides the same scrolling column as [Feed · Post](./post.md). The header trades a channel/author row for a brand row (32-rung [Thumbnail](../thumbnail/thumbnail.md) + brand name + a `Sponsored` subtitle + a trailing close affordance), the body block stays the same shape as Feed's title + excerpt, and the hero media and CTA are bonded into a single rounded slab at the foot. There is no engagement row — ads are not authored content.
+Sub-component of the [Feed](./feed.md) family. A sponsored placement riding the same scrolling column as [Feed · Post](./post.md). The header trades a channel/author row for a brand row (32-rung [Thumbnail](../thumbnail/thumbnail.md) + brand name + `Sponsored` subtitle + trailing close affordance); the body stays the same shape as Feed's title + excerpt; hero media and CTA bond into a single rounded slab at the foot. No engagement row — ads are not authored content.
 
-**Required slots.** Two pieces are non-negotiable in every FeedAd placement: an explicit `brand.name` (the row is the ad's legal attribution surface) and a hero `media` block with a non-empty `src` (an ad without a creative collapses to a text wall, which is not a shipped shape). When generating mock or scaffold compositions, fill `media.src` with the bundled placeholder `/placeholder.png` rather than omitting `media` — the runtime `surfaceContainerHigh` fallback is a load-failure safety net, not a design-time opt-out.
+**Required slots.** Every FeedAd carries an explicit `brand.name` (the ad's legal attribution surface) and a hero `media` block with a non-empty `src`. When scaffolding, fill `media.src` with `/placeholder.png` rather than omitting `media` — the runtime `surfaceContainerHigh` fallback is a load-failure safety net, not a design-time opt-out.
 
-**Layout inset.** `full-bleed` — FeedAd sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. It pays its own `16px inline / 12px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the ad edge lands at a different inset than the feed posts and section headings around it. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell. Pays its own `16px inline / 12px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-The base composition — brand row (no dismiss), headline, body excerpt, and a hero + CTA slab. Dismiss is opt-in, so the default placement omits it; the CTA fill is plumbed through with the advertiser's brand Hex via `cta.color`.
+Brand row (no dismiss), headline, body excerpt, and hero + CTA slab. Dismiss is opt-in; the CTA fill plumbs through the advertiser's brand Hex via `cta.color`.
 
 ```preview
 feed/ad-default
@@ -34,7 +34,7 @@ import { FeedAd } from '@blind-dsai/ui';
 
 ### With dismiss
 
-Wire `onDismiss` to render the trailing close icon for placements that give the reader a user-dismiss path.
+Wire `onDismiss` to render the trailing close icon for placements that give the reader a dismiss path.
 
 ```preview
 feed/ad-with-dismiss
@@ -56,12 +56,12 @@ import { FeedAd } from '@blind-dsai/ui';
 
 ## Slots
 
-- **brand** *(required)* — leading row: 32-rung [Thumbnail](../thumbnail/thumbnail.md) + brand name (`label.md` / `onSurface`) + `Sponsored` subtitle (`caption.md` / `onSurfaceVariant`) stacked underneath. `brand.name` MUST be a non-empty string — every placement carries an explicit brand attribution. Subtitle defaults to `Sponsored`; consumers may override but cannot drop it.
+- **brand** *(required)* — leading row: 32-rung [Thumbnail](../thumbnail/thumbnail.md) + brand name (`label.md` / `onSurface`) + `Sponsored` subtitle (`caption.md` / `onSurfaceVariant`) stacked. `brand.name` MUST be non-empty. Subtitle defaults to `Sponsored`; consumers may override but cannot drop it.
 - **dismiss** *(optional)* — trailing 16px close icon, only rendered when `onDismiss` is wired.
 - **title** *(optional)* — single-line headline (`heading.sm` / `onSurface`).
 - **body** *(optional)* — two-line clamped excerpt (`body.sm` / `onSurfaceVariant`).
-- **cta-group** *(required)* — the foot slab. The hero **media** is required; the CTA is optional but typical. Media (16:10) and the full-width [Standard Button](../button/standard.md) sit flush inside a single `radius.md` clip with no internal gap. `cta.color` accepts an advertiser-supplied Hex that swaps the button fill and border; every other token binding stays intact.
-- **media** *(required)* — hero creative inside the cta-group. Image asset (PNG / JPG / WebP / SVG); fill `src` with `/placeholder.png` when scaffolding without a real ad creative.
+- **cta-group** *(required)* — foot slab. Hero **media** required; CTA optional but typical. Media (16:10) and the full-width [Standard Button](../button/standard.md) sit flush inside a single `radius.md` clip with no internal gap. `cta.color` accepts an advertiser-supplied Hex swapping the button fill and border; other token bindings stay intact.
+- **media** *(required)* — hero creative inside cta-group. Image asset (PNG / JPG / WebP / SVG); fill `src` with `/placeholder.png` when scaffolding.
 
 ## Anatomy
 
@@ -95,12 +95,12 @@ FeedAd is not a focus target; each focusable child (dismiss button, CTA) paints 
 
 ## Behavior
 
-- **Brand name is required.** Every FeedAd carries an explicit `brand.name` — the row is the ad's legal attribution surface. Lovable / mock generators must never drop it; an empty brand name is not a valid placement.
-- **Hero media is required.** Every FeedAd carries a `media` block with a non-empty `src`. The `surfaceContainerHigh` fallback is a runtime load-failure safety net, not a design-time omission — use `/placeholder.png` when scaffolding without a real creative.
-- **Brand subtitle is always present.** The literal defaults to `Sponsored` so every placement reads as sponsored content. Consumers may override the copy but cannot omit the row.
-- **Hero media and CTA are one slab.** They share a `radius.md` clip with no internal gap; the CTA's own corner radius is zeroed so its squared bottom edge meets the group's outer round.
-- **Free-form CTA color.** `cta.color` accepts any Hex string supplied by the ad client. Only the button surface fill and border swap — typography, size, and full-width geometry stay on the Standard Button tokens.
-- **Slot omission collapses without leaving a gap.** `title`, `body`, and `dismiss` are opt-in — when any is absent the layout reflows without reserved whitespace. `brand.name` and `media` are required and may not be omitted.
+- **Brand name is required.** Every FeedAd carries an explicit `brand.name` — the row is the ad's legal attribution surface. Generators must never drop it.
+- **Hero media is required.** Every FeedAd carries a `media` block with a non-empty `src`. The `surfaceContainerHigh` fallback is a runtime safety net; use `/placeholder.png` when scaffolding.
+- **Brand subtitle is always present.** Defaults to `Sponsored`. Consumers may override copy but cannot omit the row.
+- **Hero media and CTA are one slab.** Share a `radius.md` clip with no internal gap; the CTA's own corner radius is zeroed so its squared bottom edge meets the group's outer round.
+- **Free-form CTA color.** `cta.color` accepts any Hex from the ad client. Only button fill and border swap — typography, size, and full-width geometry stay on Standard Button tokens.
+- **Slot omission collapses without a gap.** `title`, `body`, and `dismiss` are opt-in; `brand.name` and `media` are required.
 - **Truncation, not wrap.** `title` truncates; `body` clamps to two lines.
 - **Dismiss is opt-in.** Default placements omit it; the trailing X only renders when `onDismiss` is wired.
-- **At most one CTA.** FeedAd has no engagement row — ads are not authored content. The cta-group, when present, carries a single full-width Standard Button.
+- **At most one CTA.** No engagement row — the cta-group, when present, carries a single full-width Standard Button.

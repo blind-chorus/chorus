@@ -2,11 +2,11 @@
 
 The landing-screen top bar — anchored to the top of a tab root (a feed, an inbox, a profile). A leading menu glyph + left-aligned page name occupy the start; up to three action icons (search, chat, profile) sit at the trailing edge. The title carries the system's largest page-level type rung (`typo.heading.lg`, 24/Semibold).
 
-**Layout inset.** `full-bleed` — Home is an **edge-to-edge** family. It sits as a direct child of the page shell at the top of the route and stretches edge-to-edge inside it. The bar pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the title and trailing actions land at a different inset than the page body underneath. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell at the top of the route. The bar pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-The canonical Home bar — menu glyph, brand logotype at 24px tall, and three trailing actions (search, chat, profile).
+Menu glyph, brand logotype at 24px tall, three trailing actions (search, chat, profile).
 
 ```preview
 navigation-bar/home/default
@@ -36,7 +36,7 @@ import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 
 ### With a text title in place of the logotype
 
-A Home rung naming the screen in words. Falls back to plain text at `typo.heading.lg` (24/Semibold) `onSurface`; truncates with ellipsis. Same 24-tall rhythm as the logotype.
+Names the screen in words. Plain text at `typo.heading.lg` (24/Semibold) `onSurface`; truncates with ellipsis. Same 24-tall rhythm as the logotype.
 
 ```preview
 navigation-bar/home/default--text-title
@@ -58,7 +58,7 @@ import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 
 ### With one trailing action
 
-A bar with a single trailing affordance — e.g. search on an Inbox screen.
+Single trailing affordance — e.g. search on an Inbox screen.
 
 ```preview
 navigation-bar/home/single-action
@@ -77,7 +77,7 @@ import { SearchIcon } from '@blind-dsai/ui/icons';
 
 ### Truncation (safety net)
 
-Long page name truncates with ellipsis. Author concise titles ("Home", "Inbox") so the bar never resorts to ellipsis in product.
+Long page name truncates with ellipsis. Author concise titles ("Home", "Inbox") so the bar never resorts to ellipsis.
 
 ```preview
 navigation-bar/home/truncation
@@ -101,7 +101,7 @@ import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 
 - **leadingIcon** (fixed) — always the menu / hamburger icon ([`MenuIcon`](../../packages/ui/src/icons/svg/Menu.svg)); the single hook into the app's primary drawer.
 - **title** — screen's identity. Required. Default is the brand logotype at fixed 24px height (ratio preserved); a string may be passed instead — renders as `typo.heading.lg` (24/Semibold) `onSurface`, ellipsis on narrow.
-- **trailingActions** (optional) — up to three icon actions. Conventional set: Search, Chat, Profile. Laid out left-to-right with no inter-icon gap — the icon capsules' 8px padding provides visible separation.
+- **trailingActions** (optional) — up to three icon actions. Conventional set: Search, Chat, Profile. Laid left-to-right with no inter-icon gap — the capsules' 8px padding provides visible separation.
 
 ## Anatomy
 

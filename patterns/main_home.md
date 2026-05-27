@@ -7,7 +7,7 @@ recipe: ../schema/screens/main-home.screen.json
 
 ## Intent
 
-The default landing surface — a vertically scrolling feed of authored posts, framed by lightweight discovery affordances (channel rail, recruiter banner, "while you were away" rail) above the fold. Optimized for low-friction scanning: density is high, chrome is thin, and the only persistent commit on the screen is the bottom tab bar's red Create entry.
+Default landing surface — vertically scrolling feed of authored posts framed by lightweight discovery affordances (channel rail, recruiter banner, "while you were away" rail) above the fold. High density, thin chrome; the only persistent commit is the tab bar's red Create entry.
 
 ## Layout
 
@@ -36,6 +36,6 @@ The default landing surface — a vertically scrolling feed of authored posts, f
 
 ## Notes
 
-- "For You / Recent / Popular" act as feed-mode chips inside the rail rather than `tabs / underline` — the rail is the navigation primitive here, not a tabset.
-- Two stacked banner-style rows above the feed is intentional density; agents replicating should treat each as a discrete banner rather than fusing them.
-- Source screenshot is English; preview/demo strings stay English per AGENTS.md rule 7.
+- "For You / Recent / Popular" are feed-mode chips inside the rail, not `tabs / underline` — the rail is the navigation primitive.
+- Two stacked banner rows above the feed is intentional density; keep as discrete banners, do not fuse.
+- Source is English; demo strings stay English per AGENTS.md rule 7.

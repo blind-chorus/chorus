@@ -1,12 +1,12 @@
 # Tag
 
-The informational chip — square-cornered label naming attached metadata. Use for taxonomy on rows, cards, or profiles — categories, statuses, or labels describing the content; prefer [Badge](../badge/badge.md) when the marker signals unread / new activity on a host rather than describing it. Shorter than Filter (24 vs 32 min-height) with `sys.radius.sm` corners. Two appearances: `default` paints a translucent black/white overlay (light → `ref.palette.black.200`, dark → `ref.palette.white.200`) so the tag adopts whatever surface sits behind it; `accent` paints a tonal pale-primary container with primary label for tags that need to pop against the surface.
+The informational chip — square-cornered label naming attached metadata. Use for taxonomy on rows, cards, or profiles — categories, statuses, content labels; prefer [Badge](../badge/badge.md) when the marker signals unread / new activity on a host rather than describing it. Shorter than Filter (24 vs 32 min-height) with `sys.radius.sm` corners. Two appearances: `default` paints a translucent black/white overlay (light → `ref.palette.black.200`, dark → `ref.palette.white.200`) so the tag adopts whatever surface sits behind it; `accent` paints a tonal pale-primary container with primary label for tags that need to pop.
 
-**Layout inset.** `inline` — Tag ships no padding outside its own pill chrome. It sits inside whichever host row holds it (a list-row label cluster, a profile-card meta strip, a feed-post header) with the host paying the surrounding gap and column padding. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `inline` — Tag ships no padding outside its own pill chrome. It sits inside whichever host row holds it (list-row label cluster, profile-card meta strip, feed-post header) with the host paying the surrounding gap and column padding. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-Translucent overlay fill, label-only. Reads as attached metadata against the surrounding surface — the overlay tints the surface one step darker (light mode) or lighter (dark mode) instead of locking to a single container tone. This is the default appearance — omit the `appearance` prop or pass `appearance="default"` explicitly.
+Translucent overlay fill, label-only. Reads as attached metadata — the overlay tints the surface one step darker (light) or lighter (dark) rather than locking to a single container tone. Omit `appearance` or pass `appearance="default"`.
 
 ```preview
 chip/tag/default
@@ -20,7 +20,7 @@ import { Chip } from '@blind-dsai/ui';
 
 ## Accent
 
-Tonal pale-primary fill — `sys.color.primaryContainer` background with `sys.color.primary` label. Use when the tag should pop against the surface (e.g. Popular Tags in compose, highlighted hashtags); the default overlay is too quiet for those cases.
+Tonal pale-primary fill — `sys.color.primaryContainer` background with `sys.color.primary` label. Use when the tag should pop against the surface (Popular Tags in compose, highlighted hashtags); the default overlay is too quiet there.
 
 ```preview
 chip/tag/accent
@@ -36,7 +36,7 @@ import { Chip } from '@blind-dsai/ui';
 
 ### Dismissable
 
-Opt-out form — same chip with a trailing "×" to remove the tag. The trailing icon inherits the label color via `currentColor`.
+Opt-out — same chip with a trailing "×" to remove the tag. Trailing icon inherits label color via `currentColor`.
 
 ```preview
 chip/tag/dismissable
@@ -54,13 +54,13 @@ import { XIcon } from '@blind-dsai/ui/icons';
 
 ### Group
 
-Adjacent tag chips share a single `4px` gap on both axes — `sys.layout.inline.sm` between siblings, `sys.layout.stack.2xs` between rows on wrap.
+Adjacent tag chips share a `4px` gap on both axes — `sys.layout.inline.sm` between siblings, `sys.layout.stack.2xs` between rows on wrap.
 
 Mixing with Filter is allowed — Tag's square + sunken tone vs Filter's pill + raised tone keeps roles legible.
 
 #### Wrap on overflow
 
-Tags are passive metadata — collections that exceed the container's width **wrap** rather than scroll or truncate. Set `display: flex; flex-wrap: wrap; gap: var(--sys-layout-inline-sm)` on the container. Do not use `overflow-x: auto` — horizontal scrolling belongs to tappable affordances.
+Tags are passive metadata — collections exceeding the container's width **wrap** rather than scroll or truncate. Set `display: flex; flex-wrap: wrap; gap: var(--sys-layout-inline-sm)` on the container. Do not use `overflow-x: auto` — horizontal scrolling belongs to tappable affordances.
 
 ```preview
 chip/tag/group

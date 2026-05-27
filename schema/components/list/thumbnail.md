@@ -1,12 +1,12 @@
 # Thumbnail list
 
-Avatar-anchored List sub-component — each row is fronted by a leading [Thumbnail](../thumbnail/thumbnail.md). Two densities split the rung. **Default** carries a 40px Thumbnail with an optional `supportingText` second line for directory / author rows; **Compact** carries a 32px Thumbnail, a 14px single-line label, an inline `count` slot for an unread / quantity Badge, and no inter-row divider — the reach for subscription / channel / topic / playlist rows where each row is *one entity + its current count + an optional toggle*. Same click semantics as the [Text sub](./text.md). Row geometry, state overlays, and inward focus ring all delegate to the [family-wide rules](./list.md); this sub documents the leading Thumbnail slot, the density dial, and the count / trailing slots.
+Avatar-anchored List sub-component — each row is fronted by a leading [Thumbnail](../thumbnail/thumbnail.md). Two densities: **Default** carries a 40px Thumbnail with optional `supportingText` for directory / author rows; **Compact** carries a 32px Thumbnail, 14px single-line label, inline `count` slot for an unread / quantity Badge, and no inter-row divider — the reach for subscription / channel / topic / playlist rows where each row is *one entity + its current count + an optional toggle*. Same click semantics as [Text sub](./text.md). Row geometry, state overlays, and inward focus ring delegate to the [family-wide rules](./list.md); this sub documents the leading Thumbnail slot, density dial, and count / trailing slots.
 
-**Layout inset.** `full-bleed` — Thumbnail list is an **edge-to-edge** family. It sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. Each row pays its own `16px inline / 8px block` padding via `layout.container.md` / `layout.container.xs`; do **not** wrap the list in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the rows land at a different inset than the section headings and other lists around them. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell. Each row pays its own `16px inline / 8px block` padding via `layout.container.md` / `layout.container.xs`; do **not** wrap the list in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-A list anchored by leading thumbnails — channel / source / author rows. Thumbnail is fixed at the 40 rung, vertically centred against the label column.
+Channel / source / author rows anchored by leading thumbnails. Thumbnail fixed at the 40 rung, vertically centred against the label column.
 
 ```preview
 list/thumbnail
@@ -25,7 +25,7 @@ import { List } from '@blind-dsai/ui';
 
 ## Compact
 
-`density="compact"` — 32px Thumbnail, 14px single-line label, 8px (`layout.inline.md`) leading-to-label gap, row Hug at 48, **no inter-row divider**. The `count` slot paints inline after the label (canonical fill: a small numeric `<Badge>`), and an optional trailing toggle (favorite ★, mute, pin) sits at the trailing edge as its own hit target — the trailing slot stops click propagation, so toggling it does not commit the row's `onClick`. Reach for compact on subscription / channel / topic / playlist / quick-access lists.
+`density="compact"` — 32px Thumbnail, 14px single-line label, 8px (`layout.inline.md`) leading-to-label gap, row Hug at 48, **no inter-row divider**. The `count` slot paints inline after the label (canonical: numeric `<Badge>`); an optional trailing toggle (favorite ★, mute, pin) sits at the trailing edge as its own hit target — the slot stops click propagation so toggling it does not commit the row's `onClick`. Reach for compact on subscription / channel / topic / playlist / quick-access lists.
 
 ```preview
 list/thumbnail-compact-with-count
@@ -73,7 +73,7 @@ import { StarIcon, StarFillIcon } from '@blind-dsai/ui/icons';
 
 ### With trailing action
 
-A Text Button in the row's `trailingIcon` slot — the canonical "directory row + small commit" composition. Reach for it on follow / join / invite rows where the leading Thumbnail anchors the entity and the trailing button carries the only commit. The row body stays informational; the button is the only tap target for the action.
+A Text Button in the row's `trailingIcon` slot — the canonical "directory row + small commit" composition. Reach for it on follow / join / invite rows where the leading Thumbnail anchors the entity and the trailing button is the only commit. Row body stays informational.
 
 ```preview
 list/thumbnail-with-trailing-action

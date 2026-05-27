@@ -7,7 +7,7 @@ recipe: ../schema/screens/main-jobs.screen.json
 
 ## Intent
 
-Job listings — a search-led, filterable list where every row is a discrete entity (company, role, location) and the trailing bookmark is the only per-row commit. A transient toast confirms the bookmark action without modal interruption.
+Job listings — search-led filterable list where every row is a discrete entity (company, role, location) and trailing bookmark is the only per-row commit. Transient toast confirms bookmarks.
 
 ## Layout
 
@@ -36,6 +36,6 @@ Job listings — a search-led, filterable list where every row is a discrete ent
 
 ## Notes
 
-- The whole card is the click target; the bookmark icon is a *secondary* commit that should not steal hit area — see AGENTS.md composition rule "List rows are the click target."
-- Toast lives above the tab bar with safe gap; never overlaps tab labels.
-- Filter chips with `▾` indicate a sheet/menu opens on tap (no inline disclosure).
+- Whole card is the click target; the bookmark icon is *secondary* and must not steal hit area (AGENTS.md "List rows are the click target").
+- Toast sits above the tab bar with safe gap; never overlaps tab labels.
+- Filter chips with `▾` open a sheet/menu on tap (no inline disclosure).

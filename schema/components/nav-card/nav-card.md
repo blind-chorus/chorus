@@ -2,9 +2,9 @@
 
 A bounded single-row navigation card — an outlined rounded surface with a leading label, an optional supporting line, and an auto-rendered trailing chevron. The whole card is the drill-in tap target.
 
-**Reach for this when** one drill-in row needs to read as its own discrete affordance — a standalone settings entry between content blocks, a picker trigger sitting on its own, a channel / scope selector card, or a bounded-surface drill-in where the host already supplies the surrounding stack rhythm. **Skip when** the drill-in rows are stacked into a vertical column (use [List/nav](../list/nav.md) — the hairline-divider chrome reads better than repeated outlined boxes), the action is a commit (use [Button](../button/button.md) instead of a chevron card), or the surface is purely informational with no drill-in target (use [Banner](../banner/banner.md)).
+**Reach for this when** one drill-in row needs to read as its own discrete affordance — a standalone settings entry, a picker trigger, a channel / scope selector card, or a bounded-surface drill-in where the host supplies the surrounding stack rhythm. **Skip when** drill-in rows are stacked into a vertical column (use [List/nav](../list/nav.md)), the action is a commit (use [Button](../button/button.md)), or the surface is purely informational (use [Banner](../banner/banner.md)).
 
-**Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. The card pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the card edge lands at a different inset than the section headings and list rows around it. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge. The card pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
@@ -72,7 +72,7 @@ import { NavCard, Thumbnail } from '@blind-dsai/ui';
 
 ### Group
 
-Multiple NavCards stacked vertically as a `NavCardGroup` — each card stays its own outlined affordance, separated by `sys.layout.stack.xs` (8px) gap. Use a group when several drill-in cards share a logical section but should still read as discrete cards (vs a `list/nav` rail where rows tile flush with hairline dividers).
+Multiple NavCards stacked vertically as a `NavCardGroup` — each card stays its own outlined affordance, separated by `sys.layout.stack.xs` (8px) gap. Use when several drill-in cards share a section but should read as discrete cards (vs a `list/nav` rail where rows tile flush with hairline dividers).
 
 ```preview
 nav-card/group
@@ -89,7 +89,7 @@ import { BellIcon, BookmarkIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 
 ### Surface (opaque tier on a non-`surface` host)
 
-`appearance="surface"` paints the card with its own `sys.color.surface` fill so it reads as an opaque tier rather than blending into the host. Reach for it when the card sits on a transparent / non-`surface` host (a coloured hero, a tonal band the card needs to break out of, a BottomSheet's content slot) and the default transparent fill would let the card disappear into the background.
+`appearance="surface"` paints the card with its own `sys.color.surface` fill so it reads as an opaque tier. Reach for it when the card sits on a transparent / non-`surface` host (a coloured hero, a tonal band, a BottomSheet's content slot) and the default transparent fill would let the card blend into the background.
 
 ```preview
 nav-card/surface
@@ -137,8 +137,8 @@ import { BellIcon, BookmarkIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 
 | Appearance | Container fill                  | When to reach |
 |------------|---------------------------------|----------------|
-| `default`  | `transparent`                   | The canonical form. NavCard's identity is the outlined chrome (hairline + radius + label + chevron); the host surface tone reads through. State overlays mix on the transparent base so the host tone keeps reading underneath them. |
-| `surface`  | `sys.color.surface` (opaque)    | NavCard on a transparent / non-`surface` host (coloured hero, tonal band, BottomSheet content) — the fill steps the card up to its own opaque tier so it doesn't blend into the host. Outline, label, chevron, and state overlays unchanged. |
+| `default`  | `transparent`                   | The canonical form. NavCard's identity is the outlined chrome (hairline + radius + label + chevron); host surface tone reads through. State overlays mix on the transparent base. |
+| `surface`  | `sys.color.surface` (opaque)    | NavCard on a transparent / non-`surface` host (coloured hero, tonal band, BottomSheet content). Outline, label, chevron, and state overlays unchanged. |
 
 ## Sizes
 
@@ -155,7 +155,7 @@ A single rung. Min-height 48 (touch-target floor); consumers cannot shrink or gr
 
 ## Focus indicator
 
-Outward 3-layer ring painted on the container's outer edge via an `::after` overlay (the rest stroke sits on `::before` so the two layers don't fight). Trigger: `:focus-visible`. Composition rationale: NavCard sits as its own bounded surface with margin to siblings, so an outward ring reads cleanly without colliding with neighbour strokes — see [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Outward 3-layer ring painted on the container's outer edge via an `::after` overlay (rest stroke sits on `::before`). Trigger: `:focus-visible`. Composition: NavCard sits as its own bounded surface with margin to siblings, so an outward ring reads cleanly — see [Focus ring composition](../../DESIGN.md#focus-ring-composition).
 
 ## Behavior
 

@@ -7,7 +7,7 @@ recipe: ../schema/screens/compose.screen.json
 
 ## Intent
 
-Post-composition surface. Modal-style top bar with Cancel / Post commits, two destination pickers (channel + identity), title input, an inline coaching banner, and two checkbox-style toggles above the keyboard. The screen is keyboard-first: layout assumes the keyboard is up, so the upper half does all the structural work.
+Post-composition surface. Modal-style top bar with Cancel / Post commits, two destination pickers (channel + identity), title input, an inline coaching banner, and two checkbox-style toggles above the keyboard. Keyboard-first: layout assumes the keyboard is up.
 
 ## Layout
 
@@ -37,6 +37,6 @@ Post-composition surface. Modal-style top bar with Cancel / Post commits, two de
 
 ## Notes
 
-- The top bar here is *not* a `navigation-bar/*` sub — it's a modal action bar (Cancel/Post). Do not retrofit `navigation-bar/page` onto it.
-- The "Hide company name" checkbox is right-aligned while "Invisible to Coworkers" is left-aligned with a soft band — intentional emphasis difference; do not normalize.
-- Channel picker chevron must open [[compose_channel]] as a bottom sheet — pair the trigger with the sheet per AGENTS.md composition rule.
+- Top bar is *not* a `navigation-bar/*` sub — modal action bar (Cancel/Post). Do not retrofit `navigation-bar/page`.
+- "Hide company name" is right-aligned, "Invisible to Coworkers" is left-aligned on a soft band — intentional emphasis difference; do not normalize.
+- Channel picker chevron opens [[compose_channel]] as a bottom sheet — paired trigger per AGENTS.md composition rule.

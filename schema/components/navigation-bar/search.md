@@ -1,12 +1,12 @@
 # Search
 
-The search top bar — anchored to a dedicated search page reached from a [Home](./home.md) or [Page](./page.md) bar's search trigger. The bar owns the entire search affordance: leading back-arrow Icon Button, a single bare-text input filling the row, and a conditional trailing clear (×). Drops the centred title slot — the input *is* the focus.
+The search top bar — anchored to a dedicated search page reached from a [Home](./home.md) or [Page](./page.md) bar's search trigger. Owns the entire search affordance: leading back-arrow Icon Button, single bare-text input filling the row, conditional trailing clear (×). Drops the centred title — the input *is* the focus.
 
-**Layout inset.** `full-bleed` — Search bar is an **edge-to-edge** family. It sits as a direct child of the page shell and stretches edge-to-edge inside it. The bar pays its own `16px inline` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the back-arrow lands at a different inset than the body content below. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell. The bar pays its own `16px inline` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-The bar at rest with an empty field. Placeholder paints in `outline`; the clear (×) stays hidden until a value lands.
+At rest with an empty field. Placeholder paints in `outline`; the clear (×) stays hidden until a value lands.
 
 ```preview
 navigation-bar/search/default
@@ -20,7 +20,7 @@ import { NavigationBar } from '@blind-dsai/ui';
 
 ### With value (clear visible)
 
-A non-empty value swaps the placeholder for `onSurface` text and reveals the trailing clear (×) at the medium 32 × 32 capsule — smaller than the leading back-arrow on purpose so the clear never out-shouts the input. Clicking clear wipes the value, returns focus to the input, and the trailing column collapses; the input's leading edge stays pixel-stable.
+A non-empty value swaps placeholder for `onSurface` text and reveals the trailing clear (×) at the medium 32 × 32 capsule — smaller than the leading back-arrow so it never out-shouts the input. Clicking clear wipes the value, returns focus to the input, and the trailing column collapses; the input's leading edge stays pixel-stable.
 
 ```preview
 navigation-bar/search/with-value
@@ -37,7 +37,7 @@ import { NavigationBar } from '@blind-dsai/ui';
 
 ### Disabled
 
-The whole bar dims to `sys.state.disabled` opacity, the caret hides, and the clear (×) is suppressed regardless of value. Reach for it when the search context is gated (offline, throttled, paused indexing).
+The bar dims to `sys.state.disabled` opacity, caret hides, clear (×) suppressed regardless of value. Reach for it when the search context is gated (offline, throttled, paused indexing).
 
 ```preview
 navigation-bar/search/disabled
@@ -57,7 +57,7 @@ import { NavigationBar } from '@blind-dsai/ui';
 
 - **leading** — required. 24px back-arrow icon as the canonical [Icon Button](../button/icon.md) capsule (40 × 40 transparent, 24px glyph).
 - **input** — required. Single-line **bare** text input filling the leftover middle column. *Bare* means no border, no background, no inset stroke — not a [Search bar](../form-field/search.md) field. Renders value in `sys.color.onSurface`, placeholder in `sys.color.outline` (`typo.body.md`, 16/Regular). Caret follows the [system caret rule](../../DESIGN.md#caret).
-- **trailing** *(conditional)* — clear (×) [Icon Button](../button/icon.md) hosting `XCircleFillIcon`. **Always uses Icon Button's `medium` size** (32 × 32 capsule, 16px glyph) so it never over-claims weight against the bare input. Rendered only when value is non-empty and the bar isn't disabled; wipes the value and returns focus to the input.
+- **trailing** *(conditional)* — clear (×) [Icon Button](../button/icon.md) hosting `XCircleFillIcon`. **Always uses Icon Button's `medium` size** (32 × 32 capsule, 16px glyph) so it never over-claims weight against the bare input. Rendered only when value is non-empty and the bar isn't disabled; wipes value and returns focus to the input.
 
 ## Anatomy
 

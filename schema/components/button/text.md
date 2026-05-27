@@ -1,6 +1,6 @@
 # Text
 
-The link-shaped commit surface — reads as text at rest, paints a button-like hover overlay and standard focus ring when interacted with.
+The link-shaped commit surface — reads as text at rest, paints a button-like hover overlay and focus ring on interaction.
 
 **Reach for this when** the action is inline next to typographic content and commits — "Skip", "Edit", "Resend", a section's trailing "See all". **Skip when** the affordance navigates — use [Text link](../../DESIGN.md#text-links).
 
@@ -22,7 +22,7 @@ import { Button } from '@blind-dsai/ui';
 
 ### Accent
 
-Brand-blue label (`primary`) — the inline commit. Prefer `accent` whenever the button reads as a navigational link rather than a quiet inline commit (`See all`, `Follow`, `View details`).
+Brand-blue label (`primary`) — the inline commit. Prefer `accent` when the button reads as a navigational link (`See all`, `Follow`, `View details`).
 
 ```preview
 button/text/accent
@@ -34,7 +34,7 @@ import { Button } from '@blind-dsai/ui';
 
 ### On primary
 
-Always-white label for use on top of a `primary`-filled host (Tooltip `default`). Both tokens are theme-stable, so the label stays white in either theme.
+Always-white label on top of a `primary`-filled host (Tooltip `default`). Theme-stable.
 
 ```preview
 button/text/on-primary
@@ -46,7 +46,7 @@ import { Button } from '@blind-dsai/ui';
 
 ### Inverse
 
-For inverse hosts (Toast, coach-mark, snackbar). Label paints `inverseOnSurface`; both tokens flip with the theme.
+For inverse hosts (Toast, coach-mark, snackbar). Label paints `inverseOnSurface`; tokens flip with theme.
 
 ```preview
 button/text/inverse
@@ -82,7 +82,7 @@ import { Button, ChevronRightIcon } from '@blind-dsai/ui';
 
 ### Group
 
-Optical alignment means the chrome-to-chrome gap **is** the visible label-to-label distance. Row gap: `medium`/`small` → 16px (`sys.layout.inline.xl`); `xsmall` → 12px (`sys.layout.inline.lg`).
+Optical alignment means chrome-to-chrome gap **is** the visible label-to-label distance. Row gap: `medium`/`small` → 16px (`sys.layout.inline.xl`); `xsmall` → 12px (`sys.layout.inline.lg`).
 
 ```preview
 button/text/group
@@ -115,7 +115,7 @@ import { Button } from '@blind-dsai/ui';
 
 ## Appearance
 
-A **destructive** flavor swaps the label to the `error` family across every appearance.
+A **destructive** flavor swaps the label to `error` across every appearance.
 
 | Appearance  | Background (rest) | Label color                       | When to reach for it                                                                 |
 |-------------|-------------------|-----------------------------------|--------------------------------------------------------------------------------------|
@@ -126,7 +126,7 @@ A **destructive** flavor swaps the label to the `error` family across every appe
 
 ## Sizes
 
-Three rungs. `medium` matches [Icon Button](./icon.md)'s 40-tall footprint; `small` and `xsmall` for denser call-sites. Icon size and slot gap stay fixed across rungs (16px / 4px); only label rank and capsule height shrink.
+Three rungs. `medium` matches [Icon Button](./icon.md)'s 40-tall footprint; `small` / `xsmall` for denser call-sites. Icon and slot gap stay fixed (16px / 4px); only label rank and capsule height shrink.
 
 | Size      | Min-height       | Padding (block × inline)        | Slot gap                          | Label                          | Icon                          |
 |-----------|------------------|----------------------------------|-----------------------------------|--------------------------------|-------------------------------|
@@ -153,4 +153,4 @@ Standard outward ring. Trigger: `:focus-visible`. See [Focus ring composition](.
 
 ## Optical alignment
 
-Transparent at rest, so the eye locks onto the label. Default rendering negates per-rung padding via `margin: calc(-1 × padding-block) calc(-1 × padding-inline)` so the visible **label box is the layout box**. Consumers do not opt in.
+Transparent at rest — the eye locks onto the label. Default rendering negates per-rung padding via `margin: calc(-1 × padding-block) calc(-1 × padding-inline)` so the visible **label box is the layout box**. Not opt-in.

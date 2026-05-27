@@ -1,8 +1,8 @@
 # anti-patterns.md — common Lovable / agent failure modes
 
-A catalogue of the wrong-shaped output Chorus consumers most often produce, paired with the right-shaped fix. Each entry names the rule it violates, the broken snippet, and the corrected one. **Read this file at least once before composing a new screen** — most agent-produced Chorus violations come from one of these ~12 recurring shapes. Pair with [`compose.md`](compose.md) (the canonical recipes) and [`tokens.usage.json`](tokens.usage.json) (the slot allowlist).
+A catalogue of the wrong-shaped output Chorus consumers most often produce, paired with the right-shaped fix. Each entry names the rule, the broken snippet, and the corrected one. **Read at least once before composing a new screen** — most agent violations come from these ~12 recurring shapes. Pair with [`compose.md`](compose.md) and [`tokens.usage.json`](tokens.usage.json).
 
-When in doubt: if your output matches one of the "❌ wrong" snippets below, discard and regenerate.
+When in doubt: if your output matches a "❌ wrong" snippet below, discard and regenerate.
 
 ---
 
@@ -30,7 +30,7 @@ Brand red is allowed on `button/fab`, `tab-bar/item--primary`, `badge`, `feed/po
 
 ## 2. `border:` painted on a card / list-row / feed-item / banner
 
-**Rule violated**: DESIGN.md § Border & stroke — *no-layout strokes*. Edge strokes are inset `box-shadow` (or a `::after` overlay when the surface hosts a full-bleed child). A real `border:` reflows the box on state changes; an inset shadow does not.
+**Rule violated**: DESIGN.md § Border & stroke — *no-layout strokes*. Edge strokes are inset `box-shadow` (or `::after` overlay when the surface hosts a full-bleed child). A real `border:` reflows the box on state changes.
 
 ```css
 /* ❌ Wrong — border reflows the card on hover / active state */
@@ -65,7 +65,7 @@ Brand red is allowed on `button/fab`, `tab-bar/item--primary`, `badge`, `feed/po
 
 `navigation-bar`, `tab-bar`, **`tabs`**, `section`, `feed`, `list`, `nav-card`, `banner`, `accordion`, `suggestion-list`, `avatar-rail`, `chip` (group).
 
-Tabs in particular trips up agents because its inner track LOOKS like it might need centering — it doesn't. Tabs pays its own inline padding internally; wrapping it adds a second gutter and the underline indicator no longer aligns with the page rail.
+Tabs in particular trips up agents because its inner track LOOKS like it might need centering — it doesn't. Tabs pays its own inline padding internally; wrapping adds a second gutter and the underline indicator no longer aligns with the page rail.
 
 ```jsx
 // ❌ Wrong — page padding paid twice (shell px-4 + child wrapper px-4)
@@ -89,7 +89,7 @@ Tabs in particular trips up agents because its inner track LOOKS like it might n
 </main>
 ```
 
-**Mental check before writing JSX**: if the component name is in the twelve-family list above, the call is a *direct child* of `<main>`. No wrapper. If you feel the urge to add `padding` for "alignment", the page shell's `padding-inline` is what needs adjusting — never a child wrapper.
+**Mental check before JSX**: if the component is in the twelve-family list, the call is a *direct child* of `<main>`. No wrapper. If you feel the urge to add `padding` for "alignment", the page shell's `padding-inline` is what needs adjusting.
 
 After rendering, run the [§E rail self-diagnostic snippet](LOVABLE.md) — every full-bleed child should share the same `left` / `right` rail.
 
@@ -172,7 +172,7 @@ Canonical instances on a single screen:
 
 ## 7. Typography sized below 12px for visible copy
 
-**Rule violated**: [`compose.md`](compose.md) § Type ramp picker — the smallest rung for visible copy is `sys.typo.caption.md` (12px). Below that breaks Korean / CJK hierarchy and accessibility minima.
+**Rule violated**: [`compose.md`](compose.md) § Type ramp picker — the smallest rung for visible copy is `sys.typo.caption.md` (12px). Below breaks Korean / CJK hierarchy and accessibility minima.
 
 ```jsx
 // ❌ Wrong — 11px meta line, 10px engagement count
@@ -210,7 +210,7 @@ Agents commonly under-size compact text to "look denser." The 12px floor is the 
 ]} />
 ```
 
-Same rule for FeedAd media, ProfileCarousel cover, Thumbnail itself. When no context-appropriate image can be inferred, use `/placeholder.png` (the universal image-area placeholder) — never an icon-in-a-tinted-circle, an empty `src`, or an inline SVG wordmark.
+Same rule for FeedAd media, ProfileCarousel cover, Thumbnail itself. When no context-appropriate image can be inferred, use `/placeholder.png` — never an icon-in-a-tinted-circle, empty `src`, or inline SVG wordmark.
 
 ---
 
@@ -240,7 +240,7 @@ The Banner variant prop picks the fill. Don't inline-style the background.
 
 ## 10. Surface stacked more than two tiers deep
 
-**Rule violated**: [`compose.md`](compose.md) § Composition guard rails #4 — surface tier cap is 2 per screen (`surface` + one `surface*Container` rung). A third nested surface tone reads as muddy.
+**Rule violated**: [`compose.md`](compose.md) § Composition guard rails #4 — surface tier cap is 2 per screen (`surface` + one `surface*Container` rung). A third nested tone reads as muddy.
 
 ```jsx
 // ❌ Wrong — surface → surfaceContainerLow → surfaceContainerHigh → surfaceContainerHighest
@@ -307,7 +307,7 @@ Link-affordance text (See all, Follow, View details) uses `Button variant="text"
 />
 ```
 
-Same rule for search input (`variant="search"` — Tabs/NavigationBar don't have a separate search component) and select (`variant="select"`).
+Same rule for search input (`variant="search"`) and select (`variant="select"`).
 
 ---
 
@@ -315,9 +315,9 @@ Same rule for search input (`variant="search"` — Tabs/NavigationBar don't have
 
 **Rule violated**: [`LOVABLE.md`](LOVABLE.md) § A.0 — the bundled `placeholder.png` MUST be copied into the consumer app's `public/` once at setup.
 
-Every image-area scaffold across this catalogue (`<Thumbnail src="/placeholder.png">`, `<FeedAd media={{ src: '/placeholder.png' }}>`, `<ProfileCarousel items={[{ cover: { src: '/placeholder.png' } }]} />`, …) addresses a **root-relative URL**. Vite / Next / Remix serve the asset from the consumer's `public/` root; if the file is not there, the browser fetches `/placeholder.png` → 404 → paints a broken-image glyph **on top of** the CSS layer's data-URL background. The CSS layer alone is not enough — the inline `<img>` is opaque over the background, so a 404'd `<img>` will overlay a broken-image icon onto an otherwise correctly-painted placeholder area.
+Every image-area scaffold (`<Thumbnail src="/placeholder.png">`, `<FeedAd media={{ src: '/placeholder.png' }}>`, `<ProfileCarousel items={[{ cover: { src: '/placeholder.png' } }]} />`, …) addresses a **root-relative URL**. Vite / Next / Remix serve from `public/` root; if the file is missing, the browser fetches `/placeholder.png` → 404 → paints a broken-image glyph **on top of** the CSS layer's data-URL background. The CSS fallback alone is not enough — the inline `<img>` is opaque over the background.
 
-**Diagnostic (run before composing):** open DevTools → Network, refresh, look for a 404 on `/placeholder.png`. If the request is missing entirely it means the scaffold did not address an image-area slot at all (a different anti-pattern — see #8); if it 404s, you skipped the §A.0 copy step.
+**Diagnostic (run before composing):** DevTools → Network → refresh → look for 404 on `/placeholder.png`. Missing request entirely = scaffold didn't address an image slot (see #8); 404 = you skipped the §A.0 copy step.
 
 ```bash
 # ❌ Wrong — package installed, scaffolds reference /placeholder.png, but consumer's public/ is empty.
@@ -330,15 +330,15 @@ npm install @blind-dsai/ui @blind-dsai/tokens
 cp node_modules/@blind-dsai/ui/placeholder.png public/
 ```
 
-Do NOT work around this by inventing a stock URL, swapping in an inline SVG wordmark, hiding the `<img>` with `display: none`, or pointing every `src` at the CDN-hosted PNG — those all break the §A.0 contract and the AGENTS.md "one universal placeholder" rule. The fix is the one-line `cp`; the scaffolds stay as-shipped.
+Do NOT work around with an invented stock URL, inline SVG wordmark, `display: none` on the `<img>`, or pointing every `src` at the CDN-hosted PNG — those break the §A.0 contract and the AGENTS.md "one universal placeholder" rule. The fix is the one-line `cp`; scaffolds stay as-shipped.
 
 ---
 
-## When you spot one of these, what to do
+## When you spot one of these
 
 1. Stop composing.
 2. Re-read the rule cited in the entry.
 3. Discard the offending block and regenerate from the right-side snippet.
-4. Run the LOVABLE.md §E pre-flight checklist + the §E rail self-diagnostic snippet.
+4. Run the LOVABLE.md §E pre-flight checklist + §E rail self-diagnostic.
 
-A violation that survives both passes is a Chorus gap report, not a permission slip — flag it in one line and stop.
+A violation surviving both passes is a Chorus gap report, not a permission slip — flag in one line and stop.

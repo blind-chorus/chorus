@@ -2,7 +2,7 @@
 
 The top app bar — a horizontal strip pinned to the top of a screen that names the screen and exposes its highest-priority actions. Three sub-flavors share this contract: **Home** (landing-screen bar), **Page** (drill-in bar with centred title), and **Search** (search-page bar with a bare-text input). All three sit at 16px inline / 8px block padding and delegate icon slots to [Icon Button](../button/icon.md).
 
-**Layout inset.** `full-bleed` — sits flush at the top of the page shell, stretching edge-to-edge. The bar owns its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the bar's leading icon lands at a different inset than the section headings and list-row leading edges below. The bar is pinned chrome, not a `<main>` child — sits *outside* the `<main>` that pays `sys.layout.page.*`. See [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits flush at the top of the page shell. The bar owns its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. The bar is pinned chrome, not a `<main>` child — sits *outside* the `<main>` that pays `sys.layout.page.*`. See [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Cross-sub contract
 

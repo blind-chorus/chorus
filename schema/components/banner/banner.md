@@ -1,12 +1,12 @@
 # Banner
 
-An in-body explanation block — a tinted card sitting within the reading flow with a short paragraph and an optional follow-through link. Reach for Banner when a passage needs a brief aside the reader can scan or skip; prefer [Dialog](../dialog/dialog.md) / [Bottom sheet](../bottom-sheet/bottom-sheet.md) when the message demands a decision, or [Toast](../toast/toast.md) when it's a transient confirmation of a recent user action rather than part of the page itself.
+An in-body explanation block — a tinted card sitting within the reading flow with a short paragraph and an optional follow-through link. Reach for Banner when a passage needs a brief aside the reader can scan or skip; prefer [Dialog](../dialog/dialog.md) / [Bottom sheet](../bottom-sheet/bottom-sheet.md) when the message demands a decision, or [Toast](../toast/toast.md) when it confirms a recent user action.
 
-**Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. The family owns its own internal padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the banner edge lands at a different inset than the section headings and list rows around it. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge. Owns its internal padding via `layout.container.*`; do **not** wrap in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-The muted appearance — body in `onSecondaryContainer`, action link in `primary` so it carries the only chromatic emphasis on the surface. Supplementary asides the reader can pass over without missing the main flow.
+The muted appearance — body in `onSecondaryContainer`, action link in `primary`. Supplementary asides the reader can pass over without missing the main flow.
 
 ```preview
 banner/default
@@ -23,7 +23,7 @@ import { Banner } from '@blind-dsai/ui';
 
 ## Accent
 
-The primary-tinted appearance with body and a follow-through link. Both the body and the action paint in the primary family, so the whole banner reads as one "highlighted block" at a glance — reach for it when the aside should pull more attention.
+The primary-tinted appearance. Body and action both paint in the primary family — reach for it when the aside should pull more attention.
 
 ```preview
 banner/accent
@@ -40,7 +40,7 @@ import { Banner } from '@blind-dsai/ui';
 
 ## Destructive
 
-The error-tinted appearance — `errorContainer` fill with `onErrorContainer` foreground. The whole banner re-tones to the error family so the aside reads as one warning block at a glance. Reach for `destructive` when the aside is a blocking error or rejection — failed approvals, integration outages, billing problems. Use sparingly: every destructive banner on a screen competes with the others for the user's alarm budget.
+The error-tinted appearance — `errorContainer` fill with `onErrorContainer` foreground. Reach for `destructive` when the aside is a blocking error or rejection — failed approvals, integration outages, billing problems. Use sparingly.
 
 ```preview
 banner/destructive
@@ -59,7 +59,7 @@ import { Banner } from '@blind-dsai/ui';
 
 ### With thumbnail
 
-A leading [Thumbnail](../thumbnail/thumbnail.md) at the top-left — reach for it when the aside is anchored to a channel, author, or sub-brand image rather than to a glyph. The Thumbnail owns its own diameter and corner shape; the slot only top-aligns it next to the content column.
+A leading [Thumbnail](../thumbnail/thumbnail.md) at the top-left — reach for it when the aside is anchored to a channel, author, or sub-brand image. Thumbnail owns its own diameter and corner shape; the slot only top-aligns it next to the content column.
 
 ```preview
 banner/with-thumbnail
@@ -77,7 +77,7 @@ import { Banner, Thumbnail } from '@blind-dsai/ui';
 
 ### With icon
 
-A 24 × 24 (`sys.icon.lg`) glyph at the top-left, painted in `currentColor` so the mark inherits the banner's foreground and reads as part of the body copy. Reach for it when the aside leads with a meaning-bearing glyph rather than a brand image.
+A 24 × 24 (`sys.icon.lg`) glyph at the top-left, painted in `currentColor` so the mark inherits the banner's foreground. Reach for it when the aside leads with a meaning-bearing glyph rather than a brand image.
 
 ```preview
 banner/with-icon
@@ -96,7 +96,7 @@ import { StarIcon } from '@blind-dsai/ui/icons';
 
 ## Appearance
 
-Two appearances on the *emphasis* axis — pick by how much attention the aside should pull from the surrounding body. Banner carries no disabled state (the container is non-interactive; only the optional action link follows the link state contract).
+Two appearances on the *emphasis* axis — pick by how much attention the aside should pull. Banner carries no disabled state; only the optional action link follows the link state contract.
 
 | Appearance | Container fill                  | Body / action color                                                 | When to use                                                                  |
 |------------|---------------------------------|---------------------------------------------------------------------|------------------------------------------------------------------------------|

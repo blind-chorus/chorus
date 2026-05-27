@@ -1,14 +1,14 @@
 # Status tag
 
-A small inline status pill — a tonal mark sized for the trailing edge of a row label. 10px text, 4px inline / 2px block padding, `sys.radius.xs` corners. Two appearances on a single emphasis axis: `neutral` (the quiet informational default) and `error` (the rejection / blocked state). Decorative — never an interactive surface.
+A small inline status pill — a tonal mark sized for the trailing edge of a row label. 10px text, 4px inline / 2px block padding, `sys.radius.xs` corners. Two appearances: `neutral` (quiet informational default) and `error` (rejection / blocked). Decorative — never interactive.
 
-**Reach for this when** a row label needs a short state annotation inline next to it — "pending" next to a pending user channel, "rejected" next to a failed approval, "draft" next to an in-progress post. **Skip when** the state is the row's primary content (use a [List/text](../list/text.md) row with the state in its `supportingText` slot), when the mark needs to be tappable (the host row owns the click target, not the tag), or when you reach for it inside a chip row (use [chip/filter](../chip/filter.md) or [chip/tag](../chip/tag.md) — those are the 32px-rung interactive cousins).
+**Reach for this when** a row label needs a short state annotation inline — "pending" next to a user channel, "rejected" next to a failed approval, "draft" next to an in-progress post. **Skip when** the state is the row's primary content (use [List/text](../list/text.md) with `supportingText`), when the mark must be tappable (host row owns the click target), or inside a chip row (use [chip/filter](../chip/filter.md) or [chip/tag](../chip/tag.md)).
 
-**Layout inset.** `inline` — StatusTag ships no padding outside its own pill chrome. It sits next to a host label (a List row label, a NavCard label, a feed-post author name) with a `sys.layout.container.2xs` (4px) inline gap supplied by the host column.
+**Layout inset.** `inline` — StatusTag ships no padding outside its pill chrome. Sits next to a host label with `sys.layout.container.2xs` (4px) inline gap supplied by the host column.
 
 ## Default
 
-The `neutral` appearance — a faint scrim of the inverse tone (`black.200` in light mode, `white.200` in dark) with an `onSurfaceVariant` foreground. The quiet informational state.
+The `neutral` appearance — a faint scrim of the inverse tone (`black.200` in light, `white.200` in dark) with `onSurfaceVariant` foreground. The quiet informational state.
 
 ```preview
 status-tag/default
@@ -34,7 +34,7 @@ import { StatusTag } from '@blind-dsai/ui';
 
 ### On a list row
 
-The canonical pairing — a `list/thumbnail` row whose label carries a trailing StatusTag. The tag sits next to the label text with a `sys.layout.container.2xs` (4px) inline gap, vertically centred against the label's optical mid-line. The gap belongs to the label column (a flex row holding `<label-text><StatusTag/>`); StatusTag itself carries no outer margin.
+The canonical pairing — a `list/thumbnail` row whose label carries a trailing StatusTag. Tag sits next to the label text with `sys.layout.container.2xs` (4px) inline gap, vertically centred against the label's optical mid-line. The gap belongs to the label column; StatusTag carries no outer margin.
 
 ```preview
 status-tag/list-row
@@ -70,7 +70,7 @@ import { List, StatusTag, Thumbnail } from '@blind-dsai/ui';
 
 ### Inline in a paragraph
 
-A loose-running variant — a StatusTag tucked inline inside a paragraph or a feed-post header. Same 4px gap rule: the host column owns the whitespace, StatusTag stays a bare pill.
+A StatusTag tucked inline inside a paragraph or a feed-post header. Same 4px gap rule: the host column owns the whitespace, StatusTag stays a bare pill.
 
 ```preview
 status-tag/inline
@@ -99,8 +99,8 @@ import { StatusTag } from '@blind-dsai/ui';
 
 | Appearance | Container fill                                                              | Foreground                       | When to reach                                                                  |
 |------------|-----------------------------------------------------------------------------|----------------------------------|-------------------------------------------------------------------------------|
-| `neutral`  | `ref.palette.black.200` (light) / `ref.palette.white.200` (dark)            | `sys.color.onSurfaceVariant`     | The quiet informational default. A faint scrim of the inverse tone in either theme so the pill stays visible on every surface tier. In-progress / awaiting states — "pending", "draft", "queued", "in review". |
-| `error`    | `sys.color.errorContainer`                                                  | `sys.color.onErrorContainer`     | The rejection / blocked / failed state. Use sparingly — competing error pills on one screen dilute each other. |
+| `neutral`  | `ref.palette.black.200` (light) / `ref.palette.white.200` (dark)            | `sys.color.onSurfaceVariant`     | Quiet informational default — visible on every surface tier. In-progress / awaiting states — "pending", "draft", "queued", "in review". |
+| `error`    | `sys.color.errorContainer`                                                  | `sys.color.onErrorContainer`     | Rejection / blocked / failed state. Use sparingly. |
 
 ## States
 

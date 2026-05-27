@@ -8,7 +8,7 @@ Labelled heading + an optional trailing affordance. The composable header anatom
 
 ## Default
 
-Section-style heading with a trailing Text Button "See all" link. Two sizes diverge on label typography: `large` = `sys.typo.heading.md` (20 / Semibold), `medium` = `sys.typo.heading.sm` (16 / Semibold). Pick the size axis from the dropdown.
+Section-style heading with a trailing Text Button "See all" link. Two sizes diverge on label typography: `large` = `sys.typo.heading.md` (20 / Semibold), `medium` = `sys.typo.heading.sm` (16 / Semibold).
 
 ```preview
 header/default
@@ -25,7 +25,7 @@ import { Header } from '@blind-dsai/ui';
 
 ### With drill-in chevron
 
-`trailingIcon` mode — the whole header becomes the tap target via `onClick` / `href`. The 16px chevron paints in `onSurfaceVariant` and rotates -90° to read as chevron-right. Use inside drawer columns, bounded cards, and any host where the trailing affordance is "open this surface", not "commit a labelled action". `headerAction` and `trailingIcon` are mutually exclusive.
+`trailingIcon` mode — the whole header becomes the tap target via `onClick` / `href`. The 16px chevron paints in `onSurfaceVariant` and rotates -90° to read as chevron-right. Use when the trailing affordance is "open this surface", not "commit a labelled action". `headerAction` and `trailingIcon` are mutually exclusive.
 
 ```preview
 header/with-icon-action

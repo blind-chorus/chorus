@@ -2,7 +2,7 @@
 
 Drill-in navigation List sub-component — rows drill into another surface. No leading slot; trailing edge auto-renders a right-pointing chevron. Row geometry, typography, divider, state overlays, and inward focus ring all delegate to the [family-wide rules](./list.md); this sub documents the auto-rendered trailing chevron.
 
-**Layout inset.** `full-bleed` — Nav list is an **edge-to-edge** family. It sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. Each row pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap the list in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the trailing chevron lands at a different inset than the section headings and other lists around it. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell. Each row pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap the list in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the trailing chevron lands at a different inset than the section headings around it. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
@@ -29,7 +29,7 @@ import { List } from '@blind-dsai/ui';
 
 ### With per-item trailing icon override
 
-A row passes its own `trailingIcon` to replace the auto-rendered chevron — typically a status glyph (badge, count, external-link mark). Reach for it when a single row carries a status the rest of the list doesn't (an unread badge on `Notifications`, an external `↗` on a row that opens off-screen). The override is per-item; sibling rows keep the chevron.
+A row passes its own `trailingIcon` to replace the auto chevron — typically a status glyph (badge, count, external-link mark). Reach for it when a single row carries a status the rest of the list doesn't (unread badge on `Notifications`, external `↗` on an off-screen target). Per-item; sibling rows keep the chevron.
 
 ```preview
 list/nav-trailing-override

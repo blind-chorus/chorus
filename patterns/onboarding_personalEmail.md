@@ -6,7 +6,7 @@ status: canonical
 
 ## Intent
 
-Friction sheet for the personal-email escape hatch on [onboarding](onboarding.md). When the user taps "I don't have a work email" on step 1 of Sign Up, this bottom sheet rises to surface the **feature trade-off** — what they keep with a personal email vs. what unlocks with a verified work email — before they commit. The primary action is intentionally "Go back" (steering toward work-email verification); the personal-email path is the secondary, outlined CTA so it doesn't read as the recommended route.
+Friction sheet for the personal-email escape hatch on [onboarding](onboarding.md). Surfaces the **feature trade-off** — personal email vs verified work email — before commit. Primary action is "Go back" (steering toward work-email); personal-email is the secondary outlined CTA.
 
 ## Layout
 
@@ -34,7 +34,7 @@ Friction sheet for the personal-email escape hatch on [onboarding](onboarding.md
 
 ## Notes
 
-- The comparison matrix is *layout*, not a component. Don't extract a `comparison-table` family for this one surface — if a second pattern adopts the same matrix, revisit.
-- Primary/secondary ordering is reversed from typical "dismiss-as-secondary" sheets on purpose: the recommended path (Go back → work email) needs the visual weight. Don't flip it to match other sheets.
-- Lock vs check glyphs are role-encoded (gated vs allowed), not state-encoded — they don't toggle. Use the icon family's `lock` and `check` glyphs at body line-height.
-- The KR locale variant lives at [onboarding_kr_personalEmail](onboarding_kr_personalEmail.md) and adds a trailing text-link escape route — keep the two in sync when either changes.
+- Comparison matrix is *layout*, not a component. Don't extract a `comparison-table` family for this one surface; revisit if a second pattern adopts it.
+- Primary/secondary order is reversed from typical "dismiss-as-secondary" sheets — recommended path (Go back → work email) needs the visual weight. Don't flip.
+- Lock vs check glyphs are role-encoded (gated vs allowed), not state-encoded — they don't toggle. Use icon family `lock` and `check` at body line-height.
+- KR variant: [onboarding_kr_personalEmail](onboarding_kr_personalEmail.md) adds a trailing text-link escape. Keep in sync.

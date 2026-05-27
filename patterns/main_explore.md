@@ -7,7 +7,7 @@ recipe: ../schema/screens/main-explore.screen.json
 
 ## Intent
 
-Channel and topic discovery. Two parallel modes — "Explore" (curated recommendations + hot posts) and "My Channels" — sit under a page-style header with a search affordance. The screen is shopping-shaped: large preview cards horizontally, follow/unfollow toggles as primary commits.
+Channel and topic discovery. Two modes — "Explore" (curated recommendations + hot posts) and "My Channels" — under a page-style header with search. Shopping-shaped: horizontal preview cards, follow/unfollow toggles as primary commits.
 
 ## Layout
 
@@ -35,5 +35,5 @@ Channel and topic discovery. Two parallel modes — "Explore" (curated recommend
 
 ## Notes
 
-- Two distinct horizontal rails (channel cards, post cards) are visually similar but semantically different surfaces — keep them as separate sections with their own headers, not a single rail.
-- The Follow/Unfollow pair demonstrates `button/toggle` with both states visible; useful as a parity reference.
+- Channel rail and post rail are semantically distinct — keep as separate sections with own headers, not a single rail.
+- Follow/Unfollow pair shows `button/toggle` in both states; parity reference.

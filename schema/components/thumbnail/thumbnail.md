@@ -1,12 +1,12 @@
 # Thumbnail
 
-A circular image — the unit used to identify a channel, a feed author, or any small-rung image inside a denser composition. Two optional badges ride on the container without changing its footprint: an **update dot** at the top-right, and a **logo badge** at the bottom-right. A pure visual primitive — it carries no label of its own.
+A circular image — the unit used to identify a channel, a feed author, or any small-rung image. Two optional badges ride without changing footprint: an **update dot** at the top-right, and a **logo badge** at the bottom-right. A pure visual primitive — no label of its own.
 
-**Layout inset.** `inline` — slot atom. No page-rail responsibility; the surrounding container places it. Lives inside another component's leading slot (List row leading, Feed author block, AvatarRail item, SuggestionList row, NavigationBar leading) — never as a sibling of `full-bleed` page rows. The host component picks the rung (16 / 20 / 24 / 32 / 40 / 48) and positions the Thumbnail within its own padding.
+**Layout inset.** `inline` — slot atom. No page-rail responsibility; the surrounding container places it. Lives inside another component's leading slot (List row leading, Feed author block, AvatarRail item, SuggestionList row, NavigationBar leading) — never as a sibling of `full-bleed` page rows. The host picks the rung (16 / 20 / 24 / 32 / 40 / 48) and positions the Thumbnail.
 
 ## Default
 
-The base form — image only, no badges. Thumbnail is an **image-first** primitive: the `src` prop expects a real image asset URL (PNG / JPG / WebP / SVG), and the slot is meant to resolve to an `<img>`, not to a glyph or text. When the composition is a mock-up and no real channel / author image exists, fill `src` with the bundled placeholder asset `/placeholder.png` rather than omitting it — the empty-surface fallback is for runtime load failures, not for design-time scaffolding.
+The base form — image only, no badges. Thumbnail is an **image-first** primitive: the `src` prop expects a real image asset URL (PNG / JPG / WebP / SVG); the slot resolves to an `<img>`, not a glyph or text. When mocking up with no real image, fill `src` with `/placeholder.png` rather than omitting it — the empty-surface fallback is for runtime load failures, not design-time scaffolding.
 
 ```preview
 thumbnail/default
@@ -87,10 +87,10 @@ import { Thumbnail } from '@blind-dsai/ui';
 ## Slots
 
 - **image** — circular image; required. Fills the container at `radius.full`. When the asset hasn't loaded, the container holds `surfaceContainerHigh` and AT reads `alt`.
-- **updateDot** *(optional)* — `brand`-tone dot at the top-right. Decorative (`aria-hidden`); pair with a text affordance for the count. **Rendered by [Badge](../badge/badge.md)'s `dot-md` / `dot-sm` rungs** so the dot, its 2px `surface`-color outline, and the rung-size break stay in lockstep with the Badge family. Thumbnail picks `dot-md` at the 32 / 40 / 48 rungs and `dot-sm` at the 16 / 20 / 24 rungs.
+- **updateDot** *(optional)* — `brand`-tone dot at the top-right. Decorative (`aria-hidden`); pair with a text affordance for the count. **Rendered by [Badge](../badge/badge.md)'s `dot-md` / `dot-sm` rungs.** Thumbnail picks `dot-md` at the 32 / 40 / 48 rungs and `dot-sm` at the 16 / 20 / 24 rungs.
 - **logoBadge** *(optional)* — 16×16 circular badge at the bottom-right, for a sub-brand glyph.
 
-Both corner overlays sit *above* the image and carry a 1px (`borderWidth.hairline`) `surface`-color halo painted as a `box-shadow` — visually a hairline gap, with no change to the overlay's bounding footprint.
+Both corner overlays sit *above* the image and carry a 1px (`borderWidth.hairline`) `surface`-color halo painted as a `box-shadow` — no change to the overlay's bounding footprint.
 
 ## Anatomy
 
@@ -118,13 +118,13 @@ The update-dot steps down at 32 so it stays a *highlight*, not an *occluder*; th
 
 ## States
 
-Thumbnail is not interactive — no hover / pressed / focused / disabled of its own. When wrapped in an interactive row, the row owns state and the focus ring paints around the row.
+Thumbnail is not interactive — no hover / pressed / focused / disabled. When wrapped in an interactive row, the row owns state and focus.
 
-When the image fails to load or `src` is omitted, the slot enters its **fallback** form — the bundled `/placeholder.png` paints as the layer's `background-image` (centered, covered) over a `surfaceContainerHigh` base, so the slot still resolves to an image rather than an empty surface. The fallback is a runtime safety net for load failures; design-time scaffolds should pass `/placeholder.png` through `src` explicitly so the placeholder is visible in the composition contract.
+When the image fails to load or `src` is omitted, the slot enters its **fallback** form — `/placeholder.png` paints as the layer's `background-image` (centered, covered) over a `surfaceContainerHigh` base. The fallback is a runtime safety net; design-time scaffolds should pass `/placeholder.png` through `src` explicitly.
 
 ## Behavior
 
 - **Slot omission collapses without leaving a gap.** Both badges drop out entirely when absent.
-- **Badges overlay; they never reflow the image.** Absolutely positioned; the 1px halo is a `box-shadow`, so the overlay's bounding box doesn't grow.
-- **Image clipped to a perfect circle.** `radius.full` + `overflow: hidden`; hand in a square-or-larger source to avoid distortion.
-- **Image fallback, not text fallback.** When `src` is omitted or the server fails to deliver the image, the slot's `background-image` paints the bundled `/placeholder.png` over a `surfaceContainerHigh` base — the image area always resolves to an image. There is no text/initial fallback.
+- **Badges overlay; they never reflow the image.** Absolutely positioned; the 1px halo is a `box-shadow`.
+- **Image clipped to a perfect circle.** `radius.full` + `overflow: hidden`; hand in a square-or-larger source.
+- **Image fallback, not text fallback.** When `src` is omitted or the server fails to deliver the image, the slot's `background-image` paints `/placeholder.png` over a `surfaceContainerHigh` base. There is no text/initial fallback.

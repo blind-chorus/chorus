@@ -2,7 +2,7 @@
 
 The drill-in top bar — anchored to every screen one step inside a flow. The page name sits centred; a leading slot (typically a back-arrow icon) and a trailing slot (a [Toolbar Button](../button/toolbar.md), text link, or single icon) flank it. Title type drops from Home's `typo.heading.lg` to `typo.heading.sm` (16/Semibold).
 
-**Layout inset.** `full-bleed` — Page is an **edge-to-edge** family. It sits as a direct child of the page shell at the top of the route and stretches edge-to-edge inside it. The bar pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the title and flanking slots land at a different inset than the page body underneath. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell at the top of the route. The bar pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
@@ -42,7 +42,7 @@ import { NavigationBar } from '@blind-dsai/ui';
 
 ### With text button trailing
 
-The trailing slot carries a [Text Button](../button/text.md) — typically a "Skip" affordance or "Done" commit. Reads as inline 16/Semibold `primary` type at rest.
+The trailing slot carries a [Text Button](../button/text.md) — typically "Skip" or "Done". Reads as inline 16/Semibold `primary` type at rest.
 
 ```preview
 navigation-bar/page/link-trailing
@@ -59,7 +59,7 @@ import { NavigationBar } from '@blind-dsai/ui';
 
 ### External page (close-only)
 
-For external content visited in-app (embedded webview, in-app browser). Leading drops because there's no flow to step back through; trailing collapses to a single close (×) [Icon Button](../button/icon.md) with `aria-label="Close"`.
+External content visited in-app (embedded webview, in-app browser). Leading drops — no flow to step back; trailing is a single close (×) [Icon Button](../button/icon.md) with `aria-label="Close"`.
 
 ```preview
 navigation-bar/page/external-page
@@ -124,7 +124,7 @@ A single fixed rung.
 
 ## Layout
 
-Three-column grid (leading / title / trailing) sized **`1fr auto 1fr`** — equal side regions, so the centre `auto` column always sits at the bar's geometric horizontal centre regardless of side-slot widths. The trailing column collapses to zero when empty — a leading-only or title-only bar centres on the same axis. Action always stays intact; title truncation is the safety net.
+Three-column grid (leading / title / trailing) sized **`1fr auto 1fr`** — equal side regions, so the centre `auto` column sits at the bar's geometric horizontal centre regardless of side-slot widths. The trailing column collapses to zero when empty. Action stays intact; title truncation is the safety net.
 
 ## States
 

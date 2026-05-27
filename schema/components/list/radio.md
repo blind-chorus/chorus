@@ -2,7 +2,7 @@
 
 Single-select picker List sub-component. Each row carries a leading 16px radio indicator; clicking commits that row's value via `onChange(value)`. Exactly one row is selected at a time. Row geometry, typography, divider, state overlays, and inward focus ring all delegate to the [family-wide rules](./list.md); this sub documents the Radio-specific leading indicator and selection contract.
 
-**Layout inset.** `full-bleed` — Radio list is an **edge-to-edge** family. It sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. Each row pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap the list in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the radio indicator lands at a different inset than the section headings and other lists around it. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell. Each row pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap the list in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the radio indicator lands at a different inset than the section headings around it. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
@@ -34,7 +34,7 @@ const [value, setValue] = useState('week');
 
 ### With supporting text
 
-Each row pairs its label with a secondary line under it. Reach for it when the option labels alone don't carry enough context — sort orders explained in copy, equity types with one-line definitions.
+Pairs each label with a secondary line. Reach for it when labels alone don't carry enough context — sort orders explained in copy, equity types with one-line definitions.
 
 ```preview
 list/radio-with-supporting
@@ -60,7 +60,7 @@ const [value, setValue] = useState('trending');
 
 ### Disabled item
 
-A single row pinned to `disabled: true` — pointer-events suppressed, the radio indicator dims with the row at `sys.state.disabled` opacity. Reach for it when an option is contextually unavailable but should still read as part of the set (a paywalled tier, a region-locked option).
+A row pinned to `disabled: true` — pointer-events suppressed, indicator dims with the row at `sys.state.disabled` opacity. Reach for it when an option is contextually unavailable but still belongs in the set (paywalled tier, region-locked option).
 
 ```preview
 list/radio-disabled-item

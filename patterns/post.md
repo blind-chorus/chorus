@@ -7,7 +7,7 @@ recipe: ../schema/screens/post.screen.json
 
 ## Intent
 
-Single-post detail view — full body, optional embedded poll, and full toolbar of post-level actions (share, subscribe, bookmark, overflow). The reader's primary action is to scroll, react, or vote; replies live on the paired comments screen ([[post_comments]]).
+Single-post detail view — full body, optional embedded poll, and full toolbar of post-level actions (share, subscribe, bookmark, overflow). Reader's primary action is scroll/react/vote; replies live on the paired comments screen ([[post_comments]]).
 
 ## Layout
 
@@ -35,7 +35,7 @@ Single-post detail view — full body, optional embedded poll, and full toolbar 
 
 ## Notes
 
-- The author block has *two* meta lines (channel + time, then workplace · role · username). Agents should preserve both — collapsing into one loses identity context that's load-bearing in Blind.
-- "blind" in the nav title is intentionally muted/gray, not primary — it's a wordmark, not a screen title.
-- The bottom notice strip is non-modal and persistent for this state; do not model it as a toast.
-- Body markup includes inline entity underlines and hashtag color — these are tokenized text styles, not arbitrary inline `<span>` overrides.
+- Author block has *two* meta lines (channel + time, then workplace · role · username). Preserve both — collapsing loses load-bearing identity context.
+- "blind" in the nav title is muted/gray — wordmark, not a screen title.
+- Bottom notice strip is non-modal and persistent; do not model as a toast.
+- Inline entity underlines and hashtag color are tokenized text styles, not arbitrary `<span>` overrides.

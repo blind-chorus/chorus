@@ -6,7 +6,7 @@ recipe: ../schema/screens/search.screen.json
 
 ## Intent
 
-A focused search surface — the input is the screen. The top bar collapses to a bare input row (leading back + text field filling the bar + conditional clear); the body switches between recent searches and live results without changing component. There is no FAB; the search input is itself the primary commit.
+Focused search surface — the input is the screen. Top bar collapses to a bare input row (leading back + text field filling the bar + conditional clear); body switches between recent searches and live results without changing component. No FAB; the input is itself the primary commit.
 
 ## Layout
 
@@ -30,7 +30,7 @@ A focused search surface — the input is the screen. The top bar collapses to a
 
 ## Notes
 
-- **Same component in both modes.** Do not swap to `list/nav` when results appear — `nav` would render trailing chevrons that conflict with result-tap semantics. Only the `items` array changes.
-- **Never stack a second top bar.** The `search` variant already owns the back affordance; adding a `page` bar above it doubles chrome.
-- **Body may swap to `feed` when results are authored content** (e.g. searching posts vs channels). The recipe declares `swappable.body: [list, feed]` — the choice is by *result kind*, not visual preference.
-- Source screenshot is English; preview/demo strings stay English per AGENTS.md rule 7.
+- **Same component in both modes.** Do not swap to `list/nav` when results appear — trailing chevrons conflict with result-tap semantics. Only the `items` array changes.
+- **Never stack a second top bar.** The `search` variant owns the back affordance; a `page` bar above doubles chrome.
+- **Body may swap to `feed` when results are authored content** (posts vs channels). Recipe declares `swappable.body: [list, feed]` — choice is by *result kind*, not visual preference.
+- Source is English; demo strings stay English per AGENTS.md rule 7.

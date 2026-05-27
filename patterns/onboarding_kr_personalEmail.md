@@ -6,7 +6,7 @@ status: canonical
 
 ## Intent
 
-Korean-locale variant of [onboarding_personalEmail](onboarding_personalEmail.md). Same friction-sheet purpose — surface the personal-vs-work-email feature trade-off on Sign Up step 1 — with two locale-specific deltas: (1) the body copy names the expected KR personal providers ("네이버, Gmail 등"), and (2) an extra trailing text-link below the action stack ("회사이메일 외에 다른 방법으로 인증하고 싶어요") lets users escape into an alternate verification flow that the EN flow doesn't expose at this step.
+Korean variant of [onboarding_personalEmail](onboarding_personalEmail.md). Two locale-specific deltas: (1) body names KR providers ("네이버, Gmail 등"); (2) extra trailing text-link ("회사이메일 외에 다른 방법으로 인증하고 싶어요") escapes into an alternate verification flow not exposed on the EN flow.
 
 ## Layout
 
@@ -31,6 +31,6 @@ Korean-locale variant of [onboarding_personalEmail](onboarding_personalEmail.md)
 
 ## Notes
 
-- The trailing text-link is the *only* layout difference from [onboarding_personalEmail](onboarding_personalEmail.md). It exists because the KR verification flow has an additional non-email proof channel that the EN flow doesn't; keep this asymmetry intentional.
-- Localization: source is Korean. Per AGENTS.md rule 7, demo strings rendered in components should be English; this pattern captures the Korean source for visual fidelity only. When porting to a recipe under `schema/screens/`, the recipe's demo slot content should be English while keeping the EN/KR layout parity captured here.
-- Don't merge this with the EN variant via a `locale` prop on a single pattern — patterns are visual references, not parameterized components. The two slugs make the layout delta auditable.
+- Trailing text-link is the *only* layout delta vs [onboarding_personalEmail](onboarding_personalEmail.md) — KR has an extra non-email proof channel. Keep the asymmetry intentional.
+- Source is Korean. Per AGENTS.md rule 7, demo strings render English; Korean here is for visual fidelity only.
+- Don't merge with the EN variant via a `locale` prop — patterns are visual references, not parameterized components. Two slugs make the layout delta auditable.

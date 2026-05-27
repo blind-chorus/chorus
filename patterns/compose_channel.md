@@ -7,7 +7,7 @@ recipe: ../schema/screens/compose-channel.screen.json
 
 ## Intent
 
-Channel picker presented as a bottom sheet from [[compose]]. Two sections — "내 채널" (channels you belong to) and "팔로우중인 채널" (channels you follow) — each row showing avatar, channel name, and a short eligibility/scope sentence. Search input pinned at top of the sheet for fast filtering.
+Channel picker bottom sheet from [[compose]]. Two sections — "내 채널" (channels you belong to) and "팔로우중인 채널" (channels you follow) — each row showing avatar, channel name, and a short eligibility/scope sentence. Search input pinned at top.
 
 ## Layout
 
@@ -35,7 +35,7 @@ Channel picker presented as a bottom sheet from [[compose]]. Two sections — "�
 
 ## Notes
 
-- This sheet is the *paired trigger* of the channel picker row in [[compose]] — per AGENTS.md, every bottom-sheet/dialog must have a paired trigger; that trigger lives there.
-- The "내 채널" rows are denser-text than "팔로우중인 채널" rows because they carry eligibility metadata; do not normalize them to the same density.
-- The avatar-overlaid "B" badge is a thumbnail-decorator, not a separate row badge — model it as part of the `thumbnail` slot, not as a trailing `badge`.
-- Sheet is short-form (≤2 sections visible without scroll on tall devices) but supports scroll; assume keyboard collapses sheet height when search focuses.
+- Paired trigger of the channel picker row in [[compose]] (AGENTS.md: every bottom-sheet must have a paired trigger).
+- "내 채널" rows carry eligibility metadata and are denser than "팔로우중인 채널" rows; do not normalize densities.
+- The "B" badge is a thumbnail-decorator inside the `thumbnail` slot, not a trailing `badge`.
+- Sheet supports scroll; keyboard collapses sheet height when search focuses.

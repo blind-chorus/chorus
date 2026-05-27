@@ -1,12 +1,12 @@
 # FAB
 
-Floating action button — surface-elevated commit anchored to the canvas, reachable while content scrolls (mobile list canvases, drawing surfaces, feeds). Use as the *single* headline action of a scrollable canvas; prefer [Standard Button](./standard.md) when the action lives inline with content (forms, rows, dialogs) rather than floating above it. Independent contract from the standard Button: single fixed sizing rung, label and icon both optional (at least one present), pill geometry (`sys.radius.full`), floating elevation (`sys.elevation.floating`).
+Floating action button — surface-elevated commit anchored to the canvas, reachable while content scrolls. Use as the *single* headline action of a scrollable canvas; prefer [Standard Button](./standard.md) when the action lives inline with content. Independent contract: single fixed rung, label and icon both optional (at least one present), pill geometry (`sys.radius.full`), floating elevation (`sys.elevation.floating`).
 
-**Layout inset.** `inline` — FAB ships no padding outside its own pill chrome. It sits inside whichever overlay container anchors it to the canvas (a fixed positioner, a bottom-right docked layer) with the host paying the surrounding offset to the page rail and safe-area inset. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `inline` — ships no padding outside its own pill chrome. Sits inside an overlay container anchoring it to the canvas (fixed positioner, bottom-right docked layer) with the host paying the offset to the page rail and safe-area inset. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Primary
 
-The default FAB — brand-red fill anchoring the canvas's headline action.
+Brand-red fill anchoring the canvas's headline action.
 
 ```preview
 button/fab/primary
@@ -25,7 +25,7 @@ import { PlusIcon } from '@blind-dsai/ui/icons';
 
 ## Secondary
 
-A theme-toned FAB that defers to the canvas's surface tones. Reach for this when a brand-red FAB would over-claim the page's visual hierarchy.
+Theme-toned FAB that defers to the canvas's surface tones. Reach for it when a brand-red FAB would over-claim the page hierarchy.
 
 ```preview
 button/fab/secondary
@@ -46,7 +46,7 @@ import { PlusIcon } from '@blind-dsai/ui/icons';
 
 ### Icon
 
-Icon-only form — 48 × 48 circle with a 24px glyph. For universally legible actions (`+`, pencil). **Always carry an `aria-label`.**
+Icon-only — 48 × 48 circle with a 24px glyph. For universally legible actions (`+`, pencil). **Requires `aria-label`.**
 
 ```preview
 button/fab/icon
@@ -64,7 +64,7 @@ import { PlusIcon } from '@blind-dsai/ui/icons';
 
 ### Text
 
-Label-only form — pill with no glyph. For multi-word actions or verbs without an obvious glyph (*Save draft*).
+Label-only pill. For multi-word actions or verbs without an obvious glyph (*Save draft*).
 
 ```preview
 button/fab/text
@@ -78,7 +78,7 @@ import { Button } from '@blind-dsai/ui';
 
 ### Extended
 
-Icon + label form. Default for primary canvas commits where space allows (desktop canvases, mobile sheets).
+Icon + label. Default for primary canvas commits where space allows (desktop canvases, mobile sheets).
 
 ```preview
 button/fab/extended
@@ -112,19 +112,19 @@ import { PlusIcon } from '@blind-dsai/ui/icons';
 
 ## Appearance
 
-Two appearances on the same emphasis ladder the standard [Button](./button.md) uses — `primary` for the canvas's headline commit, `secondary` for the quieter alternative when a brand-loud floating affordance would over-claim.
+Two appearances on the standard [Button](./button.md) emphasis ladder — `primary` for the canvas headline commit, `secondary` for the quieter alternative.
 
 | Appearance  | Background                       | Label / icon color   | When to reach for it                                                                              |
 |-------------|----------------------------------|----------------------|---------------------------------------------------------------------------------------------------|
-| `primary`   | `sys.color.brand`                | `sys.color.onBrand`  | Brand-red commit anchoring the canvas's intended next step (Compose, Add, Create). The FAB wears `brand` (red) rather than `color.primary` (blue) so it reads as the screen's single high-attention identity moment. |
-| `secondary` | `sys.color.surfaceContainerHigh` | `sys.color.onSurface` | Theme-toned alternative on dense or chromatic canvases (filtered map, image-rich feed) where a brand-red FAB would over-claim the hierarchy. |
+| `primary`   | `sys.color.brand`                | `sys.color.onBrand`  | Brand-red commit anchoring the canvas's next step (Compose, Add, Create). FAB wears `brand` (red) rather than `color.primary` (blue) — the screen's single high-attention moment. |
+| `secondary` | `sys.color.surfaceContainerHigh` | `sys.color.onSurface` | Theme-toned alternative on dense/chromatic canvases (filtered map, image-rich feed) where brand-red would over-claim. |
 
 ## Slots
 
-- **icon** (optional) — 24px glyph naming the action. Inherits foreground via `currentColor` per the [family rule](./button.md#icon-colour-inheritance-family-wide).
+- **icon** (optional) — 24px glyph. Inherits foreground via `currentColor` per the [family rule](./button.md#icon-colour-inheritance-family-wide).
 - **label** (optional) — short verb phrase. Internally padded so the glyph never crowds the rounded ends.
 
-At least one must be present — the three combinations are [Icon](#icon), [Text](#text), and [Extended](#extended).
+At least one must be present — combinations: [Icon](#icon), [Text](#text), [Extended](#extended).
 
 ## Sizes
 
@@ -142,11 +142,11 @@ Single fixed rung — no size axis; same control on every viewport.
 
 ‡ **min-height** binds to raw `ref.space.*` — `sys.*` does not expose a 48px step.
 
-**Label-slot 4px inset.** Outer 12px padding alone would crowd the rounded ends, so the label slot adds another `container.2xs` only when text is present:
+**Label-slot 4px inset.** Outer 12px padding alone would crowd the rounded ends; the label slot adds another `container.2xs` only when text is present:
 
-- **Text-only FABs** clear 16px on each side (12 + 4).
-- **Icon-only FABs** stay a clean 48 × 48 (12 + 24 + 12).
-- **Icon + text FABs** — icon flush at 12px, label with its own 4px inset, trailing 12px padding.
+- **Text-only** — clears 16px each side (12 + 4).
+- **Icon-only** — clean 48 × 48 (12 + 24 + 12).
+- **Icon + text** — icon flush at 12px, label with 4px inset, trailing 12px padding.
 
 ## States
 

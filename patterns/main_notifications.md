@@ -7,7 +7,7 @@ recipe: ../schema/screens/main-notifications.screen.json
 
 ## Intent
 
-Inbox-shaped surface for two parallel notification streams — system updates ("새 소식" / What's New) and keyword-matched posts ("키워드" / Keywords). The keyword tab is filter-heavy: users pre-narrow by keyword and channel before scanning. Each row points back to a post.
+Inbox surface with two notification streams — system updates ("새 소식" / What's New) and keyword-matched posts ("키워드" / Keywords). Keyword tab is filter-heavy: pre-narrow by keyword and channel before scanning. Each row links to a post.
 
 ## Layout
 
@@ -37,6 +37,6 @@ Inbox-shaped surface for two parallel notification streams — system updates ("
 
 ## Notes
 
-- The trailing "키워드 관리" button-text inside the chip row is intentional: it's a navigation hint paired with the filter scope, not a filter itself. Don't merge into the chip row as another chip.
-- Localization: source is Korean. Per AGENTS.md rule 7, demo strings rendered in components should be English; this pattern captures the Korean source for visual fidelity only.
-- The bell-in-coral leading glyph appears on every row — it is the row type marker, not per-row state.
+- Trailing "키워드 관리" button-text is a navigation hint paired with the filter scope, not a filter chip. Don't merge into the chip row.
+- Source is Korean. Per AGENTS.md rule 7, demo strings render English; Korean here is for visual fidelity only.
+- Bell-in-coral leading glyph appears on every row — row type marker, not per-row state.

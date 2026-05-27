@@ -1,6 +1,6 @@
 # Dialog
 
-A focused, opt-in interruption — a centred card over a scrim that asks the user to make a single decision before continuing. Reach for Dialog to *hold the flow until the user commits to an outcome* — deliberately disruptive, reserved for decisions that need a definitive response before anything else can happen (destructive actions, conflicts, consent gates); prefer [Bottom sheet](../bottom-sheet/bottom-sheet.md) when the same nudge can be delivered without halting the flow.
+A focused, opt-in interruption — a centred card over a scrim that asks the user to make a single decision before continuing. Reach for Dialog to *hold the flow until the user commits* — reserved for decisions that need a definitive response (destructive actions, conflicts, consent gates); prefer [Bottom sheet](../bottom-sheet/bottom-sheet.md) when the same nudge can be delivered without halting the flow.
 
 **Layout inset.** `bounded-surface` — its own modal shell. Owns its outer padding; not a sibling of `full-bleed` page rows. A `full-bleed` child placed inside (List / Feed / Chip group) MUST opt out via `marginInline: 'calc(-1 * var(--sys-layout-container-md))'` (matching `width`, `maxWidth: 'none'`) so its own row padding becomes the visual inset and the dialog title aligns with row leading content. See [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
@@ -33,7 +33,7 @@ const [open, setOpen] = useState(false);
 
 ### With image
 
-Pass an `image` to add a centred illustration between title and actions. With the image present, the whole stack centre-aligns. `imageFirst` (default `true`) controls whether the image sits under the title or under the body.
+Pass an `image` to add a centred illustration between title and actions. With the image present, the whole stack centre-aligns. `imageFirst` (default `true`) controls whether the image sits under the title or the body.
 
 ```preview
 dialog/with-image

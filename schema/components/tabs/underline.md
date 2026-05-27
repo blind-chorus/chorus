@@ -1,12 +1,12 @@
 # Underline
 
-The canonical content-section switcher — a horizontal row of tabs anchored above a panel of content, with a single 2px `onSurface` indicator that slides between the active tab's bottom edge on selection. Use this when moving between *peer panels* of the same surface. For in-place mode changes, reach for [Segmented](./segmented.md).
+The canonical content-section switcher — a row of tabs anchored above a panel, with a 2px `onSurface` indicator that slides along the active tab's bottom edge. Use for moving between *peer panels* of the same surface. For in-place mode changes, use [Segmented](./segmented.md).
 
-**Layout inset.** `full-bleed` — Underline tabs is an **edge-to-edge** family. It sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it so the underline indicator can travel between the actual page edges. The row pays its own `16px inline` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the tabs land at a different inset than the page body underneath. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — **edge-to-edge** family. Sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge so the underline indicator travels between page edges. The row pays its own `16px inline` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-The headline form — three peer panels switched by a tab row. The row is **Adaptive** (see [Behavior → Adaptive width](#adaptive-width)).
+Headline form — three peer panels switched by a tab row. **Adaptive** width (see [Behavior → Adaptive width](#adaptive-width)).
 
 ```preview
 tabs/underline/default
@@ -41,7 +41,7 @@ import { PlusIcon, CheckedIcon } from '@blind-dsai/ui/icons';
 
 ### Auto-fit
 
-The wider terminal layout of [Adaptive width](#adaptive-width) — tabs share the row's width equally; the indicator widens to match its tab.
+Wider terminal layout of [Adaptive width](#adaptive-width) — tabs share row width equally; indicator widens to match.
 
 ```preview
 tabs/underline/auto-fit
@@ -57,7 +57,7 @@ import { Tabs, Tab } from '@blind-dsai/ui';
 
 ### Overflow
 
-The narrower terminal layout — tabs hold content width and the row scrolls horizontally. **Edge fade** paints the trailing 48px (`ref.space.600`) as a transparent mask; clears when scrolled to the last tab.
+Narrower terminal layout — tabs hold content width and the row scrolls. **Edge fade** paints the trailing 48px (`ref.space.600`) as a transparent mask; clears when scrolled to the last tab.
 
 ```preview
 tabs/underline/overflow
@@ -77,7 +77,7 @@ import { Tabs, Tab } from '@blind-dsai/ui';
 
 ### Focus indicator
 
-Static design-review specimen — pins the keyboard-focus ring to the selected tab. See top-level [Focus indicator](#focus-indicator) for composition.
+Static specimen — pins the keyboard-focus ring to the selected tab. See top-level [Focus indicator](#focus-indicator).
 
 ```preview
 tabs/underline/focused
@@ -137,26 +137,26 @@ A single fixed rung. The 40px footprint stays constant across breakpoints.
 
 ## Focus indicator
 
-**Composition: Inward** (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)) — the row is a horizontal scroller, so an outward ring would clip. The ring paints as inset shadows inside the tab's bounding box, drawn on a `::after` overlay so it sits above the state-overlay tint and underline indicator. Focus never shifts a tab. Trigger: `:focus-visible`.
+**Composition: Inward** (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)) — row is a horizontal scroller, so an outward ring would clip. Paints as inset shadows inside the tab's bounding box on a `::after` overlay above the state-overlay tint and underline indicator. Focus never shifts a tab. Trigger: `:focus-visible`.
 
 ## Behavior
 
 ### Adaptive width
 
-Underline has **one** width mode, not two. The row measures intrinsic tab widths against the container on every layout pass and resolves to one of two terminal layouts:
+Underline has **one** width mode. The row measures intrinsic tab widths against the container on every layout pass and resolves to one of two terminal layouts:
 
 | Condition                                         | Layout                          | Row overflow      |
 |---------------------------------------------------|---------------------------------|-------------------|
 | `Σ tab.intrinsicWidth ≤ container.clientWidth`    | **Fit** — tabs share width equally (`flex: 1 1 0`); indicator widens to match. | `visible` — no scroll, no fade. |
 | `Σ tab.intrinsicWidth > container.clientWidth`    | **Scroll** — tabs hold content width (`flex: 0 0 auto`); row scrolls horizontally. | `auto` — trailing **Edge fade** paints while content sits past the right edge. |
 
-A `ResizeObserver` re-decides on every container/row resize. Not caller-supplied — the same component adapts to any column without code change. Mode flip is layout-immediate (no animation between modes).
+A `ResizeObserver` re-decides on every container/row resize. Not caller-supplied. Mode flip is layout-immediate (no animation).
 
-- **No `fullWidth` prop.** A caller sizes the container; the row picks Fit on its own.
-- **The indicator width tells the layout** — in Fit it spans the wider tab; in Scroll it spans the content width.
+- **No `fullWidth` prop.** Caller sizes the container; row picks Fit on its own.
+- **Indicator width tells the layout** — Fit spans the wider tab; Scroll spans content width.
 
 ### Sliding indicator
 
-There is **one** indicator in the row, not one per tab. Selecting a different tab slides the existing 2px (`sys.borderWidth.thin`) stroke into the new tab's `offsetLeft` / `offsetWidth` over 220ms — reads as a single continuous gesture.
+**One** indicator in the row, not one per tab. Selecting a different tab slides the existing 2px (`sys.borderWidth.thin`) stroke into the new tab's `offsetLeft` / `offsetWidth` over 220ms — reads as a single continuous gesture.
 
-The indicator scrolls with the row so it stays glued to its tab. On first paint the slide is suppressed. When **Adaptive width** flips between Fit and Scroll, the indicator's width is re-measured (a few dozen pixels reading naturally as "follows its tab").
+The indicator scrolls with the row so it stays glued to its tab. On first paint the slide is suppressed. When **Adaptive width** flips between Fit and Scroll, the indicator's width is re-measured.

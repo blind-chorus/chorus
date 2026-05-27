@@ -1,8 +1,8 @@
 # compose.md — composition cheatsheet
 
-A 1-page lookup for the design-token decisions every screen runs into. Skim this **before composing JSX**; pair with [`tokens.usage.json`](tokens.usage.json) (which token for which slot) and [`DESIGN.md`](DESIGN.md) (deep rationale). When this file and DESIGN.md disagree, DESIGN.md wins — this file is the cliff-notes distillation.
+A 1-page lookup for the design-token decisions every screen runs into. Skim **before composing JSX**; pair with [`tokens.usage.json`](tokens.usage.json) (which token for which slot) and [`DESIGN.md`](DESIGN.md) (deep rationale). When this file and DESIGN.md disagree, DESIGN.md wins.
 
-The recipes below answer the five compositional situations every product surface runs into. They are not new tokens — every line resolves to a step in the standard `sys.*` ladder.
+The recipes below answer the five compositional situations every product surface runs into. Not new tokens — every line resolves to a step in the standard `sys.*` ladder.
 
 ---
 
@@ -12,9 +12,9 @@ The recipes below answer the five compositional situations every product surface
 
 | Pick | When |
 | --- | --- |
-| **`sys.layout.page.md`** (16px) | Default for every ordinary app route (feed, settings, compose, detail screens). |
+| **`sys.layout.page.md`** (16px) | Default for every ordinary app route (feed, settings, compose, detail). |
 | `sys.layout.page.sm` (8px) | Dashboards / admin tables / dense multi-pane. |
-| `sys.layout.page.lg` (24→40px) | Marketing / editorial / landing routes. |
+| `sys.layout.page.lg` (24→40px) | Marketing / editorial / landing. |
 | `sys.layout.page.xl` (40→64px) | Showcase heroes only. |
 
 **Paid once at the page shell.** Full-bleed children (Section, List, Feed, Banner, AvatarRail, Chip group, NavigationBar, TabBar, Tabs, SuggestionList) inherit it — never re-pay `padding-inline` on the child. See LOVABLE.md §A.4.
@@ -24,12 +24,12 @@ The recipes below answer the five compositional situations every product surface
 | Pick | When |
 | --- | --- |
 | **`sys.layout.container.md`** (16px) | Default — card, list-row, sheet content, section horizontal padding. |
-| `sys.layout.container.sm` (12px) | Button / input-field padding. Also the one-rung step-down for a child container nested inside a `container.md` parent. |
+| `sys.layout.container.sm` (12px) | Button / input-field padding. Also the one-rung step-down for a child nested inside a `container.md` parent. |
 | `sys.layout.container.xs` (8px) | Chip body, segmented-control items, dense list rows. |
 | `sys.layout.container.lg` (24→32px) | Dialog body, feature-card callouts, primary dialog interiors. |
 | `sys.layout.container.xl/2xl/3xl` | Hero / marketing only. |
 
-**Nesting rule.** Parent at `container.md` → child at `container.sm` → grandchild at `container.xs`. Same direction across the whole tree — never invert, never skip rungs. A 16px parent with a 4px grandchild reads as compression, not hierarchy.
+**Nesting rule.** Parent at `container.md` → child at `container.sm` → grandchild at `container.xs`. Same direction across the tree — never invert, never skip rungs. A 16px parent with a 4px grandchild reads as compression, not hierarchy.
 
 ### Vertical sibling rhythm (`gap` between stacked siblings)
 
@@ -92,7 +92,7 @@ Color tokens come in **four-token quartets** — `<role>` and `<role>Container` 
 | **Meta line / supporting label / counter** | `sys.typo.label.sm` or `sys.typo.caption.md` (12px) |
 | **Article / figure caption / footnote** | `sys.typo.caption.md` (12px) |
 
-**Body-size rule of thumb**: single-topic page → `body.md`. The moment a second peer text group joins the surface → drop to `body.sm`.
+**Body-size rule of thumb**: single-topic page → `body.md`. Second peer text group joins → drop to `body.sm`.
 
 ## Type ramp picker — by component slot
 
@@ -128,24 +128,24 @@ When composing a specific component, this table is more specific than the intent
 | `suggestion-list.row.name` | `sys.typo.label.md` | 600 Semibold |
 | `suggestion-list.row.followers` | `sys.typo.caption.md` | 400 Regular |
 
-**Avoid the under-12px trap.** Lovable and similar agents often default to 11-13px for "compact" copy — that breaks Korean / CJK hierarchy. When unsure, take the next-larger rung. The smallest rung the system exposes for *visible* copy is 12px (`caption.md` / `label.sm`); below that is reserved for legal / aux annotations.
+**Avoid the under-12px trap.** Agents often default to 11-13px for "compact" copy — that breaks Korean / CJK hierarchy. When unsure, take the next-larger rung. The smallest rung for *visible* copy is 12px (`caption.md` / `label.sm`); below is reserved for legal / aux.
 
 ---
 
 ## Composition guard rails (hard one-liners)
 
-These are not new ideas — they're DESIGN.md rules condensed to a single line each. Read them as **immediate-reject** triggers when reviewing your own output.
+DESIGN.md rules condensed to a single line each. Read as **immediate-reject** triggers when reviewing your own output.
 
 1. **Brand red is an accent marker, never a surface.** No `navigation-bar` chrome paints brand. No banner background paints brand (use `primaryContainer` for info, `surfaceContainerLow` / `secondaryContainer` for promotional). Brand instances per screen ≤ 3 — canonically: Create tab item (1), feed active-like (≤2), optional promotional banner accent (1). See [`tokens.usage.json#sys.color.brand`](tokens.usage.json).
-2. **Card outlines: `outlineVariant` hairline as inset shadow** (or `::after` overlay when the card hosts a full-bleed child). **Never `border:` on a card.** A `border` reflows the box; an inset shadow / overlay does not. The reflow is the bug, not just the aesthetic.
+2. **Card outlines: `outlineVariant` hairline as inset shadow** (or `::after` overlay when the card hosts a full-bleed child). **Never `border:` on a card.** A `border` reflows the box; an inset shadow / overlay does not. The reflow is the bug.
 3. **List rows: only `outlineVariant` divider between rows.** No per-row `border`. The list owns the seam, the row owns the click target.
-4. **Surface tier ≤ 2 levels per screen.** `surface` plus one `surface*Container` rung is the cap. A third nested surface tone reads as muddy — promote one of them to a different family (a Banner, a Card, a Section header) instead of layering.
+4. **Surface tier ≤ 2 levels per screen.** `surface` plus one `surface*Container` rung is the cap. A third nested surface tone reads muddy — promote one to a different family (Banner, Card, Section header) instead of layering.
 5. **Chip / pill / avatar radius is always `radius.full`.** A 4px-rounded "chip" is a card; pick one component. Likewise a 999-rounded "card" reads as a chip.
 6. **Banner role decides the fill.** Informational → `sys.color.primaryContainer`. Promotional → `sys.color.surfaceContainerLow` (with optional brand accent on the leading icon, *not* the background). Error notice → `sys.color.errorContainer`. **`brandContainer` is reserved for promotional tinted strips, not default banners.**
-7. **Page inset is paid once at the page shell.** Every `full-bleed` family (Section, List, Feed, Banner, AvatarRail, Chip group, NavigationBar, TabBar, Tabs, SuggestionList) stretches edge-to-edge. See `family.json#layoutInset` per family.
-8. **Nesting tightens, never widens.** Parent `container.md` → child `container.sm` → grandchild `container.xs`. Inverting the direction reads as compression, not hierarchy.
-9. **Spec slot grammar is closed.** If a slot is not declared in the component's `spec.json#slots`, it does not exist. Do not synthesize new slots, do not pass `className` / `style` overrides.
-10. **FAB count ≤ 1 per screen.** The Create entry is the single canonical commit — additional FABs dilute the affordance.
+7. **Page inset is paid once at the page shell.** Every `full-bleed` family (Section, List, Feed, Banner, AvatarRail, Chip group, NavigationBar, TabBar, Tabs, SuggestionList) stretches edge-to-edge. See `family.json#layoutInset`.
+8. **Nesting tightens, never widens.** Parent `container.md` → child `container.sm` → grandchild `container.xs`. Inverting reads as compression, not hierarchy.
+9. **Spec slot grammar is closed.** If a slot is not declared in `spec.json#slots`, it does not exist. Do not synthesize new slots, do not pass `className` / `style` overrides.
+10. **FAB count ≤ 1 per screen.** Create is the single canonical commit — additional FABs dilute the affordance.
 
 ---
 
@@ -182,9 +182,9 @@ These are not new ideas — they're DESIGN.md rules condensed to a single line e
    - Editorial collection → Section + carousel sub
    - Page-level chrome → NavigationBar / TabBar
 2. **What's the surface fill?** Pick from the [color quartet picker](#color-quartet-picker) by intent.
-3. **What's the interior padding?** Default `container.md`; tighten one rung for each level of nesting.
-4. **What's the vertical rhythm to siblings?** Default `stack.md`; tighten to `stack.xs` for one-bound-group; widen to `stack.lg` for distinct content groups.
+3. **What's the interior padding?** Default `container.md`; tighten one rung per level of nesting.
+4. **What's the vertical rhythm to siblings?** Default `stack.md`; tighten to `stack.xs` for one-bound-group; widen to `stack.lg` for distinct groups.
 5. **What's the corner radius?** Default `radius.md`; pill / chip → `radius.full`; large sheet → `radius.lg`.
 6. **Edge stroke (if any)?** `borderWidth.hairline × outlineVariant`. If the surface hosts an opaque full-bleed child (cover image, hero), promote the outline to a `::after` overlay layer (DESIGN.md § Border & stroke).
 
-If a step has no good match — that is a **Chorus gap** report, not a license to invent a value. Flag it in one line and stop.
+If a step has no good match — that's a **Chorus gap**, not a license to invent. Flag in one line and stop.

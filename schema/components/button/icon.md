@@ -1,12 +1,12 @@
 # Icon
 
-The icon-only commit surface — circular transparent target carrying a single glyph. Use when the control's identity is the glyph ([Navigation bar](../navigation-bar/navigation-bar.md) search/chat, [Dialog](../dialog/dialog.md) dismiss, feed-row "⋯"). Two rungs: `large` 40 × 40 for page chrome and `medium` 32 × 32 for inside-control density.
+The icon-only commit surface — circular transparent target carrying a single glyph. Use when the control's identity is the glyph ([Navigation bar](../navigation-bar/navigation-bar.md) search/chat, [Dialog](../dialog/dialog.md) dismiss, feed-row "⋯"). Two rungs: `large` 40 × 40 for page chrome, `medium` 32 × 32 for inside-control density.
 
-**Layout inset.** `inline` — IconButton ships no padding outside its own circular target. It sits inside its host slot (a NavigationBar trailing rail, a Dialog header, a feed-row action cluster) with the host paying the surrounding rhythm. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `inline` — ships no padding outside its own circular target. Sits inside a host slot (NavigationBar trailing rail, Dialog header, feed-row action cluster) with the host paying surrounding rhythm. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-Transparent capsule with a single glyph in `onSurface`. `large` (40 × 40 / 24-glyph) is the default; flip Size to `medium` (32 × 32 / 16-glyph) for the dense inside-control rung.
+Transparent capsule with a single glyph in `onSurface`. `large` (40 × 40 / 24-glyph) is the default; flip to `medium` (32 × 32 / 16-glyph) for inside-control density.
 
 ```preview
 button/icon/default
@@ -19,7 +19,7 @@ import { SearchIcon } from '@blind-dsai/ui/icons';
 
 ## Inverse
 
-Mirror for use inside an inverse host (Toast dismiss, coach-mark close). Glyph paints in `inverseOnSurface` so it reads against the host's `inverseSurface` fill; state overlays mix from the same token.
+Mirror for inverse hosts (Toast dismiss, coach-mark close). Glyph paints in `inverseOnSurface` against the host's `inverseSurface` fill; state overlays mix from the same token.
 
 ```preview
 button/icon/inverse
@@ -34,7 +34,7 @@ import { XIcon } from '@blind-dsai/ui/icons';
 
 ### Group
 
-Three Icon Buttons in a row — common shape on the [Navigation bar](../navigation-bar/navigation-bar.md) Home trailing slot. Adjacent buttons sit **16px** apart (`sys.layout.inline.xl`). With optical alignment on by default, the chrome-to-chrome gap *is* the visible glyph-to-glyph distance.
+Three Icon Buttons in a row — common shape on the [Navigation bar](../navigation-bar/navigation-bar.md) Home trailing slot. Adjacent buttons sit **16px** apart (`sys.layout.inline.xl`). With optical alignment on, chrome-to-chrome gap *is* the visible glyph-to-glyph distance.
 
 ```preview
 button/icon/group
@@ -64,7 +64,7 @@ import { SearchIcon } from '@blind-dsai/ui/icons';
 
 ## Appearance
 
-Two appearances. `default` is the canonical chrome for every regular page surface; `inverse` swaps to the inverse cluster for use inside Toast / coach-mark / snackbar hosts. Geometry stays identical; only the glyph colour pair flips.
+Two appearances. `default` for regular page surfaces; `inverse` for Toast / coach-mark / snackbar hosts. Geometry identical; only the glyph colour pair flips.
 
 | Appearance  | Background    | Border | Icon color                       | When to reach for it |
 |-------------|---------------|--------|----------------------------------|----------------------|
@@ -88,14 +88,14 @@ Two appearances. `default` is the canonical chrome for every regular page surfac
 
 ## Sizes
 
-Two rungs, largest → smallest. Padding is the single sizing token — `sys.layout.container.xs` (8px) on every edge — so footprint falls out of the icon scale without explicit `width`/`height`.
+Two rungs. Padding is the single sizing token — `sys.layout.container.xs` (8px) on every edge — so footprint falls out of the icon scale without explicit `width`/`height`.
 
 | Rung      | Capsule footprint   | Padding (all sides)              | Icon                | Radius            |
 |-----------|---------------------|----------------------------------|---------------------|-------------------|
 | `large`   | 40 × 40 (implicit)  | `sys.layout.container.xs` (8)    | `sys.icon.lg` (24)  | `sys.radius.full` |
 | `medium`  | 32 × 32 (implicit)  | `sys.layout.container.xs` (8)    | `sys.icon.md` (16)  | `sys.radius.full` |
 
-**Default is `large`.** Use `medium` only when perched inside another control's chrome. The `large` hit zone clears the WCAG 24 × 24 floor; never use `medium` for a top-level commit.
+**Default is `large`.** Use `medium` only inside another control's chrome. `large` clears the WCAG 24 × 24 floor; never use `medium` for a top-level commit.
 
 ## States
 
@@ -119,7 +119,7 @@ Standard ring (see [Focus ring composition](../../DESIGN.md#focus-ring-compositi
 
 ## Optical alignment
 
-Transparent at rest, so the eye lands on the glyph's visible edge. Default rendering applies `margin: calc(-1 × sys.layout.container.xs)` on every side so the **glyph is the layout box**. Consumers do not opt in.
+Transparent at rest — the eye lands on the glyph. Default rendering applies `margin: calc(-1 × sys.layout.container.xs)` on every side so the **glyph is the layout box**. Not opt-in.
 
 | Where it lands | Effect |
 |---|---|

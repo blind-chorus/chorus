@@ -1,12 +1,12 @@
 # Post carousel
 
-Sub-component of the [Section](./section.md) family. A horizontally-scrolling pager of up to 5 compact post cards. Surfaces a curated set of popular posts or gives paid / verified accounts priority placement inside the feed column the [Post](../feed/post.md) card lives in. The section heading and trailing `See all` link live on the [Section](./section.md) wrapper — PostCarousel is the *content* only.
+Sub-component of the [Section](./section.md) family. Horizontally-scrolling pager of up to 5 compact post cards — surfaces curated popular posts or gives paid / verified accounts priority placement inside the [Post](../feed/post.md) feed column. The section heading and `See all` link live on the [Section](./section.md) wrapper — PostCarousel is the *content* only.
 
-**Layout inset.** `full-bleed` — Post carousel is an **edge-to-edge** family. It sits as a direct child of the page shell (typically inside a [Section](./section.md)) and stretches edge-to-edge inside it. The carousel rail pays its own inline padding via `layout.container.*` and lets the first / last card flush to the page edge so the horizontal-scroll affordance reads cleanly; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the cards land at a different inset than the [Section](./section.md) heading above. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell (typically inside a [Section](./section.md)). The rail pays its own inline padding via `layout.container.*` and lets the first / last card flush to the page edge so the horizontal-scroll affordance reads cleanly; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-The base composition — Section header above three cards with verified marks, follow actions, and pagination dots.
+Section header above three cards with verified marks, follow actions, and pagination dots.
 
 ```preview
 section/post-carousel-default
@@ -58,7 +58,7 @@ import { Section, PostCarousel } from '@blind-dsai/ui';
 
 ### Editorial cards (no follow, no verified)
 
-Each card drops `verified` and `followAction` — the header collapses to just avatar + channel name. Reach for it on editorial collections where the card is informational only (round-ups, archives, "what we're reading"); the surface should not invite a per-card commit.
+Cards drop `verified` and `followAction` — the header collapses to avatar + channel name. Reach for it on editorial collections where the card is informational only (round-ups, archives, "what we're reading"); the surface should not invite a per-card commit.
 
 ```preview
 section/post-carousel-editorial
@@ -121,8 +121,8 @@ Inward — cards tile inside a horizontal scroll viewport with hairline outlines
 ## Behavior
 
 - **Max 5 cards.** Items beyond index 4 are silently dropped (`items.slice(0, 5)`).
-- **Header anatomy delegates to SuggestionList.** Label + headerAction bindings retune at the [SuggestionList](../suggestion-list/suggestion-list.md) spec, not here.
+- **Header anatomy delegates to SuggestionList.** Label + headerAction bindings retune at the [SuggestionList](../suggestion-list/suggestion-list.md) spec.
 - **One card per page, scroll-snap.** `scroll-snap-type: x mandatory`; each card declares `scroll-snap-align: start`. Pager bleeds out by `sys.layout.container.md` on the trailing edge so the peek isn't clipped.
-- **Guaranteed 40px peek.** Trailing-edge visibility of the next card is pinned to `ref.space.500` — a raw ref step so the floor is fixed-pixel across the responsive breakpoint. Card basis is `calc(100% - sys.layout.inline.md - ref.space.500)`. After every swipe, the snapped card aligns flush with the container's left padding and the trailing edge always holds the 40px peek — one geometry contract.
-- **Pagination dots are decorative.** Dots reflect the scroll position via `IntersectionObserver`; tapping a dot does not scroll. Active dot paints `sys.color.onSurface`, the rest `sys.color.outlineVariant`.
-- **Cards route via `onClick`.** When an item carries `onClick`, the card surface becomes the click target; header (follow action) and footer (more link) affordances intercept the tap so each routes independently. Editorial / ops control inserts the carousel between regular Feed cards per placement policy.
+- **Guaranteed 40px peek.** Trailing-edge visibility of the next card pins to `ref.space.500` — raw ref step so the floor is fixed-pixel across breakpoints. Card basis is `calc(100% - sys.layout.inline.md - ref.space.500)`. After every swipe, the snapped card aligns flush with the container's left padding; the trailing edge always holds the 40px peek.
+- **Pagination dots are decorative.** Dots reflect scroll position via `IntersectionObserver`; tapping a dot does not scroll. Active dot paints `sys.color.onSurface`, the rest `sys.color.outlineVariant`.
+- **Cards route via `onClick`.** When an item carries `onClick`, the card surface becomes the click target; header (follow action) and footer (more link) intercept the tap so each routes independently.

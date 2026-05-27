@@ -1,10 +1,10 @@
 # Switch
 
-A binary on/off control — a pill-shaped track with a circular thumb that translates between the two ends. The off state reads as a muted track with an `outlineVariant` hairline; the on state paints the track in `primary` so the contract reads chromatically without an inline label.
+A binary on/off control — a pill-shaped track with a circular thumb that translates between the two ends. Off reads as a muted track with an `outlineVariant` hairline; on paints the track in `primary` so the contract reads chromatically without an inline label.
 
-**Reach for this when** a setting commits the moment it changes (notifications on/off, privacy toggles, "show in feed", instant-commit list trailing). **Skip when** the commit needs a confirmation step (use [Button](../button/button.md) + [Dialog](../dialog/dialog.md)), when the user picks one of several options (use [List/radio](../list/radio.md) or [Tabs](../tabs/tabs.md)), or when the action is destructive (Switch carries no undo affordance — wrap a Button in a Dialog instead).
+**Reach for this when** a setting commits the moment it changes (notifications on/off, privacy toggles, "show in feed", instant-commit list trailing). **Skip when** the commit needs confirmation (use [Button](../button/button.md) + [Dialog](../dialog/dialog.md)), when the user picks one of several options (use [List/radio](../list/radio.md) or [Tabs](../tabs/tabs.md)), or when destructive (Switch carries no undo).
 
-**Layout inset.** `inline` — Switch ships no padding of its own. It sits next to its label (in a List row trailing slot, a FormField row, or a settings row) with at least a `sys.layout.inline.md` (12px) gap between the label and the track. The host surface pays the surrounding padding.
+**Layout inset.** `inline` — Switch ships no padding of its own. Sits next to its label with at least `sys.layout.inline.md` (12px) gap between label and track. The host surface pays surrounding padding.
 
 ## Default
 
@@ -22,7 +22,7 @@ import { Switch } from '@blind-dsai/ui';
 
 ### Off
 
-The resting off state — muted `surfaceContainerHighest` track with an `outlineVariant` hairline and an `onSurfaceVariant` thumb at the leading end.
+The resting off state — `surfaceContainerHighest` track with `outlineVariant` hairline and `onSurfaceVariant` thumb at the leading end.
 
 ```preview
 switch/off
@@ -34,7 +34,7 @@ import { Switch } from '@blind-dsai/ui';
 
 ### Disabled
 
-`disabled` fades both the on and off appearance to `sys.state.disabled` and freezes the thumb at its current position. The control becomes non-interactive.
+`disabled` fades both on and off appearance to `sys.state.disabled` and freezes the thumb. Non-interactive.
 
 ```preview
 switch/disabled
@@ -49,7 +49,7 @@ import { Switch } from '@blind-dsai/ui';
 
 ### With label
 
-The canonical pairing — a visible label sits to the left of the Switch with a `sys.layout.inline.md` (12px) gap. The label carries the accessible name via `htmlFor` + `id` or `aria-labelledby`; the Switch itself drops `aria-label`.
+The canonical pairing — a visible label sits to the left of the Switch with a `sys.layout.inline.md` (12px) gap. The label carries the accessible name via `htmlFor` + `id` or `aria-labelledby`; Switch drops `aria-label`.
 
 ```preview
 switch/with-label
@@ -107,7 +107,7 @@ A single appearance — Switch has no emphasis axis. The visible variation is th
 
 ## Focus indicator
 
-Outward 3-layer ring painted on the track's outer edge via an `::after` overlay. Trigger: `:focus-visible`. Composition rationale: Switch sits inline next to siblings with whitespace around it (form rows, settings list trailing slots), so an outward ring reads cleanly without colliding with neighbour affordances — see [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Outward 3-layer ring painted on the track's outer edge via an `::after` overlay. Trigger: `:focus-visible`. Composition: Switch sits inline next to siblings with whitespace around it, so outward reads cleanly — see [Focus ring composition](../../DESIGN.md#focus-ring-composition).
 
 ## Behavior
 

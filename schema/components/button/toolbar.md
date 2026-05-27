@@ -1,6 +1,6 @@
 # Toolbar
 
-Dense inline action — a 32-tall capsule for toolbars, table-row actions, and inline menu triggers. Chrome shared with [Filter chip](../chip/filter.md) and [Tabs Segmented](../tabs/segmented.md) so a mixed row reads at one density; divergence is intent (Toolbar fires, Filter toggles, Segmented enforces single-select).
+Dense inline action — a 32-tall capsule for toolbars, table-row actions, and inline menu triggers. Chrome shared with [Filter chip](../chip/filter.md) and [Tabs Segmented](../tabs/segmented.md) so mixed rows read at one density; divergence is intent (Toolbar fires, Filter toggles, Segmented enforces single-select).
 
 **Reach for this when** a dense row needs an inline action — toolbar opener, table-row action, inline menu trigger. **Skip when** the standard inline shape fits ([Button](./button.md)), the affordance floats above content ([FAB](./fab.md)), or the row is body-text density ([Text Button](./text.md)).
 
@@ -8,7 +8,7 @@ Dense inline action — a 32-tall capsule for toolbars, table-row actions, and i
 
 ## Default
 
-The base shape — label-only on the Filter-chip chrome.
+Base shape — label-only on Filter-chip chrome.
 
 ```preview
 button/toolbar/default
@@ -24,7 +24,7 @@ import { Button } from '@blind-dsai/ui';
 
 ### Accent
 
-Brand-blue fill, `onPrimary` label — the single-commit form. Reach for it when the Toolbar Button IS the surface's commit affordance.
+Brand-blue fill, `onPrimary` label — the single-commit form. Used when the Toolbar Button IS the surface's commit affordance.
 
 ```preview
 button/toolbar/accent
@@ -38,7 +38,7 @@ import { Button } from '@blind-dsai/ui';
 
 ### Inverse
 
-Mirror for inverse hosts (snackbars, coach-mark surfaces). Same geometry; colour pair flips to the inverse cluster.
+Mirror for inverse hosts (snackbars, coach-mark surfaces). Geometry identical; colour pair flips.
 
 ```preview
 button/toolbar/inverse
@@ -70,7 +70,7 @@ import { PlusIcon } from '@blind-dsai/ui/icons';
 
 ### With trailing icon
 
-Directional/destination glyph — chevron-down "opens a menu", "×" "clear". Unlike standard [Button](./button.md), Toolbar Button carries trailing icons because its role is often *trigger* rather than commit.
+Directional/destination glyph — chevron-down to open a menu, "×" to clear. Unlike standard [Button](./button.md), Toolbar Button carries trailing icons because its role is often *trigger* rather than commit.
 
 ```preview
 button/toolbar/trailing-icon
@@ -88,7 +88,7 @@ import { CheckedIcon } from '@blind-dsai/ui/icons';
 
 ### Icon only
 
-Glyph-only Toolbar Button in a 32×32 square. Requires `aria-label`. When the label slot is absent, inline padding drops to `sys.layout.container.xs` (8) so the glyph centers.
+Glyph-only 32×32 square. Requires `aria-label`. When the label slot is absent, inline padding drops to `sys.layout.container.xs` (8) so the glyph centers.
 
 ```preview
 button/toolbar/icon-only
@@ -105,7 +105,7 @@ import { PlusIcon } from '@blind-dsai/ui/icons';
 
 ### Group
 
-Adjacent Toolbar Buttons share the same `4px` gap (`sys.layout.inline.sm`) as Filter chips. Mix freely with Filter chips.
+Adjacent Toolbar Buttons share `4px` gap (`sys.layout.inline.sm`) with Filter chips. Mix freely.
 
 ```preview
 button/toolbar/group
@@ -149,7 +149,7 @@ import { PlusIcon } from '@blind-dsai/ui/icons';
 
 ## Appearance
 
-Only the container ↔ label colour pair flips; geometry stays identical. For inline destructive commits reach for the standard [Button](./button.md) `secondary` flavored as `destructive`.
+Only the container ↔ label colour pair flips; geometry identical. For inline destructive commits use standard [Button](./button.md) `secondary` flavored as `destructive`.
 
 | Appearance  | Background                          | Border                                          | Label / icon                       | When to reach for it |
 |-------------|-------------------------------------|--------------------------------------------------|------------------------------------|----------------------|

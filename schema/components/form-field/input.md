@@ -1,14 +1,14 @@
 # Input
 
-The single-line text field — a bordered, transparent-fill box for short values. An optional label and either helper text or a `maxLength` count compose it into a labeled group; the `error` appearance re-tones fill / text / stroke to the error family.
+Single-line text field — a bordered, transparent-fill box for short values. Optional label + helper or `maxLength` count compose it into a labeled group; `error` appearance re-tones fill / text / stroke.
 
 **Reach for this when** capturing a short single-line value — name, email, search query, comment subject. **Skip when** the value is multi-line (use a textarea), a one-of-many selection (use a select), or a free-form search input with built-in results (use the [search](./search.md) sub-component).
 
-**Layout inset.** inline — the field is content-sized inside its surface's padding; with `label` / `helper` / `maxLength` it wraps in a `.chorus-field-group` flex column.
+**Layout inset.** inline — content-sized inside its surface's padding; with `label` / `helper` / `maxLength` it wraps in a `.chorus-field-group` flex column.
 
 ## Default
 
-Transparent fill, hairline `outlineVariant` stroke, placeholder in the faint `outline` colour. Type in to see the lifecycle: placeholder → value, stroke steps up, trailing clear ("×") appears.
+Transparent fill, hairline `outlineVariant` stroke, placeholder in faint `outline` colour. Type to see the lifecycle: placeholder → value, stroke steps up, trailing clear ("×") appears.
 
 ```preview
 form-field/input/default
@@ -38,7 +38,7 @@ import { FormField } from '@blind-dsai/ui';
 />
 ```
 
-The `helper` rung is optional on every appearance — pass nothing and the error field still re-tones the box. Reach for the helper-less form when the surrounding row already carries the failure message.
+The `helper` rung is optional — pass nothing and the error field still re-tones the box. Use the helper-less form when the surrounding row already carries the failure message.
 
 ```preview
 form-field/input/error-no-helper
@@ -55,7 +55,7 @@ import { FormField } from '@blind-dsai/ui';
 
 ### Label, assistive text & count
 
-When any of `label` / `helper` / `maxLength` is supplied, the box wraps in a `.chorus-field-group` flex column at `sys.layout.stack.xs` between rungs. Label sits above; helper or count below — helper left, count right. **Helper and count are mutually exclusive**; pass both and the count wins.
+When any of `label` / `helper` / `maxLength` is supplied, the box wraps in a `.chorus-field-group` flex column at `sys.layout.stack.xs` between rungs. Label above; helper or count below — helper left, count right. **Helper and count are mutually exclusive**; pass both and count wins.
 
 | Slot                | Token (typography)            | Token (colour)               | Notes |
 |---------------------|-------------------------------|------------------------------|-------|
@@ -95,7 +95,7 @@ import { FormField } from '@blind-dsai/ui';
 
 ### Leading icon
 
-Optional `leadingIcon` (16px / `sys.icon.md`) pinned at the inner-left edge. Decorative (`aria-hidden`); tracks the field's active text colour. Also available on [`select`](./select.md).
+Optional `leadingIcon` (16px / `sys.icon.md`) pinned inner-left. Decorative (`aria-hidden`); tracks the field's active text colour. Also available on [`select`](./select.md).
 
 ```preview
 form-field/input/with-leading-icon
@@ -114,7 +114,7 @@ import { LocationIcon } from '@blind-dsai/ui/icons';
 
 ### Group
 
-Compose multiple Inputs into a column via `<FormFieldGroup>`. Each rung keeps its own label / helper / count; the group inserts `sys.layout.stack.md` (16px) between rungs. Reach for it for sign-up / profile forms.
+Compose multiple Inputs into a column via `<FormFieldGroup>`. Each rung keeps its own label / helper / count; group inserts `sys.layout.stack.md` (16px) between rungs. For sign-up / profile forms.
 
 ```preview
 form-field/input/group
@@ -130,7 +130,7 @@ import { FormField, FormFieldGroup } from '@blind-dsai/ui';
 
 ### Focus indicator
 
-Accessibility ring layered on top of the `active` border re-tone.
+Focus ring layered on top of the `active` border re-tone.
 
 ```preview
 form-field/input/focused
@@ -184,7 +184,7 @@ A single fixed footprint.
 
 ## States
 
-Four interactive states. The load-bearing one is `active` — the field has the caret; stroke re-tones to `sys.color.onSurface` at 2px.
+Four interactive states. Load-bearing: `active` — the field has the caret; stroke re-tones to `sys.color.onSurface` at 2px.
 
 | State      | Stroke (inset box-shadow)                                                 | Additional |
 |------------|---------------------------------------------------------------------------|------------|
@@ -202,4 +202,4 @@ Standard outward ring on a `position: absolute` pseudo-element — never affects
 
 - **Clear button** shown only while active and holding a non-empty value. Click empties, fires `onClear`, returns focus. Real `<button>`, keyboard-reachable, `aria-label="Clear"`.
 - **Placeholder vs. value** value-driven. Placeholder shows only while empty; never the field's only accessible name — pair with a visible label or `aria-label`.
-- **Single line.** Long values scroll horizontally within the box.
+- **Single line.** Long values scroll horizontally.

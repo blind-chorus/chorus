@@ -1,14 +1,14 @@
 # Badge
 
-A small brand-tone indicator attached to a host label — a channel entry, a list row, a thumbnail corner — flagging *new or unread activity* behind that target. Use Badge for a count, dot, or short alert label that pulls the eye back to attention-worthy state; prefer [Tag](../chip/tag.md) when the marker describes the content (category, status) rather than flagging recent change. Two top-level **types** share the same brand-tone fill and `radius.full` corner: **Numeric** (a labelled count pill, the canonical badge) and **Dot** (a labelless update dot, the corner activity flag used by [Thumbnail](../thumbnail/thumbnail.md)). Always anchored to a host; never appears in isolation and never carries an interactive affordance.
+A small brand-tone indicator attached to a host label — a channel entry, a list row, a thumbnail corner — flagging *new or unread activity*. Use Badge for a count, dot, or short alert label; prefer [Tag](../chip/tag.md) when the marker describes content (category, status). Two top-level **types** share the same brand-tone fill and `radius.full` corner: **Numeric** (a labelled count pill) and **Dot** (a labelless update dot, used by [Thumbnail](../thumbnail/thumbnail.md)). Always anchored to a host; never interactive.
 
-**Reach for Numeric when** the count itself carries meaning (3 unread, 12 mentions, `99+` notifications) — the reader needs to know *how much*. **Reach for Dot when** the presence of activity is the whole signal — a corner flag on a Thumbnail or icon that says "something new here" without a magnitude. **Skip Badge entirely** when the marker is descriptive metadata (category, status, role) — use [Tag](../chip/tag.md) instead.
+**Reach for Numeric when** the count itself carries meaning (3 unread, 12 mentions, `99+` notifications). **Reach for Dot when** the presence of activity is the whole signal — a corner flag without a magnitude. **Skip Badge entirely** when the marker is descriptive metadata — use [Tag](../chip/tag.md).
 
-**Layout inset.** `inline` — slot atom. No page-rail responsibility; the surrounding container places it. Lives anchored to a host (Thumbnail corner, List row label, icon glyph) or inside another component's slot — never as a sibling of `full-bleed` page rows.
+**Layout inset.** `inline` — slot atom. No page-rail responsibility; the surrounding container places it. Lives anchored to a host (Thumbnail corner, List row label, icon glyph) — never as a sibling of `full-bleed` page rows.
 
 ## Numeric
 
-The labelled form — a short count sitting next to its host label. Two rungs (`medium` / `small`); a 1-character label collapses to a perfect circle, a 2-character or `99+` label stretches into a pill. The `count` prop applies the `99+` cap automatically; pass `children` for non-numeric labels (`NEW`).
+The labelled form — a short count next to its host label. Two rungs (`medium` / `small`); a 1-character label collapses to a circle, 2-character or `99+` stretches into a pill. The `count` prop applies the `99+` cap automatically; pass `children` for non-numeric labels (`NEW`).
 
 ```preview
 badge/default
@@ -20,7 +20,7 @@ import { Badge } from '@blind-dsai/ui';
 
 ## Dot
 
-The labelless form — an update dot used as a corner activity flag. Two rungs (`dot-md` 8 × 8 and `dot-sm` 6 × 6); paints the brand fill with a 2px (`borderWidth.thin`) `surface`-color outline (`box-shadow`) so the dot stays a discrete chip on any host — image, icon glyph, list row — without enlarging its bounding box. The dot rungs ignore `count` and `children` and never render text. [Thumbnail](../thumbnail/thumbnail.md) is the canonical host — it picks `dot-md` at the 32 / 40 / 48 rungs and `dot-sm` at the 16 / 20 / 24 rungs — but any host may reach for the same dot. Toggle the **Size** control to swap between the two rungs (`Medium` → `dot-md`, `Small` → `dot-sm`).
+The labelless form — an update dot used as a corner activity flag. Two rungs (`dot-md` 8 × 8, `dot-sm` 6 × 6); paints the brand fill with a 2px (`borderWidth.thin`) `surface`-color outline (`box-shadow`) so the dot stays a discrete chip without enlarging its bounding box. Dot rungs ignore `count` and `children`. [Thumbnail](../thumbnail/thumbnail.md) is the canonical host — `dot-md` at the 32 / 40 / 48 rungs, `dot-sm` at 16 / 20 / 24.
 
 ```preview
 badge/update-dot
@@ -34,7 +34,7 @@ import { Badge } from '@blind-dsai/ui';
 
 ### Digit cases
 
-Single digit collapses to a circle (`min-width = min-height`); two digits stretch via `padding-inline`; counts past 99 cap at `99+`. The `count` prop applies the cap automatically.
+Single digit collapses to a circle (`min-width = min-height`); two digits stretch via `padding-inline`; counts past 99 cap at `99+`.
 
 ```preview
 badge/digit-cases
@@ -50,7 +50,7 @@ import { Badge } from '@blind-dsai/ui';
 
 ### On thumbnail
 
-The Dot rung painted at a [Thumbnail](../thumbnail/thumbnail.md)'s top-right corner — the canonical hosted form. Thumbnail picks `dot-md` at the 32 / 40 / 48 rungs and `dot-sm` at 16 / 20 / 24 so the dot, its 1px `surface` halo, and the Thumbnail rung stay in lockstep. The dot rides above the image without enlarging its bounding box; apply it whenever the host needs to flag new activity.
+The Dot rung painted at a [Thumbnail](../thumbnail/thumbnail.md)'s top-right corner — the canonical hosted form. Thumbnail picks `dot-md` at the 32 / 40 / 48 rungs and `dot-sm` at 16 / 20 / 24. The dot rides above the image without enlarging its bounding box.
 
 ```preview
 badge/on-thumbnail
@@ -62,7 +62,7 @@ import { Thumbnail } from '@blind-dsai/ui';
 
 ### On icon
 
-The Dot rung painted at an icon's top-right — the same composition contract as Thumbnail, applied to any glyph that hosts an attention pin (notification bell, chat, mention). Always `dot-sm` regardless of icon size: a 6 × 6 dot reads as a *highlight* against the icon's drawing area without competing with the glyph itself, and the 2px `surface`-color outline keeps it visually discrete from the icon stroke on any host. The dot rides above the icon without changing its `icon.md` / `icon.lg` footprint.
+The Dot rung painted at an icon's top-right (notification bell, chat, mention). Always `dot-sm` regardless of icon size — a 6 × 6 dot reads as a *highlight* against the icon's drawing area without competing with the glyph. The 2px `surface`-color outline keeps it discrete from the icon stroke. Does not change the icon's `icon.md` / `icon.lg` footprint.
 
 ```preview
 badge/on-icon
@@ -78,7 +78,7 @@ import { BellIcon } from '@blind-dsai/ui/icons';
 
 ### With host
 
-Numeric badge attached inside the label cell of a thumbnail `List` row — the canonical product use. The badge sits flush against the channel name (8px inline gap).
+Numeric badge attached inside the label cell of a thumbnail `List` row — the canonical product use. Badge sits flush against the channel name (8px inline gap).
 
 ```preview
 badge/with-host
@@ -104,11 +104,11 @@ const labelWithBadge = (text, count) => (
 
 ## Appearance
 
-Single appearance — Badge uses the **brand** token pair (`sys.color.brand` background, `sys.color.onBrand` label). Brand is one tonal step brighter than `error` and reserved for short-label attention pins. Do not reach for `error` (graver, reads as warning) or `brandContainer` (soft tint reads informational, not urgent).
+Single appearance — Badge uses the **brand** token pair (`sys.color.brand` background, `sys.color.onBrand` label). Brand is one tonal step brighter than `error` and reserved for short-label attention pins. Do not reach for `error` or `brandContainer`.
 
 ## Slots
 
-- **label** *(Numeric only)* — the count. Required on Numeric, single line. Numeric in the common case, `99+` cap once the count crosses 99. Non-numeric labels (`NEW`) allowed as a short single word. The Dot type carries no label slot.
+- **label** *(Numeric only)* — the count. Required on Numeric, single line. `99+` cap once count crosses 99. Non-numeric labels (`NEW`) allowed. The Dot type carries no label slot.
 
 ## Sizes
 

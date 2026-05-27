@@ -57,7 +57,7 @@ import { Feed } from '@blind-dsai/ui';
 
 ### With poll
 
-Inline poll module between body and mention/footer. Leading `PollFillIcon` + label paint in `sys.color.brand`; label is constrained to the literal `Poll`.
+Inline poll module between body and mention/footer. Leading `PollFillIcon` + label paint in `sys.color.brand`; label constrained to the literal `Poll`.
 
 ```preview
 feed/post-with-poll
@@ -105,7 +105,7 @@ import { Feed } from '@blind-dsai/ui';
 
 ### With citation
 
-Citation module naming an external source. Hero image flush-left at 120px wide; title two-line-clamped.
+Citation module naming an external source. Hero image flush-left at 120px wide; title clamps to two lines.
 
 ```preview
 feed/post-with-citation
@@ -128,7 +128,7 @@ import { Feed } from '@blind-dsai/ui';
 
 ### Group
 
-Three (or more) Post cards bundled inside `<FeedGroup>` for thread-grouped or topic-bundled feeds. The wrapper adds no chrome — inner Posts keep padding and divider; the wrapper carries intent (`role="region"` + optional `aria-label`).
+Three (or more) Post cards bundled inside `<FeedGroup>` for thread-grouped or topic-bundled feeds. Wrapper adds no chrome — inner Posts keep padding and divider; wrapper carries intent (`role="region"` + optional `aria-label`).
 
 ```preview
 feed/post-group
@@ -195,7 +195,7 @@ import { Feed } from '@blind-dsai/ui';
 - **channel** + **timestamp** + **followAction** *(optional)* — header row.
 - **meta** — middot-separated author metadata links; single line, truncates.
 - **title** + **body** — title (single line, truncates) over a two-line clamped excerpt.
-- **thumbnail** *(optional at runtime, agent-required at scaffold time)* — 80×80 trailing image; overlays `SquareStackIcon` when `stacked`. Agents MUST always pass this slot — fill `src` with a real subject photo when implied, `/placeholder.png` otherwise. The runtime omission-collapse is a safety net for downstream consumers, not a license to skip the slot at generation time.
+- **thumbnail** *(optional at runtime, agent-required at scaffold time)* — 80×80 trailing image; overlays `SquareStackIcon` when `stacked`. Agents MUST always pass this slot — fill `src` with a real subject photo when implied, `/placeholder.png` otherwise. Runtime omission-collapse is a safety net, not a license to skip the slot at generation time.
 - **poll** / **offer** *(optional)* — inline banners sharing chrome. Label constrained to `Poll` or `Offer`.
 - **citation** *(optional)* — inline link-share card with leading hero and source mark.
 - **mention** *(optional)* — tap-anywhere `@Mention` line under the body.
@@ -228,13 +228,13 @@ Feed is not itself interactive — interaction lives in the controls it carries.
 
 ## Focus indicator
 
-Feed itself is not a focus target; each focusable control paints its own ring per its spec. Card-level focus targets compose inward. Trigger: `:focus-visible`.
+Feed itself is not a focus target; each focusable control paints its own ring per its spec. Trigger: `:focus-visible`.
 
 ## Behavior
 
 - **Slot omission collapses without a gap.** Optional blocks drop out entirely.
 - **Truncation, not wrap.** `meta`/`title` truncate; `body` clamps to two lines; thumbnail is a flex sibling so the clamp computes against reduced inline width.
-- **Like is a toggle.** Tapping swaps `HeartIcon` → `HeartFillIcon` filled in `sys.color.brand` via a `--button-text-label` override and increments the count. Controlled (`liked` + `onLikeChange`) or uncontrolled. Aligns to the content rail via Text Button's [optical alignment](../button/text.md#optical-alignment).
-- **Comments commits; Views does not.** Views is a non-interactive `<span>` — no hover, focus ring, or `cursor: pointer`.
-- **Channel and meta are independent links.** Middot separators are decorative (`aria-hidden`) and outside link hit areas.
+- **Like is a toggle.** Tapping swaps `HeartIcon` → `HeartFillIcon` in `sys.color.brand` via `--button-text-label` and increments the count. Controlled (`liked` + `onLikeChange`) or uncontrolled. Aligns via Text Button's [optical alignment](../button/text.md#optical-alignment).
+- **Comments commits; Views does not.** Views is a non-interactive `<span>`.
+- **Channel and meta are independent links.** Middot separators decorative (`aria-hidden`), outside link hit areas.
 - **`<FeedGroup>` bundles consecutive Posts.** Semantic wrapper only — inner Posts keep their own padding and bottom divider.

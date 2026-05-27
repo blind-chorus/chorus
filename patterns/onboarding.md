@@ -6,7 +6,7 @@ status: canonical
 
 ## Intent
 
-Entry point for new accounts — step 1 of a 5-step Sign Up flow. Steers the user toward the **work-email verification** path (the canonical trust signal for Blind) while keeping two escape hatches visible: federated SSO (Apple / Facebook) and a personal-email fallback that opens [onboarding_personalEmail](onboarding_personalEmail.md). The hierarchy is deliberate: work email lives at the top, social SSO sits under an OR divider, and the personal-email opt-out is parked under the primary Continue so it reads as a last resort, not a peer.
+Step 1 of a 5-step Sign Up flow. Steers toward **work-email verification** (Blind's canonical trust signal) while keeping two escape hatches visible: federated SSO (Apple / Facebook) and a personal-email fallback opening [onboarding_personalEmail](onboarding_personalEmail.md). Work email at top, SSO under an OR divider, personal-email opt-out parked under primary Continue so it reads as a last resort, not a peer.
 
 ## Layout
 
@@ -35,7 +35,7 @@ Entry point for new accounts — step 1 of a 5-step Sign Up flow. Steers the use
 
 ## Notes
 
-- The "1 of 5" indicator is *plain text* in the nav bar trailing slot, not a progress component — keep it that way until a stepper pattern is canonized.
-- "I don't have a work email" intentionally uses an *outlined accent* style, not text-button: the action is consequential enough to need button affordance, but visually subordinate to the primary "Continue".
-- Apple/Facebook brand glyphs render at their authentic colors (Apple monochrome, Facebook blue dot) — they are vendor marks, not theme tokens. Don't recolor.
-- Localization: source is English. This is the only onboarding pattern currently captured in English; KR variants will get their own slug when added.
+- "1 of 5" is *plain text* in the nav bar trailing slot, not a progress component — keep until a stepper pattern is canonized.
+- "I don't have a work email" uses *outlined accent* (not text-button): consequential enough for button affordance, visually subordinate to "Continue".
+- Apple/Facebook brand glyphs render at authentic colors (Apple monochrome, Facebook blue) — vendor marks, not theme tokens. Don't recolor.
+- Source is English. KR variants get their own slug when added.

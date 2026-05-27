@@ -9,7 +9,7 @@ Both subs share the same pager geometry — a `ref.space.500` (40px) trailing pe
 
 **Reach for this when** a finite, curated set of cards belongs together under a labelled heading and reads as a horizontal swipeable rail — "Popular posts this week", "Recommended channels", "Hot companies right now". **Skip when** the collection is an open-ended scrolling stream of authored items (use [Feed](../feed/feed.md)), a vertical list of same-kind rows (use [List](../list/list.md)), or a channel directory that needs the channel-specific row chrome (use [SuggestionList](../suggestion-list/suggestion-list.md)). Pick the sub by the card shape: post cards → [Post carousel](./post-carousel.md); profile / channel / company cards → [Profile carousel](./profile-carousel.md).
 
-**Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. The Section owns its own header padding and the carousel pager bleeds to the trailing edge via negative margin; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the section label and first carousel card land at different insets than the headings, list rows, and feed cards around them. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell. The Section owns its own header padding and the carousel pager bleeds to the trailing edge via negative margin; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Cross-sub contract
 
@@ -20,7 +20,7 @@ Every Section paints a [Header](../header/header.md) (`size="large"`) at the top
 - **Label** — `sys.typo.heading.md` / Semibold / `sys.color.onSurface`. Leading position.
 - **headerAction** *(optional)* — trailing [Text Button](../button/text.md) (`size={'xsmall'}`, `appearance={'accent'}`) per the link-affordance rule.
 
-Section forwards its `label` and `headerAction` props to the [Header](../header/header.md) component verbatim; the header anatomy lives in Header's spec. Other hosts (in-sheet sub-sections, bounded cards, [SuggestionList](../suggestion-list/suggestion-list.md)) reach for `<Header />` directly to paint the same shape — Section is the labelled-region host, Header is the leading-row primitive it composes.
+Section forwards `label` and `headerAction` to [Header](../header/header.md) verbatim; the header anatomy lives in Header's spec. Other hosts (in-sheet sub-sections, bounded cards, [SuggestionList](../suggestion-list/suggestion-list.md)) reach for `<Header />` directly — Section is the labelled-region host, Header the leading-row primitive it composes.
 
 ### Surface + padding
 

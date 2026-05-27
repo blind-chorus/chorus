@@ -6,7 +6,7 @@ status: canonical
 
 ## Intent
 
-Keyword scope picker for the notifications "키워드" (Keywords) tab. Surfaces as a bottom sheet over [main_notifications](main_notifications.md) when the user taps the "키워드 전체 ▾" filter chip, letting them multi-select which tracked keywords drive the matched-post stream before committing with a single primary action. "선택해제" (Deselect all) clears the set in one tap; "적용하기" (Apply) closes the sheet and refilters the list underneath.
+Keyword scope picker for the notifications "키워드" (Keywords) tab. Bottom sheet over [main_notifications](main_notifications.md), opened from the "키워드 전체 ▾" filter chip. Multi-select tracked keywords, then commit. "선택해제" clears all; "적용하기" closes the sheet and refilters the list.
 
 ## Layout
 
@@ -31,7 +31,7 @@ Keyword scope picker for the notifications "키워드" (Keywords) tab. Surfaces 
 
 ## Notes
 
-- This is a *sub-screen* of [main_notifications](main_notifications.md); don't catalogue it as a standalone destination. The trigger is the "키워드 전체 ▾" filter chip — keep that affordance in sync if either side changes.
-- Use `button / check` for the rows, not `list / radio` or a custom checkbox: rows commit option state alongside the sheet's primary action, which is exactly Check Button's intent (see [button/check](../schema/components/button/check.md)).
-- Localization: source is Korean. Per AGENTS.md rule 7, demo strings rendered in components should be English; this pattern captures the Korean source for visual fidelity only.
-- No paired screen recipe yet — when one is added under `schema/screens/`, link both ways and update the index row's Recipe column.
+- Sub-screen of [main_notifications](main_notifications.md); not a standalone destination. Trigger is the "키워드 전체 ▾" filter chip — keep in sync.
+- Use `button / check` for rows, not `list / radio` or a custom checkbox — rows commit option state alongside the sheet's primary action (see [button/check](../schema/components/button/check.md)).
+- Source is Korean. Per AGENTS.md rule 7, demo strings render English; Korean here is for visual fidelity only.
+- No paired screen recipe yet — link both ways and update the index Recipe column when added.

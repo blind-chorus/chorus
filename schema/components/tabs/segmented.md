@@ -1,12 +1,12 @@
 # Segmented
 
-The inline view-mode toggle — a row of mutually-exclusive selectors for in-place mode changes (List ↔ Grid, Day ↔ Week ↔ Month). Exactly one option is active at a time; reach for [Underline](./underline.md) for panel-switching navigation, or [Filter](../chip/filter.md) when the user can toggle multiple independent criteria at once.
+The inline view-mode toggle — a row of mutually-exclusive selectors for in-place mode changes (List ↔ Grid, Day ↔ Week ↔ Month). Use [Underline](./underline.md) for panel-switching navigation; [Filter](../chip/filter.md) for multi-select.
 
-**Layout inset.** `full-bleed` — Segmented tabs is an **edge-to-edge** family. It sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. The row pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the tabs land at a different inset than the page body and section headings around them. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — **edge-to-edge** family. Sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge. The row pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-The headline form — a 2-segment List / Grid view toggle.
+Headline form — 2-segment List / Grid view toggle.
 
 ```preview
 tabs/segmented/default
@@ -23,7 +23,7 @@ import { Tabs, Tab } from '@blind-dsai/ui';
 
 ### With icon
 
-A leading glyph in each segment — useful when the verb alone could read as anything.
+Leading glyph in each segment — useful when the verb alone could read as anything.
 
 ```preview
 tabs/segmented/leading-icon
@@ -39,7 +39,7 @@ import { CheckedIcon, PlusIcon } from '@blind-dsai/ui/icons';
 
 ### Overflow
 
-When the row's natural width exceeds the surrounding column, it scrolls horizontally instead of compressing segments — no `fullWidth` because equal-width segments would break the shared-density contract with Filter chips. A trailing **Edge fade** (rightmost **48px** / `ref.space.600`) paints via `mask-image` only while overflow is present.
+When natural width exceeds the column, the row scrolls horizontally — no `fullWidth` (equal-width segments would break the shared-density contract with Filter chips). Trailing **Edge fade** (rightmost **48px** / `ref.space.600`) paints via `mask-image` only while overflow is present.
 
 ```preview
 tabs/segmented/overflow
@@ -59,7 +59,7 @@ import { Tabs, Tab } from '@blind-dsai/ui';
 
 ### Focus indicator
 
-Static design-review specimen — pins the keyboard-focus ring to a selected segment. See the top-level [Focus indicator](#focus-indicator) below for composition.
+Static specimen — pins the focus ring to a selected segment. See top-level [Focus indicator](#focus-indicator).
 
 ```preview
 tabs/segmented/focused
@@ -79,9 +79,9 @@ import { Tabs, Tab } from '@blind-dsai/ui';
 
 ## Anatomy
 
-Each segment renders with `chorus-chip chorus-chip--filter` — see [Filter chip](../chip/filter.md) for the full visual contract. Selected segment swaps from the unselected pair (`transparent` fill + `outlineVariant` border + `onSurface` label, so the segment adopts whatever surface sits behind the row) to the selected pair (`inverseSurface` fill + `inverseOnSurface` label, border `transparent` with 1px width held so footprint stays).
+Each segment renders with `chorus-chip chorus-chip--filter` — see [Filter chip](../chip/filter.md). Selected swaps from unselected (`transparent` fill + `outlineVariant` border + `onSurface` label) to selected (`inverseSurface` fill + `inverseOnSurface` label, border `transparent` with 1px width held).
 
-Chip behaviour inherited verbatim — except the focus ring, which is re-anchored as an inset overlay on a `::after` layer (the segmented row is a horizontal scroller, so the chip's default outward ring would clip).
+Chip behaviour inherited verbatim — except the focus ring, re-anchored as an inset overlay on a `::after` layer (segmented row is a horizontal scroller; the chip's default outward ring would clip).
 
 ## Sizes
 
@@ -109,4 +109,4 @@ Delegates to [Filter chip](../chip/filter.md) — segment chrome composes identi
 
 ## Focus indicator
 
-**Composition: Inward** (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)) — the row is a horizontal scroller, so an outward ring would clip at the top and bottom edges. The ring paints as inset shadows inside the segment's bounding box, drawn on a `::after` so it never shifts a segment or the row. Trigger: `:focus-visible`.
+**Composition: Inward** (see [Focus ring composition](../../DESIGN.md#focus-ring-composition)) — row is a horizontal scroller, so an outward ring would clip at top/bottom. Paints as inset shadows inside the segment's bounding box on a `::after` so it never shifts a segment or row. Trigger: `:focus-visible`.

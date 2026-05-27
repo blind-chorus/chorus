@@ -7,7 +7,7 @@ recipe: ../schema/screens/post-comments.screen.json
 
 ## Intent
 
-Threaded comments under a post. Sorted-by control on the left, jump-to-latest on the right, then a vertical stream of comments with replies indented and a persistent compose bar pinned to the bottom. Optimized for one-thumb reading and quick reply.
+Threaded comments under a post. Sort control left, jump-to-latest right, vertical comment stream with indented replies, persistent compose bar pinned bottom. One-thumb reading and quick reply.
 
 ## Layout
 
@@ -35,7 +35,7 @@ Threaded comments under a post. Sorted-by control on the left, jump-to-latest on
 
 ## Notes
 
-- Compose bar is *persistent*, not a bottom sheet — it stays docked even when scrolling. Do not model as `bottom-sheet`.
-- Nested replies use a `sys.color.surfaceContainerLow` block, not a left rule — preserve the surface treatment.
-- "대댓글" and "대화하기" are two distinct footer actions: one starts a reply thread, the other opens DM. Agents replicating must keep them as separate text buttons, not a combined dropdown.
-- Source is Korean for fidelity; demo strings should render English per AGENTS.md rule 7.
+- Compose bar is *persistent*, not a bottom sheet — stays docked while scrolling. Do not model as `bottom-sheet`.
+- Nested replies use `sys.color.surfaceContainerLow` block, not a left rule — preserve.
+- "대댓글" and "대화하기" are distinct footer actions (reply thread vs DM). Keep as separate text buttons, not a combined dropdown.
+- Source is Korean. Demo strings render English per AGENTS.md rule 7.

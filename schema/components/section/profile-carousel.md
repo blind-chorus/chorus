@@ -1,12 +1,12 @@
 # Profile carousel
 
-Sub-component of the [Section](./section.md) family. A horizontally-scrolling rail of fixed-width (176px) profile cards — channels, user profiles, or company channels grouped under a single editorial heading. Each card carries a cover band, a 64-rung [Thumbnail](../thumbnail/thumbnail.md) avatar overlapping the cover, an entity name + follower count, a metrics row or two-line description, and a trailing full-width follow [Toggle Button](../button/text.md). The section heading and `See all` link live on the [Section](./section.md) wrapper — ProfileCarousel is the *content* only.
+Sub-component of the [Section](./section.md) family. Horizontally-scrolling rail of fixed-width (176px) profile cards — channels, user profiles, or company channels grouped under a single editorial heading. Each card carries a cover band, a 64-rung [Thumbnail](../thumbnail/thumbnail.md) avatar overlapping the cover, entity name + follower count, a metrics row or two-line description, and a trailing full-width follow [Toggle Button](../button/text.md). The section heading and `See all` link live on the [Section](./section.md) wrapper — ProfileCarousel is the *content* only.
 
-**Layout inset.** `full-bleed` — ProfileCarousel is an **edge-to-edge** family. It sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it so the rail can bleed off the trailing edge into the swipe-affordance zone. The rail pays its own `16px inline` rail padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the first card lands at a different inset than the section heading and the cards in neighbour rails. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell so the rail can bleed off the trailing edge into the swipe zone. The rail pays its own `16px inline` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-The base composition — three profile cards under a Section heading.
+Three profile cards under a Section heading.
 
 ```preview
 section/profile-carousel-default
@@ -59,7 +59,7 @@ import { Section, ProfileCarousel } from '@blind-dsai/ui';
 
 ### With description
 
-The metrics row swaps out for a two-line description paragraph. Use this for editorial collections where the value of each profile is best explained in copy (channel topic, hot pitch) rather than numeric signals. The description block is fixed to the same two-line height as the metrics row, so cards stay flush across both modes even when a description spills past two lines and clamps with an ellipsis.
+The metrics row swaps out for a two-line description. Use for editorial collections where the value of each profile is best explained in copy (channel topic, hot pitch) rather than numeric signals. The description block is fixed to the same two-line height as the metrics row, so cards stay flush across both modes even when description copy clamps with an ellipsis.
 
 ```preview
 section/profile-carousel-with-description
@@ -101,12 +101,12 @@ import { Section, ProfileCarousel } from '@blind-dsai/ui';
 - **container** — wraps the pager and pagination dots. No fill / padding — the surrounding [Section](./section.md) provides the chrome.
 - **pager** — horizontal scroll-snap track. `scroll-snap-type: x mandatory`; native scrollbar hidden.
 - **card** — one profile card per page; fixed at **176px** wide.
-  - **cover** — top band; 88px tall image-area slot. Renders an `<img>` defaulting to the universal Chorus placeholder (`/placeholder.png`) — the same asset every empty image slot in the system falls back to. `object-fit: cover` preserves the image's aspect ratio while cropping to fill the band; `sys.color.surfaceContainerHigh` underlies as the no-image fallback tone. Consumers can override via `items[i].cover.src` (any URL).
+  - **cover** — top band; 88px tall image-area slot. Renders an `<img>` defaulting to `/placeholder.png` (universal Chorus placeholder). `object-fit: cover` crops to fill the band; `sys.color.surfaceContainerHigh` underlies as the no-image fallback. Consumers override via `items[i].cover.src`.
   - **avatar** — [Thumbnail](../thumbnail/thumbnail.md) `size={64}`, centered and overlapping the cover band's bottom edge.
   - **name** — entity name; `sys.typo.label.md` / Semibold / `sys.color.onSurface`; centered, single line truncate.
   - **followers** — follower count; `sys.typo.caption.md` / `sys.color.onSurfaceVariant`; centered.
   - **metrics** *(optional)* — row of `icon + value` chips: `star → StarFillIcon (ref.palette.yellow.500)`, `pulse → PulseFillIcon (sys.color.success)`, `thumb → ThumbUpFillIcon (sys.color.primary)`. Mutually exclusive with `description`.
-  - **description** *(optional)* — two-line clamped paragraph that replaces the metrics row when present. The block height is fixed to two lines of `sys.typo.caption.md` regardless of how much copy lands, so card height stays consistent across cards that carry metrics and cards that carry copy.
+  - **description** *(optional)* — two-line clamped paragraph that replaces the metrics row when present. Block height fixed to two lines of `sys.typo.caption.md` regardless of copy length, so card height stays consistent across metrics-carrying and copy-carrying cards.
   - **followAction** — full-width [Toggle Button](../button/text.md) (`variant={'toggle'}`); `Follow` (inactive) / `Following` (active).
 - **pagination** — one dot per card. Active dot paints `sys.color.onSurface`; rest paint `sys.color.outlineVariant`. Decorative.
 
@@ -122,7 +122,7 @@ import { Section, ProfileCarousel } from '@blind-dsai/ui';
 | followers      | `sys.typo.caption.md`, `sys.color.onSurfaceVariant`, centered |
 | metrics row    | `sys.layout.inline.md` gap, centered. Fixed-height slot — `calc(sys.typo.caption.md.size * sys.typo.caption.md.line * 2)` so the row always reserves two lines of `caption.md` regardless of content. |
 | metric chip    | `sys.icon.md` glyph + `sys.typo.label.sm` value; star → `StarFillIcon` (`ref.palette.yellow.500`), pulse → `PulseFillIcon` (`sys.color.success`), thumb → `ThumbUpFillIcon` (`sys.color.primary`) |
-| description    | `sys.typo.caption.md` / `sys.color.onSurfaceVariant`, centered, two-line clamp with trailing ellipsis. Two-layer DOM — an outer container owns the same fixed-height slot as `metrics row` (min/max-height = 2 caption.md lines); the inner `<p>` owns the `-webkit-line-clamp: 2` truncation. The split sidesteps a Chrome quirk where `display: -webkit-box` and an explicit `height` on one element silently break the third-line clip. |
+| description    | `sys.typo.caption.md` / `sys.color.onSurfaceVariant`, centered, two-line clamp with trailing ellipsis. Two-layer DOM — outer container owns the same fixed-height slot as `metrics row` (min/max-height = 2 caption.md lines); inner `<p>` owns the `-webkit-line-clamp: 2` truncation. Split sidesteps a Chrome quirk where `display: -webkit-box` and explicit `height` on one element break the third-line clip. |
 | followAction   | [Toggle Button](../button/text.md) (Chip-toggle anatomy), stretched to full card width |
 | pagination dot | 6×6, `sys.radius.full`; active `sys.color.onSurface`, inactive `sys.color.outlineVariant` |
 

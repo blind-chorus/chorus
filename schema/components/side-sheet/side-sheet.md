@@ -2,15 +2,15 @@
 
 Off-canvas content column anchored to the leading or trailing edge of the viewport. Pairs with [BottomSheet](../bottom-sheet/bottom-sheet.md) as the Sheet family's other anchor: BottomSheet for committed-sheet flows, SideSheet for off-canvas navigation columns, settings panes, channel directories, filter rails.
 
-The composition is free-form via `children` — the canonical fill is a [Header](../header/header.md) (`size="medium"`) column heading + a [List](../list/list.md) (`variant="thumbnail"` `density="compact"`) body, optionally followed by another Header + List pair and a pinned footer commit.
+Composition is free-form via `children` — canonical fill is a [Header](../header/header.md) (`size="medium"`) heading + a [List](../list/list.md) (`variant="thumbnail"` `density="compact"`) body, optionally followed by another Header + List pair and a pinned footer commit.
 
-**Reach for this when** an off-canvas column belongs next to the current page — a navigation drawer, a channel / topic / saved-item directory, a filter rail, a settings pane. **Skip when** the surface is a committed-sheet flow with a single primary action (use [BottomSheet](../bottom-sheet/bottom-sheet.md)), a confirmation prompt (use [Dialog](../dialog/dialog.md)), a labelled in-flow block (use [Section](../section/section.md)), or a permanent app-shell navigation (use [TabBar](../tab-bar/tab-bar.md) / [NavigationBar](../navigation-bar/navigation-bar.md)).
+**Reach for this when** an off-canvas column belongs next to the current page — a navigation drawer, a channel / topic / saved-item directory, a filter rail, a settings pane. **Skip when** the surface is a committed-sheet flow (use [BottomSheet](../bottom-sheet/bottom-sheet.md)), a confirmation prompt (use [Dialog](../dialog/dialog.md)), a labelled in-flow block (use [Section](../section/section.md)), or a permanent app-shell navigation (use [TabBar](../tab-bar/tab-bar.md) / [NavigationBar](../navigation-bar/navigation-bar.md)).
 
-**Layout inset.** `bounded-surface` — SideSheet is a portal-rendered modal-like surface (same family as `BottomSheet` / `Dialog`). It paints its own off-canvas card, owns the body's gutter, and renders into a `document.body` portal so it never sits inside the page shell's flow. Compose primitives directly inside `children`; full-bleed children (List, Feed, Banner) negate the body's inline padding via the negative-margin opt-out — see [AGENTS.md § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `bounded-surface` — portal-rendered modal-like surface (same family as `BottomSheet` / `Dialog`). Paints its own off-canvas card, owns the body's gutter, and renders into a `document.body` portal. Compose primitives directly inside `children`; full-bleed children (List, Feed, Banner) negate the body's inline padding via the negative-margin opt-out — see [AGENTS.md § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-A left-anchored navigation drawer composed of three Header (medium) + List (thumbnail compact) pairs and a pinned footer commit. Replicates the canonical "channels directory" off-canvas pattern.
+A left-anchored navigation drawer composed of three Header (medium) + List (thumbnail compact) pairs and a pinned footer commit. The canonical "channels directory" off-canvas pattern.
 
 ```preview
 side-sheet/default
@@ -81,19 +81,19 @@ import { PlusIcon, StarIcon, StarFillIcon } from '@blind-dsai/ui/icons';
 
 ### Single section
 
-One `SideSheetGroup` with a Header + List. Use for filter rails, settings groups, sub-navigation overlays where the surface carries one labelled list.
+One `SideSheetGroup` with a Header + List. Use for filter rails, settings groups, sub-navigation overlays.
 
 ### With pinned commit
 
-Set the `footer` prop with a Text Button to pin a primary commit at the bottom (e.g. "Browse all channels", "Apply filters", "Save preferences"). The footer stays flush while the body scrolls.
+Set the `footer` prop with a Text Button to pin a primary commit at the bottom (e.g. "Browse all channels", "Apply filters"). Footer stays flush while the body scrolls.
 
 ## Slots
 
-- **scrim** — backdrop. Translucent black (`ref.palette.black.600`); absorbs outside clicks and dismisses on tap.
+- **scrim** — backdrop. Translucent black (`ref.palette.black.600`); dismisses on tap.
 - **card** — off-canvas column. Fixed width, full viewport height, flush against the `anchor` edge. `sys.color.surface` fill + `sys.elevation.sheet` shadow.
-- **body** — vertical scroll surface inside the card. Pays its own `16px inline / 24px block` gutter; stacks children at `24px` (`layout.stack.lg`) — the rhythm **between groups**.
-- **group** *(SideSheetGroup)* — bundle of one Header + one (or more) List inside the body. Internal gap `16px` (`layout.stack.md`) so the heading reads attached to its items; the body's `24px` rhythm then separates one group from the next.
-- **footer** *(optional)* — pinned bottom action rail. Single Text Button or compact action node; separated from the body by an `outlineVariant` hairline.
+- **body** — vertical scroll surface inside the card. Pays `16px inline / 24px block` gutter; stacks children at `24px` (`layout.stack.lg`) — the rhythm **between groups**.
+- **group** *(SideSheetGroup)* — bundle of one Header + one (or more) List inside the body. Internal gap `16px` (`layout.stack.md`); the body's `24px` rhythm separates groups.
+- **footer** *(optional)* — pinned bottom action rail. Single Text Button or compact action node; separated by an `outlineVariant` hairline.
 
 ## Behavior
 

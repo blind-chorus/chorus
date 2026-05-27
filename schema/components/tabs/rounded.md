@@ -1,12 +1,12 @@
 # Rounded
 
-The rounded-rectangle tab row — each tab a self-contained chip with a required leading icon and label. Shares its visual chrome with [Segmented](./segmented.md) and [Filter chip](../chip/filter.md) verbatim — **the single divergence is the corner radius**, which steps from `sys.radius.full` (capsule) to `sys.radius.md` (8). Reads as a soft rounded rectangle rather than a pill.
+Rounded-rectangle tab row — each tab a self-contained chip with a required leading icon and label. Shares chrome with [Segmented](./segmented.md) and [Filter chip](../chip/filter.md) verbatim — **single divergence is corner radius**, which steps from `sys.radius.full` (capsule) to `sys.radius.md` (8). Reads as a soft rounded rectangle, not a pill.
 
-**Layout inset.** `full-bleed` — Rounded tabs is an **edge-to-edge** family. It sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. The row pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the tabs land at a different inset than the page body and section headings around them. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — **edge-to-edge** family. Sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge. The row pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-The bare headline form — labels carry the meaning, no glyphs.
+Bare headline form — labels carry meaning, no glyphs.
 
 ```preview
 tabs/rounded/default
@@ -24,7 +24,7 @@ import { Tabs, Tab } from '@blind-dsai/ui';
 
 ### With icon
 
-The canonical sort / filter row — each tab pairs a leading glyph with its label. Icon sits at 16px (`sys.icon.md`). Every glyph is drawn from the managed `@blind-dsai/ui/icons` set so the row carries no inline SVG.
+Canonical sort / filter row — each tab pairs a leading glyph with its label. Icon at 16px (`sys.icon.md`). All glyphs drawn from `@blind-dsai/ui/icons` so the row carries no inline SVG.
 
 ```preview
 tabs/rounded/leading-icon
@@ -42,7 +42,7 @@ import { PulseIcon, StarIcon, HeartIcon, BookmarkIcon } from '@blind-dsai/ui/ico
 
 ### Icon only
 
-A glyph-only tab — collapses to a clean 32×32 square (inline padding 12 → 8). Pair every icon-only tab with an `aria-label`.
+Glyph-only tab — collapses to a clean 32×32 square (inline padding 12 → 8). Requires `aria-label`.
 
 ```preview
 tabs/rounded/icon-only
@@ -59,7 +59,7 @@ import { StarIcon, BookmarkIcon, HeartIcon } from '@blind-dsai/ui/icons';
 
 ### Overflow
 
-When the row's natural width exceeds the surrounding column, it scrolls horizontally instead of compressing tabs. Trailing **Edge fade** (48px / `ref.space.600`) paints via `mask-image` only while overflow is present.
+When natural width exceeds the column, the row scrolls horizontally. Trailing **Edge fade** (48px / `ref.space.600`) paints via `mask-image` only while overflow is present.
 
 ```preview
 tabs/rounded/overflow
@@ -80,7 +80,7 @@ import { PulseIcon, StarIcon, HeartIcon, BookmarkIcon, TagIcon, ProfileIcon, Men
 
 ### Focus indicator
 
-Static design-review specimen — pins the keyboard-focus ring to the selected tab. See top-level [Focus indicator](#focus-indicator) for composition.
+Static specimen — pins the focus ring to the selected tab. See top-level [Focus indicator](#focus-indicator).
 
 ```preview
 tabs/rounded/focused
@@ -96,8 +96,8 @@ import { Tabs, Tab } from '@blind-dsai/ui';
 
 ## Slots
 
-- **label** — tab's accessible name. Single line. Optional only when icon-only — pair with `aria-label`.
-- **leadingIcon** — optional 16px (`sys.icon.md`) glyph. May carry its own brand / category color independent of the label.
+- **label** — accessible name. Single line. Optional only when icon-only — requires `aria-label`.
+- **leadingIcon** — optional 16px (`sys.icon.md`) glyph. May carry its own brand/category color.
 
 At least one of `label` / `leadingIcon` must be present.
 

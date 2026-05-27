@@ -1,14 +1,14 @@
 # Skeleton
 
-A tonal placeholder block that previews where real content will render. Paints in `surfaceContainerHighest` with a slow opacity pulse. Three shapes — `text` (default 16-line block), `block` (image / card body) and `circle` (avatar). Compose multiple Skeletons inside `SkeletonGroup` to mirror the rhythm of the content being loaded.
+A tonal placeholder block that previews where real content will render. Paints in `surfaceContainerHighest` with a slow opacity pulse. Three shapes — `text` (default 16-line block), `block` (image / card body), `circle` (avatar). Compose multiple Skeletons inside `SkeletonGroup` to mirror the loading content's rhythm.
 
-**Reach for this when** a list row, a feed post, a card cover, or an avatar is still being fetched and the host would otherwise paint as an empty surface. **Skip when** the wait is sub-300ms (no placeholder needed — the user won't notice the transition), the data is unavailable rather than loading (use an empty-state illustration with body copy, not a pulsing placeholder), or the loading scope is the whole screen (use a centered progress indicator at the page level instead of skeletonising every row).
+**Reach for this when** a list row, feed post, card cover, or avatar is being fetched and the host would otherwise paint empty. **Skip when** the wait is sub-300ms, the data is unavailable rather than loading (use an empty-state illustration), or the loading scope is the whole screen (use a centered progress indicator at page level).
 
-**Layout inset.** `inline` — Skeleton ships no padding or container chrome of its own. It sits as a leaf inside whichever surface it stands in for (a list row, a feed post's image area, a card cover slot). Width and height are consumer-supplied so the placeholder matches the footprint of the content it replaces. `SkeletonGroup` adds an 8px gap between stacked siblings but still owns no inline padding.
+**Layout inset.** `inline` — Skeleton ships no padding or container chrome of its own. Sits as a leaf inside whichever surface it stands in for. Width and height are consumer-supplied. `SkeletonGroup` adds an 8px gap between stacked siblings.
 
 ## Default
 
-A single text-line placeholder. 16px high, full-width by default — drop it in wherever a single line of body copy will render once the fetch resolves.
+A single text-line placeholder. 16px high, full-width by default.
 
 ```preview
 skeleton/default
@@ -22,7 +22,7 @@ import { Skeleton } from '@blind-dsai/ui';
 
 ### Block
 
-A rectangular tonal block. 80px high by default — sized so a single instance reads as a card cover, image area, or card body placeholder. Pass `height` to stretch it to match the real content's footprint.
+A rectangular tonal block. 80px high by default — reads as a card cover, image area, or card body placeholder. Pass `height` to match the real content's footprint.
 
 ```preview
 skeleton/block
@@ -34,7 +34,7 @@ import { Skeleton } from '@blind-dsai/ui';
 
 ### Circle
 
-An avatar placeholder. 40 × 40 by default — matches a 40-rung [Thumbnail](../thumbnail/thumbnail.md). Override `width` / `height` to swap in a different rung (32, 56, 72).
+An avatar placeholder. 40 × 40 by default — matches a 40-rung [Thumbnail](../thumbnail/thumbnail.md). Override `width` / `height` for a different rung.
 
 ```preview
 skeleton/circle
@@ -46,7 +46,7 @@ import { Skeleton } from '@blind-dsai/ui';
 
 ### List row
 
-A list-row loading state — a leading 40-circle next to two stacked text lines. Use the same widths as the real row so the swap to live data doesn't reflow.
+A list-row loading state — leading 40-circle next to two stacked text lines. Use the same widths as the real row so the swap to live data doesn't reflow.
 
 ```preview
 skeleton/list-row
@@ -64,7 +64,7 @@ import { Skeleton, SkeletonGroup } from '@blind-dsai/ui';
 
 ### Feed post
 
-A feed-post loading state — author row (avatar + name + meta), title, two body lines, and a 16:9 cover block. Mirrors the rhythm of a real feed/post so the swap to live data lands seamlessly.
+A feed-post loading state — author row (avatar + name + meta), title, two body lines, and a 16:9 cover block. Mirrors the rhythm of a real feed/post.
 
 ```preview
 skeleton/feed-post
@@ -117,7 +117,7 @@ import { Skeleton, SkeletonGroup } from '@blind-dsai/ui';
 
 ## Behavior
 
-- **Footprint matches content.** Pass `width` / `height` so the placeholder is the same size as the data it replaces — the swap to live content should not reflow the surrounding layout.
-- **Group for multi-line.** Stack Skeletons inside a `SkeletonGroup` so the 8px sibling gap stays consistent across compositions (a raw `<div>` with arbitrary gap drifts the rhythm).
-- **Single screen role.** `role='status'` + `aria-live='polite'` announces a loading state without interrupting focus. The visible block is decorative — the announcement carries the `aria-label` (defaults to `'Loading'`).
-- **Atomic swap.** Replace the Skeleton with the real content in one render — no cross-fade. The pulse already signals "in-flight"; a second transition reads as a flicker.
+- **Footprint matches content.** Pass `width` / `height` so the placeholder matches the data it replaces — swap should not reflow.
+- **Group for multi-line.** Stack Skeletons inside a `SkeletonGroup` to keep the 8px sibling gap consistent.
+- **Single screen role.** `role='status'` + `aria-live='polite'` announces loading without interrupting focus. Announcement carries the `aria-label` (defaults to `'Loading'`).
+- **Atomic swap.** Replace the Skeleton with real content in one render — no cross-fade.

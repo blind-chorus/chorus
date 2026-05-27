@@ -1,10 +1,10 @@
 # Standard
 
-The default inline action surface — a labelled commit (form submit, dialog confirm, row action). Two independent axes: **size** (`large` / `medium` / `small`) chosen by the surface, **appearance** (`primary` / `secondary` / `outlined` / `tertiary`) by emphasis.
+The default inline action surface — a labelled commit (form submit, dialog confirm, row action). Two axes: **size** (`large` / `medium` / `small`), **appearance** (`primary` / `secondary` / `outlined` / `tertiary`).
 
 **Reach for this when** you need a labelled commit inline with content — Save, Continue, Confirm, Cancel. **Skip when** the commit must float above scrolling content ([FAB](./fab.md)), the rung is body-text-sized ([Text Button](./text.md)), or the row is a dense toolbar ([Toolbar Button](./toolbar.md)).
 
-**Layout inset.** inline — the button is content-sized (or `fullWidth`) and inherits its surface's padding; it contributes no chrome of its own.
+**Layout inset.** inline — content-sized (or `fullWidth`); inherits its surface's padding.
 
 ## Default
 
@@ -38,7 +38,7 @@ import { Button } from '@blind-dsai/ui';
 
 ### Outlined
 
-Bordered blue-on-transparent Button paired beside `primary` as a supplementary option (*See more*, *Learn more*, *Skip for now*). For opposing paths use `secondary`.
+Bordered blue-on-transparent — supplementary option beside `primary` (*See more*, *Learn more*, *Skip for now*). For opposing paths use `secondary`.
 
 ```preview
 button/standard/outlined
@@ -66,7 +66,7 @@ import { Button } from '@blind-dsai/ui';
 
 ### With leading icon
 
-Single optional icon before the label — context glyph. Inherits label color via `currentColor` (`sys.icon.lg` on `large`, `sys.icon.md` on `medium`/`small`).
+Optional context glyph before the label. Inherits label color via `currentColor` (`sys.icon.lg` on `large`, `sys.icon.md` on `medium`/`small`).
 
 ```preview
 button/standard/with-leading-icon
@@ -85,7 +85,7 @@ import { PlusIcon } from '@blind-dsai/ui/icons';
 
 ### Full width
 
-Button stretched to fill the column (`width: 100%`). Default mobile shape for hero surfaces, empty states, onboarding, login. On wider surfaces fall back to content-sized.
+Stretched to fill the column (`width: 100%`). Default mobile shape for hero surfaces, empty states, onboarding, login. On wider surfaces, fall back to content-sized.
 
 ```preview
 button/standard/full-width
@@ -137,7 +137,7 @@ import { Button } from '@blind-dsai/ui';
 
 ### Truncation
 
-When the column is narrower than the label's natural width, the label clips with an ellipsis instead of wrapping — Buttons are single-line by contract.
+When the column is narrower than the label, it clips with an ellipsis — Buttons are single-line by contract.
 
 ```preview
 button/standard/truncation
@@ -173,11 +173,11 @@ import { Button } from '@blind-dsai/ui';
 - **label** — accessible name. Required, single line; long labels truncate.
 - **leadingIcon** (optional) — context glyph before the label. Inherits via `currentColor` — see [Button → Icon colour inheritance](./button.md#icon-colour-inheritance).
 
-The Standard Button does not carry a trailing icon.
+No trailing icon.
 
 ## Appearance
 
-A **destructive** flavor swaps the `primary` family → `error` family across whichever appearance, reserved for irreversible actions.
+A **destructive** flavor swaps `primary` → `error` across any appearance; reserved for irreversible actions.
 
 | Appearance  | Background    | Border (1px)            | Label color                       | Notes                                                                 |
 |-------------|---------------|--------------------------|-----------------------------------|-----------------------------------------------------------------------|
@@ -215,5 +215,5 @@ Standard outward ring drawn as a `position: absolute` pseudo-element so it never
 
 ## Behavior
 
-- **Chrome-aligned filled form** — no optical compensation; layout by chrome (see [Button → Optical alignment](./button.md#optical-alignment)).
-- **Single line.** Long labels truncate inline; the 160px min-width floor keeps a row of buttons reading as one composition unless `fullWidth` or `truncate` overrides.
+- **Chrome-aligned filled form** — layout by chrome (see [Button → Optical alignment](./button.md#optical-alignment)).
+- **Single line.** Long labels truncate; 160px min-width keeps a row reading as one composition unless `fullWidth` or `truncate` overrides.
