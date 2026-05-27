@@ -124,18 +124,50 @@ When an AI agent (or a designer paging in from the shadcn vocabulary) reaches fo
 |-----------------------------------|------------------------------------------------------------------------------------|-------|
 | `<Alert variant="default">`        | `<Banner appearance="default">`                                                     | Already aliased — `import { Alert } from '@blind-dsai/ui'`. |
 | `<Alert variant="destructive">`    | `<Banner appearance="destructive">`                                                 | Use the destructive appearance added for this mapping. |
+| `<AlertDialog>` (confirm prompt)   | `<Dialog>`                                                                          | Confirm / destructive-commit prompt. Chorus `Dialog` is the locked modal-confirmation surface — same contract (focus trap, primary / secondary actions). |
 | `<Badge variant="…">` *(text pill)* | `<StatusTag appearance="neutral \| error">`                                          | Chorus `Badge` is a numeric / dot count marker — same name, different intent. Text-pill `<Badge>` calls must translate to `StatusTag`. |
 | `<Avatar>` (image+fallback compound) | `<Thumbnail src=… alt=… />`                                                         | Already aliased — `import { Avatar } from '@blind-dsai/ui'`. Use Thumbnail's `imageFallbackImage` / `imageFallbackText` props instead of the `<AvatarFallback>` child. |
 | `<Card>` (generic bordered block)  | One of: `<Section>` (labelled editorial block), `<Feed>` (authored content), `<NavCard>` (drill-in row), `<Banner>` (tonal aside) | Chorus splits "Card" by intent — pick by what the block carries, not by the chrome. |
 | `<Carousel>`                       | `<PostCarousel>` (cards) or `<ProfileCarousel>` (avatar-anchored)                   | Pick by content rung — Chorus carousels are specialised. |
+| `<Checkbox>` (single)              | `<Button variant="check">`                                                          | Chorus `Button` `check` sub-component IS the checkbox — leading 24px checkbox glyph + label. List-row multi-select uses a row of `<Chip variant="filter">` instead. |
+| `<Command>` (command palette)      | `<FormField variant="search">` + `<BottomSheet>` + `<List>` pattern                 | Composition, not a single primitive — `SearchBar` filters inside a `BottomSheet` whose body is a `List`. The mobile-first translation of the desktop command palette. |
+| `<ContextMenu>` (right-click menu) | `<BottomSheet>` with a `List`                                                       | Same as `<DropdownMenu>` — right-click on mobile becomes a one-thumb sheet. |
 | `<DropdownMenu>` (floating menu)   | `<BottomSheet>` with a `List`                                                       | Mobile-first substitution — floating menus collide with one-thumb reach. |
 | `<HoverCard>` / `<Popover>`        | `<Tooltip>` (short text) or `<BottomSheet>` (multi-line / actionable)               | Hover-anchored surfaces don't translate to mobile; the tooltip / sheet contract owns the affordance. |
+| `<Label>` (standalone form label)  | `<FormField>`'s `label` slot                                                        | Chorus does NOT ship a standalone `<Label>`. Every input label lives on its host `<FormField>` via the `label` prop — keeps the label / field / helper triplet locked together. For non-input labels (settings group title, drawer column heading), use `<Header size="medium">` instead. |
+| `<NavigationMenu>` (top-level nav) | `<NavigationBar>` (page chrome) / `<TabBar>` (bottom app nav) / `<NavCard>` (drill-in row) | Chorus splits "navigation" by surface role — pick by where the nav lives (top app bar, bottom rail, in-flow drill-in row). |
 | `<RadioGroup>` + `<RadioGroupItem>` | `<List variant="radio" items={[…]} onChange=… />`                                    | Chorus's only radio surface IS the list row. |
+| `<Separator>` (horizontal rule)    | None — built into the host (`List` row divider, `Section` block gap, `BottomSheet` action rail border) | Chorus does NOT ship a standalone separator. Vertical rhythm comes from `sys.layout.stack.*` tokens; horizontal rules come from the host component's anatomy. Do NOT introduce a `<Separator>` — flag a "Chorus gap" instead. |
 | `<Sheet side="bottom">`            | `<BottomSheet>`                                                                     | Aliased — `import { Sheet } from '@blind-dsai/ui'`. |
 | `<Sheet side="left">` / `<Sheet side="right">` | `<SideSheet anchor="left">` / `<SideSheet anchor="right">`              | Off-canvas navigation drawer / side panel. Compose with `Header` (medium) + `List` (thumbnail, compact) inside `SideSheetGroup`. Aliased — `import { SideDrawer } from '@blind-dsai/ui'`. Top is out of scope. |
+| `<Sidebar>` (off-canvas app nav)   | `<SideSheet anchor="left">`                                                         | Mobile-first translation — desktop persistent sidebar becomes the off-canvas drawer pattern. Compose with `SideSheetGroup` (Header + List compact) for the channel-directory shape. |
 | `<Sonner>` / `toast()` imperative  | `<Toast>` declarative                                                               | Chorus toast is declarative — render `<Toast>` from the host surface; no imperative `toast()` call. |
 | `<ToggleGroup type="single">`      | `<Tabs variant="segmented">`                                                        | In-place mode toggle. |
 | `<ToggleGroup type="multiple">`    | A row of `<Chip variant="filter">`                                                  | Multi-select facet selection. |
+
+### Chorus gaps — flag, do not improvise
+
+These shadcn primitives have no Chorus equivalent and no on-pattern mobile substitution. When a brief demands one of these, **stop and flag a "Chorus gap"** — do NOT improvise a wrapper, do NOT re-introduce the shadcn primitive, do NOT hardcode raw values to fake the missing primitive. The Chorus maintainers add the missing family; agents wait or work around the brief.
+
+| Shadcn / Lovable name | Mobile use case (when it WOULD be needed) | Status |
+|-----------------------|--------------------------------------------|--------|
+| `<Calendar>` (date picker) | Birthday, schedule, calendar event picker.    | **Gap** — no Chorus family yet. Workaround: pair `<FormField variant="select">` with native `<input type="date">` inside a `<BottomSheet>`, but flag the gap. |
+| `<Chart>` (data viz)    | Analytics, finance, fitness charts.            | **Gap** — no Chorus family yet. Workaround: external `recharts` / `chart.js` instance, but every color / typography MUST resolve through Chorus tokens (`var(--sys-*)`). Flag the gap. |
+| `<Slider>` (range)      | Price-range filter, volume / brightness.       | **Gap** — no Chorus family yet. Workaround: native `<input type="range">` styled via tokens, but flag the gap. |
+| `<InputOTP>` (OTP code) | Verification code entry (auth flows).          | **Gap** — no Chorus family yet. Workaround: row of `<FormField variant="input">` with `maxLength=1`, but flag the gap. |
+
+### Out of mobile scope — substitute the mobile pattern
+
+These shadcn primitives are desktop-first or web-OS conventions Chorus deliberately omits because the mobile equivalent is a different shape. Lovable / Chorus agents MUST substitute the listed pattern instead of re-introducing the shadcn primitive.
+
+| Shadcn / Lovable name | Out of scope because | Mobile substitute |
+|-----------------------|----------------------|--------------------|
+| `<Breadcrumb>`        | Mobile screens are deep-link / drill-in; no horizontal trail.            | `<NavigationBar variant="page">` (back button + page title). |
+| `<Menubar>`           | Persistent app menubar is a desktop chrome pattern.                       | `<NavigationBar>` for top chrome + `<BottomSheet>` for action overflow. |
+| `<Pagination>`        | Mobile feeds are infinite-scroll, not paged.                              | Infinite scroll inside `<Feed>` / `<List>` (consumer wires the loader). |
+| `<Resizable>`         | Adjustable split panels are a desktop affordance.                         | None — single-pane mobile layout. Flag a "Chorus gap" if a tablet split view is genuinely required. |
+| `<Table>` (data grid) | Wide rows do not fit a one-thumb column.                                   | `<List variant="thumbnail">` or `<Feed>` rows. For tabular data, render one row per item with `label` + `supportingText`. |
+| `<ScrollArea>`        | Custom-styled scrollbars fight native mobile scroll.                       | Native scroll on the host element. Do NOT introduce a styled track. |
 
 ## Disambiguation cheat sheet
 
