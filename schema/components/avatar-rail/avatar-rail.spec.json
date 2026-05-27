@@ -20,6 +20,11 @@
       "type": "object",
       "optional": true,
       "description": "{ label, href? , onClick? } — trailing [Text Button](../button/text.md) (`size={'small'}`, `appearance={'accent'}`) at the end of the rail (typically 'View all' / 'Manage'). Link-affordance rule: link-shaped Text Buttons take `accent` for chromatic emphasis."
+    },
+    "embedded": {
+      "type": "boolean",
+      "default": false,
+      "description": "Composition mode flag. When `true` (or when the AvatarRail is a direct child of `.chorus-section` / `.chorus-feed`), the rail enters **embedded mode**: zeroes its own `background` + `padding` so chrome defers to the host. Pass explicitly inside `<Section>` / `<Feed>` for the contract to be visible in JSX; the DOM-ancestry safety net in styles.css also activates the mode when omitted. See `compositionModes` in `avatar-rail.family.json`."
     }
   },
   "slots": {

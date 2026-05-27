@@ -6,6 +6,11 @@
   "description": "Vertically-stacked block of follow suggestions rendered as a swipeable pager. One page shows three rows; the next page peeks at the trailing edge to invite the swipe. Each row pairs a Thumbnail at the 48 rung with a stacked text column (display name, follower / meta count, description) and a trailing Toggle Button that flips between 'Follow' and 'Following'. Anatomy is entity-agnostic — suggested channels, suggested people, suggested companies, suggested topics all share the same shape.",
   "element": "div",
   "props": {
+    "embedded": {
+      "type": "boolean",
+      "default": false,
+      "description": "Composition mode flag. When `true` (or when SuggestionList is a direct child of `.chorus-section` / `.chorus-feed`), the list enters **embedded mode**: zeroes its own `background` + `padding` so chrome defers to the host. Pass explicitly inside `<Section>` / `<Feed>` for the contract to be visible in JSX; the DOM-ancestry safety net in styles.css also activates the mode when omitted. See `compositionModes` in `suggestion-list.family.json`."
+    },
     "label": {
       "type": "string",
       "required": true,

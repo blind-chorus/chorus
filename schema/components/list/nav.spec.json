@@ -6,6 +6,11 @@
   "description": "Drill-in navigation List variant. No leading slot; the trailing edge auto-renders a right-pointing chevron as the visual cue for \"tap to navigate further\". The whole row routes. Per-item `trailingIcon` still wins if supplied, so a row can opt out of the chevron for a different glyph.",
   "element": "ul",
   "props": {
+    "embedded": {
+      "type": "boolean",
+      "default": false,
+      "description": "Composition mode flag. When `true` (or when the List is a direct child of `.chorus-section` / `.chorus-feed`), enters **embedded mode**: zeroes its own `background` + `padding` so chrome defers to the host. Pass explicitly inside `<Section>` / `<Feed>` for the contract to be visible in JSX; the DOM-ancestry safety net in styles.css also activates the mode when omitted. See `compositionModes` in `list.family.json`."
+    },
     "items": {
       "type": "node",
       "required": true,

@@ -6,6 +6,11 @@
   "description": "Plain-text List variant — display or navigation rows over the shared List anatomy. No leading slot; the whole row is the click target. The default variant of the List family.",
   "element": "ul",
   "props": {
+    "embedded": {
+      "type": "boolean",
+      "default": false,
+      "description": "Composition mode flag. When `true` (or when the List is a direct child of `.chorus-section` / `.chorus-feed`), enters **embedded mode**: zeroes its own `background` + `padding` so chrome defers to the host. Pass explicitly inside `<Section>` / `<Feed>` for the contract to be visible in JSX; the DOM-ancestry safety net in styles.css also activates the mode when omitted. See `compositionModes` in `list.family.json`."
+    },
     "items": {
       "type": "node",
       "required": true,
