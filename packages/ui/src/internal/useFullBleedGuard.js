@@ -45,6 +45,12 @@ function checkOnce(el, name) {
   if (padStart === 0 && padEnd === 0) return;
 
   const selfCs = getComputedStyle(el);
+  // Self-padding is the other half of the rail inset. When the
+  // component has zeroed it (embedded mode — opt-in prop or DOM-
+  // ancestry safety net inside Section / Feed), the parent's gutter
+  // is paid once and there's no double-pay to warn about.
+  if (px(selfCs.paddingInlineStart) === 0 && px(selfCs.paddingInlineEnd) === 0) return;
+
   const marginStart = px(selfCs.marginInlineStart);
   const marginEnd = px(selfCs.marginInlineEnd);
 

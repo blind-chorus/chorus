@@ -40,6 +40,7 @@ export function SuggestionList({
   items = [],
   followLabel = 'Follow',
   followingLabel = 'Following',
+  embedded = false,
   className,
   'aria-label': ariaLabel,
   ...rest
@@ -52,6 +53,7 @@ export function SuggestionList({
       ref={ref}
       className={joinClasses('chorus-suggestion-list', className)}
       aria-label={ariaLabel ?? label}
+      data-embedded={embedded ? 'true' : undefined}
       {...rest}
     >
       {(label || headerAction) ? (

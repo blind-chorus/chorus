@@ -32,6 +32,7 @@ export function List({
   value,
   onChange,
   items = [],
+  embedded = false,
   className,
   'aria-label': ariaLabel,
   ...rest
@@ -76,6 +77,7 @@ export function List({
       role={role}
       aria-label={ariaLabel}
       data-density={isThumbnail ? density : undefined}
+      data-embedded={embedded ? 'true' : undefined}
       {...rest}
     >
       {items.map((item, idx) => {

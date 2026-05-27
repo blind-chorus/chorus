@@ -13,6 +13,24 @@
   "visualReuse": "open",
   "layoutInset": "full-bleed",
   "wrapperGuidance": "Owns its inline padding internally. Place as a direct child of the page-shell <main> (or any host that pays the gutter once). Do NOT wrap in a padding-inline div, className=\"px-*\", or style={{ padding }} \u2014 the page rail is paid once at the shell, never on the full-bleed child. Inside a bounded surface (Dialog / BottomSheet / SideSheet), apply the negative-margin opt-out \u2014 see AGENTS.md \u00a7 Composition rules.",
+  "compositionModes": {
+    "standalone": {
+      "default": true,
+      "chrome": {
+        "background": "sys.color.surface",
+        "padding": "per-variant container.* inline"
+      },
+      "context": "Direct child of the page shell or any host that pays the page-rail gutter once."
+    },
+    "embedded": {
+      "trigger": "prop `embedded={true}` on <Tabs /> OR direct child of `.chorus-section` / `.chorus-feed` (DOM-ancestry safety net).",
+      "chrome": {
+        "background": "transparent",
+        "padding": "0"
+      },
+      "context": "Composed inside another rail-responsible host (e.g. a labelled Section that hosts a stage-tab row). Tabs takes over from the host's content-box edge; the underline indicator and segmented chips still paint correctly because `padding-inline: 0` doesn't change tab geometry, only the rail surround."
+    }
+  },
   "spec": "tabs.md",
   "subcomponents": [
     {

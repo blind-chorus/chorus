@@ -16,6 +16,7 @@ export function Tabs({
   variant = 'underline',
   value,
   onChange,
+  embedded = false,
   children,
   ...rest
 }) {
@@ -54,7 +55,12 @@ export function Tabs({
 
   return (
     <TabsContext.Provider value={ctx}>
-      <Impl role="tablist" onKeyDown={handleKeyDown} {...rest}>
+      <Impl
+        role="tablist"
+        onKeyDown={handleKeyDown}
+        data-embedded={embedded ? 'true' : undefined}
+        {...rest}
+      >
         {children}
       </Impl>
     </TabsContext.Provider>

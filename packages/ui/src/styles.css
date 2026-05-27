@@ -4872,3 +4872,52 @@ span.chorus-chip {
   }
 }
 
+/* ============================================================
+   Embedded mode — recursive one-inset rule, part (b).
+
+   The one-inset rule has two recursive forms (see AGENTS.md §
+   Composition rules):
+
+   (a) Bounded-surface (Card / Dialog / BottomSheet / Sheet)
+       hosts a full-bleed child → child opts out via negative
+       margin so its own row padding becomes the visual inset.
+
+   (b) Full-bleed surface that pays its own chrome (Section,
+       Feed) hosts another chrome-bearing full-bleed family
+       (AvatarRail, SuggestionList, Tabs, List) → child enters
+       embedded mode: background + padding defer to the host so
+       row content aligns to the host's content-box edge.
+
+   Embedded mode is opt-in via the `embedded` prop on the child
+   (renders as `data-embedded="true"`) — the explicit, agent-
+   readable contract. The `:where()` ancestry rule below acts
+   as a safety net for the case where a caller composes
+   `<Section><AvatarRail /></Section>` without remembering the
+   prop. Specificity-zero so an inline style or class can still
+   override; the carve-out `:not([data-embedded="false"])` lets
+   a caller force standalone chrome inside an embedded host.
+
+   NOT eligible (kept standalone always): Banner (tinted block
+   is identity), NavigationBar, TabBar, NavCard, Section, Feed
+   (hosts themselves).
+============================================================ */
+
+.chorus-avatar-rail[data-embedded="true"],
+.chorus-suggestion-list[data-embedded="true"],
+.chorus-tabs[data-embedded="true"],
+.chorus-list[data-embedded="true"] {
+  background: transparent;
+  padding: 0;
+}
+
+:where(.chorus-section, .chorus-feed)
+  > :where(
+    .chorus-avatar-rail,
+    .chorus-suggestion-list,
+    .chorus-tabs,
+    .chorus-list
+  ):not([data-embedded="false"]) {
+  background: transparent;
+  padding: 0;
+}
+

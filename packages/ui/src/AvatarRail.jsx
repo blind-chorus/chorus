@@ -24,6 +24,7 @@ import { joinClasses } from './spec-utils.js';
 export function AvatarRail({
   items = [],
   trailingAction,
+  embedded = false,
   className,
   'aria-label': ariaLabel,
   ...rest
@@ -42,6 +43,7 @@ export function AvatarRail({
       ref={rootRef}
       className={joinClasses('chorus-avatar-rail', className)}
       aria-label={ariaLabel ?? 'Entities'}
+      data-embedded={embedded ? 'true' : undefined}
       {...rest}
     >
       <div

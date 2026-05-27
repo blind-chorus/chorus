@@ -12,6 +12,24 @@
   "visualReuse": "open",
   "layoutInset": "full-bleed",
   "wrapperGuidance": "Owns its inline padding internally. Place as a direct child of the page-shell <main> (or any host that pays the gutter once). Do NOT wrap in a padding-inline div, className=\"px-*\", or style={{ padding }} \u2014 the page rail is paid once at the shell, never on the full-bleed child. Inside a bounded surface (Dialog / BottomSheet / SideSheet), apply the negative-margin opt-out \u2014 see AGENTS.md \u00a7 Composition rules.",
+  "compositionModes": {
+    "standalone": {
+      "default": true,
+      "chrome": {
+        "background": "sys.color.surface",
+        "padding": "sys.layout.container.sm sys.layout.container.md"
+      },
+      "context": "Direct child of the page shell or any host that pays the page-rail gutter once. The rail owns its own row chrome."
+    },
+    "embedded": {
+      "trigger": "prop `embedded={true}` on <AvatarRail /> (renders as `data-embedded=\"true\"`) OR direct child of `.chorus-section` / `.chorus-feed` (DOM-ancestry safety net via `:where()` in styles.css).",
+      "chrome": {
+        "background": "transparent",
+        "padding": "0"
+      },
+      "context": "Composed inside another rail-responsible host (e.g. `<Section label=\"Shortcuts\"><AvatarRail embedded /></Section>`) that already pays the gutter and background. Row items take over from the host's content-box edge, so the same vertical rail aligns through host header and rail items. Use the `embedded` prop explicitly so the composition is readable in JSX; the ancestry safety net handles the case where the prop is omitted."
+    }
+  },
   "spec": "avatar-rail.md",
   "subcomponents": [
     {
