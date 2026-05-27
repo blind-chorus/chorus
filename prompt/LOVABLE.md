@@ -254,7 +254,19 @@ Later principles never override earlier ones. §C is the machine-checkable carve
 * **Exclusive imports:** Source UI strictly from `@blind-dsai/ui` (icons from `@blind-dsai/ui/icons`).
 * **No shadcn:** `@/components/ui/*` does not exist.
 * **No legacy mirror:** `@/components/chorus/*` is gone.
-* **Missing primitive — extend, don't escape.** Ladder: (1) re-compose existing Chorus via slot grammar (principle #2); (2) Lego multiple Chorus components (principle #4); (3) design new primitive with every value through Chorus tokens (principle #3). Only then flag a **"Chorus gap"**. **Never** raw HTML + Tailwind, shadcn, or third-party.
+* **Missing primitive — extend, don't escape.** Ladder: (1) re-compose existing Chorus via slot grammar (principle #2); (2) Lego multiple Chorus components (principle #4); (3) design a **new primitive that conforms to ALL of Chorus's cross-cutting patterns**, not just tokens. Only then flag a **"Chorus gap"**. **Never** raw HTML + Tailwind, shadcn, or third-party.
+
+  When you reach rung (3), a new primitive must honor every line below — tokens *and* the anatomy patterns that make a surface feel Chorus-native. Token compliance alone produces a brand-coloured div that still reads as a foreign body in the system:
+
+  - **Tokens, exhaustively.** Color / spacing / typography / radius / border-width / elevation / motion ALL resolve to `sys.*` (or `ref.*` if no semantic alias). No raw hex, no off-scale px, no raw `box-shadow` values, no Tailwind color utilities, no third-party type ramp. Per axis: `DESIGN.md § Color`, `### Spacing & layout`, `### Typography`, `### Radius`, `### Elevation`.
+  - **No-layout strokes.** Edge separation is `inset box-shadow` OR a `::after` overlay OR an `outlineVariant` divider painted by the host — **NEVER `border:`**. `border` reflows the box and breaks the focus-ring overlay layer. Cards with a full-bleed child promote the outline to the `::after` layer the focus ring uses. See `DESIGN.md § Border & stroke`.
+  - **Focus rings.** A dedicated `::after` overlay painted at `:focus-visible`, composed Inward (flush controls — Tabs, TabBar) or Outward (free-standing controls — Button, Chip), using the standard outer / inset ring widths and colors. **NEVER `outline:`, `:focus { box-shadow }`, or a bordered focus state.** See `DESIGN.md § State layers & focus` → `Focus ring composition` sub-section.
+  - **State layers — overlay, not replacement.** `hovered` / `pressed` / `focused` / `disabled` paint a translucent `currentColor` (or matching role) overlay on top of the resolved appearance at the standard `sys.state.*` opacities — they do NOT swap the fill / border / typography to a different token. See `DESIGN.md § State layers & focus`.
+  - **Sizing rungs.** Every dimension belongs to a Chorus rung — Thumbnail 16 / 20 / 24 / 32 / 40 / 48, icon 16 / 20 / 24, radius `sys.radius.xs/sm/md/lg/full` (4 / 8 / 12 / 16 / pill), height rungs from the relevant family (Button 32 / 40, Chip 32, Tooltip 32, bar 56). Off-scale (e.g. 36px icon, 7px radius) is forbidden.
+  - **Typography & color pairs.** Use a complete `sys.typo.*` rung (size + line + weight + tracking together) — never mix one ramp's size with another's weight. Foreground / background travels as a pair — `sys.color.<role>Container` REQUIRES `sys.color.on<Role>Container` ([AGENTS memory: token pairs](claude-memory/feedback_token_pairs.md)); never split.
+  - **`box-sizing: border-box`** on every new surface so padding never reflows the bounding box; combine with the no-layout-stroke rule above.
+
+  A new primitive that breaks any line above is not "new" — it's a drift hit. Flag the gap.
 * **No wrapper overrides:** Build by nesting exposed slots. **Never** wrap a Chorus component to restyle CSS.
 
 ### Visual alignment & layout grouping
