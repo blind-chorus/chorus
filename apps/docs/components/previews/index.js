@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Accordion, Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, Section, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
-import { PlusIcon, PlusSquareFillIcon, ChevronLeftIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, XIcon, BuildingIcon, BuildingFillIcon, ArrowDownIcon, ChevronRightIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, EllipsisHorizontalIcon, BellIcon, BellFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
+import { Accordion, Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, Header, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, Section, SideSheet, SideSheetGroup, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
+import { PlusIcon, PlusSquareFillIcon, ChevronLeftIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, XIcon, BuildingIcon, BuildingFillIcon, ArrowDownIcon, ChevronRightIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, EllipsisHorizontalIcon, BellIcon, BellFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, StarFillIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
    (clean license for docs reuse). Helper builds query params for size +
@@ -3089,6 +3089,161 @@ export const PREVIEWS = {
                 <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
                   Edit
                 </Button>
+              ),
+            },
+          ]}
+        />
+      </Frame>
+    ),
+  },
+
+  /* Header — labelled heading + optional trailing affordance. The size
+     axis (large / medium) lives in the standard sizes dropdown so the
+     visitor can flip between heading-md and heading-sm typography on
+     the same specimen instead of reading two parallel previews. */
+  'header/default': {
+    sizes: ['large', 'medium'],
+    states: false,
+    render: ({ size = 'large' }) => (
+      <Frame>
+        <Header
+          size={size}
+          label="Recommended channels"
+          headerAction={{ label: 'See all', href: '#all' }}
+        />
+      </Frame>
+    ),
+  },
+
+  /* With drill-in chevron — `trailingIcon` mode. The whole header is the
+     tap target (becomes a <button>), the 16px chevron paints in
+     onSurfaceVariant and rotates -90deg to read as chevron-right. The
+     canonical drawer-column heading rung is `size="medium"`. */
+  'header/with-icon-action': {
+    sizes: ['large', 'medium'],
+    states: false,
+    render: ({ size = 'medium' }) => (
+      <Frame>
+        <Header
+          size={size}
+          label="My channels"
+          trailingIcon
+          onClick={() => {}}
+        />
+      </Frame>
+    ),
+  },
+
+  /* SideSheet — off-canvas content column anchored to the leading edge.
+     Canonical fill: Header (size="medium") + List (variant="thumbnail"
+     density="compact") pairs replicating the navigation-drawer pattern
+     (My channels → Favorites → Following) + pinned footer commit. The
+     `inline` prop renders the sheet next to the page in docs (skips
+     portal, scroll lock, fixed positioning). */
+  'side-sheet/default': {
+    states: false,
+    render: () => (
+      <div style={{ width: '100%', maxWidth: 400, minHeight: 640 }}>
+        <SideSheet
+          inline
+          open
+          onClose={() => {}}
+          aria-label="Channels drawer"
+          footer={
+            <Button variant="text" size="small" appearance="accent" onClick={() => {}}>
+              Browse all channels
+            </Button>
+          }
+        >
+          <SideSheetGroup>
+            <Header
+              size="medium"
+              label="My channels"
+              headerAction={{ label: '+ Create', onClick: () => {} }}
+            />
+            <List
+              variant="thumbnail"
+              density="compact"
+              aria-label="My channels"
+              items={[
+                { value: 'team',     label: 'Team Blind',         thumbnail: { src: IMG.modAvatar,   alt: 'Team Blind' } },
+                { value: 'startup',  label: 'Startup Lounge',     thumbnail: { src: IMG.plantAvatar, alt: 'Startup Lounge' },     count: <Badge size="small" count={64} /> },
+                { value: 'pm',       label: 'IT PM · Management', thumbnail: { src: IMG.brandLaptop, alt: 'IT PM · Management' }, count: <Badge size="small" count={12} /> },
+              ]}
+            />
+          </SideSheetGroup>
+
+          <SideSheetGroup>
+            <Header size="medium" label="Favorites" />
+            <List
+              variant="thumbnail"
+              density="compact"
+              aria-label="Favorite channels"
+              items={[
+                { value: 'sourdough', label: 'Sourdough Bakers',   thumbnail: { src: IMG.breadAvatar, alt: 'Sourdough Bakers' },   count: <Badge size="small" count={12} />,  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarFillIcon />} onClick={() => {}} /> },
+                { value: 'stocks',    label: 'Stocks & Investing', thumbnail: { src: IMG.brandChip,   alt: 'Stocks & Investing' }, count: <Badge size="small" count={142} />, trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarFillIcon />} onClick={() => {}} /> },
+                { value: 'movies',    label: 'Movie Talk',         thumbnail: { src: IMG.cinemaAvatar, alt: 'Movie Talk' },        count: <Badge size="small" count={24} />,  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarFillIcon />} onClick={() => {}} /> },
+              ]}
+            />
+          </SideSheetGroup>
+
+          <SideSheetGroup>
+            <Header size="medium" label="Following" />
+            <List
+              variant="thumbnail"
+              density="compact"
+              aria-label="Following channels"
+              items={[
+                { value: 'career', label: 'Career & Jobs',     thumbnail: { src: IMG.brandChat,     alt: 'Career & Jobs' },     count: <Badge size="small" count={24} />, trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarIcon />} onClick={() => {}} /> },
+                { value: 'market', label: 'Marketplace',       thumbnail: { src: IMG.brandAppliance, alt: 'Marketplace' },      count: <Badge size="small" count={12} />, trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarIcon />} onClick={() => {}} /> },
+                { value: 'beauty', label: 'Fashion & Beauty',  thumbnail: { src: IMG.brandPhone,    alt: 'Fashion & Beauty' },                                            trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarIcon />} onClick={() => {}} /> },
+              ]}
+            />
+          </SideSheetGroup>
+        </SideSheet>
+      </div>
+    ),
+  },
+
+  /* List → Thumbnail → Compact density + inline count. Subscription /
+     channel rows: 32 Thumbnail, 14 single-line label, inline small-Badge
+     count after the label, optional favorite ★ toggle at the trailing
+     edge as its own hit target (stops propagation so toggling does not
+     commit the row). No inter-row divider. */
+  'list/thumbnail-compact-with-count': {
+    states: false,
+    render: () => (
+      <Frame>
+        <List
+          variant="thumbnail"
+          density="compact"
+          aria-label="Subscribed channels"
+          items={[
+            {
+              value: 'sourdough',
+              label: 'Sourdough Bakers',
+              thumbnail: { src: IMG.breadAvatar, alt: 'Sourdough Bakers' },
+              count: <Badge size="small" count={12} />,
+              trailingIcon: (
+                <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarFillIcon />} onClick={() => {}} />
+              ),
+            },
+            {
+              value: 'stocks',
+              label: 'Stocks & Investing',
+              thumbnail: { src: IMG.brandChip, alt: 'Stocks & Investing' },
+              count: <Badge size="small" count={142} />,
+              trailingIcon: (
+                <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarFillIcon />} onClick={() => {}} />
+              ),
+            },
+            {
+              value: 'movies',
+              label: 'Movie Talk',
+              thumbnail: { src: IMG.cinemaAvatar, alt: 'Movie Talk' },
+              count: <Badge size="small" count={24} />,
+              trailingIcon: (
+                <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarIcon />} onClick={() => {}} />
               ),
             },
           ]}

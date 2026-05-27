@@ -3,13 +3,19 @@
   "name": "List",
   "family": "list",
   "subcomponent": "thumbnail",
-  "description": "Avatar-anchored List variant — each row carries a 40px leading [Thumbnail](../thumbnail/thumbnail.md) (channel logo, source mark, profile photo). The label + supportingText column reads against the thumbnail; same click semantics as the text variant — no selection model.",
+  "description": "Avatar-anchored List variant — each row carries a leading [Thumbnail](../thumbnail/thumbnail.md) (channel logo, source mark, profile photo). The label column reads against the thumbnail; same click semantics as the text variant — no selection model. Two densities: `comfortable` (default) carries a 40px Thumbnail and an optional `supportingText` second line; `compact` carries a 32px Thumbnail, a 14px single-line label, and exposes an inline `count` slot for an unread / quantity Badge — used for compact subscription / channel / topic rows where each row is one entity + its current count + an optional toggle.",
   "element": "ul",
   "props": {
     "items": {
       "type": "node",
       "required": true,
       "description": "Array of row descriptors. Each item passes `thumbnail` props forwarded verbatim to the Thumbnail component."
+    },
+    "density": {
+      "type": "literal",
+      "values": ["comfortable", "compact"],
+      "default": "comfortable",
+      "description": "Row density dial. `comfortable` (default) — 40 Thumbnail, 16 label, optional supportingText second line, 8px (`layout.inline.md`) leading-to-label gap, inter-row outlineVariant divider. `compact` — 32 Thumbnail, 14 single-line label, no supportingText, 8px (`layout.inline.md`) leading-to-label gap, row Hug at 48, no inter-row divider. Compact is the reach for subscription / channel / quick-pick rows that pair an entity with an unread count and an optional favorite / mute toggle."
     }
   },
   "slots": {
@@ -23,31 +29,41 @@
     },
     "leading": {
       "required": true,
-      "description": "40px [Thumbnail](../thumbnail/thumbnail.md), vertically centred against the label column. Forwarded verbatim from item.thumbnail.",
+      "description": "Thumbnail at the leading edge, vertically centred against the label column. Density `comfortable` renders at 40px, `compact` renders at 32px. Forwarded verbatim from item.thumbnail.",
       "accepts": [
         "thumbnail"
       ]
     },
     "label": {
       "required": true,
-      "description": "Primary row text. 16px / Regular / onSurface. Single line; truncates with ellipsis.",
+      "description": "Primary row text. Density `comfortable` — 16px / Regular / onSurface. Density `compact` — 14px / Regular / onSurface. Single line; truncates with ellipsis.",
       "accepts": [
         "text"
       ]
     },
     "supportingText": {
       "required": false,
-      "description": "Secondary line under label. 14px / Regular / onSurfaceVariant, 2px below label.",
+      "description": "Secondary line under label. 14px / Regular / onSurfaceVariant, sits directly under the label with no extra gap. Density `comfortable` only — ignored when `density=\"compact\"`.",
       "accepts": [
         "text"
       ]
     },
+    "count": {
+      "required": false,
+      "description": "Inline node painted between the label and the trailing edge. The canonical fill is a numeric `<Badge>` (unread / mention count), but the slot is `ReactNode`-typed and may accept any inline summary chip (`StatusTag`, a glyph-only icon). Available in both densities; sized to sit against the label baseline.",
+      "accepts": [
+        "badge",
+        "status-tag",
+        "icon"
+      ]
+    },
     "trailingIcon": {
       "required": false,
-      "description": "16px icon at the trailing edge. Consumer-supplied.",
+      "description": "16px node at the trailing edge. Consumer-supplied. Accepts a decorative icon, a toggle button (favorite / mute / pin), or an inline chip. Taps on the trailing slot stop propagating before they reach the row's `onClick` — the slot is a separate hit target so the consumer can wire its own action without committing the row.",
       "accepts": [
         "icon",
-        "badge"
+        "badge",
+        "button"
       ]
     }
   },
@@ -62,16 +78,23 @@
     },
     "supportingText": {
       "type": "string",
-      "optional": true
+      "optional": true,
+      "description": "Density `comfortable` only — ignored when the host List sets `density=\"compact\"`."
     },
     "thumbnail": {
       "type": "object",
       "required": true,
       "description": "Forwarded to Thumbnail verbatim (`src`, `alt`, optional `updateDot`, optional `logoBadge`)."
     },
+    "count": {
+      "type": "node",
+      "optional": true,
+      "description": "Inline node rendered after the label. Canonical fill is a numeric `<Badge>`."
+    },
     "trailingIcon": {
       "type": "node",
-      "optional": true
+      "optional": true,
+      "description": "Trailing-edge node. Wrapped in a slot that stops click propagation so the slot is its own hit target separate from the row's `onClick`."
     },
     "disabled": {
       "type": "boolean",
@@ -93,7 +116,7 @@
     }
   },
   "sizing": {
-    "rowPaddingBlock": "12px",
+    "rowPaddingBlock": "8px",
     "rowPaddingInline": "16px",
     "rowMinHeight": "48px",
     "leadingLabelGap": "sys.layout.inline.md",
@@ -103,10 +126,20 @@
     "labelColor": "sys.color.onSurface",
     "supportingTypo": "14 / Regular",
     "supportingColor": "sys.color.onSurfaceVariant",
-    "supportingOffset": "2px",
+    "supportingOffset": "0px",
     "leadingThumbnailSize": 40,
     "trailingIconSize": "16 × 16",
-    "trailingIconColor": "sys.color.onSurfaceVariant"
+    "trailingIconColor": "sys.color.onSurfaceVariant",
+    "countGap": "sys.layout.inline.sm",
+    "compact": {
+      "rowMinHeight": "48px",
+      "rowPaddingBlock": "8px",
+      "leadingLabelGap": "sys.layout.inline.md",
+      "labelTypo": "14 / Regular",
+      "leadingThumbnailSize": 32,
+      "supportingTextHidden": true,
+      "divider": "none"
+    }
   },
   "states": {
     "default": {
@@ -156,6 +189,8 @@
   "forbidden": [
     "thumbnail slot omitted — the variant requires a thumbnail leading slot",
     "thumbnail rendered as a raw <img> outside the chorus-thumbnail slot wrapper",
-    "thumbnail size different from the row's intrinsic size"
+    "thumbnail size different from the row's intrinsic size",
+    "supportingText paired with density=\"compact\" — compact rows are single-line by intent; the supporting prop is ignored in that density",
+    "count and trailing slot wired to the same action — count is read-only metadata, trailing is the optional interactive node; do not collapse them"
   ]
 }

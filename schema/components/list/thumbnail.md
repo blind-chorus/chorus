@@ -1,8 +1,8 @@
 # Thumbnail list
 
-Avatar-anchored List sub-component — each row is fronted by a 40px leading [Thumbnail](../thumbnail/thumbnail.md). Same click semantics as the [Text sub](./text.md). Row geometry, typography, divider, state overlays, and inward focus ring all delegate to the [family-wide rules](./list.md); this sub documents the leading Thumbnail slot.
+Avatar-anchored List sub-component — each row is fronted by a leading [Thumbnail](../thumbnail/thumbnail.md). Two densities split the rung. **Default** carries a 40px Thumbnail with an optional `supportingText` second line for directory / author rows; **Compact** carries a 32px Thumbnail, a 14px single-line label, an inline `count` slot for an unread / quantity Badge, and no inter-row divider — the reach for subscription / channel / topic / playlist rows where each row is *one entity + its current count + an optional toggle*. Same click semantics as the [Text sub](./text.md). Row geometry, state overlays, and inward focus ring all delegate to the [family-wide rules](./list.md); this sub documents the leading Thumbnail slot, the density dial, and the count / trailing slots.
 
-**Layout inset.** `full-bleed` — Thumbnail list is an **edge-to-edge** family. It sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. Each row pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap the list in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the rows land at a different inset than the section headings and other lists around them. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — Thumbnail list is an **edge-to-edge** family. It sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge inside it. Each row pays its own `16px inline / 8px block` padding via `layout.container.md` / `layout.container.xs`; do **not** wrap the list in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays and the rows land at a different inset than the section headings and other lists around them. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
@@ -19,6 +19,52 @@ import { List } from '@blind-dsai/ui';
     { value: 'design-weekly', label: 'Design Weekly', supportingText: 'Updated 2h ago', thumbnail: { alt: 'Design Weekly' } },
     { value: 'frontend',      label: 'Frontend Friday', supportingText: 'Updated 1d ago', thumbnail: { alt: 'Frontend Friday' } },
     { value: 'changelog',     label: 'Changelog',       supportingText: 'Updated 3d ago', thumbnail: { alt: 'Changelog' } },
+  ]}
+/>
+```
+
+## Compact
+
+`density="compact"` — 32px Thumbnail, 14px single-line label, 8px (`layout.inline.md`) leading-to-label gap, row Hug at 48, **no inter-row divider**. The `count` slot paints inline after the label (canonical fill: a small numeric `<Badge>`), and an optional trailing toggle (favorite ★, mute, pin) sits at the trailing edge as its own hit target — the trailing slot stops click propagation, so toggling it does not commit the row's `onClick`. Reach for compact on subscription / channel / topic / playlist / quick-access lists.
+
+```preview
+list/thumbnail-compact-with-count
+---
+import { Badge, Button, List } from '@blind-dsai/ui';
+import { StarIcon, StarFillIcon } from '@blind-dsai/ui/icons';
+
+<List
+  variant="thumbnail"
+  density="compact"
+  aria-label="Subscribed channels"
+  items={[
+    {
+      value: 'sourdough',
+      label: 'Sourdough Bakers',
+      thumbnail: { alt: 'Sourdough Bakers' },
+      count: <Badge size="small" count={12} />,
+      trailingIcon: (
+        <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarFillIcon />} onClick={() => {}} />
+      ),
+    },
+    {
+      value: 'stocks',
+      label: 'Stocks & Investing',
+      thumbnail: { alt: 'Stocks & Investing' },
+      count: <Badge size="small" count={142} />,
+      trailingIcon: (
+        <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarFillIcon />} onClick={() => {}} />
+      ),
+    },
+    {
+      value: 'movies',
+      label: 'Movie Talk',
+      thumbnail: { alt: 'Movie Talk' },
+      count: <Badge size="small" count={24} />,
+      trailingIcon: (
+        <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarIcon />} onClick={() => {}} />
+      ),
+    },
   ]}
 />
 ```
@@ -68,10 +114,11 @@ import { Button, List } from '@blind-dsai/ui';
 
 - **container** — outer vertical stack (delegates to family).
 - **row** — single list item; whole row is the click target.
-- **leading** — required. 40px [Thumbnail](../thumbnail/thumbnail.md), vertically centred. `thumbnail` props (`src`, `alt`, `updateDot`, `logoBadge`) forward verbatim.
-- **label** — primary row text. 16px / Regular / `onSurface`.
-- **supportingText** *(optional)* — secondary line under label.
-- **trailingIcon** *(optional)* — consumer-supplied 16px glyph at the trailing edge.
+- **leading** — required. [Thumbnail](../thumbnail/thumbnail.md), vertically centred. Density `comfortable` → 40px; density `compact` → 32px. `thumbnail` props (`src`, `alt`, `updateDot`, `logoBadge`) forward verbatim.
+- **label** — primary row text. Density `comfortable` → 16px; density `compact` → 14px. Regular weight, `onSurface`.
+- **supportingText** *(optional, comfortable only)* — secondary line under label. Sits directly under the label with no extra gap. Ignored when `density="compact"`.
+- **count** *(optional)* — inline node painted after the label (canonical: a numeric `<Badge>`). Available in both densities.
+- **trailingIcon** *(optional)* — consumer-supplied 16px node at the trailing edge. Its own hit target: a tap on this slot stops propagating before it reaches the row's `onClick`.
 
 ## States
 
@@ -85,3 +132,4 @@ Inward 3-layer ring inside the row's bounds — see [Focus indicator](./list.md#
 
 - **Keyboard navigation.** Arrow ↑ / ↓ moves focus; Home / End jump to first / last.
 - **Row click target.** Whole row is clickable; the thumbnail is never a separate hit target.
+- **Trailing slot is its own hit target.** Clicks inside `trailingIcon` stop propagating before they reach the row — wire a favorite / mute / pin toggle there without it committing the row's primary action.

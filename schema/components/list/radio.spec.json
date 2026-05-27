@@ -47,7 +47,7 @@
     },
     "supportingText": {
       "required": false,
-      "description": "Secondary line under label. 14px / Regular / onSurfaceVariant, 2px below label.",
+      "description": "Secondary line under label. 14px / Regular / onSurfaceVariant, sits directly under the label with no extra gap.",
       "accepts": [
         "text"
       ]
@@ -82,7 +82,7 @@
     }
   },
   "sizing": {
-    "rowPaddingBlock": "12px",
+    "rowPaddingBlock": "8px",
     "rowPaddingInline": "16px",
     "rowMinHeight": "48px",
     "leadingLabelGap": "sys.layout.inline.md",
@@ -92,7 +92,7 @@
     "labelColor": "sys.color.onSurface",
     "supportingTypo": "14 / Regular",
     "supportingColor": "sys.color.onSurfaceVariant",
-    "supportingOffset": "2px",
+    "supportingOffset": "0px",
     "leadingRadioSize": "16 × 16",
     "leadingRadioColorRest": "sys.color.outline",
     "leadingRadioColorSelected": "sys.color.primary"

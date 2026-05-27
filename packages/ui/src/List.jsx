@@ -28,6 +28,7 @@ function RadioIndicator({ selected }) {
 
 export function List({
   variant = 'text',
+  density = 'comfortable',
   value,
   onChange,
   items = [],
@@ -36,6 +37,9 @@ export function List({
   ...rest
 }) {
   const isRadio = variant === 'radio';
+  const isThumbnail = variant === 'thumbnail';
+  const isCompact = isThumbnail && density === 'compact';
+  const thumbnailSize = isCompact ? 32 : 40;
   const role = isRadio ? 'radiogroup' : 'list';
   const groupName = useId();
   const rowsRef = useRef([]);
@@ -71,6 +75,7 @@ export function List({
       className={joinClasses('chorus-list', `chorus-list--${variant}`, className)}
       role={role}
       aria-label={ariaLabel}
+      data-density={isThumbnail ? density : undefined}
       {...rest}
     >
       {items.map((item, idx) => {
@@ -105,14 +110,19 @@ export function List({
               <span className="chorus-list__leading">
                 <RadioIndicator selected={selected} />
               </span>
-            ) : variant === 'thumbnail' ? (
+            ) : isThumbnail ? (
               <span className="chorus-list__leading">
-                <Thumbnail size={40} {...(item.thumbnail ?? { alt: item.label })} />
+                <Thumbnail size={thumbnailSize} {...(item.thumbnail ?? { alt: item.label })} />
               </span>
             ) : null}
             <span className="chorus-list__label-col">
-              <span className="chorus-list__label">{item.label}</span>
-              {item.supportingText ? (
+              <span className="chorus-list__label-row">
+                <span className="chorus-list__label">{item.label}</span>
+                {isThumbnail && item.count ? (
+                  <span className="chorus-list__count">{item.count}</span>
+                ) : null}
+              </span>
+              {item.supportingText && !isCompact ? (
                 <span className="chorus-list__supporting">{item.supportingText}</span>
               ) : null}
             </span>
@@ -121,7 +131,11 @@ export function List({
                 <ChevronDownIcon size={16} />
               </span>
             ) : item.trailingIcon ? (
-              <span className="chorus-list__trailing" aria-hidden="true">
+              <span
+                className="chorus-list__trailing"
+                onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => e.stopPropagation()}
+              >
                 {item.trailingIcon}
               </span>
             ) : null}

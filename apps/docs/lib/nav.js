@@ -241,6 +241,10 @@ export const NAV = [
         ],
       },
       {
+        href: '/components/header',
+        label: 'Header',
+      },
+      {
         href: '/components/list',
         label: 'List',
         subs: [
@@ -275,6 +279,10 @@ export const NAV = [
           { href: '/components/section/post-carousel', label: 'Post carousel' },
           { href: '/components/section/profile-carousel', label: 'Profile carousel' },
         ],
+      },
+      {
+        href: '/components/side-sheet',
+        label: 'Side sheet',
       },
       {
         href: '/components/skeleton',

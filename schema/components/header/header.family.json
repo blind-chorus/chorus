@@ -1,0 +1,24 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "header",
+  "name": "Header",
+  "description": "Labelled section heading + optional trailing 'See all' Text Button. The composable header anatomy reused across Section, in-sheet sub-sections, bounded cards, and any other host that needs a leading title + a single trailing navigational commit. Two sizes diverge only on the label typography (heading-md / heading-sm); the trailing action is fixed at Text Button `size=\"xsmall\"`, `appearance=\"accent\"` per the link-affordance rule.",
+  "useCases": [
+    "section heading",
+    "see-all link",
+    "in-sheet sub-section heading",
+    "bounded card heading",
+    "labelled block above a list / carousel / feed"
+  ],
+  "visualReuse": "open",
+  "layoutInset": "inline",
+  "spec": "header.md",
+  "subcomponents": [
+    {
+      "slug": "header",
+      "spec": "header.spec.json",
+      "md": "header.md",
+      "default": true
+    }
+  ]
+}

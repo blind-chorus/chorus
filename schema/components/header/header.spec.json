@@ -1,0 +1,96 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Header",
+  "family": "header",
+  "subcomponent": "header",
+  "description": "Labelled heading + optional trailing 'See all' Text Button. The leading label is rendered as a semantic `<h3>` by default; consumers may override the wrapping element via the `as` prop (e.g. `as=\"div\"` when the host already owns the heading semantics). Two sizes diverge only on the label typography — anatomy (slot grammar, trailing-button binding, alignment) is identical.",
+  "element": "header",
+  "props": {
+    "size": {
+      "type": "literal",
+      "values": ["large", "medium"],
+      "default": "large",
+      "description": "Label typography rung. `large` (default) — `sys.typo.heading.md` (20 / Semibold) — the canonical section heading used by Section and other top-level page regions. `medium` — `sys.typo.heading.sm` (16 / Semibold) — denser host surfaces (in-sheet sub-section, bounded card, drawer column heading, secondary regions inside an already-headed page)."
+    },
+    "label": {
+      "type": "string",
+      "optional": true,
+      "description": "Leading heading text. Single line; the consumer truncates upstream if the host width is too narrow."
+    },
+    "headerAction": {
+      "type": "object",
+      "optional": true,
+      "description": "Trailing Text Button binding. Object: `{ label, href, onClick }`. Rendered as a Text Button at `size=\"xsmall\"`, `appearance=\"accent\"`. The link-affordance rule keeps the navigational intent in the accent tone across hosts. Mutually exclusive with `trailingIcon`."
+    },
+    "trailingIcon": {
+      "type": "node",
+      "optional": true,
+      "description": "Drill-in chevron mode. Pass `true` to auto-render the canonical 16px chevron-right glyph, or pass a React node to override (any 16px icon). When set, the WHOLE header becomes the tap target via `onClick` / `href` — same contract as list/nav rows. Mutually exclusive with `headerAction`."
+    },
+    "onClick": {
+      "type": "function",
+      "optional": true,
+      "description": "Click handler. Only honored when `trailingIcon` is set — the whole header becomes a `<button>`."
+    },
+    "href": {
+      "type": "string",
+      "optional": true,
+      "description": "Link href. Only honored when `trailingIcon` is set — the whole header becomes an `<a>` element instead of a button."
+    },
+    "as": {
+      "type": "literal",
+      "values": ["header", "div"],
+      "default": "header",
+      "description": "Wrapping element when the Header is non-interactive. Defaults to `<header>` for top-level / labelled-region hosts; use `as=\"div\"` when the surrounding host already carries the section semantics. Ignored when `trailingIcon` + `onClick` / `href` makes the header interactive (the wrapper becomes `<button>` or `<a>`)."
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "description": "Outer row. Flex with `space-between` so the label and the trailing action sit on opposite edges, separated by an 8px (`layout.inline.md`) gap."
+    },
+    "label": {
+      "required": false,
+      "description": "Heading text. `<h3>` by default. Size `large` → `sys.typo.heading.md`; size `medium` → `sys.typo.heading.sm`. Color `sys.color.onSurface`."
+    },
+    "action": {
+      "required": false,
+      "description": "Trailing Text Button. Fixed at `size=\"xsmall\"`, `appearance=\"accent\"`. The label string comes from `headerAction.label`. Mutually exclusive with the icon slot below."
+    },
+    "icon": {
+      "required": false,
+      "description": "Trailing 16px icon (canonical: chevron-right). Decorative — `aria-hidden`. When set, the whole header is the interactive surface, so this slot is not a separate hit target. Mutually exclusive with the action slot above."
+    }
+  },
+  "sizing": {
+    "containerGap": "sys.layout.inline.md",
+    "containerAlign": "center",
+    "containerJustify": "space-between",
+    "large": {
+      "labelTypo": "sys.typo.heading.md (20 / Semibold)"
+    },
+    "medium": {
+      "labelTypo": "sys.typo.heading.sm (16 / Semibold)"
+    },
+    "labelColor": "sys.color.onSurface",
+    "actionSize": "Text Button xsmall, appearance accent",
+    "iconSize": "16 × 16",
+    "iconColor": "sys.color.onSurfaceVariant"
+  },
+  "states": {
+    "description": "Header itself has no lifecycle states. The trailing action carries Text Button's hover / pressed / focus."
+  },
+  "behavior": {
+    "rendering": "When `label`, `headerAction`, and `trailingIcon` are all omitted, the component renders nothing (no empty container).",
+    "alignment": "Label and trailing affordance share the row's centre line; the label never wraps, the affordance keeps intrinsic width and never grows.",
+    "linkAffordance": "In `headerAction` mode, the trailing action is always a Text Button — never a Standard Button, never a raw `<a>`, never an icon. In `trailingIcon` mode, the icon is decorative and the whole header is the tap target via `onClick` / `href`.",
+    "modeExclusivity": "`headerAction` and `trailingIcon` are mutually exclusive — when both are set, `trailingIcon` wins and `headerAction` is ignored. Pick one mode per host."
+  },
+  "forbidden": [
+    "non-Text-Button trailing action in `headerAction` mode (Standard Button, Icon Button, raw <a>)",
+    "label larger than heading-md or smaller than heading-sm — pick the size dial, do not custom-tune the typo",
+    "headerAction without an href or onClick — the link affordance must commit somewhere",
+    "trailingIcon without an onClick or href — an icon-only header that is non-interactive is decorative noise; reach for a labelled Section header instead",
+    "headerAction + trailingIcon together — pick one trailing mode"
+  ]
+}

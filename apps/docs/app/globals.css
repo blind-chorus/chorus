@@ -289,17 +289,37 @@ code {
    canonical "subdued foreground" role — instead of an ad-hoc opacity, so
    dark mode automatically picks up the correct subdued step (neutral.300)
    without compositing transparency that drifts on tinted backgrounds. */
+/* Default header — bare typography. No background, no min-height. The
+   bottom padding is suppressed so the header sits flush against the
+   body content beneath it; the page-content rung carries its own
+   leading rhythm. The introduction route opts back in to both the
+   tonal hero band and the bottom padding via `.page-header--intro`
+   below. */
 .page-header {
   display: flex;
   align-items: center;
-  min-height: 400px;
-  padding: var(--sys-layout-container-3xl) var(--sys-layout-page-md);
+  padding-block-start: var(--sys-layout-container-3xl);
+  padding-block-end: 0;
+  padding-inline: var(--sys-layout-page-md);
+  background: transparent;
+  color: var(--sys-color-onSurface);
+}
+
+/* Introduction-only tonal hero. Same gradient + surfaceContainerLowest
+   recipe — surfaceContainerLowest is the only role that resolves to
+   "darker than surface" in both themes (DESIGN.md §Color), so the
+   band reads as a quietly recessed strip rather than a brand-toned
+   hero. Other routes drop the band entirely so the header reads as
+   page-scoped typography rather than a screen-wide chrome rung. The
+   bottom padding is restored here so the hero band keeps its
+   symmetric vertical breathing room. */
+.page-header--intro {
+  padding-block-end: var(--sys-layout-container-3xl);
   background:
     radial-gradient(ellipse 80% 60% at 0% 0%,
       color-mix(in srgb, var(--sys-color-primary) 8%, transparent),
       transparent 70%),
     var(--sys-color-surfaceContainerLowest);
-  color: var(--sys-color-onSurface);
 }
 
 .page-header-inner {

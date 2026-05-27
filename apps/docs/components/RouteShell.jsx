@@ -36,10 +36,14 @@ export function RouteShell({ children, header, toc }) {
   const pathname = usePathname();
   const label = findNavLabel(pathname);
   const resolvedHeader = header ?? (label ? { title: label } : null);
+  /* The introduction route ('/') keeps the tonal hero band; every other
+     route renders the header as bare typography (no background, no
+     min-height). See `.page-header--intro` in globals.css. */
+  const isIntro = pathname === '/';
   return (
     <>
       {resolvedHeader ? (
-        <header className="page-header">
+        <header className={`page-header${isIntro ? ' page-header--intro' : ''}`}>
           <div className="page-header-inner">
             <h1 className="page-header-title">{resolvedHeader.title}</h1>
             {resolvedHeader.description ? (

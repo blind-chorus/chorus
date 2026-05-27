@@ -27,6 +27,17 @@ You are an expert UI engineer working with the Chorus design system, distributed
 
 ---
 
+## Core guardrails (non-negotiable, every task)
+
+These four guardrails govern every screen, every component, every commit. They are the parallel-priority checklist that frames §A–§E below — if a later rule appears to override one of these, the guardrail wins.
+
+1. **Chorus First.** The Chorus design system (`@blind-dsai/ui` + `@blind-dsai/tokens`) is the primary source of truth for every surface you compose. Reach for recommended Chorus components first; only adapt or extend them when the UI/UX context genuinely demands it, never as the default.
+2. **LEGO Brick Approach.** Build new surfaces by assembling existing Chorus components in creative, innovative layouts — nest, group, sequence, re-purpose primitives Lego-style. The catalog is a set of bricks; combination is the language.
+3. **Fallback Rule.** If a required UI component does NOT exist in Chorus, you may design a new element from scratch — BUT the new element MUST strictly inherit the Chorus token system and foundation rules (color, spacing, typography, radius, elevation, border). Every value resolves through `var(--sys-*)` / `var(--ref-*)`. **Hardcoded values (raw hex, off-scale px, Tailwind color utilities) are strictly prohibited.**
+4. **UX Alignment.** Pick components that deliver predictable, intuitive, consistent user flow based on established interaction patterns. The locked families (`dialog`, `bottom-sheet`, `side-sheet`, `toast`, `tooltip`, `form-field`) own their interaction contracts — never borrow them for visual shape alone. Across a single flow, keep affordance language, motion, and behavior predictable regardless of tier.
+
+---
+
 ## A. Initialization & reference order
 
 ### A.0 Install the Chorus packages (do this first if absent)
@@ -205,7 +216,7 @@ Open the relevant `<family>.family.json` before composing each region; the `layo
 
 The five directives that govern every screen you compose. Apply them top-down — later principles never override earlier ones. The "Hard Rules" in section C are the machine-checkable carve-outs of these principles.
 
-1. **Design-system-first (Source of Truth).** Chorus is the source of truth for every surface you design. Start from Chorus tokens, components, and patterns — not from generic UI libraries, screenshot inference, or invented values. Begin every task by reading `@blind-dsai/ui/agents/manifest.json` + `agents/catalog.md`.
+1. **Chorus First — design-system-first source of truth.** Chorus is the source of truth for every surface you design (Core Guardrail #1). Start from Chorus tokens, components, and patterns — not from generic UI libraries, screenshot inference, or invented values. Begin every task by reading `@blind-dsai/ui/agents/manifest.json` + `agents/catalog.md`.
 2. **Component flexibility — extrapolate, don't fork.** Chorus components ship with reference compositions and per-spec guidelines. Read the intent and respect each component's anatomy invariants (slot grammar, sizing tokens, state contract), but feel free to flex how a component is composed (slot fill, layout placement, modifier props) to fit a specific UI/UX context. The contract is the token bindings and the spec's slot rules, not the example screenshot. The family's `visualReuse` flag in `<family>.family.json` says how far that flexibility extends — **`visualReuse: "open"` families** (`section`, `banner`, `feed`, `list`, `button`, `chip`, `badge`, `navigation-bar`, `tab-bar`, `tabs`, `suggestion-list`, `avatar-rail`, `thumbnail` — the visual containers) may be reached for **on visual-fit grounds even when the brief's intent does not match `useCases` verbatim** — e.g. `<Feed>` as a generic article-card surface, `<Section>` as any labelled block. **`visualReuse: "locked"` families** (`dialog`, `bottom-sheet`, `toast`, `tooltip`, `form-field`) MUST only be used in their canonical role — the interaction contract is the point. Anatomy invariants (slot grammar, token bindings, intrinsic geometry) still apply in both tiers. **Never wrap a Chorus component to restyle it — re-compose with the slots the component already gives you.**
 3. **New surfaces stay token-true.** When Chorus has no component for what the surface needs, design a brand-new screen or primitive. The design MUST still resolve every color, spacing, typography, radius, and border-width through Chorus design tokens and the foundation rules in `agents/DESIGN.md`. **No raw hex, no off-scale px, no Tailwind color utilities, no third-party type ramp** — that is the floor regardless of how novel the composition is.
 4. **Lego-block composition.** Build new surfaces by combining and extending existing Chorus components like Lego blocks — nest, group, sequence, and re-purpose primitives in creative arrangements. Token usage stays non-negotiable; the components themselves are the flexible part. A novel screen should still read as one harmony with the rest of the system — a user landing on it should not feel they crossed into a different product.
@@ -247,7 +258,8 @@ The table below is the *first-pass* intent → component map. It is binding for 
 | User intent / phrase | Target Chorus component | Configuration / variants |
 | :--- | :--- | :--- |
 | "top bar / app bar / title bar" | `NavigationBar` | `variant="home" \| "page" \| "search"` |
-| "header card / summary card" | `Section` | Includes `label` + optional `headerAction` |
+| "section heading / labelled block" | `Header` | `size="large" \| "medium"` + `headerAction` (Text Button) or `trailingIcon` (drill-in chevron, whole-row tap target). Used automatically inside Section. |
+| "header card / summary card" | `Section` | Includes `label` + optional `headerAction` (forwarded to Header internally) |
 | "article card / post card / feed" | `Feed` | Uses `channel`, `title`, `body`, `thumbnail`, `engagement` slots |
 | "ad card / sponsored card" | `FeedAd` | - |
 | "company / settings / picker / menu row" | `List` | Use `Thumbnail` leading where appropriate |
@@ -262,6 +274,7 @@ The table below is the *first-pass* intent → component map. It is binding for 
 | "insight / aside / banner" | `Banner` | `variant="default" \| "accent"` |
 | "confirmation prompt" | `Dialog` *(locked)* | - |
 | "one-thumb action sheet" | `BottomSheet` *(locked)* | - |
+| "off-canvas navigation drawer / side panel" | `SideSheet` *(locked)* | Compose with `Header` (medium) + `List` (thumbnail, compact) inside `SideSheetGroup`; `anchor="left" \| "right"` |
 | "transient confirmation" | `Toast` *(locked)* | - |
 | "trigger-anchored hint" | `Tooltip` *(locked)* | - |
 | "labeled text field" | `FormField` *(locked)* | `variant="input"` |

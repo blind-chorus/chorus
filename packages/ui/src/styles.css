@@ -1466,26 +1466,73 @@ span.chorus-chip {
   gap: var(--sys-layout-stack-lg);
 }
 
-.chorus-section__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--sys-layout-inline-md);
-}
-
-.chorus-section .chorus-section__label {
-  margin: 0;
-  font-size: var(--sys-typo-heading-md-size);
-  line-height: var(--sys-typo-heading-md-line);
-  font-weight: var(--sys-typo-heading-md-weight);
-  letter-spacing: var(--sys-typo-heading-md-tracking);
-  color: var(--sys-color-onSurface);
-}
-
 .chorus-section__body {
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+
+/* ============================================================
+   Header — labelled section heading + optional trailing Text
+   Button "See all" link. Used inline inside Section, but also
+   composable on its own (Dialog title rail, in-sheet sub-section,
+   bounded card). Two sizes diverge only on the label typography.
+============================================================ */
+.chorus-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sys-layout-inline-md);
+  width: 100%;
+  min-width: 0;
+}
+
+.chorus-header .chorus-header__label {
+  margin: 0;
+  color: var(--sys-color-onSurface);
+  font-size: var(--sys-typo-heading-md-size);
+  line-height: var(--sys-typo-heading-md-line);
+  font-weight: var(--sys-typo-heading-md-weight);
+  letter-spacing: var(--sys-typo-heading-md-tracking);
+}
+
+.chorus-header[data-size="medium"] .chorus-header__label {
+  font-size: var(--sys-typo-heading-sm-size);
+  line-height: var(--sys-typo-heading-sm-line);
+  font-weight: var(--sys-typo-heading-sm-weight);
+  letter-spacing: var(--sys-typo-heading-sm-tracking);
+}
+
+/* Interactive Header (`trailingIcon` mode with onClick / href) — the
+   whole header row is the tap target, like list/nav. Reset the
+   <button>/<a> chrome so it reads identically to the static
+   <header> render at rest. */
+.chorus-header[data-interactive] {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Trailing 16-glyph chevron — paints in `onSurfaceVariant` and rotates
+   -90deg to read as a chevron-right drill-in indicator, same reuse the
+   list/nav and side-nav primitives use to avoid forking the icon set
+   for a one-off chevron-right. */
+.chorus-header__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sys-color-onSurfaceVariant);
+  flex: 0 0 auto;
+}
+
+.chorus-header__icon--chevron svg {
+  transform: rotate(-90deg);
 }
 
 /* ============================================================
@@ -2028,7 +2075,7 @@ span.chorus-chip {
   display: flex;
   align-items: center;
   gap: var(--sys-layout-inline-md);
-  padding: var(--sys-layout-container-sm) var(--sys-layout-container-md);
+  padding: var(--sys-layout-container-xs) var(--sys-layout-container-md);
   /* Touch-target floor — the row's minimum tap height. Anatomy
      dimension, not a layout token. */
   min-height: 48px;
@@ -2108,6 +2155,17 @@ span.chorus-chip {
   min-width: 0;
 }
 
+/* Inline row pairing label + optional count badge. The badge sits next to
+   the label baseline; both share the label-column flex line so a long
+   label truncates first while the count stays pinned at its intrinsic
+   width. */
+.chorus-list__label-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-sm);
+  min-width: 0;
+}
+
 .chorus-list__label {
   font-size: var(--sys-typo-body-md-size);
   line-height: var(--sys-typo-body-md-line);
@@ -2115,13 +2173,19 @@ span.chorus-chip {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  min-width: 0;
+}
+
+.chorus-list__count {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
 }
 
 .chorus-list__supporting {
   font-size: var(--sys-typo-body-sm-size);
   line-height: var(--sys-typo-body-sm-line);
   color: var(--sys-color-onSurfaceVariant);
-  margin-top: var(--sys-layout-stack-3xs);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2133,6 +2197,22 @@ span.chorus-chip {
   justify-content: center;
   color: var(--sys-color-onSurfaceVariant);
   flex: 0 0 auto;
+}
+
+/* Thumbnail density `compact` — 32 Thumbnail, 14 label, single-line, no
+   inter-row divider. The divider is suppressed because compact rows
+   already read as distinct via the row-level state overlays (hover /
+   pressed) and a subscription-style list is rarely paired with explanatory
+   supporting text — the labels alone tile cleanly. Row geometry (gap,
+   block padding, min-height) is inherited from `.chorus-list__row`. */
+
+.chorus-list[data-density="compact"] .chorus-list__row:not(:last-child)::after {
+  display: none;
+}
+
+.chorus-list[data-density="compact"] .chorus-list__label {
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
 }
 
 /* `nav` variant auto-renders a right-pointing chevron at the trailing
@@ -2686,6 +2766,104 @@ span.chorus-chip {
 
 .chorus-banner--default .chorus-banner__action {
   color: var(--sys-color-primary);
+}
+
+/* ============================================================
+   SideSheet — off-canvas content column anchored to the leading
+   or trailing edge. Pairs with BottomSheet (bottom anchor) as
+   the Sheet family's other anchor. Used for navigation drawers,
+   channel directories, settings panes, filter columns.
+============================================================ */
+.chorus-side-sheet__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: stretch;
+  background: var(--ref-palette-black-600);
+}
+
+.chorus-side-sheet__scrim[data-anchor="left"] {
+  justify-content: flex-start;
+}
+
+.chorus-side-sheet__scrim[data-anchor="right"] {
+  justify-content: flex-end;
+}
+
+.chorus-side-sheet__scrim--inline {
+  position: relative;
+  inset: auto;
+  z-index: auto;
+  width: 100%;
+  min-height: 480px;
+}
+
+.chorus-side-sheet__card {
+  width: 100%;
+  max-width: var(--side-sheet-width, 320px);
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: var(--sys-color-surface);
+  color: var(--sys-color-onSurface);
+  box-shadow: var(--sys-elevation-sheet);
+}
+
+.chorus-side-sheet__scrim--inline .chorus-side-sheet__card {
+  height: auto;
+  align-self: stretch;
+}
+
+/* Body — vertical scroll surface that owns the sheet's own gutter
+   (16px inline / 24px block) so the consumer composes Header + List +
+   any other primitives without paying padding twice. Lists inside the
+   body are already full-bleed; they negate this inline padding via the
+   container-md opt-out, just like inside BottomSheet. Children stack at
+   24px (`layout.stack.lg`) — the rhythm between groups; within a group
+   the SideSheetGroup wrapper tightens to 16px so "header + items" reads
+   as one unit. */
+.chorus-side-sheet__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--sys-layout-container-lg) var(--sys-layout-container-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-lg);
+}
+
+/* SideSheetGroup — Header + List bundle. 16px gap (`layout.stack.md`)
+   between the Header and the List so the heading reads attached to its
+   items. Groups themselves stack with the body's 24px rhythm. */
+.chorus-side-sheet__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-md);
+}
+
+/* Footer — pinned bottom action rail (e.g. "Browse all channels"). Hosts
+   a single Text Button or any compact action node. */
+.chorus-side-sheet__footer {
+  flex: 0 0 auto;
+  padding: var(--sys-layout-container-md);
+  border-top: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Negative-margin opt-out for full-bleed children of the body — Lists
+   inside a SideSheet negate the body's 16px inline padding so the row
+   leading edge (radio glyph, thumbnail, label) lands flush with the
+   body's leading inset, not double-paid. Same precedent as
+   BottomSheet → overflow / nested-step. */
+.chorus-side-sheet__body > .chorus-list,
+.chorus-side-sheet__body .chorus-side-sheet__group > .chorus-list {
+  margin-inline: calc(-1 * var(--sys-layout-container-md));
+  width: calc(100% + 2 * var(--sys-layout-container-md));
+  max-width: none;
 }
 
 .chorus-bottom-sheet__scrim {

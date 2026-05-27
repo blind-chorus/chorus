@@ -15,12 +15,12 @@ Both subs share the same pager geometry — a `ref.space.500` (40px) trailing pe
 
 ### Header anatomy
 
-Every Section paints the same heading + optional trailing link, regardless of the hosted carousel:
+Every Section paints a [Header](../header/header.md) (`size="large"`) at the top:
 
 - **Label** — `sys.typo.heading.md` / Semibold / `sys.color.onSurface`. Leading position.
 - **headerAction** *(optional)* — trailing [Text Button](../button/text.md) (`size={'xsmall'}`, `appearance={'accent'}`) per the link-affordance rule.
 
-This header is the family-wide source of truth; [SuggestionList](../suggestion-list/suggestion-list.md) paints the same header internally. Retune bindings here.
+Section forwards its `label` and `headerAction` props to the [Header](../header/header.md) component verbatim; the header anatomy lives in Header's spec. Other hosts (in-sheet sub-sections, bounded cards, [SuggestionList](../suggestion-list/suggestion-list.md)) reach for `<Header />` directly to paint the same shape — Section is the labelled-region host, Header is the leading-row primitive it composes.
 
 ### Surface + padding
 

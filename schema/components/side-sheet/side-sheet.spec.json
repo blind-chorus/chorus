@@ -1,0 +1,101 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "SideSheet",
+  "family": "side-sheet",
+  "subcomponent": "side-sheet",
+  "description": "Off-canvas content column. Renders into a body portal when open, locks body scroll, returns focus to the trigger on close, dismisses on Escape / backdrop tap. The card is a fixed-width column flush against the leading or trailing edge of the viewport; the body owns its own surface padding so consumers compose primitives directly inside without paying padding twice. Lists inside the body negate the inline padding so row leading edges land flush.",
+  "element": "aside",
+  "props": {
+    "open": {
+      "type": "boolean",
+      "required": true,
+      "description": "Controlled open state."
+    },
+    "onClose": {
+      "type": "function",
+      "required": true,
+      "description": "Fired on backdrop tap, Escape key, or any consumer-triggered close."
+    },
+    "anchor": {
+      "type": "literal",
+      "values": ["left", "right"],
+      "default": "left",
+      "description": "Edge the card sits flush against. `left` (default) — the off-canvas navigation / channel directory pattern. `right` — filter rail, settings pane, or sub-nav overlay on right-handed surfaces."
+    },
+    "width": {
+      "type": "number | string",
+      "default": 320,
+      "description": "Card width. Number → pixels; string → any CSS length (`'80vw'`, `'min(320px, 80vw)'`). Mobile-first: defaults to 320 so the trailing 40-ish px peek lets the user see the page underneath at a glance."
+    },
+    "footer": {
+      "type": "node",
+      "optional": true,
+      "description": "Pinned bottom action rail. Hosts a single Text Button or any compact action node (e.g. \"Browse all channels\"). Stays flush at the card bottom while the body scrolls."
+    },
+    "children": {
+      "type": "node",
+      "required": true,
+      "description": "Body content. Free-form composition; the canonical fill is one or more Header (size=\"medium\") + List (variant=\"thumbnail\" density=\"compact\") pairs."
+    },
+    "inline": {
+      "type": "boolean",
+      "default": false,
+      "description": "Docs-only — renders the sheet inline (no portal, no fixed positioning, no body scroll lock) so the card can be shown next to other primitives in a documentation preview without occluding the page. Never use in production."
+    }
+  },
+  "slots": {
+    "scrim": {
+      "required": true,
+      "description": "Backdrop. Translucent black overlay (`ref.palette.black.600`) that absorbs all clicks outside the card and dismisses the sheet on tap."
+    },
+    "card": {
+      "required": true,
+      "description": "Off-canvas column. Fixed width, full viewport height, flush against the `anchor` edge. `surface` fill + `elevation.sheet` shadow."
+    },
+    "body": {
+      "required": true,
+      "description": "Vertical scroll surface inside the card. Pays its own gutter (16px inline / 24px block via `layout.container.md` / `layout.container.lg`) and stacks children at 24px (`layout.stack.lg`) — the rhythm BETWEEN groups."
+    },
+    "group": {
+      "required": false,
+      "description": "Header + List bundle (the `SideSheetGroup` primitive). Internal gap 16px (`layout.stack.md`) so the heading reads attached to its items; body-level 24px rhythm then separates one group from the next. Wrap each (Header + List) pair in a group so the visual grouping reads consistently across the drawer column."
+    },
+    "footer": {
+      "required": false,
+      "description": "Pinned bottom action rail. Separated from the body by a `outlineVariant` hairline. `16px` inline + block padding."
+    }
+  },
+  "sizing": {
+    "scrimColor": "ref.palette.black.600",
+    "cardBg": "sys.color.surface",
+    "cardElevation": "sys.elevation.sheet",
+    "cardDefaultWidth": "320px",
+    "bodyPadding": "sys.layout.container.lg (24) block × sys.layout.container.md (16) inline",
+    "bodyStackGap": "sys.layout.stack.lg (24) — between groups",
+    "groupStackGap": "sys.layout.stack.md (16) — within group, Header → List",
+    "footerPadding": "sys.layout.container.md (16)",
+    "footerDivider": "sys.borderWidth.hairline / sys.color.outlineVariant"
+  },
+  "states": {
+    "open": {
+      "description": "Card rendered into a body portal; body scroll locked; focus moves to the first focusable inside the card."
+    },
+    "closed": {
+      "description": "Component returns null; focus returns to the last-focused element before open."
+    }
+  },
+  "behavior": {
+    "portal": "Renders into a `document.body` portal when `open` and not `inline`. SSR-safe: the portal target resolves on mount.",
+    "scrollLock": "Body scroll is locked while open (and not inline).",
+    "focus": "On open, focus moves to the first focusable inside the card. On close, focus returns to the trigger.",
+    "dismiss": "Backdrop tap and Escape key both invoke `onClose`. The component never closes itself — consumers own the open state.",
+    "fullBleedListInside": "Lists rendered as direct children of the body negate the body's 16px inline padding (margin-inline negative + width opt-out) so row leading edges land flush with the body's leading inset, same precedent as BottomSheet → overflow / nested-step."
+  },
+  "forbidden": [
+    "open without onClose — the sheet must own a dismiss path",
+    "fixed positioning inside children — the body owns the scroll surface, children must not break out of it",
+    "non-Sheet-family chrome to imitate this shape (raw `<aside>` + Tailwind, custom drawer libraries) — reach for SideSheet",
+    "multiple SideSheets open at once — sheets are one-at-a-time; nest BottomSheet inside if a sub-step is needed",
+    "anchor=\"top\" / anchor=\"bottom\" — top is out of scope (no mobile pattern needs it), bottom belongs to BottomSheet"
+  ]
+}
