@@ -1,0 +1,80 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Progress",
+  "family": "progress",
+  "description": "Linear progress bar. A single visual rung — 8px tall, fully rounded — that previews how far a long-running task has advanced. The track paints with the same Banner-style scrim recipe (`ref.palette.black.200` in light, `ref.palette.white.200` in dark) so the bar reads cleanly on any host surface tier without colliding with a fixed surface-container step. The indicator paints in `sys.color.inverseSurface` so the filled segment always contrasts against the scrim track regardless of theme. The track owns no width of its own — it stretches to fill its host column. `role='progressbar'` with `aria-valuemin / max / now` reflects the determinate value; indeterminate omits `aria-valuenow` so screen readers announce 'busy'.",
+  "element": "div",
+  "props": {
+    "value": {
+      "type": "number",
+      "optional": true,
+      "description": "Determinate value. When `max` is omitted, this is the ratio 0..1; with `max`, it is the raw count and the ratio is `value / max`. Omit (or pair with `indeterminate`) to render the indeterminate sliding animation."
+    },
+    "max": {
+      "type": "number",
+      "default": 1,
+      "description": "Upper bound for `value`. Defaults to 1 so a `value` of 0.4 reads as 40%."
+    },
+    "indeterminate": {
+      "type": "boolean",
+      "default": false,
+      "description": "Forces indeterminate mode even when a `value` is supplied. Useful when the consumer knows the task is busy but does not have a reliable ratio yet."
+    },
+    "aria-label": {
+      "type": "string",
+      "optional": true,
+      "description": "Accessible label describing what is in progress. Required when the bar is not paired with a visible label next to it."
+    }
+  },
+  "slots": {
+    "track": {
+      "required": true,
+      "description": "Fully-rounded background block. 8px tall, mode-aware scrim fill (`ref.palette.black.200` light / `ref.palette.white.200` dark), no stroke. Carries `role='progressbar'` and the aria-value attributes.",
+      "intrinsic": true
+    },
+    "indicator": {
+      "required": true,
+      "description": "Inner filled segment painted in `sys.color.inverseSurface`. In determinate mode, translated horizontally so its trailing edge sits at the value's ratio. In indeterminate mode, a 40%-wide segment that loops from -100% to 100% on the X axis over 1.6s.",
+      "intrinsic": true
+    }
+  },
+  "sizing": {
+    "height": "sys.layout.container.xs",
+    "trackBackgroundLight": "ref.palette.black.200",
+    "trackBackgroundDark": "ref.palette.white.200",
+    "trackRadius": "sys.radius.full",
+    "indicatorBackground": "sys.color.inverseSurface",
+    "indicatorRadius": "inherit",
+    "indeterminateDuration": "1.6s",
+    "indeterminateTiming": "cubic-bezier(0.65, 0, 0.35, 1)",
+    "transitionDuration": "200ms",
+    "transitionTiming": "ease-out"
+  },
+  "appearances": {
+    "default": {
+      "track": {
+        "light": "ref.palette.black.200",
+        "dark": "ref.palette.white.200"
+      },
+      "indicator": "sys.color.inverseSurface",
+      "note": "The only appearance. Track is a faint scrim of the inverse tone — visible against every surface tier in either theme. Indicator paints in `inverseSurface` so the filled segment always contrasts against the bare track regardless of theme. Progress has no emphasis axis; if a screen needs a higher-attention progress mark, it belongs as a Banner copy nearby, not as a chromatic indicator tone."
+    }
+  },
+  "states": {
+    "default": { "note": "Determinate progress carries no lifecycle states — the value is its visual state. Indeterminate is a steady animation; reduced-motion freezes it at a ~75% offset segment so the busy state stays visible." }
+  },
+  "behavior": {
+    "determinateTransition": "The indicator's transform transitions over 200ms `ease-out` as `value` changes, so jumps to higher ratios animate rather than snap.",
+    "indeterminateAnimation": "Indicator slides from `translateX(-100%)` to `translateX(100%)` on a 1.6s loop using `cubic-bezier(0.65, 0, 0.35, 1)`. Under `prefers-reduced-motion: reduce` the animation is suppressed and the indicator settles at a steady offset segment so the busy state stays visible.",
+    "ariaContract": "Container is `role='progressbar'` with `aria-valuemin=0`, `aria-valuemax=100` (determinate) or no max (indeterminate). `aria-valuenow` reflects the rounded percent in determinate mode; omitted in indeterminate so screen readers announce 'busy'."
+  },
+  "forbidden": [
+    "Progress used as a permanent zero-data placeholder — that role is `skeleton`; Progress communicates active work, not absence",
+    "indeterminate bar shown while waiting for a fetch that the host already knows is sub-300ms — flicker reads worse than a brief blank surface",
+    "Progress painted thicker than 8px — taller bars read as a UI control, not as chrome. For thick-bar metric visualisation, use a chart instead",
+    "Progress nested inside a Toast — Toast is for transient confirmations of completed actions; in-progress states belong inline on the surface that owns the work",
+    "track painted with a fixed surface-container tone (e.g. `surfaceContainerHighest`) — the track MUST be the mode-aware scrim recipe so it reads on any host surface tier",
+    "indicator painted with a chromatic primary / accent / brand tone — the family has no emphasis axis; emphasis belongs in the surrounding copy, not in the bar itself",
+    "track stroke painted with a `border:` — track is a fully-rounded block with no stroke; the affordance is the fill contrast between the scrim and the indicator"
+  ]
+}

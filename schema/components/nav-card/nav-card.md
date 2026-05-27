@@ -87,12 +87,12 @@ import { BellIcon, BookmarkIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 </NavCardGroup>
 ```
 
-### Transparent (on a tonal band)
+### Surface (opaque tier on a non-`surface` host)
 
-`appearance="transparent"` removes the card's `surface` fill so the host surface tone reads through — the outline, label, and chevron stay intact. Reach for it when the card sits on a tonal band (`surfaceContainerLow`, `surfaceVariant`, a Section body) and should read as **attached to** that tone rather than as its own opaque tier.
+`appearance="surface"` paints the card with its own `sys.color.surface` fill so it reads as an opaque tier rather than blending into the host. Reach for it when the card sits on a transparent / non-`surface` host (a coloured hero, a tonal band the card needs to break out of, a BottomSheet's content slot) and the default transparent fill would let the card disappear into the background.
 
 ```preview
-nav-card/transparent
+nav-card/surface
 ---
 import { NavCard, NavCardGroup } from '@blind-dsai/ui';
 import { BellIcon, BookmarkIcon, ProfileIcon } from '@blind-dsai/ui/icons';
@@ -105,9 +105,9 @@ import { BellIcon, BookmarkIcon, ProfileIcon } from '@blind-dsai/ui/icons';
   }}
 >
   <NavCardGroup aria-label="Account">
-    <NavCard appearance="transparent" label="Profile" supportingText="Display name, avatar, bio" leading={<ProfileIcon size={16} />} href="#" />
-    <NavCard appearance="transparent" label="Saved posts" supportingText="47 posts across 9 channels" leading={<BookmarkIcon size={16} />} href="#" />
-    <NavCard appearance="transparent" label="Notifications" leading={<BellIcon size={16} />} href="#" />
+    <NavCard appearance="surface" label="Profile" supportingText="Display name, avatar, bio" leading={<ProfileIcon size={16} />} href="#" />
+    <NavCard appearance="surface" label="Saved posts" supportingText="47 posts across 9 channels" leading={<BookmarkIcon size={16} />} href="#" />
+    <NavCard appearance="surface" label="Notifications" leading={<BellIcon size={16} />} href="#" />
   </NavCardGroup>
 </div>
 ```
@@ -135,10 +135,10 @@ import { BellIcon, BookmarkIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 
 ## Appearance
 
-| Appearance     | Container fill                  | When to reach |
-|----------------|---------------------------------|----------------|
-| `default`      | `sys.color.surface` (opaque)    | NavCard on a transparent or distinct-tone host — the canonical form. |
-| `transparent`  | `transparent`                   | NavCard placed inside a tonal band (`surfaceContainerLow`, Section body, BottomSheet content) so the host tone reads through. Outline, label, chevron, and hover overlay stay intact. |
+| Appearance | Container fill                  | When to reach |
+|------------|---------------------------------|----------------|
+| `default`  | `transparent`                   | The canonical form. NavCard's identity is the outlined chrome (hairline + radius + label + chevron); the host surface tone reads through. State overlays mix on the transparent base so the host tone keeps reading underneath them. |
+| `surface`  | `sys.color.surface` (opaque)    | NavCard on a transparent / non-`surface` host (coloured hero, tonal band, BottomSheet content) — the fill steps the card up to its own opaque tier so it doesn't blend into the host. Outline, label, chevron, and state overlays unchanged. |
 
 ## Sizes
 

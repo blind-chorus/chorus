@@ -10,7 +10,8 @@
       "type": "enum",
       "values": [
         "default",
-        "accent"
+        "accent",
+        "destructive"
       ],
       "default": "default"
     },
@@ -97,6 +98,12 @@
       "foreground": "sys.color.onPrimaryContainer",
       "actionColor": "inherit",
       "note": "Both body and action paint in the primary family so the whole banner reads as one highlighted block. Reach for `accent` when the aside should pull more attention — feature explainers, capability nudges."
+    },
+    "destructive": {
+      "background": "sys.color.errorContainer",
+      "foreground": "sys.color.onErrorContainer",
+      "actionColor": "inherit",
+      "note": "Body and action paint in the error family so the whole banner reads as one warning block. Reach for `destructive` when the aside is a blocking error or rejection — failed approvals, integration outages, billing problems. Use sparingly — every destructive banner on a screen competes with the others for the user's alarm budget."
     }
   },
   "behavior": {

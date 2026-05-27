@@ -2,6 +2,7 @@
 
 import { Children, isValidElement, useId, useRef, useState } from 'react';
 import inputSpec from '../../../schema/components/form-field/input.spec.json';
+import textareaSpec from '../../../schema/components/form-field/textarea.spec.json';
 import searchBarSpec from '../../../schema/components/form-field/search.spec.json';
 import selectSpec from '../../../schema/components/form-field/select.spec.json';
 import { tokenToCss, typoStyles, joinClasses } from './spec-utils.js';
@@ -43,6 +44,7 @@ function FormFieldBox({
   label,
   helper,
   maxLength,
+  rows,
   disabled = false,
   state,
   className,
@@ -51,6 +53,7 @@ function FormFieldBox({
   onClear,
   ...rest
 }) {
+  const isTextarea = subcomponent === 'textarea';
   const resolvedLeading = leadingSlot ?? leadingIcon ?? null;
   const app = spec.appearances[appearance] ?? spec.appearances[spec.props.appearance.default];
   const controlled = value !== undefined;
@@ -59,7 +62,7 @@ function FormFieldBox({
   const valueLen = current == null ? 0 : String(current).length;
   const isDisabled = disabled || state === 'disabled';
   const forcedState = FORCEABLE_STATES.has(state) ? state : null;
-  const showClear = !isDisabled && valueLen > 0 && !readOnly && trailingSlot == null;
+  const showClear = !isDisabled && valueLen > 0 && !readOnly && trailingSlot == null && !isTextarea;
 
   const showCount = maxLength != null;
   const showHelper = helper != null && !showCount;
@@ -70,6 +73,7 @@ function FormFieldBox({
   const inputId = `${reactId}-input`;
   const descId = `${reactId}-desc`;
   const describedBy = hasGroup && (showHelper || showCount) ? descId : undefined;
+  const textareaRows = rows ?? spec.sizing?.rowsDefault ?? 4;
 
   const composedStyle = {
     '--field-min-height': tokenToCss(spec.sizing.minHeight),
@@ -125,21 +129,39 @@ function FormFieldBox({
           {resolvedLeading}
         </span>
       ) : null}
-      <input
-        ref={inputRef}
-        id={hasGroup && label != null ? inputId : undefined}
-        type="text"
-        className="chorus-field__input"
-        value={current}
-        placeholder={placeholder}
-        disabled={isDisabled}
-        readOnly={readOnly}
-        maxLength={showCount ? maxLength : undefined}
-        aria-describedby={describedBy}
-        onChange={handleChange}
-        onClick={onClick}
-        {...(hasGroup ? {} : rest)}
-      />
+      {isTextarea ? (
+        <textarea
+          ref={inputRef}
+          id={hasGroup && label != null ? inputId : undefined}
+          className="chorus-field__textarea"
+          value={current}
+          placeholder={placeholder}
+          disabled={isDisabled}
+          readOnly={readOnly}
+          rows={textareaRows}
+          maxLength={showCount ? maxLength : undefined}
+          aria-describedby={describedBy}
+          onChange={handleChange}
+          onClick={onClick}
+          {...(hasGroup ? {} : rest)}
+        />
+      ) : (
+        <input
+          ref={inputRef}
+          id={hasGroup && label != null ? inputId : undefined}
+          type="text"
+          className="chorus-field__input"
+          value={current}
+          placeholder={placeholder}
+          disabled={isDisabled}
+          readOnly={readOnly}
+          maxLength={showCount ? maxLength : undefined}
+          aria-describedby={describedBy}
+          onChange={handleChange}
+          onClick={onClick}
+          {...(hasGroup ? {} : rest)}
+        />
+      )}
       {showClear ? (
         <button
           type="button"
@@ -198,6 +220,15 @@ export function Input(props) {
   return <FormFieldBox spec={inputSpec} subcomponent="input" {...props} />;
 }
 const FormFieldInput = Input;
+
+/* Textarea — the multi-line cousin of Input. Identical chrome, but the
+   inner element is a `<textarea>` with a `rows` floor (default 4) and
+   a vertical-only resize handle. No trailing clear button — multi-line
+   content is too costly to wipe in one click. */
+export function Textarea(props) {
+  return <FormFieldBox spec={textareaSpec} subcomponent="textarea" {...props} />;
+}
+const FormFieldTextarea = Textarea;
 
 /* Search bar — same field as Input with a leading `SearchIcon` pinned at
    the inner-left edge and a `sys.radius.full` pill corner. The glyph is
@@ -263,6 +294,7 @@ export function Select({ onOpen, value, defaultValue, placeholder, ...rest }) {
 const FormFieldSelect = Select;
 const VARIANTS = {
   input: FormFieldInput,
+  textarea: FormFieldTextarea,
   'search': FormFieldSearchBar,
   select: FormFieldSelect,
 };

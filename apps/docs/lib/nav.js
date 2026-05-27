@@ -235,6 +235,7 @@ export const NAV = [
         label: 'Form field',
         subs: [
           { href: '/components/form-field/input', label: 'Input' },
+          { href: '/components/form-field/textarea', label: 'Textarea' },
           { href: '/components/form-field/search', label: 'Search bar' },
           { href: '/components/form-field/select', label: 'Select' },
         ],
@@ -261,6 +262,11 @@ export const NAV = [
           { href: '/components/navigation-bar/page',   label: 'Page' },
           { href: '/components/navigation-bar/search', label: 'Search' },
         ],
+      },
+      {
+        href: '/components/progress',
+        label: 'Progress',
+        wip: true,
       },
       {
         href: '/components/section',

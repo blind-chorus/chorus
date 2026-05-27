@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Accordion, Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, ProfileCarousel, Section, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
+import { Accordion, Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, Section, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
 import { PlusIcon, PlusSquareFillIcon, ChevronLeftIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, XIcon, BuildingIcon, BuildingFillIcon, ArrowDownIcon, ChevronRightIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, EllipsisHorizontalIcon, BellIcon, BellFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
@@ -1735,6 +1735,20 @@ export const PREVIEWS = {
     ),
   },
 
+  'banner/destructive': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Banner
+          appearance="destructive"
+          action={{ label: 'Retry connection', onClick: () => {} }}
+        >
+          We could not reach the integrations service. Recent changes have not been synced.
+        </Banner>
+      </Frame>
+    ),
+  },
+
   'banner/with-thumbnail': {
     states: false,
     render: () => (
@@ -1985,7 +1999,7 @@ export const PREVIEWS = {
     ),
   },
 
-  'nav-card/transparent': {
+  'nav-card/surface': {
     states: false,
     render: () => (
       <Frame>
@@ -1997,9 +2011,9 @@ export const PREVIEWS = {
           }}
         >
           <NavCardGroup aria-label="Account">
-            <NavCard appearance="transparent" label="Profile" supportingText="Display name, avatar, bio" leading={<ProfileIcon size={16} />} href="#" />
-            <NavCard appearance="transparent" label="Saved posts" supportingText="47 posts across 9 channels" leading={<BookmarkIcon size={16} />} href="#" />
-            <NavCard appearance="transparent" label="Notifications" leading={<BellIcon size={16} />} href="#" />
+            <NavCard appearance="surface" label="Profile" supportingText="Display name, avatar, bio" leading={<ProfileIcon size={16} />} href="#" />
+            <NavCard appearance="surface" label="Saved posts" supportingText="47 posts across 9 channels" leading={<BookmarkIcon size={16} />} href="#" />
+            <NavCard appearance="surface" label="Notifications" leading={<BellIcon size={16} />} href="#" />
           </NavCardGroup>
         </div>
       </Frame>
@@ -2728,6 +2742,27 @@ export const PREVIEWS = {
     ),
   },
 
+  /* Progress — linear progress bar. Single rung (8px / radius.full),
+     inverseSurface indicator on a Banner-style scrim track. Two modes:
+     determinate (value-driven) and indeterminate (sliding 40% segment). */
+  'progress/default': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Progress value={0.4} aria-label="Uploading file" />
+      </Frame>
+    ),
+  },
+
+  'progress/indeterminate': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Progress indeterminate aria-label="Syncing in the background" />
+      </Frame>
+    ),
+  },
+
   /* StatusTag — small inline status pill. Two appearances on a single
      emphasis axis: neutral (informational default) and error (rejection
      / blocked). Decorative, never a button. */
@@ -2790,6 +2825,52 @@ export const PREVIEWS = {
      dropped into the row's trailing slot turns a display row into a
      row + action affordance without changing the row's primary
      interaction model. */
+  /* FormField — textarea sub. Multi-line cousin of Input; `rows` floor +
+     vertical-only resize handle. No trailing clear button. */
+  'form-field/textarea': {
+    states: false,
+    render: () => (
+      <Frame>
+        <FormField
+          variant="textarea"
+          label="Description"
+          placeholder="Add a description for your channel"
+          helper="Up to 280 characters. Markdown is supported."
+        />
+      </Frame>
+    ),
+  },
+
+  'form-field/textarea-count': {
+    states: false,
+    render: () => (
+      <Frame>
+        <FormField
+          variant="textarea"
+          label="Bio"
+          defaultValue="Designing for clarity, building for trust."
+          maxLength={140}
+          rows={3}
+        />
+      </Frame>
+    ),
+  },
+
+  'form-field/textarea-error': {
+    states: false,
+    render: () => (
+      <Frame>
+        <FormField
+          variant="textarea"
+          label="Description"
+          defaultValue=""
+          appearance="error"
+          helper="Description is required."
+        />
+      </Frame>
+    ),
+  },
+
   'list/text-with-trailing-action': {
     states: false,
     render: () => (

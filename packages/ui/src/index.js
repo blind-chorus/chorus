@@ -15,10 +15,11 @@ export { Feed, FeedGroup } from './Feed.jsx';
 export { FeedAd } from './FeedAd.jsx';
 export { PostCarousel } from './PostCarousel.jsx';
 export { ProfileCarousel } from './ProfileCarousel.jsx';
-export { FormField, FormFieldGroup, Input, SearchBar, Select } from './FormField.jsx';
+export { FormField, FormFieldGroup, Input, SearchBar, Select, Textarea } from './FormField.jsx';
 export { List } from './List.jsx';
 export { NavCard, NavCardGroup } from './NavCard.jsx';
 export { NavigationBar } from './NavigationBar.jsx';
+export { Progress } from './Progress.jsx';
 export { Section } from './Section.jsx';
 export { Skeleton, SkeletonGroup } from './Skeleton.jsx';
 export { StatusTag } from './StatusTag.jsx';
@@ -34,7 +35,16 @@ export { Tooltip } from './Tooltip.jsx';
 // Each alias is declared in its source spec.json via `exportAlias`,
 // which is what the typed-surface generator consumes.
 export { BottomSheet as Sheet } from './BottomSheet.jsx';
+export { BottomSheet as Drawer } from './BottomSheet.jsx';
 export { Banner as Alert } from './Banner.jsx';
 export { Thumbnail as Avatar } from './Thumbnail.jsx';
 export { NavigationBar as AppBar } from './NavigationBar.jsx';
 export { TabBar as BottomNav } from './TabBar.jsx';
+
+// Lovable / shadcn `<Badge variant="…">` (a text pill — "Pro", "New",
+// "Beta") and Chorus `Badge` (a numeric / dot count marker) share a
+// name but not an intent. The mapping lives in `schema/catalog.md`
+// (Compact controls section): Lovable text-pill intent → Chorus
+// `StatusTag`. A direct `Badge` alias would shadow the existing count
+// marker and break every consumer that imports Badge today, so the
+// translation lives in the catalog instead of in the exports.

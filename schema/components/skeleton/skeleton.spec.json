@@ -55,7 +55,7 @@
   "states": {
     "default": {
       "animation": "chorus-skeleton-pulse 1.6s ease-in-out infinite",
-      "note": "Opacity oscillates between `sys.state.skeleton.min` (0.5) and 1. The animation respects `prefers-reduced-motion: reduce` — pulse halts and the block stays at full opacity."
+      "note": "Opacity oscillates between 0.5 and 1 over 1.6s. The 0.5 floor is a family constant — no semantic token rung is allocated for the opacity-pulse minimum since it is unique to Skeleton. The animation respects `prefers-reduced-motion: reduce` — pulse halts and the block stays at full opacity."
     }
   },
   "behavior": {

@@ -27,9 +27,9 @@
     },
     "appearance": {
       "type": "enum",
-      "values": ["default", "transparent"],
+      "values": ["default", "surface"],
       "default": "default",
-      "description": "Container fill. `default` paints `sys.color.surface`. `transparent` removes the fill so the host surface (e.g. a `surfaceContainerLow` tonal band, a Section body) reads through — outline, label, and chevron stay intact."
+      "description": "Container fill. `default` is transparent — the card's identity is the outlined chrome (hairline + radius + label + chevron) and the host surface tone reads through. `surface` paints `sys.color.surface` so the card reads as its own opaque tier; reach for it when the card sits on a transparent / non-`surface` host (between bare-surface sections, on a tonal band the card needs to break out of)."
     },
     "href": {
       "type": "string",
@@ -54,7 +54,7 @@
   "slots": {
     "container": {
       "required": true,
-      "description": "Outlined rounded box. `surface` fill, `radius.md` corners, hairline `outlineVariant` stroke painted as inset box-shadow (never `border:`). Whole container is the interactive target.",
+      "description": "Outlined rounded box. Transparent fill by default (host tone reads through) — `surface` fill via `appearance=\"surface\"`. `radius.md` corners, hairline `outlineVariant` stroke painted as inset box-shadow (never `border:`). Whole container is the interactive target.",
       "intrinsic": true
     },
     "leading": {
@@ -104,12 +104,12 @@
   },
   "appearances": {
     "default": {
-      "background": "sys.color.surface",
-      "note": "Opaque surface fill. Use when NavCard sits on a transparent or distinct-tone host (page background, white space between sections)."
-    },
-    "transparent": {
       "background": "transparent",
-      "note": "No fill — the host surface tone reads through. Reach for it when the card sits on a tonal band (a `surfaceContainerLow` strip, a Section's body, a BottomSheet's content slot) and should read as 'attached to' that tone rather than as its own opaque tier. Outline, label, chevron, and hover overlay are unchanged."
+      "note": "No fill — the host surface tone reads through. The canonical NavCard: its identity is the outlined chrome (hairline + radius + label + chevron), not a fill. Hover / pressed paint as label-tone overlays mixed on the transparent base so the host tone keeps reading through underneath the state paint."
+    },
+    "surface": {
+      "background": "sys.color.surface",
+      "note": "Opaque `surface` fill. Reach for it when the card sits on a transparent / non-`surface` host (a `surfaceContainerLow` tonal band, a coloured hero, a BottomSheet's content slot) and should read as its own opaque tier rather than blending into the host. Outline, label, chevron, and state overlays are unchanged."
     }
   },
   "states": {

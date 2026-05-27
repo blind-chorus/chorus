@@ -38,6 +38,23 @@ import { Banner } from '@blind-dsai/ui';
 </Banner>
 ```
 
+## Destructive
+
+The error-tinted appearance — `errorContainer` fill with `onErrorContainer` foreground. The whole banner re-tones to the error family so the aside reads as one warning block at a glance. Reach for `destructive` when the aside is a blocking error or rejection — failed approvals, integration outages, billing problems. Use sparingly: every destructive banner on a screen competes with the others for the user's alarm budget.
+
+```preview
+banner/destructive
+---
+import { Banner } from '@blind-dsai/ui';
+
+<Banner
+  appearance="destructive"
+  action={{ label: 'Retry connection', onClick: () => {} }}
+>
+  We could not reach the integrations service. Recent changes have not been synced.
+</Banner>
+```
+
 ## Use cases
 
 ### With thumbnail

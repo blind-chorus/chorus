@@ -112,16 +112,38 @@ Each row resolves to a typed React component — `<FormField variant="search" pl
 | Intent                                                | Family + sub          |
 | ----------------------------------------------------- | --------------------- |
 | in-flight content placeholder (mirrors content shape) | `skeleton`            |
+| linear progress for a known long-running task          | `progress`            |
 
-**Disambiguate**: `skeleton` = an *in-flight* tonal block that previews where content will land. Reach for it when data is loading and the host would otherwise paint as an empty surface. NOT for empty states (no data yet) — those use an illustration + body copy, not a pulsing placeholder.
+**Disambiguate**: `skeleton` = an *in-flight* tonal block that previews where content will land. Reach for it when data is loading and the host would otherwise paint as an empty surface. NOT for empty states (no data yet) — those use an illustration + body copy, not a pulsing placeholder. `progress` = a slim track communicating how far a *long-running, identifiable* task has advanced (upload, onboarding step, background sync). Use `indeterminate` when busy without a known ratio. For sub-300ms waits use neither — just paint the result.
+
+## Shadcn / Lovable name translation
+
+When an AI agent (or a designer paging in from the shadcn vocabulary) reaches for a shadcn-named component, this is the Chorus surface to render. Direct React `export` aliases live in `packages/ui/src/index.js` where the name doesn't already collide (`Sheet`, `Drawer`, `Alert`, `Avatar`, `AppBar`, `BottomNav`); the table below covers the remaining mappings — including the ones where Chorus splits one shadcn shape into multiple intent-bound surfaces.
+
+| Shadcn / Lovable name              | Chorus surface to render                                                            | Notes |
+|-----------------------------------|------------------------------------------------------------------------------------|-------|
+| `<Alert variant="default">`        | `<Banner appearance="default">`                                                     | Already aliased — `import { Alert } from '@blind-dsai/ui'`. |
+| `<Alert variant="destructive">`    | `<Banner appearance="destructive">`                                                 | Use the destructive appearance added for this mapping. |
+| `<Badge variant="…">` *(text pill)* | `<StatusTag appearance="neutral \| error">`                                          | Chorus `Badge` is a numeric / dot count marker — same name, different intent. Text-pill `<Badge>` calls must translate to `StatusTag`. |
+| `<Avatar>` (image+fallback compound) | `<Thumbnail src=… alt=… />`                                                         | Already aliased — `import { Avatar } from '@blind-dsai/ui'`. Use Thumbnail's `imageFallbackImage` / `imageFallbackText` props instead of the `<AvatarFallback>` child. |
+| `<Card>` (generic bordered block)  | One of: `<Section>` (labelled editorial block), `<Feed>` (authored content), `<NavCard>` (drill-in row), `<Banner>` (tonal aside) | Chorus splits "Card" by intent — pick by what the block carries, not by the chrome. |
+| `<Carousel>`                       | `<PostCarousel>` (cards) or `<ProfileCarousel>` (avatar-anchored)                   | Pick by content rung — Chorus carousels are specialised. |
+| `<DropdownMenu>` (floating menu)   | `<BottomSheet>` with a `List`                                                       | Mobile-first substitution — floating menus collide with one-thumb reach. |
+| `<HoverCard>` / `<Popover>`        | `<Tooltip>` (short text) or `<BottomSheet>` (multi-line / actionable)               | Hover-anchored surfaces don't translate to mobile; the tooltip / sheet contract owns the affordance. |
+| `<RadioGroup>` + `<RadioGroupItem>` | `<List variant="radio" items={[…]} onChange=… />`                                    | Chorus's only radio surface IS the list row. |
+| `<Sheet side="bottom">`            | `<BottomSheet>`                                                                     | Aliased — `import { Sheet } from '@blind-dsai/ui'`. Only the bottom side ships; top / left / right are out of mobile scope. |
+| `<Sonner>` / `toast()` imperative  | `<Toast>` declarative                                                               | Chorus toast is declarative — render `<Toast>` from the host surface; no imperative `toast()` call. |
+| `<ToggleGroup type="single">`      | `<Tabs variant="segmented">`                                                        | In-place mode toggle. |
+| `<ToggleGroup type="multiple">`    | A row of `<Chip variant="filter">`                                                  | Multi-select facet selection. |
 
 ## Disambiguation cheat sheet
 
 These are *first-pass* defaults for open families and *hard rules* for locked families.
 
 - **Filter chip vs Toggle button** (both open): `chip/filter` for facet selection in a chip row; `button/toggle` for standalone reversible state. Either visual shape may be reused outside its canonical intent if the design calls for it.
-- **Tag chip vs Badge** (both open): `chip/tag` = text metadata; `badge` = numeric count attached to a host. Visual shapes are reusable — e.g. a `badge` styled as a small status pill is fine even without a numeric count.
+- **Tag chip vs Badge vs StatusTag** (open): `chip/tag` = 32-rung selectable text metadata; `badge` = numeric count / dot attached to a host icon or thumbnail; `status-tag` = 16-rung decorative inline status pill next to a row label.
 - **List vs Feed** (both open): same-kind rows → List, authored content stream → Feed *as a default*. Either may be reused for a different content shape if the layout fits — e.g. a `Feed`-style card hosting a non-post summary, or a `List` row hosting an editorial item.
 - **BottomSheet vs Dialog** (both locked): short/actionable/one-thumb → BottomSheet; confirmation or image-led → Dialog. **Never** borrow either shape for a non-modal surface — their dismiss/focus contracts are the whole point.
 - **Banner vs BottomSheet**: in-flow context → `banner` (open, may be reused as a generic tonal block). Demands a commit before continuing → `bottom-sheet` *(locked)*.
 - **Toast vs Tooltip vs Banner**: all three describe "short message", but `toast` *(locked)* is auto-dismissing and `tooltip` *(locked)* is trigger-anchored — visual reuse outside those interaction roles is forbidden. For a static "small message" that lives in the reading flow, reach for `banner` (open) instead.
+- **Skeleton vs Progress**: `skeleton` previews *where content will land* (a placeholder that swaps out atomically). `progress` shows *how far a task has advanced* (a value-bound or busy indicator). For sub-300ms waits use neither.

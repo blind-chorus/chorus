@@ -74,6 +74,7 @@
     { "family": "list",           "root": "components/list/list.family.json" },
     { "family": "nav-card",       "root": "components/nav-card/nav-card.family.json" },
     { "family": "navigation-bar", "root": "components/navigation-bar/navigation-bar.family.json" },
+    { "family": "progress",       "root": "components/progress/progress.family.json" },
     { "family": "section",        "root": "components/section/section.family.json" },
     { "family": "skeleton",       "root": "components/skeleton/skeleton.family.json" },
     { "family": "status-tag",     "root": "components/status-tag/status-tag.family.json" },

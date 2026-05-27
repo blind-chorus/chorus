@@ -2159,7 +2159,12 @@ span.chorus-chip {
   min-height: 48px;
   width: 100%;
   box-sizing: border-box;
-  background: var(--sys-color-surface);
+  /* Default appearance is transparent — the card's identity is the
+     outlined chrome (hairline + radius) and the label + chevron, not a
+     fill. The host surface tone reads through. Reach for the `surface`
+     modifier when the card needs its own opaque tier (sitting on a
+     transparent host or between bare-surface sections). */
+  background: transparent;
   color: var(--sys-color-onSurface);
   border: 0;
   border-radius: var(--sys-radius-md);
@@ -2186,31 +2191,34 @@ span.chorus-chip {
   text-decoration: none;
 }
 
+/* Default hover/pressed — overlay mixes on a transparent base, so the
+   host surface tone keeps reading through underneath the state paint. */
 .chorus-nav-card:hover {
-  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-hover) * 100%), var(--sys-color-surface));
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-hover) * 100%), transparent);
 }
 
 .chorus-nav-card:active,
 .chorus-nav-card[data-force-state="pressed"] {
-  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-pressed) * 100%), var(--sys-color-surface));
-}
-
-/* Transparent appearance — lets the host surface tone show through. Reach
-   for it when the card sits on a tonal band (surfaceContainerLow / etc.)
-   and should read as attached to that tone rather than as its own opaque
-   tier. The hairline outline + chevron + hover overlay all stay; only the
-   container fill changes. */
-.chorus-nav-card--transparent {
-  background: transparent;
-}
-
-.chorus-nav-card--transparent:hover {
-  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-hover) * 100%), transparent);
-}
-
-.chorus-nav-card--transparent:active,
-.chorus-nav-card--transparent[data-force-state="pressed"] {
   background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-pressed) * 100%), transparent);
+}
+
+/* Surface appearance — paints the card with its own `surface` fill.
+   Reach for it when the card sits on a transparent / non-`surface`
+   host and should read as its own opaque tier (between bare-surface
+   sections, on a tonal band that the card needs to break out of). The
+   hairline outline + chevron + hover overlay all stay; only the
+   container fill changes. */
+.chorus-nav-card--surface {
+  background: var(--sys-color-surface);
+}
+
+.chorus-nav-card--surface:hover {
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-hover) * 100%), var(--sys-color-surface));
+}
+
+.chorus-nav-card--surface:active,
+.chorus-nav-card--surface[data-force-state="pressed"] {
+  background: color-mix(in srgb, var(--sys-color-onSurface) calc(var(--sys-state-pressed) * 100%), var(--sys-color-surface));
 }
 
 /* Outward focus ring — paints OUTSIDE the card's outline so it never
@@ -2592,6 +2600,16 @@ span.chorus-chip {
 .chorus-banner--accent {
   background: var(--sys-color-primaryContainer);
   color: var(--sys-color-onPrimaryContainer);
+}
+
+/* Destructive — error-tinted banner. Reach for it when the aside is a
+   blocking error or rejection. The whole banner re-tones to the error
+   family (body in `onErrorContainer`, action inherits). Aliases the
+   shadcn `<Alert variant="destructive">` shape for Lovable-generated
+   screens. */
+.chorus-banner--destructive {
+  background: var(--sys-color-errorContainer);
+  color: var(--sys-color-onErrorContainer);
 }
 
 /* Default uses an 8% black/white overlay rather than a tonal container
@@ -3032,6 +3050,49 @@ span.chorus-chip {
 
 .chorus-field__input:disabled {
   cursor: not-allowed;
+}
+
+/* Textarea — multi-line cousin of __input. Same chrome plumbing, but the
+   inner element grows vertically and exposes a resize handle. `field-sizing:
+   content` lets browsers that support it scale the box to content while
+   keeping the `rows` floor as a minimum; older browsers fall back to the
+   `rows` attribute. Resize is locked to `vertical` so the parent column
+   rhythm never breaks. */
+.chorus-field--textarea {
+  align-items: stretch;
+  /* Override the row-direction min-height inherited from .chorus-field —
+     a multi-line box's height is dictated by `rows`, not by the
+     single-line touch-target floor. */
+  min-height: 0;
+}
+
+.chorus-field__textarea {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  resize: vertical;
+  /* Lift the editable region above the container's focus / state overlays
+     so the user-agent caret stays painted in front of the chrome. */
+}
+
+.chorus-field__textarea::placeholder {
+  color: var(--field-placeholder);
+  opacity: 1;
+}
+
+.chorus-field__textarea:disabled {
+  cursor: not-allowed;
+  resize: none;
 }
 
 /* Clear button — rendered into the DOM by React whenever the field
@@ -4200,6 +4261,68 @@ span.chorus-chip {
   left: auto;
   right: var(--sys-layout-container-sm);
   transform: rotate(45deg);
+}
+
+/* ============================================================
+   Progress — linear progress bar (determinate + indeterminate)
+============================================================ */
+/* Single visual rung — 8px tall, radius.full. Track paints with the
+   same Banner-style scrim recipe (black.200 in light, white.200 in
+   dark) so the bar reads cleanly on any host surface tier rather than
+   colliding with a fixed surface-container step. Indicator paints in
+   `inverseSurface` so the filled segment always contrasts against the
+   bare-track scrim regardless of theme.
+   Determinate mode parks the indicator's `translateX` at `-100 +
+   percent`% so the trailing edge sits at the value's ratio;
+   transitions over 200ms so jumps animate. Indeterminate mode loops a
+   40%-wide segment from -100% to 100% on a 1.6s curve. */
+@keyframes chorus-progress-indeterminate {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.chorus-progress {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: var(--sys-layout-container-xs);
+  overflow: hidden;
+  background: var(--ref-palette-black-200);
+  border-radius: var(--sys-radius-full);
+  flex: 1 1 auto;
+}
+
+[data-theme="dark"] .chorus-progress {
+  background: var(--ref-palette-white-200);
+}
+
+.chorus-progress__indicator {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  background: var(--sys-color-inverseSurface);
+  border-radius: inherit;
+  transform: translateX(-100%);
+  transition: transform 200ms ease-out;
+}
+
+.chorus-progress[data-indeterminate='true'] .chorus-progress__indicator {
+  /* Halve the indicator's width so the sliding segment reads as a
+     section, not the whole track. */
+  width: 40%;
+  animation: chorus-progress-indeterminate 1.6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chorus-progress[data-indeterminate='true'] .chorus-progress__indicator {
+    animation: none;
+    /* Settle at the middle so the busy state stays visible. */
+    transform: translateX(75%);
+  }
+  .chorus-progress__indicator {
+    transition: none;
+  }
 }
 
 /* ============================================================

@@ -1,0 +1,23 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "progress",
+  "name": "Progress",
+  "description": "Linear progress bar — a slim horizontal track that previews how far a long-running task has advanced. Two modes share one anatomy: determinate (a filled segment at the value's ratio) and indeterminate (a sliding segment that animates left-to-right). Two appearances on a single emphasis axis: `default` (a `primary` indicator on a `surfaceContainerHighest` track — the canonical progress) and `accent` (same recipe, but the indicator paints in a brand-accent tone for high-emphasis onboarding rungs). Two sizes — `sm` (2px track) and `md` (4px track). Single-spec family.",
+  "useCases": [
+    "upload / download progress",
+    "onboarding step progress",
+    "background sync indicator",
+    "long-running task progress on a screen header"
+  ],
+  "visualReuse": "open",
+  "layoutInset": "inline",
+  "spec": "progress.md",
+  "subcomponents": [
+    {
+      "slug": "progress",
+      "spec": "progress.spec.json",
+      "md": "progress.md",
+      "default": true
+    }
+  ]
+}
