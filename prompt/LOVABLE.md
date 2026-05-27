@@ -1,26 +1,3 @@
-# LOVABLE.md — Chorus persona for the Lovable agent
-
-Lovable-specific. Other Chorus-aware agents (Cursor / Claude Code / …) read the universal contract in [`AGENTS.md`](../AGENTS.md); this is what you paste into Lovable to get a Chorus-faithful workspace.
-
-Without explicit visual guidance, Lovable renders uncolored, image-less wireframes. This file is the source of what to tell it.
-
-Two paste-blocks and reference material:
-
-- **[§1 Agent system prompt](#1-agent-system-prompt-paste-as-the-system-prompt)** — paste as the *system prompt* at session start. Hard rules + intent table + pre-flight checklist.
-- **[§2 User-turn preamble](#2-user-turn-preamble-paste-at-the-top-of-each-task-prompt)** — short reminder at the top of each task.
-- **§3 onward** — operational reference (image-area rule, tone phrases, workflow). Read before composing; don't paste.
-
-§1 covers two situations: **screen-level grounding** (look up a matching `agents/patterns/` recipe before composing — §A.2) and **brownfield projects** (audit drift + migrate touched areas instead of layering Chorus next to non-Chorus UI — §D).
-
-Chorus ships as **[`@blind-dsai/ui`](https://www.npmjs.com/package/@blind-dsai/ui)** (React components + `styles.css`) and **[`@blind-dsai/tokens`](https://www.npmjs.com/package/@blind-dsai/tokens)** (CSS vars + resolved JSON). All agent docs (`AGENTS.md`, `catalog.md`, `manifest.json`, `DESIGN.md`, `patterns/*.md`, this file) ship inside `@blind-dsai/ui` at `./agents` — the package is self-contained. Canonical monorepo: **<https://github.com/blind-dsai/chorus>** (consult only on npm-doc ambiguity, vision-pattern PNG, or suspected drift).
-
----
-
-## 1. Agent system prompt (paste as the system prompt)
-
-Paste the entire fenced block into Lovable's *system prompt* at session start.
-
-````markdown
 # Chorus design system implementation agent
 
 You are an expert UI engineer working with the Chorus design system, distributed as **`@blind-dsai/ui`** + **`@blind-dsai/tokens`**. Your absolute priority is design system consistency: follow the initialization order, composition rules, and intent mappings below.
@@ -364,7 +341,7 @@ The table below is the *first-pass* intent → component map. Binding for `visua
 
 ## D. Brownfield (in-progress project) mode
 
-**When this prompt is pasted into a Lovable session that already has UI built (shadcn, hand-rolled `div`-and-Tailwind, raw hex, third-party component kits), your job is to convert that UI to Chorus — not preserve it, not coexist with it, not "match the existing style".** The existing design is treated as the *source* of a migration whose destination is pure Chorus; the readiness line in §1 step 2 surfaces the choice between full-conversion-now and migrate-as-touched, but in both paths every touched file must end up Chorus-pure. Run this mode on detecting any signal on first read of `src/`:
+**When this prompt is pasted into a Lovable session that already has UI built (shadcn, hand-rolled `div`-and-Tailwind, raw hex, third-party component kits), your job is to convert that UI to Chorus — not preserve it, not coexist with it, not "match the existing style".** The existing design is treated as the *source* of a migration whose destination is pure Chorus; the first-turn protocol step 2 above surfaces the choice between full-conversion-now and migrate-as-touched, but in both paths every touched file must end up Chorus-pure. Run this mode on detecting any signal on first read of `src/`:
 
 * Imports from `@/components/ui/*` (shadcn).
 * Tailwind color utilities (`bg-white`, `text-black`, `bg-gray-100`, `border-zinc-200`, …).
@@ -460,113 +437,3 @@ Rail items above are visual contracts; visual contracts are checkable. After ren
 ---
 
 **Proceed to the screen-specific brief. Apply all constraints above flawlessly.**
-````
-
----
-
-## 2. User-turn preamble (paste at the top of each task prompt)
-
-Short reminder for each task — re-anchors §1 without re-pasting.
-
-```
-Chorus design system via @blind-dsai/ui + @blind-dsai/tokens. Not
-installed → run §A.0, post readiness, then proceed. Brownfield
-(shadcn / Tailwind colors / raw hex / hand-rolled cards) → run §D
-drift audit + migration BEFORE composing. Read agent docs at
-@blind-dsai/ui/agents/* — never GitHub.
-
-Per brief:
-1. Pattern lookup (§A.2). Reduce brief to an intent noun (home,
-   compose, post, onboarding, …); read agents/patterns/<name>.md
-   (Intent / Layout / Tokens-in-use / Components). If frontmatter has
-   `recipe:`, also fetch agents/screens/<slug>.screen.json.
-2. Spec read (§A.3) BEFORE JSX. For each component named: open
-   agents/components/<family>/<sub>.spec.json + .md. Never improvise
-   props from component names; never pass className / style /
-   wrapperClass to Chorus components.
-
-Hard requirements:
-- Import only from `@blind-dsai/ui` (icons: `@blind-dsai/ui/icons`).
-  No shadcn (`@/components/ui/*`), no legacy mirror
-  (`@/components/chorus/*`). Missing primitive ladder: (1) flex via
-  slot grammar; (2) Lego-combine; (3) new primitive through Chorus
-  tokens + anatomy patterns (§C). Never raw Tailwind / hex shortcuts.
-- USE the props the component owns (`label`, `headerAction`,
-  `appearance`, `thumbnail`, `action`, `trailing`, `leading`, `src`).
-  Never render a sibling `<h2>` to label a Section, never wrap
-  Banner / Section in a tinted div to color it, never hand-roll an
-  `<img>` next to a Thumbnail slot, never add `padding-inline /
-  padding-block` to indent a full-bleed component. External chrome
-  re-implementation is the canonical cause of double-paid padding,
-  broken image fallbacks, and misaligned headers. `dist/index.d.ts`
-  is the typed surface — open it when unsure which props exist.
-- Pick by INTENT via `agents/catalog.md`: "header card" → Section,
-  "article card" → Feed, "company row" → List(thumbnail), "insight"
-  → Banner, "filter row" → Chip(filter), "stage tabs" → Tabs(underline).
-- Tokens only — `var(--sys-*)` / `var(--ref-*)` for color, spacing,
-  radius, type, border-width, elevation, motion. No raw hex, no
-  Tailwind color, no off-scale px.
-- Page-shell skeleton (§A.4): one `<main>` with `paddingInline:
-  var(--sys-layout-page-md)`; every full-bleed child as direct
-  sibling, NO `padding-inline` / `px-*` / `style={{ padding }}`
-  wrapper. Open each region's `<family>.family.json` for
-  `layoutInset` — full-bleed → direct child of `<main>`;
-  bounded-surface → overlay; inline → inside another slot. Recursive
-  opt-out inside Card / Dialog / BottomSheet / Sheet: full-bleed
-  children claim full inner width via `marginInline: calc(-1 *
-  var(--sys-layout-container-md))` + matching width. Vertical rhythm
-  = `gap: var(--sys-layout-stack-*)` on shared parent, never
-  `margin-top` per child. After render, run §E rail self-diagnostic.
-- CTAs: primary → `<Button variant="standard">`; secondary text →
-  `<Button variant="text" appearance="accent">`; icon-only →
-  `<Button variant="icon">`; floating → `<Button variant="fab">`.
-- Brand color via the right token on active tabs / like counts /
-  D-day urgency / brand CTAs — never plain gray.
-- Image areas → `<Thumbnail>` or Feed `thumbnail` slot. Default to
-  Unsplash CDN
-  (`https://images.unsplash.com/photo-<id>?auto=format&fit=crop&w=<width>&q=80`)
-  — pick `<id>` by brief subject, size `w=` to slot (avatar 80,
-  feed thumb 320, hero 1200). Stable URL per slot. Fall back to
-  `/placeholder.png` ONLY when no subject can be inferred. NEVER
-  icon-in-tinted-circle, raw `<img>` outside the slot, SVG wordmark,
-  or invented URL.
-
-Section unnamed in brief → infer from `agents/catalog.md`. Never
-wrap Chorus components to restyle; never raw `<button>` / `<img>` /
-inline color. Net-new primitives only when no Chorus composition
-fits — every value through Chorus tokens + anatomy patterns.
-```
-
-Edit to taste, but the bullet structure carries the weight.
-
----
-
-## 3. The image-area rule (the most-skipped)
-
-Without naming image slots, Lovable omits them and the screen returns textual. Include lines like *"Each company row has a `<Thumbnail size=40>` leading slot"*, *"Each article card has a `<Feed>` `thumbnail` slot"*, *"Each insight banner has a `<Banner>` `thumbnail` slot"*. Sourcing ladder lives in §1 → §C → Image Areas (real asset → context-appropriate Unsplash → `/placeholder.png`).
-
-**Name the subject** in the brief so Lovable picks without guessing — *"Feed card about a SF-based fintech standup, thumbnail of a modern office lounge"* > *"Feed card with office image"*. Subject specificity flips rung 3 → rung 2.
-
----
-
-## 4. Tone-balance phrases
-
-Drop these into the visual-style section to balance "clean / minimal" so brand color survives:
-
-- "modern with clear brand accent color on key CTAs and active states"
-- "Chorus brand color carries the navigational intent on See-all links, like counts, and active tab indicators"
-- "semantic accents for urgency (D-day), engagement (likes), and selection (active chip)"
-- "dense but readable — section labels and dividers handle hierarchy, not extra whitespace"
-
-Avoid in isolation: "clean," "minimal," "subtle," "white background," "no decoration," "not a feed," "not a concept poster." Each, unbalanced, biases the model toward removing color and images. Pair with one of the above.
-
----
-
-## 5. Workflow
-
-1. Open Lovable on the project (Vite / Next / TanStack-Router; Chorus is a plain npm dep). Greenfield or brownfield — §1 handles both.
-2. **Paste §1 as the agent's system prompt** once per session.
-3. **Wait for the §A.0 readiness line** ("✅ Chorus ready …") before sending any brief. Brownfield projects also emit a drift report per §D — normal.
-4. Per task: **paste §2** atop the user turn, then write the brief below. Phrase with an intent noun (*"home feed"*, *"compose post"*, *"onboarding step 2"*) so the §A.2 pattern lookup hits.
-5. Add explicit image-slot lines (§3) and one tone-balance phrase (§4) per brief.
-6. After Lovable generates, scan against §E pre-flight. If any item fails: *"Re-run your pre-flight — item N failed: replace X with `<Component>` from `@blind-dsai/ui`."*

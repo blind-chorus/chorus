@@ -37,6 +37,9 @@ rmSync(agentsRoot, { recursive: true, force: true });
 
 const transfers = [
   { from: "AGENTS.md", to: "agents/AGENTS.md" },
+  // LOVABLE.md is now the single paste-ready system prompt (~46K chars,
+  // safely under Lovable's ~50K paste cap). One file, one paste, then
+  // the agent auto-initializes via the first-turn protocol inside.
   { from: "prompt/LOVABLE.md", to: "agents/LOVABLE.md" },
   { from: "prompt/compose.md", to: "agents/compose.md" },
   { from: "prompt/anti-patterns.md", to: "agents/anti-patterns.md" },
