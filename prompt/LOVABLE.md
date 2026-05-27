@@ -481,6 +481,19 @@ Hard requirements:
   FIRST flex existing via slot grammar; SECOND combine Lego-style;
   THIRD new primitive through Chorus tokens. Never reach for raw
   Tailwind / raw hex as a shortcut.
+- **USE the props the component already owns. Never re-implement chrome
+  externally.** When a Chorus spec declares a prop (`label`, `headerAction`,
+  `appearance`, `thumbnail`, `action`, `trailing`, `leading`, `src`),
+  pass through that prop — do NOT render a sibling `<h2>` / `<h3>` to
+  label a Section, do NOT wrap a Banner / Section in a tinted `<div>`
+  to color it, do NOT hand-roll an `<img>` next to a Thumbnail slot, do
+  NOT add `padding-inline` / `padding-block` to "indent" a `full-bleed`
+  component. The component owns the chrome (typo, background, padding,
+  outline, image fallback) and re-implementing it externally is the
+  canonical cause of double-paid padding, broken image fallbacks, and
+  misaligned headers we keep seeing in generated screens. Open
+  `dist/index.d.ts` if unsure which props exist — the typed surface is
+  authoritative.
 - Pick by INTENT, not adjective. Use `agents/catalog.md`: "header card"
   → NavigationBar/Section, "article card" → Feed, "company row" → List
   with thumbnail leading, "insight box" → Banner, "filter row" → Chip
