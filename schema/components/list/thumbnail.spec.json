@@ -20,7 +20,7 @@
       "type": "literal",
       "values": ["comfortable", "compact"],
       "default": "comfortable",
-      "description": "Row density dial. `comfortable` (default) — 40 Thumbnail, 16 label, optional supportingText second line, 8px (`layout.inline.md`) leading-to-label gap, inter-row outlineVariant divider. `compact` — 32 Thumbnail, 14 single-line label, no supportingText, 8px (`layout.inline.md`) leading-to-label gap, row Hug at 48, no inter-row divider. Compact is the reach for subscription / channel / quick-pick rows that pair an entity with an unread count and an optional favorite / mute toggle."
+      "description": "Row density dial. `comfortable` (default) — 40 Thumbnail, 16 label, optional supportingText second line, 8px (`layout.inline.md`) leading-to-label gap, inter-row outlineVariant divider. `compact` — 32 Thumbnail, 14 single-line label, no supportingText, 8px (`layout.inline.md`) leading-to-label gap, row Hug at 48, no inter-row divider. Compact is the reach for subscription / channel / quick-pick rows that pair an entity with an unread count and an OPTIONAL trailing toggle. **Per-row `trailingIcon` optionality is the canonical compact contract:** mix rows that carry a toggle (favorite ★, mute, pin) with rows that don't — omit `trailingIcon` on the rows where the count alone is enough, supply it on the rows that need an action. The slot is row-level, not list-level. When omitted, the label column expands to fill the trailing edge so the count sits at the row's trailing inline-padding rail; with `trailingIcon` present, the label column shrinks to make room and the toggle hangs off the row's trailing rail."
     }
   },
   "slots": {
@@ -108,6 +108,11 @@
       "type": "boolean",
       "default": false
     },
+    "strong": {
+      "type": "boolean",
+      "default": false,
+      "description": "Per-row label-emphasis opt-in (family-wide contract — see [list.md § Cross-sub contract](./list.md)). When `true`, the row's label weight promotes from `body.md` Regular (400) to `label.lg` Semibold (600) at the comfortable density (16px), or from `body.sm` Regular (400) to `label.md` Semibold (600) at the compact density (14px). Size and line-height stay identical; only the glyph stroke thickens. Use sparingly to mark one primary row inside a denser scan."
+    },
     "onClick": {
       "type": "function",
       "optional": true
@@ -124,9 +129,9 @@
     }
   },
   "sizing": {
-    "rowPaddingBlock": "8px",
-    "rowPaddingInline": "16px",
-    "rowMinHeight": "48px",
+    "rowPaddingBlock": "ref.space.100",
+    "rowPaddingInline": "ref.space.200",
+    "rowMinHeight": "ref.space.600",
     "leadingLabelGap": "sys.layout.inline.md",
     "dividerWidth": "sys.borderWidth.hairline",
     "dividerColor": "sys.color.outlineVariant",
@@ -134,19 +139,21 @@
     "labelColor": "sys.color.onSurface",
     "supportingTypo": "14 / Regular",
     "supportingColor": "sys.color.onSurfaceVariant",
-    "supportingOffset": "0px",
+    "supportingOffset": "0",
     "leadingThumbnailSize": 40,
     "trailingIconSize": "16 × 16",
     "trailingIconColor": "sys.color.onSurfaceVariant",
     "countGap": "sys.layout.inline.sm",
     "compact": {
-      "rowMinHeight": "48px",
-      "rowPaddingBlock": "8px",
+      "rowMinHeight": "ref.space.600",
+      "rowPaddingBlock": "ref.space.100",
       "leadingLabelGap": "sys.layout.inline.md",
       "labelTypo": "14 / Regular",
       "leadingThumbnailSize": 32,
       "supportingTextHidden": true,
-      "divider": "none"
+      "divider": "none",
+      "trailingIconOptionalPerRow": true,
+      "trailingIconOptionalNote": "trailingIcon is per-row optional in compact density — mix rows with a trailing toggle (favorite / mute / pin) and rows without one freely. Rows without `trailingIcon` let the label column extend to the trailing rail; rows with it dock the toggle at the trailing rail and the label column shrinks to fit."
     }
   },
   "states": {

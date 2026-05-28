@@ -60,6 +60,11 @@
       "type": "boolean",
       "default": false
     },
+    "strong": {
+      "type": "boolean",
+      "default": false,
+      "description": "Per-item trigger-label-emphasis opt-in (family-wide contract — see [list.md § Cross-sub contract](./list.md)). When `true`, the trigger's label weight promotes from `body.md` Regular (400) to `label.lg` Semibold (600) at the same 16px size and 1.5 line-height — geometry stays identical, only the glyph stroke thickens. Use sparingly to mark one primary row inside a denser scan (e.g., the active section in a directory accordion)."
+    },
     "children": {
       "type": "node",
       "required": true,

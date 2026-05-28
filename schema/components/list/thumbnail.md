@@ -25,7 +25,7 @@ import { List } from '@blind-dsai/ui';
 
 ## Compact
 
-`density="compact"` — 32px Thumbnail, 14px single-line label, 8px (`layout.inline.md`) leading-to-label gap, row Hug at 48, **no inter-row divider**. The `count` slot paints inline after the label (canonical: numeric `<Badge>`); an optional trailing toggle (favorite ★, mute, pin) sits at the trailing edge as its own hit target — the slot stops click propagation so toggling it does not commit the row's `onClick`. Reach for compact on subscription / channel / topic / playlist / quick-access lists.
+`density="compact"` — 32px Thumbnail, 14px single-line label, 8px (`layout.inline.md`) leading-to-label gap, row Hug at 48, **no inter-row divider**. The `count` slot paints inline after the label (canonical: numeric `<Badge>`); the **`trailingIcon` slot is per-row optional** — supply it on rows that need a trailing toggle (favorite ★, mute, pin), omit it on rows where the count alone is enough. Mixed rows (some with toggle, some without) read cleanly because trailing-edge geometry stays stable across present-vs-absent toggles. The trailing slot stops click propagation so toggling it never commits the row's `onClick`. Reach for compact on subscription / channel / topic / playlist / quick-access lists.
 
 ```preview
 list/thumbnail-compact-with-count
@@ -52,9 +52,6 @@ import { StarIcon, StarFillIcon } from '@blind-dsai/ui/icons';
       label: 'Stocks & Investing',
       thumbnail: { alt: 'Stocks & Investing' },
       count: <Badge size="small" count={142} />,
-      trailingIcon: (
-        <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarFillIcon />} onClick={() => {}} />
-      ),
     },
     {
       value: 'movies',
@@ -65,9 +62,17 @@ import { StarIcon, StarFillIcon } from '@blind-dsai/ui/icons';
         <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarIcon />} onClick={() => {}} />
       ),
     },
+    {
+      value: 'changelog',
+      label: 'Product changelog',
+      thumbnail: { alt: 'Product changelog' },
+      count: <Badge size="small" count={3} />,
+    },
   ]}
 />
 ```
+
+Rows 2 and 4 above omit `trailingIcon` — only the count is present. Rows 1 and 3 carry the favorite toggle. Rows without a toggle let the label column extend to the trailing rail (count docks at the row's inline-padding edge); rows with a toggle dock the toggle at the trailing rail and the label column shrinks to fit. The thumbnail / leading rail stays constant across the stack.
 
 ## Use cases
 
@@ -118,7 +123,7 @@ import { Button, List } from '@blind-dsai/ui';
 - **label** — primary row text. Density `comfortable` → 16px; density `compact` → 14px. Regular weight, `onSurface`.
 - **supportingText** *(optional, comfortable only)* — secondary line under label. Sits directly under the label with no extra gap. Ignored when `density="compact"`.
 - **count** *(optional)* — inline node painted after the label (canonical: a numeric `<Badge>`). Available in both densities.
-- **trailingIcon** *(optional)* — consumer-supplied 16px node at the trailing edge. Its own hit target: a tap on this slot stops propagating before it reaches the row's `onClick`.
+- **trailingIcon** *(optional, per-row)* — consumer-supplied 16px node at the trailing edge. Each row decides independently — mix rows with a trailing toggle (favorite / mute / pin) and rows without. Its own hit target: a tap on this slot stops propagating before it reaches the row's `onClick`.
 
 ## States
 

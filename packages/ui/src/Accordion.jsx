@@ -82,6 +82,7 @@ function AccordionItem({
   value,
   label,
   disabled = false,
+  strong = false,
   forcedState,
   children,
   className,
@@ -99,6 +100,7 @@ function AccordionItem({
       className={joinClasses('chorus-accordion__item', className)}
       data-state={open ? 'open' : 'closed'}
       data-disabled={disabled ? 'true' : undefined}
+      data-strong={strong ? 'true' : undefined}
       {...rest}
     >
       <button

@@ -75,6 +75,11 @@
       "type": "boolean",
       "default": false
     },
+    "strong": {
+      "type": "boolean",
+      "default": false,
+      "description": "Per-row label-emphasis opt-in (family-wide contract — see [list.md § Cross-sub contract](./list.md)). When `true`, the row's label weight promotes from `body.md` Regular (400) to `label.lg` Semibold (600) at the same 16px size and 1.5 line-height — geometry stays identical, only the glyph stroke thickens. Use sparingly to mark one primary row inside a denser scan; a stack where every row is `strong` defeats the marker."
+    },
     "onClick": {
       "type": "function",
       "optional": true
@@ -91,9 +96,9 @@
     }
   },
   "sizing": {
-    "rowPaddingBlock": "8px",
-    "rowPaddingInline": "16px",
-    "rowMinHeight": "48px",
+    "rowPaddingBlock": "ref.space.100",
+    "rowPaddingInline": "ref.space.200",
+    "rowMinHeight": "ref.space.600",
     "leadingLabelGap": "sys.layout.inline.md",
     "dividerWidth": "sys.borderWidth.hairline",
     "dividerColor": "sys.color.outlineVariant",
@@ -101,7 +106,7 @@
     "labelColor": "sys.color.onSurface",
     "supportingTypo": "14 / Regular",
     "supportingColor": "sys.color.onSurfaceVariant",
-    "supportingOffset": "0px",
+    "supportingOffset": "0",
     "trailingIconSize": "16 × 16",
     "trailingIconColor": "sys.color.onSurfaceVariant"
   },

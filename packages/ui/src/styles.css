@@ -2176,6 +2176,17 @@ span.chorus-chip {
   min-width: 0;
 }
 
+/* Strong-label opt-in (family-wide — every List sub honours this).
+   Flips the label's font-weight from body.*-weight (400 Regular) to
+   label.*-weight (600 Semibold) at the same size and line-height — only
+   stroke thickens, geometry stays unchanged. Works at the 16 rung
+   (body.md → label.lg) and at the 14 rung (body.sm → label.md), since
+   every label.* token in the system shares weight 600. */
+.chorus-list__row[data-strong='true'] .chorus-list__label,
+.chorus-accordion__item[data-strong='true'] .chorus-accordion__label {
+  font-weight: var(--sys-typo-label-lg-weight);
+}
+
 .chorus-list__count {
   display: inline-flex;
   align-items: center;

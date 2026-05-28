@@ -3307,9 +3307,6 @@ export const PREVIEWS = {
               label: 'Stocks & Investing',
               thumbnail: { src: IMG.brandChip, alt: 'Stocks & Investing' },
               count: <Badge size="small" count={142} />,
-              trailingIcon: (
-                <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarFillIcon />} onClick={() => {}} />
-              ),
             },
             {
               value: 'movies',
@@ -3319,6 +3316,12 @@ export const PREVIEWS = {
               trailingIcon: (
                 <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarIcon />} onClick={() => {}} />
               ),
+            },
+            {
+              value: 'changelog',
+              label: 'Product changelog',
+              thumbnail: { src: IMG.brandChip, alt: 'Product changelog' },
+              count: <Badge size="small" count={3} />,
             },
           ]}
         />
