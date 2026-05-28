@@ -20,7 +20,7 @@ import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
   <ProfileCarousel
     items={[
       {
-        avatar: { src: '/blind_logo_red.png', alt: 'Amazon' },
+        avatar: { src: '/placeholder.png', alt: 'Amazon' },
         name: 'Amazon',
         followers: '1,678 followers',
         metrics: [
@@ -30,7 +30,7 @@ import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
         ],
       },
       {
-        avatar: { src: '/blind_logo_red.png', alt: 'Tesla' },
+        avatar: { src: '/placeholder.png', alt: 'Tesla' },
         name: 'Tesla',
         followers: '1.4K followers',
         metrics: [
@@ -41,7 +41,7 @@ import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
         followed: true,
       },
       {
-        avatar: { src: '/blind_logo_red.png', alt: 'Stripe' },
+        avatar: { src: '/placeholder.png', alt: 'Stripe' },
         name: 'Stripe',
         followers: '2.1K followers',
         metrics: [
@@ -73,20 +73,20 @@ import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
   <ProfileCarousel
     items={[
       {
-        avatar: { src: '/blind_logo_red.png', alt: 'Engineering' },
+        avatar: { src: '/placeholder.png', alt: 'Engineering' },
         name: 'Engineering',
         followers: '12.4K followers',
         description: 'Hands-on threads about systems, infra, and the work behind the launch.',
       },
       {
-        avatar: { src: '/blind_logo_red.png', alt: 'Compensation' },
+        avatar: { src: '/placeholder.png', alt: 'Compensation' },
         name: 'Compensation',
         followers: '8.1K followers',
         description: 'Salary checks, offer evaluations, and the quiet math of staying versus leaving — the channel that runs longer than any single conversation can.',
         followed: true,
       },
       {
-        avatar: { src: '/blind_logo_red.png', alt: 'Career' },
+        avatar: { src: '/placeholder.png', alt: 'Career' },
         name: 'Career',
         followers: '5.3K followers',
         description: 'Promotion packets, scope debates, and the rewrites that actually cleared.',
@@ -109,20 +109,20 @@ import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
   <ProfileCarousel
     items={[
       {
-        avatar: { src: '/blind_logo_red.png', alt: 'Engineering' },
+        avatar: { src: '/placeholder.png', alt: 'Engineering' },
         name: 'Engineering',
         followers: '12.4K followers',
         description: 'Hands-on threads about systems, infra, and the work behind the launch.',
       },
       {
-        avatar: { src: '/blind_logo_red.png', alt: 'Compensation' },
+        avatar: { src: '/placeholder.png', alt: 'Compensation' },
         name: 'Compensation',
         followers: '8.1K followers',
         description: 'Salary checks, offer evaluations, and the quiet math of staying versus leaving.',
         followed: true,
       },
       {
-        avatar: { src: '/blind_logo_red.png', alt: 'Career' },
+        avatar: { src: '/placeholder.png', alt: 'Career' },
         name: 'Career',
         followers: '5.3K followers',
         description: 'Promotion packets, scope debates, and the rewrites that actually cleared.',

@@ -47,6 +47,33 @@ const IMG = {
   brandAppliance: UNSPLASH('photo-1593359677879-a4bb92f829d1', 160),  // home appliance
   brandChip: UNSPLASH('photo-1518770660439-4636190af475', 160),       // circuit board
   brandSuv: UNSPLASH('photo-1542362567-b07e54358753', 160),           // suv
+  // Person portraits — neutral headshots for member-directory / author
+  // avatars where the channel topic doesn't supply the image (e.g. an
+  // anonymous engineer's offer-eval post, a member row in a directory).
+  personJordan: UNSPLASH('photo-1500648767791-00dcc994a43e', 160),    // man with glasses
+  personTaylor: UNSPLASH('photo-1494790108377-be9c29b29330', 160),    // woman portrait
+  personMorgan: UNSPLASH('photo-1438761681033-6461ffad8d80', 160),    // woman portrait, smile
+  personRiley:  UNSPLASH('photo-1544005313-94ddf0286df2', 160),       // woman, plain bg
+  personSam:    UNSPLASH('photo-1547425260-76bcadfb4f2c', 160),       // person, profile shot
+  // Document / workspace motifs — covers for posts about offers, docs,
+  // changelogs, and engineering ops where a person-portrait would feel
+  // off but a plain-object photo carries the subject.
+  offerDoc: UNSPLASH('photo-1554224155-6726b3ff858f', 320),           // paper documents
+  workspaceDesk: UNSPLASH('photo-1499951360447-b19be8fe80f5', 320),   // laptop on desk
+  // Topic motifs — channel avatars where the topic doesn't map to a
+  // person but has a recognizable subject (stocks chart, ticket queue).
+  stocksChart: UNSPLASH('photo-1611974789855-9c2a0a7236a3', 160),     // candlestick chart
+  productLog: UNSPLASH('photo-1551434678-e076c223a692', 160),         // sticky-note kanban
+  // Cover bands — wide (≈3:1) hero photos for ProfileHeader cover slot
+  // and ProfileCarousel card cover. Each one paints the channel topic
+  // edge-to-edge so the avatar overlapping the cover bottom reads as a
+  // recognizable identity block, not a placeholder.
+  topicCover:   UNSPLASH('photo-1497436072909-60f360e1d4b1', [640, 200]), // forest skyline (general)
+  plantsCover:  UNSPLASH('photo-1463320726281-696a485928c7', [640, 200]), // greenhouse / leaves
+  compensationCover: UNSPLASH('photo-1554224155-6726b3ff858f', [640, 200]), // documents
+  companyCover: UNSPLASH('photo-1486406146926-c627a92ad1ab', [640, 200]), // skyscraper grid (companies)
+  startupCover: UNSPLASH('photo-1517245386807-bb43f82c33c4', [640, 200]), // workspace
+  fintechCover: UNSPLASH('photo-1611974789855-9c2a0a7236a3', [640, 200]), // chart
 };
 
 /* App-width-filling components (NavigationBar, Feed, SuggestionList, Channel
@@ -1371,14 +1398,14 @@ export const PREVIEWS = {
       <Frame>
         <Feed
           flag="HOT"
-          avatar={{ src: IMG.plantAvatar, alt: 'Anonymous' }}
+          avatar={{ src: IMG.personSam, alt: 'Anonymous' }}
           channel="Software Engineer"
           timestamp="2h"
           followAction
           meta={['Seattle, WA', 'L5 → L6', '@offer-check']}
           title="Got a competing offer at $245k base — should I take it or stay for the next promo cycle?"
           body="Current TC sits around $278k including RSUs vesting through 2027; the new offer is $245k base + $40k sign-on + $180k RSUs over 4 years. Stay path has a strong promo signal but no guarantees. Sanity-check me."
-          thumbnail={{ src: IMG.plantCover, alt: 'Offer letter on a desk' }}
+          thumbnail={{ src: IMG.offerDoc, alt: 'Offer letter on a desk' }}
           offer={{ label: 'Offer', participants: '1,284' }}
           mention="@compensation-talk"
           engagement={{ likes: 642, comments: 213, views: 5104 }}
@@ -1658,7 +1685,8 @@ export const PREVIEWS = {
           <ProfileCarousel
             items={[
               {
-                avatar: { src: '/blind_logo_red.png', alt: 'Amazon' },
+                avatar: { src: IMG.brandLaptop, alt: 'Amazon' },
+                cover: { src: IMG.companyCover, alt: 'High-rise office skyline' },
                 name: 'Amazon',
                 followers: '1,678 followers',
                 metrics: [
@@ -1671,7 +1699,8 @@ export const PREVIEWS = {
                  success/green.500 (filled), thumb → primary tone via
                  ThumbUpFillIcon. */
               {
-                avatar: { src: '/blind_logo_red.png', alt: 'Tesla' },
+                avatar: { src: IMG.brandAuto, alt: 'Tesla' },
+                cover: { src: IMG.startupCover, alt: 'Modern workspace interior' },
                 name: 'Tesla',
                 followers: '1.4K followers',
                 metrics: [
@@ -1682,7 +1711,8 @@ export const PREVIEWS = {
                 followed: true,
               },
               {
-                avatar: { src: '/blind_logo_red.png', alt: 'Stripe' },
+                avatar: { src: IMG.brandChip, alt: 'Stripe' },
+                cover: { src: IMG.fintechCover, alt: 'Financial dashboard' },
                 name: 'Stripe',
                 followers: '2.1K followers',
                 metrics: [
@@ -1753,20 +1783,23 @@ export const PREVIEWS = {
           <ProfileCarousel
             items={[
               {
-                avatar: { src: '/blind_logo_red.png', alt: 'Engineering' },
+                avatar: { src: IMG.brandChip, alt: 'Engineering' },
+                cover: { src: IMG.startupCover, alt: 'Engineering workspace' },
                 name: 'Engineering',
                 followers: '12.4K followers',
                 description: 'Hands-on threads about systems, infra, and the work behind the launch.',
               },
               {
-                avatar: { src: '/blind_logo_red.png', alt: 'Compensation' },
+                avatar: { src: IMG.brandChat, alt: 'Compensation' },
+                cover: { src: IMG.compensationCover, alt: 'Offer letters on a desk' },
                 name: 'Compensation',
                 followers: '8.1K followers',
                 description: 'Salary checks, offer evaluations, and the quiet math of staying versus leaving — the channel that runs longer than any single conversation can.',
                 followed: true,
               },
               {
-                avatar: { src: '/blind_logo_red.png', alt: 'Career' },
+                avatar: { src: IMG.brandLaptop, alt: 'Career' },
+                cover: { src: IMG.companyCover, alt: 'Office skyline' },
                 name: 'Career',
                 followers: '5.3K followers',
                 description: 'Promotion packets, scope debates, and the rewrites that actually cleared.',
@@ -1790,20 +1823,23 @@ export const PREVIEWS = {
           <ProfileCarousel
             items={[
               {
-                avatar: { src: '/blind_logo_red.png', alt: 'Engineering' },
+                avatar: { src: IMG.brandChip, alt: 'Engineering' },
+                cover: { src: IMG.startupCover, alt: 'Engineering workspace' },
                 name: 'Engineering',
                 followers: '12.4K followers',
                 description: 'Hands-on threads about systems, infra, and the work behind the launch.',
               },
               {
-                avatar: { src: '/blind_logo_red.png', alt: 'Compensation' },
+                avatar: { src: IMG.brandChat, alt: 'Compensation' },
+                cover: { src: IMG.compensationCover, alt: 'Offer letters on a desk' },
                 name: 'Compensation',
                 followers: '8.1K followers',
                 description: 'Salary checks, offer evaluations, and the quiet math of staying versus leaving.',
                 followed: true,
               },
               {
-                avatar: { src: '/blind_logo_red.png', alt: 'Career' },
+                avatar: { src: IMG.brandLaptop, alt: 'Career' },
+                cover: { src: IMG.companyCover, alt: 'Office skyline' },
                 name: 'Career',
                 followers: '5.3K followers',
                 description: 'Promotion packets, scope debates, and the rewrites that actually cleared.',
@@ -1827,6 +1863,7 @@ export const PREVIEWS = {
         <ProfileHeader
           name="General Topic"
           avatar={{ src: IMG.modAvatar, alt: 'General Topic' }}
+          cover={{ src: IMG.topicCover, alt: 'Forest skyline at dusk' }}
           visibility="public"
           followers="999 followers"
         />
@@ -1841,6 +1878,7 @@ export const PREVIEWS = {
         <ProfileHeader
           name="Plant People"
           avatar={{ src: IMG.plantAvatar, alt: 'Plant People' }}
+          cover={{ src: IMG.plantsCover, alt: 'Sunlit greenhouse foliage' }}
           visibility="public"
           followers="21.7K followers"
           followed
@@ -1856,6 +1894,7 @@ export const PREVIEWS = {
         <ProfileHeader
           name="Compensation"
           avatar={{ src: IMG.brandChat, alt: 'Compensation' }}
+          cover={{ src: IMG.compensationCover, alt: 'Offer letters on a desk' }}
           visibility="private"
           followers="8.1K followers"
         />
@@ -2135,9 +2174,9 @@ export const PREVIEWS = {
     render: () => {
       function Demo() {
         const seed = [
-          { value: 'jordan',  name: 'Jordan Lee',    followers: '342 Followers',  description: 'PM at a logistics startup. Mostly here for the threads on roadmap reviews.',     thumbnail: { src: IMG.brandChat,    alt: 'Jordan Lee' },    following: false },
-          { value: 'taylor',  name: 'Taylor Brooks', followers: '1.1K Followers', description: 'Frontend engineer. Writes about the bits between the framework and the user.', thumbnail: { src: IMG.gameAvatar,   alt: 'Taylor Brooks' }, following: true  },
-          { value: 'morgan',  name: 'Morgan Park',   followers: '512 Followers',  description: 'Designer-turned-PM. Notes on the handoff layer.',                              thumbnail: { src: IMG.plantAvatar,  alt: 'Morgan Park' },   following: false },
+          { value: 'jordan',  name: 'Jordan Lee',    followers: '342 Followers',  description: 'PM at a logistics startup. Mostly here for the threads on roadmap reviews.',     thumbnail: { src: IMG.personJordan, alt: 'Jordan Lee' },    following: false },
+          { value: 'taylor',  name: 'Taylor Brooks', followers: '1.1K Followers', description: 'Frontend engineer. Writes about the bits between the framework and the user.', thumbnail: { src: IMG.personTaylor, alt: 'Taylor Brooks' }, following: true  },
+          { value: 'morgan',  name: 'Morgan Park',   followers: '512 Followers',  description: 'Designer-turned-PM. Notes on the handoff layer.',                              thumbnail: { src: IMG.personMorgan, alt: 'Morgan Park' },   following: false },
         ];
         const [rows, setRows] = useState(seed);
         const items = rows.map((r) => ({
@@ -2488,7 +2527,7 @@ export const PREVIEWS = {
      (label + secondary + description + follow toggle) stays constant
      across sizes so the visual difference is the avatar rung alone.
      At `xlarge` the inter-row divider anchors to the text column
-     (16 + 56 + 8 = 80) so the rule reads as separating identity
+     (16 + 56 + 12 = 84) so the rule reads as separating identity
      columns under the wider avatar. */
   'list/entry': {
     states: false,
@@ -2524,7 +2563,7 @@ export const PREVIEWS = {
               label: 'Product changelog',
               secondary: '3 new this week',
               description: 'Weekly release notes from the platform team.',
-              thumbnail: { src: IMG.modAvatar, alt: 'Product changelog' },
+              thumbnail: { src: IMG.productLog, alt: 'Product changelog' },
               trailingIcon: (
                 <Button variant="toggle" onClick={() => {}}>Follow</Button>
               ),
@@ -2565,7 +2604,7 @@ export const PREVIEWS = {
               value: 'stocks',
               label: 'Stocks & Investing',
               count: <Badge count={142} />,
-              thumbnail: { src: IMG.plantAvatar, alt: 'Stocks & Investing' },
+              thumbnail: { src: IMG.stocksChart, alt: 'Stocks & Investing' },
             },
             {
               value: 'movies',
@@ -2624,7 +2663,7 @@ export const PREVIEWS = {
     sizes: ['medium', 'small'],
     render: ({ size = 'medium' }) => (
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sys-layout-inline-xl)' }}>
-        <Thumbnail size={size === 'small' ? 24 : 48} src={asset('/placeholder.png')} alt="Channel" updateDot />
+        <Thumbnail size={size === 'small' ? 24 : 48} src={IMG.breadAvatar} alt="Sourdough Bakers" updateDot />
       </div>
     ),
   },
@@ -3436,24 +3475,24 @@ export const PREVIEWS = {
           aria-label="Channel approval status"
           items={[
             {
-              value: 'ch-2',
+              value: 'home-baking',
               label: (
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--sys-layout-container-2xs)' }}>
-                  User channel 2
+                  Home Baking Club
                   <StatusTag>Pending</StatusTag>
                 </span>
               ),
-              thumbnail: { alt: 'User channel 2', shape: 'circle' },
+              thumbnail: { src: IMG.breadAvatar, alt: 'Home Baking Club', shape: 'circle' },
             },
             {
-              value: 'ch-3',
+              value: 'leetcode-grind',
               label: (
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--sys-layout-container-2xs)' }}>
-                  User channel 3
+                  LeetCode Grind
                   <StatusTag appearance="error">Rejected</StatusTag>
                 </span>
               ),
-              thumbnail: { alt: 'User channel 3', shape: 'circle' },
+              thumbnail: { src: IMG.brandLaptop, alt: 'LeetCode Grind', shape: 'circle' },
             },
           ]}
         />

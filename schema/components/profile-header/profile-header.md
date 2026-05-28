@@ -20,6 +20,7 @@ import { ProfileHeader } from '@blind-dsai/ui';
 <ProfileHeader
   name="General Topic"
   avatar={{ src: '/placeholder.png', alt: 'General Topic' }}
+  cover={{ src: 'https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=640&h=200&fit=crop&auto=format&q=80', alt: 'Forest skyline at dusk' }}
   visibility="public"
   followers="999 followers"
 />
@@ -39,6 +40,7 @@ import { ProfileHeader } from '@blind-dsai/ui';
 <ProfileHeader
   name="Plant People"
   avatar={{ src: '/placeholder.png', alt: 'Plant People' }}
+  cover={{ src: 'https://images.unsplash.com/photo-1463320726281-696a485928c7?w=640&h=200&fit=crop&auto=format&q=80', alt: 'Sunlit greenhouse foliage' }}
   visibility="public"
   followers="21.7K followers"
   followed
@@ -57,6 +59,7 @@ import { ProfileHeader } from '@blind-dsai/ui';
 <ProfileHeader
   name="Compensation"
   avatar={{ src: '/placeholder.png', alt: 'Compensation' }}
+  cover={{ src: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=640&h=200&fit=crop&auto=format&q=80', alt: 'Offer letters on a desk' }}
   visibility="private"
   followers="8.1K followers"
 />
