@@ -3,6 +3,8 @@ export { Banner } from './Banner.jsx';
 export { BottomSheet } from './BottomSheet.jsx';
 export { Button } from './Button.jsx';
 export { SuggestionList } from './SuggestionList.jsx';
+export { DirectoryList } from './DirectoryList.jsx';
+export { NavList } from './NavList.jsx';
 export { AvatarRail } from './AvatarRail.jsx';
 // Deprecated aliases — historical names. Prefer SuggestionList / AvatarRail.
 export { SuggestionList as ChannelList } from './SuggestionList.jsx';

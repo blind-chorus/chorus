@@ -82,7 +82,7 @@
     "containerFill": "sys.color.surface",
     "containerPaddingBlock": "sys.layout.container.lg",
     "containerPaddingInline": "sys.layout.container.md",
-    "headerToPagerGap": "sys.layout.stack.lg",
+    "headerToPagerGap": "sys.layout.stack.md",
     "labelTypo": "sys.typo.heading.md",
     "labelColor": "sys.color.onSurface",
     "headerActionRendersAs": "Button variant='text' size='xsmall' appearance='accent' — label paints in sys.color.primary via the Text Button accent token.",
@@ -92,11 +92,12 @@
     "pagePeek": "sys.layout.inline.md",
     "pageRowGap": "sys.layout.stack.sm",
     "rowComposition": "list/entry-shaped row at `xlarge` rung — avatar 56, row gap inline.lg, label.md / onSurface, stacked `secondary` caption.md / onSurface, `description` caption.md / onSurfaceVariant separated from the identity group by ref.space.25. SuggestionList adds the per-row chrome (bottom padding + text-column-anchored divider) on top of that.",
+    "rowInlinePaddingNote": "Each row keeps the list/entry native sys.layout.container.md inline padding (the tap target reaches the surface edge) and adds margin-inline: calc(-1 * sys.layout.container.md) so the visible avatar / toggle still sit flush at the page boundaries — the avatar reads at 16 from the surface, aligned with the header label, and the trailing toggle ends one inline.xl (16) before the next page's avatar. Embedded mode zeroes both the row padding and the negative margin since the host pays the rail directly.",
     "rowBottomPadding": "sys.layout.stack.sm",
     "rowBottomPaddingNote": "The bottom padding sits between the row's text content and the hairline divider so the divider reads as a separator rather than a baseline rule.",
     "dividerWidth": "sys.borderWidth.hairline",
     "dividerColor": "sys.color.outlineVariant",
-    "dividerInset": "calc(ref.space.700 + sys.layout.inline.lg) = 68px from the row's leading edge — anchors to the start of the row's text column so the divider aligns with the column, not the avatar."
+    "dividerInset": "calc(sys.layout.container.md + ref.space.700 + sys.layout.inline.lg) = 84px from the row's leading edge in standalone mode — anchors to the start of the row's text column so the divider aligns with the column, not the avatar. Embedded mode re-anchors to 68px (drops the container.md term) since the row's inline padding + negative margin are zeroed."
   },
   "rowProps": {
     "value": {
@@ -157,7 +158,7 @@
   "behavior": {
     "pagesOfThree": "A page is always exactly three rows. If items is not a multiple of three, the final page is padded with empty space — it never collapses to a shorter page.",
     "horizontalScrollSnap": "scroll-snap-type: x mandatory; each page declares scroll-snap-align: start.",
-    "nextPagePeek": "Pager bleeds out by container.md (the container's right padding) via negative margin-right so the peek isn't clipped. Page basis composes the inter-page gap (inline.xl) plus the visible peek (inline.md, 8px) into one calc — the 8px peek holds across the responsive breakpoint.",
+    "nextPagePeek": "Pager bleeds outward by container.md on both sides via negative margin-inline so the peek isn't clipped on the right and the row's leftward tap-area extension reaches the section's left rail; a matching padding-left + scroll-padding-left keeps page 1 snapped at the section's content rail. Page basis composes the inter-page gap (inline.xl) plus the visible peek (inline.md, 8px) into one calc — the 8px peek holds across the responsive breakpoint.",
     "toggleCommitsInPlace": "Tapping 'Follow' flips the row's button to 'Following' and stays there. State is owned by the consumer via items[i].active + onToggle."
   },
   "forbidden": [

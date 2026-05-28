@@ -6,17 +6,14 @@ Sub-component of the [Carousel](./carousel.md) family. Horizontally-scrolling pa
 
 ## Default
 
-Carousel header above three cards with verified marks, follow actions, and pagination dots.
+Carousel header (label only) above three cards with verified marks, follow actions, and pagination dots.
 
 ```preview
 carousel/post-default
 ---
 import { Carousel, PostCarousel } from '@blind-dsai/ui';
 
-<Carousel
-  label="Trending right now"
-  headerAction={{ label: 'See all', href: '#' }}
->
+<Carousel label="Trending right now">
 <PostCarousel
   items={[
     {
@@ -56,41 +53,41 @@ import { Carousel, PostCarousel } from '@blind-dsai/ui';
 
 ## Use cases
 
+### With header action
+
+Extend the header with a trailing `accent` Text Button when there's an index page to route to. Lifts the `headerAction` prop on the `<Carousel>` wrapper.
+
+```preview
+carousel/post-with-header-action
+---
+import { Carousel, PostCarousel } from '@blind-dsai/ui';
+
+<Carousel label="Trending right now" headerAction={{ label: 'See all', href: '#' }}>
+  <PostCarousel
+    items={[
+      { avatar: { src: '/placeholder.png', alt: 'Channel' }, channel: 'Engineering',  verified: true, followAction: true, title: 'The migration that finally landed after three quarters', body: 'Internal postmortem turned editorial — the scaffolding that held the rewrite together when the timeline did not.', mention: '@infra-talk', views: '14K' },
+      { avatar: { src: '/placeholder.png', alt: 'Channel' }, channel: 'Compensation', verified: true, followAction: true, title: 'Equity refresh negotiations — what actually moves',       body: 'A read on the conversations that get an actual refresh on the calendar versus the ones that get a polite no.',   mention: '@career',     views: '9K'  },
+      { avatar: { src: '/placeholder.png', alt: 'Channel' }, channel: 'Plant People', verified: false, followAction: true, title: 'Monstera dropping aerial roots — repot or train?',          body: 'Two-year-old monstera, roots crawling out of the drainage holes. Light and watering are dialed in.',              mention: '@plant-parents', views: '3K' },
+    ]}
+  />
+</Carousel>
+```
+
 ### Editorial cards (no follow, no verified)
 
-Cards drop `verified` and `followAction` — the header collapses to avatar + channel name. Reach for it on editorial collections where the card is informational only (round-ups, archives, "what we're reading"); the surface should not invite a per-card commit.
+Cards drop `verified` and `followAction` — each card's header collapses to avatar + channel name. Reach for it on editorial collections where the card is informational only (round-ups, archives, "what we're reading"); the surface should not invite a per-card commit.
 
 ```preview
 carousel/post-editorial
 ---
 import { Carousel, PostCarousel } from '@blind-dsai/ui';
 
-<Carousel label="Editor picks" headerAction={{ label: 'See all', href: '#' }}>
+<Carousel label="Editor picks">
   <PostCarousel
     items={[
       { avatar: { src: '/placeholder.png', alt: 'Channel' }, channel: 'Career',       title: 'The quiet math of staying versus leaving',                body: 'Salary checks, offer evaluations, and the long thread that runs longer than any single conversation can.',                       views: '18K' },
       { avatar: { src: '/placeholder.png', alt: 'Channel' }, channel: 'Compensation', title: 'Equity refresh negotiations — what actually moves',       body: 'A read on the conversations that get an actual refresh on the calendar versus the ones that get a polite no.',                     views: '9K'  },
       { avatar: { src: '/placeholder.png', alt: 'Channel' }, channel: 'Engineering',  title: 'The migration that finally landed after three quarters', body: 'Internal postmortem turned editorial — the scaffolding that held the rewrite together when the timeline did not.',                 views: '14K' },
-    ]}
-  />
-</Carousel>
-```
-
-### No header
-
-Omit both `label` and `headerAction` on the `<Carousel>` wrapper — the header row is suppressed entirely and the pager sits flush against the surface's block padding. Reach for it when the surrounding screen already provides the heading (e.g. a page-level `<Header>` placed earlier in the layout).
-
-```preview
-carousel/post-no-header
----
-import { Carousel, PostCarousel } from '@blind-dsai/ui';
-
-<Carousel>
-  <PostCarousel
-    items={[
-      { avatar: { src: '/placeholder.png', alt: 'Channel' }, channel: 'Career',       title: 'The quiet math of staying versus leaving',                body: 'Salary checks, offer evaluations, and the long thread that runs longer than any single conversation can.',           views: '18K' },
-      { avatar: { src: '/placeholder.png', alt: 'Channel' }, channel: 'Compensation', title: 'Equity refresh negotiations — what actually moves',       body: 'A read on the conversations that get an actual refresh on the calendar versus the ones that get a polite no.',         views: '9K'  },
-      { avatar: { src: '/placeholder.png', alt: 'Channel' }, channel: 'Engineering',  title: 'The migration that finally landed after three quarters', body: 'Internal postmortem turned editorial — the scaffolding that held the rewrite together when the timeline did not.',     views: '14K' },
     ]}
   />
 </Carousel>

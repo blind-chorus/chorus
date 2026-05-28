@@ -1,0 +1,96 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "NavList",
+  "family": "nav-list",
+  "description": "Vertical label-only nav list — labelled block where each row carries a label and trailing chevron, and routes via `href` / `onClick`. Bundles a [Header](../header/header.md) over a [List](../list/nav.md). Reach for it on category indexes, settings menus, and 'pick a sub-page' surfaces.",
+  "element": "section",
+  "props": {
+    "embedded": {
+      "type": "boolean",
+      "default": false,
+      "description": "Composition mode flag. When `true` (or when NavList is a direct child of `.chorus-section` / `.chorus-feed`), the list enters **embedded mode**: zeroes its own `background` + `padding` so chrome defers to the host."
+    },
+    "label": {
+      "type": "string",
+      "required": true,
+      "description": "Section title."
+    },
+    "headerAction": {
+      "type": "object",
+      "optional": true,
+      "description": "{ label, href?, onClick? } — trailing accent Text Button in the header. Extend the header when there's an index page to route to."
+    },
+    "items": {
+      "type": "node",
+      "required": true,
+      "description": "Array of nav row descriptors forwarded to [List](../list/nav.md) `variant=\"nav\"`: { value, label, supportingText?, href?, onClick?, trailingIcon? }."
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "description": "Surface block holding the header above the vertical nav list.",
+      "intrinsic": true
+    },
+    "header": {
+      "required": true,
+      "description": "[Header](../header/header.md) `size=\"large\"` — section label leading, optional `accent` Text Button trailing.",
+      "accepts": ["text", "button"]
+    },
+    "list": {
+      "required": true,
+      "description": "[List](../list/nav.md) `variant=\"nav\"`. Embedded so the wrapper section owns the rail. Each row is the interactive route target; the trailing chevron is supplied by the nav variant.",
+      "intrinsic": true
+    },
+    "row": {
+      "required": true,
+      "intrinsic": true,
+      "description": "Single nav row rendered by [List](../list/nav.md). The label is the primary content; the trailing chevron (`ChevronDownIcon` rotated to `right` by the nav variant) signals drill-in. Each row routes via `href` or `onClick`.",
+      "accepts": ["row"]
+    }
+  },
+  "sizing": {
+    "containerFill": "sys.color.surface",
+    "containerPaddingBlock": "sys.layout.container.lg",
+    "containerPaddingInline": "sys.layout.container.md",
+    "headerToListGap": "sys.layout.stack.md",
+    "labelTypo": "sys.typo.heading.md",
+    "labelColor": "sys.color.onSurface",
+    "headerActionRendersAs": "Button variant='text' size='xsmall' appearance='accent' — link-affordance accent rule.",
+    "rowComposition": "list/nav row — label.md primary, optional caption.md supporting line, family-default min-height (ref.space.600 = 48), inline.md gap, trailing chevron at sys.icon.md / onSurfaceVariant.",
+    "rowInlinePaddingNote": "Each row keeps the list/nav native sys.layout.container.md inline padding (the tap target reaches the surface edge) and adds margin-inline: calc(-1 * sys.layout.container.md) so the visible label lines up with the section's content rail (aligned with the header label at 16 from the surface).",
+    "dividerWidth": "sys.borderWidth.hairline",
+    "dividerColor": "sys.color.outlineVariant",
+    "dividerInset": "sys.layout.container.md from the row's leading edge — anchors at the row's text column start."
+  },
+  "rowProps": {
+    "value": { "type": "string", "required": true },
+    "label": { "type": "string", "required": true },
+    "supportingText": { "type": "string", "optional": true },
+    "href": { "type": "string", "optional": true },
+    "onClick": { "type": "function", "optional": true },
+    "trailingIcon": {
+      "type": "node",
+      "optional": true,
+      "description": "Override the default trailing chevron with a custom glyph (e.g. external-link)."
+    }
+  },
+  "states": {
+    "note": "Each row is the interactive target — hover / pressed / focused / disabled tokens delegate to [List](../list/nav.md). The headerAction is an accent Text Button (its own state contract). Container has no interactive state."
+  },
+  "focusIndicator": {
+    "description": "Rows take the family-wide Inward focus ring; headerAction paints its own Outward ring.",
+    "composition": "inward",
+    "compositionReason": "Rows tile the column with a hairline divider; an outward ring would overlap divider and neighbour row.",
+    "trigger": ":focus-visible"
+  },
+  "behavior": {
+    "headerRequired": "Every NavList carries a label; the optional headerAction extends the header with a trailing accent Text Button.",
+    "verticalScroll": "No pager. The full list scrolls in normal document flow.",
+    "rowRoutes": "Each row routes via `href` (rendered as `<a>`) or `onClick`. Trailing chevron is decorative."
+  },
+  "forbidden": [
+    "leading thumbnail or icon — NavList rows are intentionally label-only; reach for DirectoryList or List variant=\"image\" when a leading visual is needed",
+    "header omitted — every NavList carries a label"
+  ]
+}

@@ -6,17 +6,14 @@ Sub-component of the [Carousel](./carousel.md) family. Horizontally-scrolling ra
 
 ## Default
 
-Three profile cards under a Carousel heading.
+Three profile cards under a Carousel heading (label only).
 
 ```preview
 carousel/profile-default
 ---
 import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
 
-<Carousel
-  label="Hot companies right now"
-  headerAction={{ label: 'See all', href: '#' }}
->
+<Carousel label="Hot companies right now">
   <ProfileCarousel
     items={[
       {
@@ -57,6 +54,54 @@ import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
 
 ## Use cases
 
+### With header action
+
+Extend the header with a trailing `accent` Text Button when there's an index page to route to. Lifts the `headerAction` prop on the `<Carousel>` wrapper.
+
+```preview
+carousel/profile-with-header-action
+---
+import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
+
+<Carousel label="Hot companies right now" headerAction={{ label: 'See all', href: '#' }}>
+  <ProfileCarousel
+    items={[
+      {
+        avatar: { src: '/placeholder.png', alt: 'Amazon' },
+        name: 'Amazon',
+        followers: '1,678 followers',
+        metrics: [
+          { icon: 'star', value: '4.1' },
+          { icon: 'pulse', value: '81.1' },
+          { icon: 'thumb', value: '81%' },
+        ],
+      },
+      {
+        avatar: { src: '/placeholder.png', alt: 'Tesla' },
+        name: 'Tesla',
+        followers: '1.4K followers',
+        metrics: [
+          { icon: 'star', value: '4.7' },
+          { icon: 'pulse', value: '86' },
+          { icon: 'thumb', value: '85.3%' },
+        ],
+        followed: true,
+      },
+      {
+        avatar: { src: '/placeholder.png', alt: 'Stripe' },
+        name: 'Stripe',
+        followers: '2.1K followers',
+        metrics: [
+          { icon: 'star', value: '4.5' },
+          { icon: 'pulse', value: '92.4' },
+          { icon: 'thumb', value: '88%' },
+        ],
+      },
+    ]}
+  />
+</Carousel>
+```
+
 ### With description
 
 The metrics row swaps out for a two-line description. Use for editorial collections where the value of each profile is best explained in copy (channel topic, hot pitch) rather than numeric signals. The description block is fixed to the same two-line height as the metrics row, so cards stay flush across both modes even when description copy clamps with an ellipsis.
@@ -66,10 +111,7 @@ carousel/profile-with-description
 ---
 import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
 
-<Carousel
-  label="Recommended channels"
-  headerAction={{ label: 'See all', href: '#' }}
->
+<Carousel label="Recommended channels">
   <ProfileCarousel
     items={[
       {
@@ -83,42 +125,6 @@ import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
         name: 'Compensation',
         followers: '8.1K followers',
         description: 'Salary checks, offer evaluations, and the quiet math of staying versus leaving — the channel that runs longer than any single conversation can.',
-        followed: true,
-      },
-      {
-        avatar: { src: '/placeholder.png', alt: 'Career' },
-        name: 'Career',
-        followers: '5.3K followers',
-        description: 'Promotion packets, scope debates, and the rewrites that actually cleared.',
-      },
-    ]}
-  />
-</Carousel>
-```
-
-### No header
-
-Omit both `label` and `headerAction` on the `<Carousel>` wrapper — the header row is suppressed entirely and the pager sits flush against the surface's block padding. Reach for it when the surrounding screen already provides the heading.
-
-```preview
-carousel/profile-no-header
----
-import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
-
-<Carousel>
-  <ProfileCarousel
-    items={[
-      {
-        avatar: { src: '/placeholder.png', alt: 'Engineering' },
-        name: 'Engineering',
-        followers: '12.4K followers',
-        description: 'Hands-on threads about systems, infra, and the work behind the launch.',
-      },
-      {
-        avatar: { src: '/placeholder.png', alt: 'Compensation' },
-        name: 'Compensation',
-        followers: '8.1K followers',
-        description: 'Salary checks, offer evaluations, and the quiet math of staying versus leaving.',
         followed: true,
       },
       {

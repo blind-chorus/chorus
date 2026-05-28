@@ -1,0 +1,106 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "DirectoryList",
+  "family": "directory-list",
+  "description": "Vertical follow-list — labelled block of follow-able entries rendered at the [list/entry](../list/entry.md) `large` rung (48 Thumbnail + identity group of label + stacked `secondary` followers + `description` + trailing [Toggle Button](../button/toggle.md)). Sibling of SuggestionList: same entity-agnostic anatomy but no swipeable pager — the full set is scanned vertically. Reach for it on browse / 'new channels' / 'people you may know' surfaces.",
+  "element": "section",
+  "props": {
+    "embedded": {
+      "type": "boolean",
+      "default": false,
+      "description": "Composition mode flag. When `true` (or when DirectoryList is a direct child of `.chorus-section` / `.chorus-feed`), the list enters **embedded mode**: zeroes its own `background` + `padding` so chrome defers to the host."
+    },
+    "label": {
+      "type": "string",
+      "required": true,
+      "description": "Section title."
+    },
+    "headerAction": {
+      "type": "object",
+      "optional": true,
+      "description": "{ label, href?, onClick? } — trailing accent Text Button in the header. Extend the header when there's an index page to route to."
+    },
+    "items": {
+      "type": "node",
+      "required": true,
+      "description": "Array of entity descriptors: { value, name, followers, description, thumbnail, active?, onToggle? }."
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "description": "Surface block holding the header above the vertical entry list.",
+      "intrinsic": true
+    },
+    "header": {
+      "required": true,
+      "description": "[Header](../header/header.md) `size=\"large\"` — section label leading, optional `accent` Text Button trailing.",
+      "accepts": ["text", "button"]
+    },
+    "list": {
+      "required": true,
+      "description": "[List](../list/entry.md) `variant=\"entry\"` `size=\"large\"` rendering each follow-able entity. Embedded mode is forced on the inner list so the wrapper section owns the rail.",
+      "intrinsic": true
+    },
+    "row": {
+      "required": true,
+      "intrinsic": true,
+      "description": "Single entity rendered as a [list/entry](../list/entry.md) row at the `large` rung. Item descriptors map to entry slots: `name` → `label`, `followers` → `secondary`, `description` → `description`, `thumbnail` → `thumbnail`, `active` + `onToggle` → `trailingIcon` (a Toggle Button). The row body is presentational — the only commit affordance is the trailing toggle.",
+      "accepts": ["row"]
+    },
+    "trailingAction": {
+      "required": true,
+      "description": "[Toggle Button](../button/toggle.md) — the row's only commit affordance, composed into the row's `trailingIcon` slot.",
+      "accepts": ["button"]
+    }
+  },
+  "sizing": {
+    "containerFill": "sys.color.surface",
+    "containerPaddingBlock": "sys.layout.container.lg",
+    "containerPaddingInline": "sys.layout.container.md",
+    "headerToListGap": "sys.layout.stack.md",
+    "labelTypo": "sys.typo.heading.md",
+    "labelColor": "sys.color.onSurface",
+    "headerActionRendersAs": "Button variant='text' size='xsmall' appearance='accent' — link-affordance accent rule.",
+    "rowRung": "list/entry size=\"large\" — 48 avatar, inline.lg gap, label.md primary, caption.md secondary + description.",
+    "rowInlinePaddingNote": "Each row keeps the list/entry native sys.layout.container.md inline padding (the tap target reaches the surface edge) and adds margin-inline: calc(-1 * sys.layout.container.md) so the visible avatar sits flush at the section's content rail — aligned with the header label at 16 from the surface.",
+    "dividerWidth": "sys.borderWidth.hairline",
+    "dividerColor": "sys.color.outlineVariant",
+    "dividerInset": "calc(sys.layout.container.md + ref.space.600 + sys.layout.inline.lg) = 76px from the row's leading edge — anchors at the text column post-avatar."
+  },
+  "rowProps": {
+    "value": { "type": "string", "required": true },
+    "name": { "type": "string", "required": true },
+    "followers": { "type": "string", "optional": true },
+    "description": { "type": "string", "optional": true },
+    "thumbnail": {
+      "type": "object",
+      "required": true,
+      "agentRequired": true,
+      "omittedBehavior": "error",
+      "description": "Forwarded to Thumbnail verbatim — src, alt, updateDot, logoBadge. Agents MUST pass `src`; fill `/placeholder.png` when no real subject is implied."
+    },
+    "active": { "type": "boolean", "default": false },
+    "onToggle": { "type": "function", "optional": true }
+  },
+  "states": {
+    "note": "Container has no interactive state. Each row's only interactive surface is the trailing Toggle Button (its own state contract). The headerAction is an accent Text Button. The row body is presentational — tapping does not route."
+  },
+  "focusIndicator": {
+    "description": "Row body is presentational; the only row-level focus target is the trailing Toggle Button (Outward ring). headerAction also paints its own Outward ring.",
+    "composition": "inward",
+    "compositionReason": "Rows tile the column with a hairline divider; an outward ring would overlap divider and neighbour row.",
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  },
+  "behavior": {
+    "headerRequired": "Every DirectoryList carries a label; the optional headerAction extends the header with a trailing accent Text Button.",
+    "verticalScroll": "No pager. The full list scrolls vertically in normal document flow — reach for SuggestionList instead when the surface needs a horizontal peek.",
+    "toggleCommitsInPlace": "Tapping 'Follow' flips the row's button to 'Following' and stays there. State is owned by the consumer via items[i].active + onToggle.",
+    "entityAgnostic": "Same row shape carries channels, people, companies, or topics."
+  },
+  "forbidden": [
+    "row anatomy diverged from the [list/entry](../list/entry.md) visual contract — DirectoryList's row IS an entry-shaped row at the `large` rung; rebuilding the avatar + text column + trailing slot with different typography or geometry is a forbidden divergence",
+    "follow action rendered as button/standard — the follow affordance is button/toggle per the spec",
+    "swipeable pager — DirectoryList is intentionally vertical-only; reach for SuggestionList when a horizontal peek is needed"
+  ]
+}

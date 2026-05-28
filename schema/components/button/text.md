@@ -18,11 +18,9 @@ import { Button } from '@blind-dsai/ui';
 <Button variant="text">Not now</Button>
 ```
 
-## Use cases
+## Accent
 
-### Accent
-
-Brand-blue label (`primary`) — the inline commit. Prefer `accent` when the button reads as a navigational link (`See all`, `Follow`, `View details`).
+Brand-blue label (`primary`) — the inline commit. Reach for `accent` when the button reads as a navigational link (`See all`, `Follow`, `View details`).
 
 ```preview
 button/text/accent
@@ -31,6 +29,8 @@ import { Button } from '@blind-dsai/ui';
 
 <Button variant="text" appearance="accent">Skip</Button>
 ```
+
+## Use cases
 
 ### On primary
 

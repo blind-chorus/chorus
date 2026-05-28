@@ -6,7 +6,7 @@ Reverse index from natural-language intent to family + sub-component. Read *befo
 
 Each family declares `visualReuse: "open" | "locked"` in its `<family>.family.json`. The catalog respects that flag.
 
-- **Open (default, 15 families)** — `badge`, `banner`, `button`, `suggestion-list`, `avatar-rail`, `carousel`, `chip`, `feed`, `list`, `metadata`, `navigation-bar`, `profile-header`, `tab-bar`, `tabs`, `thumbnail`. The intent table is the *first* suggestion, but the agent MAY reach for these on visual-fit grounds even when the brief's intent does not match the row verbatim — e.g. `<Feed>` as a generic article-card surface, `<Banner>` as a tonal aside outside a literal "notice", `<Carousel>` as any labelled editorial block. Anatomy invariants (slot grammar, token bindings, intrinsic geometry) still apply.
+- **Open (default, 17 families)** — `badge`, `banner`, `button`, `suggestion-list`, `directory-list`, `nav-list`, `avatar-rail`, `carousel`, `chip`, `feed`, `list`, `metadata`, `navigation-bar`, `profile-header`, `tab-bar`, `tabs`, `thumbnail`. The intent table is the *first* suggestion, but the agent MAY reach for these on visual-fit grounds even when the brief's intent does not match the row verbatim — e.g. `<Feed>` as a generic article-card surface, `<Banner>` as a tonal aside outside a literal "notice", `<Carousel>` as any labelled editorial block. Anatomy invariants (slot grammar, token bindings, intrinsic geometry) still apply.
 - **Locked (5 families)** — `dialog`, `bottom-sheet`, `toast`, `tooltip`, `form-field`. MUST only be used when the brief's intent matches a row. Their contract IS the interaction — focus trap, auto-dismiss, ARIA live region, form semantics, hover/focus trigger. Borrowing the visual shape without the role breaks behavior. Marked *(locked)* below.
 
 When in doubt: open families are recipes, locked families are rules.
@@ -54,9 +54,11 @@ When in doubt: open families are recipes, locked families are rules.
 | standalone drill-in card (single row)        | `nav-card`               | **`inline`**   |
 | expandable titled sections (FAQ, T&C)        | `accordion`              | `full-bleed`   |
 | authored content stream (posts, comments)    | `feed / feed`            | `full-bleed`   |
-| follow suggestions block                     | `suggestion-list`        | `full-bleed`   |
+| follow suggestions block (swipeable peek)    | `suggestion-list`        | `full-bleed`   |
+| follow directory (full vertical scroll)      | `directory-list`         | `full-bleed`   |
+| label-only nav list with chevron rows        | `nav-list`               | `full-bleed`   |
 
-**Disambiguate**: `feed` = authored content (author, body, footer). `list` = menus/settings/pickers (stacked rows, hairline divider). `nav-card` = a SINGLE drill-in row as its own bounded outlined card — reach for it when one drill-in needs to read as its own affordance, not one entry in a stack. `accordion` = stacked rows that EXPAND in place rather than drill-in — for short content the user opens to read (FAQ, T&C, expandable filter). `suggestion-list` = labelled swipeable block of follow-suggestions (channels, people, companies, topics — same anatomy).
+**Disambiguate**: `feed` = authored content (author, body, footer). `list` = menus/settings/pickers (stacked rows, hairline divider). `nav-card` = a SINGLE drill-in row as its own bounded outlined card — reach for it when one drill-in needs to read as its own affordance, not one entry in a stack. `accordion` = stacked rows that EXPAND in place rather than drill-in — for short content the user opens to read (FAQ, T&C, expandable filter). `suggestion-list` = labelled swipeable block of follow-suggestions (channels, people, companies, topics — same anatomy). `directory-list` = the same row anatomy at the `large` (48) rung but rendered as a full vertical scroll (no pager) — reach for it when the surface should expose the whole follow-able set. `nav-list` = a labelled vertical list of label-only chevron rows; same wrapper-of-Header + List composition, but for route navigation rather than follow.
 
 ### Entity directory rows + author attribution
 

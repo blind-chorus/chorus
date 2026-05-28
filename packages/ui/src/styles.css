@@ -2716,11 +2716,15 @@ a.chorus-metadata__name:focus-visible {
    surface block lays a header (section label + optional trailing link)
    above a horizontal pager of three-row pages. Each row delegates to
    `<List variant="entry" size="xlarge">` so hover / press / focus
-   overlays come for free. The pager bleeds 16px past the container's
-   right padding so the next-page peek isn't clipped; with gap =
-   inline.xl (16 mobile / 24 web) and a page basis that subtracts that
-   gap and an inline.md (8) peek, exactly 8px of the next page surfaces
-   at the trailing edge regardless of viewport. */
+   overlays come for free. The section pays the 16px inline rail; the
+   pager bleeds 16px past the section's right padding so the next-page
+   peek isn't clipped, and each row keeps its family-default 16px
+   inline padding for the touch target — but adds a `-container.md`
+   inline margin so the row's *visible* content (avatar / toggle) sits
+   flush at the page boundaries. The net geometry: avatar at 16 from
+   the surface (aligned with the header label), toggle at one
+   inline.xl (16) before the next page's leading avatar, and that next
+   avatar peeks 8 (inline.md) past the surface's right edge. */
 .chorus-suggestion-list {
   background: var(--sys-color-surface);
   width: 100%;
@@ -2728,7 +2732,7 @@ a.chorus-metadata__name:focus-visible {
   padding: var(--sys-layout-container-lg) var(--sys-layout-container-md);
   display: flex;
   flex-direction: column;
-  gap: var(--sys-layout-stack-lg);
+  gap: var(--sys-layout-stack-md);
 }
 
 .chorus-suggestion-list__header {
@@ -2752,16 +2756,26 @@ a.chorus-metadata__name:focus-visible {
 }
 
 
-/* Pager — horizontal scroll with mandatory snap. The negative right
-   margin (= container.md inline padding) bleeds the scroll viewport to
-   the surface edge so the next-page peek isn't visually cropped. The
+/* Pager — horizontal scroll with mandatory snap. Bleeds outward on
+   both sides by `container.md` so the scroll viewport reaches the
+   surface edges; the matching `padding-left` shifts the flex content
+   area back to the section's rail so page positions don't move. The
+   right-side bleed exposes the next-page peek without clipping; the
+   left-side bleed gives the row's leftward tap-area extension a
+   visible patch instead of having `overflow-x: auto` clip it. The
+   matching `scroll-padding-left` insets the snap-port so page 1
+   snaps at the content-box leading edge (where its natural flex-flow
+   position already places it) rather than getting auto-scrolled
+   against the border-box edge, which would defeat the padding. The
    peek width is pinned to inline.md (8) by composing the page basis
    from the gap + the peek; both terms are tokens, so the geometry
    holds across the responsive token shift on web. */
 .chorus-suggestion-list__pager {
   display: flex;
   gap: var(--sys-layout-inline-xl);
-  margin-right: calc(-1 * var(--sys-layout-container-md));
+  margin-inline: calc(-1 * var(--sys-layout-container-md));
+  padding-left: var(--sys-layout-container-md);
+  scroll-padding-left: var(--sys-layout-container-md);
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
@@ -2787,20 +2801,19 @@ a.chorus-metadata__name:focus-visible {
    and trailing-slot click isolation all come from the List family contract.
    SuggestionList only owns the swipeable pager chrome that wraps it.
 
-   The host already pays a `container.md` inline rail; the embedded entry
-   list inside each page surrenders its own row-level inline padding so
-   the avatar still lines up with the page's rail instead of double-paying
-   16px. The divider override snaps to the text column at `ref.space.700
-   + inline.lg` (= 68px) and runs to the row's trailing edge. */
+   The row keeps its family-default `container.md` inline padding so the
+   tap target reaches the surface edge, but its inline *margin* is
+   pulled by `-container.md` so the visible content sits flush at the
+   page boundaries. Net effect: the avatar lines up at the section's
+   16px rail (aligned with the header label), and the trailing toggle
+   ends one inline.xl (16) before the next page's avatar starts — that
+   gap reads as the visual page-to-page break while the next page's
+   avatar peeks 8 (inline.md) past the surface's right edge. The
+   xlarge divider uses the family-default anchor (16 + 56 + 12 = 84
+   from the row's leading edge), which lines up with the text-column
+   start once the row's negative margin is composed in. */
 .chorus-suggestion-list__page .chorus-list--entry .chorus-list__row {
-  padding-inline: 0;
-}
-
-.chorus-suggestion-list__page
-  .chorus-list--entry[data-size="xlarge"]
-  .chorus-list__row:not(:last-child):not([data-divider="false"])::after {
-  left: calc(var(--ref-space-700) + var(--sys-layout-inline-lg));
-  right: 0;
+  margin-inline: calc(-1 * var(--sys-layout-container-md));
 }
 
 /* Empty-row placeholder — pads the last page when items.length isn't a
@@ -2809,6 +2822,85 @@ a.chorus-metadata__name:focus-visible {
 .chorus-suggestion-list__row--pad {
   visibility: hidden;
   height: var(--ref-space-600);
+}
+
+/* Embedded mode — when SuggestionList is composed inside a rail-
+   responsible host (Section / Feed, or `data-embedded="true"`), the
+   suggestion-list's own background + padding are already zeroed
+   above. The host pays the inline rail directly, and the pager's
+   inherited base bleed (margin-inline + padding-left) pierces through
+   the host's inline padding so both the peek and the row's leftward
+   tap-area extension reach the surface edges. Drop the row's
+   `padding-inline` + negative `margin-inline` (we don't need to
+   compensate for a padding we no longer pay) and re-anchor the
+   xlarge divider to 68px (no `container.md` offset to add). */
+.chorus-suggestion-list[data-embedded="true"]
+  .chorus-suggestion-list__page .chorus-list--entry .chorus-list__row,
+:where(.chorus-section, .chorus-feed)
+  > :where(.chorus-suggestion-list):not([data-embedded="false"])
+  .chorus-suggestion-list__page .chorus-list--entry .chorus-list__row {
+  padding-inline: 0;
+  margin-inline: 0;
+}
+
+.chorus-suggestion-list[data-embedded="true"]
+  .chorus-suggestion-list__page
+  .chorus-list--entry[data-size="xlarge"]
+  .chorus-list__row:not(:last-child):not([data-divider="false"])::after,
+:where(.chorus-section, .chorus-feed)
+  > :where(.chorus-suggestion-list):not([data-embedded="false"])
+  .chorus-suggestion-list__page
+  .chorus-list--entry[data-size="xlarge"]
+  .chorus-list__row:not(:last-child):not([data-divider="false"])::after {
+  left: calc(var(--ref-space-700) + var(--sys-layout-inline-lg));
+  right: 0;
+}
+
+/* ============================================================
+   DirectoryList — vertical follow-list (Header + entry list at the
+   `large` rung). Sibling of SuggestionList: same entity-agnostic
+   row shape (avatar + identity + trailing Toggle Button), but no
+   swipeable pager — the full set is scanned vertically. Reach for
+   it on browse / "new channels" / "people you may know" surfaces.
+
+   NavList — vertical label-only nav list (Header + list/nav). Each
+   row is a route target; trailing chevron comes from the nav variant.
+
+   Both share the SuggestionList surface chrome: `surface` fill,
+   `container.lg block / container.md inline` padding, `stack.md`
+   (16) between header and list. The list's family-default inline
+   padding paints the row rail; embedded mode defers to the host.
+============================================================ */
+.chorus-directory-list,
+.chorus-nav-list {
+  background: var(--sys-color-surface);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--sys-layout-container-lg) var(--sys-layout-container-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-md);
+}
+
+/* Row contract — the wrapped `<List embedded />` keeps its family-
+   default `container.md` inline padding (touch target) and pulls the
+   row's inline *margin* by `-container.md` so the visible content
+   (avatar / label / trailing icon) sits flush at the section's
+   content rail — header label and avatar align at 16 from the
+   surface. Same trick SuggestionList uses for its page rows. */
+.chorus-directory-list .chorus-list__row,
+.chorus-nav-list .chorus-list__row {
+  margin-inline: calc(-1 * var(--sys-layout-container-md));
+}
+
+/* DirectoryList divider — anchor at the text column (post-avatar)
+   so it reads as separating identity columns rather than crossing
+   under the leading thumbnail. At the `large` rung the text column
+   starts at `container.md + ref.space.600 + inline.lg` (16 + 48 + 12
+   = 76) from the row's leading edge. */
+.chorus-directory-list .chorus-list--entry[data-size="large"]
+  .chorus-list__row:not(:last-child):not([data-divider="false"])::after {
+  left: calc(var(--sys-layout-container-md) + var(--ref-space-600) + var(--sys-layout-inline-lg));
 }
 
 /* ============================================================

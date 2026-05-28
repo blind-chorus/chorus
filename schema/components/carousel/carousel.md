@@ -15,16 +15,16 @@ Both subs share the same pager geometry — a `ref.space.500` (40px) trailing pe
 
 ### Header anatomy
 
-Every Carousel optionally paints a [Header](../header/header.md) (`size="large"`) at the top:
+Every Carousel paints a [Header](../header/header.md) (`size="large"`) at the top:
 
-- **Label** — `sys.typo.heading.md` / Semibold / `sys.color.onSurface`. Leading position.
-- **headerAction** *(optional)* — trailing [Text Button](../button/text.md) (`size={'xsmall'}`, `appearance={'accent'}`) per the link-affordance rule.
+- **Label** *(required)* — `sys.typo.heading.md` / Semibold / `sys.color.onSurface`. Leading position.
+- **headerAction** *(optional)* — trailing [Text Button](../button/text.md) (`size={'xsmall'}`, `appearance={'accent'}`) per the link-affordance rule. Extends the header when there's an index page to route to.
 
-Carousel forwards `label` and `headerAction` to [Header](../header/header.md) verbatim; the header anatomy lives in Header's spec. Omitting both `label` and `headerAction` removes the header row entirely — the pager rides the surface alone. Other hosts (in-sheet sub-sections, bounded cards, [SuggestionList](../suggestion-list/suggestion-list.md)) reach for `<Header />` directly — Carousel is the labelled-region host, Header the leading-row primitive it composes.
+Carousel forwards `label` and `headerAction` to [Header](../header/header.md) verbatim; the header anatomy lives in Header's spec. Other hosts (in-sheet sub-sections, bounded cards, [SuggestionList](../suggestion-list/suggestion-list.md)) reach for `<Header />` directly — Carousel is the labelled-region host, Header the leading-row primitive it composes.
 
 ### Surface + padding
 
-Both subs compose inside a single Carousel surface: `sys.color.surface` fill, `sys.layout.container.lg` block × `sys.layout.container.md` inline padding, `sys.layout.stack.lg` between header and pager body (collapses when the header is omitted). The sub itself paints no surface and no padding.
+Both subs compose inside a single Carousel surface: `sys.color.surface` fill, `sys.layout.container.lg` block × `sys.layout.container.md` inline padding, `sys.layout.stack.lg` between header and pager body. The sub itself paints no surface and no padding.
 
 ### Pager geometry
 

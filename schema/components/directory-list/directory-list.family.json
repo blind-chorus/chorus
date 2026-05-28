@@ -1,0 +1,42 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "directory-list",
+  "name": "DirectoryList",
+  "description": "Vertical follow-list — labelled block where each row pairs a 48 thumbnail, identity column (name + followers + description), and a trailing Follow toggle. Sibling of SuggestionList: same entity-agnostic row anatomy, but no swipeable pager — the full set is scanned vertically. Reach for it on browse / 'new channels' / 'people you may know' surfaces.",
+  "useCases": [
+    "follow-able directory of entities",
+    "new / recommended channels (full list)",
+    "people you may know",
+    "browse / explore index"
+  ],
+  "visualReuse": "open",
+  "layoutInset": "full-bleed",
+  "wrapperGuidance": "Owns its inline padding internally. Place as a direct child of the page-shell <main> (or any host that pays the gutter once). Do NOT wrap in a padding-inline div, className=\"px-*\", or style={{ padding }} — the page rail is paid once at the shell, never on the full-bleed child. Inside a bounded surface (Dialog / BottomSheet / SideSheet), apply the negative-margin opt-out — see AGENTS.md § Composition rules.",
+  "compositionModes": {
+    "standalone": {
+      "default": true,
+      "chrome": {
+        "background": "sys.color.surface",
+        "padding": "sys.layout.container.lg block / sys.layout.container.md inline"
+      },
+      "context": "Direct child of the page shell or any host that pays the page-rail gutter once."
+    },
+    "embedded": {
+      "trigger": "prop `embedded={true}` on <DirectoryList /> OR direct child of `.chorus-section` / `.chorus-feed` (DOM-ancestry safety net).",
+      "chrome": {
+        "background": "transparent",
+        "padding": "0"
+      },
+      "context": "Composed inside another rail-responsible host (`<Section label=\"New channels\"><DirectoryList embedded /></Section>`). Row content takes over from the host's content-box edge."
+    }
+  },
+  "spec": "directory-list.md",
+  "subcomponents": [
+    {
+      "slug": "directory-list",
+      "spec": "directory-list.spec.json",
+      "md": "directory-list.md",
+      "default": true
+    }
+  ]
+}

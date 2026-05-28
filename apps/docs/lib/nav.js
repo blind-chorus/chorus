@@ -218,6 +218,10 @@ export const NAV = [
         label: 'Dialog',
       },
       {
+        href: '/components/directory-list',
+        label: 'Directory list',
+      },
+      {
         href: '/components/feed',
         label: 'Feed',
         subs: [
@@ -258,6 +262,10 @@ export const NAV = [
       {
         href: '/components/nav-card',
         label: 'Nav card',
+      },
+      {
+        href: '/components/nav-list',
+        label: 'Nav list',
       },
       {
         href: '/components/navigation-bar',

@@ -1,0 +1,42 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "nav-list",
+  "name": "NavList",
+  "description": "Vertical label-only nav list — labelled block where each row carries a label (and optional secondary line) plus a trailing chevron, and routes via `href` / `onClick`. Wraps a [Header](../header/header.md) over a [List](../list/nav.md) so the section title and the route group come bundled. Reach for it on category indexes, settings menus, and 'pick a sub-page' surfaces where no leading thumbnail belongs.",
+  "useCases": [
+    "category index",
+    "settings menu",
+    "directory of route targets",
+    "drill-down navigation list"
+  ],
+  "visualReuse": "open",
+  "layoutInset": "full-bleed",
+  "wrapperGuidance": "Owns its inline padding internally. Place as a direct child of the page-shell <main> (or any host that pays the gutter once). Do NOT wrap in a padding-inline div, className=\"px-*\", or style={{ padding }} — the page rail is paid once at the shell, never on the full-bleed child. Inside a bounded surface (Dialog / BottomSheet / SideSheet), apply the negative-margin opt-out — see AGENTS.md § Composition rules.",
+  "compositionModes": {
+    "standalone": {
+      "default": true,
+      "chrome": {
+        "background": "sys.color.surface",
+        "padding": "sys.layout.container.lg block / sys.layout.container.md inline"
+      },
+      "context": "Direct child of the page shell or any host that pays the page-rail gutter once."
+    },
+    "embedded": {
+      "trigger": "prop `embedded={true}` on <NavList /> OR direct child of `.chorus-section` / `.chorus-feed` (DOM-ancestry safety net).",
+      "chrome": {
+        "background": "transparent",
+        "padding": "0"
+      },
+      "context": "Composed inside another rail-responsible host. Row content takes over from the host's content-box edge."
+    }
+  },
+  "spec": "nav-list.md",
+  "subcomponents": [
+    {
+      "slug": "nav-list",
+      "spec": "nav-list.spec.json",
+      "md": "nav-list.md",
+      "default": true
+    }
+  ]
+}

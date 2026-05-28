@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Accordion, Badge, BottomSheet, Button, Banner, Metadata, SuggestionList, AvatarRail, Carousel, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, Header, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, ProfileHeader, SideSheet, SideSheetGroup, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
+import { Accordion, Badge, BottomSheet, Button, Banner, Metadata, SuggestionList, DirectoryList, NavList, AvatarRail, Carousel, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, Header, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, ProfileHeader, SideSheet, SideSheetGroup, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
 import { PlusIcon, PlusSquareFillIcon, ChevronLeftIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, XIcon, BuildingIcon, BuildingFillIcon, ArrowDownIcon, ChevronRightIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, EllipsisHorizontalIcon, BellIcon, BellFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, StarFillIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
@@ -232,7 +232,6 @@ function SuggestionListDemo() {
   return (
     <SuggestionList
       label="Recommended channels"
-      headerAction={{ label: 'See all', href: '#all' }}
       items={items}
     />
   );
@@ -1564,10 +1563,7 @@ export const PREVIEWS = {
     states: false,
     render: () => (
       <Frame>
-        <Carousel
-          label="Trending right now"
-          headerAction={{ label: 'See all', href: '#' }}
-        >
+        <Carousel label="Trending right now">
         <PostCarousel
           items={[
             {
@@ -1632,15 +1628,64 @@ export const PREVIEWS = {
     ),
   },
 
+  /* Carousel · Post with a header action — extends the header with
+     an `accent` Text Button when the screen has an index page to route
+     to. Lifts the `headerAction` prop on the `<Carousel>` wrapper. */
+  'carousel/post-with-header-action': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Carousel label="Trending right now" headerAction={{ label: 'See all', href: '#' }}>
+          <PostCarousel
+            items={[
+              {
+                id: 'migration',
+                avatar: { src: IMG.plantAvatar, alt: 'Engineering' },
+                channel: 'Engineering',
+                verified: true,
+                followAction: true,
+                title: 'The migration that finally landed after three quarters',
+                body: 'Internal postmortem turned editorial — the scaffolding that held the rewrite together when the timeline did not.',
+                mention: '@infra-talk',
+                views: '14K',
+              },
+              {
+                id: 'refresh',
+                avatar: { src: IMG.plantAvatar, alt: 'Compensation' },
+                channel: 'Compensation',
+                verified: true,
+                followAction: true,
+                title: 'Equity refresh negotiations — what actually moves',
+                body: 'A read on the conversations that get an actual refresh on the calendar versus the ones that get a polite no.',
+                mention: '@career',
+                views: '9K',
+              },
+              {
+                id: 'monstera',
+                avatar: { src: IMG.plantAvatar, alt: 'Plant People' },
+                channel: 'Plant People',
+                verified: false,
+                followAction: true,
+                title: 'Monstera dropping aerial roots — repot or train?',
+                body: 'Two-year-old monstera, roots crawling out of the drainage holes. Light and watering are dialed in.',
+                mention: '@plant-parents',
+                views: '3K',
+              },
+            ]}
+          />
+        </Carousel>
+      </Frame>
+    ),
+  },
+
   /* Carousel · Post — editorial cards: same one-card-per-page
-     pager, but each card drops `verified` and `followAction`. The header
-     collapses to avatar + channel name. Surfaces a stripped-down
-     editorial composition where the card is informational only. */
+     pager, but each card drops `verified` and `followAction`. Each
+     card's header collapses to avatar + channel name. */
   'carousel/post-editorial': {
     states: false,
     render: () => (
       <Frame>
-        <Carousel label="Editor picks" headerAction={{ label: 'See all', href: '#' }}>
+        <Carousel label="Editor picks">
           <PostCarousel
             items={[
               {
@@ -1681,7 +1726,7 @@ export const PREVIEWS = {
     states: false,
     render: () => (
       <Frame>
-        <Carousel label="Hot companies right now" headerAction={{ label: 'See all', href: '#' }}>
+        <Carousel label="Hot companies right now">
           <ProfileCarousel
             items={[
               {
@@ -1728,40 +1773,50 @@ export const PREVIEWS = {
     ),
   },
 
-  /* Carousel · Post with no header — both `label` and `headerAction`
-     omitted on the Carousel wrapper; the header row is suppressed and
-     the pager sits flush against the surface's block padding. Use when
-     the surrounding screen already provides the heading. */
-  'carousel/post-no-header': {
+  /* Carousel · Profile with a header action — extends the header
+     with an `accent` Text Button when the screen has an index page
+     to route to. Lifts the `headerAction` prop on the `<Carousel>`
+     wrapper. */
+  'carousel/profile-with-header-action': {
     states: false,
     render: () => (
       <Frame>
-        <Carousel>
-          <PostCarousel
+        <Carousel label="Hot companies right now" headerAction={{ label: 'See all', href: '#' }}>
+          <ProfileCarousel
             items={[
               {
-                id: 'staying',
-                avatar: { src: IMG.plantAvatar, alt: 'Career' },
-                channel: 'Career',
-                title: 'The quiet math of staying versus leaving',
-                body: 'Salary checks, offer evaluations, and the long thread that runs longer than any single conversation can.',
-                views: '18K',
+                avatar: { src: IMG.brandLaptop, alt: 'Amazon' },
+                cover: { src: IMG.companyCover, alt: 'High-rise office skyline' },
+                name: 'Amazon',
+                followers: '1,678 followers',
+                metrics: [
+                  { icon: 'star', value: '4.1' },
+                  { icon: 'pulse', value: '81.1' },
+                  { icon: 'thumb', value: '81%' },
+                ],
               },
               {
-                id: 'refresh',
-                avatar: { src: IMG.plantAvatar, alt: 'Compensation' },
-                channel: 'Compensation',
-                title: 'Equity refresh negotiations — what actually moves',
-                body: 'A read on the conversations that get an actual refresh on the calendar versus the ones that get a polite no.',
-                views: '9K',
+                avatar: { src: IMG.brandAuto, alt: 'Tesla' },
+                cover: { src: IMG.startupCover, alt: 'Modern workspace interior' },
+                name: 'Tesla',
+                followers: '1.4K followers',
+                metrics: [
+                  { icon: 'star', value: '4.7' },
+                  { icon: 'pulse', value: '86' },
+                  { icon: 'thumb', value: '85.3%' },
+                ],
+                followed: true,
               },
               {
-                id: 'migration',
-                avatar: { src: IMG.plantAvatar, alt: 'Engineering' },
-                channel: 'Engineering',
-                title: 'The migration that finally landed after three quarters',
-                body: 'Internal postmortem turned editorial — the scaffolding that held the rewrite together when the timeline did not.',
-                views: '14K',
+                avatar: { src: IMG.brandChip, alt: 'Stripe' },
+                cover: { src: IMG.fintechCover, alt: 'Financial dashboard' },
+                name: 'Stripe',
+                followers: '2.1K followers',
+                metrics: [
+                  { icon: 'star', value: '4.5' },
+                  { icon: 'pulse', value: '92.4' },
+                  { icon: 'thumb', value: '88%' },
+                ],
               },
             ]}
           />
@@ -1779,7 +1834,7 @@ export const PREVIEWS = {
     states: false,
     render: () => (
       <Frame>
-        <Carousel label="Recommended channels" headerAction={{ label: 'See all', href: '#' }}>
+        <Carousel label="Recommended channels">
           <ProfileCarousel
             items={[
               {
@@ -1795,46 +1850,6 @@ export const PREVIEWS = {
                 name: 'Compensation',
                 followers: '8.1K followers',
                 description: 'Salary checks, offer evaluations, and the quiet math of staying versus leaving — the channel that runs longer than any single conversation can.',
-                followed: true,
-              },
-              {
-                avatar: { src: IMG.brandLaptop, alt: 'Career' },
-                cover: { src: IMG.companyCover, alt: 'Office skyline' },
-                name: 'Career',
-                followers: '5.3K followers',
-                description: 'Promotion packets, scope debates, and the rewrites that actually cleared.',
-              },
-            ]}
-          />
-        </Carousel>
-      </Frame>
-    ),
-  },
-
-  /* Carousel · Profile with no header — both `label` and `headerAction`
-     omitted; the header row is suppressed and the pager sits flush
-     against the surface's block padding. Use when the surrounding
-     screen already provides the heading. */
-  'carousel/profile-no-header': {
-    states: false,
-    render: () => (
-      <Frame>
-        <Carousel>
-          <ProfileCarousel
-            items={[
-              {
-                avatar: { src: IMG.brandChip, alt: 'Engineering' },
-                cover: { src: IMG.startupCover, alt: 'Engineering workspace' },
-                name: 'Engineering',
-                followers: '12.4K followers',
-                description: 'Hands-on threads about systems, infra, and the work behind the launch.',
-              },
-              {
-                avatar: { src: IMG.brandChat, alt: 'Compensation' },
-                cover: { src: IMG.compensationCover, alt: 'Offer letters on a desk' },
-                name: 'Compensation',
-                followers: '8.1K followers',
-                description: 'Salary checks, offer evaluations, and the quiet math of staying versus leaving.',
                 followed: true,
               },
               {
@@ -2165,11 +2180,11 @@ export const PREVIEWS = {
     ),
   },
 
-  /* Suggestion list without a header action — the trailing "See all"
-     link is omitted, so the header collapses to just the section
-     label. Surfaces the entity-agnostic anatomy: same row shape carries
-     suggested people, not just channels. */
-  'suggestion-list/no-header-action': {
+  /* Suggestion list with a trailing header action — surfaces the
+     entity-agnostic anatomy (same row shape carries suggested people
+     instead of channels) and extends the header with an `accent`
+     Text Button when there's a broader index page to route to. */
+  'suggestion-list/with-header-action': {
     states: false,
     render: () => {
       function Demo() {
@@ -2184,7 +2199,13 @@ export const PREVIEWS = {
           active: r.following,
           onToggle: () => setRows((prev) => prev.map((p) => (p.value === r.value ? { ...p, following: !p.following } : p))),
         }));
-        return <SuggestionList label="People you may know" items={items} />;
+        return (
+          <SuggestionList
+            label="People you may know"
+            headerAction={{ label: 'See all', href: '#all' }}
+            items={items}
+          />
+        );
       }
       return (
         <Frame>
@@ -2194,18 +2215,20 @@ export const PREVIEWS = {
     },
   },
 
-  /* Suggestion list with no header at all — both `label` and
-     `headerAction` omitted; the header row is suppressed entirely and
-     the pager sits flush against the surface's block padding. Use when
-     the surrounding screen already provides the heading. */
-  'suggestion-list/no-header': {
+  /* DirectoryList — vertical follow-list at the `large` (48 avatar)
+     rung. Sibling of SuggestionList: same row anatomy but no swipeable
+     pager — the full set is scanned vertically. Demo seeds a couple of
+     rows as already-following so visitors can read both states. */
+  'directory-list/default': {
     states: false,
     render: () => {
       function Demo() {
         const seed = [
-          { value: 'sourdough', name: 'Sourdough Bakers', followers: '12.4K Followers', description: 'Open-crumb obsession, cold-proof timing, starter help.',  thumbnail: { src: IMG.breadAvatar,  alt: 'Sourdough Bakers' }, following: false },
-          { value: 'indiedev',  name: 'Indie Game Devs',  followers: '8,210 Followers', description: 'Shipping logs, postmortems, marketing on a budget.',        thumbnail: { src: IMG.gameAvatar,   alt: 'Indie Game Devs' }, following: false },
-          { value: 'plants',    name: 'Plant People',     followers: '21.7K Followers', description: 'Houseplant troubleshooting and propagation threads.',       thumbnail: { src: IMG.plantAvatar,  alt: 'Plant People' }, following: true  },
+          { value: 'breadclub',   name: 'Sourdough Bakers',     followers: '12.4K Followers', description: 'Open-crumb obsession and cold-proof timing.',          thumbnail: { src: IMG.breadAvatar,  alt: 'Sourdough Bakers' }, following: false },
+          { value: 'indiedevs',   name: 'Indie Game Devs',      followers: '8,210 Followers', description: 'Shipping logs, postmortems, marketing on a budget.',   thumbnail: { src: IMG.gameAvatar,   alt: 'Indie Game Devs' },   following: true  },
+          { value: 'plantfolk',   name: 'Plant People',         followers: '21.7K Followers', description: 'Houseplant troubleshooting and propagation threads.',  thumbnail: { src: IMG.plantAvatar,  alt: 'Plant People' },      following: false },
+          { value: 'moviechat',   name: 'Movie Talk',           followers: '34.2K Followers', description: 'Festival coverage, director threads, link shares.',    thumbnail: { src: IMG.cinemaAvatar, alt: 'Movie Talk' },        following: false },
+          { value: 'healthbeat',  name: 'Health · Diet',        followers: '11.3K Followers', description: 'Programs, macros, and weekday-meal logistics.',        thumbnail: { src: IMG.brandChip,    alt: 'Health · Diet' },     following: false },
         ];
         const [rows, setRows] = useState(seed);
         const items = rows.map((r) => ({
@@ -2213,7 +2236,7 @@ export const PREVIEWS = {
           active: r.following,
           onToggle: () => setRows((prev) => prev.map((p) => (p.value === r.value ? { ...p, following: !p.following } : p))),
         }));
-        return <SuggestionList items={items} aria-label="Recommended channels" />;
+        return <DirectoryList label="New channels" items={items} />;
       }
       return (
         <Frame>
@@ -2221,6 +2244,88 @@ export const PREVIEWS = {
         </Frame>
       );
     },
+  },
+
+  /* DirectoryList · with header action — extends the header with an
+     `accent` Text Button when the screen has an index page to route to.
+     Surfaces the entity-agnostic anatomy: same row shape carries
+     suggested people, not just channels. */
+  'directory-list/with-header-action': {
+    states: false,
+    render: () => {
+      function Demo() {
+        const seed = [
+          { value: 'jordan', name: 'Jordan Lee',    followers: '342 Followers',  description: 'PM at a logistics startup. Mostly here for roadmap reviews.',          thumbnail: { src: IMG.personJordan, alt: 'Jordan Lee' },    following: false },
+          { value: 'taylor', name: 'Taylor Brooks', followers: '1.1K Followers', description: 'Frontend engineer. Writes about the bits between framework and user.', thumbnail: { src: IMG.personTaylor, alt: 'Taylor Brooks' }, following: true  },
+          { value: 'morgan', name: 'Morgan Park',   followers: '512 Followers',  description: 'Designer-turned-PM. Notes on the handoff layer.',                       thumbnail: { src: IMG.personMorgan, alt: 'Morgan Park' },   following: false },
+        ];
+        const [rows, setRows] = useState(seed);
+        const items = rows.map((r) => ({
+          ...r,
+          active: r.following,
+          onToggle: () => setRows((prev) => prev.map((p) => (p.value === r.value ? { ...p, following: !p.following } : p))),
+        }));
+        return (
+          <DirectoryList
+            label="People you may know"
+            headerAction={{ label: 'See all', href: '#all' }}
+            items={items}
+          />
+        );
+      }
+      return (
+        <Frame>
+          <Demo />
+        </Frame>
+      );
+    },
+  },
+
+  /* NavList — vertical label-only nav list. Each row is a route
+     target; trailing chevron supplied by the list/nav variant.
+     Reach for it on category indexes, settings menus, and any "pick a
+     sub-page" surface where no leading thumbnail belongs. */
+  'nav-list/default': {
+    states: false,
+    render: () => (
+      <Frame>
+        <NavList
+          label="Category"
+          items={[
+            { value: 'location',      label: 'Location',              onClick: () => {} },
+            { value: 'job',           label: 'Job Function',          onClick: () => {} },
+            { value: 'learning',      label: 'Learning & Advising',   onClick: () => {} },
+            { value: 'money',         label: 'Money',                 onClick: () => {} },
+            { value: 'industry',      label: 'Industry',              onClick: () => {} },
+            { value: 'worklife',      label: 'Work Life',             onClick: () => {} },
+            { value: 'entertainment', label: 'Entertainment',         onClick: () => {} },
+            { value: 'relationships', label: 'Relationships & Social',onClick: () => {} },
+            { value: 'culture',       label: 'Culture',               onClick: () => {} },
+          ]}
+        />
+      </Frame>
+    ),
+  },
+
+  /* NavList · with header action — extends the header with an
+     `accent` Text Button for a sibling "Manage" / "View all" route. */
+  'nav-list/with-header-action': {
+    states: false,
+    render: () => (
+      <Frame>
+        <NavList
+          label="Settings"
+          headerAction={{ label: 'Manage', href: '#manage' }}
+          items={[
+            { value: 'account',       label: 'Account',       onClick: () => {} },
+            { value: 'notifications', label: 'Notifications', onClick: () => {} },
+            { value: 'privacy',       label: 'Privacy',       onClick: () => {} },
+            { value: 'appearance',    label: 'Appearance',    onClick: () => {} },
+            { value: 'language',      label: 'Language',      onClick: () => {} },
+          ]}
+        />
+      </Frame>
+    ),
   },
 
   /* List — text variant (default). Plain rows; no selection model.
