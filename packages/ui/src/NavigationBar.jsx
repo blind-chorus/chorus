@@ -56,6 +56,10 @@ function renderSlot(slot) {
 
 export function NavigationBar({
   variant = 'home',
+  /* Page variant — `surface` (default, opaque page chrome) or `overlay`
+     (transparent + fixed-white icons, for floating over a hero / cover
+     image such as inside ProfileHeader). Ignored on home / search. */
+  appearance = 'surface',
   title,
   /* Home variant — drawer trigger. The icon itself is fixed (always the
      menu glyph); consumers only wire onClick + the a11y label. */
@@ -114,7 +118,13 @@ export function NavigationBar({
     return (
       <header
         ref={ref}
-        className={joinClasses('chorus-navigation-bar', 'chorus-navigation-bar--page', className)}
+        className={joinClasses(
+          'chorus-navigation-bar',
+          'chorus-navigation-bar--page',
+          appearance === 'overlay' && 'chorus-navigation-bar--overlay',
+          className,
+        )}
+        data-appearance={appearance}
         {...rest}
       >
         <div className="chorus-navigation-bar__slot chorus-navigation-bar__slot--leading">{leadingEl}</div>

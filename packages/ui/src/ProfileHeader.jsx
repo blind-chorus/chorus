@@ -2,8 +2,9 @@
 
 import { useRef } from 'react';
 import { Button } from './Button.jsx';
+import { NavigationBar } from './NavigationBar.jsx';
 import { Thumbnail } from './Thumbnail.jsx';
-import { GlobeIcon, LockIcon } from './icons/index.js';
+import { ChevronLeftIcon, GlobeIcon, LockIcon, SearchIcon } from './icons/index.js';
 import { joinClasses } from './spec-utils.js';
 import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 
@@ -15,15 +16,18 @@ const VISIBILITY = {
 };
 
 /* ProfileHeader — identity block at the top of a profile detail screen.
-   Anatomy:
+   Anatomy (top to bottom):
+     - Overlay NavigationBar (page variant, appearance="overlay") —
+       transparent, fixed-white icons, floating over the cover
      - Cover band (200px tall, full-bleed, image-area fallback)
-     - Avatar (Thumbnail at 80) overlapping the cover by half its diameter
-     - Trailing follow Toggle Button on the same row as the avatar's lower half
-     - Name (<h1>, heading.lg)
-     - Visibility icon + label · followers (body.sm / onSurfaceVariant)
+     - Action row: avatar (Thumbnail 80, overlapping cover) + follow
+       Toggle Button (positioned 16px below cover bottom)
+     - Heading: name (<h1>, heading.lg) + meta row (visibility · followers)
    The cover bleeds edge-to-edge inside the page-shell content box; the
-   identity column pays its own 16px inline / block padding. See
-   schema/components/profile-header/profile-header.md. */
+   identity column pays its own 16px inline / block padding. The
+   NavigationBar is absolutely positioned over the cover so the cover
+   image fills the same 200px height regardless of the bar's presence.
+   See schema/components/profile-header/profile-header.md. */
 export function ProfileHeader({
   name,
   avatar,
@@ -35,6 +39,13 @@ export function ProfileHeader({
   onFollowChange,
   followLabel = 'Follow',
   followingLabel = 'Following',
+  /* Overlay nav controls. Defaults to a back-arrow leading + search
+     trailing. Pass `nav={false}` to opt out of the overlay bar. */
+  nav,
+  onBack,
+  onSearch,
+  backLabel = 'Back',
+  searchLabel = 'Search',
   className,
   ...rest
 }) {
@@ -49,6 +60,8 @@ export function ProfileHeader({
     if (onFollowChange) onFollowChange(!followed);
   };
 
+  const showNav = nav !== false;
+
   return (
     <section
       ref={ref}
@@ -61,6 +74,17 @@ export function ProfileHeader({
           src={cover?.src ?? PLACEHOLDER_IMAGE}
           alt={cover?.alt ?? ''}
         />
+        {showNav ? (
+          <div className="chorus-profile-header__nav">
+            <NavigationBar
+              variant="page"
+              appearance="overlay"
+              title=""
+              leading={{ icon: <ChevronLeftIcon />, 'aria-label': backLabel, onClick: onBack }}
+              trailing={{ icon: <SearchIcon />, 'aria-label': searchLabel, onClick: onSearch }}
+            />
+          </div>
+        ) : null}
       </div>
 
       <div className="chorus-profile-header__identity">
@@ -81,13 +105,14 @@ export function ProfileHeader({
           </Button>
         </div>
 
-        <h1 className="chorus-profile-header__name">{name}</h1>
-
-        <div className="chorus-profile-header__meta">
-          <VisibilityIcon size={16} className="chorus-profile-header__meta-icon" aria-hidden="true" />
-          <span className="chorus-profile-header__meta-visibility">{visibilityText}</span>
-          <span className="chorus-profile-header__meta-sep" aria-hidden="true">·</span>
-          <span className="chorus-profile-header__meta-followers">{followers}</span>
+        <div className="chorus-profile-header__heading">
+          <h1 className="chorus-profile-header__name">{name}</h1>
+          <div className="chorus-profile-header__meta">
+            <VisibilityIcon size={16} className="chorus-profile-header__meta-icon" aria-hidden="true" />
+            <span className="chorus-profile-header__meta-visibility">{visibilityText}</span>
+            <span className="chorus-profile-header__meta-sep" aria-hidden="true">·</span>
+            <span className="chorus-profile-header__meta-followers">{followers}</span>
+          </div>
         </div>
       </div>
     </section>

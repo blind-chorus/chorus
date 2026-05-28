@@ -2524,6 +2524,38 @@ export const PREVIEWS = {
     ),
   },
 
+  /* Overlay appearance — transparent + fixed-white icons. Painted on a
+     dim placeholder strip so the white icons stay legible inside the
+     docs preview stage (production hosts paint the bar over a real
+     cover image — e.g. inside ProfileHeader). */
+  'navigation-bar/page/overlay': {
+    states: false,
+    render: () => (
+      <Frame>
+        <div
+          style={{
+            position: 'relative',
+            background: 'var(--sys-color-surfaceContainerHigh)',
+            backgroundImage: 'var(--chorus-placeholder-image)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            height: 120,
+          }}
+        >
+          <div style={{ position: 'absolute', inset: '0 0 auto 0' }}>
+            <NavigationBar
+              variant="page"
+              appearance="overlay"
+              title=""
+              leading={{ icon: <ChevronLeftIcon />, 'aria-label': 'Back' }}
+              trailing={{ icon: <SearchIcon />, 'aria-label': 'Search' }}
+            />
+          </div>
+        </div>
+      </Frame>
+    ),
+  },
+
   /* Navigation Bar → Search — search-page top bar. Three-column grid
      (leading / bare input / conditional clear) over the same 56 / 8-8
      geometry as Home and Page. Clear (×) reveals only when the value is

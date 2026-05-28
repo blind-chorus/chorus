@@ -58,6 +58,31 @@
       "type": "string",
       "optional": true,
       "description": "Active follow-button label. Defaults to 'Following'."
+    },
+    "nav": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to render the overlay [Navigation bar/page](../navigation-bar/page.md) at the cover's top edge. Defaults to `true` (back-arrow leading + search trailing, transparent + fixed-white icons). Pass `false` when the host route already paints its own top chrome and the cover should be clean."
+    },
+    "onBack": {
+      "type": "function",
+      "optional": true,
+      "description": "Click handler for the overlay nav's leading back chevron."
+    },
+    "onSearch": {
+      "type": "function",
+      "optional": true,
+      "description": "Click handler for the overlay nav's trailing search icon."
+    },
+    "backLabel": {
+      "type": "string",
+      "optional": true,
+      "description": "Accessible label for the overlay nav's back chevron. Defaults to 'Back'."
+    },
+    "searchLabel": {
+      "type": "string",
+      "optional": true,
+      "description": "Accessible label for the overlay nav's search icon. Defaults to 'Search'."
     }
   },
   "slots": {
@@ -84,19 +109,30 @@
       "description": "Vertical column below the cover. Pays `sys.layout.container.md` (16px) inline padding and `sys.layout.stack.xs` (8px) stack gap between the action-row, the name, and the meta row.",
       "intrinsic": true
     },
+    "nav": {
+      "required": false,
+      "description": "Overlay [Navigation bar/page](../navigation-bar/page.md) at `appearance=\"overlay\"` — absolutely positioned at the cover's top edge with a transparent fill and fixed-white icons (back chevron leading, search trailing by default). Floats over the cover image; the host wires `onBack` / `onSearch`. Opt out with `nav={false}`.",
+      "intrinsic": true,
+      "rendersAs": "navigation-bar:page (appearance='overlay')"
+    },
     "actionRow": {
       "required": true,
-      "description": "Top row of the identity column. The avatar sits at the leading edge (overlapping the cover); the trailing [Toggle Button](../button/toggle.md) follow action sits at the trailing edge, vertically centred against the avatar's bottom half. `space-between` justify so the two affordances pin to opposite edges.",
+      "description": "Top row of the identity column. The avatar sits at the leading edge (overlapping the cover by half its diameter); the trailing [Toggle Button](../button/toggle.md) follow action sits at the trailing edge, **16px (`sys.layout.stack.md`) below the cover bottom**, so the affordance reads as its own breathing-room rather than aligning to the avatar's lower edge. `space-between` justify pins the two affordances to opposite edges.",
+      "intrinsic": true
+    },
+    "heading": {
+      "required": true,
+      "description": "Sub-group bundling the name and meta row. Vertical flex with `sys.layout.stack.2xs` (4px) gap so the page-level title and its meta line read as one heading block, set apart from the action row above by the identity column's `sys.layout.stack.xs` (8px) parent gap.",
       "intrinsic": true
     },
     "name": {
       "required": true,
-      "description": "Entity name. Renders as `<h1>` at `sys.typo.heading.lg` (24 / Semibold) / `sys.color.onSurface`. Single line; truncates with ellipsis.",
+      "description": "Entity name. Renders as `<h1>` at `sys.typo.heading.lg` (24 / Semibold) / `sys.color.onSurface`. Single line; truncates with ellipsis. Sits inside the `heading` sub-group.",
       "accepts": ["text"]
     },
     "meta": {
       "required": true,
-      "description": "Visibility + follower meta row. Composed as: [visibility icon] [visibility label] [bullet separator] [follower count]. `sys.typo.body.sm` (14 / Regular) / `sys.color.onSurfaceVariant`. Single line.",
+      "description": "Visibility + follower meta row. Composed as: [visibility icon] [visibility label] [bullet separator] [follower count]. `sys.typo.body.sm` (14 / Regular) / `sys.color.onSurfaceVariant`. Single line. Sits inside the `heading` sub-group, 4px below the name.",
       "intrinsic": true
     },
     "followAction": {
@@ -112,14 +148,17 @@
     "coverFill": "sys.color.surfaceContainerHigh (background underlay — the placeholder image paints on top via `object-fit: cover`)",
     "coverImageSource": "Same `/placeholder.png` asset every Chorus image-area slot falls back to. Decorative — `aria-hidden`. Consumers override via the `cover.src` prop.",
     "avatarSize": 80,
-    "avatarOverlap": "Avatar's vertical center sits on the cover band's bottom edge — the top half overlaps the cover, the bottom half sits on the identity surface. 2px surface halo separates the avatar from the cover band.",
-    "identityPaddingBlock": "sys.layout.container.md",
+    "avatarOverlap": "Avatar's vertical center sits on the cover band's bottom edge — the top half overlaps the cover, the bottom half sits on the identity surface. The avatar carries a 2-token (`sys.borderWidth.thin`) outset border in the host surface tone (`sys.color.surface`) so the circle reads as a separate plane from the cover. The border is painted as `box-shadow: 0 0 0 sys.borderWidth.thin sys.color.surface` rather than a CSS `border:` so the Thumbnail's intrinsic footprint isn't shrunk.",
+    "identityPaddingBlock": "0 sys.layout.container.md",
     "identityPaddingInline": "sys.layout.container.md",
     "identityStackGap": "sys.layout.stack.xs",
-    "actionRowAlign": "flex-end",
+    "headingStackGap": "sys.layout.stack.2xs",
+    "actionRowAlign": "flex-start",
     "actionRowJustify": "space-between",
-    "actionRowMarginTop": "calc(-1 * 40px)",
-    "actionRowMarginTopNote": "Negative margin so the avatar overlaps the cover by half its 80px diameter. The follow button stays inside the identity surface — it is anchored to the row's trailing edge but its baseline sits on the body, not the cover.",
+    "avatarMarginTop": "calc(-1 * 40px)",
+    "avatarMarginTopNote": "Negative margin lifts the avatar so its vertical centre lands on the cover bottom edge (half-overlap).",
+    "followMarginTop": "sys.layout.stack.md",
+    "followMarginTopNote": "Follow Toggle Button sits 16px below the cover bottom edge so the affordance reads with its own breathing room rather than aligning to the avatar's lower edge.",
     "nameTypo": "sys.typo.heading.lg",
     "nameColor": "sys.color.onSurface",
     "metaTypo": "sys.typo.body.sm",
@@ -135,10 +174,10 @@
   },
   "behavior": {
     "coverIsImageArea": "Same image-area fallback contract as Thumbnail / Profile carousel cover: missing or failed `<img>` resolves to the bundled `/placeholder.png` over a `surfaceContainerHigh` underlay so the slot still reads as an image. Design-time scaffolds should pass `cover.src` explicitly.",
-    "avatarOverlapsCover": "The avatar's vertical centre sits on the cover band's bottom edge. The negative top margin on the identity surface (-40px = -avatar diameter / 2) achieves the overlap without absolute positioning. The follow button anchors to the same row as the avatar's lower half but stays inside the identity surface.",
+    "avatarOverlapsCover": "Avatar carries `margin-top: -40px` so its vertical centre lands on the cover bottom edge — half-overlap. The follow Toggle Button sits in the same action row but with `margin-top: sys.layout.stack.md` (16) so it floats 16px below the cover bottom, independent of the avatar's lower edge.",
     "followToggleCommitsInPlace": "Tapping `Follow` flips the trailing Toggle Button to `Following` and stays there. Consumer owns state via `followed` + `onFollowChange`.",
     "nameSemantics": "`name` renders as `<h1>` — the page-level heading. The host route should not paint a separate `<h1>` elsewhere on the page. Use `as=\"div\"` on a downstream Header if a labelled-region heading is composed below.",
-    "overlayNavCompatible": "Cover height (200px) reserves the safe area for an overlay [Navigation bar/page](../navigation-bar/page.md) with `background: transparent`. The bar pays its own `env(safe-area-inset-top)` and 8 / 16 padding; the ProfileHeader does not paint a separate status-bar safe area."
+    "overlayNav": "ProfileHeader paints an overlay [Navigation bar/page](../navigation-bar/page.md) at `appearance=\"overlay\"` absolutely positioned at the cover's top edge — transparent fill, fixed-white icons, the cover image underneath provides the contrast. The bar pays its own `env(safe-area-inset-top)`. Defaults: back chevron leading, search icon trailing; consumer wires `onBack` / `onSearch`. Opt out with `nav={false}` when the host route prefers no overlay chrome."
   },
   "forbidden": [
     "ProfileHeader wrapped in a horizontal-padding div — the family is full-bleed by declaration; the identity row pays inline padding internally",

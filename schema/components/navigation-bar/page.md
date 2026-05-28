@@ -88,6 +88,24 @@ import { NavigationBar } from '@blind-dsai/ui';
 />
 ```
 
+### Overlay (on hero / cover image)
+
+`appearance="overlay"` paints a transparent container with **fixed-white** icons and title — the bar floats over a hero / cover image (canonical host: [Profile header](../profile-header/profile-header.md)). The image beneath provides the contrast; theme tokens don't apply because the bar is no longer the surface tier. The bar still pays its own `env(safe-area-inset-top)` so the status-bar zone reads cleanly against the image.
+
+```preview
+navigation-bar/page/overlay
+---
+import { NavigationBar } from '@blind-dsai/ui';
+
+<NavigationBar
+  variant="page"
+  appearance="overlay"
+  title=""
+  leading={{ icon: <ChevronLeftIcon />, 'aria-label': 'Back' }}
+  trailing={{ icon: <SearchIcon />, 'aria-label': 'Search' }}
+/>
+```
+
 ## Slots
 
 - **leading** (optional) — typically a 24px back-arrow icon, rendered as a transparent icon capsule.
