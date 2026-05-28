@@ -1,0 +1,235 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "List",
+  "family": "list",
+  "subcomponent": "entry",
+  "description": "Directory-entry List variant — edge-to-edge rows that pair a leading [Thumbnail](../thumbnail/thumbnail.md) (selectable rung 32 / 40 / 48 / 56 via `size=\"small|medium|large|xlarge\"`) with an identity group (label + optional inline `count` Badge + optional stacked `secondary` line — e.g. follower count — that tile flush with line-height-only spacing) and an optional single-line `description` separated from the identity group by `ref.space.25` (2). Optional trailing affordance per row. Same click semantics as the text variant — no selection model. Replaces the legacy `row/entity` atom — every entity-row case (follow suggestion, member directory, subscription / channel / topic / playlist directory) now ships as a full-bleed list at this variant.",
+  "element": "ul",
+  "props": {
+    "embedded": {
+      "type": "boolean",
+      "default": false,
+      "description": "Composition mode flag. When `true` (or when the List is a direct child of `.chorus-section` / `.chorus-feed`), enters **embedded mode**: zeroes its own `background` + `padding` so chrome defers to the host. Pass explicitly inside `<Section>` / `<Feed>` for the contract to be visible in JSX; the DOM-ancestry safety net in styles.css also activates the mode when omitted. See `compositionModes` in `list.family.json`."
+    },
+    "size": {
+      "type": "literal",
+      "values": [
+        "small",
+        "medium",
+        "large",
+        "xlarge"
+      ],
+      "default": "medium",
+      "description": "Thumbnail rung shared by every row in the list — `small` = 32, `medium` = 40, `large` = 48, `xlarge` = 56. The row's inline padding (16), block padding (8), and the family-wide row min-height (48) stay constant across sizes; only the leading Thumbnail footprint changes. Pick `small` for compact directories where the avatar reads as a mark, `medium` for the canonical channel / source directory, `large` for member-directory rows where the avatar carries identity weight, `xlarge` for the canonical follow-suggestion rung used by [SuggestionList](../suggestion-list/suggestion-list.md)."
+    },
+    "items": {
+      "type": "node",
+      "required": true,
+      "description": "Array of row descriptors. Each item passes `thumbnail` props forwarded verbatim to the Thumbnail component."
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "description": "Outer scroll surface. Vertical stack with a transparent fill (inherits parent container tone); rows separated by a 1px outlineVariant divider, not a gap."
+    },
+    "row": {
+      "required": true,
+      "description": "Single list item. Whole row is the interactive target."
+    },
+    "leading": {
+      "required": true,
+      "agentRequired": true,
+      "omittedBehavior": "error",
+      "fallbackOnMissingSrc": "sys.color.surfaceContainerHigh",
+      "description": "Thumbnail at the leading edge at the list's `size` rung (32 / 40 / 48 / 56), vertically centred against the text column. Forwarded verbatim from item.thumbnail. `omittedBehavior: error` because every row in this variant MUST carry a thumbnail (use list/text or list/nav when no leading image is needed). `fallbackOnMissingSrc` is the dim-tone fill the Thumbnail paints when `src` is empty / fails to load — at scaffold time, agents fill `src` with `/placeholder.png` rather than relying on the fallback.",
+      "accepts": [
+        "thumbnail"
+      ]
+    },
+    "label": {
+      "required": true,
+      "description": "Primary row text. `sys.typo.label.md` (14 / Semibold) / `sys.color.onSurface`. Single line; truncates with ellipsis. Pairs flush with the inline `count` slot — no gap between them, only `sys.layout.inline.sm` (4) horizontal separation on the primary row.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "count": {
+      "required": false,
+      "description": "Optional inline node painted to the right of the label on the same line (e.g. follower count, member count). Canonical fill is a numeric [Badge](../badge/badge.md). Separated from the label by `sys.layout.inline.sm` (4). Label shrinks first so a long name truncates against the count.",
+      "accepts": [
+        "badge",
+        "text"
+      ]
+    },
+    "secondary": {
+      "required": false,
+      "description": "Optional stacked meta line painted below the label inside the identity group (e.g. `'12.4K Followers'`, `'Brooklyn, NY · Home baker'`). `sys.typo.caption.md` (12 / Regular) / `sys.color.onSurface`. Tiles flush with the label — line-height-only spacing, no margin — so the two lines read as one tight identity block.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "description": {
+      "required": false,
+      "description": "Optional secondary line under the identity group. `sys.typo.caption.md` (12 / Regular) / `sys.color.onSurfaceVariant`. Single line; truncates with ellipsis. Separated from the identity group by `ref.space.25` (2) so the description reads as a tight supporting layer below the name rather than as a co-equal line.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "trailingIcon": {
+      "required": false,
+      "description": "Node at the trailing edge. Consumer-supplied. Accepts a decorative icon, a toggle button (favorite / mute / pin), a numeric badge, or a small text button (Follow / Invite). Taps on the trailing slot stop propagating before they reach the row's `onClick` — the slot is a separate hit target so the consumer can wire its own action without committing the row.",
+      "accepts": [
+        "icon",
+        "badge",
+        "button"
+      ]
+    }
+  },
+  "rowProps": {
+    "value": {
+      "type": "string",
+      "required": true
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "count": {
+      "type": "node",
+      "optional": true,
+      "description": "Inline count node painted flush with the label. Canonical fill: `<Badge count={n} />`."
+    },
+    "secondary": {
+      "type": "string",
+      "optional": true,
+      "description": "Stacked meta line painted below the label inside the identity group (e.g. follower count text, location). Caption-tone but `onSurface` color — reads as part of the identity block, not as a recessive description."
+    },
+    "description": {
+      "type": "string",
+      "optional": true,
+      "description": "Single-line caption-tone description under the identity group. Truncates with ellipsis; never wraps to a second line."
+    },
+    "thumbnail": {
+      "type": "object",
+      "required": true,
+      "description": "Forwarded to Thumbnail verbatim (`src`, `alt`, optional `shape`, optional `updateDot`, optional `logoBadge`)."
+    },
+    "trailingIcon": {
+      "type": "node",
+      "optional": true,
+      "description": "Trailing-edge node. Wrapped in a slot that stops click propagation so the slot is its own hit target separate from the row's `onClick`."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "divider": {
+      "type": "boolean",
+      "default": true,
+      "description": "Per-row bottom-divider opt-out. Pass `divider: false` to suppress the hairline `outlineVariant` rule beneath the row; the row's footprint and inline padding stay unchanged. Reach for it when a visual group ends mid-stack and the divider would visually fence off the next group from its label."
+    },
+    "strong": {
+      "type": "boolean",
+      "default": false,
+      "description": "Per-row label-emphasis opt-in (family-wide contract — see [list.md § Cross-sub contract](./list.md)). Already Semibold at rest in this variant; `strong` is the no-op marker reserved for parity with other subs and to support future weight shifts without breaking the prop surface."
+    },
+    "onClick": {
+      "type": "function",
+      "optional": true
+    },
+    "forcedState": {
+      "type": "literal",
+      "values": [
+        "hovered",
+        "pressed",
+        "focused"
+      ],
+      "optional": true,
+      "description": "Docs-only — pins the row to a single visual state via `data-force-state`. Not for production use."
+    }
+  },
+  "sizing": {
+    "rowPaddingBlock": "ref.space.100",
+    "rowPaddingInline": "ref.space.200",
+    "rowMinHeight": "ref.space.600",
+    "leadingLabelGap": "sys.layout.inline.lg",
+    "dividerWidth": "sys.borderWidth.hairline",
+    "dividerColor": "sys.color.outlineVariant",
+    "dividerPerRowOptOut": "Pass `divider: false` on a row to suppress its bottom divider.",
+    "labelTypo": "14 / Semibold",
+    "labelColor": "sys.color.onSurface",
+    "labelToCountGap": "sys.layout.inline.sm",
+    "secondaryTypo": "12 / Regular",
+    "secondaryColor": "sys.color.onSurface",
+    "secondaryToLabelGap": "0",
+    "identityToDescriptionGap": "ref.space.25",
+    "descriptionTypo": "12 / Regular",
+    "descriptionColor": "sys.color.onSurfaceVariant",
+    "descriptionMaxLines": 1,
+    "leadingThumbnailSize": {
+      "small": 32,
+      "medium": 40,
+      "large": 48,
+      "xlarge": 56
+    },
+    "dividerInset": "left 16 + right 16 from the row's edges (overrides the family-wide `right: 0` rule). At `size=\"xlarge\"`, the divider's left edge anchors to the text column instead (16 + 56 + 12 = 84 from the row's leading edge) so the rule reads as separating the text columns of two suggestion rows.",
+    "trailingIconSize": "16 × 16",
+    "trailingIconColor": "sys.color.onSurfaceVariant"
+  },
+  "states": {
+    "default": {
+      "overlay": null
+    },
+    "hovered": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.hover"
+      }
+    },
+    "pressed": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.pressed"
+      }
+    },
+    "disabled": {
+      "containerOpacity": "sys.state.disabled",
+      "pointerEvents": "none"
+    }
+  },
+  "focusIndicator": {
+    "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the row is in.",
+    "composition": "inward",
+    "compositionReason": "Rows tile the column flush with only a hairline `outlineVariant` divider between them; an outward ring would overlap the divider and the neighbouring row.",
+    "overlay": {
+      "color": "label",
+      "opacity": "sys.state.focus"
+    },
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "outerLayerPosition": "depth 0..2px from the row edge (the outer stroke)",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset",
+      "insetLayerPosition": "depth 2..3px from the row edge (the counter-ring just inside the outer stroke)",
+      "implementation": "inset box-shadow on the row's `::before` overlay (the `::after` carries the inter-row divider). Constrained strictly inside the row's footprint and never exceeds it."
+    },
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  },
+  "behavior": {
+    "keyboardNavigation": "Arrow up/down moves focus between rows. Home and End jump to first / last.",
+    "rowClickTarget": "Whole row is clickable when an `onClick` is bound to the item. The thumbnail is never a separate hit target.",
+    "identityGroupFlush": "Label and inline count tile flush on the primary line with `sys.layout.inline.sm` (4) horizontal separation and no vertical gap — they read as one tight identity block.",
+    "descriptionSingleLine": "Description always renders on a single line and truncates with ellipsis. The row never grows to fit longer description copy — overflow truncates against the trailing slot if present.",
+    "trailingSlotIndependent": "Clicks inside `trailingIcon` stop propagating before they reach the row's `onClick`. Wire a favorite / follow / overflow action there without it committing the row's primary action."
+  },
+  "forbidden": [
+    "thumbnail slot omitted — the variant requires a thumbnail leading slot",
+    "thumbnail rendered as a raw <img> outside the chorus-thumbnail slot wrapper",
+    "thumbnail size different from the list's `size` rung (32 / 40 / 48 / 56)",
+    "description rendered as a multi-line block — the spec is single-line, truncated",
+    "extra gap between label and count — they tile flush on the primary line",
+    "wrapping the list in another `padding-inline` / `px-*` div — the list owns its 16px inline rail at the row level"
+  ]
+}

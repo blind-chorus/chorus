@@ -1,0 +1,23 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "metadata",
+  "name": "Metadata",
+  "description": "Author / brand attribution cluster shared by [Feed Post](../feed/post.md) and [Feed Ad](../feed/ad.md). A leading 32-rung [Thumbnail](../thumbnail/thumbnail.md), a primary line (entity name + optional inline timestamp + optional follow toggle), and an optional secondary line (a plain `subtitle` text — canonical 'Sponsored' for ads — or an array of independently-linked `meta` items: location, job function, @handle). Optional trailing slot hosts a row-level affordance like the dismiss × button on ads. The middot separator's line-box is constrained to its font-size so the dot never inflates the surrounding text line.",
+  "useCases": [
+    "feed post author attribution",
+    "feed ad brand attribution",
+    "sponsored placement attribution"
+  ],
+  "visualReuse": "open",
+  "layoutInset": "inline",
+  "wrapperGuidance": "Atom — pays no inline padding of its own. Sits inside whichever Feed sub-component composes it (Post / Ad card head); the host pays surrounding rhythm. Do NOT wrap Metadata in a per-row padding-inline div.",
+  "spec": "metadata.md",
+  "subcomponents": [
+    {
+      "slug": "metadata",
+      "spec": "metadata.spec.json",
+      "md": "metadata.md",
+      "default": true
+    }
+  ]
+}

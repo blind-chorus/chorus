@@ -1,14 +1,14 @@
 # Nav card
 
-A bounded single-row navigation card — an outlined rounded surface with a leading label, an optional supporting line, and an auto-rendered trailing chevron. The whole card is the drill-in tap target.
+A bounded single-row card — an outlined rounded surface with a label, an optional supporting line, and an optional trailing affordance. Two variants select the trailing shape: `default` ships no trailing icon (bare labelled tile), `nav` auto-renders the right-pointing chevron (the explicit drill-in form). The whole card is the tap target.
 
-**Reach for this when** one drill-in row needs to read as its own discrete affordance — a standalone settings entry, a picker trigger, a channel / scope selector card, or a bounded-surface drill-in where the host supplies the surrounding stack rhythm. **Skip when** drill-in rows are stacked into a vertical column (use [List/nav](../list/nav.md)), the action is a commit (use [Button](../button/button.md)), or the surface is purely informational (use [Banner](../banner/banner.md)).
+**Reach for this when** one row needs to read as its own discrete affordance — a labelled scope tile (`default`), a standalone settings drill-in (`nav`), a picker trigger, or a channel / sub-brand entry card. **Skip when** rows are stacked into a vertical column (use [List/nav](../list/nav.md)), the action is a commit (use [Button](../button/button.md)), or the surface is purely informational (use [Banner](../banner/banner.md)).
 
-**Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge. The card pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `inline` — NavCard is an inline card. It carries its own internal `16px inline / 8px block` padding (`layout.container.md` / `layout.container.xs`), `radius.md` corners, hairline outline, 48px min-height, and `width: 100%` so it fills the host column. It ships **no outer margin** and does NOT claim the page rail. The host owns the surrounding inset: at the page-shell level the shell's `layout.page.md` (16) gutter provides the horizontal safe zone; inside another host (`<Section>` body, `<BottomSheet>` content slot, `<SideSheet>` column, `<NavCardGroup>` stack) the host's container padding governs the inset. Vertical spacing between NavCards comes from `NavCardGroup`'s `gap: var(--sys-layout-stack-xs)` (8) — never paint per-child `margin-block` on NavCard.
 
 ## Default
 
-The bare form — label and auto-rendered trailing chevron.
+The bare form — label only, no trailing icon. Reach for it when the card is a labelled tile (scope label, status card, informational entry) and the drill-in chevron would over-promise navigation.
 
 ```preview
 nav-card/default
@@ -20,9 +20,21 @@ import { NavCard } from '@blind-dsai/ui';
 
 ## Use cases
 
+### Nav (with trailing chevron)
+
+`variant="nav"` auto-renders the right-pointing chevron — the explicit drill-in form. Reach for it when the card routes into another surface (settings detail, picker, sub-flow).
+
+```preview
+nav-card/nav
+---
+import { NavCard } from '@blind-dsai/ui';
+
+<NavCard variant="nav" label="Cell label here" href="#" />
+```
+
 ### With supporting text
 
-A two-line variant — primary label on top, supporting metadata below at `onSurfaceVariant`.
+A two-line variant — primary label on top, supporting metadata below at `onSurfaceVariant`. Works with either variant; pair with `nav` when the drill-in is metadata-bearing.
 
 ```preview
 nav-card/supporting
@@ -30,6 +42,7 @@ nav-card/supporting
 import { NavCard } from '@blind-dsai/ui';
 
 <NavCard
+  variant="nav"
   label="Saved posts"
   supportingText="47 posts across 9 channels"
   href="#"
@@ -38,7 +51,7 @@ import { NavCard } from '@blind-dsai/ui';
 
 ### With leading icon
 
-A leading 16 × 16 glyph anchored at the inline padding edge, vertically centred against the label column.
+A leading 16 × 16 glyph at the inline padding edge. **The icon vertically centres on the row's parent block** — it shares the row's `align-items: center` axis with the label-col and the trailing slot, so the glyph sits on the same midline as the label (one-line) or the label + supportingText block (two-line).
 
 ```preview
 nav-card/leading-icon
@@ -49,13 +62,14 @@ import { BellIcon } from '@blind-dsai/ui/icons';
 <NavCard
   label="Notifications"
   leading={<BellIcon size={16} />}
+  supportingText="3 unread mentions"
   href="#"
 />
 ```
 
 ### With leading thumbnail
 
-A leading 32-rung [Thumbnail](../thumbnail/thumbnail.md) — used when the drill target is an entity (channel, person, brand) rather than a chrome action.
+A leading 32-rung [Thumbnail](../thumbnail/thumbnail.md) — used when the drill target is an entity (channel, person, brand) rather than a chrome action. The thumbnail block-centres on the row's vertical midline, same as an icon leading.
 
 ```preview
 nav-card/leading-thumbnail
@@ -63,6 +77,7 @@ nav-card/leading-thumbnail
 import { NavCard, Thumbnail } from '@blind-dsai/ui';
 
 <NavCard
+  variant="nav"
   label="Hyundai Motor"
   supportingText="Private · My company"
   leading={<Thumbnail size={32} alt="Hyundai" />}
@@ -81,9 +96,9 @@ import { NavCard, NavCardGroup } from '@blind-dsai/ui';
 import { BellIcon, BookmarkIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 
 <NavCardGroup aria-label="Account">
-  <NavCard label="Profile" supportingText="Display name, avatar, bio" leading={<ProfileIcon size={16} />} href="#" />
-  <NavCard label="Saved posts" supportingText="47 posts across 9 channels" leading={<BookmarkIcon size={16} />} href="#" />
-  <NavCard label="Notifications" leading={<BellIcon size={16} />} href="#" />
+  <NavCard variant="nav" label="Profile" supportingText="Display name, avatar, bio" leading={<ProfileIcon size={16} />} href="#" />
+  <NavCard variant="nav" label="Saved posts" supportingText="47 posts across 9 channels" leading={<BookmarkIcon size={16} />} href="#" />
+  <NavCard variant="nav" label="Notifications" leading={<BellIcon size={16} />} href="#" />
 </NavCardGroup>
 ```
 
@@ -105,9 +120,9 @@ import { BellIcon, BookmarkIcon, ProfileIcon } from '@blind-dsai/ui/icons';
   }}
 >
   <NavCardGroup aria-label="Account">
-    <NavCard appearance="surface" label="Profile" supportingText="Display name, avatar, bio" leading={<ProfileIcon size={16} />} href="#" />
-    <NavCard appearance="surface" label="Saved posts" supportingText="47 posts across 9 channels" leading={<BookmarkIcon size={16} />} href="#" />
-    <NavCard appearance="surface" label="Notifications" leading={<BellIcon size={16} />} href="#" />
+    <NavCard variant="nav" appearance="surface" label="Profile" supportingText="Display name, avatar, bio" leading={<ProfileIcon size={16} />} href="#" />
+    <NavCard variant="nav" appearance="surface" label="Saved posts" supportingText="47 posts across 9 channels" leading={<BookmarkIcon size={16} />} href="#" />
+    <NavCard variant="nav" appearance="surface" label="Notifications" leading={<BellIcon size={16} />} href="#" />
   </NavCardGroup>
 </div>
 ```
@@ -115,22 +130,22 @@ import { BellIcon, BookmarkIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 ## Slots
 
 - **container** — outlined rounded box. `surface` fill, `radius.md` corners, hairline `outlineVariant` stroke painted as inset box-shadow (never `border:`).
-- **leading** *(optional)* — 16px icon (`currentColor`) or 32-rung [Thumbnail](../thumbnail/thumbnail.md). Omitted by default; label flushes to the inline padding edge.
+- **leading** *(optional)* — 16px icon (`currentColor`) or 32-rung [Thumbnail](../thumbnail/thumbnail.md). Block-centred on the row's vertical midline — same contract for icon and thumbnail. Omitted by default; label flushes to the inline padding edge.
 - **labelCol** — vertical column holding label and (optional) supportingText. `min-width: 0` so both lines truncate.
 - **label** — primary card text. 14px / Regular / `onSurface`. Single line; truncates.
 - **supportingText** *(optional)* — secondary line under label. 12px / Regular / `onSurfaceVariant`. Sits flush under the label with no extra top margin — line-height alone separates the two rows.
-- **trailingIcon** — auto-rendered right-pointing chevron at 16px, `onSurfaceVariant`. A `trailingIcon` prop overrides.
+- **trailingIcon** *(optional)* — on `variant="nav"`, an auto-rendered right-pointing chevron at 16px, `onSurfaceVariant`. On `variant="default"` no trailing renders. A `trailingIcon` prop overrides either case. Slot stays block-centred regardless of one-line / two-line body.
 
 ## Anatomy
 
 | Slot           | Token bindings |
 |----------------|----------------|
 | container      | `surface` fill, `radius.md` corners, hairline `outlineVariant` inset box-shadow, `48px` min-height, `8px` block / `16px` inline padding |
-| leading        | 16 × 16 icon (`currentColor`) or 32 × 32 Thumbnail; `sys.layout.inline.md` (8px) gap to label column |
+| leading        | 16 × 16 (`sys.icon.md`) glyph in `currentColor` or 32 × 32 [Thumbnail](../thumbnail/thumbnail.md). Block-centred on the row's vertical midline (same contract for icon and thumbnail). `sys.layout.inline.md` (8px) gap to label column |
 | labelCol       | Flex column, `min-width: 0`, no inter-line margin (line-height carries the rhythm) |
 | label          | `sys.typo.body.sm` (14 / Regular) / `onSurface` |
 | supportingText | `sys.typo.caption.md` (12 / Regular) / `onSurfaceVariant`, no top margin |
-| trailingIcon   | 16 × 16, `onSurfaceVariant`, `sys.layout.inline.md` (8px) gap to label column |
+| trailingIcon   | 16 × 16, `onSurfaceVariant`, `sys.layout.inline.md` (8px) gap to label column. Auto-rendered chevron on `variant="nav"`; omitted on `variant="default"` unless `trailingIcon` is supplied. Always block-centred. |
 | group          | `NavCardGroup` flex column, `sys.layout.stack.xs` (8px) gap between cards |
 
 ## Appearance

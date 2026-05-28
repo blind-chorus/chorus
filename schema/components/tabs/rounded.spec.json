@@ -67,7 +67,7 @@
     "paddingBlock": "sys.layout.container.2xs",
     "paddingInline": "sys.layout.container.sm",
     "labelInset": "sys.layout.container.2xs",
-    "slotGap": "0px",
+    "slotGap": "0",
     "interTabGap": "sys.layout.inline.sm",
     "radius": "sys.radius.md",
     "labelTypo": "sys.typo.label.sm",

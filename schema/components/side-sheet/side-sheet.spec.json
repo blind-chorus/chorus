@@ -35,7 +35,7 @@
     "children": {
       "type": "node",
       "required": true,
-      "description": "Body content. Free-form composition; the canonical fill is one or more Header (size=\"medium\") + List (variant=\"thumbnail\" density=\"compact\") pairs."
+      "description": "Body content. Free-form composition; the canonical fill is one or more Header (size=\"medium\") + embedded [list/entry](../list/entry.md) directory stack pairs (40 avatar + label + inline count Badge + optional trailing icon toggle)."
     },
     "inline": {
       "type": "boolean",

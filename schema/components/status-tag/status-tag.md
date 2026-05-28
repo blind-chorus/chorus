@@ -42,7 +42,7 @@ status-tag/list-row
 import { List, StatusTag, Thumbnail } from '@blind-dsai/ui';
 
 <List
-  variant="thumbnail"
+  variant="image"
   items={[
     {
       value: 'ch-2',

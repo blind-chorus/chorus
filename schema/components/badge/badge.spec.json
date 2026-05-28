@@ -67,30 +67,30 @@
     "medium": {
       "minHeight": "ref.space.250",
       "minWidth": "ref.space.250",
-      "paddingBlock": "0px",
+      "paddingBlock": "0",
       "paddingInline": "ref.space.75",
       "labelTypo": "sys.typo.label.sm"
     },
     "small": {
       "minHeight": "ref.space.200",
       "minWidth": "ref.space.200",
-      "paddingBlock": "0px",
+      "paddingBlock": "0",
       "paddingInline": "sys.layout.container.2xs",
       "labelTypo": "sys.typo.caption.sm"
     },
     "dot-md": {
       "minHeight": "ref.space.100",
       "minWidth": "ref.space.100",
-      "paddingBlock": "0px",
-      "paddingInline": "0px",
+      "paddingBlock": "0",
+      "paddingInline": "0",
       "labelTypo": null,
       "note": "Labelless 8 × 8 dot (`ref.space.100`) — Thumbnail's update flag at the 32 / 40 / 48 rungs. Paints the brand fill with a 1px `surface`-color halo so it carves out of the host image."
     },
     "dot-sm": {
       "minHeight": "ref.space.75",
       "minWidth": "ref.space.75",
-      "paddingBlock": "0px",
-      "paddingInline": "0px",
+      "paddingBlock": "0",
+      "paddingInline": "0",
       "labelTypo": null,
       "note": "Labelless 6 × 6 dot (`ref.space.75`) — Thumbnail's update flag at the 16 / 20 / 24 rungs."
     }

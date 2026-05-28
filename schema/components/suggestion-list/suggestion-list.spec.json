@@ -3,7 +3,7 @@
   "name": "SuggestionList",
   "family": "suggestion-list",
   "exportAlias": "ChannelList",
-  "description": "Vertically-stacked block of follow suggestions rendered as a swipeable pager. One page shows three rows; the next page peeks at the trailing edge to invite the swipe. Each row pairs a Thumbnail at the 48 rung with a stacked text column (display name, follower / meta count, description) and a trailing Toggle Button that flips between 'Follow' and 'Following'. Anatomy is entity-agnostic — suggested channels, suggested people, suggested companies, suggested topics all share the same shape.",
+  "description": "Vertically-stacked block of follow suggestions rendered as a swipeable pager. One page shows three rows that follow the [list/entry](../list/entry.md) visual contract at the `xlarge` rung (56 Thumbnail + identity group of label + stacked `secondary` follower count + `description` + trailing Toggle Button flipping between 'Follow' and 'Following'); the next page peeks at the trailing edge to invite the swipe. Anatomy is entity-agnostic — suggested channels, suggested people, suggested companies, suggested topics all share the same shape.",
   "element": "div",
   "props": {
     "embedded": {
@@ -64,45 +64,15 @@
     },
     "row": {
       "required": true,
-      "description": "Single channel suggestion. Flex row: avatar → text column → trailing toggle.",
-      "intrinsic": true
-    },
-    "avatar": {
-      "required": true,
-      "description": "Thumbnail at size 48 — every prop forwarded verbatim.",
+      "intrinsic": true,
+      "description": "Single channel suggestion rendered as a [list/entry](../list/entry.md)-shaped row at `xlarge` rung. Item descriptors map to entry slots: `name` → `label`, `followers` → `secondary`, `description` → `description`, `thumbnail` → `thumbnail` (forwarded verbatim at the 56 rung), `active` + `onToggle` → `trailingIcon` (a Toggle Button). SuggestionList wraps the row with its own bottom-padding + hairline divider (text-column anchored).",
       "accepts": [
-        "thumbnail"
-      ]
-    },
-    "textColumn": {
-      "required": true,
-      "description": "Vertical stack of channelName, followers, description. min-width: 0 so children can truncate.",
-      "intrinsic": true
-    },
-    "channelName": {
-      "required": true,
-      "description": "label.md / Semibold / onSurface.",
-      "accepts": [
-        "text"
-      ]
-    },
-    "followers": {
-      "required": true,
-      "description": "caption.md / Regular / onSurface.",
-      "accepts": [
-        "text"
-      ]
-    },
-    "description": {
-      "required": true,
-      "description": "caption.md / Regular / onSurfaceVariant.",
-      "accepts": [
-        "text"
+        "row"
       ]
     },
     "trailingAction": {
       "required": true,
-      "description": "Toggle Button — the row's only commit affordance. The row itself is not clickable.",
+      "description": "[Toggle Button](../button/toggle.md) — the row's only commit affordance, composed into the row's `trailingIcon` slot. The row body itself is not clickable.",
       "accepts": [
         "button"
       ]
@@ -121,17 +91,12 @@
     "pageGap": "sys.layout.inline.xl",
     "pagePeek": "sys.layout.inline.md",
     "pageRowGap": "sys.layout.stack.sm",
-    "rowAvatarGap": "sys.layout.container.sm",
-    "rowToggleGap": "sys.layout.container.sm",
-    "rowBottomPadding": "sys.layout.container.sm",
+    "rowComposition": "list/entry-shaped row at `xlarge` rung — avatar 56, row gap inline.lg, label.md / onSurface, stacked `secondary` caption.md / onSurface, `description` caption.md / onSurfaceVariant separated from the identity group by ref.space.25. SuggestionList adds the per-row chrome (bottom padding + text-column-anchored divider) on top of that.",
+    "rowBottomPadding": "sys.layout.stack.sm",
+    "rowBottomPaddingNote": "The bottom padding sits between the row's text content and the hairline divider so the divider reads as a separator rather than a baseline rule.",
     "dividerWidth": "sys.borderWidth.hairline",
     "dividerColor": "sys.color.outlineVariant",
-    "textColumnLineGap": "2px",
-    "avatarSize": 48,
-    "channelNameTypo": "sys.typo.label.md",
-    "followersTypo": "sys.typo.caption.md",
-    "descriptionTypo": "sys.typo.caption.md",
-    "descriptionColor": "sys.color.onSurfaceVariant"
+    "dividerInset": "calc(ref.space.700 + sys.layout.inline.lg) = 68px from the row's leading edge — anchors to the start of the row's text column so the divider aligns with the column, not the avatar."
   },
   "rowProps": {
     "value": {
@@ -196,7 +161,7 @@
     "toggleCommitsInPlace": "Tapping 'Follow' flips the row's button to 'Following' and stays there. State is owned by the consumer via items[i].active + onToggle."
   },
   "forbidden": [
-    "row leading thumbnail rendered outside the chorus-thumbnail slot",
+    "row anatomy diverged from the [list/entry](../list/entry.md) visual contract — SuggestionList's row IS an entry-shaped row at the xlarge rung (56); rebuilding the avatar + text column + trailing slot with different typography or geometry is a forbidden divergence",
     "follow action rendered as button/standard — the follow affordance is button/toggle per the spec",
     "pager-style scroll snap removed — the swipeable pager is the family contract",
     "more than the declared page-of-rows shown at once — overflow is the swipeable affordance, not a wrap"

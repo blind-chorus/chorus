@@ -20,7 +20,7 @@ const VISIBILITY = {
      - Overlay NavigationBar (page variant, appearance="overlay") —
        transparent, fixed-white icons, floating over the cover
      - Cover band (200px tall, full-bleed, image-area fallback)
-     - Action row: avatar (Thumbnail 80, overlapping cover) + follow
+     - Action row: avatar (Thumbnail 56, overlapping cover) + follow
        Toggle Button (positioned 16px below cover bottom)
      - Heading: name (<h1>, heading.lg) + meta row (visibility · followers)
    The cover bleeds edge-to-edge inside the page-shell content box; the
@@ -91,8 +91,7 @@ export function ProfileHeader({
         <div className="chorus-profile-header__action-row">
           <div className="chorus-profile-header__avatar-wrap">
             <Thumbnail
-              size={48}
-              style={{ '--thumb-size': '80px' }}
+              size={56}
               {...(avatar ?? { alt: name })}
             />
           </div>

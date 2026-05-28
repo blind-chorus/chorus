@@ -90,7 +90,7 @@ Read directly from `node_modules/@blind-dsai/ui/agents/`:
 | `agents/components/<family>/<sub>.spec.json` | Per-sub contract: props, slots, slot rendersAs / accepts, intrinsic-vs-content, defaults. Machine-readable truth. |
 | `agents/components/<family>/<sub>.md` | Per-sub prose: when to reach for / skip, anatomy, cross-sub family contract, code recipes. Read alongside spec.json. |
 | `agents/components/<family>/<family>.family.json` | Family metadata: sub list, default sub, use-cases. Walk all subs before picking. |
-| `agents/patterns/<name>.md` | Per-screen recipes — intent, layout anatomy, tokens-in-use, components. (PNGs at <https://github.com/blind-dsai/chorus/tree/main/patterns> — vision-only.) |
+| `agents/patterns/<name>.md` | Per-screen recipes — intent, layout anatomy, tokens-in-use, components. Each `.md` is paired with a canonical screenshot at <https://github.com/blind-dsai/chorus/tree/main/patterns> (same slug, `<name>.png`). The `.md` ships in the package and is the textual contract; the `.png` is the visual ground truth fetched from GitHub on vision-capable runs. Together they are *what good looks like* for a screen. |
 | `agents/screens/<slug>.screen.json` | Pre-validated full-screen recipe tree. Pattern `.md` frontmatter cites these via `recipe:`. |
 | `agents/icons.keywords.json` | Icon intent → name map: `{ "PollIcon": ["poll", "vote", "ballot"], … }`. Then import from `@blind-dsai/ui/icons` by exact name. |
 | `agents/tokens.usage.json` | Per-token role + usage index with `value`, `role`, `usedFor[]`, `notFor[]`, `pairsWith`. **Read this before composing** to pick the right token. Pair with `DESIGN.md` for deep rationale. |
@@ -118,15 +118,16 @@ No GitHub fetch for normal work — the package is the source of truth. **Escala
 
 ### A.2 Pattern lookup — run on every screen brief
 
-Patterns are the **layout-level ground truth**. Before writing JSX:
+Patterns are the **layout-level ground truth** and live in **two paired forms**: the `.md` spec (intent / layout / tokens / components) and a matching screenshot. The package ships the `.md` files; the screenshots live at <https://github.com/blind-dsai/chorus/tree/main/patterns> (browsable index in `README.md`). The two are paired by slug — `main_home.md` ↔ `main_home.png`, `compose.md` ↔ `compose.png`, etc. Treat them as one source: the `.md` is the textual contract, the `.png` is *what good looks like* in pixels. Before writing JSX:
 
 1. **Identify intent.** Reduce the brief to a short noun (`home`, `compose`, `onboarding`, `post`, `post_comments`, `company`, `explore`, `jobs`, `notifications`).
-2. **Match the pattern** in `node_modules/@blind-dsai/ui/agents/patterns/` — `main_home.md`, `compose.md`, `compose_channel.md`, `compose_kr.md`, `onboarding.md`, `post.md`, `post_comments.md`, `main_company.md`, `main_explore.md`, `main_jobs.md`, `main_notifications.md`, `main_notifications_keywords.md`. Locale variants (`_kr`) and sub-flows (`_promotion`, `_personalEmail`, `_channel`, `_offereval`) exist — pick the most specific.
+2. **Match the pattern** in `node_modules/@blind-dsai/ui/agents/patterns/` — `main_home.md`, `compose.md`, `compose_channel.md`, `compose_kr.md`, `onboarding.md`, `post.md`, `post_comments.md`, `main_company.md`, `main_explore.md`, `main_jobs.md`, `main_notifications.md`, `main_notifications_keywords.md`. Locale variants (`_kr`) and sub-flows (`_promotion`, `_personalEmail`, `_channel`, `_offereval`) exist — pick the most specific. Same slugs are listed (and described) in the GitHub `patterns/README.md` index.
 3. **Read the `.md` fully.** `Intent` / `Layout` / `Tokens in use` / `Components` are your composition anchors. `Layout` gives the exact component sequence top-to-bottom; `Tokens in use` lists the non-negotiable `sys.*` tokens.
-4. **Compose against the pattern.** Reuse the sequence verbatim; flex only content slots and brief-specific data. Do not improvise a different layout when a pattern exists.
-5. **No match?** Pick the closest sibling and call out the deviation in one line (*"No exact pattern for `<intent>`; anchoring on `<closest>.md` and adjusting <X>."*). Then proceed.
+4. **Pull the screenshot in on vision-capable runs.** Fetch `https://github.com/blind-dsai/chorus/blob/main/patterns/<name>.png?raw=1` (dark variant: `<name>.dark.png`) whenever the brief is layout-heavy, density-sensitive, or asks for visual parity. This is the canonical reference for spacing rhythm, hierarchy, and dark/light parity. Skip only if vision is unavailable.
+5. **Compose against the pattern.** Reuse the sequence verbatim; flex only content slots and brief-specific data. Do not improvise a different layout when a pattern exists.
+6. **No match?** Pick the closest sibling and call out the deviation in one line (*"No exact pattern for `<intent>`; anchoring on `<closest>.md` and adjusting <X>."*). Then proceed.
 
-The PNG is optional — fetch `https://github.com/blind-dsai/chorus/blob/main/patterns/<name>.png?raw=1` only on vision-capable runs with layout-heavy briefs.
+**Precedence reminder:** patterns are *descriptive*, not prescriptive. If a pattern `.md` or screenshot conflicts with a `spec.json`, `family.json`, or token, the spec/token wins — patterns describe the intended visual outcome of correct component+token use. Fetching the GitHub screenshot is a **read** to inform composition, not an override of the package contract; the "package is source of truth" rule from §A.1 still holds for code and component contracts.
 
 If the pattern's frontmatter has `recipe:` (e.g. `recipe: ../schema/screens/main-home.screen.json`), also fetch `agents/screens/<slug>.screen.json` — that JSON is the validated structure the docs site renders from.
 
@@ -136,7 +137,7 @@ The catalog tells you *which* component; the contract tells you *how* to compose
 
 Per component, before writing JSX:
 
-1. **Locate family + sub** via `manifest.json` (`families[].slug` → `subcomponents[].slug`). When multiple subs exist (e.g. `section` has `post-carousel` + `profile-carousel`; `button` has `standard`/`text`/`icon`/`fab`/`toggle`/`check`/`toolbar`), open `agents/components/<family>/<family>.family.json` and match `useCases`. **Check `visualReuse`** — `"open"` (14 families: badge, banner, button, suggestion-list, avatar-rail, chip, feed, list, navigation-bar, profile-header, section, tab-bar, tabs, thumbnail) allows visual-fit pick even when intent doesn't match `useCases` verbatim; `"locked"` (5 families: dialog, bottom-sheet, toast, tooltip, form-field) is canonical-role only.
+1. **Locate family + sub** via `manifest.json` (`families[].slug` → `subcomponents[].slug`). When multiple subs exist (e.g. `section` has `post-carousel` + `profile-carousel`; `button` has `standard`/`text`/`icon`/`fab`/`toggle`/`check`/`toolbar`; `list` has `text`/`radio`/`image`/`entry`/`nav`/`accordion`), open `agents/components/<family>/<family>.family.json` and match `useCases`. **Check `visualReuse`** — `"open"` (15 families: badge, banner, button, suggestion-list, avatar-rail, chip, feed, list, metadata, navigation-bar, profile-header, section, tab-bar, tabs, thumbnail) allows visual-fit pick even when intent doesn't match `useCases` verbatim; `"locked"` (5 families: dialog, bottom-sheet, toast, tooltip, form-field) is canonical-role only.
 2. **Read `spec.json` fully** — `props` (required/optional, type, default, allowed), `slots` (purpose, `accepts`, `rendersAs`, `intrinsic` vs content), any `tokens` block, and **`forbidden` — the closed list of negative rules** (`radius < radius.full`, `raw <button> wrapper`, `border on rest state`, `brand color on title`, …). Hard-reject filter at JSX time.
 3. **Read `.md` for when/why.** The spec is the contract; the .md is **"Reach for this when … Skip when …"** + anatomy invariants. Spec-only readers miss the cross-sub family contract.
 4. **Honor slot kind.** `intrinsic: true` → component paints it; don't fill. `accepts: ["thumbnail"]` / `rendersAs: "thumbnail:40"` → content is a Chorus component, not raw image/div.
@@ -145,13 +146,13 @@ Per component, before writing JSX:
 
 ### A.4 Page-shell skeleton — the one-gutter contract
 
-Most common failure: **misaligned left rails**. Shell pays `padding-inline: var(--sys-layout-page-md)` AND a full-bleed child also paints `padding-inline` → insets stack, Section H2 / list-row leading / chip-first-item all land at different rails. Contract: **shell pays inset once; every full-bleed child stretches edge-to-edge.**
+Most common failure: **misaligned left rails**. Shell pays `padding-inline: var(--sys-layout-page-md)` AND a full-bleed child also paints `padding-inline` → insets stack, Carousel H2 / list-row leading / chip-first-item all land at different rails. Contract: **shell pays inset once; every full-bleed child stretches edge-to-edge.**
 
 Each `<family>.family.json` declares `layoutInset`:
 
-* `"full-bleed"` — stretches edge-to-edge inside the shell. **Do NOT wrap in another `padding-inline` div.** Owns its row/header padding internally via `layout.container.*`. **Thirteen full-bleed families:** `navigation-bar`, `profile-header`, `tab-bar`, `tabs`, `section`, `feed`, `list`, `nav-card`, `banner`, `accordion`, `suggestion-list`, `avatar-rail`, `chip` (as group). When using one, JSX is a **direct child** of `<main>` — no wrapping div, no inline `paddingInline`, no `className="px-*"`, no `style={{ padding }}`. Wrong gutter? Adjust shell `paddingInline` at `<main>`, never add padding on a full-bleed child.
+* `"full-bleed"` — stretches edge-to-edge inside the shell. **Do NOT wrap in another `padding-inline` div.** Owns its row/header padding internally via `layout.container.*`. **Eleven full-bleed families:** `navigation-bar`, `profile-header`, `tab-bar`, `tabs`, `section`, `feed`, `list`, `accordion` (list sub), `suggestion-list`, `avatar-rail`, `chip` (as group). When using one, JSX is a **direct child** of `<main>` — no wrapping div, no inline `paddingInline`, no `className="px-*"`, no `style={{ padding }}`. Wrong gutter? Adjust shell `paddingInline` at `<main>`, never add padding on a full-bleed child.
 * `"bounded-surface"` — own modal/popover/off-canvas (`Dialog`, `BottomSheet`, `SideSheet`, `Toast`, `Tooltip`). Renders into a body portal or owns its surface chrome. Never a sibling of full-bleed page rows. Compose contents the same way — full-bleed children inside the surface get the negative-margin opt-out (§ Visual alignment in §C).
-* `"inline"` — slot atom (`Button`, `Badge`, `Thumbnail`, `FormField`, `Header`, `StatusTag`, `Switch`, `Progress`, `Skeleton`, `Chip`-as-atom). The atom carries its own intrinsic footprint (Thumbnail 16-48 rungs, Button 32/40 heights, Badge dot rungs); the surrounding container places it **via `gap` on a flex/stack parent OR by dropping it into another component's slot** (List leading, Banner trailing, Feed footer). **Do NOT wrap an inline atom in a per-child `padding` div** (`<div style={{ padding: 8 }}><Thumbnail/></div>` etc.) — the wrapper inflates the slot's visual footprint past its spec'd rung, and grouped atoms (avatar rows, chip rails, button clusters) end up at different rails. Spacing between siblings is the parent's `gap`, not the atom's wrapper.
+* `"inline"` — slot atom OR inline card (`Button`, `Badge`, `Thumbnail`, `FormField`, `Header`, `StatusTag`, `Switch`, `Progress`, `Skeleton`, `Chip`-as-atom, `Metadata`, `Banner`, `NavCard`). Two flavours: (a) **atoms** (Thumbnail 16-48 rungs, Button 32/40 heights, Badge dot rungs, Metadata 32 fixed, Header, Switch, Progress, Skeleton, Chip-as-atom, StatusTag) carry their own intrinsic footprint; the surrounding container places them **via `gap` on a flex/stack parent OR by dropping them into another component's slot** (List leading, Banner trailing, Feed footer, SuggestionList page-of-three). (b) **Inline cards** (Banner, NavCard) carry their own padding + radius + fill + `width: 100%` so they fill the host column; the host owns the surrounding horizontal inset (page-shell `layout.page.md` gutter at the top level, or another host's container padding when wrapped). Both flavours share: **DO NOT wrap an inline element in a per-child `padding` / `margin` div** (`<div style={{ padding: 8 }}><Thumbnail/></div>`, `<div style={{ paddingInline: 16 }}><Banner/></div>` etc.) — the wrapper either inflates the atom's footprint past its spec'd rung OR re-pays the inset the host already paid once. Spacing between siblings is the parent's `gap`, not the child's wrapper. NavCardGroup is the canonical NavCard parent (`gap: stack.xs`).
 
 Open `<family>.family.json` before composing each region.
 
@@ -176,7 +177,7 @@ Open `<family>.family.json` before composing each region.
     {/* Every full-bleed child stretches edge-to-edge inside <main>.
         NONE carries its own `padding-inline` or `className="px-*"`. */}
     <Tabs variant="underline" … />
-    <Section label="…" headerAction={…}>…</Section>
+    <Carousel label="…" headerAction={…}>…</Carousel>
     <Banner … />
     <Feed items={…} />
     <List … />
@@ -192,7 +193,7 @@ Open `<family>.family.json` before composing each region.
 
 **Anti-patterns — DO NOT:**
 
-* ❌ `<Section style={{ paddingInline: 'var(--sys-layout-container-md)' }} … />` — Section pays its own internal padding; double-pays.
+* ❌ `<Carousel style={{ paddingInline: 'var(--sys-layout-container-md)' }} … />` — Carousel pays its own internal padding; double-pays.
 * ❌ `<div className="px-4"><Feed … /></div>` — Tailwind padding wrapping `full-bleed`. Same double-pay.
 * ❌ `<div style={{ padding: 16 }}><List … /></div>` — raw-px wrapper around `list`. Both literal *and* wrapper are violations.
 * ❌ Letting `full-bleed` inherit a narrower parent (e.g. inside `<Card style={{ padding: 16 }}>`). When inside `bounded-surface`, opt out via the negative-margin idiom — see §C.
@@ -206,7 +207,7 @@ Open `<family>.family.json` before composing each region.
 
 ### A.5 Import contract
 
-* **Components:** `import { Button, Section, List, Feed, Thumbnail, ... } from "@blind-dsai/ui";`
+* **Components:** `import { Button, Carousel, List, Feed, Thumbnail, ... } from "@blind-dsai/ui";`
 * **Icons:** `import { Plus, ChevronRight, ... } from "@blind-dsai/ui/icons";`
 * **Tokens (CSS vars):** already loaded by `@blind-dsai/tokens/tokens.css` — reference as `var(--sys-*)` / `var(--ref-*)`.
 * **Resolved token JSON (build tooling only):** `import light from "@blind-dsai/tokens/resolved.light.json" with { type: "json" };`
@@ -220,7 +221,7 @@ Open `<family>.family.json` before composing each region.
 Later principles never override earlier ones. §C is the machine-checkable carve-out.
 
 1. **Chorus First.** Chorus is the source of truth — tokens, components, patterns. Start every task by reading `manifest.json` + `catalog.md`; never generic libraries, screenshot inference, or invented values.
-2. **Component flexibility — extrapolate, don't fork.** Respect each component's anatomy invariants (slot grammar, sizing tokens, state contract); flex composition (slot fill, placement, modifier props) to fit context. `visualReuse: "open"` (14 families — section, banner, feed, list, button, chip, badge, navigation-bar, profile-header, tab-bar, tabs, suggestion-list, avatar-rail, thumbnail) may be picked on visual-fit grounds even when `useCases` don't match verbatim. `"locked"` (dialog, bottom-sheet, toast, tooltip, form-field) MUST be used in canonical role only — interaction contract is the point. Never wrap to restyle.
+2. **Component flexibility — extrapolate, don't fork.** Respect each component's anatomy invariants (slot grammar, sizing tokens, state contract); flex composition (slot fill, placement, modifier props) to fit context. `visualReuse: "open"` (15 families — section, banner, feed, list, row, button, chip, badge, navigation-bar, profile-header, tab-bar, tabs, suggestion-list, avatar-rail, thumbnail) may be picked on visual-fit grounds even when `useCases` don't match verbatim. `"locked"` (dialog, bottom-sheet, toast, tooltip, form-field) MUST be used in canonical role only — interaction contract is the point. Never wrap to restyle.
 3. **New surfaces stay token-true.** No Chorus component for the need → design a new primitive, but every color / spacing / type / radius / border-width / elevation MUST resolve through Chorus tokens + `DESIGN.md` foundations. No raw hex, no off-scale px, no Tailwind color, no third-party type ramp. **Component flexible, tokens never.** Going off-Chorus on component choice does NOT loosen the token rule — it *tightens* it. With no Chorus spec to deny you, every literal value you type is either a token resolution or a violation. The most common drift shape is "I correctly decided no Chorus family fit, so I dropped `fontSize: 13`, `padding: '10px 12px'`, `gap: 6` into a custom div" — composition went custom, values went raw, and the second half is the bug. See [anti-patterns.md #14](anti-patterns.md).
 4. **Lego-block composition.** Combine and extend Chorus components Lego-style — nest, group, sequence, re-purpose. Tokens non-negotiable; components flexible.
 5. **UX-pattern consistency.** Pick by expected interaction — `Dialog`/`BottomSheet`/`Toast`/`Tooltip`/`FormField` (the five `locked`) own focus trap / auto-dismiss / ARIA live / hover trigger / `<input>` semantics; never borrow them for shape. The thirteen `open` families carry interaction defaults too (List for menus, Feed for authored content, Chip vs Button for facet vs commit) — defaults are suggestions, not rules; visual fit may override.
@@ -253,13 +254,13 @@ Later principles never override earlier ones. §C is the machine-checkable carve
 
 ### Visual alignment & layout grouping
 
-Page horizontal inset is paid **exactly once** by the page shell. Every full-bleed sibling (`Section`, `List`, `NavigationBar`, `Feed`/`FeedAd`, `Banner`, `AvatarRail`, `SuggestionList`, `Chip` group, `Tabs` rail) stretches edge-to-edge. Detailed rationale, token rungs, and the canonical opt-out for full-bleed children inside bounded surfaces live in `DESIGN.md § Spacing & Layout`.
+Page horizontal inset is paid **exactly once** by the page shell. Every full-bleed sibling (`Carousel`, `List`, `NavigationBar`, `Feed`/`FeedAd`, `Banner`, `AvatarRail`, `SuggestionList`, `Chip` group, `Tabs` rail) stretches edge-to-edge. Detailed rationale, token rungs, and the canonical opt-out for full-bleed children inside bounded surfaces live in `DESIGN.md § Spacing & Layout`.
 
 * **One gutter, paid once.** Shell pays `padding-inline: var(--sys-layout-page-*)`; full-bleed siblings MUST NOT re-add `layout.container.*` horizontal padding. Stacked = headings/list-rows/chips at different rails.
 * **Recursive opt-out inside bounded surfaces.** When `List` / `Feed` / `AvatarRail` / `Chip` group / `Tabs` rail sits inside a `Card` / `Dialog` / `BottomSheet` / `Sheet`, the child claims the parent's full inner width with `style={{ marginInline: 'calc(-1 * var(--sys-layout-container-md))', width: 'calc(100% + 2 * var(--sys-layout-container-md))', maxWidth: 'none' }}` — its own row padding becomes the visual inset. Precedent: `bottom-sheet/overflow`, `bottom-sheet/nested-step`.
-* **Embedded mode inside full-bleed hosts.** When `AvatarRail` / `SuggestionList` / `Tabs` / `List` sits **directly inside another rail-responsible surface** (`<Section>`, `<Feed>`) that already pays its own background + gutter, declare the child with `embedded={true}` (`<Section label="Shortcuts"><AvatarRail embedded items={…} /></Section>`). The child zeroes its own `background` + `padding` so the host's chrome takes over; row content aligns to the host's content-box edge. Forgetting the prop is caught by the `:where()` DOM-ancestry safety net in `styles.css`, but the prop is the explicit contract — agents reading specs see embedded mode in JSX. NOT eligible: `Banner` (tinted block is identity), `NavigationBar`, `TabBar`, `NavCard`.
+* **Embedded mode inside full-bleed hosts.** When `AvatarRail` / `SuggestionList` / `Tabs` / `List` sits **directly inside another rail-responsible surface** (`<Carousel>`, `<Feed>`) that already pays its own background + gutter, declare the child with `embedded={true}` (`<Carousel label="Shortcuts"><AvatarRail embedded items={…} /></Carousel>`). The child zeroes its own `background` + `padding` so the host's chrome takes over; row content aligns to the host's content-box edge. Forgetting the prop is caught by the `:where()` DOM-ancestry safety net in `styles.css`, but the prop is the explicit contract — agents reading specs see embedded mode in JSX. NOT eligible: `Banner` (tinted block is identity), `NavigationBar`, `TabBar`, `NavCard`.
 * **Group for alignment, gap for rhythm.** Vertical sibling spacing is `gap: var(--sys-layout-stack-*)` on the shared parent — never `margin-top` on each child. Trace a vertical line through every section H2 / list-row leading / chip-group first / feed-item author — all must land on the same rail. Same inside Dialogs/BottomSheets — sheet title and list-row leading share one inset.
-* **Banner safe zone — 16 inline / 8 block.** `Banner` ships with **no outer margin**. Horizontal 16 is paid by the page shell's `layout.page.md` gutter (Banner stretches to its edges); vertical 8 is paid by the parent column as `gap: var(--sys-layout-stack-xs)`. Never wrap Banner in `<Section>` to "get spacing", never paint `padding-block` on a wrapper div, never paint `margin-block` on Banner. One parent, one `gap`. Same contract applies to every full-bleed family.
+* **Banner safe zone — host-owned inline / 8 block.** `Banner` is an `inline` card. It ships with **no outer margin** and does NOT claim the page rail. The **host** owns the horizontal inset: at the page-shell level the shell's `layout.page.md` (16) gutter provides the safe zone; inside another host (`<Carousel>` body, `<Feed>` card, `<BottomSheet>` content, `<SideSheet>` column) that host's container padding governs the inset. Vertical 8 between Banner and its siblings is paid by the parent column as `gap: var(--sys-layout-stack-xs)`. Never wrap Banner in `<Carousel>` purely to "get spacing", never paint `padding-block` / `padding-inline` on a wrapper div, never paint `margin-block` / `margin-inline` on Banner. One parent, one `gap`. Same contract applies to NavCard (also `inline`) and to every full-bleed family (which gets its horizontal inset from the page shell once).
 
 ### Per-component anatomy gotchas (check `spec.json#forbidden` before shipping)
 
@@ -282,13 +283,13 @@ Page horizontal inset is paid **exactly once** by the page shell. Every full-ble
 
 ### Component selection by intent
 
-The table below is the *first-pass* intent → component map. Binding for `visualReuse: "locked"` families (*(locked)* below): never use them outside canonical role — interaction contract (focus trap, auto-dismiss, ARIA live, hover/focus trigger, `<input>` semantics) is the point. For the other thirteen (`"open"`) the table is a strong default but visual-fit reuse is allowed — `<Feed>` as a generic article-card surface, `<Section>` as any labelled block, `<Banner>` for tonal aside outside a literal "notice" — as long as anatomy invariants (slot grammar, token bindings, intrinsic geometry) hold:
+The table below is the *first-pass* intent → component map. Binding for `visualReuse: "locked"` families (*(locked)* below): never use them outside canonical role — interaction contract (focus trap, auto-dismiss, ARIA live, hover/focus trigger, `<input>` semantics) is the point. For the other thirteen (`"open"`) the table is a strong default but visual-fit reuse is allowed — `<Feed>` as a generic article-card surface, `<Carousel>` as any labelled block, `<Banner>` for tonal aside outside a literal "notice" — as long as anatomy invariants (slot grammar, token bindings, intrinsic geometry) hold:
 
 | User intent / phrase | Target Chorus component | Configuration / variants |
 | :--- | :--- | :--- |
 | "top bar / app bar / title bar" | `NavigationBar` | `variant="home" \| "page" \| "search"` |
-| "section heading / labelled block" | `Header` | `size="large" \| "medium"` + `headerAction` (Text Button) or `trailingIcon` (drill-in chevron, whole-row tap target). Used automatically inside Section. |
-| "header card / summary card" | `Section` | Includes `label` + optional `headerAction` (forwarded to Header internally) |
+| "section heading / labelled block" | `Header` | `size="large" \| "medium"` + `headerAction` (Text Button) or `trailingIcon` (drill-in chevron, whole-row tap target). Used automatically inside Carousel. |
+| "header card / summary card" | `Carousel` | Includes `label` + optional `headerAction` (forwarded to Header internally) |
 | "article card / post card / feed" | `Feed` | Uses `channel`, `title`, `body`, `thumbnail`, `engagement` slots |
 | "ad card / sponsored card" | `FeedAd` | - |
 | "company / settings / picker / menu row" | `List` | Use `Thumbnail` leading where appropriate |
@@ -339,7 +340,7 @@ The table below is the *first-pass* intent → component map. Binding for `visua
 * Even in "minimal" you **must**:
   * Apply brand/semantic colors to key CTAs and active states.
   * Populate all image/thumbnail slots.
-  * Map structures to `List`, `Section`, `Feed`, `Banner` instead of raw bordered divs.
+  * Map structures to `List`, `Carousel`, `Feed`, `Banner` instead of raw bordered divs.
 * **Decorative atmospherics allowed.** Per `DESIGN.md`, an accent-toned stop fading to `transparent` inside a `radial-gradient` / `linear-gradient` over a flat `surface*` base (where the base governs text contrast) is permitted decorative use — not the brand presence this rule guards. The rule above governs **interactive and content-bearing** color (CTAs, active states, like counts, brand affordances); empty-space atmospherics don't count.
 
 ---
@@ -357,7 +358,7 @@ The table below is the *first-pass* intent → component map. Binding for `visua
 Brownfield protocol — **execute in order**:
 
 1. **Audit, don't compose.** Post a one-paragraph drift report. Count: shadcn imports, Tailwind-color hits, raw-hex hits, hand-rolled-card hits. Name the worst three offenders. Under 6 lines.
-2. **Migration plan, ranked.** Short table mapping current → Chorus, ordered by user-visible blast radius: app shell/navigation first, recurring atoms (card, list-row, button) second, leaf screens third. Each row: `<current>` → `<Chorus>` (e.g. *"`<div className="rounded-lg border p-4">` → `<Section>` / `<Feed>`"*, *"`bg-white text-black` → drop; surface comes from `var(--sys-color-surface)` via `styles.css`"*, *"`<Button>` (shadcn) → `<Button>` (`@blind-dsai/ui`), variant=standard appearance=filled"*).
+2. **Migration plan, ranked.** Short table mapping current → Chorus, ordered by user-visible blast radius: app shell/navigation first, recurring atoms (card, list-row, button) second, leaf screens third. Each row: `<current>` → `<Chorus>` (e.g. *"`<div className="rounded-lg border p-4">` → `<Carousel>` / `<Feed>`"*, *"`bg-white text-black` → drop; surface comes from `var(--sys-color-surface)` via `styles.css`"*, *"`<Button>` (shadcn) → `<Button>` (`@blind-dsai/ui`), variant=standard appearance=filled"*).
 3. **Compose-with-migration on touched areas.** When the user asks for a new screen/feature/fix: in the same change, migrate Chorus-violating code *in files you touch and immediate visual neighbors* (same route, same shared layout). Never let Chorus and shadcn/raw-Tailwind coexist in the same rendered screen — mixed is worse than either pure.
 4. **Out-of-scope = report only.** Distant files stay in the report, not edited unless the user opts in (*"also migrate X"* / *"do the full audit pass"*). Surface as a "next-PR shopping list" at the end.
 5. **Conflict resolution.** If Tailwind config defines colors user code depends on (`bg-primary` etc.), do NOT silently remove — breaks unmigrated screens. Either map the alias to a Chorus token in the same PR (`primary: 'var(--sys-color-primary)'`), or leave config and migrate consumer to Chorus directly.
@@ -372,7 +373,7 @@ You are NOT permitted to "match the existing style" as a cover for not migrating
 Before presenting output, run this. Any checked box → **discard + regenerate**. Audits anatomy (tokens, slots, imports) and the five `visualReuse: "locked"` contracts — does NOT punish `"open"` families for being outside canonical intent (a `Feed`-shaped non-post surface is fine if slot grammar and tokens hold):
 
 * [ ] Raw `<button>` or `<a>` as a CTA.
-* [ ] Card built as generic `<div>` with `border` + `rounded-lg` (must be `Section`/`Feed`/`Banner`).
+* [ ] Card built as generic `<div>` with `border` + `rounded-lg` (must be `Carousel`/`Feed`/`Banner`).
 * [ ] List/stack as nested bordered `<div>` (must be `List`).
 * [ ] Avatar/logo as div with plain letter (must be `<Thumbnail src=...>`).
 * [ ] `Feed` or article card missing its `thumbnail` slot.
@@ -384,9 +385,9 @@ Before presenting output, run this. Any checked box → **discard + regenerate**
 * [ ] **Custom primitive (no Chorus family used)** — any numeric literal in `style` / `className` outside the three authorized exceptions ((1) intrinsic slot geometry, (2) `calc()` compositions, (3) structural `0` / `100%` / `auto`). `fontSize: 13`, `gap: 6`, `padding: "10px 12px"`, `lineHeight: 1.4`, `borderRadius: 6` are ALL violations even when you correctly chose to go off-Chorus on the component. Token rule does not loosen with the component choice — see [anti-patterns.md #14](anti-patterns.md) + [compose.md § When you go custom](compose.md).
 * [ ] Chorus component wrapped in a custom element for CSS restyling.
 * [ ] Chorus component imported from anywhere but `@blind-dsai/ui` (no `@/components/chorus/*`, no `@/components/ui/*`).
-* [ ] Full-bleed component (`Section`, `List`, `Feed`, `Banner`, `AvatarRail`, `Chip` group, `NavigationBar`) re-paying horizontal padding on top of shell's `layout.page.*` (paid once, at the shell).
+* [ ] Full-bleed component (`Carousel`, `List`, `Feed`, `Banner`, `AvatarRail`, `Chip` group, `NavigationBar`) re-paying horizontal padding on top of shell's `layout.page.*` (paid once, at the shell).
 * [ ] Full-bleed child (`List`, `Feed`, `AvatarRail`, `SuggestionList`, `Chip` group, `Tabs` rail) **inside a bounded surface** (`Card`, `Dialog`, `BottomSheet`, `Sheet`) inheriting both surface's `layout.container.*` AND its own row padding (must opt out via `margin-inline: calc(-1 * var(--sys-layout-container-md))` + matching `width` so its OWN internal padding becomes the visual inset).
-* [ ] Section headings, list-row leading, chip-group first chips, feed-item author blocks NOT all on the same vertical line (must share one left/right rail).
+* [ ] Carousel headings, list-row leading, chip-group first chips, feed-item author blocks NOT all on the same vertical line (must share one left/right rail).
 * [ ] Inside a Dialog/BottomSheet: sheet title, leading content of any list row, and primary action label NOT at one shared inset from card edge (apply recursive opt-out).
 * [ ] Vertical sibling spacing as `margin-top` on each child instead of `gap: var(--sys-layout-stack-*)` on shared parent.
 * [ ] **Brand red outside its allowlist.** Open `agents/tokens.usage.json#sys.color.brand` and verify every `var(--sys-color-brand)` usage falls inside `allowedComponents` (canonically: FAB, tab-bar Create item, badge, feed active-like, promotional banner accent). Any usage on `navigation-bar/*` chrome, `button/standard` fill, default banner fill, card outline, list-row divider, or shortcut tile is a violation.
@@ -406,8 +407,9 @@ Rail items above are visual contracts; visual contracts are checkable. After ren
 (() => {
   // Full-bleed container selectors — each one's outer left/right edges
   // must land on the page shell's content-box rail. Extend if you compose
-  // with additional surfaces; individual rows (e.g. `.chorus-list__row`)
-  // and atoms (`.chorus-chip`, `.chorus-button`) are NOT rail-responsible.
+  // with additional surfaces; individual rows (e.g. `.chorus-list__row`),
+  // atoms (`.chorus-chip`, `.chorus-button`), and inline cards
+  // (`.chorus-banner`, `.chorus-nav-card`) are NOT rail-responsible.
   const sels = [
     '.chorus-navigation-bar',
     '.chorus-tab-bar',
@@ -416,7 +418,6 @@ Rail items above are visual contracts; visual contracts are checkable. After ren
     '.chorus-feed',
     '.chorus-feed-ad',
     '.chorus-list',
-    '.chorus-banner',
     '.chorus-suggestion-list',
     '.chorus-avatar-rail',
   ];

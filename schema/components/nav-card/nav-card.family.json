@@ -2,17 +2,17 @@
   "$schema": "../../family.schema.json",
   "family": "nav-card",
   "name": "NavCard",
-  "description": "Bounded single-row navigation card \u2014 an outlined rounded surface with a leading label, optional supporting line, and an auto-rendered trailing chevron. The whole card is the drill-in tap target. Reach for it when a [List/nav](../list/nav.md) row needs to read as its own discrete affordance rather than as one entry in a stack \u2014 a standalone settings entry, a picker trigger between content blocks, or a bounded-surface drill-in where the host surface already supplies the stack rhythm. Single-spec family.",
+  "description": "Bounded single-row card \u2014 an outlined rounded surface with a label, an optional supporting line, and an optional trailing affordance. Two variants select the trailing shape: `default` ships no trailing icon (bare labelled tile), `nav` auto-renders the right-pointing chevron (the drill-in form). The whole card is the tap target. Reach for it when a [List/nav](../list/nav.md) row needs to read as its own discrete affordance rather than as one entry in a stack \u2014 a labelled scope tile (default), a standalone settings drill-in (nav), a picker trigger, or an entity entry card. Single-spec family.",
   "useCases": [
-    "standalone drill-in row",
-    "single settings entry",
+    "standalone labelled tile (default)",
+    "single settings drill-in (nav)",
     "picker trigger",
     "channel / scope selector card",
     "bounded-surface drill-in"
   ],
   "visualReuse": "open",
-  "layoutInset": "full-bleed",
-  "wrapperGuidance": "Owns its inline padding internally. Place as a direct child of the page-shell <main> (or any host that pays the gutter once). Do NOT wrap in a padding-inline div, className=\"px-*\", or style={{ padding }} \u2014 the page rail is paid once at the shell, never on the full-bleed child. Inside a bounded surface (Dialog / BottomSheet / SideSheet), apply the negative-margin opt-out \u2014 see AGENTS.md \u00a7 Composition rules.",
+  "layoutInset": "inline",
+  "wrapperGuidance": "Inline card. NavCard has its own internal padding + border-radius + outline + 48 min-height, and `width: 100%` so it fills the host column. It ships no outer margin and does NOT claim the page rail. The host owns the surrounding inset: when placed at the page-shell level, the shell's `layout.page.md` gutter provides the 16px horizontal safe zone; when wrapped inside another host (Section body, BottomSheet content slot, SideSheet column, NavCardGroup stack), that host's container padding governs the inset. Vertical spacing between NavCards is paid by `NavCardGroup`'s `gap: var(--sys-layout-stack-xs)` (8px) \u2014 never paint per-child `margin-block` on NavCard.",
   "spec": "nav-card.md",
   "subcomponents": [
     {

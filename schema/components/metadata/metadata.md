@@ -1,21 +1,21 @@
-# Byline
+# Metadata
 
-Author / brand attribution cluster shared by [Feed Post](./post.md) and [Feed Ad](./ad.md). A leading 32-rung [Thumbnail](../thumbnail/thumbnail.md), a primary line (entity name + optional inline timestamp + optional follow toggle), and an optional secondary line (a plain `subtitle` text — canonical 'Sponsored' for ads — or an array of independently-linked `meta` items: location, job function, @handle). Optional trailing slot hosts a row-level affordance like the dismiss × button on ads. The middot separator's line-box is constrained to its font-size so the dot never inflates the surrounding text line.
+Author / brand attribution cluster shared by [Feed Post](../feed/post.md) and [Feed Ad](../feed/ad.md). A leading 32-rung [Thumbnail](../thumbnail/thumbnail.md), a primary line (entity name + optional inline timestamp + optional follow toggle), and an optional secondary line (a plain `subtitle` text — canonical 'Sponsored' for ads — or an array of independently-linked `meta` items: location, job function, @handle). Optional trailing slot hosts a row-level affordance like the dismiss × button on ads. The middot separator's line-box is constrained to its font-size so the dot never inflates the surrounding text line.
 
-**Reach for this when** composing the head of a Feed Post or Feed Ad — the cluster owns the avatar + identity + meta. **Skip when** you only need a labelled-region heading (use [Header](../header/header.md)) or a profile / channel page hero (use [Profile header](../profile-header/profile-header.md)).
+**Reach for this when** composing the head of a Feed Post or Feed Ad — the cluster owns the avatar + identity + meta. **Skip when** you need a generic entity directory row with up to three text lines and a single trailing commit (use [list/entry](../list/entry.md)), a labelled-region heading (use [Header](../header/header.md)), or a profile / channel page hero (use [Profile header](../profile-header/profile-header.md)).
 
-**Layout inset.** `inline` — Byline ships no padding of its own. Sits inside whichever Feed sub-component composes it; the host pays surrounding rhythm.
+**Layout inset.** `inline` — Metadata ships no padding of its own. Sits inside whichever Feed sub-component composes it; the host pays surrounding rhythm.
 
 ## Default
 
 The Feed Post shape — avatar + channel name with timestamp + meta link row (location, job, handle).
 
 ```preview
-feed/byline-default
+metadata/metadata-default
 ---
-import { Byline } from '@blind-dsai/ui';
+import { Metadata } from '@blind-dsai/ui';
 
-<Byline
+<Metadata
   avatar={{ src: '/placeholder.png', alt: 'Sourdough Bakers' }}
   name="Sourdough Bakers"
   nameHref="#"
@@ -31,11 +31,11 @@ import { Byline } from '@blind-dsai/ui';
 The inline follow toggle. A middot separates it from the timestamp; the toggle paints in `sys.color.primary` at rest and `sys.color.onSurfaceVariant` when active. The dot's line-box stays inside its font-size so the row's text-line stays tight.
 
 ```preview
-feed/byline-with-follow
+metadata/metadata-with-follow
 ---
-import { Byline } from '@blind-dsai/ui';
+import { Metadata } from '@blind-dsai/ui';
 
-<Byline
+<Metadata
   avatar={{ src: '/placeholder.png', alt: 'Indie Game Devs' }}
   name="Indie Game Devs"
   nameHref="#"
@@ -50,12 +50,12 @@ import { Byline } from '@blind-dsai/ui';
 Feed Ad shape — `subtitle="Sponsored"` paints a plain caption-tone line under the brand name (no link affordance, no meta row). Pair with `trailing` to host the dismiss × button.
 
 ```preview
-feed/byline-sponsored
+metadata/metadata-sponsored
 ---
-import { Byline } from '@blind-dsai/ui';
+import { Metadata } from '@blind-dsai/ui';
 import { XIcon } from '@blind-dsai/ui/icons';
 
-<Byline
+<Metadata
   avatar={{ src: '/placeholder.png', alt: 'Acme Coffee' }}
   name="Acme Coffee"
   subtitle="Sponsored"
@@ -94,7 +94,7 @@ import { XIcon } from '@blind-dsai/ui/icons';
 
 ## States
 
-Byline itself has no lifecycle state. Each interactive child (name link, follow toggle, meta links, trailing button) carries its own state contract.
+Metadata itself has no lifecycle state. Each interactive child (name link, follow toggle, meta links, trailing button) carries its own state contract.
 
 ## Behavior
 

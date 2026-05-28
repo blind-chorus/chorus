@@ -95,7 +95,7 @@ schema/components/
 ├── avatar-rail/              ← single-spec family
 ├── dialog/                    ← single-spec family
 ├── feed/                      ← single-spec family
-├── list/                      ← sub-component family (text + radio + thumbnail + nav)
+├── list/                      ← sub-component family (text + radio + image + nav)
 └── thumbnail/                 ← single-spec family
 ```
 

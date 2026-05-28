@@ -1,8 +1,9 @@
 {
   "$schema": "../../spec.schema.json",
   "name": "ProfileCarousel",
-  "family": "section",
-  "description": "Horizontally-scrolling rail of profile-style cards — sub-component of the [Section](./section.md) family. Each card is a fixed-shape profile module (cover band + centered overlapping avatar + name + followers + metric row + Toggle-Button follow), used to surface channels, user profiles, or company channels in a curated editorial collection. The 'profile-card' shape names what the carousel actually carries — every card is a follow-able profile, regardless of whether the entity is a community channel, an individual user, or a company. Composed inside a [Section](./section.md) wrapper that owns the editorial heading and the optional 'See all' link. The pager geometry mirrors [Post carousel](./post-carousel.md) — same `ref.space.500` (40px) trailing peek, same leading-padding sticky anchor — so editorial collections of posts and profiles read as one family.",
+  "family": "carousel",
+  "subcomponent": "profile",
+  "description": "Horizontally-scrolling rail of profile-style cards — sub-component of the [Carousel](./carousel.md) family. Each card is a fixed-shape profile module (cover band + centered overlapping avatar + name + followers + metric row + Toggle-Button follow), used to surface channels, user profiles, or company channels in a curated editorial collection. The 'profile-card' shape names what the carousel actually carries — every card is a follow-able profile, regardless of whether the entity is a community channel, an individual user, or a company. Composed inside a [Carousel](./carousel.md) wrapper that owns the editorial heading and the optional 'See all' link. The pager geometry mirrors [Post carousel](./post.md) — same `ref.space.500` (40px) trailing peek, same leading-padding sticky anchor — so editorial collections of posts and profiles read as one family.",
   "element": "div",
   "props": {
     "items": {
@@ -15,7 +16,7 @@
   "slots": {
     "container": {
       "required": true,
-      "description": "Wraps the pager and pagination dots. No fill / padding of its own — the surrounding [Section](./section.md) provides the page-region chrome.",
+      "description": "Wraps the pager and pagination dots. No fill / padding of its own — the surrounding [Carousel](./carousel.md) provides the page-region chrome.",
       "intrinsic": true
     },
     "pager": {
@@ -88,7 +89,7 @@
     "pageGap": "sys.layout.inline.md",
     "pagePeek": "ref.space.500",
     "pagePeekNote": "Guaranteed minimum visibility of the next card at the trailing edge — pinned to 40px (ref.space.500). Identical contract to PostCarousel.",
-    "pageSnapAnchor": "Cards stick to the leading edge of the pager (the Section's left padding). `scroll-snap-align: start` plus the pager's lack of leading margin produce this anchor.",
+    "pageSnapAnchor": "Cards stick to the leading edge of the pager (the Carousel's left padding). `scroll-snap-align: start` plus the pager's lack of leading margin produce this anchor.",
     "cardFill": "sys.color.surface",
     "cardOutline": "sys.borderWidth.hairline sys.color.outlineVariant",
     "cardOutlineComposition": "overlay",
@@ -122,7 +123,7 @@
     "followActionRendersAs": "Button variant='toggle' — Chip-toggle anatomy. Stretched to full card width via a wrapper rule. All state tokens delegate to the Toggle Button (Chip) family.",
     "cardPaddingBlock": "sys.layout.stack.sm",
     "cardPaddingInline": "sys.layout.container.md",
-    "paginationDotSize": "6px",
+    "paginationDotSize": "ref.space.75",
     "paginationDotGap": "sys.layout.inline.sm",
     "paginationActiveColor": "sys.color.onSurface",
     "paginationInactiveColor": "sys.color.outlineVariant"
@@ -193,10 +194,10 @@
   },
   "behavior": {
     "maxFiveCards": "ProfileCarousel renders at most five cards — `items.slice(0, 5)`. Editorial / ops mistakes never blow out the rail.",
-    "headerLivesOnSection": "ProfileCarousel does not paint its own section heading or 'See all' link — those live on the [Section](./section.md) wrapper. Compose `<Section label='…' headerAction={…}><ProfileCarousel items={…} /></Section>`.",
+    "headerLivesOnCarousel": "ProfileCarousel does not paint its own section heading or 'See all' link — those live on the [Carousel](./carousel.md) wrapper. Compose `<Carousel label='…' headerAction={…}><ProfileCarousel items={…} /></Carousel>`.",
     "fixedCardWidth": "Every profile card paints a fixed 176px footprint — the carousel never reflows the card to fit the available inline width. The trailing peek (`ref.space.500`, 40px) of the next card is always visible regardless of viewport.",
     "horizontalScrollSnap": "scroll-snap-type: x mandatory; each card declares scroll-snap-align: start.",
-    "stickyToLeadingPadding": "After every swipe, the snapped card aligns flush with the Section's left padding — same geometry contract as PostCarousel.",
+    "stickyToLeadingPadding": "After every swipe, the snapped card aligns flush with the Carousel's left padding — same geometry contract as PostCarousel.",
     "paginationDecorative": "Dots are decorative; tapping a dot does not scroll. Active state updates via IntersectionObserver on the snap targets.",
     "followToggleCommitsInPlace": "Tapping Follow flips the card's Toggle Button to Following and stays there. State is owned by the consumer via items[i].followed + onFollowChange.",
     "cardClickRoutes": "When an item carries `onClick`, the card surface becomes the click target. The follow toggle intercepts the tap so it routes independently."
@@ -204,7 +205,7 @@
   "forbidden": [
     "card outline painted as a raw `border:` — outline is an `::after` overlay layer because the card hosts a full-bleed cover band",
     "cover band painted as an inline SVG wordmark — cover uses /placeholder.png via the image-area contract, object-fit: cover",
-    "Section heading composed inside the carousel — header + see-all link live on the Section wrapper",
+    "Carousel heading composed inside the carousel — header + see-all link live on the Carousel wrapper",
     "metrics row mixed with description in the same card — the spec declares them mutually exclusive (description replaces metrics when present)",
     "fixed 176px card width altered — the carousel never reflows the card"
   ]

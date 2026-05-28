@@ -44,7 +44,7 @@
     }
   },
   "sizing": {
-    "minHeight": "48px",
+    "minHeight": "ref.space.600",
     "maxWidth": "min(400px, calc(100vw - 2 * sys.layout.container.xs))",
     "radius": "sys.radius.md",
     "paddingInline": "sys.layout.container.md",
@@ -58,7 +58,7 @@
     "css": "position: fixed; bottom: 0; left: 50%; transform: translateX(-50%)",
     "safeArea": {
       "token": "sys.layout.container.xs",
-      "value": "8px",
+      "value": "ref.space.100",
       "applies": "all four sides from the viewport edge"
     },
     "maxWidth": "min(400px, 100vw - 16px)",

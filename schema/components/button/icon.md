@@ -64,12 +64,30 @@ import { SearchIcon } from '@blind-dsai/ui/icons';
 
 ## Appearance
 
-Two appearances. `default` for regular page surfaces; `inverse` for Toast / coach-mark / snackbar hosts. Geometry identical; only the glyph colour pair flips.
+Two named appearances. `default` for regular page surfaces; `inverse` for Toast / coach-mark / snackbar hosts. Geometry identical; only the glyph colour pair flips.
 
 | Appearance  | Background    | Border | Icon color                       | When to reach for it |
 |-------------|---------------|--------|----------------------------------|----------------------|
 | `default`   | `transparent` | none   | `sys.color.onSurface`            | Every regular page surface. |
 | `inverse`   | `transparent` | none   | `sys.color.inverseOnSurface`     | For use inside an inverse host (Toast dismiss, coach-mark close). |
+
+### Custom palette colours
+
+Outside the named appearances, the glyph colour is **not locked to `onSurface` / `inverseOnSurface`** — the icon inherits `currentColor`, so any Chorus palette token works. Reach for a custom colour when the glyph itself carries semantic weight (favorite star → `ref.palette.yellow.500`, success check → `sys.color.success`, warning bolt → `sys.color.warning`, channel-branded glyph in a brand-tinted host). Apply via inline `color` so state overlays still mix from the same token at the standard `sys.state.*` opacities — never override `background` or wrap in another element to recolour.
+
+```preview
+button/icon/custom-color
+---
+import { Button } from '@blind-dsai/ui';
+import { StarIcon } from '@blind-dsai/ui/icons';
+
+<div style={{ display: 'inline-flex', gap: 'var(--sys-layout-inline-xl)' }}>
+  <Button variant="icon" icon={<StarIcon />} aria-label="Favorite — inactive" style={{ color: 'var(--sys-color-onSurfaceVariant)' }} />
+  <Button variant="icon" icon={<StarIcon />} aria-label="Favorite — active"   style={{ color: 'var(--ref-palette-yellow-500)' }} />
+</div>
+```
+
+**Constraints.** Pick from `sys.color.*` (theme-aware) or `ref.palette.*` (literal). Hardcoded hex / Tailwind colour utilities are forbidden — the same token strictness as the rest of Chorus. The destructive flavor (`sys.color.error`) is a named convenience for the same pattern.
 
 ## Slots
 

@@ -147,7 +147,7 @@
   "appearances": {
     "default": {
       "background": "transparent",
-      "note": "The only appearance — Accordion paints no fill of its own. The host surface tone reads through every row. Reach for a wrapping [Section](../section/section.md) when the accordion needs its own labelled region."
+      "note": "The only appearance — Accordion paints no fill of its own. The host surface tone reads through every row. Reach for a wrapping [Carousel](../carousel/carousel.md) when the accordion needs its own labelled region."
     }
   },
   "states": {

@@ -11,9 +11,10 @@ import { joinClasses } from './spec-utils.js';
    for off-canvas navigation columns, settings panes, channel directories.
 
    Composition is free-form via `children` — the canonical fill is a
-   Header (size="medium") column heading + a List (variant="thumbnail"
-   density="compact") body, optionally followed by another Header + List
-   pair and a pinned footer action.
+   Header (size="medium") column heading + an embedded `<List
+   variant="entry">` directory stack (40 avatar + label + inline count
+   Badge + optional trailing icon toggle), optionally followed by
+   another Header + List(entry) pair and a pinned footer action.
 
    Like BottomSheet: renders into a body portal when open, locks body
    scroll, returns focus to the trigger on close, and dismisses on

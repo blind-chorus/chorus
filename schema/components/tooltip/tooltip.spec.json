@@ -65,7 +65,7 @@
     }
   },
   "sizing": {
-    "minHeight": "32px",
+    "minHeight": "ref.space.400",
     "maxWidth": "240px",
     "radius": "sys.radius.lg",
     "paddingInline": "sys.layout.container.sm",
@@ -74,7 +74,7 @@
     "actionBlockGap": "ref.space.75",
     "triggerOffset": "sys.layout.inline.sm",
     "viewportSafeArea": "sys.layout.container.md",
-    "caretSize": "8px",
+    "caretSize": "ref.space.100",
     "bodyTypo": "sys.typo.body.sm"
   },
   "appearances": {

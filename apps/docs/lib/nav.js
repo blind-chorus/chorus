@@ -222,7 +222,6 @@ export const NAV = [
         label: 'Feed',
         subs: [
           { href: '/components/feed/ad', label: 'Ad' },
-          { href: '/components/feed/byline', label: 'Byline' },
           { href: '/components/feed/post', label: 'Post' },
         ],
       },
@@ -245,11 +244,16 @@ export const NAV = [
         label: 'List',
         subs: [
           { href: '/components/list/accordion', label: 'Accordion' },
+          { href: '/components/list/entry',     label: 'Entry' },
+          { href: '/components/list/image',     label: 'Image' },
           { href: '/components/list/nav',       label: 'Nav' },
           { href: '/components/list/radio',     label: 'Radio' },
           { href: '/components/list/text',      label: 'Text' },
-          { href: '/components/list/thumbnail', label: 'Thumbnail' },
         ],
+      },
+      {
+        href: '/components/metadata',
+        label: 'Metadata',
       },
       {
         href: '/components/nav-card',
@@ -273,11 +277,11 @@ export const NAV = [
         label: 'Progress',
       },
       {
-        href: '/components/section',
-        label: 'Section',
+        href: '/components/carousel',
+        label: 'Carousel',
         subs: [
-          { href: '/components/section/post-carousel', label: 'Post carousel' },
-          { href: '/components/section/profile-carousel', label: 'Profile carousel' },
+          { href: '/components/carousel/post',    label: 'Post' },
+          { href: '/components/carousel/profile', label: 'Profile' },
         ],
       },
       {

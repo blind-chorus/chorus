@@ -65,7 +65,7 @@
           "omittedBehavior": {
             "type": "string",
             "enum": ["collapse", "error", "intrinsic-fallback"],
-            "description": "What happens at runtime when the slot is undefined. `collapse` — layout reflows without reserved whitespace (Feed thumbnail omitted). `error` — slot is required for the sub's anatomy; omitting it is a contract violation (List/thumbnail leading). `intrinsic-fallback` — the component auto-renders a default fill (e.g. NavCard auto-chevron when no trailing icon supplied)."
+            "description": "What happens at runtime when the slot is undefined. `collapse` — layout reflows without reserved whitespace (Feed thumbnail omitted). `error` — slot is required for the sub's anatomy; omitting it is a contract violation (List/image leading). `intrinsic-fallback` — the component auto-renders a default fill (e.g. NavCard auto-chevron when no trailing icon supplied)."
           },
           "fallbackOnMissingSrc": {
             "type": "string",

@@ -67,7 +67,7 @@
       "implementation": "inset box-shadow on the container (does not contribute to layout)"
     },
     "itemFlex": "1 1 0",
-    "itemMaxWidth": "80px",
+    "itemMaxWidth": "ref.space.1000",
     "itemPaddingBlock": "sys.layout.container.2xs",
     "itemPaddingInline": "0",
     "itemIconLabelGap": "sys.layout.stack.3xs",

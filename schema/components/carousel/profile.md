@@ -1,19 +1,19 @@
 # Profile carousel
 
-Sub-component of the [Section](./section.md) family. Horizontally-scrolling rail of fixed-width (176px) profile cards — channels, user profiles, or company channels grouped under a single editorial heading. Each card carries a cover band, a 64-rung [Thumbnail](../thumbnail/thumbnail.md) avatar overlapping the cover, entity name + follower count, a metrics row or two-line description, and a trailing full-width follow [Toggle Button](../button/text.md). The section heading and `See all` link live on the [Section](./section.md) wrapper — ProfileCarousel is the *content* only.
+Sub-component of the [Carousel](./carousel.md) family. Horizontally-scrolling rail of fixed-width (176px) profile cards — channels, user profiles, or company channels grouped under a single editorial heading. Each card carries a cover band, a 64-rung [Thumbnail](../thumbnail/thumbnail.md) avatar overlapping the cover, entity name + follower count, a metrics row or two-line description, and a trailing full-width follow [Toggle Button](../button/text.md). The section heading and `See all` link live on the [Carousel](./carousel.md) wrapper — ProfileCarousel is the *content* only.
 
 **Layout inset.** `full-bleed` — sits as a direct child of the page shell so the rail can bleed off the trailing edge into the swipe zone. The rail pays its own `16px inline` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-Three profile cards under a Section heading.
+Three profile cards under a Carousel heading.
 
 ```preview
-section/profile-carousel-default
+carousel/profile-default
 ---
-import { Section, ProfileCarousel } from '@blind-dsai/ui';
+import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
 
-<Section
+<Carousel
   label="Hot companies right now"
   headerAction={{ label: 'See all', href: '#' }}
 >
@@ -52,7 +52,7 @@ import { Section, ProfileCarousel } from '@blind-dsai/ui';
       },
     ]}
   />
-</Section>
+</Carousel>
 ```
 
 ## Use cases
@@ -62,11 +62,11 @@ import { Section, ProfileCarousel } from '@blind-dsai/ui';
 The metrics row swaps out for a two-line description. Use for editorial collections where the value of each profile is best explained in copy (channel topic, hot pitch) rather than numeric signals. The description block is fixed to the same two-line height as the metrics row, so cards stay flush across both modes even when description copy clamps with an ellipsis.
 
 ```preview
-section/profile-carousel-with-description
+carousel/profile-with-description
 ---
-import { Section, ProfileCarousel } from '@blind-dsai/ui';
+import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
 
-<Section
+<Carousel
   label="Recommended channels"
   headerAction={{ label: 'See all', href: '#' }}
 >
@@ -93,12 +93,48 @@ import { Section, ProfileCarousel } from '@blind-dsai/ui';
       },
     ]}
   />
-</Section>
+</Carousel>
+```
+
+### No header
+
+Omit both `label` and `headerAction` on the `<Carousel>` wrapper — the header row is suppressed entirely and the pager sits flush against the surface's block padding. Reach for it when the surrounding screen already provides the heading.
+
+```preview
+carousel/profile-no-header
+---
+import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
+
+<Carousel>
+  <ProfileCarousel
+    items={[
+      {
+        avatar: { src: '/blind_logo_red.png', alt: 'Engineering' },
+        name: 'Engineering',
+        followers: '12.4K followers',
+        description: 'Hands-on threads about systems, infra, and the work behind the launch.',
+      },
+      {
+        avatar: { src: '/blind_logo_red.png', alt: 'Compensation' },
+        name: 'Compensation',
+        followers: '8.1K followers',
+        description: 'Salary checks, offer evaluations, and the quiet math of staying versus leaving.',
+        followed: true,
+      },
+      {
+        avatar: { src: '/blind_logo_red.png', alt: 'Career' },
+        name: 'Career',
+        followers: '5.3K followers',
+        description: 'Promotion packets, scope debates, and the rewrites that actually cleared.',
+      },
+    ]}
+  />
+</Carousel>
 ```
 
 ## Slots
 
-- **container** — wraps the pager and pagination dots. No fill / padding — the surrounding [Section](./section.md) provides the chrome.
+- **container** — wraps the pager and pagination dots. No fill / padding — the surrounding [Carousel](./carousel.md) provides the chrome.
 - **pager** — horizontal scroll-snap track. `scroll-snap-type: x mandatory`; native scrollbar hidden.
 - **card** — one profile card per page; fixed at **176px** wide.
   - **cover** — top band; 88px tall image-area slot. Renders an `<img>` defaulting to `/placeholder.png` (universal Chorus placeholder). `object-fit: cover` crops to fill the band; `sys.color.surfaceContainerHigh` underlies as the no-image fallback. Consumers override via `items[i].cover.src`.
@@ -134,7 +170,7 @@ ProfileCarousel is not itself interactive — commit lives in each card's Toggle
 
 - **Max 5 cards.** Items beyond index 4 are silently dropped.
 - **Fixed 176px card width.** Cards do not reflow to the viewport — the rail always paints the same footprint and scrolls horizontally.
-- **Header lives on Section.** ProfileCarousel does not paint its own section heading or 'See all' link.
-- **Sticks to the Section's left padding on swipe.** Same geometry contract as [Post carousel](./post-carousel.md) — `scroll-snap-align: start` + no leading margin.
+- **Header lives on Carousel.** ProfileCarousel does not paint its own section heading or 'See all' link.
+- **Sticks to the Carousel's left padding on swipe.** Same geometry contract as [Post carousel](./post-carousel.md) — `scroll-snap-align: start` + no leading margin.
 - **Guaranteed 40px peek.** A minimum of `ref.space.500` (40px) of the next card is always visible at the trailing edge.
 - **Follow toggle commits in place.** Tapping `Follow` flips the card's Toggle Button to `Following` and stays there. Consumer owns state via `items[i].followed` + `onFollowChange`.

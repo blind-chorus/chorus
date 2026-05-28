@@ -13,9 +13,13 @@ function flatten(items) {
 
 export function PageNav({ items }) {
   const flat = flatten(items);
+  // Hide the page nav when there are 2 or fewer scroll targets — at that
+  // count the TOC is just a label for the page itself (no navigation value).
+  const hidden = flat.length <= 2;
   const [activeId, setActiveId] = useState(flat[0]?.id);
 
   useEffect(() => {
+    if (hidden) return;
     const elements = flat
       .map(({ id }) => document.getElementById(id))
       .filter(Boolean);
@@ -38,6 +42,8 @@ export function PageNav({ items }) {
       window.removeEventListener('resize', update);
     };
   }, [items]);
+
+  if (hidden) return null;
 
   const handleClick = (e, id) => {
     e.preventDefault();

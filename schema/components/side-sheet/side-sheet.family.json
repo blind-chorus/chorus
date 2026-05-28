@@ -2,7 +2,7 @@
   "$schema": "../../family.schema.json",
   "family": "side-sheet",
   "name": "SideSheet",
-  "description": "Off-canvas content column anchored to the leading or trailing edge of the viewport. Pairs with BottomSheet as the Sheet family's other anchor: BottomSheet for committed-sheet flows, SideSheet for off-canvas navigation columns, settings panes, channel directories, filter rails. The composition is free-form — the canonical fill is a Header (size=\"medium\") column heading + a List (variant=\"thumbnail\" density=\"compact\") body, optionally followed by another Header + List pair and a pinned footer commit.",
+  "description": "Off-canvas content column anchored to the leading or trailing edge of the viewport. Pairs with BottomSheet as the Sheet family's other anchor: BottomSheet for committed-sheet flows, SideSheet for off-canvas navigation columns, settings panes, channel directories, filter rails. The composition is free-form — the canonical fill is a Header (size=\"medium\") column heading + an embedded [list/entry](../list/entry.md) directory stack (40 avatar + label + inline count Badge + optional trailing icon toggle), optionally followed by another Header + List(entry) pair and a pinned footer commit.",
   "useCases": [
     "navigation drawer",
     "channel directory",

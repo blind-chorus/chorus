@@ -89,7 +89,7 @@
   },
   "sizing": {
     "scrimTint": "palette.black.600",
-    "scrimPaddingInline": "40px",
+    "scrimPaddingInline": "ref.space.500",
     "containerFill": "sys.color.surfaceContainerHigh",
     "containerRadius": "sys.radius.xl",
     "elevation": "sys.elevation.overlay",

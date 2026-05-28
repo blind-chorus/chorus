@@ -627,6 +627,12 @@
         "$multiplier": "6×",
         "$rem": "3rem"
       },
+      "700": {
+        "$value": "56px",
+        "$type": "dimension",
+        "$multiplier": "7×",
+        "$rem": "3.5rem"
+      },
       "800": {
         "$value": "64px",
         "$type": "dimension",

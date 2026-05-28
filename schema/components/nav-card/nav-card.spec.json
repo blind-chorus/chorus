@@ -2,9 +2,15 @@
   "$schema": "../../spec.schema.json",
   "name": "NavCard",
   "family": "nav-card",
-  "description": "Outlined, rounded single-row navigation card. Single label (optional supporting line) + auto-rendered trailing chevron over a `surface`-toned box with a hairline `outlineVariant` inset-shadow stroke and `radius.md` corners. Whole card is the click target — keyboard focus, hover overlay, and tap commit all sit on the card. Reach for it when one drill-in row needs to read as its own discrete affordance rather than as one entry in a [List/nav](../list/nav.md) stack.",
+  "description": "Outlined, rounded single-row card. Single label (optional supporting line) over a `surface`-toned box with a hairline `outlineVariant` inset-shadow stroke and `radius.md` corners. Two variants select the trailing affordance: `default` ships no trailing icon (bare labelled card — settings entry, scope tile, informational drill-target), `nav` auto-renders the right-pointing chevron for explicit drill-in semantics. Whole card is the click target — keyboard focus, hover overlay, and tap commit all sit on the card. Reach for it when one row needs to read as its own discrete affordance rather than as one entry in a [List/nav](../list/nav.md) stack.",
   "element": "button",
   "props": {
+    "variant": {
+      "type": "enum",
+      "values": ["default", "nav"],
+      "default": "default",
+      "description": "Trailing affordance. `default` ships NO trailing icon — the card reads as a labelled tile (settings entry, scope card, informational drill-target). `nav` auto-renders the right-pointing chevron — the explicit drill-in form. A consumer-supplied `trailingIcon` prop still overrides on either variant (e.g. an external-link arrow, an expand-down chevron)."
+    },
     "label": {
       "type": "string",
       "required": true,
@@ -18,12 +24,12 @@
     "leading": {
       "type": "node",
       "optional": true,
-      "description": "Optional leading slot — a 16px icon glyph (renders in `currentColor`) or a 32-rung [Thumbnail](../thumbnail/thumbnail.md). When omitted the label sits flush at the inline padding edge."
+      "description": "Optional leading slot — a 16px icon glyph (renders in `currentColor`) or a 32-rung [Thumbnail](../thumbnail/thumbnail.md). Block-centred on the row's vertical midline — both icon and thumbnail share the same contract regardless of one-line / two-line body. When omitted the label sits flush at the inline padding edge."
     },
     "trailingIcon": {
       "type": "node",
       "optional": true,
-      "description": "Overrides the auto-rendered chevron. Pass a custom 16px glyph when the drill target isn't another navigation surface (inline expand-down arrow, external-link arrow)."
+      "description": "Overrides the variant's trailing affordance. Pass a custom 16px glyph when the action isn't a navigation drill-in (inline expand-down arrow, external-link arrow). On `variant=\"default\"` no trailing renders unless `trailingIcon` is supplied; on `variant=\"nav\"` the auto-chevron is replaced."
     },
     "appearance": {
       "type": "enum",
@@ -59,7 +65,7 @@
     },
     "leading": {
       "required": false,
-      "description": "Optional leading slot at 16 × 16 (icon) or 32 × 32 (Thumbnail). Icon glyphs render in `currentColor`. Vertically centred against the label column.",
+      "description": "Optional leading slot at 16 × 16 (icon) or 32 × 32 (Thumbnail). Icon glyphs render in `currentColor`. Block-centred on the row's vertical midline — both icon and thumbnail share the same contract regardless of one-line / two-line body.",
       "accepts": ["icon", "thumbnail"]
     },
     "labelCol": {
@@ -79,13 +85,13 @@
     },
     "trailingIcon": {
       "required": false,
-      "description": "Auto-rendered right-pointing chevron at 16px, `onSurfaceVariant`. A `trailingIcon` prop overrides.",
+      "description": "Trailing affordance. On `variant=\"nav\"` an auto-rendered right-pointing chevron at 16px, `onSurfaceVariant`. On `variant=\"default\"` no trailing renders. A `trailingIcon` prop overrides either case. Slot stays block-centred regardless of one-line / two-line body so the chevron reads as the row's commit affordance.",
       "accepts": ["icon"]
     }
   },
   "sizing": {
     "radius": "sys.radius.md",
-    "minHeight": "48px",
+    "minHeight": "ref.space.600",
     "paddingBlock": "sys.layout.container.xs",
     "paddingInline": "sys.layout.container.md",
     "outlineWidth": "sys.borderWidth.hairline",

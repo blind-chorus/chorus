@@ -1,8 +1,9 @@
 {
   "$schema": "../../spec.schema.json",
   "name": "PostCarousel",
-  "family": "section",
-  "description": "Horizontally-scrolling pager of up to 5 compact post cards — sub-component of the [Section](./section.md) family. Used to surface a curated set of popular posts, or to give paid / verified accounts priority placement, inside the same scrolling feed column the default Feed card lives in. Editorial / ops control inserts a Section + PostCarousel pair between regular Feed cards based on placement policy. PostCarousel is the **content** — the section heading and trailing 'See all' link live on the [Section](./section.md) wrapper. Compose `<Section label='…' headerAction={…}><PostCarousel items={…} /></Section>`. The pager is a one-card-per-page horizontal scroll-snap track with a `ref.space.500` (40px) peek at the trailing edge inviting the swipe; pagination dots sit below the pager, one per card.",
+  "family": "carousel",
+  "subcomponent": "post",
+  "description": "Horizontally-scrolling pager of up to 5 compact post cards — sub-component of the [Carousel](./carousel.md) family. Used to surface a curated set of popular posts, or to give paid / verified accounts priority placement, inside the same scrolling feed column the default Feed card lives in. Editorial / ops control inserts a Carousel + PostCarousel pair between regular Feed cards based on placement policy. PostCarousel is the **content** — the section heading and trailing 'See all' link live on the [Carousel](./carousel.md) wrapper. Compose `<Carousel label='…' headerAction={…}><PostCarousel items={…} /></Carousel>`. The pager is a one-card-per-page horizontal scroll-snap track with a `ref.space.500` (40px) peek at the trailing edge inviting the swipe; pagination dots sit below the pager, one per card.",
   "element": "div",
   "props": {
     "items": {
@@ -15,7 +16,7 @@
   "slots": {
     "container": {
       "required": true,
-      "description": "Wraps the pager and pagination dots. `sys.layout.stack.md` pager→dots gap. No surface fill / padding of its own — the surrounding [Section](./section.md) provides the page-region chrome.",
+      "description": "Wraps the pager and pagination dots. `sys.layout.stack.md` pager→dots gap. No surface fill / padding of its own — the surrounding [Carousel](./carousel.md) provides the page-region chrome.",
       "intrinsic": true
     },
     "pager": {
@@ -98,8 +99,8 @@
     }
   },
   "sizing": {
-    "containerFill": "none — provided by surrounding Section",
-    "containerPadding": "none — provided by surrounding Section",
+    "containerFill": "none — provided by surrounding Carousel",
+    "containerPadding": "none — provided by surrounding Carousel",
     "pagerToPaginationGap": "sys.layout.stack.md",
     "pageGap": "sys.layout.inline.md",
     "pagePeek": "ref.space.500",
@@ -133,7 +134,7 @@
     "cardFooterColor": "sys.color.onSurfaceVariant",
     "cardFooterIcon": "EyeIcon",
     "cardFooterIconSize": "sys.icon.md",
-    "paginationDotSize": "6px",
+    "paginationDotSize": "ref.space.75",
     "paginationDotGap": "sys.layout.inline.sm",
     "paginationActiveColor": "sys.color.onSurface",
     "paginationInactiveColor": "sys.color.outlineVariant"
@@ -214,7 +215,7 @@
   },
   "forbidden": [
     "card outline painted as a raw `border:` — outline is an inset box-shadow on the card",
-    "Section heading composed inside the carousel — header + see-all link live on the Section wrapper, never on the carousel itself",
+    "Carousel heading composed inside the carousel — header + see-all link live on the Carousel wrapper, never on the carousel itself",
     "card width altered from the spec'd footprint — every post card paints the same width regardless of card count"
   ]
 }

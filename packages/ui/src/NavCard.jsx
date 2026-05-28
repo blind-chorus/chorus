@@ -15,6 +15,7 @@ export function NavCard({
   supportingText,
   leading,
   trailingIcon,
+  variant = 'default',
   appearance = 'default',
   href,
   onClick,
@@ -27,11 +28,16 @@ export function NavCard({
   const ref = useRef(null);
   useFullBleedGuard(ref, 'NavCard');
 
-  const trailing = trailingIcon ?? <ChevronRightGlyph />;
+  /* `default` ships no trailing affordance — the card is a labelled
+     surface with an optional leading slot. `nav` auto-renders the
+     drill-in chevron. A consumer-supplied `trailingIcon` overrides on
+     either variant (e.g. an external-link glyph or expand-down arrow). */
+  const trailing = trailingIcon ?? (variant === 'nav' ? <ChevronRightGlyph /> : null);
   const sharedProps = {
     ref,
     className: joinClasses(
       'chorus-nav-card',
+      variant !== 'default' && `chorus-nav-card--variant-${variant}`,
       appearance !== 'default' && `chorus-nav-card--${appearance}`,
       className,
     ),
@@ -50,9 +56,11 @@ export function NavCard({
           <span className="chorus-nav-card__supporting">{supportingText}</span>
         ) : null}
       </span>
-      <span className="chorus-nav-card__trailing" aria-hidden="true">
-        {trailing}
-      </span>
+      {trailing ? (
+        <span className="chorus-nav-card__trailing" aria-hidden="true">
+          {trailing}
+        </span>
+      ) : null}
     </>
   );
 

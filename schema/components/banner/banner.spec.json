@@ -91,14 +91,14 @@
     "inline": {
       "token": "sys.layout.container.md",
       "value": "ref.space.200",
-      "paidBy": "page-shell-gutter",
-      "note": "Horizontal 16 is paid once by the page shell's `layout.page.md` gutter — Banner stretches to its edges as a `full-bleed` child. Do not re-pay it on a wrapper."
+      "paidBy": "host",
+      "note": "Banner is an `inline` card with no outer margin — the host owns the horizontal inset. At the page-shell level the inset is the shell's `layout.page.md` gutter (16); inside Section / Feed / BottomSheet content / SideSheet column the host's container padding governs the inset. Do not paint per-child horizontal margin on Banner."
     },
     "block": {
       "token": "sys.layout.stack.xs",
       "value": "ref.space.100",
       "paidBy": "parent-gap",
-      "note": "Vertical 8 between Banner and its siblings is paid by the parent column as `gap: var(--sys-layout-stack-xs)`. Banner itself owns no outer margin. Do not wrap in Section, do not paint `padding-block` on a wrapper, do not paint `margin-block` on Banner."
+      "note": "Vertical 8 between Banner and its siblings is paid by the parent column as `gap: var(--sys-layout-stack-xs)`. Banner itself owns no outer margin. Do not wrap in Section to 'get spacing', do not paint `padding-block` on a wrapper, do not paint `margin-block` on Banner."
     }
   },
   "appearances": {
@@ -131,6 +131,6 @@
     "banner used for transient confirmations — that role is the `toast` family (locked)",
     "banner CTA rendered as raw <a> / <button> — use button/text inside the action slot",
     "banner wrapped in Section, padding-block div, or per-child margin-block — vertical 8 (sys.layout.stack.xs) safe zone is paid once by the parent's `gap`, never per child",
-    "banner wrapped in a horizontal-padding div (px-*, padding-inline, layout.container.md wrapper) — horizontal 16 safe zone is paid by the page-shell gutter, never re-paid by the caller"
+    "banner painted with per-child horizontal margin / padding-inline wrapper to fake a safe zone — the horizontal inset is the host's responsibility (page-shell gutter at the top level, container padding inside a host); Banner ships none and does not claim the page rail"
   ]
 }

@@ -1,9 +1,9 @@
 {
   "$schema": "../../spec.schema.json",
-  "name": "Byline",
-  "family": "feed",
-  "subcomponent": "byline",
-  "description": "Author / brand attribution cluster shared by [Feed Post](./post.md) and [Feed Ad](./ad.md). Composes a leading 32-rung [Thumbnail](../thumbnail/thumbnail.md), a primary line (entity name + optional inline timestamp + optional follow toggle), and a secondary line (either a plain `subtitle` text — canonical 'Sponsored' for ads — or an array of independently-linked `meta` items: location, job function, @handle). An optional trailing slot hosts a row-level affordance (dismiss × for ads). The dot separator is constrained so its line-box never exceeds its font-size — middle-dot glyphs that would otherwise inflate the row's line-height stay flush with the surrounding text.",
+  "name": "Metadata",
+  "family": "metadata",
+  "subcomponent": "metadata",
+  "description": "Author / brand attribution cluster shared by [Feed Post](../feed/post.md) and [Feed Ad](../feed/ad.md). Composes a leading 32-rung [Thumbnail](../thumbnail/thumbnail.md), a primary line (entity name + optional inline timestamp + optional follow toggle), and a secondary line (either a plain `subtitle` text — canonical 'Sponsored' for ads — or an array of independently-linked `meta` items: location, job function, @handle). An optional trailing slot hosts a row-level affordance (dismiss × for ads). The dot separator is constrained so its line-box never exceeds its font-size — middle-dot glyphs that would otherwise inflate the row's line-height stay flush with the surrounding text. `layoutInset: inline` — atom-shaped, pays no padding of its own; the host (Feed Post / Feed Ad card head) owns the row gutter / divider / click target.",
   "element": "div",
   "props": {
     "avatar": {
@@ -125,15 +125,15 @@
     "metaSeparatorInset": "sys.layout.inline.sm"
   },
   "states": {
-    "note": "Byline itself has no lifecycle states — each interactive child (name link, follow toggle, meta links, trailing button) carries its own state contract."
+    "note": "Metadata itself has no lifecycle states — each interactive child (name link, follow toggle, meta links, trailing button) carries its own state contract."
   },
   "behavior": {
-    "dotHeight": "Every middot separator inside Byline (between name/timestamp/follow on the primary line, and between meta items on the secondary line) uses `line-height: 1` so its line-box matches its font-size. This prevents the U+00B7 glyph's natural vertical extent from inflating the parent's line-box.",
+    "dotHeight": "Every middot separator inside Metadata (between name/timestamp/follow on the primary line, and between meta items on the secondary line) uses `line-height: 1` so its line-box matches its font-size. This prevents the U+00B7 glyph's natural vertical extent from inflating the parent's line-box.",
     "linkAffordances": "Name and meta items render as `<a>` elements when an `href` is supplied — each is an independent affordance. Taps on the trailing slot stop propagating.",
-    "compositionInsideFeed": "Both [Feed Post](./post.md) and [Feed Ad](./ad.md) compose Byline at the head of the card. Post passes `timestamp` + `meta`; Ad passes `subtitle` + `trailing` (dismiss button)."
+    "compositionInsideFeed": "Both [Feed Post](../feed/post.md) and [Feed Ad](../feed/ad.md) compose Metadata at the head of the card. Post passes `timestamp` + `meta`; Ad passes `subtitle` + `trailing` (dismiss button)."
   },
   "forbidden": [
-    "Byline rendered outside a Feed Post / Feed Ad host — the component is the family-internal attribution cluster, not a generic person-card primitive",
+    "Metadata rendered outside a Feed Post / Feed Ad host — the cluster is the author / brand attribution primitive that pairs with Feed; for generic 'who / what this is + commit' rows, use [list/entry](../list/entry.md)",
     "subtitle paired with meta — the secondary line is mutually exclusive; pick one (meta for Post, subtitle for Ad)",
     "middot separators painted as block elements — the dot is always inline so it inherits the surrounding text's baseline",
     "name rendered as a button — the name is a link to the entity page, never a commit"

@@ -62,7 +62,7 @@
     "titleTrailingGap": "sys.layout.inline.xl",
     "trailingIconGap": "sys.layout.inline.xl",
     "iconCapsulePadding": "sys.layout.container.xs",
-    "titleLogotypeHeight": "24px",
+    "titleLogotypeHeight": "ref.space.300",
     "titleTypo": "sys.typo.heading.lg",
     "leadingIconSize": "sys.icon.lg",
     "trailingIconSize": "sys.icon.lg"

@@ -26,7 +26,7 @@ import { Badge } from './Badge.jsx';
    bookkeeping is keyed by URL so a later prop change to a fresh src
    re-tries the load. */
 
-const SIZES = [16, 20, 24, 32, 40, 48];
+const SIZES = [16, 20, 24, 32, 40, 48, 56];
 
 function normalizeSize(size) {
   return SIZES.includes(size) ? size : 48;
@@ -44,7 +44,7 @@ export function Thumbnail({
 }) {
   const px = normalizeSize(size);
   /* Update dot picks the matching Badge `dot-*` rung — `dot-md` (8×8)
-     at the 32 / 40 / 48 rungs, `dot-sm` (6×6) below — so the corner
+     at the 32 / 40 / 48 / 56 rungs, `dot-sm` (6×6) below — so the corner
      flag, the rung name, and the Badge family stay in lockstep. */
   const dotSize = px >= 32 ? 'dot-md' : 'dot-sm';
   const [failedSrc, setFailedSrc] = useState(null);

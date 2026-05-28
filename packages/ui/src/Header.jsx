@@ -17,13 +17,15 @@ import { joinClasses } from './spec-utils.js';
                            ("See all" / "+ Create channel" / etc).
                            The label-affordance rule keeps navigational
                            intent in the accent tone.
-     2. `trailingIcon`   → 16px decorative icon (canonical: a chevron
-                           drill-in cue). When `trailingIcon` is set,
-                           the WHOLE header becomes the tap target via
-                           `onClick` / `href` — same contract as list/nav
-                           rows. Pass `trailingIcon` as a boolean to get
-                           the default chevron, or as a node to override
-                           the glyph.
+     2. `trailingIcon`   → trailing Icon Button (Button `variant="icon"`,
+                           `size="medium"` — 32 × 32 around a 16px glyph),
+                           canonical drill-in chevron. The Icon Button is
+                           its own tap target — the surrounding `<header>`
+                           stays non-interactive. Pass `trailingIcon` as
+                           a boolean to get the default chevron-right
+                           glyph, or as a node to override.
+                           Supply `aria-label` (e.g. `"Open all"`) so
+                           the icon-only button has a screen-reader name.
 
    When neither label nor a trailing affordance is set the component
    renders nothing (no empty container). */
@@ -36,20 +38,12 @@ export function Header({
   href,
   as: Tag = 'header',
   className,
+  'aria-label': ariaLabel,
   ...rest
 }) {
   if (!label && !headerAction && !trailingIcon) return null;
 
   const useIconMode = !!trailingIcon;
-  const isInteractive = useIconMode && Boolean(onClick || href);
-  const RootTag = isInteractive ? (href ? 'a' : 'button') : Tag;
-  const rootProps = isInteractive
-    ? {
-        type: href ? undefined : 'button',
-        href: href,
-        onClick,
-      }
-    : {};
   const iconNode =
     trailingIcon === true || trailingIcon === undefined ? (
       <ChevronDownIcon size={16} />
@@ -58,18 +52,22 @@ export function Header({
     );
 
   return (
-    <RootTag
+    <Tag
       className={joinClasses('chorus-header', className)}
       data-size={size}
-      data-interactive={isInteractive ? 'true' : undefined}
-      {...rootProps}
       {...rest}
     >
       {label ? <h3 className="chorus-header__label">{label}</h3> : <span />}
       {useIconMode ? (
-        <span className="chorus-header__icon chorus-header__icon--chevron" aria-hidden="true">
-          {iconNode}
-        </span>
+        <Button
+          variant="icon"
+          size="medium"
+          className="chorus-header__icon chorus-header__icon--chevron"
+          icon={iconNode}
+          aria-label={ariaLabel ?? (typeof label === 'string' ? `Open ${label}` : 'Open')}
+          onClick={onClick}
+          {...(href ? { as: 'a', href } : null)}
+        />
       ) : headerAction ? (
         <Button
           variant="text"
@@ -78,10 +76,12 @@ export function Header({
           className="chorus-header__action"
           href={headerAction.href ?? '#'}
           onClick={headerAction.onClick}
+          leadingIcon={headerAction.leadingIcon}
+          trailingIcon={headerAction.trailingIcon}
         >
           {headerAction.label}
         </Button>
       ) : null}
-    </RootTag>
+    </Tag>
   );
 }

@@ -3,7 +3,7 @@
   "name": "ProfileHeader",
   "family": "profile-header",
   "subcomponent": "profile-header",
-  "description": "Identity block at the top of a profile detail screen — a full-bleed cover band, an overlapping 80-rung circular [Thumbnail](../thumbnail/thumbnail.md) avatar, an entity name (`heading.lg`), a visibility-icon + visibility-label · follower-count meta row, and a trailing follow [Toggle Button](../button/toggle.md). The cover bleeds edge-to-edge inside the page-shell content box; the identity row pays the standard `sys.layout.container.md` (16px) inline padding so name / meta / follow sit on the page rail.",
+  "description": "Identity block at the top of a profile detail screen — a full-bleed cover band, an overlapping 56-rung circular [Thumbnail](../thumbnail/thumbnail.md) avatar, an entity name (`heading.lg`), a visibility-icon + visibility-label · follower-count meta row, and a trailing follow [Toggle Button](../button/toggle.md). The cover bleeds edge-to-edge inside the page-shell content box; the identity row pays the standard `sys.layout.container.md` (16px) inline padding so name / meta / follow sit on the page rail.",
   "element": "section",
   "props": {
     "name": {
@@ -14,12 +14,12 @@
     "avatar": {
       "type": "object",
       "required": true,
-      "description": "Forwarded to [Thumbnail](../thumbnail/thumbnail.md) verbatim at `size={80}`. Object: `{ src, alt, updateDot?, logoBadge? }`. The avatar overlaps the cover band's bottom edge by half its height and paints a 2px surface halo so it reads as a separate plane from the cover."
+      "description": "Forwarded to [Thumbnail](../thumbnail/thumbnail.md) verbatim at `size={56}`. Object: `{ src, alt, updateDot?, logoBadge? }`. The avatar overlaps the cover band's bottom edge by half its height and paints a 2px surface halo so it reads as a separate plane from the cover."
     },
     "cover": {
       "type": "object",
       "optional": true,
-      "description": "{ src?, alt? } — image-area override for the cover band. `src` accepts any URL; falls back to `/placeholder.png` (the universal Chorus image-area placeholder) when omitted. Same contract as `Thumbnail.src` / `ProfileCarousel.cover` — `object-fit: cover` preserves aspect ratio and crops to the band's intrinsic height.",
+      "description": "{ src?, alt? } — image-area override for the cover band. `src` accepts any URL; falls back to `/placeholder.png` (the universal Chorus image-area placeholder) when omitted. Same contract as `Thumbnail.src` / `ProfileCarousel.cover` — `object-fit: cover` preserves aspect ratio and crops to the band's intrinsic `375 / 120` ratio.",
       "assetType": "image",
       "placeholder": "/placeholder.png"
     },
@@ -93,14 +93,14 @@
     },
     "cover": {
       "required": true,
-      "description": "Full-bleed image band at the top — fixed `200px` tall. **Image-area slot, same contract as `.chorus-thumbnail` and `.chorus-profile-carousel__cover`**: an `<img>` paints the band, falling back to the universal Chorus placeholder PNG (`/placeholder.png`) when no `cover.src` is supplied. The placeholder is *also* wired as the runtime CSS `background-image` on the band, so a missing / failed `<img>` still resolves to the placeholder rather than an empty surface tone. `object-fit: cover` preserves aspect ratio and crops to fill the band.",
+      "description": "Full-bleed image band at the top — `aspect-ratio: 375 / 120` (mobile screen-width / cover-band ratio; the band scales proportionally as the host column resizes). **Image-area slot, same contract as `.chorus-thumbnail` and `.chorus-profile-carousel__cover`**: an `<img>` paints the band, falling back to the universal Chorus placeholder PNG (`/placeholder.png`) when no `cover.src` is supplied. The placeholder is *also* wired as the runtime CSS `background-image` on the band, so a missing / failed `<img>` still resolves to the placeholder rather than an empty surface tone. `object-fit: cover` preserves aspect ratio and crops to fill the band.",
       "assetType": "image",
       "placeholder": "/placeholder.png",
       "intrinsic": true
     },
     "avatar": {
       "required": true,
-      "description": "Circular avatar overlapping the cover band's bottom edge by half its diameter. Rendered via the [Thumbnail](../thumbnail/thumbnail.md) component at `size={80}`. Every Thumbnail prop is forwarded verbatim; the header does not paint its own crop or image-area fallback. A 2px surface halo separates the avatar from the cover band.",
+      "description": "Circular avatar overlapping the cover band's bottom edge by half its diameter. Rendered via the [Thumbnail](../thumbnail/thumbnail.md) component at `size={56}`. Every Thumbnail prop is forwarded verbatim; the header does not paint its own crop or image-area fallback. A 2px surface halo separates the avatar from the cover band.",
       "accepts": ["thumbnail"],
       "rendersAs": "thumbnail:80"
     },
@@ -144,11 +144,11 @@
   },
   "sizing": {
     "containerFill": "sys.color.surface",
-    "coverHeight": "200px",
+    "coverAspectRatio": "375 / 120 (W × H — the mobile-viewport / cover-band proportion; the band scales with the host column instead of locking to a hard pixel height)",
     "coverFill": "sys.color.surfaceContainerHigh (background underlay — the placeholder image paints on top via `object-fit: cover`)",
     "coverImageSource": "Same `/placeholder.png` asset every Chorus image-area slot falls back to. Decorative — `aria-hidden`. Consumers override via the `cover.src` prop.",
-    "avatarSize": 80,
-    "avatarOverlap": "Avatar's vertical center sits on the cover band's bottom edge — the top half overlaps the cover, the bottom half sits on the identity surface. The avatar carries a 2-token (`sys.borderWidth.thin`) outset border in the host surface tone (`sys.color.surface`) so the circle reads as a separate plane from the cover. The border is painted as `box-shadow: 0 0 0 sys.borderWidth.thin sys.color.surface` rather than a CSS `border:` so the Thumbnail's intrinsic footprint isn't shrunk.",
+    "avatarSize": 56,
+    "avatarOverlap": "Avatar's vertical center sits on the cover band's bottom edge — the top half overlaps the cover, the bottom half sits on the identity surface (-28px margin-top). The avatar carries a 2-token (`sys.borderWidth.thin`) outset border in the host surface tone (`sys.color.surface`) so the circle reads as a separate plane from the cover. The border is painted as `box-shadow: 0 0 0 sys.borderWidth.thin sys.color.surface` rather than a CSS `border:` so the Thumbnail's intrinsic footprint isn't shrunk.",
     "identityPaddingBlock": "0 sys.layout.container.md",
     "identityPaddingInline": "sys.layout.container.md",
     "identityStackGap": "sys.layout.stack.xs",
@@ -183,7 +183,7 @@
     "ProfileHeader wrapped in a horizontal-padding div — the family is full-bleed by declaration; the identity row pays inline padding internally",
     "cover painted as an inline SVG — cover uses /placeholder.png via the image-area contract, object-fit: cover",
     "follow affordance rendered as a Standard Button or Text Button — Follow is the canonical Toggle Button shape; the Toolbar-Button footprint is non-negotiable",
-    "avatar rendered at a size other than 80 — the family fixes the avatar rung so the cover-overlap geometry stays consistent",
+    "avatar rendered at a size other than 56 — the family fixes the avatar rung so the cover-overlap geometry stays consistent",
     "second `<h1>` painted elsewhere on the host route — ProfileHeader owns the page-level heading semantics"
   ]
 }

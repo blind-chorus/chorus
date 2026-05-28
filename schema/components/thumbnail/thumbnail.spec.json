@@ -9,6 +9,7 @@
     "size": {
       "type": "enum",
       "values": [
+        56,
         48,
         40,
         32,
@@ -52,7 +53,7 @@
     },
     "updateDot": {
       "required": false,
-      "description": "Brand-tone dot at the top-right. aria-hidden — decorative. Rendered by the [Badge](../badge/badge.md) component's `dot-md` / `dot-sm` rungs so the dot, its halo, and its rung names stay in lockstep with the Badge family. Thumbnail picks `dot-md` (8×8) at the 32 / 40 / 48 rungs and `dot-sm` (4×4) at the 16 / 20 / 24 rungs.",
+      "description": "Brand-tone dot at the top-right. aria-hidden — decorative. Rendered by the [Badge](../badge/badge.md) component's `dot-md` / `dot-sm` rungs so the dot, its halo, and its rung names stay in lockstep with the Badge family. Thumbnail picks `dot-md` (8×8) at the 32 / 40 / 48 / 56 rungs and `dot-sm` (4×4) at the 16 / 20 / 24 rungs.",
       "intrinsic": true,
       "rendersAs": "badge:dot-md|dot-sm"
     },
@@ -115,6 +116,11 @@
       "diameter": "ref.space.600",
       "updateDot": "8 × 8",
       "logoBadge": "16 × 16"
+    },
+    "56": {
+      "diameter": "ref.space.700",
+      "updateDot": "8 × 8",
+      "logoBadge": "16 × 16"
     }
   },
   "states": {
@@ -125,13 +131,13 @@
     "badgesOverlay": "Both badges are absolutely positioned over the image; the container's overall footprint is the image's diameter regardless of whether the badges are present. The 1px surface halo is rendered as a box-shadow.",
     "imageClip": "Container's radius.full plus overflow: hidden clips the image to a perfect circle even when the source is rectangular.",
     "noTextFallback": "Slot only renders <img> content — there is no text fallback. When `src` is omitted or the server fails to deliver the image, the slot's background paints the bundled `/placeholder.png` over a `surfaceContainerHigh` base. The placeholder is the image-area's runtime safety net for load failures; design-time scaffolds should pass the same URL through `src` explicitly so the contract is visible in the composition rather than hidden in the CSS layer.",
-    "updateDotBreakpoint": "Dot drops from 8×8 (at and above rung 32) to 4×4 (rungs 24 / 20 / 16) so it reads as highlight, not occluder, on the smaller diameters.",
+    "updateDotBreakpoint": "Dot drops from 8×8 (at and above rung 32, including 56) to 4×4 (rungs 24 / 20 / 16) so it reads as highlight, not occluder, on the smaller diameters.",
     "logoBadgeFixed": "Pinned at 16×16 at every rung — at the 16px Thumbnail the badge intentionally overlaps so the host image still reads through."
   },
   "forbidden": [
     "thumbnail rendered as a raw <img> outside the chorus-thumbnail wrapper — the wrapper owns the placeholder fallback and the surface halo",
     "border-radius override on a thumbnail — the radius comes from the variant (full for avatar, sys.radius.md for media) and is non-negotiable",
-    "size override outside the declared rung — 24 / 32 / 40 / 48 / 64 are the canonical sizes",
+    "size override outside the declared rung — 16 / 20 / 24 / 32 / 40 / 48 / 56 are the canonical sizes",
     "alt prop omitted or set to a generic 'thumbnail' string — alt names the subject of the image, not the slot role"
   ]
 }

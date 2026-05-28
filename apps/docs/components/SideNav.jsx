@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ChevronDownIcon } from '@blind-dsai/ui/icons';
-import { StatusTag } from '@blind-dsai/ui';
 import { NAV } from '../lib/nav';
 import { useMobileNav } from './MobileNav';
 
@@ -55,7 +54,6 @@ function SideNavItem({ item, pathname }) {
       >
         <span className="side-nav-chevron" aria-hidden="true">{hasSubs ? <Chevron /> : null}</span>
         <span className="side-nav-label">{item.label}</span>
-        {item.wip ? <StatusTag aria-label="Work in progress">WIP</StatusTag> : null}
       </Link>
       {hasSubs && expanded ? (
         <ul className="side-nav-subs">

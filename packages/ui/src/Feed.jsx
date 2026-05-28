@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { Button } from './Button.jsx';
-import { Byline } from './Byline.jsx';
+import { Metadata } from './Metadata.jsx';
 import { joinClasses } from './spec-utils.js';
 import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 import {
@@ -182,8 +182,8 @@ export function Feed({
     <article ref={ref} className={joinClasses('chorus-feed', className)} {...rest}>
       {flag ? <div className="chorus-feed__flag">{flag}</div> : null}
 
-      <Byline
-        className="chorus-feed__byline"
+      <Metadata
+        className="chorus-feed__metadata"
         avatar={avatar ?? { alt: channel }}
         name={channel}
         nameHref={channelHref}

@@ -93,7 +93,7 @@ const labelWithBadge = (text, count) => (
 );
 
 <List
-  variant="thumbnail"
+  variant="image"
   items={[
     { value: 'amazon',  label: labelWithBadge('Amazon',  142), supportingText: 'Private · My company', thumbnail: { src: '/amazon.png',  alt: 'Amazon' } },
     { value: 'samsung', label: labelWithBadge('Samsung',  27), supportingText: 'Private · My company', thumbnail: { src: '/samsung.png', alt: 'Samsung' } },

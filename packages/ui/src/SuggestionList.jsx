@@ -1,22 +1,27 @@
 'use client';
 
 import { useRef } from 'react';
-import { Thumbnail } from './Thumbnail.jsx';
 import { Button } from './Button.jsx';
+import { List } from './List.jsx';
 import { joinClasses } from './spec-utils.js';
 import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 
 /* SuggestionList — a vertically-stacked block of follow suggestions
    rendered as a swipeable pager. Each page shows exactly three rows
-   (Thumbnail 48 + name / followers / description + a Toggle Button on
-   the trailing edge); the next page peeks at the trailing side of the
-   viewport to invite the horizontal swipe. Anatomy is entity-agnostic —
-   suggested channels, people, companies, topics all share the same shape.
+   that follow the [list/entry](../../schema/components/list/entry.md)
+   visual contract at the `xlarge` rung (56 Thumbnail + identity group
+   of label + secondary follower count flush with line-height-only
+   spacing + description with `ref.space.25` (2) separator + trailing
+   Toggle Button). The next page peeks at the trailing side of the
+   viewport to invite the horizontal swipe. Anatomy is entity-agnostic
+   — suggested channels, people, companies, topics all share the same
+   shape.
 
    The component is presentation-only for the row body — tapping the
    avatar / text column does not route. The only commit affordance per
-   row is the trailing Toggle Button, whose `active` state is owned by
-   the consumer (forwarded through each item's `active` + `onToggle`).
+   row is the trailing Toggle Button (own hit target, stops click
+   propagation); `active` state is owned by the consumer (forwarded
+   through each item's `active` + `onToggle`).
    Pages of three are a hard contract: when `items.length` is not a
    multiple of three, the last page is padded with empty placeholders
    so the swipe rhythm holds. */
@@ -74,48 +79,41 @@ export function SuggestionList({
         </header>
       ) : null}
       <div className="chorus-suggestion-list__pager" role="group" aria-label="Suggestion pages">
-        {pages.map((page, pageIdx) => (
-          <div key={pageIdx} className="chorus-suggestion-list__page">
-            {page.map((item, rowIdx) =>
-              item ? (
-                <Row
-                  key={item.value ?? rowIdx}
-                  item={item}
-                  followLabel={followLabel}
-                  followingLabel={followingLabel}
-                />
-              ) : (
-                <div key={`pad-${rowIdx}`} className="chorus-suggestion-list__row chorus-suggestion-list__row--pad" aria-hidden="true" />
-              )
-            )}
-          </div>
-        ))}
+        {pages.map((page, pageIdx) => {
+          const realItems = page.filter(Boolean);
+          const padCount = page.length - realItems.length;
+          return (
+            <div key={pageIdx} className="chorus-suggestion-list__page">
+              <List
+                variant="entry"
+                size="xlarge"
+                embedded
+                items={realItems.map((item, rowIdx) => ({
+                  value: item.value ?? `row-${pageIdx}-${rowIdx}`,
+                  label: item.name,
+                  secondary: item.followers,
+                  description: item.description,
+                  thumbnail: item.thumbnail ?? { alt: item.name },
+                  trailingIcon: (
+                    <Button variant="toggle" active={!!item.active} onClick={item.onToggle}>
+                      {item.active ? followingLabel : followLabel}
+                    </Button>
+                  ),
+                }))}
+              />
+              {padCount > 0
+                ? Array.from({ length: padCount }).map((_, padIdx) => (
+                    <div
+                      key={`pad-${padIdx}`}
+                      className="chorus-suggestion-list__row--pad"
+                      aria-hidden="true"
+                    />
+                  ))
+                : null}
+            </div>
+          );
+        })}
       </div>
     </section>
-  );
-}
-
-function Row({ item, followLabel, followingLabel }) {
-  const { name, followers, description, active, onToggle, thumbnail } = item;
-  return (
-    <div className="chorus-suggestion-list__row">
-      <span className="chorus-suggestion-list__avatar">
-        <Thumbnail size={48} {...(thumbnail ?? { alt: name })} />
-      </span>
-      <span className="chorus-suggestion-list__text">
-        <span className="chorus-suggestion-list__name">{name}</span>
-        {followers ? <span className="chorus-suggestion-list__followers">{followers}</span> : null}
-        {description ? <span className="chorus-suggestion-list__description">{description}</span> : null}
-      </span>
-      <span className="chorus-suggestion-list__action">
-        <Button
-          variant="toggle"
-          active={!!active}
-          onClick={onToggle}
-        >
-          {active ? followingLabel : followLabel}
-        </Button>
-      </span>
-    </div>
   );
 }

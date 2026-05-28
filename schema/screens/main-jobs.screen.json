@@ -2,7 +2,7 @@
   "$schema": "./screen.schema.json",
   "slug": "main-jobs",
   "name": "Main Jobs",
-  "description": "Search-led job listings. The top bar is the `navigation-bar/search` variant (input fills the row), followed by a `tabs/underline` set ('Jobs' / 'Saved Jobs' with inline counts), a filter chip row, and a vertical `list/thumbnail` of job rows. A bookmark toggle is the only per-row commit; a transient `toast` confirms the action above the TabBar.",
+  "description": "Search-led job listings. The top bar is the `navigation-bar/search` variant (input fills the row), followed by a `tabs/underline` set ('Jobs' / 'Saved Jobs' with inline counts), a filter chip row, and a vertical `list/image` of job rows. A bookmark toggle is the only per-row commit; a transient `toast` confirms the action above the TabBar.",
   "useCases": [
     "job search",
     "filter job list",
@@ -41,7 +41,7 @@
     },
     "body": {
       "family": "list",
-      "subcomponent": "thumbnail",
+      "subcomponent": "image",
       "items": [
         {
           "leading": { "family": "thumbnail", "image": "logo-acme" },

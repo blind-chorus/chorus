@@ -2,14 +2,14 @@
 
 import { useRef } from 'react';
 import { Button } from './Button.jsx';
-import { Byline } from './Byline.jsx';
+import { Metadata } from './Metadata.jsx';
 import { joinClasses } from './spec-utils.js';
 import { XIcon } from './icons/index.js';
 import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 
 /* FeedAd — the `ad` sub-component of the Feed family. In-feed sponsored
    placement that rides the same column as the default Feed card. The
-   brand row composes the shared Byline component (avatar + name +
+   brand row composes the shared Metadata component (avatar + name +
    "Sponsored" subtitle + optional dismiss trailing). The schema spec
    (schema/components/feed/ad.md) is the source of truth for which
    slots are optional and how they collapse. */
@@ -29,7 +29,7 @@ function BrandRow({ brand, onDismiss, dismissLabel }) {
     </button>
   ) : null;
   return (
-    <Byline
+    <Metadata
       className="chorus-feed-ad__brand"
       avatar={brand.avatar ?? { alt: brand.name }}
       name={brand.name}

@@ -27,7 +27,7 @@
     },
     "body": {
       "family": "list",
-      "subcomponent": "thumbnail",
+      "subcomponent": "image",
       "items": [
         {
           "leading": { "family": "thumbnail", "image": "channel-design-system", "badge": { "family": "badge", "label": "B" } },

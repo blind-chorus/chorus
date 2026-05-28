@@ -1,0 +1,147 @@
+# Entry list
+
+Directory-entry List sub-component — edge-to-edge rows that pair a leading [Thumbnail](../thumbnail/thumbnail.md) (selectable rung 32 / 40 / 48 / 56 via `size="small|medium|large|xlarge"`) with an identity group (label + optional inline `count` Badge + optional stacked `secondary` line that tile flush) and an optional single-line `description`. Same click semantics as [Text sub](./text.md). Row geometry, state overlays, and inward focus ring delegate to the [family-wide rules](./list.md); this sub documents the leading image slot, the identity group, the description line, and the entry-specific divider rules.
+
+Replaces the legacy `row/entity` atom — every entity-row case (follow suggestion, member directory, subscription / channel / topic / playlist directory, mention / recipient picker, entity search result) ships as a full-bleed list at this variant. For Feed Post / Feed Ad card heads, reach for [Metadata](../metadata/metadata.md) — that cluster is the Feed-specific attribution primitive, not an entity row.
+
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell. Each row pays its own `16px inline / 8px block` padding via `layout.container.md` / `layout.container.xs`; do **not** wrap the list in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+
+## Default
+
+Directory entry rows — pick the Thumbnail rung via the **Size** dropdown (`xlarge` 56 → `small` 32). Row payload (label + stacked secondary + single-line description + trailing follow toggle) stays constant; only the leading avatar footprint changes. At `xlarge` the inter-row divider anchors to the text column (16 + 56 + 12 = 84) so the rule reads as separating identity columns under the wider avatar.
+
+```preview
+list/entry
+---
+import { Button, List } from '@blind-dsai/ui';
+
+<List
+  variant="entry"
+  size="medium"
+  items={[
+    {
+      value: 'sourdough-bakers',
+      label: 'Sourdough Bakers',
+      secondary: '12.4K Followers',
+      description: 'Open-crumb obsession, cold-proof timelines, weekend bakes.',
+      thumbnail: { src: '/placeholder.png', alt: 'Sourdough Bakers' },
+      trailingIcon: (
+        <Button variant="toggle" onClick={() => {}}>Follow</Button>
+      ),
+    },
+    {
+      value: 'indie-game-devs',
+      label: 'Indie Game Devs',
+      secondary: '8,210 Followers',
+      description: 'Solo dev diaries, first-release postmortems, jam recaps.',
+      thumbnail: { src: '/placeholder.png', alt: 'Indie Game Devs' },
+      trailingIcon: (
+        <Button variant="toggle" onClick={() => {}}>Follow</Button>
+      ),
+    },
+  ]}
+/>
+```
+
+## Use cases
+
+### With trailing star toggle
+
+The trailing star uses the **single-shape fill-only contract**: always `<StarFillIcon>`, color flips by state (active = `var(--ref-palette-yellow-500)`, inactive = `var(--sys-color-onSurfaceVariant)`). Shape stays constant so the trailing rail keeps a stable hit-target footprint — never swap between outline (`StarIcon`) and fill (`StarFillIcon`) for the same affordance. Rows with a trailing affordance default to `size="small"` (32) — the smaller leading footprint keeps the trailing rail visually balanced.
+
+```preview
+list/entry-with-star
+---
+import { Badge, Button, List } from '@blind-dsai/ui';
+import { StarFillIcon } from '@blind-dsai/ui/icons';
+
+<List
+  variant="entry"
+  size="small"
+  items={[
+    {
+      value: 'sourdough',
+      label: 'Sourdough Bakers',
+      count: <Badge count={12} />,
+      thumbnail: { src: '/placeholder.png', alt: 'Sourdough Bakers' },
+      trailingIcon: (
+        <Button
+          variant="icon"
+          size="medium"
+          aria-label="Favorited"
+          aria-pressed="true"
+          icon={<StarFillIcon />}
+          style={{ color: 'var(--ref-palette-yellow-500)' }}
+          onClick={() => {}}
+        />
+      ),
+    },
+    {
+      value: 'stocks',
+      label: 'Stocks & Investing',
+      count: <Badge count={142} />,
+      thumbnail: { src: '/placeholder.png', alt: 'Stocks & Investing' },
+    },
+    {
+      value: 'movie-talk',
+      label: 'Movie Talk',
+      count: <Badge count={24} />,
+      thumbnail: { src: '/placeholder.png', alt: 'Movie Talk' },
+      trailingIcon: (
+        <Button
+          variant="icon"
+          size="medium"
+          aria-label="Favorite"
+          aria-pressed="false"
+          icon={<StarFillIcon />}
+          style={{ color: 'var(--sys-color-onSurfaceVariant)' }}
+          onClick={() => {}}
+        />
+      ),
+    },
+  ]}
+/>
+```
+
+## Slots
+
+- **container** — outer vertical stack (delegates to family).
+- **row** — single list item; whole row is the click target.
+- **leading** — required. [Thumbnail](../thumbnail/thumbnail.md) at the list's `size` rung (32 / 40 / 48 / 56). `thumbnail` props forward verbatim.
+- **label** — primary row text. `sys.typo.label.md` (14 / Semibold) / `sys.color.onSurface`. Pairs flush with `count` on the primary line.
+- **count** *(optional)* — inline node painted to the right of the label on the same line (canonical: `<Badge count={n} />`). Separated from the label by `sys.layout.inline.sm` (4). Label shrinks first so a long name truncates against the count.
+- **secondary** *(optional)* — stacked meta line painted below the label inside the identity group (e.g. follower count, location). `sys.typo.caption.md` (12 / Regular) / `sys.color.onSurface`. Tiles flush with the label — line-height-only spacing, no margin — so the two lines read as one tight identity block.
+- **description** *(optional)* — single-line caption-tone supporting line below the identity group. `sys.typo.caption.md` (12 / Regular) / `sys.color.onSurfaceVariant`. Separated from the identity group by `ref.space.25` (2). Truncates with ellipsis; never wraps.
+- **trailingIcon** *(optional, per-row)* — consumer-supplied node at the trailing edge. Canonical fills: `<Button variant="toggle">` (Follow), `<Button variant="icon">` (favorite / overflow), `<Badge>`. Its own hit target — clicks stop propagating before reaching the row.
+- **divider** *(optional, per-row)* — pass `divider: false` to suppress the row's bottom hairline. Use when a visual group ends mid-stack and the divider would visually fence off the next group from its label.
+
+## Anatomy
+
+| Slot                       | Token bindings |
+|----------------------------|----------------|
+| row container              | `8px` block / `16px` inline padding (`layout.container.xs` / `layout.container.md`), `min-height: 48` (`ref.space.600`) |
+| leading thumbnail          | 32 (`size="small"`) / 40 (`size="medium"`) / 48 (`size="large"`) / 56 (`size="xlarge"`) |
+| leading → text column      | `sys.layout.inline.lg` (12) — Entry-specific override of the family-wide `inline.md` (8) row gap |
+| label                      | `sys.typo.label.md` (14 / Semibold) / `onSurface`, single-line ellipsis |
+| label → count              | `sys.layout.inline.sm` (4) |
+| count                      | inline node — canonical `<Badge>` |
+| label → secondary          | `0` — line-height only |
+| secondary                  | `sys.typo.caption.md` (12 / Regular) / `onSurface`, single-line ellipsis |
+| identity group → description | `ref.space.25` (2) |
+| description                | `sys.typo.caption.md` (12 / Regular) / `onSurfaceVariant`, single-line ellipsis |
+| text column → trailing     | `sys.layout.inline.sm` (4) |
+| trailingIcon               | `<Button variant="icon">`, `<Button variant="toggle">`, `<Button variant="text" appearance="accent">`, or `<Badge>` |
+| inter-row divider          | `1px` `outlineVariant`. Default (`small` / `medium` / `large`): `16` inset from **both** the leading and trailing edges. `xlarge`: leading inset anchors to the text column (`16 + 56 + 12 = 84`) so the rule reads as separating identity columns; trailing inset stays at `16`. |
+
+## States
+
+No `selected` state. State overlays (hover / pressed / disabled) and the inward focus ring delegate to the [family-wide rules](./list.md#cross-sub-contract).
+
+## Behavior
+
+- **Identity group is tight.** Label + (inline count) on the primary line, optional `secondary` stacked flush below — line-height-only spacing, no margin — so the entire identity group reads as one block.
+- **Divider inset switches at `xlarge`.** Default (`small` / `medium` / `large`): inter-row hairline is inset `16` from both edges so the rule reads as separating *content*, not the container. At `xlarge` the leading inset anchors to the text column (`16 + 56 + 12 = 84`) instead — the 56 avatar is large enough that a row-edge divider reads as a hard line under the avatar; anchoring it to the text column keeps the rule reading as separating identity columns.
+- **Description is the supporting layer.** Sits below the identity group with `ref.space.25` (2) of separation. Always single-line; truncates with ellipsis. The row never grows to fit longer copy.
+- **Truncates, never wraps.** Label and description both truncate; trailing slot is never pushed off-row by long text.
+- **Trailing slot is its own hit target.** Clicks inside `trailingIcon` stop propagating before reaching the row — wire favorite / follow / overflow there without committing the row's primary action.
+- **Keyboard navigation.** Arrow ↑ / ↓ moves focus between rows; Home / End jump to first / last.

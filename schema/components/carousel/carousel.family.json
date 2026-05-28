@@ -1,0 +1,32 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "carousel",
+  "name": "Carousel",
+  "description": "Page-region wrapper for editorial collections — a labelled block with a leading section heading and an optional trailing `See all` link, hosting a horizontal swipeable rail of cards underneath. Two sub-component shapes ride the same Carousel chrome: **post** — a swipeable rail of compact post cards (curated popular posts, paid / verified-account priority placements); **profile** — a swipeable rail of profile-style cards (channels, user profiles, company channels). Both share the same pager geometry (40px guaranteed trailing peek, leading-padding sticky anchor) so editorial collections of posts and profiles tile cleanly. The Carousel component is exported as `<Carousel>`; the two carousel shapes are accessed via `<Carousel.Post>` / `<Carousel.Profile>` (or legacy aliases `<PostCarousel>` / `<ProfileCarousel>`) and are always composed inside the labelled Carousel host.",
+  "useCases": [
+    "section heading",
+    "labelled editorial collection",
+    "see-all link",
+    "post carousel",
+    "profile carousel",
+    "channel carousel",
+    "company carousel"
+  ],
+  "visualReuse": "open",
+  "layoutInset": "full-bleed",
+  "wrapperGuidance": "Owns its inline padding internally. Place as a direct child of the page-shell <main> (or any host that pays the gutter once). Do NOT wrap in a padding-inline div, className=\"px-*\", or style={{ padding }} — the page rail is paid once at the shell, never on the full-bleed child. Inside a bounded surface (Dialog / BottomSheet / SideSheet), apply the negative-margin opt-out — see AGENTS.md § Composition rules.",
+  "spec": "carousel.md",
+  "subcomponents": [
+    {
+      "slug": "post",
+      "spec": "post.spec.json",
+      "md": "post.md",
+      "default": true
+    },
+    {
+      "slug": "profile",
+      "spec": "profile.spec.json",
+      "md": "profile.md"
+    }
+  ]
+}

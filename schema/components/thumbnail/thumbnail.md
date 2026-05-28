@@ -2,7 +2,7 @@
 
 A circular image — the unit used to identify a channel, a feed author, or any small-rung image. Two optional badges ride without changing footprint: an **update dot** at the top-right, and a **logo badge** at the bottom-right. A pure visual primitive — no label of its own.
 
-**Layout inset.** `inline` — slot atom. No page-rail responsibility; the surrounding container places it. Lives inside another component's leading slot (List row leading, Feed author block, AvatarRail item, SuggestionList row, NavigationBar leading) — never as a sibling of `full-bleed` page rows. The host picks the rung (16 / 20 / 24 / 32 / 40 / 48) and positions the Thumbnail.
+**Layout inset.** `inline` — slot atom. No page-rail responsibility; the surrounding container places it. Lives inside another component's leading slot (List row leading, Feed author block, AvatarRail item, SuggestionList row, NavigationBar leading) — never as a sibling of `full-bleed` page rows. The host picks the rung (16 / 20 / 24 / 32 / 40 / 48 / 56) and positions the Thumbnail.
 
 ## Default
 
@@ -75,19 +75,20 @@ thumbnail/size-ladder
 import { Thumbnail } from '@blind-dsai/ui';
 
 <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-  <Thumbnail size={48} alt="A" updateDot />
-  <Thumbnail size={40} alt="B" updateDot />
-  <Thumbnail size={32} alt="C" updateDot />
-  <Thumbnail size={24} alt="D" updateDot />
-  <Thumbnail size={20} alt="E" updateDot />
-  <Thumbnail size={16} alt="F" updateDot />
+  <Thumbnail size={56} alt="A" updateDot />
+  <Thumbnail size={48} alt="B" updateDot />
+  <Thumbnail size={40} alt="C" updateDot />
+  <Thumbnail size={32} alt="D" updateDot />
+  <Thumbnail size={24} alt="E" updateDot />
+  <Thumbnail size={20} alt="F" updateDot />
+  <Thumbnail size={16} alt="G" updateDot />
 </div>
 ```
 
 ## Slots
 
 - **image** — circular image; required. Fills the container at `radius.full`. When the asset hasn't loaded, the container holds `surfaceContainerHigh` and AT reads `alt`.
-- **updateDot** *(optional)* — `brand`-tone dot at the top-right. Decorative (`aria-hidden`); pair with a text affordance for the count. **Rendered by [Badge](../badge/badge.md)'s `dot-md` / `dot-sm` rungs.** Thumbnail picks `dot-md` at the 32 / 40 / 48 rungs and `dot-sm` at the 16 / 20 / 24 rungs.
+- **updateDot** *(optional)* — `brand`-tone dot at the top-right. Decorative (`aria-hidden`); pair with a text affordance for the count. **Rendered by [Badge](../badge/badge.md)'s `dot-md` / `dot-sm` rungs.** Thumbnail picks `dot-md` at the 32 / 40 / 48 / 56 rungs and `dot-sm` at the 16 / 20 / 24 rungs.
 - **logoBadge** *(optional)* — 16×16 circular badge at the bottom-right, for a sub-brand glyph.
 
 Both corner overlays sit *above* the image and carry a 1px (`borderWidth.hairline`) `surface`-color halo painted as a `box-shadow` — no change to the overlay's bounding footprint.
@@ -103,10 +104,11 @@ Both corner overlays sit *above* the image and carry a 1px (`borderWidth.hairlin
 
 ## Sizes
 
-Six rungs. Diameter binds to a raw `ref.space.*` step so Thumbnail can sit verbatim inside a fixed-footprint row.
+Seven rungs. Diameter binds to a raw `ref.space.*` step so Thumbnail can sit verbatim inside a fixed-footprint row.
 
 | Size  | Diameter | Update-dot | Logo badge | Token (diameter)            |
 |-------|----------|------------|------------|------------------------------|
+| 56    | 56px     | 8 × 8      | 16 × 16    | `ref.space.700`              |
 | 48    | 48px     | 8 × 8      | 16 × 16    | `ref.space.600`              |
 | 40    | 40px     | 8 × 8      | 16 × 16    | `ref.space.500`              |
 | 32    | 32px     | 8 × 8      | 16 × 16    | `ref.space.400`              |
@@ -114,7 +116,7 @@ Six rungs. Diameter binds to a raw `ref.space.*` step so Thumbnail can sit verba
 | 20    | 20px     | 6 × 6      | 16 × 16    | `ref.space.250`              |
 | 16    | 16px     | 6 × 6      | 16 × 16    | `ref.space.200`              |
 
-The update-dot steps down at 32 so it stays a *highlight*, not an *occluder*; the logo badge is pinned at 16 because the glyph it carries is illegible below that.
+The update-dot steps down at 32 so it stays a *highlight*, not an *occluder*; the logo badge is pinned at 16 because the glyph it carries is illegible below that. The 56 rung is reserved for the canonical follow-suggestion / xlarge directory-row leading slot (see [list/entry](../list/entry.md) `size="xlarge"`).
 
 ## States
 

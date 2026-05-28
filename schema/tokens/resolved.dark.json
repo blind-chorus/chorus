@@ -527,6 +527,10 @@
     "$value": "48px",
     "$type": "dimension"
   },
+  "ref.space.700": {
+    "$value": "56px",
+    "$type": "dimension"
+  },
   "ref.space.800": {
     "$value": "64px",
     "$type": "dimension"

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Accordion, Badge, BottomSheet, Button, Banner, Byline, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, Header, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, ProfileHeader, Section, SideSheet, SideSheetGroup, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
+import { Accordion, Badge, BottomSheet, Button, Banner, Metadata, SuggestionList, AvatarRail, Carousel, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, Header, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, ProfileHeader, SideSheet, SideSheetGroup, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
 import { PlusIcon, PlusSquareFillIcon, ChevronLeftIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, XIcon, BuildingIcon, BuildingFillIcon, ArrowDownIcon, ChevronRightIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, EllipsisHorizontalIcon, BellIcon, BellFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, StarFillIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
@@ -1235,12 +1235,13 @@ export const PREVIEWS = {
     states: false,
     render: () => (
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sys-layout-inline-xl)' }}>
-        <Thumbnail size={48} src={asset("/placeholder.png")} alt="Channel A" updateDot />
-        <Thumbnail size={40} src={asset("/placeholder.png")} alt="Channel B" updateDot />
-        <Thumbnail size={32} src={asset("/placeholder.png")} alt="Channel C" updateDot />
-        <Thumbnail size={24} src={asset("/placeholder.png")} alt="Channel D" updateDot />
-        <Thumbnail size={20} src={asset("/placeholder.png")} alt="Channel E" updateDot />
-        <Thumbnail size={16} src={asset("/placeholder.png")} alt="Channel F" updateDot />
+        <Thumbnail size={56} src={asset("/placeholder.png")} alt="Channel A" updateDot />
+        <Thumbnail size={48} src={asset("/placeholder.png")} alt="Channel B" updateDot />
+        <Thumbnail size={40} src={asset("/placeholder.png")} alt="Channel C" updateDot />
+        <Thumbnail size={32} src={asset("/placeholder.png")} alt="Channel D" updateDot />
+        <Thumbnail size={24} src={asset("/placeholder.png")} alt="Channel E" updateDot />
+        <Thumbnail size={20} src={asset("/placeholder.png")} alt="Channel F" updateDot />
+        <Thumbnail size={16} src={asset("/placeholder.png")} alt="Channel G" updateDot />
       </div>
     ),
   },
@@ -1253,15 +1254,16 @@ export const PREVIEWS = {
      names stay neutral (plain capitalised phrases, no platform-specific
      prefixes) so the previews read across any community product. */
 
-  /* Byline — author / brand attribution cluster shared by Feed Post +
-     Feed Ad. Three demonstrations: default Post shape (avatar + name +
-     timestamp + meta link row), with follow toggle, and Sponsored (Ad
-     subtitle + dismiss trailing). */
-  'feed/byline-default': {
+  /* Metadata — standalone family (renamed from Byline; previously the
+     Row family's `metadata` sub). Author / brand attribution cluster
+     shared by Feed Post + Feed Ad. Three demonstrations: default Post
+     shape (avatar + name + timestamp + meta link row), with follow
+     toggle, and Sponsored (Ad subtitle + dismiss trailing). */
+  'metadata/metadata-default': {
     states: false,
     render: () => (
       <Frame>
-        <Byline
+        <Metadata
           avatar={{ src: IMG.breadAvatar, alt: 'Sourdough Bakers' }}
           name="Sourdough Bakers"
           nameHref="#"
@@ -1271,11 +1273,11 @@ export const PREVIEWS = {
       </Frame>
     ),
   },
-  'feed/byline-with-follow': {
+  'metadata/metadata-with-follow': {
     states: false,
     render: () => (
       <Frame>
-        <Byline
+        <Metadata
           avatar={{ src: IMG.gameAvatar, alt: 'Indie Game Devs' }}
           name="Indie Game Devs"
           nameHref="#"
@@ -1286,11 +1288,11 @@ export const PREVIEWS = {
       </Frame>
     ),
   },
-  'feed/byline-sponsored': {
+  'metadata/metadata-sponsored': {
     states: false,
     render: () => (
       <Frame>
-        <Byline
+        <Metadata
           avatar={{ src: IMG.modAvatar, alt: 'Acme Coffee' }}
           name="Acme Coffee"
           subtitle="Sponsored"
@@ -1531,11 +1533,11 @@ export const PREVIEWS = {
      post cards under a single section header, with a one-card-per-page
      scroll-snap pager and decorative pagination dots. Header anatomy
      delegates verbatim to SuggestionList. */
-  'section/post-carousel-default': {
+  'carousel/post-default': {
     states: false,
     render: () => (
       <Frame>
-        <Section
+        <Carousel
           label="Trending right now"
           headerAction={{ label: 'See all', href: '#' }}
         >
@@ -1598,20 +1600,20 @@ export const PREVIEWS = {
             },
           ]}
         />
-        </Section>
+        </Carousel>
       </Frame>
     ),
   },
 
-  /* Section · Post Carousel — editorial cards: same one-card-per-page
+  /* Carousel · Post — editorial cards: same one-card-per-page
      pager, but each card drops `verified` and `followAction`. The header
      collapses to avatar + channel name. Surfaces a stripped-down
      editorial composition where the card is informational only. */
-  'section/post-carousel-editorial': {
+  'carousel/post-editorial': {
     states: false,
     render: () => (
       <Frame>
-        <Section label="Editor picks" headerAction={{ label: 'See all', href: '#' }}>
+        <Carousel label="Editor picks" headerAction={{ label: 'See all', href: '#' }}>
           <PostCarousel
             items={[
               {
@@ -1640,19 +1642,19 @@ export const PREVIEWS = {
               },
             ]}
           />
-        </Section>
+        </Carousel>
       </Frame>
     ),
   },
 
-  /* Section · Profile Carousel — horizontal rail of profile-style cards
+  /* Carousel · Profile — horizontal rail of profile-style cards
      (channels, profiles, companies). Cards fixed at 176px, Toggle Button
      follow affordance, max 5 cards. */
-  'section/profile-carousel-default': {
+  'carousel/profile-default': {
     states: false,
     render: () => (
       <Frame>
-        <Section label="Hot companies right now" headerAction={{ label: 'See all', href: '#' }}>
+        <Carousel label="Hot companies right now" headerAction={{ label: 'See all', href: '#' }}>
           <ProfileCarousel
             items={[
               {
@@ -1691,7 +1693,49 @@ export const PREVIEWS = {
               },
             ]}
           />
-        </Section>
+        </Carousel>
+      </Frame>
+    ),
+  },
+
+  /* Carousel · Post with no header — both `label` and `headerAction`
+     omitted on the Carousel wrapper; the header row is suppressed and
+     the pager sits flush against the surface's block padding. Use when
+     the surrounding screen already provides the heading. */
+  'carousel/post-no-header': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Carousel>
+          <PostCarousel
+            items={[
+              {
+                id: 'staying',
+                avatar: { src: IMG.plantAvatar, alt: 'Career' },
+                channel: 'Career',
+                title: 'The quiet math of staying versus leaving',
+                body: 'Salary checks, offer evaluations, and the long thread that runs longer than any single conversation can.',
+                views: '18K',
+              },
+              {
+                id: 'refresh',
+                avatar: { src: IMG.plantAvatar, alt: 'Compensation' },
+                channel: 'Compensation',
+                title: 'Equity refresh negotiations — what actually moves',
+                body: 'A read on the conversations that get an actual refresh on the calendar versus the ones that get a polite no.',
+                views: '9K',
+              },
+              {
+                id: 'migration',
+                avatar: { src: IMG.plantAvatar, alt: 'Engineering' },
+                channel: 'Engineering',
+                title: 'The migration that finally landed after three quarters',
+                body: 'Internal postmortem turned editorial — the scaffolding that held the rewrite together when the timeline did not.',
+                views: '14K',
+              },
+            ]}
+          />
+        </Carousel>
       </Frame>
     ),
   },
@@ -1701,11 +1745,11 @@ export const PREVIEWS = {
      same fixed height (two body.sm lines) as the metrics row, so card
      outer height is identical across both modes even when copy spills
      past two lines and ellipsizes. */
-  'section/profile-carousel-with-description': {
+  'carousel/profile-with-description': {
     states: false,
     render: () => (
       <Frame>
-        <Section label="Recommended channels" headerAction={{ label: 'See all', href: '#' }}>
+        <Carousel label="Recommended channels" headerAction={{ label: 'See all', href: '#' }}>
           <ProfileCarousel
             items={[
               {
@@ -1729,13 +1773,50 @@ export const PREVIEWS = {
               },
             ]}
           />
-        </Section>
+        </Carousel>
+      </Frame>
+    ),
+  },
+
+  /* Carousel · Profile with no header — both `label` and `headerAction`
+     omitted; the header row is suppressed and the pager sits flush
+     against the surface's block padding. Use when the surrounding
+     screen already provides the heading. */
+  'carousel/profile-no-header': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Carousel>
+          <ProfileCarousel
+            items={[
+              {
+                avatar: { src: '/blind_logo_red.png', alt: 'Engineering' },
+                name: 'Engineering',
+                followers: '12.4K followers',
+                description: 'Hands-on threads about systems, infra, and the work behind the launch.',
+              },
+              {
+                avatar: { src: '/blind_logo_red.png', alt: 'Compensation' },
+                name: 'Compensation',
+                followers: '8.1K followers',
+                description: 'Salary checks, offer evaluations, and the quiet math of staying versus leaving.',
+                followed: true,
+              },
+              {
+                avatar: { src: '/blind_logo_red.png', alt: 'Career' },
+                name: 'Career',
+                followers: '5.3K followers',
+                description: 'Promotion packets, scope debates, and the rewrites that actually cleared.',
+              },
+            ]}
+          />
+        </Carousel>
       </Frame>
     ),
   },
 
   /* ProfileHeader — identity block at the top of a profile / channel
-     detail screen. Cover band + overlapping 80-rung Thumbnail avatar +
+     detail screen. Cover band + overlapping 56-rung Thumbnail avatar +
      name (heading.lg) + visibility-icon · followers meta row + trailing
      follow Toggle Button. Same "profile" contract as ProfileCarousel —
      the carousel surfaces a card, the header surfaces the page rung. */
@@ -2074,6 +2155,35 @@ export const PREVIEWS = {
     },
   },
 
+  /* Suggestion list with no header at all — both `label` and
+     `headerAction` omitted; the header row is suppressed entirely and
+     the pager sits flush against the surface's block padding. Use when
+     the surrounding screen already provides the heading. */
+  'suggestion-list/no-header': {
+    states: false,
+    render: () => {
+      function Demo() {
+        const seed = [
+          { value: 'sourdough', name: 'Sourdough Bakers', followers: '12.4K Followers', description: 'Open-crumb obsession, cold-proof timing, starter help.',  thumbnail: { src: IMG.breadAvatar,  alt: 'Sourdough Bakers' }, following: false },
+          { value: 'indiedev',  name: 'Indie Game Devs',  followers: '8,210 Followers', description: 'Shipping logs, postmortems, marketing on a budget.',        thumbnail: { src: IMG.gameAvatar,   alt: 'Indie Game Devs' }, following: false },
+          { value: 'plants',    name: 'Plant People',     followers: '21.7K Followers', description: 'Houseplant troubleshooting and propagation threads.',       thumbnail: { src: IMG.plantAvatar,  alt: 'Plant People' }, following: true  },
+        ];
+        const [rows, setRows] = useState(seed);
+        const items = rows.map((r) => ({
+          ...r,
+          active: r.following,
+          onToggle: () => setRows((prev) => prev.map((p) => (p.value === r.value ? { ...p, following: !p.following } : p))),
+        }));
+        return <SuggestionList items={items} aria-label="Recommended channels" />;
+      }
+      return (
+        <Frame>
+          <Demo />
+        </Frame>
+      );
+    },
+  },
+
   /* List — text variant (default). Plain rows; no selection model.
      Staged as a community member's "Account" menu — the rows are the
      surfaces every social product reaches for. */
@@ -2333,12 +2443,12 @@ export const PREVIEWS = {
 
   /* List — thumbnail variant. Each row anchored by a 40px Thumbnail.
      Staged as a "Channels you follow" surface inside the community app. */
-  'list/thumbnail': {
+  'list/image': {
     states: false,
     render: () => (
       <Frame>
         <List
-          variant="thumbnail"
+          variant="image"
           items={[
             { value: 'sourdough', label: 'Sourdough Bakers', supportingText: '3 new posts today',  thumbnail: { src: IMG.breadAvatar,  alt: 'Sourdough Bakers' } },
             { value: 'indiedev',  label: 'Indie Game Devs',  supportingText: '12 new posts today', thumbnail: { src: IMG.gameAvatar,   alt: 'Indie Game Devs' } },
@@ -2353,16 +2463,125 @@ export const PREVIEWS = {
      the per-row `divider: false` opt-out — the second row's hairline
      bottom rule disappears while the row's footprint and inline
      padding stay unchanged. */
-  'list/thumbnail-without-divider': {
+  'list/image-without-divider': {
     states: false,
     render: () => (
       <Frame>
         <List
-          variant="thumbnail"
+          variant="image"
           items={[
             { value: 'sourdough', label: 'Sourdough Bakers', supportingText: '3 new posts today',  thumbnail: { src: IMG.breadAvatar,  alt: 'Sourdough Bakers' } },
             { value: 'indiedev',  label: 'Indie Game Devs',  supportingText: '12 new posts today', thumbnail: { src: IMG.gameAvatar,   alt: 'Indie Game Devs' }, divider: false },
             { value: 'plants',    label: 'Plant People',     supportingText: 'No new posts',       thumbnail: { src: IMG.plantAvatar,  alt: 'Plant People' } },
+          ]}
+        />
+      </Frame>
+    ),
+  },
+
+  /* List — entry variant. Directory-entry rows that pair a leading
+     Thumbnail (selectable 32 / 40 / 48 / 56 via the `size` axis below)
+     with an identity group (label + optional inline `count` Badge +
+     optional stacked secondary line) and an optional single-line
+     description. The size axis is surfaced through the standard Size
+     dropdown (largest-first per project ordering); the row payload
+     (label + secondary + description + follow toggle) stays constant
+     across sizes so the visual difference is the avatar rung alone.
+     At `xlarge` the inter-row divider anchors to the text column
+     (16 + 56 + 8 = 80) so the rule reads as separating identity
+     columns under the wider avatar. */
+  'list/entry': {
+    states: false,
+    sizes: ['xlarge', 'large', 'medium', 'small'],
+    render: ({ size = 'medium' }) => (
+      <Frame>
+        <List
+          variant="entry"
+          size={size}
+          items={[
+            {
+              value: 'sourdough',
+              label: 'Sourdough Bakers',
+              secondary: '12.4K Followers',
+              description: 'Open-crumb obsession, cold-proof timelines, weekend bakes.',
+              thumbnail: { src: IMG.breadAvatar, alt: 'Sourdough Bakers' },
+              trailingIcon: (
+                <Button variant="toggle" onClick={() => {}}>Follow</Button>
+              ),
+            },
+            {
+              value: 'indiedev',
+              label: 'Indie Game Devs',
+              secondary: '8,210 Followers',
+              description: 'Solo dev diaries, first-release postmortems, jam recaps.',
+              thumbnail: { src: IMG.gameAvatar, alt: 'Indie Game Devs' },
+              trailingIcon: (
+                <Button variant="toggle" onClick={() => {}}>Follow</Button>
+              ),
+            },
+            {
+              value: 'changelog',
+              label: 'Product changelog',
+              secondary: '3 new this week',
+              description: 'Weekly release notes from the platform team.',
+              thumbnail: { src: IMG.modAvatar, alt: 'Product changelog' },
+              trailingIcon: (
+                <Button variant="toggle" onClick={() => {}}>Follow</Button>
+              ),
+            },
+          ]}
+        />
+      </Frame>
+    ),
+  },
+
+  /* Entry with the single-shape star toggle contract — always
+     StarFillIcon; only color flips between state. Stable trailing
+     footprint across active/inactive. */
+  'list/entry-with-star': {
+    states: false,
+    render: () => (
+      <Frame>
+        <List
+          variant="entry"
+          size="small"
+          items={[
+            {
+              value: 'sourdough',
+              label: 'Sourdough Bakers',
+              count: <Badge count={12} />,
+              thumbnail: { src: IMG.breadAvatar, alt: 'Sourdough Bakers' },
+              trailingIcon: (
+                <Button
+                  variant="icon" size="medium"
+                  aria-label="Favorited" aria-pressed="true"
+                  icon={<StarFillIcon />}
+                  style={{ color: 'var(--ref-palette-yellow-500)' }}
+                  onClick={() => {}}
+                />
+              ),
+            },
+            {
+              value: 'stocks',
+              label: 'Stocks & Investing',
+              count: <Badge count={142} />,
+              thumbnail: { src: IMG.plantAvatar, alt: 'Stocks & Investing' },
+            },
+            {
+              value: 'movies',
+              label: 'Movie Talk',
+              count: <Badge count={24} />,
+              thumbnail: { src: IMG.cinemaAvatar, alt: 'Movie Talk' },
+              trailingIcon: (
+                <Button
+                  variant="icon" size="medium"
+                  aria-label="Favorite" aria-pressed="false"
+                  icon={<StarFillIcon />}
+                  style={{ color: 'var(--sys-color-onSurfaceVariant)' }}
+                  onClick={() => {}}
+                />
+              ),
+            },
           ]}
         />
       </Frame>
@@ -2449,7 +2668,7 @@ export const PREVIEWS = {
       return (
         <Frame>
           <List
-            variant="thumbnail"
+            variant="image"
             items={[
               { value: 'amazon',  label: labelWithBadge('Amazon',  142), supportingText: 'Private · My company', thumbnail: { src: IMG.brandLaptop, alt: 'Amazon' } },
               { value: 'samsung', label: labelWithBadge('Samsung',  27), supportingText: 'Private · My company', thumbnail: { src: IMG.brandPhone,  alt: 'Samsung' } },
@@ -3213,7 +3432,7 @@ export const PREVIEWS = {
     render: () => (
       <Frame>
         <List
-          variant="thumbnail"
+          variant="image"
           aria-label="Channel approval status"
           items={[
             {
@@ -3375,11 +3594,11 @@ export const PREVIEWS = {
   },
 
   /* SideSheet — off-canvas content column anchored to the leading edge.
-     Canonical fill: Header (size="medium") + List (variant="thumbnail"
-     density="compact") pairs replicating the navigation-drawer pattern
-     (My channels → Favorites → Following) + pinned footer commit. The
-     `inline` prop renders the sheet next to the page in docs (skips
-     portal, scroll lock, fixed positioning). */
+     Canonical fill: Header (size="medium") + List(entry) directory
+     stacks replicating the navigation-drawer pattern (My channels →
+     Favorites → Following) + pinned footer commit. The `inline` prop
+     renders the sheet next to the page in docs (skips portal, scroll
+     lock, fixed positioning). */
   'side-sheet/default': {
     states: false,
     render: () => (
@@ -3399,16 +3618,17 @@ export const PREVIEWS = {
             <Header
               size="medium"
               label="My channels"
-              headerAction={{ label: '+ Create', onClick: () => {} }}
+              headerAction={{ label: 'Create', leadingIcon: <PlusIcon />, onClick: () => {} }}
             />
             <List
-              variant="thumbnail"
-              density="compact"
-              aria-label="My channels"
+              variant="entry"
+              embedded
+              size="small"
+              divider={false}
               items={[
-                { value: 'team',     label: 'Team Blind',         thumbnail: { src: IMG.modAvatar,   alt: 'Team Blind' } },
-                { value: 'startup',  label: 'Startup Lounge',     thumbnail: { src: IMG.plantAvatar, alt: 'Startup Lounge' },     count: <Badge size="small" count={64} /> },
-                { value: 'pm',       label: 'IT PM · Management', thumbnail: { src: IMG.brandLaptop, alt: 'IT PM · Management' }, count: <Badge size="small" count={12} /> },
+                { value: 'team-blind',     label: 'Team Blind',         thumbnail: { src: IMG.modAvatar,   alt: 'Team Blind' } },
+                { value: 'startup-lounge', label: 'Startup Lounge',     count: <Badge size="small" count={64} />, thumbnail: { src: IMG.plantAvatar, alt: 'Startup Lounge' } },
+                { value: 'it-pm',          label: 'IT PM · Management', count: <Badge size="small" count={12} />, thumbnail: { src: IMG.brandLaptop, alt: 'IT PM · Management' } },
               ]}
             />
           </SideSheetGroup>
@@ -3416,13 +3636,32 @@ export const PREVIEWS = {
           <SideSheetGroup>
             <Header size="medium" label="Favorites" />
             <List
-              variant="thumbnail"
-              density="compact"
-              aria-label="Favorite channels"
+              variant="entry"
+              embedded
+              size="small"
+              divider={false}
               items={[
-                { value: 'sourdough', label: 'Sourdough Bakers',   thumbnail: { src: IMG.breadAvatar, alt: 'Sourdough Bakers' },   count: <Badge size="small" count={12} />,  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--ref-palette-yellow-500)' }} onClick={() => {}} /> },
-                { value: 'stocks',    label: 'Stocks & Investing', thumbnail: { src: IMG.brandChip,   alt: 'Stocks & Investing' }, count: <Badge size="small" count={142} />, trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--ref-palette-yellow-500)' }} onClick={() => {}} /> },
-                { value: 'movies',    label: 'Movie Talk',         thumbnail: { src: IMG.cinemaAvatar, alt: 'Movie Talk' },        count: <Badge size="small" count={24} />,  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--ref-palette-yellow-500)' }} onClick={() => {}} /> },
+                {
+                  value: 'sourdough',
+                  label: 'Sourdough Bakers',
+                  count: <Badge size="small" count={12} />,
+                  thumbnail: { src: IMG.breadAvatar, alt: 'Sourdough Bakers' },
+                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--ref-palette-yellow-500)' }} onClick={() => {}} />,
+                },
+                {
+                  value: 'stocks',
+                  label: 'Stocks & Investing',
+                  count: <Badge size="small" count={142} />,
+                  thumbnail: { src: IMG.brandChip, alt: 'Stocks & Investing' },
+                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--ref-palette-yellow-500)' }} onClick={() => {}} />,
+                },
+                {
+                  value: 'movie-talk',
+                  label: 'Movie Talk',
+                  count: <Badge size="small" count={24} />,
+                  thumbnail: { src: IMG.cinemaAvatar, alt: 'Movie Talk' },
+                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--ref-palette-yellow-500)' }} onClick={() => {}} />,
+                },
               ]}
             />
           </SideSheetGroup>
@@ -3430,13 +3669,31 @@ export const PREVIEWS = {
           <SideSheetGroup>
             <Header size="medium" label="Following" />
             <List
-              variant="thumbnail"
-              density="compact"
-              aria-label="Following channels"
+              variant="entry"
+              embedded
+              size="small"
+              divider={false}
               items={[
-                { value: 'career', label: 'Career & Jobs',     thumbnail: { src: IMG.brandChat,     alt: 'Career & Jobs' },     count: <Badge size="small" count={24} />, trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite"           aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-onSurfaceVariant)' }} onClick={() => {}} /> },
-                { value: 'market', label: 'Marketplace',       thumbnail: { src: IMG.brandAppliance, alt: 'Marketplace' },      count: <Badge size="small" count={12} />, trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite"           aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-onSurfaceVariant)' }} onClick={() => {}} /> },
-                { value: 'beauty', label: 'Fashion & Beauty',  thumbnail: { src: IMG.brandPhone,    alt: 'Fashion & Beauty' },                                            trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite"           aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-onSurfaceVariant)' }} onClick={() => {}} /> },
+                {
+                  value: 'career',
+                  label: 'Career & Jobs',
+                  count: <Badge size="small" count={24} />,
+                  thumbnail: { src: IMG.brandChat, alt: 'Career & Jobs' },
+                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-onSurfaceVariant)' }} onClick={() => {}} />,
+                },
+                {
+                  value: 'marketplace',
+                  label: 'Marketplace',
+                  count: <Badge size="small" count={12} />,
+                  thumbnail: { src: IMG.brandAppliance, alt: 'Marketplace' },
+                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-onSurfaceVariant)' }} onClick={() => {}} />,
+                },
+                {
+                  value: 'fashion',
+                  label: 'Fashion & Beauty',
+                  thumbnail: { src: IMG.brandPhone, alt: 'Fashion & Beauty' },
+                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-onSurfaceVariant)' }} onClick={() => {}} />,
+                },
               ]}
             />
           </SideSheetGroup>
@@ -3445,62 +3702,12 @@ export const PREVIEWS = {
     ),
   },
 
-  /* List → Thumbnail → Compact density + inline count. Subscription /
-     channel rows: 32 Thumbnail, 14 single-line label, inline small-Badge
-     count after the label, optional favorite ★ toggle at the trailing
-     edge as its own hit target (stops propagation so toggling does not
-     commit the row). No inter-row divider. */
-  'list/thumbnail-compact-with-count': {
+  'list/image-with-trailing-action': {
     states: false,
     render: () => (
       <Frame>
         <List
-          variant="thumbnail"
-          density="compact"
-          aria-label="Subscribed channels"
-          items={[
-            {
-              value: 'sourdough',
-              label: 'Sourdough Bakers',
-              thumbnail: { src: IMG.breadAvatar, alt: 'Sourdough Bakers' },
-              count: <Badge size="small" count={12} />,
-              trailingIcon: (
-                <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarFillIcon />} onClick={() => {}} />
-              ),
-            },
-            {
-              value: 'stocks',
-              label: 'Stocks & Investing',
-              thumbnail: { src: IMG.brandChip, alt: 'Stocks & Investing' },
-              count: <Badge size="small" count={142} />,
-            },
-            {
-              value: 'movies',
-              label: 'Movie Talk',
-              thumbnail: { src: IMG.cinemaAvatar, alt: 'Movie Talk' },
-              count: <Badge size="small" count={24} />,
-              trailingIcon: (
-                <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarIcon />} onClick={() => {}} />
-              ),
-            },
-            {
-              value: 'changelog',
-              label: 'Product changelog',
-              thumbnail: { src: IMG.brandChip, alt: 'Product changelog' },
-              count: <Badge size="small" count={3} />,
-            },
-          ]}
-        />
-      </Frame>
-    ),
-  },
-
-  'list/thumbnail-with-trailing-action': {
-    states: false,
-    render: () => (
-      <Frame>
-        <List
-          variant="thumbnail"
+          variant="image"
           aria-label="Suggested channels"
           items={[
             {

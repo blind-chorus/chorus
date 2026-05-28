@@ -2,7 +2,7 @@
 
 Expandable-row List sub-component. Each item exposes a List-row trigger (label + auto-rendered trailing chevron that rotates `180°` on expand) and a content body that paints below it when open. Rows tile flush with the family-wide hairline `outlineVariant` divider between them; an additional hairline rule paints between the open trigger and its child row group.
 
-**Reach for this when** a list of titled sections is too long to keep open at once — FAQs, T&C sections, expandable filter groups, settings groups with infrequent edits, hierarchical menus (companies → channels, regions → cities, categories → entries). **Skip when** the bodies are short enough to read inline (use [Section](../section/section.md) per group), the user needs to act on the labels rather than read into them (use [List/nav](./nav.md) or [List/radio](./radio.md)), or every item should be visible at once with no toggle (stack [Section](../section/section.md)s).
+**Reach for this when** a list of titled sections is too long to keep open at once — FAQs, T&C sections, expandable filter groups, settings groups with infrequent edits, hierarchical menus (companies → channels, regions → cities, categories → entries). **Skip when** the bodies are short enough to read inline (use [Carousel](../carousel/carousel.md) per group), the user needs to act on the labels rather than read into them (use [List/nav](./nav.md) or [List/radio](./radio.md)), or every item should be visible at once with no toggle (stack [Carousel](../carousel/carousel.md)s).
 
 Row geometry, label typography, divider, state overlays, and inward focus ring all delegate to the [family-wide rules](./list.md); this sub documents only the expand/collapse contract and the top group-divider that separates the open trigger from its child rows.
 
@@ -160,7 +160,7 @@ import { Accordion } from '@blind-dsai/ui';
 
 ## Appearance
 
-A single appearance — Accordion paints no fill of its own and offers no emphasis axis. The host surface tone reads through every row. Wrap the Accordion in a [Section](../section/section.md) when it needs its own labelled region.
+A single appearance — Accordion paints no fill of its own and offers no emphasis axis. The host surface tone reads through every row. Wrap the Accordion in a [Carousel](../carousel/carousel.md) when it needs its own labelled region.
 
 ## States
 

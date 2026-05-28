@@ -1,19 +1,19 @@
 # Post carousel
 
-Sub-component of the [Section](./section.md) family. Horizontally-scrolling pager of up to 5 compact post cards — surfaces curated popular posts or gives paid / verified accounts priority placement inside the [Post](../feed/post.md) feed column. The section heading and `See all` link live on the [Section](./section.md) wrapper — PostCarousel is the *content* only.
+Sub-component of the [Carousel](./carousel.md) family. Horizontally-scrolling pager of up to 5 compact post cards — surfaces curated popular posts or gives paid / verified accounts priority placement inside the [Post](../feed/post.md) feed column. The section heading and `See all` link live on the [Carousel](./carousel.md) wrapper — PostCarousel is the *content* only.
 
-**Layout inset.** `full-bleed` — sits as a direct child of the page shell (typically inside a [Section](./section.md)). The rail pays its own inline padding via `layout.container.*` and lets the first / last card flush to the page edge so the horizontal-scroll affordance reads cleanly; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Layout inset.** `full-bleed` — sits as a direct child of the page shell (typically inside a [Carousel](./carousel.md)). The rail pays its own inline padding via `layout.container.*` and lets the first / last card flush to the page edge so the horizontal-scroll affordance reads cleanly; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-Section header above three cards with verified marks, follow actions, and pagination dots.
+Carousel header above three cards with verified marks, follow actions, and pagination dots.
 
 ```preview
-section/post-carousel-default
+carousel/post-default
 ---
-import { Section, PostCarousel } from '@blind-dsai/ui';
+import { Carousel, PostCarousel } from '@blind-dsai/ui';
 
-<Section
+<Carousel
   label="Trending right now"
   headerAction={{ label: 'See all', href: '#' }}
 >
@@ -51,7 +51,7 @@ import { Section, PostCarousel } from '@blind-dsai/ui';
     },
   ]}
 />
-</Section>
+</Carousel>
 ```
 
 ## Use cases
@@ -61,11 +61,11 @@ import { Section, PostCarousel } from '@blind-dsai/ui';
 Cards drop `verified` and `followAction` — the header collapses to avatar + channel name. Reach for it on editorial collections where the card is informational only (round-ups, archives, "what we're reading"); the surface should not invite a per-card commit.
 
 ```preview
-section/post-carousel-editorial
+carousel/post-editorial
 ---
-import { Section, PostCarousel } from '@blind-dsai/ui';
+import { Carousel, PostCarousel } from '@blind-dsai/ui';
 
-<Section label="Editor picks" headerAction={{ label: 'See all', href: '#' }}>
+<Carousel label="Editor picks" headerAction={{ label: 'See all', href: '#' }}>
   <PostCarousel
     items={[
       { avatar: { src: '/placeholder.png', alt: 'Channel' }, channel: 'Career',       title: 'The quiet math of staying versus leaving',                body: 'Salary checks, offer evaluations, and the long thread that runs longer than any single conversation can.',                       views: '18K' },
@@ -73,12 +73,32 @@ import { Section, PostCarousel } from '@blind-dsai/ui';
       { avatar: { src: '/placeholder.png', alt: 'Channel' }, channel: 'Engineering',  title: 'The migration that finally landed after three quarters', body: 'Internal postmortem turned editorial — the scaffolding that held the rewrite together when the timeline did not.',                 views: '14K' },
     ]}
   />
-</Section>
+</Carousel>
+```
+
+### No header
+
+Omit both `label` and `headerAction` on the `<Carousel>` wrapper — the header row is suppressed entirely and the pager sits flush against the surface's block padding. Reach for it when the surrounding screen already provides the heading (e.g. a page-level `<Header>` placed earlier in the layout).
+
+```preview
+carousel/post-no-header
+---
+import { Carousel, PostCarousel } from '@blind-dsai/ui';
+
+<Carousel>
+  <PostCarousel
+    items={[
+      { avatar: { src: '/placeholder.png', alt: 'Channel' }, channel: 'Career',       title: 'The quiet math of staying versus leaving',                body: 'Salary checks, offer evaluations, and the long thread that runs longer than any single conversation can.',           views: '18K' },
+      { avatar: { src: '/placeholder.png', alt: 'Channel' }, channel: 'Compensation', title: 'Equity refresh negotiations — what actually moves',       body: 'A read on the conversations that get an actual refresh on the calendar versus the ones that get a polite no.',         views: '9K'  },
+      { avatar: { src: '/placeholder.png', alt: 'Channel' }, channel: 'Engineering',  title: 'The migration that finally landed after three quarters', body: 'Internal postmortem turned editorial — the scaffolding that held the rewrite together when the timeline did not.',     views: '14K' },
+    ]}
+  />
+</Carousel>
 ```
 
 ## Slots
 
-- **container** — wraps pager + pagination dots. No fill / padding — the surrounding [Section](../section/section.md) provides the chrome.
+- **container** — wraps pager + pagination dots. No fill / padding — the surrounding [Carousel](../carousel/carousel.md) provides the chrome.
 - **pager** — horizontal scroll-snap track. `scroll-snap-type: x mandatory`; native scrollbar hidden.
 - **card** — one compact post card per page; outline-only surface.
   - **avatar** — [Thumbnail](../thumbnail/thumbnail.md) `size={40}`, every prop (`src`, `alt`, `updateDot`, `logoBadge`) forwarded verbatim.
@@ -95,7 +115,7 @@ import { Section, PostCarousel } from '@blind-dsai/ui';
 
 | Slot              | Token bindings |
 |-------------------|----------------|
-| container         | No fill / padding — surrounding [Section](../section/section.md) provides the chrome; `sys.layout.stack.md` pager→dots gap |
+| container         | No fill / padding — surrounding [Carousel](../carousel/carousel.md) provides the chrome; `sys.layout.stack.md` pager→dots gap |
 | pager             | `gap: sys.layout.inline.md`, negative trailing margin = `sys.layout.container.md`, `scroll-snap-type: x mandatory`, `scrollbar-width: none` |
 | card              | `flex: 0 0 calc(100% - sys.layout.inline.md - ref.space.500)`; `sys.color.surface` fill, `sys.radius.md`, `sys.borderWidth.hairline sys.color.outlineVariant` outline (inset box-shadow), `sys.layout.container.md` padding, `sys.layout.stack.sm` between blocks, `scroll-snap-align: start` |
 | header            | Row: avatar + verified mark + name + spacer + follow action; `align-items: center`; `sys.layout.inline.md` gap |

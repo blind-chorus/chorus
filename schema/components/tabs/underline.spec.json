@@ -68,7 +68,7 @@
     "containerPaddingInline": "sys.layout.container.md",
     "paddingBlock": "sys.layout.container.xs",
     "paddingInline": "sys.layout.container.md",
-    "interTabGap": "0px",
+    "interTabGap": "0",
     "slotGap": "sys.layout.inline.sm",
     "indicatorHeight": "sys.borderWidth.thin",
     "dividerWidth": "sys.borderWidth.hairline",

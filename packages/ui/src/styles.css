@@ -857,35 +857,35 @@ span.chorus-chip {
 }
 
 /* ============================================================
-   Byline — author / brand attribution cluster
+   Metadata — author / brand attribution cluster
    Shared by Feed Post + Feed Ad. 32-rung Thumbnail + 2-line text
    column + optional trailing slot. The middot separator uses
    `line-height: 1` so its line-box never exceeds its font-size —
    keeps the row's text-line tight even when the inherited
    line-height would otherwise allow extra space around the bullet.
 ============================================================ */
-.chorus-byline {
+.chorus-metadata {
   display: flex;
   align-items: center;
   gap: var(--sys-layout-inline-md);
   min-width: 0;
 }
 
-.chorus-byline__text {
+.chorus-metadata__text {
   display: flex;
   flex-direction: column;
   min-width: 0;
   flex: 1 1 auto;
 }
 
-.chorus-byline__primary {
+.chorus-metadata__primary {
   display: flex;
   align-items: center;
   gap: var(--sys-layout-inline-md);
   min-width: 0;
 }
 
-.chorus-byline__name {
+.chorus-metadata__name {
   font-size: var(--sys-typo-label-sm-size);
   font-weight: var(--sys-typo-label-sm-weight);
   line-height: var(--sys-typo-label-sm-line);
@@ -896,14 +896,14 @@ span.chorus-chip {
   text-overflow: ellipsis;
   min-width: 0;
 }
-a.chorus-byline__name:hover { text-decoration: underline; }
-a.chorus-byline__name:focus-visible {
+a.chorus-metadata__name:hover { text-decoration: underline; }
+a.chorus-metadata__name:focus-visible {
   outline: var(--sys-borderWidth-hairline) solid var(--sys-color-focus);
   outline-offset: var(--sys-layout-inline-xs);
   border-radius: var(--sys-radius-xs);
 }
 
-.chorus-byline__timestamp {
+.chorus-metadata__timestamp {
   font-size: var(--sys-typo-caption-md-size);
   font-weight: var(--sys-typo-caption-md-weight);
   line-height: var(--sys-typo-caption-md-line);
@@ -915,17 +915,17 @@ a.chorus-byline__name:focus-visible {
    font-size determines the line-box height, which can inflate the
    parent's text-line when it doesn't match the surrounding text.
    Two-token fix: (a) `font-size: var(--sys-typo-caption-md-size)`
-   matches the smaller of the two rungs Byline ever sits next to
+   matches the smaller of the two rungs Metadata ever sits next to
    (label.sm or caption.md — both 12px), (b) `line-height: 1` collapses
    the line-box to that font-size so the dot's vertical extent never
    exceeds the text height. */
-.chorus-byline__dot {
+.chorus-metadata__dot {
   color: var(--sys-color-outline);
   font-size: var(--sys-typo-caption-md-size);
   line-height: 1;
 }
 
-.chorus-byline__follow {
+.chorus-metadata__follow {
   appearance: none;
   background: transparent;
   border: 0;
@@ -938,17 +938,17 @@ a.chorus-byline__name:focus-visible {
   color: var(--sys-color-primary);
 }
 
-.chorus-byline__follow[aria-pressed="true"] {
+.chorus-metadata__follow[aria-pressed="true"] {
   color: var(--sys-color-onSurfaceVariant);
 }
 
-.chorus-byline__follow:focus-visible {
+.chorus-metadata__follow:focus-visible {
   outline: var(--sys-borderWidth-hairline) solid var(--sys-color-focus);
   outline-offset: var(--sys-layout-inline-xs);
   border-radius: var(--sys-radius-xs);
 }
 
-.chorus-byline__subtitle {
+.chorus-metadata__subtitle {
   font-size: var(--sys-typo-caption-md-size);
   font-weight: var(--sys-typo-caption-md-weight);
   line-height: var(--sys-typo-caption-md-line);
@@ -958,7 +958,7 @@ a.chorus-byline__name:focus-visible {
   text-overflow: ellipsis;
 }
 
-.chorus-byline__meta {
+.chorus-metadata__meta {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -969,22 +969,22 @@ a.chorus-byline__name:focus-visible {
   min-width: 0;
 }
 
-.chorus-byline__meta .chorus-byline__dot {
+.chorus-metadata__meta .chorus-metadata__dot {
   margin: 0 var(--sys-layout-inline-sm);
 }
 
-.chorus-byline__meta-link {
+.chorus-metadata__meta-link {
   color: inherit;
   text-decoration: none;
 }
-.chorus-byline__meta-link:hover { text-decoration: underline; }
-.chorus-byline__meta-link:focus-visible {
+.chorus-metadata__meta-link:hover { text-decoration: underline; }
+.chorus-metadata__meta-link:focus-visible {
   outline: var(--sys-borderWidth-hairline) solid var(--sys-color-focus);
   outline-offset: var(--sys-layout-inline-xs);
   border-radius: var(--sys-radius-xs);
 }
 
-.chorus-byline__trailing {
+.chorus-metadata__trailing {
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
@@ -1034,7 +1034,7 @@ a.chorus-byline__name:focus-visible {
 }
 
 /* Feed header (channel row + meta) is now rendered via the shared
-   Byline component — see `.chorus-byline` above for its anatomy. */
+   Metadata component — see `.chorus-metadata` above for its anatomy. */
 
 .chorus-feed__post {
   display: flex;
@@ -1342,8 +1342,8 @@ a.chorus-byline__name:focus-visible {
   border-bottom: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
 }
 
-/* FeedAd brand row is now rendered via the shared Byline component —
-   see `.chorus-byline` for its anatomy. Only the trailing dismiss
+/* FeedAd brand row is now rendered via the shared Metadata component —
+   see `.chorus-metadata` for its anatomy. Only the trailing dismiss
    button keeps a feed-ad-scoped rule below. */
 
 /* Dismiss — bare 24-rung hit area carrying a 16px CloseIcon. No chrome
@@ -1502,32 +1502,16 @@ a.chorus-byline__name:focus-visible {
   letter-spacing: var(--sys-typo-heading-sm-tracking);
 }
 
-/* Interactive Header (`trailingIcon` mode with onClick / href) — the
-   whole header row is the tap target, like list/nav. Reset the
-   <button>/<a> chrome so it reads identically to the static
-   <header> render at rest. */
-.chorus-header[data-interactive] {
-  background: transparent;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-/* Trailing 16-glyph chevron — paints in `onSurfaceVariant` and rotates
-   -90deg to read as a chevron-right drill-in indicator, same reuse the
-   list/nav and side-nav primitives use to avoid forking the icon set
-   for a one-off chevron-right. */
-.chorus-header__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--sys-color-onSurfaceVariant);
-  flex: 0 0 auto;
+/* Trailing Icon Button — Button `variant="icon"` `size="medium"` (32 × 32
+   capsule, 16-glyph). Recessive glyph tone (`onSurfaceVariant`) keeps the
+   chevron a secondary cue against the row's heading; the hover capsule
+   still mixes from this same tone, so the recipe falls out without a
+   per-instance overlay rule. Chained selector wins specificity against
+   the family-wide `.chorus-button--icon--appearance-default` token plumb
+   later in this file. The IconButton is its own tap target; the
+   surrounding `<header>` stays non-interactive. */
+.chorus-button--icon.chorus-header__icon {
+  --button-icon-glyph-color: var(--sys-color-onSurfaceVariant);
 }
 
 .chorus-header__icon--chevron svg {
@@ -1997,7 +1981,11 @@ a.chorus-byline__name:focus-visible {
    viewport. */
 .chorus-profile-header__cover {
   width: 100%;
-  height: 200px;
+  /* 375 × 120 anchor — the mobile screen-width / cover-band ratio.
+     Aspect-ratio scales the band proportionally as the host viewport
+     widens / narrows, so the cover keeps the same visual mass relative
+     to the column instead of locking to a hard pixel height. */
+  aspect-ratio: 375 / 120;
   background-color: var(--sys-color-surfaceContainerHigh);
   background-image: var(--chorus-placeholder-image);
   background-size: cover;
@@ -2046,7 +2034,9 @@ a.chorus-byline__name:focus-visible {
 }
 
 .chorus-profile-header__avatar-wrap {
-  margin-top: -40px;
+  /* Half-overlap of the 56-rung Thumbnail's diameter: -28px lifts the
+     avatar so its vertical center sits on the cover band's bottom edge. */
+  margin-top: -28px;
   border-radius: var(--sys-radius-full);
   /* 2px outset border in the host's surface tone — separates the
      avatar from the cover band. Expressed as box-shadow because a real
@@ -2222,14 +2212,14 @@ a.chorus-byline__name:focus-visible {
    padding (container.md) so the rule reads as separating *content*,
    not the container. The last row omits the divider via
    :not(:last-child); a row can also opt out via `data-divider="false"`
-   on a per-row basis (canonical case: list/thumbnail rows where a
+   on a per-row basis (canonical case: list/image rows where a
    visual group ends mid-stack and the divider would visually fence
    off the next group from its label). */
 .chorus-list__row:not(:last-child):not([data-divider="false"])::after {
   content: '';
   position: absolute;
   left: var(--sys-layout-container-md);
-  right: 0;
+  right: var(--sys-layout-container-md);
   bottom: 0;
   height: var(--sys-borderWidth-hairline);
   background: var(--sys-color-outlineVariant);
@@ -2294,13 +2284,6 @@ a.chorus-byline__name:focus-visible {
    the label baseline; both share the label-column flex line so a long
    label truncates first while the count stays pinned at its intrinsic
    width. */
-.chorus-list__label-row {
-  display: flex;
-  align-items: center;
-  gap: var(--sys-layout-inline-sm);
-  min-width: 0;
-}
-
 .chorus-list__label {
   font-size: var(--sys-typo-body-md-size);
   line-height: var(--sys-typo-body-md-line);
@@ -2322,12 +2305,6 @@ a.chorus-byline__name:focus-visible {
   font-weight: var(--sys-typo-label-lg-weight);
 }
 
-.chorus-list__count {
-  display: inline-flex;
-  align-items: center;
-  flex: 0 0 auto;
-}
-
 .chorus-list__supporting {
   font-size: var(--sys-typo-body-sm-size);
   line-height: var(--sys-typo-body-sm-line);
@@ -2345,20 +2322,85 @@ a.chorus-byline__name:focus-visible {
   flex: 0 0 auto;
 }
 
-/* Thumbnail density `compact` — 32 Thumbnail, 14 label, single-line, no
-   inter-row divider. The divider is suppressed because compact rows
-   already read as distinct via the row-level state overlays (hover /
-   pressed) and a subscription-style list is rarely paired with explanatory
-   supporting text — the labels alone tile cleanly. Row geometry (gap,
-   block padding, min-height) is inherited from `.chorus-list__row`. */
+/* Entry variant — directory-entry row with selectable leading Thumbnail
+   (32 / 40 / 48 / 56 via `data-size="small|medium|large|xlarge"`), an
+   identity group (label + optional inline count Badge + optional stacked
+   secondary line), and an optional single-line description below. Label
+   promotes to Semibold at the 14 rung so the inline count reads as part
+   of one tight identity block.
 
-.chorus-list[data-density="compact"] .chorus-list__row:not(:last-child)::after {
-  display: none;
+   Row-gap override: Entry widens the leading→text-column gap from the
+   family-wide `inline.md` (8) to `inline.lg` (12) so the identity group
+   breathes against the avatar — matches the SuggestionList row contract.
+
+   Divider override: the family-wide rule already paints a 16/16 inset
+   hairline (see `.chorus-list__row::after`). At `data-size="xlarge"`
+   the entry overrides the leading edge to anchor to the text column
+   (16 + 56 + 12 = 84) instead — the 56 avatar would otherwise sit half-
+   under the rule, so the divider reads as separating identity columns
+   rather than cutting under the leading image. */
+.chorus-list--entry .chorus-list__row {
+  gap: var(--sys-layout-inline-lg);
 }
 
-.chorus-list[data-density="compact"] .chorus-list__label {
-  font-size: var(--sys-typo-body-sm-size);
-  line-height: var(--sys-typo-body-sm-line);
+.chorus-list--entry[data-size="xlarge"] .chorus-list__row:not(:last-child):not([data-divider="false"])::after {
+  left: calc(var(--sys-layout-container-md) + var(--ref-space-700) + var(--sys-layout-inline-lg));
+}
+
+/* Identity sub-group — label (primary line) + optional inline count
+   + optional stacked secondary line. The two lines tile flush with
+   line-height-only spacing so they read as one tight identity block. */
+.chorus-list--entry .chorus-list__identity {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.chorus-list--entry .chorus-list__primary-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sys-layout-inline-sm);
+  min-width: 0;
+}
+
+.chorus-list--entry .chorus-list__label {
+  font-size: var(--sys-typo-label-md-size);
+  line-height: var(--sys-typo-label-md-line);
+  font-weight: var(--sys-typo-label-md-weight);
+  color: var(--sys-color-onSurface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.chorus-list--entry .chorus-list__count {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.chorus-list--entry .chorus-list__secondary {
+  font-size: var(--sys-typo-caption-md-size);
+  line-height: var(--sys-typo-caption-md-line);
+  color: var(--sys-color-onSurface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chorus-list--entry .chorus-list__description {
+  font-size: var(--sys-typo-caption-md-size);
+  line-height: var(--sys-typo-caption-md-line);
+  color: var(--sys-color-onSurfaceVariant);
+  /* Identity-group ↔ description separator: 2px (ref.space.25). The
+     description reads as a tight supporting layer below the identity
+     block rather than a co-equal line. */
+  margin-top: var(--ref-space-25);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* `nav` variant auto-renders a right-pointing chevron at the trailing
@@ -2736,88 +2778,33 @@ a.chorus-byline__name:focus-visible {
   min-width: 0;
 }
 
-/* Row anchors the divider's left edge to the text column — avatar
-   width (48, the Thumbnail rung) plus the inter-slot gap (inline.lg).
-   The line spans from there to the row's right edge, sitting in the
-   row's stack.sm bottom padding. Applies to every row in the page —
-   including the last — for an even rhythm. */
-.chorus-suggestion-list__row {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: var(--sys-layout-inline-lg);
-  min-width: 0;
-  padding-bottom: var(--sys-layout-stack-sm);
+/* Rows delegate to List variant="entry" size="xlarge" so hover / press
+   state overlays, focus ring, divider override, identity-group typography,
+   and trailing-slot click isolation all come from the List family contract.
+   SuggestionList only owns the swipeable pager chrome that wraps it.
+
+   The host already pays a `container.md` inline rail; the embedded entry
+   list inside each page surrenders its own row-level inline padding so
+   the avatar still lines up with the page's rail instead of double-paying
+   16px. The divider override snaps to the text column at `ref.space.700
+   + inline.lg` (= 68px) and runs to the row's trailing edge. */
+.chorus-suggestion-list__page .chorus-list--entry .chorus-list__row {
+  padding-inline: 0;
 }
 
-.chorus-suggestion-list__row::after {
-  content: '';
-  position: absolute;
-  left: calc(48px + var(--sys-layout-inline-lg));
+.chorus-suggestion-list__page
+  .chorus-list--entry[data-size="xlarge"]
+  .chorus-list__row:not(:last-child):not([data-divider="false"])::after {
+  left: calc(var(--ref-space-700) + var(--sys-layout-inline-lg));
   right: 0;
-  bottom: 0;
-  height: var(--sys-borderWidth-hairline);
-  background: var(--sys-color-outlineVariant);
 }
 
+/* Empty-row placeholder — pads the last page when items.length isn't a
+   multiple of three so the page rhythm holds. Matches a single entry
+   row's footprint (min-height 48 from the list/entry contract). */
 .chorus-suggestion-list__row--pad {
   visibility: hidden;
   height: var(--ref-space-600);
-}
-
-.chorus-suggestion-list__row--pad::after {
-  display: none;
-}
-
-.chorus-suggestion-list__avatar {
-  flex: 0 0 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.chorus-suggestion-list__text {
-  flex: 1 1 auto;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--sys-layout-stack-3xs);
-}
-
-.chorus-suggestion-list__name,
-.chorus-suggestion-list__followers,
-.chorus-suggestion-list__description {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: block;
-}
-
-.chorus-suggestion-list__name {
-  font-size: var(--sys-typo-label-md-size);
-  line-height: var(--sys-typo-label-md-line);
-  font-weight: var(--sys-typo-label-md-weight);
-  color: var(--sys-color-onSurface);
-}
-
-.chorus-suggestion-list__followers {
-  font-size: var(--sys-typo-caption-md-size);
-  line-height: var(--sys-typo-caption-md-line);
-  font-weight: var(--sys-typo-caption-md-weight);
-  color: var(--sys-color-onSurface);
-}
-
-.chorus-suggestion-list__description {
-  font-size: var(--sys-typo-caption-md-size);
-  line-height: var(--sys-typo-caption-md-line);
-  font-weight: var(--sys-typo-caption-md-weight);
-  color: var(--sys-color-onSurfaceVariant);
-}
-
-.chorus-suggestion-list__action {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
 }
 
 /* ============================================================
@@ -2991,13 +2978,28 @@ a.chorus-byline__name:focus-visible {
   gap: var(--sys-layout-stack-lg);
 }
 
-/* SideSheetGroup — Header + List bundle. 16px gap (`layout.stack.md`)
-   between the Header and the List so the heading reads attached to its
-   items. Groups themselves stack with the body's 24px rhythm. */
+/* SideSheetGroup — Header + List(entry) bundle. Default sibling
+   rhythm is 16px (`layout.stack.md`) — so a Header reads attached to
+   the List that follows it — and groups themselves stack with the
+   body's 24px (`layout.stack.lg`) rhythm. The List itself owns the
+   row↔row flush-tile contract via inter-row dividers, so consumers
+   drop a single `<List variant="entry">` directly inside SideSheetGroup
+   for a compact directory column. */
 .chorus-side-sheet__group {
   display: flex;
   flex-direction: column;
-  gap: var(--sys-layout-stack-md);
+}
+
+.chorus-side-sheet__group > * + * {
+  margin-top: var(--sys-layout-stack-md);
+}
+
+/* Metadata flush-tile: when consecutive Metadata atoms tile under a
+   Header (the Feed-card head pattern reused inside a SideSheet column),
+   cancel the default 16px sibling margin so they read as one
+   continuous stack. */
+.chorus-side-sheet__group > .chorus-metadata + .chorus-metadata {
+  margin-top: 0;
 }
 
 /* Footer — pinned bottom action rail (e.g. "Browse all channels"). Hosts

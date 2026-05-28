@@ -6,7 +6,7 @@ Reverse index from natural-language intent to family + sub-component. Read *befo
 
 Each family declares `visualReuse: "open" | "locked"` in its `<family>.family.json`. The catalog respects that flag.
 
-- **Open (default, 14 families)** — `badge`, `banner`, `button`, `suggestion-list`, `avatar-rail`, `chip`, `feed`, `list`, `navigation-bar`, `profile-header`, `section`, `tab-bar`, `tabs`, `thumbnail`. The intent table is the *first* suggestion, but the agent MAY reach for these on visual-fit grounds even when the brief's intent does not match the row verbatim — e.g. `<Feed>` as a generic article-card surface, `<Banner>` as a tonal aside outside a literal "notice", `<Section>` as any labelled editorial block. Anatomy invariants (slot grammar, token bindings, intrinsic geometry) still apply.
+- **Open (default, 15 families)** — `badge`, `banner`, `button`, `suggestion-list`, `avatar-rail`, `carousel`, `chip`, `feed`, `list`, `metadata`, `navigation-bar`, `profile-header`, `tab-bar`, `tabs`, `thumbnail`. The intent table is the *first* suggestion, but the agent MAY reach for these on visual-fit grounds even when the brief's intent does not match the row verbatim — e.g. `<Feed>` as a generic article-card surface, `<Banner>` as a tonal aside outside a literal "notice", `<Carousel>` as any labelled editorial block. Anatomy invariants (slot grammar, token bindings, intrinsic geometry) still apply.
 - **Locked (5 families)** — `dialog`, `bottom-sheet`, `toast`, `tooltip`, `form-field`. MUST only be used when the brief's intent matches a row. Their contract IS the interaction — focus trap, auto-dismiss, ARIA live region, form semantics, hover/focus trigger. Borrowing the visual shape without the role breaks behavior. Marked *(locked)* below.
 
 When in doubt: open families are recipes, locked families are rules.
@@ -43,24 +43,35 @@ When in doubt: open families are recipes, locked families are rules.
 
 ## Vertical content surfaces
 
-**Layout**: every entry is `layoutInset: full-bleed` — direct child of `<main>`, no wrapper `padding-inline`. When nested inside `<Section>` / `<Feed>` (another full-bleed host that pays its own chrome), pass `embedded` so background + padding defer to the host — see [`AGENTS.md` § Composition rules](../AGENTS.md#composition-rules).
+**Layout**: most entries below are `layoutInset: full-bleed` — direct child of `<main>`, no wrapper `padding-inline`. When nested inside `<Carousel>` / `<Feed>` (another full-bleed host that pays its own chrome), pass `embedded` so background + padding defer to the host — see [`AGENTS.md` § Composition rules](../AGENTS.md#composition-rules). The `nav-card` row is the exception — it's `layoutInset: inline` (an inline card with its own padding + outline + radius that fills the host column; the host owns the surrounding inset).
 
-| Intent                                       | Family + sub             |
-| -------------------------------------------- | ------------------------ |
-| settings / menu / picker rows                | `list / text` or `/ nav` |
-| single-select option group                   | `list / radio`           |
-| avatar-anchored rows (channels, DMs)         | `list / thumbnail`       |
-| drill-in rows with trailing chevron          | `list / nav`             |
-| standalone drill-in card (single row)        | `nav-card`               |
-| expandable titled sections (FAQ, T&C)        | `accordion`              |
-| authored content stream (posts, comments)    | `feed / feed`            |
-| follow suggestions block                     | `suggestion-list`           |
+| Intent                                       | Family + sub             | layoutInset    |
+| -------------------------------------------- | ------------------------ | -------------- |
+| settings / menu / picker rows                | `list / text` or `/ nav` | `full-bleed`   |
+| single-select option group                   | `list / radio`           | `full-bleed`   |
+| avatar-anchored rows (channels, DMs)         | `list / image`           | `full-bleed`   |
+| drill-in rows with trailing chevron          | `list / nav`             | `full-bleed`   |
+| standalone drill-in card (single row)        | `nav-card`               | **`inline`**   |
+| expandable titled sections (FAQ, T&C)        | `accordion`              | `full-bleed`   |
+| authored content stream (posts, comments)    | `feed / feed`            | `full-bleed`   |
+| follow suggestions block                     | `suggestion-list`        | `full-bleed`   |
 
 **Disambiguate**: `feed` = authored content (author, body, footer). `list` = menus/settings/pickers (stacked rows, hairline divider). `nav-card` = a SINGLE drill-in row as its own bounded outlined card — reach for it when one drill-in needs to read as its own affordance, not one entry in a stack. `accordion` = stacked rows that EXPAND in place rather than drill-in — for short content the user opens to read (FAQ, T&C, expandable filter). `suggestion-list` = labelled swipeable block of follow-suggestions (channels, people, companies, topics — same anatomy).
 
+### Entity directory rows + author attribution
+
+| Intent                                                            | Family + sub             | Layout       |
+| ----------------------------------------------------------------- | ------------------------ | ------------ |
+| generic entity row (channel / person / company / topic + commit)  | `list / entry`           | `full-bleed` |
+| compact directory entry (channel / topic / playlist + count)      | `list / entry` at `size="small"` | `full-bleed` |
+| follow-suggestion swipeable page-of-three                          | `suggestion-list`        | `full-bleed` |
+| author / brand attribution at the head of a Feed card             | `metadata`               | `inline`     |
+
+**Disambiguate**: `list/entry` is the single home for every entity-row case — directory entries, follow rows, member rosters, mention / recipient pickers, entity search results. The list ships its own `16px inline / 8px block` row padding and tiles rows full-bleed with hairline dividers; the row itself supports identity group (label + optional inline `count` Badge + optional stacked `secondary` line) + optional single-line `description` (separated by `ref.space.25` (2)) + optional trailing affordance. Pick the leading Thumbnail rung via `size="sm|md|lg"` (32 / 40 / 48). `suggestion-list` wraps the same row contract in a swipeable page-of-three for the follow-suggestion block. `metadata` is the only `inline` atom in this group — fixed 32-rung Thumbnail, primary line is name + optional inline timestamp + optional follow toggle (middot-separated), secondary line is a `meta` link row OR a `Sponsored` subtitle — composed at the head of `feed / post` and `feed / ad`. Reach for `list/entry` for every entity-presentation row; reach for `metadata` only at Feed card heads.
+
 ## Horizontal content surfaces
 
-**Layout**: every entry is `layoutInset: full-bleed` — direct child of `<main>`, no wrapper `padding-inline`. When nested inside `<Section>` / `<Feed>`, pass `embedded` so chrome defers to the host — see [`AGENTS.md` § Composition rules](../AGENTS.md#composition-rules).
+**Layout**: every entry is `layoutInset: full-bleed` — direct child of `<main>`, no wrapper `padding-inline`. When nested inside `<Carousel>` / `<Feed>`, pass `embedded` so chrome defers to the host — see [`AGENTS.md` § Composition rules](../AGENTS.md#composition-rules).
 
 | Intent                                  | Family + sub             |
 | --------------------------------------- | ------------------------ |
@@ -71,14 +82,14 @@ When in doubt: open families are recipes, locked families are rules.
 
 ## Modal surfaces
 
-**Layout**: mixed — column below. `bounded-surface` floats *above* the page (portal-mounted, viewport-anchored, owns its safe area). `banner` is the outlier — it's `full-bleed` and lives **in** the content column, not above it; it's listed here only because it's the in-flow alternative to a modal prompt.
+**Layout**: mixed — column below. `bounded-surface` floats *above* the page (portal-mounted, viewport-anchored, owns its safe area). `banner` is the outlier — it's `inline` (an inline card that fits the host column with no outer margin) and lives **in** the content column, not above it; it's listed here only because it's the in-flow alternative to a modal prompt.
 
 | Intent                                              | Family + sub                                                | layoutInset       |
 | --------------------------------------------------- | ----------------------------------------------------------- | ----------------- |
 | short focused commit anchored to bottom of viewport | `bottom-sheet` *(locked)*                                   | `bounded-surface` |
 | confirmation prompt, centered                       | `dialog` *(locked)*                                         | `bounded-surface` |
 | destructive confirmation                            | `dialog` *(locked)* with destructive primary action         | `bounded-surface` |
-| inline notice inside the content column             | `banner / accent` or `/ default` (not modal — in-flow aside)| **`full-bleed`** ⚠ |
+| inline notice inside the content column             | `banner / accent` or `/ default` (not modal — in-flow aside)| **`inline`** ⚠ |
 | transient post-action confirmation (saved, copied)  | `toast` *(locked)* — non-modal, auto-dismiss                | `bounded-surface` |
 | trigger-anchored hint over a hovered/focused control | `tooltip` *(locked)* — non-modal, hover/focus-driven       | `bounded-surface` |
 
@@ -144,8 +155,8 @@ When an AI agent (or designer paging in from shadcn) reaches for a shadcn-named 
 | `<AlertDialog>` (confirm prompt)   | `<Dialog>`                                                                          | Same locked modal-confirmation contract (focus trap, primary/secondary actions). |
 | `<Badge variant="…">` *(text pill)* | `<StatusTag appearance="neutral \| error">`                                          | Chorus `Badge` is a numeric/dot count marker — same name, different intent. Text-pill `<Badge>` calls translate to `StatusTag`. |
 | `<Avatar>` (image+fallback compound) | `<Thumbnail src=… alt=… />`                                                         | Already aliased. Use Thumbnail's `imageFallbackImage` / `imageFallbackText` props instead of the `<AvatarFallback>` child. |
-| `<Card>` (generic bordered block)  | One of: `<Section>` (labelled editorial block), `<Feed>` (authored content), `<NavCard>` (drill-in row), `<Banner>` (tonal aside) | Chorus splits "Card" by intent — pick by what the block carries, not by the chrome. |
-| `<Carousel>`                       | `<PostCarousel>` (cards) or `<ProfileCarousel>` (avatar-anchored)                   | Pick by content rung. |
+| `<Card>` (generic bordered block)  | One of: `<Carousel>` (labelled editorial block), `<Feed>` (authored content), `<NavCard>` (drill-in row), `<Banner>` (tonal aside) | Chorus splits "Card" by intent — pick by what the block carries, not by the chrome. |
+| `<Carousel>` (wrapper)             | `<Carousel><PostCarousel /></Carousel>` (cards) or `<Carousel><ProfileCarousel /></Carousel>` (avatar-anchored) | Pick the sub by content rung. |
 | `<Checkbox>` (single)              | `<Button variant="check">`                                                          | Chorus `Button` `check` sub IS the checkbox — leading 24px checkbox glyph + label. List-row multi-select uses `<Chip variant="filter">`. |
 | `<Command>` (command palette)      | `<FormField variant="search">` + `<BottomSheet>` + `<List>` pattern                 | Composition, not a single primitive. Mobile-first translation of the desktop command palette. |
 | `<ContextMenu>` (right-click menu) | `<BottomSheet>` with a `List`                                                       | Same as `<DropdownMenu>` — right-click on mobile becomes a one-thumb sheet. |
@@ -154,7 +165,7 @@ When an AI agent (or designer paging in from shadcn) reaches for a shadcn-named 
 | `<Label>` (standalone form label)  | `<FormField>`'s `label` slot                                                        | No standalone `<Label>`. Every input label lives on its host `<FormField>` via the `label` prop — keeps label/field/helper triplet locked. For non-input labels (settings group title, drawer column heading), use `<Header size="medium">`. |
 | `<NavigationMenu>` (top-level nav) | `<NavigationBar>` (page chrome) / `<TabBar>` (bottom app nav) / `<NavCard>` (drill-in row) | Chorus splits "navigation" by surface role. |
 | `<RadioGroup>` + `<RadioGroupItem>` | `<List variant="radio" items={[…]} onChange=… />`                                    | Chorus's only radio surface IS the list row. |
-| `<Separator>` (horizontal rule)    | None — built into the host (`List` row divider, `Section` block gap, `BottomSheet` action rail border) | No standalone separator. Vertical rhythm comes from `sys.layout.stack.*`; horizontal rules come from the host's anatomy. Do NOT introduce a `<Separator>` — flag a "Chorus gap". |
+| `<Separator>` (horizontal rule)    | None — built into the host (`List` row divider, `Carousel` block gap, `BottomSheet` action rail border) | No standalone separator. Vertical rhythm comes from `sys.layout.stack.*`; horizontal rules come from the host's anatomy. Do NOT introduce a `<Separator>` — flag a "Chorus gap". |
 | `<Sheet side="bottom">`            | `<BottomSheet>`                                                                     | Aliased. |
 | `<Sheet side="left">` / `<Sheet side="right">` | `<SideSheet anchor="left">` / `<SideSheet anchor="right">`              | Off-canvas navigation drawer / side panel. Compose with `Header` (medium) + `List` (thumbnail, compact) inside `SideSheetGroup`. Aliased — `import { SideDrawer } from '@blind-dsai/ui'`. Top is out of scope. |
 | `<Sidebar>` (off-canvas app nav)   | `<SideSheet anchor="left">`                                                         | Desktop persistent sidebar becomes the off-canvas drawer. Compose with `SideSheetGroup` (Header + List compact) for the channel-directory shape. |
@@ -183,7 +194,7 @@ These shadcn primitives are desktop-first or web-OS conventions Chorus deliberat
 | `<Menubar>`           | Persistent app menubar is desktop chrome.                       | `<NavigationBar>` for top chrome + `<BottomSheet>` for action overflow. |
 | `<Pagination>`        | Mobile feeds are infinite-scroll, not paged.                              | Infinite scroll inside `<Feed>` / `<List>` (consumer wires the loader). |
 | `<Resizable>`         | Adjustable split panels are desktop.                         | None — single-pane mobile layout. Flag a "Chorus gap" if a tablet split view is required. |
-| `<Table>` (data grid) | Wide rows don't fit one-thumb column.                                   | `<List variant="thumbnail">` or `<Feed>` rows. For tabular data, render one row per item with `label` + `supportingText`. |
+| `<Table>` (data grid) | Wide rows don't fit one-thumb column.                                   | `<List variant="image">` or `<Feed>` rows. For tabular data, render one row per item with `label` + `supportingText`. |
 | `<ScrollArea>`        | Custom-styled scrollbars fight native mobile scroll.                       | Native scroll on the host element. Do NOT introduce a styled track. |
 
 ## Disambiguation cheat sheet

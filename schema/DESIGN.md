@@ -323,7 +323,7 @@ Five purpose categories × three size levels = 15 type roles, each composed of f
 | `typo.label.md`    | 14 px               | 600 Semibold | 1.5 normal | 0em normal    | Default control label. Standard buttons, input labels, menu items, chip labels. |
 | `typo.label.sm`    | 12 px               | 600 Semibold | 1.5 normal | 0.02em wide   | Compact controls — dense toolbars, small badges, inline tag labels, supporting actions. |
 | `typo.caption.lg`  | 14 px               | 400 Regular  | 1.5 normal | 0em normal    | Form helper text, footnote-style explanations needing easy legibility. |
-| `typo.caption.md`  | 12 px               | 400 Regular  | 1.5 normal | 0.02em wide   | Default caption. Timestamps, byline text, card metadata, image captions. |
+| `typo.caption.md`  | 12 px               | 400 Regular  | 1.5 normal | 0.02em wide   | Default caption. Timestamps, attribution metadata, card metadata, image captions. |
 | `typo.caption.sm`  | 10 px               | 400 Regular  | 1.5 normal | 0.02em wide   | Smallest caption — legal fine print, dense metadata columns, data-dense tables. Use sparingly. |
 
 #### Tracking & line-height principles

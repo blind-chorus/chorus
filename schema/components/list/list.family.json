@@ -2,7 +2,7 @@
   "$schema": "../../family.schema.json",
   "family": "list",
   "name": "List",
-  "description": "Vertical list of rows. Five sub-components share one anatomy and diverge on the leading slot, the selection contract, and the expand contract: `text` (display / navigation rows), `radio` (single-select picker with leading 16px radio indicator), `thumbnail` (avatar-anchored rows with leading 40px Thumbnail), `nav` (drill-in rows with auto-rendered trailing chevron), `accordion` (expandable rows with auto-rendered trailing chevron that rotates on expand, hosting a content body and optional nested `<List embedded>` group below the trigger).",
+  "description": "Vertical list of rows. Six sub-components share one anatomy and diverge on the leading slot, the selection contract, and the expand contract: `text` (display / navigation rows), `radio` (single-select picker with leading 16px radio indicator), `image` (avatar-anchored rows with leading 40px [Thumbnail](../thumbnail/thumbnail.md) image — single density at the 40 rung, optional `supportingText` second line + optional trailing affordance per row), `entry` (directory-entry rows with selectable 32 / 40 / 48 / 56 leading Thumbnail via `size=\"small|medium|large|xlarge\"`, identity group of label + optional inline `count` Badge + optional stacked `secondary` line, and an optional single-line `description` below — the canonical home for every entity-row case: follow suggestion, member directory, subscription / channel / topic / playlist directory), `nav` (drill-in rows with auto-rendered trailing chevron), `accordion` (expandable rows with auto-rendered trailing chevron that rotates on expand, hosting a content body and optional nested `<List embedded>` group below the trigger).",
   "useCases": [
     "settings rows",
     "menu rows",
@@ -11,6 +11,8 @@
     "drill-in navigation",
     "avatar-anchored rows",
     "directory rows",
+    "subscription / channel / topic directory entries",
+    "follow-suggestion stacks (full-bleed)",
     "expandable rows",
     "FAQ / policy sections",
     "expandable filter groups",
@@ -51,9 +53,14 @@
       "md": "radio.md"
     },
     {
-      "slug": "thumbnail",
-      "spec": "thumbnail.spec.json",
-      "md": "thumbnail.md"
+      "slug": "image",
+      "spec": "image.spec.json",
+      "md": "image.md"
+    },
+    {
+      "slug": "entry",
+      "spec": "entry.spec.json",
+      "md": "entry.md"
     },
     {
       "slug": "nav",

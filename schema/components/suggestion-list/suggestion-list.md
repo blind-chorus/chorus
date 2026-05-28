@@ -1,6 +1,6 @@
 # Suggestion list
 
-A vertically-stacked block of channel recommendations rendered as a swipeable pager. One page shows three channel rows; the next peeks at the trailing edge to invite the swipe. Each row pairs a 48px [Thumbnail](../thumbnail/thumbnail.md), a stacked text column (name / followers / description), and a trailing [Toggle Button](../button/toggle.md) flipping between "Follow" and "Following".
+A vertically-stacked block of channel recommendations rendered as a swipeable pager. One page shows three rows that follow the [list/entry](../list/entry.md) visual contract at the `xlarge` rung (56px [Thumbnail](../thumbnail/thumbnail.md) + identity group of label + stacked `secondary` follower count + `description` separated by `ref.space.25` (2) + trailing [Toggle Button](../button/toggle.md) flipping between "Follow" and "Following"); the next page peeks at the trailing edge to invite the swipe. Anatomy is entity-agnostic — channels, people, companies, topics all share the same shape.
 
 **Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge. Container pays its own `24px block / 16px inline` padding and the pager bleeds via negative margin to expose the next-page peek; do **not** wrap in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
@@ -48,6 +48,25 @@ import { SuggestionList } from '@blind-dsai/ui';
 />
 ```
 
+### No header
+
+Omit both `label` and `headerAction` — the header row is suppressed entirely and the pager sits flush against the surface's block padding. Reach for it when the surrounding screen already provides the heading. Pair with `aria-label` to keep the swipeable rail named for assistive tech.
+
+```preview
+suggestion-list/no-header
+---
+import { SuggestionList } from '@blind-dsai/ui';
+
+<SuggestionList
+  aria-label="Recommended channels"
+  items={[
+    { value: 'sourdough', name: 'Sourdough Bakers', followers: '12.4K Followers', description: 'Open-crumb obsession, cold-proof timing, starter help.', thumbnail: { alt: 'Sourdough Bakers' } },
+    { value: 'indiedev',  name: 'Indie Game Devs',  followers: '8,210 Followers', description: 'Shipping logs, postmortems, marketing on a budget.',     thumbnail: { alt: 'Indie Game Devs' } },
+    { value: 'plants',    name: 'Plant People',     followers: '21.7K Followers', description: 'Houseplant troubleshooting and propagation threads.',     thumbnail: { alt: 'Plant People' } },
+  ]}
+/>
+```
+
 ## Slots
 
 - **container** — `surface` block with 24px block / 16px inline padding. Holds the header above the pager.
@@ -56,13 +75,7 @@ import { SuggestionList } from '@blind-dsai/ui';
 - **headerAction** *(optional)* — [`xsmall` Text Button](../button/text.md), `accent` appearance. Renders as `<a>` when `href` is set.
 - **pager** — horizontally-scrolling track with mandatory inline scroll-snap; native scrollbar hidden. Next page peeks at the trailing edge.
 - **page** — one swipe target. Vertical stack of exactly three rows.
-- **row** — channel suggestion. Flex: avatar → text column → trailing toggle.
-- **avatar** — [Thumbnail](../thumbnail/thumbnail.md) at the 48 rung. Forwards `src`, `alt`, `updateDot`, `logoBadge`.
-- **textColumn** — vertical stack with name / followers / description. Each line truncates.
-- **channelName** — `label.md` (14px / Semibold) / `onSurface`.
-- **followers** — `caption.md` (12px / Regular) / `onSurface`.
-- **description** — `caption.md` (12px / Regular) / `onSurfaceVariant`.
-- **trailingAction** — [Toggle Button](../button/toggle.md). The row itself is not clickable.
+- **row** — channel suggestion rendered as a [list/entry](../list/entry.md)-shaped row at the `xlarge` rung (56 Thumbnail). Each item descriptor (`name` / `followers` / `description` / `thumbnail` / `active` / `onToggle`) maps to the entry contract (`label` / `secondary` / `description` / `thumbnail` / `trailingIcon`). The row itself is not clickable — its body is presentational. SuggestionList wraps the row with its own bottom-padding + hairline divider (the text-column-anchored rule that ties the divider's left edge to the start of the text column).
 
 ## Anatomy
 
@@ -74,10 +87,8 @@ import { SuggestionList } from '@blind-dsai/ui';
 | headerAction   | `xsmall` [Text Button](../button/text.md), `accent` appearance |
 | pager          | Horizontal scroll, `scroll-snap-type: x mandatory`, scrollbar hidden; `sys.layout.inline.xl` (16/24px) gap; bleeds via `margin-right: -1 × sys.layout.container.md` |
 | page           | `flex: 0 0 calc(100% - sys.layout.inline.xl - sys.layout.inline.md)` so the next page leading edge shows by 8px; `scroll-snap-align: start`; `sys.layout.stack.sm` (12px) between rows |
-| row            | Flex row, items centred; 12px avatar↔text and text↔toggle; 12px bottom padding; `::after` divider 1px / `outlineVariant`, left-anchored to text column (60px from row left) |
-| avatar         | [Thumbnail](../thumbnail/thumbnail.md) `size={48}` |
-| textColumn     | Flex column, `min-width: 0`, 2px stack between lines |
-| trailingAction | [Toggle Button](../button/toggle.md), `variant="toggle"` |
+| row            | [list/entry](../list/entry.md)-shaped row at `xlarge` rung — 56 avatar, `inline.lg` gap, label.md primary / caption.md `secondary` + `description`. SuggestionList adds: 12px bottom padding + `::after` divider 1px / `outlineVariant` left-anchored to the text column (`ref.space.700` 56 + `inline.lg` 12 = 68px from row left). |
+| trailingAction | [Toggle Button](../button/toggle.md), `variant="toggle"` — composed into the row's `trailingIcon` slot. |
 
 ## States
 
@@ -89,6 +100,7 @@ Row body is presentational; the only row-level focus target is the trailing Togg
 
 ## Behavior
 
+- **Header is optional.** When both `label` and `headerAction` are omitted, the header row is suppressed entirely and the pager rides flush against the surface's block padding. Same contract as [Carousel](../carousel/carousel.md) — omit when the surrounding screen already names the rail.
 - **Pages of three rows.** A page is exactly three rows; the final page pads with empty space rather than collapsing.
 - **Horizontal scroll-snap.** `scroll-snap-type: x mandatory`; each page declares `scroll-snap-align: start`.
 - **Next-page peek.** Pager bleeds out by `sys.layout.container.md` via negative margin. Page basis composes inter-page gap (`inline.xl`) plus visible peek (`inline.md` = 8px) in one `calc`.

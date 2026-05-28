@@ -56,7 +56,7 @@
     "paddingBlock": "sys.layout.container.2xs",
     "paddingInline": "sys.layout.container.sm",
     "labelInset": "sys.layout.container.2xs",
-    "slotGap": "0px",
+    "slotGap": "0",
     "radius": "sys.radius.full",
     "labelTypo": "sys.typo.label.sm",
     "iconSize": "sys.icon.md"

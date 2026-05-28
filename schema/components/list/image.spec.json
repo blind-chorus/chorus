@@ -1,0 +1,183 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "List",
+  "family": "list",
+  "subcomponent": "image",
+  "description": "Avatar-anchored List variant — each row carries a leading 40px [Thumbnail](../thumbnail/thumbnail.md) image (channel logo, source mark, profile photo). The sub was renamed from `thumbnail` to `image` to disambiguate the variant name from the standalone Thumbnail family — the slot still binds to a Thumbnail; the variant just names the leading-image role rather than the atom that fills it. The label column reads against the image; same click semantics as the text variant — no selection model. Single density: 40px Thumbnail + optional `supportingText` second line + optional trailing affordance per row (canonical: a `<Button variant=\"text\" appearance=\"accent\">` Follow on directory rows). For the richer directory shape with identity group (label + inline count Badge + optional stacked secondary line) + optional description, reach for [list/entry](./entry.md) — the canonical home for entity-row directory cases.",
+  "element": "ul",
+  "props": {
+    "embedded": {
+      "type": "boolean",
+      "default": false,
+      "description": "Composition mode flag. When `true` (or when the List is a direct child of `.chorus-section` / `.chorus-feed`), enters **embedded mode**: zeroes its own `background` + `padding` so chrome defers to the host. Pass explicitly inside `<Section>` / `<Feed>` for the contract to be visible in JSX; the DOM-ancestry safety net in styles.css also activates the mode when omitted. See `compositionModes` in `list.family.json`."
+    },
+    "items": {
+      "type": "node",
+      "required": true,
+      "description": "Array of row descriptors. Each item passes `thumbnail` props forwarded verbatim to the Thumbnail component."
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "description": "Outer scroll surface. Vertical stack with a transparent fill (inherits parent container tone); rows separated by a 1px outlineVariant divider, not a gap."
+    },
+    "row": {
+      "required": true,
+      "description": "Single list item. Whole row is the interactive target."
+    },
+    "leading": {
+      "required": true,
+      "agentRequired": true,
+      "omittedBehavior": "error",
+      "fallbackOnMissingSrc": "sys.color.surfaceContainerHigh",
+      "description": "Thumbnail at the leading edge at the 40 rung, vertically centred against the label column. Forwarded verbatim from item.thumbnail. `omittedBehavior: error` because every row in this variant MUST carry a thumbnail (use list/text or list/nav when no leading image is needed). `fallbackOnMissingSrc` is the dim-tone fill the Thumbnail paints when `src` is empty / fails to load — at scaffold time, agents fill `src` with `/placeholder.png` rather than relying on the fallback.",
+      "accepts": [
+        "thumbnail"
+      ]
+    },
+    "label": {
+      "required": true,
+      "description": "Primary row text. 16px / Regular / onSurface. Single line; truncates with ellipsis.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "supportingText": {
+      "required": false,
+      "description": "Secondary line under label. 14px / Regular / onSurfaceVariant, sits directly under the label with no extra gap.",
+      "accepts": [
+        "text"
+      ]
+    },
+    "trailingIcon": {
+      "required": false,
+      "description": "16px node at the trailing edge. Consumer-supplied. Accepts a decorative icon, a toggle button (favorite / mute / pin), or a small text button (Follow / Invite). Taps on the trailing slot stop propagating before they reach the row's `onClick` — the slot is a separate hit target so the consumer can wire its own action without committing the row.",
+      "accepts": [
+        "icon",
+        "badge",
+        "button"
+      ]
+    }
+  },
+  "rowProps": {
+    "value": {
+      "type": "string",
+      "required": true
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "supportingText": {
+      "type": "string",
+      "optional": true
+    },
+    "thumbnail": {
+      "type": "object",
+      "required": true,
+      "description": "Forwarded to Thumbnail verbatim (`src`, `alt`, optional `updateDot`, optional `logoBadge`)."
+    },
+    "trailingIcon": {
+      "type": "node",
+      "optional": true,
+      "description": "Trailing-edge node. Wrapped in a slot that stops click propagation so the slot is its own hit target separate from the row's `onClick`."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "divider": {
+      "type": "boolean",
+      "default": true,
+      "description": "Per-row bottom-divider opt-out. Pass `divider: false` to suppress the hairline `outlineVariant` rule beneath the row; the row's footprint and inline padding stay unchanged. Reach for it when a visual group ends mid-stack and the divider would visually fence off the next group from its label (e.g. a sectioned directory where the host paints a group header between two sub-stacks). The last row already omits its divider via `:not(:last-child)`."
+    },
+    "strong": {
+      "type": "boolean",
+      "default": false,
+      "description": "Per-row label-emphasis opt-in (family-wide contract — see [list.md § Cross-sub contract](./list.md)). When `true`, the row's label weight promotes from `body.md` Regular (400) to `label.lg` Semibold (600) at the same 16px size and line-height. Only the glyph stroke thickens. Use sparingly to mark one primary row inside a denser scan."
+    },
+    "onClick": {
+      "type": "function",
+      "optional": true
+    },
+    "forcedState": {
+      "type": "literal",
+      "values": [
+        "hovered",
+        "pressed",
+        "focused"
+      ],
+      "optional": true,
+      "description": "Docs-only — pins the row to a single visual state via `data-force-state`. Not for production use."
+    }
+  },
+  "sizing": {
+    "rowPaddingBlock": "ref.space.100",
+    "rowPaddingInline": "ref.space.200",
+    "rowMinHeight": "ref.space.600",
+    "leadingLabelGap": "sys.layout.inline.md",
+    "dividerWidth": "sys.borderWidth.hairline",
+    "dividerColor": "sys.color.outlineVariant",
+    "dividerPerRowOptOut": "Pass `divider: false` on a row to suppress its bottom divider.",
+    "labelTypo": "16 / Regular",
+    "labelColor": "sys.color.onSurface",
+    "supportingTypo": "14 / Regular",
+    "supportingColor": "sys.color.onSurfaceVariant",
+    "supportingOffset": "0",
+    "leadingThumbnailSize": 40,
+    "trailingIconSize": "16 × 16",
+    "trailingIconColor": "sys.color.onSurfaceVariant"
+  },
+  "states": {
+    "default": {
+      "overlay": null
+    },
+    "hovered": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.hover"
+      }
+    },
+    "pressed": {
+      "overlay": {
+        "color": "label",
+        "opacity": "sys.state.pressed"
+      }
+    },
+    "disabled": {
+      "containerOpacity": "sys.state.disabled",
+      "pointerEvents": "none"
+    }
+  },
+  "focusIndicator": {
+    "description": "Keyboard-focus visual — an accessibility indicator, not a lifecycle state. Composes over whichever lifecycle state the row is in.",
+    "composition": "inward",
+    "compositionReason": "Rows tile the column flush with only a hairline `outlineVariant` divider between them; an outward ring would overlap the divider and the neighbouring row.",
+    "overlay": {
+      "color": "label",
+      "opacity": "sys.state.focus"
+    },
+    "ring": {
+      "outerWidth": "sys.borderWidth.thin",
+      "outerColor": "sys.color.focus",
+      "outerLayerPosition": "depth 0..2px from the row edge (the outer stroke)",
+      "insetWidth": "sys.borderWidth.hairline",
+      "insetColor": "sys.color.focusInset",
+      "insetLayerPosition": "depth 2..3px from the row edge (the counter-ring just inside the outer stroke)",
+      "implementation": "inset box-shadow on the row's `::before` overlay (the `::after` carries the inter-row divider). Constrained strictly inside the row's footprint and never exceeds it."
+    },
+    "trigger": ":focus-visible (keyboard / programmatic focus, never plain mouse click)"
+  },
+  "behavior": {
+    "keyboardNavigation": "Arrow up/down moves focus between rows. Home and End jump to first / last.",
+    "rowClickTarget": "Whole row is clickable when an `onClick` is bound to the item. The thumbnail is never a separate hit target.",
+    "truncationNotWrap": "Both label and supportingText truncate; the row never grows to fit long text."
+  },
+  "forbidden": [
+    "thumbnail slot omitted — the variant requires a thumbnail leading slot",
+    "thumbnail rendered as a raw <img> outside the chorus-thumbnail slot wrapper",
+    "thumbnail size different from the row's intrinsic 40 rung",
+    "compact directory rows (32 avatar + inline count + optional toggle) built as a list/image — that pattern is [list/entry](./entry.md) at `size=\"small\"`; list/image is single-density at the 40 rung with no count slot"
+  ]
+}

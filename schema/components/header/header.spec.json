@@ -25,23 +25,23 @@
     "trailingIcon": {
       "type": "node",
       "optional": true,
-      "description": "Drill-in chevron mode. Pass `true` to auto-render the canonical 16px chevron-right glyph, or pass a React node to override (any 16px icon). When set, the WHOLE header becomes the tap target via `onClick` / `href` — same contract as list/nav rows. Mutually exclusive with `headerAction`."
+      "description": "Drill-in [Icon Button](../button/icon.md) mode. Pass `true` to render the canonical chevron-right glyph inside a Button `variant=\"icon\"` `size=\"medium\"` (32 × 32 capsule, 16-glyph), or pass any 16px icon node to override the glyph. The trailing Icon Button owns its own tap target via `onClick` / `href`; the surrounding `<header>` element stays non-interactive. Supply an `aria-label` for the icon-only button (defaults to `\"Open <label>\"` when `label` is a string). Mutually exclusive with `headerAction`."
     },
     "onClick": {
       "type": "function",
       "optional": true,
-      "description": "Click handler. Only honored when `trailingIcon` is set — the whole header becomes a `<button>`."
+      "description": "Click handler. Honored when `trailingIcon` is set — wired to the trailing Icon Button's `onClick`."
     },
     "href": {
       "type": "string",
       "optional": true,
-      "description": "Link href. Only honored when `trailingIcon` is set — the whole header becomes an `<a>` element instead of a button."
+      "description": "Link href. Honored when `trailingIcon` is set — wired to the trailing Icon Button."
     },
     "as": {
       "type": "literal",
       "values": ["header", "div"],
       "default": "header",
-      "description": "Wrapping element when the Header is non-interactive. Defaults to `<header>` for top-level / labelled-region hosts; use `as=\"div\"` when the surrounding host already carries the section semantics. Ignored when `trailingIcon` + `onClick` / `href` makes the header interactive (the wrapper becomes `<button>` or `<a>`)."
+      "description": "Wrapping element. Defaults to `<header>` for top-level / labelled-region hosts; use `as=\"div\"` when the surrounding host already carries the section semantics. The wrapper itself is never interactive — in `trailingIcon` mode the click target sits on the trailing Icon Button, not the wrapper."
     }
   },
   "slots": {
@@ -59,7 +59,9 @@
     },
     "icon": {
       "required": false,
-      "description": "Trailing 16px icon (canonical: chevron-right). Decorative — `aria-hidden`. When set, the whole header is the interactive surface, so this slot is not a separate hit target. Mutually exclusive with the action slot above."
+      "description": "Trailing [Icon Button](../button/icon.md) (Button `variant=\"icon\"` `size=\"medium\"`) hosting a 16px glyph (canonical: chevron-right). Its own tap target — clicks land on the Icon Button, not the surrounding header. Mutually exclusive with the action slot above.",
+      "accepts": ["button"],
+      "rendersAs": "button:icon"
     }
   },
   "sizing": {
@@ -74,8 +76,8 @@
     },
     "labelColor": "sys.color.onSurface",
     "actionSize": "Text Button xsmall, appearance accent",
-    "iconSize": "16 × 16",
-    "iconColor": "sys.color.onSurfaceVariant"
+    "iconButtonSize": "Button variant=\"icon\" size=\"medium\" (32 × 32 capsule, 16-glyph)",
+    "iconColor": "sys.color.onSurfaceVariant (glyph inherits via `currentColor` from the Icon Button)"
   },
   "states": {
     "description": "Header itself has no lifecycle states. The trailing action carries Text Button's hover / pressed / focus."
@@ -83,7 +85,7 @@
   "behavior": {
     "rendering": "When `label`, `headerAction`, and `trailingIcon` are all omitted, the component renders nothing (no empty container).",
     "alignment": "Label and trailing affordance share the row's centre line; the label never wraps, the affordance keeps intrinsic width and never grows.",
-    "linkAffordance": "In `headerAction` mode, the trailing action is always a Text Button — never a Standard Button, never a raw `<a>`, never an icon. In `trailingIcon` mode, the icon is decorative and the whole header is the tap target via `onClick` / `href`.",
+    "linkAffordance": "In `headerAction` mode, the trailing action is always a Text Button — never a Standard Button, never a raw `<a>`, never an icon. In `trailingIcon` mode, the chevron is rendered as a Button `variant=\"icon\"` `size=\"medium\"` that owns its own tap target — the surrounding `<header>` element is decorative and never interactive.",
     "modeExclusivity": "`headerAction` and `trailingIcon` are mutually exclusive — when both are set, `trailingIcon` wins and `headerAction` is ignored. Pick one mode per host."
   },
   "forbidden": [

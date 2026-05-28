@@ -14,7 +14,7 @@ Channel picker bottom sheet from [[compose]]. Two sections — "내 채널" (cha
 - **Sheet handle** — top center drag handle; intrinsic to `bottom-sheet`.
 - **Sheet title** — "채널 선택" (Select Channel) left-aligned, `sys.typo.heading.lg` bold.
 - **Search input** — `form-field / search` pill below the title, placeholder "채널을 검색하세요".
-- **Section: 내 채널** — section header in `sys.typo.label.md` secondary; then `list / thumbnail` rows. Each row: leading avatar/logo, channel name (bold), short eligibility blurb (one or two lines).
+- **Section: 내 채널** — section header in `sys.typo.label.md` secondary; then `list / image` rows. Each row: leading avatar/logo, channel name (bold), short eligibility blurb (one or two lines).
 - **Section: 팔로우중인 채널** — second section, denser rows with single-line names. Many rows have a small red "B" badge on the avatar (Blind-curated).
 - **Channels** — "성격유형" includes a "New" tag in accent coral next to the name.
 
@@ -29,7 +29,7 @@ Channel picker bottom sheet from [[compose]]. Two sections — "내 채널" (cha
 
 - [[bottom-sheet]] — host surface with drag handle.
 - [[form-field/search]] — channel search input.
-- [[list/thumbnail]] — channel rows (avatar-anchored).
+- [[list/image]] — channel rows (avatar-anchored).
 - [[chip/tag]] — "New" marker on channel names.
 - [[badge]] — small "B" overlay on Blind-curated channel avatars.
 

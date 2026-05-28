@@ -76,7 +76,7 @@
     "avatarSize": 48,
     "labelTypo": "sys.typo.label.sm",
     "labelColor": "sys.color.onSurface",
-    "labelMaxWidth": "80px",
+    "labelMaxWidth": "ref.space.1000",
     "trailingActionRendersAs": "Button variant='text' size='small' appearance='accent' — label paints in sys.color.primary via the Text Button accent token.",
     "trailingActionTypo": "sys.typo.label.md",
     "trailingActionColor": "sys.color.primary"
@@ -109,7 +109,7 @@
       "description": "1px same-color underline under the label. Color does not change — the underline is the affordance.",
       "textDecoration": "underline",
       "textDecorationThickness": "sys.borderWidth.hairline",
-      "textUnderlineOffset": "2px",
+      "textUnderlineOffset": "ref.space.25",
       "cursor": "pointer"
     },
     "pressed": {

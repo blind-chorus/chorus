@@ -2,7 +2,7 @@
   "$schema": "../../family.schema.json",
   "family": "profile-header",
   "name": "ProfileHeader",
-  "description": "Identity block at the top of a profile detail screen — a full-bleed cover band, an overlapping circular [Thumbnail](../thumbnail/thumbnail.md) avatar, an entity name + visibility/follower meta row, and a trailing follow [Toggle Button](../button/toggle.md). Same 'profile' contract as [Profile carousel](../section/profile-carousel.md) (channel, user, company) — the carousel surfaces a fixed-shape card in a curated rail; the header is the page-level identity rung the rail's `See all` lands on. Composes under a transparent overlay [Navigation bar](../navigation-bar/page.md) when the screen is a drill-in route.",
+  "description": "Identity block at the top of a profile detail screen — a full-bleed cover band, an overlapping circular [Thumbnail](../thumbnail/thumbnail.md) avatar, an entity name + visibility/follower meta row, and a trailing follow [Toggle Button](../button/toggle.md). Same 'profile' contract as [Profile carousel](../carousel/profile.md) (channel, user, company) — the carousel surfaces a fixed-shape card in a curated rail; the header is the page-level identity rung the rail's `See all` lands on. Composes under a transparent overlay [Navigation bar](../navigation-bar/page.md) when the screen is a drill-in route.",
   "useCases": [
     "channel detail header",
     "profile detail header",

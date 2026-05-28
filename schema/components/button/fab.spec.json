@@ -48,7 +48,7 @@
     "minHeight": "ref.space.600",
     "padding": "sys.layout.container.sm",
     "iconSize": "sys.icon.lg",
-    "slotGap": "0px",
+    "slotGap": "0",
     "labelInset": "sys.layout.container.2xs",
     "radius": "sys.radius.full",
     "elevation": "sys.elevation.floating",

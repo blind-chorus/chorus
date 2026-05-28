@@ -2343,7 +2343,7 @@ const COMPONENT_INDEX = [
   ['navigation-bar', 'Navigation Bar', 'Top app bar — Home (left-aligned 24/Semibold title + leading menu + up to three trailing icons), Page (centred 16/Semibold title + leading back + trailing icon/button/link), and Search (leading back + bare-text input filling the row + conditional clear). All three at a 56 min-height with 8/8 padding.'],
   ['tab-bar',       'Tab Bar',       'Bottom-anchored primary navigation — a horizontal row of icon + 10/Regular label items at a 56 min-height. Items are distributed with optical alignment (start padding = inter-item gap = end padding); the active item swaps to the filled companion glyph at onSurface.'],
   ['tabs',          'Tabs',          'Horizontal mutually-exclusive selectors — Underline (content-section switcher with primary indicator), Rounded (chip-delegated soft rectangles), and Segmented (chip-delegated capsule track).'],
-  ['thumbnail',     'Thumbnail',     'A small-rung circular image (16 / 20 / 24 / 32 / 40 / 48) with optional top-right update dot and bottom-right logo badge.'],
+  ['thumbnail',     'Thumbnail',     'A small-rung circular image (16 / 20 / 24 / 32 / 40 / 48 / 56) with optional top-right update dot and bottom-right logo badge.'],
 ];
 
 export function Components() {

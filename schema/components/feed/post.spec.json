@@ -125,14 +125,14 @@
     },
     "avatar": {
       "required": false,
-      "description": "Thumbnail at size 32 — delegated verbatim. Painted by the shared [Byline](./byline.md) cluster (avatar + channel name + timestamp + meta row).",
+      "description": "Thumbnail at size 32 — delegated verbatim. Painted by the shared [Metadata](../metadata/metadata.md) cluster (avatar + channel name + timestamp + meta row).",
       "accepts": [
         "thumbnail"
       ]
     },
     "channel": {
       "required": true,
-      "description": "Channel / author name, rendered by the [Byline](./byline.md) cluster as an `<a>` link to the channel page. 12px / Semibold / onSurface. No underline at rest; hover underlines the link alone; focus paints a hairline `sys.color.focus` outline at `sys.radius.xs`.",
+      "description": "Channel / author name, rendered by the [Metadata](../metadata/metadata.md) cluster as an `<a>` link to the channel page. 12px / Semibold / onSurface. No underline at rest; hover underlines the link alone; focus paints a hairline `sys.color.focus` outline at `sys.radius.xs`.",
       "accepts": [
         "text"
       ]

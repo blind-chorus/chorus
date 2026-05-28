@@ -26,21 +26,24 @@ function RadioIndicator({ selected }) {
   );
 }
 
+const ENTRY_SIZE_TO_PX = { small: 32, medium: 40, large: 48, xlarge: 56 };
+
 export function List({
   variant = 'text',
-  density = 'comfortable',
   value,
   onChange,
   items = [],
   embedded = false,
+  size = 'medium',
+  divider = true,
   className,
   'aria-label': ariaLabel,
   ...rest
 }) {
   const isRadio = variant === 'radio';
-  const isThumbnail = variant === 'thumbnail';
-  const isCompact = isThumbnail && density === 'compact';
-  const thumbnailSize = isCompact ? 32 : 40;
+  const isImage = variant === 'image';
+  const isEntry = variant === 'entry';
+  const entryThumbSize = ENTRY_SIZE_TO_PX[size] ?? 40;
   const role = isRadio ? 'radiogroup' : 'list';
   const groupName = useId();
   const rowsRef = useRef([]);
@@ -76,8 +79,8 @@ export function List({
       className={joinClasses('chorus-list', `chorus-list--${variant}`, className)}
       role={role}
       aria-label={ariaLabel}
-      data-density={isThumbnail ? density : undefined}
       data-embedded={embedded ? 'true' : undefined}
+      data-size={isEntry ? size : undefined}
       {...rest}
     >
       {items.map((item, idx) => {
@@ -98,7 +101,7 @@ export function List({
             tabIndex={item.disabled ? -1 : (isFocusable ? 0 : -1)}
             data-selected={selected || undefined}
             data-strong={item.strong ? 'true' : undefined}
-            data-divider={item.divider === false ? 'false' : undefined}
+            data-divider={(divider === false || item.divider === false) ? 'false' : undefined}
             data-force-state={item.forcedState ?? undefined}
             className={joinClasses(
               'chorus-list__row',
@@ -114,22 +117,40 @@ export function List({
               <span className="chorus-list__leading">
                 <RadioIndicator selected={selected} />
               </span>
-            ) : isThumbnail ? (
+            ) : isImage ? (
               <span className="chorus-list__leading">
-                <Thumbnail size={thumbnailSize} {...(item.thumbnail ?? { alt: item.label })} />
+                <Thumbnail size={40} {...(item.thumbnail ?? { alt: item.label })} />
+              </span>
+            ) : isEntry ? (
+              <span className="chorus-list__leading">
+                <Thumbnail size={entryThumbSize} {...(item.thumbnail ?? { alt: item.label })} />
               </span>
             ) : null}
-            <span className="chorus-list__label-col">
-              <span className="chorus-list__label-row">
-                <span className="chorus-list__label">{item.label}</span>
-                {isThumbnail && item.count ? (
-                  <span className="chorus-list__count">{item.count}</span>
+            {isEntry ? (
+              <span className="chorus-list__label-col">
+                <span className="chorus-list__identity">
+                  <span className="chorus-list__primary-row">
+                    <span className="chorus-list__label">{item.label}</span>
+                    {item.count != null ? (
+                      <span className="chorus-list__count">{item.count}</span>
+                    ) : null}
+                  </span>
+                  {item.secondary ? (
+                    <span className="chorus-list__secondary">{item.secondary}</span>
+                  ) : null}
+                </span>
+                {item.description ? (
+                  <span className="chorus-list__description">{item.description}</span>
                 ) : null}
               </span>
-              {item.supportingText && !isCompact ? (
-                <span className="chorus-list__supporting">{item.supportingText}</span>
-              ) : null}
-            </span>
+            ) : (
+              <span className="chorus-list__label-col">
+                <span className="chorus-list__label">{item.label}</span>
+                {item.supportingText ? (
+                  <span className="chorus-list__supporting">{item.supportingText}</span>
+                ) : null}
+              </span>
+            )}
             {variant === 'nav' && !item.trailingIcon ? (
               <span className="chorus-list__trailing chorus-list__nav-chevron" aria-hidden="true">
                 <ChevronDownIcon size={16} />

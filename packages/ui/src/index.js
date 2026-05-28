@@ -11,7 +11,7 @@ export { Chip } from './Chip.jsx';
 export { Dialog } from './Dialog.jsx';
 export { Tabs } from './Tabs.jsx';
 export { Tab } from './Tab.jsx';
-export { Byline } from './Byline.jsx';
+export { Metadata } from './Metadata.jsx';
 export { Feed, FeedGroup } from './Feed.jsx';
 export { FeedAd } from './FeedAd.jsx';
 export { PostCarousel } from './PostCarousel.jsx';
@@ -23,7 +23,10 @@ export { List } from './List.jsx';
 export { NavCard, NavCardGroup } from './NavCard.jsx';
 export { NavigationBar } from './NavigationBar.jsx';
 export { Progress } from './Progress.jsx';
-export { Section } from './Section.jsx';
+export { Carousel } from './Carousel.jsx';
+// Legacy alias — Section was renamed to Carousel; keep the old name available
+// so existing imports keep compiling until consumers migrate.
+export { Carousel as Section } from './Carousel.jsx';
 export { SideSheet, SideSheetGroup } from './SideSheet.jsx';
 export { Skeleton, SkeletonGroup } from './Skeleton.jsx';
 export { StatusTag } from './StatusTag.jsx';
