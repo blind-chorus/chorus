@@ -2893,15 +2893,10 @@ a.chorus-metadata__name:focus-visible {
   margin-inline: calc(-1 * var(--sys-layout-container-md));
 }
 
-/* DirectoryList divider — anchor at the text column (post-avatar)
-   so it reads as separating identity columns rather than crossing
-   under the leading thumbnail. At the `large` rung the text column
-   starts at `container.md + ref.space.600 + inline.lg` (16 + 48 + 12
-   = 76) from the row's leading edge. */
-.chorus-directory-list .chorus-list--entry[data-size="large"]
-  .chorus-list__row:not(:last-child):not([data-divider="false"])::after {
-  left: calc(var(--sys-layout-container-md) + var(--ref-space-600) + var(--sys-layout-inline-lg));
-}
+/* DirectoryList suppresses the inter-row hairline divider via
+   `divider={false}` on the inner List; the family-default ::after
+   rule already excludes `[data-divider="false"]`, so no extra CSS
+   is needed to hide it here. */
 
 /* ============================================================
    Banner — in-body explanation block (info / neutral)

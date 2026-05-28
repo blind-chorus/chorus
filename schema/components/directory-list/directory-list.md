@@ -53,7 +53,7 @@ import { DirectoryList } from '@blind-dsai/ui';
 
 - **container** — `surface` block with 24px block / 16px inline padding. Holds the header above the vertical list.
 - **header** — [Header](../header/header.md) `size="large"`. Section label leading, optional accent Text Button trailing. Anchored above the list.
-- **list** — embedded [List](../list/entry.md) `variant="entry"` `size="large"` carrying the rows.
+- **list** — embedded [List](../list/entry.md) `variant="entry"` `size="large"`. The inter-row hairline divider is suppressed (`divider={false}`); rows tile against the surface fill.
 - **row** — entity entry rendered as a [list/entry](../list/entry.md) row at the `large` rung (48 Thumbnail). Each item descriptor (`name` / `followers` / `description` / `thumbnail` / `active` / `onToggle`) maps to the entry contract (`label` / `secondary` / `description` / `thumbnail` / `trailingIcon`). The row body is presentational — tapping does not route.
 - **trailingAction** — [Toggle Button](../button/toggle.md), `variant="toggle"` — composed into the row's `trailingIcon` slot.
 
@@ -65,8 +65,8 @@ import { DirectoryList } from '@blind-dsai/ui';
 | header         | [Header](../header/header.md) `size="large"`. Container stack (`sys.layout.stack.md` = 16px) separates from list. |
 | label          | `heading.md` / Semibold / `onSurface` |
 | headerAction   | `xsmall` [Text Button](../button/text.md), `accent` appearance |
-| list           | [List](../list/entry.md) `variant="entry"` `size="large"`. `embedded` (wrapper section owns the rail) |
-| row            | [list/entry](../list/entry.md)-shaped row at `large` rung — 48 avatar, `inline.lg` gap, label.md primary / caption.md `secondary` + `description`. Keeps the list/entry native `container.md` inline padding and adds `margin-inline: -container.md` so the avatar lines up at the section rail (16 from the surface). Divider anchors at the text column (`container.md + ref.space.600 + inline.lg` = 76px from row left). |
+| list           | [List](../list/entry.md) `variant="entry"` `size="large"`. `embedded` (wrapper section owns the rail). `divider={false}` (rows tile without an inter-row hairline). |
+| row            | [list/entry](../list/entry.md)-shaped row at `large` rung — 48 avatar, `inline.lg` gap, label.md primary / caption.md `secondary` + `description`. Keeps the list/entry native `container.md` inline padding and adds `margin-inline: -container.md` so the avatar lines up at the section rail (16 from the surface). The inter-row hairline divider is suppressed — rows tile against the surface fill with `stack.sm` (12) breathing room from the row's intrinsic block padding. |
 | trailingAction | [Toggle Button](../button/toggle.md), `variant="toggle"` — composed into the row's `trailingIcon` slot. |
 
 ## States

@@ -41,6 +41,7 @@ export function DirectoryList({
         variant="entry"
         size="large"
         embedded
+        divider={false}
         items={items.map((item, idx) => ({
           value: item.value ?? `row-${idx}`,
           label: item.name,

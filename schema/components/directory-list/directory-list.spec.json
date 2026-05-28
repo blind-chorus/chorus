@@ -39,7 +39,7 @@
     },
     "list": {
       "required": true,
-      "description": "[List](../list/entry.md) `variant=\"entry\"` `size=\"large\"` rendering each follow-able entity. Embedded mode is forced on the inner list so the wrapper section owns the rail.",
+      "description": "[List](../list/entry.md) `variant=\"entry\"` `size=\"large\"` rendering each follow-able entity. Embedded mode is forced on the inner list so the wrapper section owns the rail. The inter-row hairline divider is suppressed (`divider={false}`); rows tile against the surface fill.",
       "intrinsic": true
     },
     "row": {
@@ -64,9 +64,7 @@
     "headerActionRendersAs": "Button variant='text' size='xsmall' appearance='accent' — link-affordance accent rule.",
     "rowRung": "list/entry size=\"large\" — 48 avatar, inline.lg gap, label.md primary, caption.md secondary + description.",
     "rowInlinePaddingNote": "Each row keeps the list/entry native sys.layout.container.md inline padding (the tap target reaches the surface edge) and adds margin-inline: calc(-1 * sys.layout.container.md) so the visible avatar sits flush at the section's content rail — aligned with the header label at 16 from the surface.",
-    "dividerWidth": "sys.borderWidth.hairline",
-    "dividerColor": "sys.color.outlineVariant",
-    "dividerInset": "calc(sys.layout.container.md + ref.space.600 + sys.layout.inline.lg) = 76px from the row's leading edge — anchors at the text column post-avatar."
+    "dividerNote": "Inter-row hairline is suppressed via `divider={false}` on the inner List — rows tile against the surface fill rather than carrying a per-row separator. Reach for SuggestionList (xlarge rung) or List/entry directly when the surface needs a separator rule between rows."
   },
   "rowProps": {
     "value": { "type": "string", "required": true },
