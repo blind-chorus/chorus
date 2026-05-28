@@ -98,6 +98,7 @@ export function List({
             tabIndex={item.disabled ? -1 : (isFocusable ? 0 : -1)}
             data-selected={selected || undefined}
             data-strong={item.strong ? 'true' : undefined}
+            data-divider={item.divider === false ? 'false' : undefined}
             data-force-state={item.forcedState ?? undefined}
             className={joinClasses(
               'chorus-list__row',

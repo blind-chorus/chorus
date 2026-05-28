@@ -857,6 +857,140 @@ span.chorus-chip {
 }
 
 /* ============================================================
+   Byline — author / brand attribution cluster
+   Shared by Feed Post + Feed Ad. 32-rung Thumbnail + 2-line text
+   column + optional trailing slot. The middot separator uses
+   `line-height: 1` so its line-box never exceeds its font-size —
+   keeps the row's text-line tight even when the inherited
+   line-height would otherwise allow extra space around the bullet.
+============================================================ */
+.chorus-byline {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-md);
+  min-width: 0;
+}
+
+.chorus-byline__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.chorus-byline__primary {
+  display: flex;
+  align-items: center;
+  gap: var(--sys-layout-inline-md);
+  min-width: 0;
+}
+
+.chorus-byline__name {
+  font-size: var(--sys-typo-label-sm-size);
+  font-weight: var(--sys-typo-label-sm-weight);
+  line-height: var(--sys-typo-label-sm-line);
+  color: var(--sys-color-onSurface);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+a.chorus-byline__name:hover { text-decoration: underline; }
+a.chorus-byline__name:focus-visible {
+  outline: var(--sys-borderWidth-hairline) solid var(--sys-color-focus);
+  outline-offset: var(--sys-layout-inline-xs);
+  border-radius: var(--sys-radius-xs);
+}
+
+.chorus-byline__timestamp {
+  font-size: var(--sys-typo-caption-md-size);
+  font-weight: var(--sys-typo-caption-md-weight);
+  line-height: var(--sys-typo-caption-md-line);
+  /* One tonal step further than name — timestamp recedes. */
+  color: var(--sys-color-outline);
+}
+
+/* Middot separator. The bullet glyph (U+00B7) is naturally tall — its
+   font-size determines the line-box height, which can inflate the
+   parent's text-line when it doesn't match the surrounding text.
+   Two-token fix: (a) `font-size: var(--sys-typo-caption-md-size)`
+   matches the smaller of the two rungs Byline ever sits next to
+   (label.sm or caption.md — both 12px), (b) `line-height: 1` collapses
+   the line-box to that font-size so the dot's vertical extent never
+   exceeds the text height. */
+.chorus-byline__dot {
+  color: var(--sys-color-outline);
+  font-size: var(--sys-typo-caption-md-size);
+  line-height: 1;
+}
+
+.chorus-byline__follow {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--sys-typo-label-sm-size);
+  font-weight: var(--sys-typo-label-sm-weight);
+  line-height: var(--sys-typo-label-sm-line);
+  color: var(--sys-color-primary);
+}
+
+.chorus-byline__follow[aria-pressed="true"] {
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.chorus-byline__follow:focus-visible {
+  outline: var(--sys-borderWidth-hairline) solid var(--sys-color-focus);
+  outline-offset: var(--sys-layout-inline-xs);
+  border-radius: var(--sys-radius-xs);
+}
+
+.chorus-byline__subtitle {
+  font-size: var(--sys-typo-caption-md-size);
+  font-weight: var(--sys-typo-caption-md-weight);
+  line-height: var(--sys-typo-caption-md-line);
+  color: var(--sys-color-onSurfaceVariant);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chorus-byline__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: var(--sys-typo-caption-md-size);
+  font-weight: var(--sys-typo-caption-md-weight);
+  line-height: var(--sys-typo-caption-md-line);
+  color: var(--sys-color-onSurfaceVariant);
+  min-width: 0;
+}
+
+.chorus-byline__meta .chorus-byline__dot {
+  margin: 0 var(--sys-layout-inline-sm);
+}
+
+.chorus-byline__meta-link {
+  color: inherit;
+  text-decoration: none;
+}
+.chorus-byline__meta-link:hover { text-decoration: underline; }
+.chorus-byline__meta-link:focus-visible {
+  outline: var(--sys-borderWidth-hairline) solid var(--sys-color-focus);
+  outline-offset: var(--sys-layout-inline-xs);
+  border-radius: var(--sys-radius-xs);
+}
+
+.chorus-byline__trailing {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ============================================================
    Feed
 ============================================================ */
 .chorus-feed {
@@ -899,111 +1033,8 @@ span.chorus-chip {
   text-transform: uppercase;
 }
 
-.chorus-feed__header {
-  display: flex;
-  gap: var(--sys-layout-inline-md);
-  align-items: center;
-}
-
-.chorus-feed__header-text {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  flex: 1 1 auto;
-}
-
-.chorus-feed__channel-row {
-  display: flex;
-  align-items: center;
-  gap: var(--sys-layout-inline-md);
-  min-width: 0;
-}
-
-/* The channel name is its own link to the channel page. Rendered as an
-   anchor — same `onSurface` tone as before so the header reads as one
-   continuous metadata line at rest, no `text-decoration` so the row
-   does not gain a phantom underline rail. Hover paints the underline
-   on the link itself; focus uses the same hairline outline rhythm as
-   the Follow toggle next to it. */
-.chorus-feed__channel {
-  font-size: var(--sys-typo-label-sm-size);
-  font-weight: var(--sys-typo-label-sm-weight);
-  line-height: var(--sys-typo-label-sm-line);
-  color: var(--sys-color-onSurface);
-  text-decoration: none;
-}
-.chorus-feed__channel:hover { text-decoration: underline; }
-.chorus-feed__channel:focus-visible {
-  outline: var(--sys-borderWidth-hairline) solid var(--sys-color-focus);
-  outline-offset: var(--sys-layout-inline-xs);
-  border-radius: var(--sys-radius-xs);
-}
-
-.chorus-feed__timestamp {
-  font-size: var(--sys-typo-caption-md-size);
-  font-weight: var(--sys-typo-caption-md-weight);
-  line-height: var(--sys-typo-caption-md-line);
-  /* One tonal step further than meta — the timestamp recedes more than
-     the author metadata, per the header hierarchy: channel name leads,
-     timestamp whispers. */
-  color: var(--sys-color-outline);
-}
-
-.chorus-feed__dot {
-  color: var(--sys-color-outline);
-}
-
-.chorus-feed__follow {
-  appearance: none;
-  background: transparent;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  font: inherit;
-  font-size: var(--sys-typo-label-sm-size);
-  font-weight: var(--sys-typo-label-sm-weight);
-  line-height: var(--sys-typo-label-sm-line);
-  color: var(--sys-color-primary);
-}
-
-.chorus-feed__follow[aria-pressed="true"] {
-  color: var(--sys-color-onSurfaceVariant);
-}
-
-.chorus-feed__follow:focus-visible {
-  outline: var(--sys-borderWidth-hairline) solid var(--sys-color-focus);
-  outline-offset: var(--sys-layout-inline-xs);
-  border-radius: var(--sys-radius-xs);
-}
-
-.chorus-feed__meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  font-size: var(--sys-typo-caption-md-size);
-  font-weight: var(--sys-typo-caption-md-weight);
-  line-height: var(--sys-typo-caption-md-line);
-  color: var(--sys-color-onSurfaceVariant);
-  min-width: 0;
-}
-
-.chorus-feed__meta-sep { margin: 0 var(--sys-layout-inline-sm); }
-
-/* Each meta item (Company / Job Function / Username) is its own link
-   to a filtered surface, so the meta row is a row of independent
-   affordances — not one tap-anywhere block. Inherits the row's
-   `onSurfaceVariant` tone at rest; hover paints the underline on
-   the link alone (the middot separator stays unstyled). */
-.chorus-feed__meta-link {
-  color: inherit;
-  text-decoration: none;
-}
-.chorus-feed__meta-link:hover { text-decoration: underline; }
-.chorus-feed__meta-link:focus-visible {
-  outline: var(--sys-borderWidth-hairline) solid var(--sys-color-focus);
-  outline-offset: var(--sys-layout-inline-xs);
-  border-radius: var(--sys-radius-xs);
-}
+/* Feed header (channel row + meta) is now rendered via the shared
+   Byline component — see `.chorus-byline` above for its anatomy. */
 
 .chorus-feed__post {
   display: flex;
@@ -1311,39 +1342,9 @@ span.chorus-chip {
   border-bottom: var(--sys-borderWidth-hairline) solid var(--sys-color-outlineVariant);
 }
 
-.chorus-feed-ad__brand {
-  display: flex;
-  align-items: center;
-  gap: var(--sys-layout-inline-md);
-  min-width: 0;
-}
-
-.chorus-feed-ad__brand-text {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  flex: 1 1 auto;
-}
-
-.chorus-feed-ad__brand-name {
-  font-size: var(--sys-typo-label-md-size);
-  font-weight: var(--sys-typo-label-md-weight);
-  line-height: var(--sys-typo-label-md-line);
-  color: var(--sys-color-onSurface);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.chorus-feed-ad__brand-subtitle {
-  font-size: var(--sys-typo-caption-md-size);
-  font-weight: var(--sys-typo-caption-md-weight);
-  line-height: var(--sys-typo-caption-md-line);
-  color: var(--sys-color-onSurfaceVariant);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+/* FeedAd brand row is now rendered via the shared Byline component —
+   see `.chorus-byline` for its anatomy. Only the trailing dismiss
+   button keeps a feed-ad-scoped rule below. */
 
 /* Dismiss — bare 24-rung hit area carrying a 16px CloseIcon. No chrome
    at rest so the brand row reads as a flat strip; the inherited Icon
@@ -2220,8 +2221,11 @@ span.chorus-chip {
 /* Inter-row divider — inset from the leading edge by the row's inline
    padding (container.md) so the rule reads as separating *content*,
    not the container. The last row omits the divider via
-   :not(:last-child). */
-.chorus-list__row:not(:last-child)::after {
+   :not(:last-child); a row can also opt out via `data-divider="false"`
+   on a per-row basis (canonical case: list/thumbnail rows where a
+   visual group ends mid-stack and the divider would visually fence
+   off the next group from its label). */
+.chorus-list__row:not(:last-child):not([data-divider="false"])::after {
   content: '';
   position: absolute;
   left: var(--sys-layout-container-md);

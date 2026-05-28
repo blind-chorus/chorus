@@ -1,0 +1,141 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Byline",
+  "family": "feed",
+  "subcomponent": "byline",
+  "description": "Author / brand attribution cluster shared by [Feed Post](./post.md) and [Feed Ad](./ad.md). Composes a leading 32-rung [Thumbnail](../thumbnail/thumbnail.md), a primary line (entity name + optional inline timestamp + optional follow toggle), and a secondary line (either a plain `subtitle` text — canonical 'Sponsored' for ads — or an array of independently-linked `meta` items: location, job function, @handle). An optional trailing slot hosts a row-level affordance (dismiss × for ads). The dot separator is constrained so its line-box never exceeds its font-size — middle-dot glyphs that would otherwise inflate the row's line-height stay flush with the surrounding text.",
+  "element": "div",
+  "props": {
+    "avatar": {
+      "type": "object",
+      "optional": true,
+      "description": "Forwarded to [Thumbnail](../thumbnail/thumbnail.md) verbatim at `size={32}`. When omitted, the Thumbnail renders its image-area fallback over `surfaceContainerHigh`."
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "description": "Primary line entity name — channel topic (Post) or brand (Ad). Single line; truncates with ellipsis."
+    },
+    "nameHref": {
+      "type": "string",
+      "optional": true,
+      "description": "Destination URL for the entity name. When present, the name renders as an `<a>`; otherwise as a `<span>`."
+    },
+    "timestamp": {
+      "type": "string",
+      "optional": true,
+      "description": "Inline timestamp painted after the name on the primary line, in `caption.md` / `sys.color.outline` — one tonal step further than the name. Reach for it on Feed Post; omit on Feed Ad."
+    },
+    "followAction": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to paint the inline follow toggle after the timestamp. When `true`, a dot separator + Follow/Following text toggle render at the primary line's trailing edge. State is controlled via `followed` + `onFollowChange`."
+    },
+    "followed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the viewer follows this entity. Drives the inline follow toggle's label and `aria-pressed`."
+    },
+    "onFollowChange": {
+      "type": "function",
+      "optional": true,
+      "description": "Fires with the next `followed` value when the inline follow toggle is tapped."
+    },
+    "subtitle": {
+      "type": "string",
+      "optional": true,
+      "description": "Secondary line plain text — canonical use is 'Sponsored' on Feed Ad. Mutually exclusive with `meta` (when both are passed, `meta` wins)."
+    },
+    "meta": {
+      "type": "node",
+      "optional": true,
+      "description": "Array of independently-linked metadata items rendered on the secondary line. Each entry is either a string (renders as a stub-href link) or a `{ label, href }` object. Items separate by middot. Reach for it on Feed Post; omit on Feed Ad."
+    },
+    "trailing": {
+      "type": "node",
+      "optional": true,
+      "description": "Trailing-edge slot. Canonical fill: the Feed Ad dismiss × button. The slot's hit target is its own — taps on it never propagate to the entity-name link."
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "description": "Outer flex row — `align-items: center`, `sys.layout.inline.md` (8px) gap between avatar, text block, and trailing slot.",
+      "intrinsic": true
+    },
+    "avatar": {
+      "required": false,
+      "description": "Leading [Thumbnail](../thumbnail/thumbnail.md) at `size={32}`. Every Thumbnail prop forwarded verbatim.",
+      "accepts": ["thumbnail"],
+      "rendersAs": "thumbnail:32"
+    },
+    "text": {
+      "required": true,
+      "description": "Two-line text column. Primary line (name + optional timestamp + optional follow) on top; optional secondary line (subtitle text OR meta-link row) below. `flex: 1 1 auto`, `min-width: 0` so both lines truncate.",
+      "intrinsic": true
+    },
+    "name": {
+      "required": true,
+      "description": "Entity name. `sys.typo.label.sm` (12 / Semibold) / `sys.color.onSurface`. Renders as `<a>` when `nameHref` is set, `<span>` otherwise. Single line; truncates with ellipsis.",
+      "accepts": ["text"]
+    },
+    "timestamp": {
+      "required": false,
+      "description": "Inline timestamp after the name. `sys.typo.caption.md` (12 / Regular) / `sys.color.outline` — one tonal step further than the name so the timestamp recedes.",
+      "accepts": ["text"]
+    },
+    "followAction": {
+      "required": false,
+      "description": "Inline follow toggle at the primary line's trailing edge. Bare text affordance (no chrome) — `sys.color.primary` at rest, `sys.color.onSurfaceVariant` when active. A `·` separator precedes it.",
+      "intrinsic": true
+    },
+    "subtitle": {
+      "required": false,
+      "description": "Secondary line plain text. `sys.typo.caption.md` / `sys.color.onSurfaceVariant`. Mutually exclusive with `meta`.",
+      "accepts": ["text"]
+    },
+    "meta": {
+      "required": false,
+      "description": "Secondary line meta-link row. Each item is its own `<a>` link; sibling items separate by middot. Hover paints the underline on the link alone — the middot stays unstyled.",
+      "intrinsic": true
+    },
+    "trailing": {
+      "required": false,
+      "description": "Trailing-edge slot — typically a dismiss × button on Feed Ad. Its own hit target; clicks don't propagate to the surrounding row.",
+      "accepts": ["button", "icon"]
+    }
+  },
+  "sizing": {
+    "containerGap": "sys.layout.inline.md",
+    "containerAlign": "center",
+    "avatarSize": 32,
+    "nameTypo": "sys.typo.label.sm",
+    "nameColor": "sys.color.onSurface",
+    "timestampTypo": "sys.typo.caption.md",
+    "timestampColor": "sys.color.outline",
+    "subtitleTypo": "sys.typo.caption.md",
+    "subtitleColor": "sys.color.onSurfaceVariant",
+    "metaTypo": "sys.typo.caption.md",
+    "metaColor": "sys.color.onSurfaceVariant",
+    "dotColor": "sys.color.outline",
+    "dotLineHeight": "1",
+    "dotLineHeightNote": "The middot separator (`·`) inherits the surrounding text's font-size but uses `line-height: 1` so its line-box never exceeds the glyph's font-size — keeps the row's text-line tight even when the inherited line-height would otherwise allow extra vertical space around the middot.",
+    "primaryRowGap": "sys.layout.inline.md",
+    "metaRowGap": "0",
+    "metaSeparatorInset": "sys.layout.inline.sm"
+  },
+  "states": {
+    "note": "Byline itself has no lifecycle states — each interactive child (name link, follow toggle, meta links, trailing button) carries its own state contract."
+  },
+  "behavior": {
+    "dotHeight": "Every middot separator inside Byline (between name/timestamp/follow on the primary line, and between meta items on the secondary line) uses `line-height: 1` so its line-box matches its font-size. This prevents the U+00B7 glyph's natural vertical extent from inflating the parent's line-box.",
+    "linkAffordances": "Name and meta items render as `<a>` elements when an `href` is supplied — each is an independent affordance. Taps on the trailing slot stop propagating.",
+    "compositionInsideFeed": "Both [Feed Post](./post.md) and [Feed Ad](./ad.md) compose Byline at the head of the card. Post passes `timestamp` + `meta`; Ad passes `subtitle` + `trailing` (dismiss button)."
+  },
+  "forbidden": [
+    "Byline rendered outside a Feed Post / Feed Ad host — the component is the family-internal attribution cluster, not a generic person-card primitive",
+    "subtitle paired with meta — the secondary line is mutually exclusive; pick one (meta for Post, subtitle for Ad)",
+    "middot separators painted as block elements — the dot is always inline so it inherits the surrounding text's baseline",
+    "name rendered as a button — the name is a link to the entity page, never a commit"
+  ]
+}

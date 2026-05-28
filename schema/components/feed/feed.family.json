@@ -29,6 +29,11 @@
       "slug": "ad",
       "spec": "ad.spec.json",
       "md": "ad.md"
+    },
+    {
+      "slug": "byline",
+      "spec": "byline.spec.json",
+      "md": "byline.md"
     }
   ]
 }

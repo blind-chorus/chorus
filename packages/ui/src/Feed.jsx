@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { Button } from './Button.jsx';
-import { Thumbnail } from './Thumbnail.jsx';
+import { Byline } from './Byline.jsx';
 import { joinClasses } from './spec-utils.js';
 import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 import {
@@ -182,63 +182,17 @@ export function Feed({
     <article ref={ref} className={joinClasses('chorus-feed', className)} {...rest}>
       {flag ? <div className="chorus-feed__flag">{flag}</div> : null}
 
-      <header className="chorus-feed__header">
-        <Thumbnail size={32} {...(avatar ?? { alt: channel })} />
-        <div className="chorus-feed__header-text">
-          <div className="chorus-feed__channel-row">
-            <a
-              className="chorus-feed__channel"
-              href={channelHref}
-              onClick={channelHref === '#' ? (e) => e.preventDefault() : undefined}
-            >
-              {channel}
-            </a>
-            {timestamp ? (
-              <span className="chorus-feed__timestamp">{timestamp}</span>
-            ) : null}
-            {followAction ? (
-              <>
-                <span className="chorus-feed__dot" aria-hidden="true">·</span>
-                <button
-                  type="button"
-                  className="chorus-feed__follow"
-                  aria-pressed={followed}
-                  onClick={() => onFollowChange?.(!followed)}
-                >
-                  {followed ? 'Following' : 'Follow'}
-                </button>
-              </>
-            ) : null}
-          </div>
-          {meta?.length ? (
-            <div className="chorus-feed__meta">
-              {meta.map((part, i) => {
-                /* Each meta item is its own link by contract — strings
-                   render against a stub `#` href so the demo is clickable
-                   without wiring; consumers route by passing
-                   `{ label, href }`. The separator sits between siblings,
-                   not inside the link itself, so the underline does not
-                   span the middot. */
-                const isObj = part && typeof part === 'object' && 'label' in part;
-                const label = isObj ? part.label : part;
-                const href = isObj ? part.href ?? '#' : '#';
-                return (
-                  <span key={i} className="chorus-feed__meta-part">
-                    {i > 0 ? <span className="chorus-feed__meta-sep" aria-hidden="true">·</span> : null}
-                    <a
-                      className="chorus-feed__meta-link"
-                      href={href}
-                      onClick={href === '#' ? (e) => e.preventDefault() : undefined}
-                    >
-                      {label}
-                    </a>
-                  </span>
-                );
-              })}
-            </div>
-          ) : null}
-        </div>
-      </header>
+      <Byline
+        className="chorus-feed__byline"
+        avatar={avatar ?? { alt: channel }}
+        name={channel}
+        nameHref={channelHref}
+        timestamp={timestamp}
+        followAction={followAction}
+        followed={followed}
+        onFollowChange={onFollowChange}
+        meta={meta}
+      />
 
       {(title || body || thumbnail) ? (
         <div className="chorus-feed__post">

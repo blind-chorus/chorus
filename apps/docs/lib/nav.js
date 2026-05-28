@@ -222,6 +222,7 @@ export const NAV = [
         label: 'Feed',
         subs: [
           { href: '/components/feed/ad', label: 'Ad' },
+          { href: '/components/feed/byline', label: 'Byline' },
           { href: '/components/feed/post', label: 'Post' },
         ],
       },

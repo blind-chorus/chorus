@@ -108,6 +108,11 @@
       "type": "boolean",
       "default": false
     },
+    "divider": {
+      "type": "boolean",
+      "default": true,
+      "description": "Per-row bottom-divider opt-out (comfortable density only — compact density has no inter-row dividers by family contract). Pass `divider: false` to suppress the hairline `outlineVariant` rule beneath the row; the row's footprint and inline padding stay unchanged. Reach for it when a visual group ends mid-stack and the divider would visually fence off the next group from its label (e.g. a sectioned directory where the host paints a group header between two sub-stacks). The last row already omits its divider via `:not(:last-child)`."
+    },
     "strong": {
       "type": "boolean",
       "default": false,
@@ -135,6 +140,7 @@
     "leadingLabelGap": "sys.layout.inline.md",
     "dividerWidth": "sys.borderWidth.hairline",
     "dividerColor": "sys.color.outlineVariant",
+    "dividerPerRowOptOut": "Pass `divider: false` on a row to suppress its bottom divider — comfortable density only. Same recipe as `density=\"compact\"` (which suppresses every row's divider), but scoped to a single row.",
     "labelTypo": "16 / Regular",
     "labelColor": "sys.color.onSurface",
     "supportingTypo": "14 / Regular",

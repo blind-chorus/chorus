@@ -80,7 +80,7 @@
   "slots": {
     "brand": {
       "required": true,
-      "description": "Top row: 32-rung Thumbnail + a two-line text block (brand name on top, `Sponsored` subtitle underneath). Brand name MUST be non-empty — the row is the ad's legal attribution surface and cannot ship without it. The row is non-interactive at the container level — the only commit in this region is the trailing close button.",
+      "description": "Top row painted by the shared [Byline](./byline.md) cluster (32-rung Thumbnail + brand name + `Sponsored` subtitle + optional trailing dismiss). Brand name MUST be non-empty — the row is the ad's legal attribution surface and cannot ship without it. The row is non-interactive at the container level — the only commit in this region is the trailing close button.",
       "accepts": [
         "thumbnail",
         "text"

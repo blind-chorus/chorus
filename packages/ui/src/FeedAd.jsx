@@ -2,38 +2,40 @@
 
 import { useRef } from 'react';
 import { Button } from './Button.jsx';
-import { Thumbnail } from './Thumbnail.jsx';
+import { Byline } from './Byline.jsx';
 import { joinClasses } from './spec-utils.js';
 import { XIcon } from './icons/index.js';
 import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 
 /* FeedAd — the `ad` sub-component of the Feed family. In-feed sponsored
    placement that rides the same column as the default Feed card. The
-   schema spec (schema/components/feed/ad.md) is the source of truth for
-   which slots are optional and how they collapse. */
+   brand row composes the shared Byline component (avatar + name +
+   "Sponsored" subtitle + optional dismiss trailing). The schema spec
+   (schema/components/feed/ad.md) is the source of truth for which
+   slots are optional and how they collapse. */
 
 function BrandRow({ brand, onDismiss, dismissLabel }) {
   /* Subtitle defaults to "Sponsored" — every FeedAd placement must read
      as sponsored content. Consumers may override but cannot drop it. */
   const subtitle = brand.subtitle ?? 'Sponsored';
+  const trailing = onDismiss ? (
+    <button
+      type="button"
+      className="chorus-feed-ad__dismiss"
+      onClick={onDismiss}
+      aria-label={dismissLabel ?? 'Dismiss ad'}
+    >
+      <XIcon size={16} />
+    </button>
+  ) : null;
   return (
-    <header className="chorus-feed-ad__brand">
-      <Thumbnail size={32} {...(brand.avatar ?? { alt: brand.name })} />
-      <div className="chorus-feed-ad__brand-text">
-        <span className="chorus-feed-ad__brand-name">{brand.name}</span>
-        <span className="chorus-feed-ad__brand-subtitle">{subtitle}</span>
-      </div>
-      {onDismiss ? (
-        <button
-          type="button"
-          className="chorus-feed-ad__dismiss"
-          onClick={onDismiss}
-          aria-label={dismissLabel ?? 'Dismiss ad'}
-        >
-          <XIcon size={16} />
-        </button>
-      ) : null}
-    </header>
+    <Byline
+      className="chorus-feed-ad__brand"
+      avatar={brand.avatar ?? { alt: brand.name }}
+      name={brand.name}
+      subtitle={subtitle}
+      trailing={trailing}
+    />
   );
 }
 

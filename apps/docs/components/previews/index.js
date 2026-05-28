@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Accordion, Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, Header, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, ProfileHeader, Section, SideSheet, SideSheetGroup, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
+import { Accordion, Badge, BottomSheet, Button, Banner, Byline, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, Header, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, ProfileHeader, Section, SideSheet, SideSheetGroup, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
 import { PlusIcon, PlusSquareFillIcon, ChevronLeftIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, XIcon, BuildingIcon, BuildingFillIcon, ArrowDownIcon, ChevronRightIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, EllipsisHorizontalIcon, BellIcon, BellFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, StarFillIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
@@ -1252,6 +1252,57 @@ export const PREVIEWS = {
      should feel the slot grammar in action, not a single brand. Channel
      names stay neutral (plain capitalised phrases, no platform-specific
      prefixes) so the previews read across any community product. */
+
+  /* Byline — author / brand attribution cluster shared by Feed Post +
+     Feed Ad. Three demonstrations: default Post shape (avatar + name +
+     timestamp + meta link row), with follow toggle, and Sponsored (Ad
+     subtitle + dismiss trailing). */
+  'feed/byline-default': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Byline
+          avatar={{ src: IMG.breadAvatar, alt: 'Sourdough Bakers' }}
+          name="Sourdough Bakers"
+          nameHref="#"
+          timestamp="2h"
+          meta={['Brooklyn, NY', 'Home baker', '@crustcrumb']}
+        />
+      </Frame>
+    ),
+  },
+  'feed/byline-with-follow': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Byline
+          avatar={{ src: IMG.gameAvatar, alt: 'Indie Game Devs' }}
+          name="Indie Game Devs"
+          nameHref="#"
+          timestamp="4h"
+          followAction
+          meta={['Solo dev', 'First release', '@sidequest']}
+        />
+      </Frame>
+    ),
+  },
+  'feed/byline-sponsored': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Byline
+          avatar={{ src: IMG.modAvatar, alt: 'Acme Coffee' }}
+          name="Acme Coffee"
+          subtitle="Sponsored"
+          trailing={
+            <button type="button" aria-label="Dismiss ad" style={{ all: 'unset', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', color: 'var(--sys-color-onSurfaceVariant)' }}>
+              <XIcon size={16} />
+            </button>
+          }
+        />
+      </Frame>
+    ),
+  },
   'feed/post-default': {
     states: false,
     render: () => (
@@ -2291,6 +2342,26 @@ export const PREVIEWS = {
           items={[
             { value: 'sourdough', label: 'Sourdough Bakers', supportingText: '3 new posts today',  thumbnail: { src: IMG.breadAvatar,  alt: 'Sourdough Bakers' } },
             { value: 'indiedev',  label: 'Indie Game Devs',  supportingText: '12 new posts today', thumbnail: { src: IMG.gameAvatar,   alt: 'Indie Game Devs' } },
+            { value: 'plants',    label: 'Plant People',     supportingText: 'No new posts',       thumbnail: { src: IMG.plantAvatar,  alt: 'Plant People' } },
+          ]}
+        />
+      </Frame>
+    ),
+  },
+
+  /* List — thumbnail without divider on the middle row. Demonstrates
+     the per-row `divider: false` opt-out — the second row's hairline
+     bottom rule disappears while the row's footprint and inline
+     padding stay unchanged. */
+  'list/thumbnail-without-divider': {
+    states: false,
+    render: () => (
+      <Frame>
+        <List
+          variant="thumbnail"
+          items={[
+            { value: 'sourdough', label: 'Sourdough Bakers', supportingText: '3 new posts today',  thumbnail: { src: IMG.breadAvatar,  alt: 'Sourdough Bakers' } },
+            { value: 'indiedev',  label: 'Indie Game Devs',  supportingText: '12 new posts today', thumbnail: { src: IMG.gameAvatar,   alt: 'Indie Game Devs' }, divider: false },
             { value: 'plants',    label: 'Plant People',     supportingText: 'No new posts',       thumbnail: { src: IMG.plantAvatar,  alt: 'Plant People' } },
           ]}
         />

@@ -125,14 +125,14 @@
     },
     "avatar": {
       "required": false,
-      "description": "Thumbnail at size 32 — delegated verbatim.",
+      "description": "Thumbnail at size 32 — delegated verbatim. Painted by the shared [Byline](./byline.md) cluster (avatar + channel name + timestamp + meta row).",
       "accepts": [
         "thumbnail"
       ]
     },
     "channel": {
       "required": true,
-      "description": "Channel / author name, rendered as an `<a>` link to the channel page. 12px / Semibold / onSurface. No underline at rest; hover underlines the link alone; focus paints a hairline `sys.color.focus` outline at `sys.radius.xs`.",
+      "description": "Channel / author name, rendered by the [Byline](./byline.md) cluster as an `<a>` link to the channel page. 12px / Semibold / onSurface. No underline at rest; hover underlines the link alone; focus paints a hairline `sys.color.focus` outline at `sys.radius.xs`.",
       "accepts": [
         "text"
       ]
@@ -226,7 +226,7 @@
     "metaTypo": "12 / Regular",
     "metaColor": "sys.color.onSurfaceVariant",
     "metaSeparatorGap": "sys.layout.inline.sm",
-    "titleBodyGap": "8px",
+    "titleBodyGap": "ref.space.100",
     "titleTypo": "sys.typo.heading.sm",
     "titleColor": "sys.color.onSurface",
     "containerBottomDividerWidth": "sys.borderWidth.hairline",
@@ -261,9 +261,9 @@
   "poll": {
     "fill": "sys.color.surfaceVariant",
     "radius": "sys.radius.md",
-    "paddingBlock": "12px",
-    "paddingInline": "16px",
-    "minHeight": "48px",
+    "paddingBlock": "ref.space.150",
+    "paddingInline": "ref.space.200",
+    "minHeight": "ref.space.600",
     "bodyTypo": "14",
     "glyph": "PollFillIcon",
     "glyphColor": "sys.color.brand",
@@ -274,9 +274,9 @@
   "offer": {
     "fill": "sys.color.surfaceVariant",
     "radius": "sys.radius.md",
-    "paddingBlock": "12px",
-    "paddingInline": "16px",
-    "minHeight": "48px",
+    "paddingBlock": "ref.space.150",
+    "paddingInline": "ref.space.200",
+    "minHeight": "ref.space.600",
     "bodyTypo": "14",
     "glyph": "CompensationFillIcon",
     "glyphColor": "sys.color.success",
@@ -295,14 +295,14 @@
     "outerRadius": "sys.radius.md",
     "heroWidth": "120px",
     "heroBleed": "Flush against the card's leading edge — no container padding, no inter-column gap.",
-    "textColumnPadding": "12px",
-    "titleSourceGap": "8px",
-    "allTextSize": "12px",
+    "textColumnPadding": "ref.space.150",
+    "titleSourceGap": "ref.space.100",
+    "allTextSize": "ref.space.150",
     "titleStyle": "Semibold / onSurface",
     "sourceStyle": "Regular / onSurfaceVariant",
     "sourceMarkSize": "16 × 16",
-    "sourceMarkRadius": "4px",
-    "sourceMarkGap": "4px"
+    "sourceMarkRadius": "ref.space.50",
+    "sourceMarkGap": "ref.space.50"
   },
   "mention": {
     "typo": "sys.typo.body.sm",
