@@ -1,8 +1,10 @@
 # Accordion
 
-A vertical stack of expandable rows. Each item exposes a trigger header (label + auto-rendered trailing chevron that rotates `180°` on expand) and a content body that paints below it when open. Rows tile flush with a hairline `outlineVariant` divider between them.
+Expandable-row List sub-component. Each item exposes a List-row trigger (label + auto-rendered trailing chevron that rotates `180°` on expand) and a content body that paints below it when open. Rows tile flush with the family-wide hairline `outlineVariant` divider between them; an additional hairline rule paints between the open trigger and its child row group.
 
-**Reach for this when** a list of titled sections is too long to keep open at once — FAQs, T&C sections, expandable filter groups, settings groups with infrequent edits. **Skip when** the bodies are short enough to read inline (use [Section](../section/section.md) per group), the user needs to act on the labels rather than read into them (use [List/nav](../list/nav.md) or [List/radio](../list/radio.md)), or every item should be visible at once with no toggle (stack [Section](../section/section.md)s).
+**Reach for this when** a list of titled sections is too long to keep open at once — FAQs, T&C sections, expandable filter groups, settings groups with infrequent edits, hierarchical menus (companies → channels, regions → cities, categories → entries). **Skip when** the bodies are short enough to read inline (use [Section](../section/section.md) per group), the user needs to act on the labels rather than read into them (use [List/nav](./nav.md) or [List/radio](./radio.md)), or every item should be visible at once with no toggle (stack [Section](../section/section.md)s).
+
+Row geometry, label typography, divider, state overlays, and inward focus ring all delegate to the [family-wide rules](./list.md); this sub documents only the expand/collapse contract and the top group-divider that separates the open trigger from its child rows.
 
 **Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge. Each row pays its own `16px inline / 8px block` padding via `layout.container.*`. Do **not** wrap in another `padding-inline` / `px-*` / `style={{ padding: … }}` div — the page rail will double-pay. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
@@ -52,6 +54,57 @@ import { Accordion } from '@blind-dsai/ui';
 </Accordion>
 ```
 
+### Nested list
+
+When the expanded body holds a same-kind row group rather than prose — directory sub-entries, settings sub-options, filter children, menu sub-items — drop a `<List>` straight into the content slot with `embedded={true}` so the list defers its own chrome to the host. The content body paints a hairline `outlineVariant` divider at the TOP of the child group (inset 16px on both inline edges, matching the inter-item divider rule) so the parent trigger and the child rows read as a parent ↔ child hierarchy, not as one tiled stack.
+
+```preview
+accordion/nested-list
+---
+import { Accordion, List } from '@blind-dsai/ui';
+
+<Accordion type="single" defaultValue="invest-cast" aria-label="Company directory">
+  <Accordion.Item value="invest-fund" label="Invest Fund">
+    <List
+      variant="text"
+      embedded
+      aria-label="Invest Fund roles"
+      items={[
+        { value: 'invest-fund-analyst',    label: 'Invest Fund + Analyst' },
+        { value: 'invest-fund-associate',  label: 'Invest Fund + Associate' },
+        { value: 'invest-fund-partner',    label: 'Invest Fund + Partner' },
+      ]}
+    />
+  </Accordion.Item>
+  <Accordion.Item value="invest-cast" label="Invest Cast">
+    <List
+      variant="text"
+      embedded
+      aria-label="Invest Cast roles"
+      items={[
+        { value: 'invest-cast-acctg',      label: 'Invest Cast + Acctg' },
+        { value: 'invest-cast-admin',      label: 'Invest Cast + Admin' },
+        { value: 'invest-cast-biz-dev',    label: 'Invest Cast + Biz Dev' },
+        { value: 'invest-cast-consultant', label: 'Invest Cast + Consultant' },
+        { value: 'invest-cast-creative',   label: 'Invest Cast + Creative' },
+      ]}
+    />
+  </Accordion.Item>
+  <Accordion.Item value="invest-financial" label="INVEST Financial Corporation">
+    <List
+      variant="text"
+      embedded
+      aria-label="INVEST Financial Corporation roles"
+      items={[
+        { value: 'invest-fin-advisor',   label: 'INVEST Financial + Advisor' },
+        { value: 'invest-fin-compliance',label: 'INVEST Financial + Compliance' },
+        { value: 'invest-fin-ops',       label: 'INVEST Financial + Ops' },
+      ]}
+    />
+  </Accordion.Item>
+</Accordion>
+```
+
 ### Disabled item
 
 A `disabled` row fades to `sys.state.disabled` opacity and ignores click / keyboard activation. Stays in the DOM so surrounding items keep their stable index.
@@ -77,23 +130,24 @@ import { Accordion } from '@blind-dsai/ui';
 ## Slots
 
 - **container** — outer stack. Transparent fill so the host surface tone reads through. `role="region"` carries the accordion's accessible name (`aria-label`).
-- **item** — single expandable row. Hairline `outlineVariant` divider inset 16px (`layout.container.md`) on **both** the leading and trailing edges, painted as an absolutely-positioned `::after` overlay on every row except the last.
-- **trigger** — header button. Holds the label and the auto-rendered trailing chevron. `aria-expanded` reflects open-state, `aria-controls` references the content region.
-- **label** — trigger label. `body.sm` / Semibold / `onSurface`. Wraps to a second line; no truncation.
+- **item** — single expandable row. Hairline `outlineVariant` divider inset 16px (`layout.container.md`) on **both** the leading and trailing edges, painted as an absolutely-positioned `::after` overlay on every row except the last — matching the family-wide List row divider rule.
+- **trigger** — header button. Holds the label and the auto-rendered trailing chevron. Same geometry as a List row (48px min-height, 8px block / 16px inline padding). `aria-expanded` reflects open-state, `aria-controls` references the content region.
+- **label** — trigger label. **`16px / Regular / onSurface`** — matches the List family `label` spec exactly so the trigger reads as a List row that happens to expand. Wraps to a second line; no truncation.
 - **chevron** — auto-rendered 16px `ChevronDownIcon`. Rotates from `0°` to `180°` over 120ms `ease-out` on expand. Decorative.
-- **content** — body region. Paints below the trigger when open; toggled via the `hidden` attribute when closed. **Indented an extra 16px on the leading edge** so the body reads as nested INSIDE the trigger's label column (total inline padding: `32px leading / 16px trailing`). Carries a `min-height: 40px` so short single-line bodies keep a touch-target rhythm.
+- **content** — body region. Paints below the trigger when open; toggled via the `hidden` attribute when closed. **Indented an extra 16px on the leading edge** so the body reads as nested INSIDE the trigger's label column (total inline padding: `32px leading / 16px trailing`). Carries a `min-height: 40px` so short single-line bodies keep a touch-target rhythm. When the body hosts a child row group (`<List embedded>`), a hairline `outlineVariant` divider paints at the TOP of the body via a `::before` overlay (inset 16px on both inline edges) so the parent trigger and the child rows read as a parent ↔ child hierarchy. Prose bodies omit the top divider — the leading indent alone communicates nesting.
 
 ## Anatomy
 
 | Slot          | Token bindings |
 |---------------|----------------|
 | container     | Transparent fill, no padding (full-bleed, edge-to-edge) |
-| item          | Hairline `outlineVariant` divider inset 16px on both inline edges, omitted on the last row |
+| item          | Hairline `outlineVariant` divider inset 16px on both inline edges, omitted on the last row — family-wide List divider |
 | trigger       | 48px min-height, 8px block / 16px inline padding, full-row click target |
-| label         | `sys.typo.body.sm` (14 / Semibold), `onSurface` |
+| label         | **`16 / Regular`, `onSurface`** — matches the List `label` spec |
 | chevron       | 16 × 16, `onSurfaceVariant`, rotates 0° → 180° over 120ms `ease-out` |
-| content       | 8px block padding, `32px leading / 16px trailing` inline padding (one extra `layout.container.md` of inset to read as nested), `min-height: 40px`, `sys.typo.body.sm` (14 / Regular) at `onSurfaceVariant` |
+| content       | 8px block padding, `32px leading / 16px trailing` inline padding (one extra `layout.container.md` of inset to read as nested), `min-height: 40px`, `16 / Regular` at `onSurfaceVariant` |
 | divider       | `sys.borderWidth.hairline` × `sys.color.outlineVariant`, inset 16px on both inline edges via `::after` overlay |
+| groupDivider  | `sys.borderWidth.hairline` × `sys.color.outlineVariant`, inset 16px on both inline edges via `::before` overlay on the content body, painted ONLY when the body hosts a `<List embedded>` child group |
 
 ## Appearance
 
@@ -115,8 +169,9 @@ Inward 3-layer ring painted inside the trigger's footprint via a `::before` over
 ## Behavior
 
 - **Edge-to-edge composition.** `layoutInset: full-bleed` — direct child of the page shell. Wrapping in another `padding-inline` / `px-*` div double-pays the rail. Use the negative-margin opt-out inside a bounded surface.
-- **Inset divider.** 1px `outlineVariant` rule inset 16px on both inline edges so it reads as separating row *content*, not the container.
+- **Inset divider.** 1px `outlineVariant` rule inset 16px on both inline edges so it reads as separating row *content*, not the container — same as every other List sub.
 - **Indented content.** Expanded body sits one extra 16px in from the trigger's label edge for parent ↔ child hierarchy.
+- **Child list groups carry a top divider.** When the open body hosts a `<List embedded>`, a hairline `outlineVariant` rule paints at the top edge of the body (inset 16px on both edges) so the parent trigger and the child list rows read as parent ↔ child — never one tiled stack. Prose bodies omit the rule (the leading indent is enough).
 - **Whole trigger header is the click target.** Chevron is decorative.
 - **Element swap.** Trigger is `<button>`; content region is `<div role="region">` with `hidden` toggled.
 - **Keyboard.** Space / Enter toggle. Arrow up/down moves focus between triggers.

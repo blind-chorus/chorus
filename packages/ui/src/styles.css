@@ -374,8 +374,8 @@ textarea {
   --chip-bg: transparent;
   --chip-label: var(--sys-color-onSurface);
   --chip-border-color: var(--sys-color-outlineVariant);
-  /* 32 capsule — anatomy contract, not a spacing token. */
-  --chip-min-height: 32px;
+  /* 32 capsule — anatomy rung, resolved via ref.space. */
+  --chip-min-height: var(--ref-space-400);
   --chip-padding-block: var(--sys-layout-container-2xs);
   --chip-padding-inline: var(--sys-layout-container-sm);
   --chip-radius: var(--sys-radius-full);
@@ -421,8 +421,8 @@ textarea {
   --chip-bg: var(--sys-color-primary);
   --chip-label: var(--sys-color-onPrimary);
   --chip-border-color: transparent;
-  /* 32 capsule — same geometry as Filter, anatomy contract. */
-  --chip-min-height: 32px;
+  /* 32 capsule — same geometry as Filter, anatomy rung. */
+  --chip-min-height: var(--ref-space-400);
   --chip-padding-block: var(--sys-layout-container-2xs);
   --chip-padding-inline: var(--sys-layout-container-sm);
   --chip-radius: var(--sys-radius-full);
@@ -443,8 +443,8 @@ textarea {
   --chip-bg: var(--ref-palette-black-200);
   --chip-label: var(--sys-color-onSurface);
   --chip-border-color: transparent;
-  /* 24 capsule — Tag rung, anatomy contract. */
-  --chip-min-height: 24px;
+  /* 24 capsule — Tag rung, anatomy via ref.space. */
+  --chip-min-height: var(--ref-space-300);
   --chip-padding-block: var(--sys-layout-container-2xs);
   --chip-padding-inline: var(--sys-layout-container-xs);
   --chip-radius: var(--sys-radius-sm);
@@ -1052,11 +1052,11 @@ span.chorus-chip {
 
 /* 80px thumbnail rung is an anatomy slot dimension — the Feed family's
    fixed post-thumbnail footprint. Same exception kind as Thumbnail's 48
-   rung; not a layout decision, not a token. */
+   rung; resolved via ref.space.1000 so the value sits on the scale. */
 .chorus-feed__thumbnail {
-  flex: 0 0 80px;
-  width: 80px;
-  height: 80px;
+  flex: 0 0 var(--ref-space-1000);
+  width: var(--ref-space-1000);
+  height: var(--ref-space-1000);
   border-radius: var(--sys-radius-md);
   background: var(--sys-color-surfaceContainerHigh);
   position: relative;
@@ -1103,7 +1103,7 @@ span.chorus-chip {
   padding: var(--sys-layout-container-sm) var(--sys-layout-container-md);
   /* Touch-target floor — same 48 rung used by List rows, kept as an
      intrinsic anatomy dimension (not a layout token). */
-  min-height: 48px;
+  min-height: var(--ref-space-600);
   background: var(--sys-color-surfaceVariant);
   border-radius: var(--sys-radius-md);
   font-size: var(--sys-typo-body-sm-size);
@@ -1360,8 +1360,8 @@ span.chorus-chip {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: var(--ref-space-300);
+  height: var(--ref-space-300);
   color: var(--sys-color-onSurfaceVariant);
   flex: 0 0 auto;
 }
@@ -1725,8 +1725,8 @@ span.chorus-chip {
 }
 
 .chorus-post-carousel__dot {
-  width: 6px;
-  height: 6px;
+  width: var(--ref-space-75);
+  height: var(--ref-space-75);
   border-radius: var(--sys-radius-full);
   background: var(--sys-color-outlineVariant);
   display: block;
@@ -1967,8 +1967,8 @@ span.chorus-chip {
 }
 
 .chorus-profile-carousel__dot {
-  width: 6px;
-  height: 6px;
+  width: var(--ref-space-75);
+  height: var(--ref-space-75);
   border-radius: var(--sys-radius-full);
   background: var(--sys-color-outlineVariant);
   display: block;
@@ -2078,7 +2078,7 @@ span.chorus-chip {
   padding: var(--sys-layout-container-xs) var(--sys-layout-container-md);
   /* Touch-target floor — the row's minimum tap height. Anatomy
      dimension, not a layout token. */
-  min-height: 48px;
+  min-height: var(--ref-space-600);
   box-sizing: border-box;
   cursor: pointer;
   color: var(--sys-color-onSurface);
@@ -2231,12 +2231,16 @@ span.chorus-chip {
    because NavCard sits as its own surface with margin to siblings. */
 .chorus-nav-card {
   display: flex;
+  /* Every slot — leading, label-col, trailing — block-centres on the row's
+     vertical midline. Two-line cards (label + supportingText) keep the same
+     contract: the label-col centres as a block, leading / trailing centre
+     against that block, all share one midline. */
   align-items: center;
   gap: var(--sys-layout-inline-md);
   padding: var(--sys-layout-container-xs) var(--sys-layout-container-md);
   /* Touch-target floor — minimum tap height. Anatomy dimension, not a
      layout token. */
-  min-height: 48px;
+  min-height: var(--ref-space-600);
   width: 100%;
   box-sizing: border-box;
   /* Default appearance is transparent — the card's identity is the
@@ -2332,6 +2336,10 @@ span.chorus-chip {
   cursor: not-allowed;
 }
 
+/* Leading slot — block-centred on the row's vertical midline (both 16-icon
+   and 32-thumbnail leading share the same contract). Inherits the row's
+   `align-items: center` so the slot's centre lines up with the label-col's
+   centre regardless of one-line / two-line body. */
 .chorus-nav-card__leading {
   display: inline-flex;
   align-items: center;
@@ -2608,7 +2616,7 @@ span.chorus-chip {
 
 .chorus-suggestion-list__row--pad {
   visibility: hidden;
-  height: 48px;
+  height: var(--ref-space-600);
 }
 
 .chorus-suggestion-list__row--pad::after {
@@ -2706,22 +2714,26 @@ span.chorus-chip {
   background: var(--ref-palette-white-200);
 }
 
-/* Leading icon slot — a 24 × 24 glyph that paints in the banner's
-   foreground (`currentColor`), so the mark reads as part of the body
-   copy rather than as a standalone illustration. Top-aligned via the
-   container's `align-items: flex-start`. */
+/* Leading icon slot — a 16 × 16 glyph (`sys.icon.md`) that paints in
+   the banner's foreground (`currentColor`), so the mark reads as part
+   of the body copy rather than as a standalone illustration. The slot
+   takes the body.sm line-box height so the 16-glyph centers on the
+   first line of the body — multi-line bodies still keep the icon
+   anchored to the first-line cap, not floating to the block center. */
 .chorus-banner__icon {
-  flex: 0 0 var(--sys-icon-lg);
-  width: var(--sys-icon-lg);
-  height: var(--sys-icon-lg);
-  display: block;
+  flex: 0 0 var(--sys-icon-md);
+  width: var(--sys-icon-md);
+  height: calc(var(--sys-typo-body-sm-size) * var(--sys-typo-body-sm-line));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: currentColor;
 }
 
 .chorus-banner__icon img,
 .chorus-banner__icon svg {
-  width: 100%;
-  height: 100%;
+  width: var(--sys-icon-md);
+  height: var(--sys-icon-md);
   display: block;
   color: currentColor;
 }
@@ -2909,12 +2921,12 @@ span.chorus-chip {
   max-height: none;
 }
 
-/* 48 × 4px handle pill is an anatomy contract — not a layout token,
-   because the handle is a fixed grabber chip, not a content slot. */
+/* 48 × 4px handle pill — anatomy rung resolved via ref.space.600 / ref.space.50.
+   Not a layout token, because the handle is a fixed grabber chip, not a content slot. */
 .chorus-bottom-sheet__handle {
   flex: 0 0 auto;
-  width: 48px;
-  height: 4px;
+  width: var(--ref-space-600);
+  height: var(--ref-space-50);
   margin: var(--sys-layout-container-xs) auto;
   border-radius: var(--sys-radius-full);
   background: color-mix(in srgb, var(--sys-color-onSurfaceVariant) 40%, transparent);
@@ -2982,9 +2994,10 @@ span.chorus-chip {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* 40px scrim ↔ card gutter is an anatomy contract — not a layout
-     token, because the page gutter never reaches into a modal. */
-  padding: 40px;
+  /* 40px scrim ↔ card gutter is a modal-anatomy rung — not a layout
+     token (the page gutter never reaches into a modal), but it still
+     resolves through ref.space.500 so the value sits on the scale. */
+  padding: var(--ref-space-500);
   background: var(--ref-palette-black-600);
 }
 
@@ -2994,7 +3007,7 @@ span.chorus-chip {
   z-index: auto;
   width: 100%;
   min-height: 100%;
-  padding: var(--sys-layout-container-2xl) 40px;
+  padding: var(--sys-layout-container-2xl) var(--ref-space-500);
 }
 
 /* 480px max-width is an anatomy contract — not a layout token. */
@@ -3810,7 +3823,7 @@ span.chorus-chip {
 .chorus-button--text {
   /* Per-size plumbing — appearance + size modifiers override these. */
   --button-text-label: var(--sys-color-onSurfaceVariant);
-  --button-text-min-height: 40px;
+  --button-text-min-height: var(--ref-space-500);
   --button-text-padding-block: var(--sys-layout-container-xs);
   --button-text-padding-inline: var(--sys-layout-container-xs);
   --button-text-icon-size: var(--sys-icon-md);
@@ -3868,7 +3881,7 @@ span.chorus-chip {
 
 /* Size modifiers — pair min-height + padding + typo + icon footprint. */
 .chorus-button--text--size-medium {
-  --button-text-min-height: 40px;
+  --button-text-min-height: var(--ref-space-500);
   --button-text-padding-block: var(--sys-layout-container-xs);
   --button-text-padding-inline: var(--sys-layout-container-xs);
   --button-text-icon-size: var(--sys-icon-md);
@@ -3878,7 +3891,7 @@ span.chorus-chip {
   --button-text-font-tracking: var(--sys-typo-heading-sm-tracking);
 }
 .chorus-button--text--size-small {
-  --button-text-min-height: 32px;
+  --button-text-min-height: var(--ref-space-400);
   --button-text-padding-block: var(--sys-layout-container-2xs);
   --button-text-padding-inline: var(--sys-layout-container-xs);
   --button-text-icon-size: var(--sys-icon-md);
@@ -3888,7 +3901,7 @@ span.chorus-chip {
   --button-text-font-tracking: var(--sys-typo-label-md-tracking);
 }
 .chorus-button--text--size-xsmall {
-  --button-text-min-height: 24px;
+  --button-text-min-height: var(--ref-space-300);
   --button-text-padding-block: var(--sys-layout-container-2xs);
   --button-text-padding-inline: var(--sys-layout-container-xs);
   --button-text-icon-size: var(--sys-icon-md);
@@ -3961,7 +3974,7 @@ span.chorus-chip {
 .chorus-button--check {
   /* Per-size plumbing. */
   --button-check-label: var(--sys-color-onSurfaceVariant);
-  --button-check-min-height: 40px;
+  --button-check-min-height: var(--ref-space-500);
   --button-check-padding-block: var(--sys-layout-container-xs);
   --button-check-padding-inline: var(--sys-layout-container-xs);
   --button-check-checkbox-size: var(--sys-icon-lg);
@@ -4006,7 +4019,7 @@ span.chorus-chip {
    with a 24px checkbox at 40 min-height; small drops the checkbox to 16px
    at 32 min-height. The optional middle icon stays at 16px on both. */
 .chorus-button--check--size-medium {
-  --button-check-min-height: 40px;
+  --button-check-min-height: var(--ref-space-500);
   --button-check-padding-block: var(--sys-layout-container-xs);
   --button-check-padding-inline: var(--sys-layout-container-xs);
   --button-check-checkbox-size: var(--sys-icon-lg);
@@ -4017,7 +4030,7 @@ span.chorus-chip {
   --button-check-font-tracking: var(--sys-typo-label-sm-tracking);
 }
 .chorus-button--check--size-small {
-  --button-check-min-height: 32px;
+  --button-check-min-height: var(--ref-space-400);
   --button-check-padding-block: var(--sys-layout-container-2xs);
   --button-check-padding-inline: var(--sys-layout-container-xs);
   --button-check-checkbox-size: var(--sys-icon-md);
@@ -4139,7 +4152,7 @@ span.chorus-chip {
      the slot (without it, `white-space: nowrap` text would push the
      item's intrinsic min-content size and break the equal split). */
   flex: 1 1 0;
-  max-width: 80px;
+  max-width: var(--ref-space-1000);
   min-width: 0;
   box-sizing: border-box;
   appearance: none;
@@ -4298,7 +4311,7 @@ span.chorus-chip {
   display: inline-flex;
   align-items: center;
   gap: var(--sys-layout-inline-xl);
-  min-height: 48px;
+  min-height: var(--ref-space-600);
   /* Content-driven width up to 400px — beyond that the body wraps so the
      strip stays a recognisable shape rather than a banner. The
      `100vw - 16px` cap honours the 8-token safe area on each side; on a
@@ -4369,7 +4382,7 @@ span.chorus-chip {
   align-items: center;
   row-gap: var(--ref-space-75);
   column-gap: var(--ref-space-150);
-  min-height: 32px;
+  min-height: var(--ref-space-400);
   max-width: 240px;
   padding: var(--sys-layout-container-sm);
   border-radius: var(--sys-radius-lg);
@@ -4419,8 +4432,8 @@ span.chorus-chip {
    as an outer margin / translate when placing the bubble). */
 .chorus-tooltip__caret {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: var(--ref-space-100);
+  height: var(--ref-space-100);
   background: inherit;
 }
 
@@ -4588,20 +4601,20 @@ span.chorus-chip {
 
 .chorus-skeleton--text {
   width: 100%;
-  height: 16px;
+  height: var(--ref-space-200);
   border-radius: var(--sys-radius-xs);
 }
 
 .chorus-skeleton--block {
   width: 100%;
-  height: 80px;
+  height: var(--ref-space-1000);
   border-radius: var(--sys-radius-xs);
 }
 
 .chorus-skeleton--circle {
-  width: 40px;
-  height: 40px;
-  border-radius: 9999px;
+  width: var(--ref-space-500);
+  height: var(--ref-space-500);
+  border-radius: var(--sys-radius-full);
 }
 
 .chorus-skeleton-group {
@@ -4637,10 +4650,10 @@ span.chorus-chip {
   display: inline-flex;
   align-items: center;
   width: 52px;
-  height: 32px;
+  height: var(--ref-space-400);
   padding: 0;
   border: 0;
-  border-radius: 9999px;
+  border-radius: var(--sys-radius-full);
   background: var(--switch-track-bg);
   /* Hairline rest stroke as an inset box-shadow so the off-track reads
      as a discrete affordance against a quiet host without paying any
@@ -4656,11 +4669,11 @@ span.chorus-chip {
 
 .chorus-switch__thumb {
   position: absolute;
-  top: 2px;
-  left: 2px;
+  top: var(--ref-space-25);
+  left: var(--ref-space-25);
   width: 28px;
   height: 28px;
-  border-radius: 9999px;
+  border-radius: var(--sys-radius-full);
   background: var(--switch-thumb-bg);
   transform: translateX(var(--switch-thumb-offset));
   transition:
@@ -4766,7 +4779,7 @@ span.chorus-chip {
   justify-content: space-between;
   gap: var(--sys-layout-inline-md);
   width: 100%;
-  min-height: 48px;
+  min-height: var(--ref-space-600);
   padding: var(--sys-layout-container-xs) var(--sys-layout-container-md);
   border: 0;
   background: transparent;
@@ -4778,13 +4791,16 @@ span.chorus-chip {
   transition: background 120ms ease;
 }
 
+/* Accordion is a List sub-component — the trigger label uses the family
+   `label` spec (16 / Regular / onSurface) so the trigger reads as a List
+   row that happens to expand, not a separate family. */
 .chorus-accordion__label {
   flex: 1 1 auto;
   min-width: 0;
-  font-size: var(--sys-typo-body-sm-size);
-  line-height: var(--sys-typo-body-sm-line);
-  font-weight: var(--sys-typo-label-md-weight);
-  letter-spacing: var(--sys-typo-body-sm-tracking);
+  font-size: var(--sys-typo-body-md-size);
+  line-height: var(--sys-typo-body-md-line);
+  font-weight: var(--sys-typo-body-md-weight);
+  letter-spacing: var(--sys-typo-body-md-tracking);
   color: var(--sys-color-onSurface);
 }
 
@@ -4859,14 +4875,25 @@ span.chorus-chip {
    label column, making the parent ↔ child hierarchy readable at a
    glance. Trailing edge stays at the row's 16px inline padding.
    `min-height: 40px` keeps short single-line bodies on a touch-target
-   rhythm and prevents collapsed-looking content rows. */
+   rhythm and prevents collapsed-looking content rows.
+
+   When the body hosts a child row group (`<List embedded>` or any
+   `[data-embedded="true"]` chrome-deferring full-bleed family), the
+   body paints a hairline `outlineVariant` divider at its TOP via a
+   `::before` overlay — see `&:has([data-embedded="true"])::before`
+   below. The rule is inset 16px on both inline edges, matching the
+   inter-item divider, and replaces the visual collapse where the
+   parent trigger and the first child row would otherwise tile flush.
+   Prose bodies (no embedded child) omit the rule — the leading indent
+   alone communicates nesting. */
 .chorus-accordion__content {
+  position: relative;
   padding:
     var(--sys-layout-container-xs)
     var(--sys-layout-container-md)
     var(--sys-layout-container-xs)
     calc(var(--sys-layout-container-md) * 2);
-  min-height: 40px;
+  min-height: var(--ref-space-500);
   box-sizing: border-box;
 }
 
@@ -4874,11 +4901,29 @@ span.chorus-chip {
   display: none;
 }
 
+/* Top group divider — painted only when the content body hosts an
+   embedded chrome-deferring child (List with `embedded` prop, nested
+   Accordion, etc.). Uses a `::before` overlay (no-layout stroke) so the
+   first child row's box and its inward focus ring are never disturbed;
+   a `border-top:` on the child container would reflow the row and break
+   the focus ring. The 16px inline inset mirrors the inter-item divider
+   so all hairline rules in the accordion share one rail. */
+.chorus-accordion__content:has([data-embedded='true'])::before {
+  content: '';
+  position: absolute;
+  left: var(--sys-layout-container-md);
+  right: var(--sys-layout-container-md);
+  top: 0;
+  height: var(--sys-borderWidth-hairline);
+  background: var(--sys-color-outlineVariant);
+  pointer-events: none;
+}
+
 .chorus-accordion__content-inner {
-  font-size: var(--sys-typo-body-sm-size);
-  line-height: var(--sys-typo-body-sm-line);
-  font-weight: var(--sys-typo-body-sm-weight);
-  letter-spacing: var(--sys-typo-body-sm-tracking);
+  font-size: var(--sys-typo-body-md-size);
+  line-height: var(--sys-typo-body-md-line);
+  font-weight: var(--sys-typo-body-md-weight);
+  letter-spacing: var(--sys-typo-body-md-tracking);
   color: var(--sys-color-onSurfaceVariant);
 }
 

@@ -1,8 +1,9 @@
 {
   "$schema": "../../spec.schema.json",
-  "name": "Accordion",
-  "family": "accordion",
-  "description": "Vertical stack of expandable rows. Each `Accordion.Item` renders a trigger header (label + auto-rendered 16px chevron that rotates from `0°` to `180°` on expand) over a content body that paints below when open. The family is **edge-to-edge** (`layoutInset: full-bleed`): the Accordion sits flush against the page rail and pays its own `16px inline / 8px block` row padding via `layout.container.*` — wrapping it in another padding-inline / px-* container double-pays the gutter. Rows tile flush with a hairline `outlineVariant` divider inset 16px on BOTH the leading and trailing edges. Expanded content is indented an additional 16px on the leading edge so it reads as nested INSIDE the trigger's label column, and carries a 40px min-height to keep short bodies on a touch-target rhythm. The chevron is decorative — the entire trigger header is the click target.",
+  "name": "List",
+  "family": "list",
+  "subcomponent": "accordion",
+  "description": "Expandable-row List sub-component. Each `Accordion.Item` renders a List-row trigger (label + auto-rendered 16px chevron that rotates `0°` → `180°` on expand) over a content body that paints below when open. Row geometry, typography, divider, state overlays, and inward focus ring all delegate to the [family-wide rules](./list.md); this sub adds the expand/collapse contract and the top group-divider that separates the open trigger from its child rows. The family stays **edge-to-edge** (`layoutInset: full-bleed`): rows pay their own `16px inline / 8px block` padding via `layout.container.*`. Expanded content is indented an additional 16px on the leading edge so the body reads as nested INSIDE the trigger's label column, and carries a 40px min-height to keep short bodies on a touch-target rhythm. The chevron is decorative — the entire trigger header is the click target.",
   "element": "div",
   "props": {
     "type": {
@@ -32,6 +33,11 @@
       "type": "boolean",
       "default": true,
       "description": "Single-mode only. When `false`, an open item cannot be collapsed by clicking its own trigger — one item is always open. Ignored when `type='multiple'`."
+    },
+    "embedded": {
+      "type": "boolean",
+      "default": false,
+      "description": "Composition mode flag inherited from the List family. When `true` (or when the Accordion is a direct child of `.chorus-section` / `.chorus-feed`), enters embedded mode — chrome defers to the host. See `compositionModes` in `list.family.json`."
     },
     "children": {
       "type": "node",
@@ -74,17 +80,17 @@
     },
     "item": {
       "required": true,
-      "description": "Single expandable row. Hairline `outlineVariant` divider inset 16px (`layout.container.md`) on BOTH the leading and trailing edges, painted as an absolutely-positioned `::after` overlay on every row except the last. `data-state='open' | 'closed'` reflects the current open-state.",
+      "description": "Single expandable row. Hairline `outlineVariant` divider inset 16px (`layout.container.md`) on BOTH the leading and trailing edges, painted as an absolutely-positioned `::after` overlay on every row except the last — matching the family-wide List row divider rule. `data-state='open' | 'closed'` reflects the current open-state.",
       "intrinsic": true
     },
     "trigger": {
       "required": true,
-      "description": "Header button. Holds the label and the auto-rendered trailing chevron. `role='button'`, `aria-expanded` reflects open-state, `aria-controls` references the content region.",
+      "description": "Header button. Holds the label and the auto-rendered trailing chevron. `role='button'`, `aria-expanded` reflects open-state, `aria-controls` references the content region. Same geometry as a List row (48px min-height, 8px block / 16px inline padding).",
       "intrinsic": true
     },
     "label": {
       "required": true,
-      "description": "Trigger label. `body.sm` / Semibold / `onSurface`. Wraps to a second line; no truncation.",
+      "description": "Trigger label. `16px / Regular / onSurface` — matches the List family `label` spec. Wraps to a second line; no truncation.",
       "accepts": ["text"]
     },
     "chevron": {
@@ -94,16 +100,20 @@
     },
     "content": {
       "required": true,
-      "description": "Body region. Paints below the trigger when open; uses `hidden` attribute when closed. Indented an extra `layout.container.md` (16px) on the LEADING edge so the body reads as nested inside the trigger's label column — total inline padding is `32px leading / 16px trailing`. Carries a `min-height: 40px` so short single-line bodies keep a touch-target rhythm.",
+      "description": "Body region. Paints below the trigger when open; uses `hidden` attribute when closed. Indented an extra `layout.container.md` (16px) on the LEADING edge so the body reads as nested inside the trigger's label column — total inline padding is `32px leading / 16px trailing`. Carries a `min-height: 40px` so short single-line bodies keep a touch-target rhythm. When the body hosts a child row group (`<List embedded>` or another `<Accordion embedded>`), the body paints a hairline `outlineVariant` divider at its TOP via a `::before` overlay (inset 16px on both inline edges, matching the inter-item divider rule) so the parent trigger and the child rows read as a parent ↔ child hierarchy. Prose bodies omit the top divider — the leading indent alone communicates nesting.",
       "accepts": ["text", "icon", "button", "list", "form-field"]
+    },
+    "groupDivider": {
+      "required": false,
+      "description": "Hairline `outlineVariant` rule painted at the TOP edge of the open content body via a `::before` overlay when the body hosts a `<List embedded>` (or any same-kind row group). Inset 16px (`layout.container.md`) on both inline edges, matching the inter-item divider. Distinguishes the parent trigger from the child group so the hierarchy reads visually. Omitted for prose bodies.",
+      "intrinsic": true
     }
   },
   "sizing": {
-    "triggerMinHeight": "48px",
+    "triggerMinHeight": "ref.space.600",
     "triggerPaddingBlock": "sys.layout.container.xs",
     "triggerPaddingInline": "sys.layout.container.md",
-    "triggerLabelTypo": "sys.typo.body.sm",
-    "triggerLabelWeight": "sys.typo.label.md.weight",
+    "triggerLabelTypo": "16 / Regular",
     "triggerLabelColor": "sys.color.onSurface",
     "chevronSize": "sys.icon.md",
     "chevronColor": "sys.color.onSurfaceVariant",
@@ -114,12 +124,15 @@
     "contentPaddingInlineStart": "calc(sys.layout.container.md * 2)",
     "contentPaddingInlineEnd": "sys.layout.container.md",
     "contentIndent": "sys.layout.container.md",
-    "contentMinHeight": "40px",
-    "contentBodyTypo": "sys.typo.body.sm",
+    "contentMinHeight": "ref.space.500",
+    "contentBodyTypo": "16 / Regular",
     "contentBodyColor": "sys.color.onSurfaceVariant",
     "dividerWidth": "sys.borderWidth.hairline",
     "dividerColor": "sys.color.outlineVariant",
-    "dividerInsetInline": "sys.layout.container.md"
+    "dividerInsetInline": "sys.layout.container.md",
+    "groupDividerWidth": "sys.borderWidth.hairline",
+    "groupDividerColor": "sys.color.outlineVariant",
+    "groupDividerInsetInline": "sys.layout.container.md"
   },
   "appearances": {
     "default": {
@@ -169,6 +182,10 @@
     "divider painted full-bleed (no inline inset) — the rule must be inset 16px on BOTH edges; a full-bleed rule reads as separating the container, not the rows",
     "chevron replaced with a plus / minus glyph — the family uses the rotating chevron contract; alt glyphs read as a different affordance (an add action, a remove action)",
     "content body painted with a chromatic fill (primaryContainer, etc.) — the body inherits the host surface tone; chromatic emphasis on an accordion body reads as a Banner aside, not a content section",
-    "destructive commit fired inline inside the content body without a Button wrapper — destructive commits open a Dialog / BottomSheet, never fire from a raw content link"
+    "destructive commit fired inline inside the content body without a Button wrapper — destructive commits open a Dialog / BottomSheet, never fire from a raw content link",
+    "child `<List>` dropped into the content body WITHOUT `embedded={true}` — the list keeps its own surface chrome + inline padding and double-pays the body's 32px leading indent, leaving child rows at a deeper inset than the trigger's label column. Use `embedded` so the list inherits the body's edges.",
+    "child list group rendered WITHOUT the top `outlineVariant` divider — the parent trigger and the first child row tile flush, collapsing the parent ↔ child hierarchy into one stack. The top divider is the visual contract that the group is nested, not co-equal.",
+    "top group divider replaced with a `border-top:` on the list container — `border` reflows the box and breaks the inward focus ring on the first list row. Paint via the body's `::before` overlay (no-layout stroke), never a layout border.",
+    "trigger label sized below 16px or set to Semibold — Accordion is a List sub and inherits the family `label` spec (`16 / Regular / onSurface`); a 14/Semibold trigger reads as a different family from the rows it nests"
   ]
 }

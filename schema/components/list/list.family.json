@@ -2,7 +2,7 @@
   "$schema": "../../family.schema.json",
   "family": "list",
   "name": "List",
-  "description": "Vertical list of rows. Four sub-components share one anatomy and diverge on the leading slot and the selection contract: `text` (display / navigation rows), `radio` (single-select picker with leading 16px radio indicator), `thumbnail` (avatar-anchored rows with leading 40px Thumbnail), `nav` (drill-in rows with auto-rendered trailing chevron).",
+  "description": "Vertical list of rows. Five sub-components share one anatomy and diverge on the leading slot, the selection contract, and the expand contract: `text` (display / navigation rows), `radio` (single-select picker with leading 16px radio indicator), `thumbnail` (avatar-anchored rows with leading 40px Thumbnail), `nav` (drill-in rows with auto-rendered trailing chevron), `accordion` (expandable rows with auto-rendered trailing chevron that rotates on expand, hosting a content body and optional nested `<List embedded>` group below the trigger).",
   "useCases": [
     "settings rows",
     "menu rows",
@@ -10,7 +10,11 @@
     "single-select option group",
     "drill-in navigation",
     "avatar-anchored rows",
-    "directory rows"
+    "directory rows",
+    "expandable rows",
+    "FAQ / policy sections",
+    "expandable filter groups",
+    "hierarchical menus (parent → child rows)"
   ],
   "visualReuse": "open",
   "layoutInset": "full-bleed",
@@ -55,6 +59,11 @@
       "slug": "nav",
       "spec": "nav.spec.json",
       "md": "nav.md"
+    },
+    {
+      "slug": "accordion",
+      "spec": "accordion.spec.json",
+      "md": "accordion.md"
     }
   ]
 }

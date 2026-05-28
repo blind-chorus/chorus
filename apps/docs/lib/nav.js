@@ -173,11 +173,6 @@ export const NAV = [
        component or sub. */
     items: [
       {
-        href: '/components/accordion',
-        label: 'Accordion',
-        wip: true,
-      },
-      {
         href: '/components/badge',
         label: 'Badge',
       },
@@ -248,10 +243,11 @@ export const NAV = [
         href: '/components/list',
         label: 'List',
         subs: [
-          { href: '/components/list/text',      label: 'Text' },
-          { href: '/components/list/radio',     label: 'Radio' },
-          { href: '/components/list/thumbnail', label: 'Thumbnail' },
+          { href: '/components/list/accordion', label: 'Accordion' },
           { href: '/components/list/nav',       label: 'Nav' },
+          { href: '/components/list/radio',     label: 'Radio' },
+          { href: '/components/list/text',      label: 'Text' },
+          { href: '/components/list/thumbnail', label: 'Thumbnail' },
         ],
       },
       {
@@ -270,7 +266,6 @@ export const NAV = [
       {
         href: '/components/progress',
         label: 'Progress',
-        wip: true,
       },
       {
         href: '/components/section',
@@ -287,17 +282,14 @@ export const NAV = [
       {
         href: '/components/skeleton',
         label: 'Skeleton',
-        wip: true,
       },
       {
         href: '/components/status-tag',
         label: 'Status tag',
-        wip: true,
       },
       {
         href: '/components/switch',
         label: 'Switch',
-        wip: true,
       },
       {
         href: '/components/tab-bar',

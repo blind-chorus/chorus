@@ -510,6 +510,15 @@ export const PREVIEWS = {
       <Button variant="icon" size={size} icon={<SearchIcon />} aria-label="Search" state="focused" />
     ),
   },
+  'button/icon/custom-color': {
+    states: false,
+    render: () => (
+      <div style={{ display: 'inline-flex', gap: 'var(--sys-layout-inline-xl)' }}>
+        <Button variant="icon" icon={<StarIcon />} aria-label="Favorite — inactive" style={{ color: 'var(--sys-color-onSurfaceVariant)' }} />
+        <Button variant="icon" icon={<StarIcon />} aria-label="Favorite — active"   style={{ color: 'var(--ref-palette-yellow-500)' }} />
+      </div>
+    ),
+  },
 
   /* Button → Text Button — link-shaped commit. Label-coloured Semibold
      text at rest (no fill, no border), state-overlay background on hover /
@@ -1812,7 +1821,7 @@ export const PREVIEWS = {
       <Frame>
         <Banner
           appearance="accent"
-          icon={<StarIcon size={24} />}
+          icon={<StarIcon size={16} />}
           action={{ label: 'How levels work', href: '#level' }}
         >
           Stay active in the community to level up and unlock more of what the app offers.
@@ -2067,9 +2076,9 @@ export const PREVIEWS = {
     ),
   },
 
-  /* NavCard — single bounded drill-in card. Outlined surface with label
-     + auto chevron; whole card is the drill-in tap target. Single-card
-     counterpart to list/nav (which stacks multiple rows). */
+  /* NavCard — single bounded card. `default` ships no trailing icon
+     (labelled tile); `nav` auto-renders the drill-in chevron. Whole card
+     is the tap target. Single-card counterpart to list/nav. */
   'nav-card/default': {
     states: false,
     render: () => (
@@ -2079,11 +2088,21 @@ export const PREVIEWS = {
     ),
   },
 
+  'nav-card/nav': {
+    states: false,
+    render: () => (
+      <Frame>
+        <NavCard variant="nav" label="Cell label here" href="#" />
+      </Frame>
+    ),
+  },
+
   'nav-card/supporting': {
     states: false,
     render: () => (
       <Frame>
         <NavCard
+          variant="nav"
           label="Saved posts"
           supportingText="47 posts across 9 channels"
           href="#"
@@ -2099,6 +2118,7 @@ export const PREVIEWS = {
         <NavCard
           label="Notifications"
           leading={<BellIcon size={16} />}
+          supportingText="3 unread mentions"
           href="#"
         />
       </Frame>
@@ -2110,6 +2130,7 @@ export const PREVIEWS = {
     render: () => (
       <Frame>
         <NavCard
+          variant="nav"
           label="Hyundai Motor"
           supportingText="Private · My company"
           leading={<Thumbnail size={32} alt="Hyundai" src={IMG.brandAuto} />}
@@ -2124,9 +2145,9 @@ export const PREVIEWS = {
     render: () => (
       <Frame>
         <NavCardGroup aria-label="Account">
-          <NavCard label="Profile" supportingText="Display name, avatar, bio" leading={<ProfileIcon size={16} />} href="#" />
-          <NavCard label="Saved posts" supportingText="47 posts across 9 channels" leading={<BookmarkIcon size={16} />} href="#" />
-          <NavCard label="Notifications" leading={<BellIcon size={16} />} href="#" />
+          <NavCard variant="nav" label="Profile"       supportingText="Display name, avatar, bio"     leading={<ProfileIcon size={16} />}  href="#" />
+          <NavCard variant="nav" label="Saved posts"   supportingText="47 posts across 9 channels"    leading={<BookmarkIcon size={16} />} href="#" />
+          <NavCard variant="nav" label="Notifications" leading={<BellIcon size={16} />} href="#" />
         </NavCardGroup>
       </Frame>
     ),
@@ -2144,9 +2165,9 @@ export const PREVIEWS = {
           }}
         >
           <NavCardGroup aria-label="Account">
-            <NavCard appearance="surface" label="Profile" supportingText="Display name, avatar, bio" leading={<ProfileIcon size={16} />} href="#" />
-            <NavCard appearance="surface" label="Saved posts" supportingText="47 posts across 9 channels" leading={<BookmarkIcon size={16} />} href="#" />
-            <NavCard appearance="surface" label="Notifications" leading={<BellIcon size={16} />} href="#" />
+            <NavCard variant="nav" appearance="surface" label="Profile"       supportingText="Display name, avatar, bio"     leading={<ProfileIcon size={16} />}  href="#" />
+            <NavCard variant="nav" appearance="surface" label="Saved posts"   supportingText="47 posts across 9 channels"    leading={<BookmarkIcon size={16} />} href="#" />
+            <NavCard variant="nav" appearance="surface" label="Notifications" leading={<BellIcon size={16} />} href="#" />
           </NavCardGroup>
         </div>
       </Frame>
@@ -2820,7 +2841,7 @@ export const PREVIEWS = {
               <Skeleton width="25%" />
             </SkeletonGroup>
           </div>
-          <Skeleton width="85%" height={20} />
+          <Skeleton width="85%" />
           <Skeleton />
           <Skeleton width="70%" />
           <Skeleton shape="block" height={180} />
@@ -2928,6 +2949,59 @@ export const PREVIEWS = {
           </Accordion.Item>
           <Accordion.Item value="notifications" label="Notifications">
             Email, push, and in-app notification preferences.
+          </Accordion.Item>
+        </Accordion>
+      </Frame>
+    ),
+  },
+
+  /* Accordion → Nested list — expanded body holds a <List embedded> child
+     group. The body paints a hairline outlineVariant divider at the TOP
+     via a ::before overlay so parent trigger ↔ child rows read as a
+     hierarchy. Five-child case mirrors the "Invest Cast + Acctg / Admin /
+     Biz Dev / Consultant / Creative" directory shape. */
+  'accordion/nested-list': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Accordion type="single" defaultValue="invest-cast" aria-label="Company directory">
+          <Accordion.Item value="invest-fund" label="Invest Fund">
+            <List
+              variant="text"
+              embedded
+              aria-label="Invest Fund roles"
+              items={[
+                { value: 'invest-fund-analyst',   label: 'Invest Fund + Analyst' },
+                { value: 'invest-fund-associate', label: 'Invest Fund + Associate' },
+                { value: 'invest-fund-partner',   label: 'Invest Fund + Partner' },
+              ]}
+            />
+          </Accordion.Item>
+          <Accordion.Item value="invest-cast" label="Invest Cast">
+            <List
+              variant="text"
+              embedded
+              aria-label="Invest Cast roles"
+              items={[
+                { value: 'invest-cast-acctg',      label: 'Invest Cast + Acctg' },
+                { value: 'invest-cast-admin',      label: 'Invest Cast + Admin' },
+                { value: 'invest-cast-biz-dev',    label: 'Invest Cast + Biz Dev' },
+                { value: 'invest-cast-consultant', label: 'Invest Cast + Consultant' },
+                { value: 'invest-cast-creative',   label: 'Invest Cast + Creative' },
+              ]}
+            />
+          </Accordion.Item>
+          <Accordion.Item value="invest-financial" label="INVEST Financial Corporation">
+            <List
+              variant="text"
+              embedded
+              aria-label="INVEST Financial Corporation roles"
+              items={[
+                { value: 'invest-fin-advisor',    label: 'INVEST Financial + Advisor' },
+                { value: 'invest-fin-compliance', label: 'INVEST Financial + Compliance' },
+                { value: 'invest-fin-ops',        label: 'INVEST Financial + Ops' },
+              ]}
+            />
           </Accordion.Item>
         </Accordion>
       </Frame>
@@ -3180,9 +3254,9 @@ export const PREVIEWS = {
               density="compact"
               aria-label="Favorite channels"
               items={[
-                { value: 'sourdough', label: 'Sourdough Bakers',   thumbnail: { src: IMG.breadAvatar, alt: 'Sourdough Bakers' },   count: <Badge size="small" count={12} />,  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarFillIcon />} onClick={() => {}} /> },
-                { value: 'stocks',    label: 'Stocks & Investing', thumbnail: { src: IMG.brandChip,   alt: 'Stocks & Investing' }, count: <Badge size="small" count={142} />, trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarFillIcon />} onClick={() => {}} /> },
-                { value: 'movies',    label: 'Movie Talk',         thumbnail: { src: IMG.cinemaAvatar, alt: 'Movie Talk' },        count: <Badge size="small" count={24} />,  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarFillIcon />} onClick={() => {}} /> },
+                { value: 'sourdough', label: 'Sourdough Bakers',   thumbnail: { src: IMG.breadAvatar, alt: 'Sourdough Bakers' },   count: <Badge size="small" count={12} />,  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--ref-palette-yellow-500)' }} onClick={() => {}} /> },
+                { value: 'stocks',    label: 'Stocks & Investing', thumbnail: { src: IMG.brandChip,   alt: 'Stocks & Investing' }, count: <Badge size="small" count={142} />, trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--ref-palette-yellow-500)' }} onClick={() => {}} /> },
+                { value: 'movies',    label: 'Movie Talk',         thumbnail: { src: IMG.cinemaAvatar, alt: 'Movie Talk' },        count: <Badge size="small" count={24} />,  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--ref-palette-yellow-500)' }} onClick={() => {}} /> },
               ]}
             />
           </SideSheetGroup>
@@ -3194,9 +3268,9 @@ export const PREVIEWS = {
               density="compact"
               aria-label="Following channels"
               items={[
-                { value: 'career', label: 'Career & Jobs',     thumbnail: { src: IMG.brandChat,     alt: 'Career & Jobs' },     count: <Badge size="small" count={24} />, trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarIcon />} onClick={() => {}} /> },
-                { value: 'market', label: 'Marketplace',       thumbnail: { src: IMG.brandAppliance, alt: 'Marketplace' },      count: <Badge size="small" count={12} />, trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarIcon />} onClick={() => {}} /> },
-                { value: 'beauty', label: 'Fashion & Beauty',  thumbnail: { src: IMG.brandPhone,    alt: 'Fashion & Beauty' },                                            trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" icon={<StarIcon />} onClick={() => {}} /> },
+                { value: 'career', label: 'Career & Jobs',     thumbnail: { src: IMG.brandChat,     alt: 'Career & Jobs' },     count: <Badge size="small" count={24} />, trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite"           aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-onSurfaceVariant)' }} onClick={() => {}} /> },
+                { value: 'market', label: 'Marketplace',       thumbnail: { src: IMG.brandAppliance, alt: 'Marketplace' },      count: <Badge size="small" count={12} />, trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite"           aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-onSurfaceVariant)' }} onClick={() => {}} /> },
+                { value: 'beauty', label: 'Fashion & Beauty',  thumbnail: { src: IMG.brandPhone,    alt: 'Fashion & Beauty' },                                            trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite"           aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-onSurfaceVariant)' }} onClick={() => {}} /> },
               ]}
             />
           </SideSheetGroup>
