@@ -1053,7 +1053,7 @@ a.chorus-metadata__name:focus-visible {
 /* Bound to `heading.sm` (16 / Semibold) per the Feed spec. Doubled-class
    specificity (0,2,0) so the rule wins against any ambient
    `.page-content h3` style when the title is rendered as an <h3>. Same
-   guard the ChannelList label uses. */
+   guard the SuggestionList label uses. */
 .chorus-feed .chorus-feed__title {
   margin: 0;
   font-size: var(--sys-typo-heading-sm-size);
@@ -1449,11 +1449,12 @@ a.chorus-metadata__name:focus-visible {
 }
 
 /* ============================================================
-   Section — labelled page-region wrapper. Owns the header
-   (label + accent See-all link); body slot is layout-agnostic.
-   Source of truth for the family-wide section-header anatomy
-   shared with ChannelList and FeedCarousel. See
-   schema/components/section/section.md for the contract.
+   Carousel — labelled page-region wrapper (legacy class
+   `chorus-section`). Owns the header (label + accent See-all
+   link); body slot is layout-agnostic. Source of truth for the
+   family-wide carousel-header anatomy shared with SuggestionList
+   and PostCarousel. See
+   schema/components/carousel/carousel.md for the contract.
 ============================================================ */
 .chorus-section {
   background: var(--sys-color-surface);
@@ -1519,11 +1520,11 @@ a.chorus-metadata__name:focus-visible {
 }
 
 /* ============================================================
-   FeedCarousel — horizontally-scrolling pager of compact post
-   cards. The header lives on Section; FeedCarousel is just
-   the pager + dots. Mirrors ChannelList's snap-and-peek
+   PostCarousel — horizontally-scrolling pager of compact post
+   cards. The header lives on Carousel; PostCarousel is just
+   the pager + dots. Mirrors SuggestionList's snap-and-peek
    geometry but holds one card per page. See
-   schema/components/feed/carousel.md for the contract.
+   schema/components/carousel/post.md for the contract.
 ============================================================ */
 .chorus-post-carousel {
   width: 100%;
@@ -1534,7 +1535,7 @@ a.chorus-metadata__name:focus-visible {
   min-width: 0;
 }
 
-/* Pager — same snap-and-peek contract as ChannelList. The negative
+/* Pager — same snap-and-peek contract as SuggestionList. The negative
    trailing margin (= container.md inline padding) bleeds the scroll
    viewport to the surface edge so the next-card peek isn't clipped. */
 .chorus-post-carousel__pager {
@@ -1720,11 +1721,11 @@ a.chorus-metadata__name:focus-visible {
 }
 
 /* ============================================================
-   CardCarousel — sibling of FeedCarousel. Same pager geometry,
+   ProfileCarousel — sibling of PostCarousel. Same pager geometry,
    different card shape (cover band + overlapping avatar + name +
-   metrics + full-width follow toggle). The section heading lives
-   on Section, not here. See
-   schema/components/card-carousel/card-carousel.md for the contract.
+   metrics + full-width follow toggle). The carousel heading lives
+   on Carousel, not here. See
+   schema/components/carousel/profile.md for the contract.
 ============================================================ */
 .chorus-profile-carousel {
   width: 100%;
@@ -2590,12 +2591,13 @@ a.chorus-metadata__name:focus-visible {
   transition: color 120ms ease;
 }
 
-/* ChannelRail — horizontal strip of channel entry points. The outer
-   nav holds the container padding (12 block / 16 inline) and lays out
-   the scrollable track + a sticky trailing action on a single row. The
-   track owns the horizontal scroll; the trailing action sits outside
-   the scroll viewport so "View all" stays anchored to the rail's right
-   edge regardless of how far the user scrolls the avatars. */
+/* AvatarRail — horizontal strip of entity entry points (legacy
+   ChannelRail). The outer nav holds the container padding (12 block /
+   16 inline) and lays out the scrollable track + a sticky trailing
+   action on a single row. The track owns the horizontal scroll; the
+   trailing action sits outside the scroll viewport so "View all" stays
+   anchored to the rail's right edge regardless of how far the user
+   scrolls the avatars. */
 .chorus-avatar-rail {
   background: var(--sys-color-surface);
   width: 100%;
@@ -2622,7 +2624,7 @@ a.chorus-metadata__name:focus-visible {
    rightmost 48px of the track to transparent, signalling "more items
    live past the edge" without a visible scrollbar or chevron. The
    48 is anatomy (the fade tail length), not a spacing token. The cue
-   is **conditional**: ChannelRail's shared `useScrollOverflow` hook
+   is **conditional**: AvatarRail's shared `useScrollOverflow` hook
    (same hook Tabs uses) toggles `data-overflow-end` on the track when
    its scroll width exceeds the visible width. When content fits, the
    attribute is `"false"` and no mask paints — the rail never carries
@@ -2710,13 +2712,15 @@ a.chorus-metadata__name:focus-visible {
   align-self: center;
 }
 
-/* ChannelList — a swipeable pager of channel recommendations. The outer
+/* SuggestionList — swipeable pager of follow-suggestions. The outer
    surface block lays a header (section label + optional trailing link)
-   above a horizontal pager of three-row pages. The pager bleeds 16px
-   past the container's right padding so the next-page peek isn't
-   clipped; with gap = inline.xl (16 mobile / 24 web) and a page basis
-   that subtracts that gap and an inline.md (8) peek, exactly 8px of
-   the next page surfaces at the trailing edge regardless of viewport. */
+   above a horizontal pager of three-row pages. Each row delegates to
+   `<List variant="entry" size="xlarge">` so hover / press / focus
+   overlays come for free. The pager bleeds 16px past the container's
+   right padding so the next-page peek isn't clipped; with gap =
+   inline.xl (16 mobile / 24 web) and a page basis that subtracts that
+   gap and an inline.md (8) peek, exactly 8px of the next page surfaces
+   at the trailing edge regardless of viewport. */
 .chorus-suggestion-list {
   background: var(--sys-color-surface);
   width: 100%;

@@ -318,6 +318,7 @@ The table below is the *first-pass* intent → component map. Binding for `visua
 * **Icon-only:** `<Button variant="icon">`.
 * **Floating canonical commit:** `<Button variant="fab">`.
 * **Prohibited:** Never raw `<button>`, raw `<a>`, or styled `<div>` for actions.
+* **Icons render as SVG components, never text characters.** Use `<PlusIcon>` / `<XIcon>` / `<ChevronRightIcon>` from `@blind-dsai/ui/icons` — never `'+ Create'`, `'× Close'`, `'→ Continue'`, `'★ Favorite'`, `'•'`, `'·'`, or any other ASCII / Unicode glyph in a label or `aria-label`. Text characters bypass `currentColor` re-tone, the icon-rung sizing, the `aria-hidden` decorative contract, and the keyword-driven swap map — so they read as visible glyphs to screen readers, paint in the wrong color under hover / disabled, and drift off the rung. For "add" / "create" prefixes on Text Buttons, use `leadingIcon={<PlusIcon />}` instead of prefixing the label with `+`. Full rule: [`AGENTS.md` § Hard rules #10](https://github.com/blind-dsai/chorus/blob/main/AGENTS.md).
 
 ### Image areas & thumbnails
 
