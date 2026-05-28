@@ -141,7 +141,7 @@ import { Accordion } from '@blind-dsai/ui';
 - **label** — trigger label. **`16px / Regular / onSurface`** — matches the List family `label` spec exactly so the trigger reads as a List row that happens to expand. Wraps to a second line; no truncation.
 - **chevron** — auto-rendered 16px `ChevronDownIcon`. Rotates from `0°` to `180°` over 120ms `ease-out` on expand. Decorative.
 - **content** — body region. Paints below the trigger when open; toggled via the `hidden` attribute when closed. `min-height: 40px` keeps short single-line bodies on a touch-target rhythm. Two padding modes by content kind:
-  - **Prose body** (text, icon, button, form-field): `32 leading / 16 trailing` inline padding — one extra `layout.container.md` of indent on the leading edge so the prose reads as nested INSIDE the trigger's label column. No top group-divider — the leading indent alone communicates nesting.
+  - **Prose body** (text, icon, button, form-field): `32 leading / 16 trailing` inline padding — one extra `layout.container.md` of indent on the leading edge so the prose reads as nested INSIDE the trigger's label column. Body text renders at `body.sm` (14 / Regular) — one rung below the trigger label so the open content reads as nested commentary, not co-equal to the row. No top group-divider — the leading indent alone communicates nesting.
   - **Embedded row group** (`<List embedded>` or nested `<Accordion embedded>`, detected via `:has([data-embedded='true'])`): `16 leading / 0 trailing` inline padding — sub-list stretches flush to the accordion's right edge; child row inline padding pays the trailing rail. A hairline `outlineVariant` top divider paints via a `::before` overlay (inset 16px on both inline edges). Sub-list rows compress to `body.sm` (14 / Regular) at `40px` min-height with no inter-row dividers.
 
 ## Anatomy
@@ -153,7 +153,7 @@ import { Accordion } from '@blind-dsai/ui';
 | trigger       | 48px min-height, 8px block / 16px inline padding, full-row click target |
 | label         | **`16 / Regular`, `onSurface`** — matches the List `label` spec |
 | chevron       | 16 × 16, `onSurfaceVariant`, rotates 0° → 180° over 120ms `ease-out` |
-| content (prose)          | 8px block padding, `32 leading / 16 trailing` inline padding (one extra `layout.container.md` of inset to read as nested), `min-height: 40px`, `16 / Regular` at `onSurfaceVariant` |
+| content (prose)          | 8px block padding, `32 leading / 16 trailing` inline padding (one extra `layout.container.md` of inset to read as nested), `min-height: 40px`, `sys.typo.body.sm` (14 / Regular) at `onSurfaceVariant` |
 | content (embedded group) | 8px block padding, `16 leading / 0 trailing` inline padding (sub-list pays the trailing rail via row inline padding); sub-list rows render at `body.sm` (14 / Regular), `min-height: 40px`, with `::after` row dividers suppressed |
 | divider       | `sys.borderWidth.hairline` × `sys.color.outlineVariant`, inset 16px on both inline edges via `::after` overlay |
 | groupDivider  | `sys.borderWidth.hairline` × `sys.color.outlineVariant`, inset 16px on both inline edges via `::before` overlay on the content body, painted ONLY when the body hosts a `<List embedded>` child group |

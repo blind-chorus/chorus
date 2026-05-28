@@ -4954,11 +4954,17 @@ span.chorus-chip {
   display: none;
 }
 
+/* Body prose at body.sm (14 / Regular) — one rung below the trigger
+   label (16 / Regular) so the open content reads as nested commentary
+   under the row, not co-equal to it. Embedded sub-list rows compress
+   to the same 14 rung via the row-compression rules above, so every
+   piece of text inside the open content body — prose or sub-list — is
+   at 14, and only the trigger label sits at 16. */
 .chorus-accordion__content-inner {
-  font-size: var(--sys-typo-body-md-size);
-  line-height: var(--sys-typo-body-md-line);
-  font-weight: var(--sys-typo-body-md-weight);
-  letter-spacing: var(--sys-typo-body-md-tracking);
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
+  font-weight: var(--sys-typo-body-sm-weight);
+  letter-spacing: var(--sys-typo-body-sm-tracking);
   color: var(--sys-color-onSurfaceVariant);
 }
 

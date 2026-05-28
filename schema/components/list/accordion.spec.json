@@ -127,7 +127,7 @@
     "contentEmbeddedPaddingInlineEnd": "0",
     "contentIndent": "sys.layout.container.md",
     "contentMinHeight": "ref.space.500",
-    "contentBodyTypo": "16 / Regular",
+    "contentBodyTypo": "sys.typo.body.sm",
     "contentBodyColor": "sys.color.onSurfaceVariant",
     "embeddedRowLabelTypo": "sys.typo.body.sm",
     "embeddedRowMinHeight": "ref.space.500",
