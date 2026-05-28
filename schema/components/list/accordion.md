@@ -56,7 +56,13 @@ import { Accordion } from '@blind-dsai/ui';
 
 ### Nested list
 
-When the expanded body holds a same-kind row group rather than prose — directory sub-entries, settings sub-options, filter children, menu sub-items — drop a `<List>` straight into the content slot with `embedded={true}` so the list defers its own chrome to the host. The content body paints a hairline `outlineVariant` divider at the TOP of the child group (inset 16px on both inline edges, matching the inter-item divider rule) so the parent trigger and the child rows read as a parent ↔ child hierarchy, not as one tiled stack.
+When the expanded body holds a same-kind row group rather than prose — directory sub-entries, settings sub-options, filter children, menu sub-items — drop a `<List>` straight into the content slot with `embedded={true}` so the list defers its own chrome to the host. The content body recognises the embedded child via `:has([data-embedded='true'])` and switches to **compact-host geometry**:
+
+- **Body inline padding** flips from prose's `32 leading / 16 trailing` to `16 leading / 0 trailing`. The leading indent is paid once by the body (sub-list rows align one `layout.container.md` inside the trigger's label column); the trailing rail is paid by the row's own inline padding, so the sub-list stretches flush to the accordion's right edge without a double-paid gutter.
+- **Top group-divider** paints — a hairline `outlineVariant` rule on the body's `::before` overlay (inset 16px on both inline edges, matching the inter-item divider) so the parent trigger and the child rows read as a parent ↔ child hierarchy, not as one tiled stack.
+- **Sub-list rows compress.** Row labels drop one rung (`sys.typo.body.sm` — 14 / Regular), `min-height` drops to `40px` (the touch-target floor is still met by the row's tap area; the parent trigger occupies the 48 rung above), and inter-row dividers within the sub-list are suppressed (`display: none` on the row `::after`). The top group-divider plus the leading indent communicate the hierarchy on their own — internal row seams would read as a co-equal stack.
+
+Call sites pass no extra mode prop — dropping `<List embedded>` (or a nested `<Accordion embedded>`) into the content body activates compact-host geometry automatically.
 
 ```preview
 accordion/nested-list
@@ -134,7 +140,9 @@ import { Accordion } from '@blind-dsai/ui';
 - **trigger** — header button. Holds the label and the auto-rendered trailing chevron. Same geometry as a List row (48px min-height, 8px block / 16px inline padding). `aria-expanded` reflects open-state, `aria-controls` references the content region.
 - **label** — trigger label. **`16px / Regular / onSurface`** — matches the List family `label` spec exactly so the trigger reads as a List row that happens to expand. Wraps to a second line; no truncation.
 - **chevron** — auto-rendered 16px `ChevronDownIcon`. Rotates from `0°` to `180°` over 120ms `ease-out` on expand. Decorative.
-- **content** — body region. Paints below the trigger when open; toggled via the `hidden` attribute when closed. **Indented an extra 16px on the leading edge** so the body reads as nested INSIDE the trigger's label column (total inline padding: `32px leading / 16px trailing`). Carries a `min-height: 40px` so short single-line bodies keep a touch-target rhythm. When the body hosts a child row group (`<List embedded>`), a hairline `outlineVariant` divider paints at the TOP of the body via a `::before` overlay (inset 16px on both inline edges) so the parent trigger and the child rows read as a parent ↔ child hierarchy. Prose bodies omit the top divider — the leading indent alone communicates nesting.
+- **content** — body region. Paints below the trigger when open; toggled via the `hidden` attribute when closed. `min-height: 40px` keeps short single-line bodies on a touch-target rhythm. Two padding modes by content kind:
+  - **Prose body** (text, icon, button, form-field): `32 leading / 16 trailing` inline padding — one extra `layout.container.md` of indent on the leading edge so the prose reads as nested INSIDE the trigger's label column. No top group-divider — the leading indent alone communicates nesting.
+  - **Embedded row group** (`<List embedded>` or nested `<Accordion embedded>`, detected via `:has([data-embedded='true'])`): `16 leading / 0 trailing` inline padding — sub-list stretches flush to the accordion's right edge; child row inline padding pays the trailing rail. A hairline `outlineVariant` top divider paints via a `::before` overlay (inset 16px on both inline edges). Sub-list rows compress to `body.sm` (14 / Regular) at `40px` min-height with no inter-row dividers.
 
 ## Anatomy
 
@@ -145,7 +153,8 @@ import { Accordion } from '@blind-dsai/ui';
 | trigger       | 48px min-height, 8px block / 16px inline padding, full-row click target |
 | label         | **`16 / Regular`, `onSurface`** — matches the List `label` spec |
 | chevron       | 16 × 16, `onSurfaceVariant`, rotates 0° → 180° over 120ms `ease-out` |
-| content       | 8px block padding, `32px leading / 16px trailing` inline padding (one extra `layout.container.md` of inset to read as nested), `min-height: 40px`, `16 / Regular` at `onSurfaceVariant` |
+| content (prose)          | 8px block padding, `32 leading / 16 trailing` inline padding (one extra `layout.container.md` of inset to read as nested), `min-height: 40px`, `16 / Regular` at `onSurfaceVariant` |
+| content (embedded group) | 8px block padding, `16 leading / 0 trailing` inline padding (sub-list pays the trailing rail via row inline padding); sub-list rows render at `body.sm` (14 / Regular), `min-height: 40px`, with `::after` row dividers suppressed |
 | divider       | `sys.borderWidth.hairline` × `sys.color.outlineVariant`, inset 16px on both inline edges via `::after` overlay |
 | groupDivider  | `sys.borderWidth.hairline` × `sys.color.outlineVariant`, inset 16px on both inline edges via `::before` overlay on the content body, painted ONLY when the body hosts a `<List embedded>` child group |
 
@@ -171,7 +180,7 @@ Inward 3-layer ring painted inside the trigger's footprint via a `::before` over
 - **Edge-to-edge composition.** `layoutInset: full-bleed` — direct child of the page shell. Wrapping in another `padding-inline` / `px-*` div double-pays the rail. Use the negative-margin opt-out inside a bounded surface.
 - **Inset divider.** 1px `outlineVariant` rule inset 16px on both inline edges so it reads as separating row *content*, not the container — same as every other List sub.
 - **Indented content.** Expanded body sits one extra 16px in from the trigger's label edge for parent ↔ child hierarchy.
-- **Child list groups carry a top divider.** When the open body hosts a `<List embedded>`, a hairline `outlineVariant` rule paints at the top edge of the body (inset 16px on both edges) so the parent trigger and the child list rows read as parent ↔ child — never one tiled stack. Prose bodies omit the rule (the leading indent is enough).
+- **Child list groups switch the body to compact-host geometry.** When the open body hosts a `<List embedded>` (detected via `:has([data-embedded='true'])`), three things change at once: (1) body inline padding flips from `32 / 16` to `16 / 0` — sub-list stretches flush to the accordion's right edge; (2) a hairline `outlineVariant` rule paints at the top edge of the body (inset 16px on both edges) so parent trigger and child rows read as parent ↔ child; (3) sub-list rows compress to `body.sm` (14 / Regular) at `40px` min-height with no inter-row dividers — the top group-divider plus the leading indent communicate the hierarchy on their own. Prose bodies retain the `32 / 16` indent with no top divider (the indent alone is enough).
 - **Whole trigger header is the click target.** Chevron is decorative.
 - **Element swap.** Trigger is `<button>`; content region is `<div role="region">` with `hidden` toggled.
 - **Keyboard.** Space / Enter toggle. Arrow up/down moves focus between triggers.

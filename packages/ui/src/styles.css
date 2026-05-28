@@ -4870,22 +4870,30 @@ span.chorus-chip {
   pointer-events: none;
 }
 
-/* Expanded content. Indented by an extra `layout.container.md` (16px)
-   on the leading edge — so the body sits visibly INSIDE the trigger's
-   label column, making the parent ↔ child hierarchy readable at a
-   glance. Trailing edge stays at the row's 16px inline padding.
-   `min-height: 40px` keeps short single-line bodies on a touch-target
-   rhythm and prevents collapsed-looking content rows.
+/* Expanded content body — two padding modes by content kind:
 
-   When the body hosts a child row group (`<List embedded>` or any
-   `[data-embedded="true"]` chrome-deferring full-bleed family), the
-   body paints a hairline `outlineVariant` divider at its TOP via a
-   `::before` overlay — see `&:has([data-embedded="true"])::before`
-   below. The rule is inset 16px on both inline edges, matching the
-   inter-item divider, and replaces the visual collapse where the
-   parent trigger and the first child row would otherwise tile flush.
-   Prose bodies (no embedded child) omit the rule — the leading indent
-   alone communicates nesting. */
+   (a) PROSE body (text / icon / button / form-field): inline padding
+       is 32 leading / 16 trailing — one extra `layout.container.md` of
+       indent on the leading edge so the body reads as nested INSIDE
+       the trigger's label column.
+
+   (b) EMBEDDED row group (`<List embedded>` or nested
+       `<Accordion embedded>`, detected via `:has([data-embedded='true'])`):
+       inline padding flips to 16 leading / 0 trailing. The leading
+       indent is paid once by the body (sub-list rows align one
+       container.md inside the trigger's label column); the trailing
+       rail is paid by the row's own 16px inline padding, so the
+       sub-list stretches flush to the accordion's right edge without
+       a double-paid gutter.
+
+   Mode (b) also paints a hairline `outlineVariant` top group-divider
+   via a `::before` overlay (no-layout stroke — a `border-top:` on the
+   child container would reflow the first row's box and break its
+   inward focus ring). The 16px inline inset mirrors the inter-item
+   divider so all hairline rules in the accordion share one rail.
+
+   `min-height: 40px` (ref.space.500) keeps short single-line bodies
+   on a touch-target rhythm and prevents collapsed-looking rows. */
 .chorus-accordion__content {
   position: relative;
   padding:
@@ -4901,13 +4909,13 @@ span.chorus-chip {
   display: none;
 }
 
-/* Top group divider — painted only when the content body hosts an
-   embedded chrome-deferring child (List with `embedded` prop, nested
-   Accordion, etc.). Uses a `::before` overlay (no-layout stroke) so the
-   first child row's box and its inward focus ring are never disturbed;
-   a `border-top:` on the child container would reflow the row and break
-   the focus ring. The 16px inline inset mirrors the inter-item divider
-   so all hairline rules in the accordion share one rail. */
+/* Mode (b): compact-host geometry when the body hosts an embedded
+   chrome-deferring child. */
+.chorus-accordion__content:has([data-embedded='true']) {
+  padding-inline-start: var(--sys-layout-container-md);
+  padding-inline-end: 0;
+}
+
 .chorus-accordion__content:has([data-embedded='true'])::before {
   content: '';
   position: absolute;
@@ -4917,6 +4925,33 @@ span.chorus-chip {
   height: var(--sys-borderWidth-hairline);
   background: var(--sys-color-outlineVariant);
   pointer-events: none;
+}
+
+/* Sub-list row compression. Inside an accordion content body, an
+   embedded List drops one type rung (16 → 14) and one min-height rung
+   (48 → 40), and inter-row dividers within the sub-list are removed.
+   The parent trigger sits at the 48 rung above so the touch-target
+   floor is met by the parent's hit area; children sit on the compact
+   rung. Hierarchy reads from the top group-divider + the leading
+   indent — internal row seams would muddy the parent ↔ child contract
+   into a co-equal stack. */
+.chorus-accordion__content
+  .chorus-list[data-embedded='true']
+  .chorus-list__row {
+  min-height: var(--ref-space-500);
+}
+
+.chorus-accordion__content
+  .chorus-list[data-embedded='true']
+  .chorus-list__label {
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
+}
+
+.chorus-accordion__content
+  .chorus-list[data-embedded='true']
+  .chorus-list__row:not(:last-child)::after {
+  display: none;
 }
 
 .chorus-accordion__content-inner {

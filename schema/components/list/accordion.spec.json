@@ -100,7 +100,7 @@
     },
     "content": {
       "required": true,
-      "description": "Body region. Paints below the trigger when open; uses `hidden` attribute when closed. Indented an extra `layout.container.md` (16px) on the LEADING edge so the body reads as nested inside the trigger's label column — total inline padding is `32px leading / 16px trailing`. Carries a `min-height: 40px` so short single-line bodies keep a touch-target rhythm. When the body hosts a child row group (`<List embedded>` or another `<Accordion embedded>`), the body paints a hairline `outlineVariant` divider at its TOP via a `::before` overlay (inset 16px on both inline edges, matching the inter-item divider rule) so the parent trigger and the child rows read as a parent ↔ child hierarchy. Prose bodies omit the top divider — the leading indent alone communicates nesting.",
+      "description": "Body region. Paints below the trigger when open; uses `hidden` attribute when closed.\n\nTwo padding modes by content kind:\n\n- **Prose body** (text, icon, button, form-field): inline padding is `32px leading / 16px trailing` — one extra `layout.container.md` of indent on the leading edge so the prose reads as nested INSIDE the trigger's label column. `min-height: 40px` keeps short single-line bodies on a touch-target rhythm.\n- **Embedded row group** (`<List embedded>` or another `<Accordion embedded>`): inline padding is `16px leading / 0 trailing` — the leading indent is paid once by the body (sub-list rows align one container.md inside the trigger's label column) and the trailing rail is paid by the row's own inline padding, so the sub-list stretches flush to the accordion's right edge without a double-paid gutter. The body also paints a hairline `outlineVariant` divider at its TOP via a `::before` overlay (inset 16px on both inline edges, matching the inter-item divider rule) so the parent trigger and the child rows read as a parent ↔ child hierarchy.\n\nThe two modes are selected automatically via `:has([data-embedded='true'])` — call sites do not pass a mode prop; dropping a `<List embedded>` (or nested `<Accordion embedded>`) into the content body switches the body to compact-host geometry.",
       "accepts": ["text", "icon", "button", "list", "form-field"]
     },
     "groupDivider": {
@@ -121,12 +121,17 @@
     "chevronRotationDuration": "120ms",
     "chevronRotationTiming": "ease-out",
     "contentPaddingBlock": "sys.layout.container.xs",
-    "contentPaddingInlineStart": "calc(sys.layout.container.md * 2)",
-    "contentPaddingInlineEnd": "sys.layout.container.md",
+    "contentProsePaddingInlineStart": "calc(sys.layout.container.md * 2)",
+    "contentProsePaddingInlineEnd": "sys.layout.container.md",
+    "contentEmbeddedPaddingInlineStart": "sys.layout.container.md",
+    "contentEmbeddedPaddingInlineEnd": "0",
     "contentIndent": "sys.layout.container.md",
     "contentMinHeight": "ref.space.500",
     "contentBodyTypo": "16 / Regular",
     "contentBodyColor": "sys.color.onSurfaceVariant",
+    "embeddedRowLabelTypo": "sys.typo.body.sm",
+    "embeddedRowMinHeight": "ref.space.500",
+    "embeddedRowDivider": "none",
     "dividerWidth": "sys.borderWidth.hairline",
     "dividerColor": "sys.color.outlineVariant",
     "dividerInsetInline": "sys.layout.container.md",
@@ -177,7 +182,7 @@
   "forbidden": [
     "item rendered as its own outlined rounded surface — Accordion tiles items flush with a hairline divider; outlined-card stacks are NavCardGroup, not an accordion",
     "Accordion wrapped in a parent `padding-inline` / `px-*` / `style={{ paddingInline: … }}` container outside a documented bounded surface — the family is full-bleed and double-pays the page gutter when an outer rail is also applied",
-    "expanded content body painted flush to the trigger's leading edge — content MUST sit at `32px` inline-start (trigger inline padding + a further `layout.container.md` indent) so the body reads as nested inside the row",
+    "prose content body painted flush to the trigger's leading edge — text / icon / button / form-field bodies MUST sit at `32px` inline-start (trigger inline padding + a further `layout.container.md` indent) so the prose reads as nested inside the row. Embedded row-group bodies are a separate contract (16 leading / 0 trailing) — see `contentEmbeddedPaddingInline*`.",
     "expanded content body collapsed below `40px` min-height — short single-line bodies still need to land on a touch-target rhythm so the row's open-state reads as distinct from its closed-state",
     "divider painted full-bleed (no inline inset) — the rule must be inset 16px on BOTH edges; a full-bleed rule reads as separating the container, not the rows",
     "chevron replaced with a plus / minus glyph — the family uses the rotating chevron contract; alt glyphs read as a different affordance (an add action, a remove action)",
