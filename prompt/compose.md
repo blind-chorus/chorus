@@ -188,3 +188,51 @@ DESIGN.md rules condensed to a single line each. Read as **immediate-reject** tr
 6. **Edge stroke (if any)?** `borderWidth.hairline × outlineVariant`. If the surface hosts an opaque full-bleed child (cover image, hero), promote the outline to a `::after` overlay layer (DESIGN.md § Border & stroke).
 
 If a step has no good match — that's a **Chorus gap**, not a license to invent. Flag in one line and stop.
+
+---
+
+## When you go custom (no Chorus family fits)
+
+The LEGO ladder didn't surface a fit and you've genuinely exhausted visual-reuse on the 13 `"open"` families — you're building a custom primitive (small hint card, inline annotation, narrow aside). **Component went flexible; tokens did not.** With no Chorus spec to deny you, every literal value you type is either a token resolution or a violation.
+
+The drift shape this section guards: a custom div where `background` is a token (because color rules are well-internalized) but `gap`, `padding`, `fontSize`, `lineHeight`, `borderRadius` are raw px (because the "off-scale px" rule lives in prose, not in concrete examples). Five literals, five violations — *"I used the color token"* is not a partial pass.
+
+### Raw → token map for custom surfaces
+
+| You typed | Likely intent | Pick |
+| --- | --- | --- |
+| `fontSize: 13` | compact body / meta line | `font: var(--sys-typo-body-md)` (16) or `var(--sys-typo-label-md)` (14). 13 is off-scale — pick the next rung. |
+| `fontSize: 14` | strong label / row primary | `font: var(--sys-typo-label-lg)` (16, 600 — strong) or `var(--sys-typo-label-md)` (14, 500 — quiet) |
+| `fontSize: 11` or `10` | "tiny" caption | **Forbidden for visible copy.** Floor is `sys.typo.caption.md` (12) — see [anti-patterns.md #7](anti-patterns.md). |
+| `fontWeight: 600` (set alone) | bold label | `font: var(--sys-typo-*)` — every typo rung bundles its canonical weight. Don't set weight separately. |
+| `lineHeight: 1.4` | "comfortable" line height | **Don't set it.** Typo tokens already carry line-height; setting it overrides the rung's contract. |
+| `gap: 6` | tight inline cluster | `gap: var(--sys-layout-inline-xs)` (4) or `var(--sys-layout-inline-sm)` (8) — pick a rung, not halfway. |
+| `gap: 10` | medium horizontal cluster | `var(--sys-layout-inline-sm)` (8) or `var(--sys-layout-inline-md)` (12) |
+| `gap: 6` (vertical between siblings) | tight vertical stack | `gap: var(--sys-layout-stack-2xs)` (4) or `stack.xs` (8). Vertical uses `stack.*`, not `inline.*`. |
+| `padding: "10px 12px"` | dense surface interior | `var(--sys-layout-container-xs) var(--sys-layout-container-sm)` (8 12). Two rung tokens on one line is fine. |
+| `padding: 16` | default surface interior | `var(--sys-layout-container-md)` |
+| `paddingInline: 16` (page level) | shell gutter | `var(--sys-layout-page-md)` — paid once at the shell, never on a full-bleed child. |
+| `borderRadius: 6` | small radius | `var(--sys-radius-sm)` (4) or `var(--sys-radius-md)` (8) — no in-between. |
+| `borderRadius: 10` | medium radius | `var(--sys-radius-md)` (8) or `var(--sys-radius-lg)` (12) |
+| `borderRadius: 999` on a chip-shaped surface | pill | `var(--sys-radius-full)` |
+| `border: "1px solid #..."` | hairline outline | `box-shadow: inset 0 0 0 var(--sys-borderWidth-hairline) var(--sys-color-outlineVariant)` (no-layout stroke — `border:` reflows the box; see [anti-patterns.md #2](anti-patterns.md)). |
+| `background: "#fff"` / `"#FFF"` | page surface | `var(--sys-color-surface)` |
+| `color: "#1A1A1A"` / `"#333"` | body text | `var(--sys-color-onSurface)` (primary) / `var(--sys-color-onSurfaceVariant)` (meta) |
+
+### The three authorized literal exceptions (per `DESIGN.md`)
+
+Anything outside these is a violation, even on a custom surface:
+
+1. **Intrinsic geometry** naming component anatomy — Thumbnail rung `48px`, Tooltip `min-height: 32px`, icon `16px` (slot contract, not layout).
+2. **Computed compositions** combining tokens in `calc()` — `calc(48px + var(--sys-layout-inline-lg))` to anchor a divider to an avatar's trailing edge.
+3. **Structural `0` / `100%` / `auto`** — no axis to resolve.
+
+### What to do when no rung fits
+
+A "Chorus gap" report — one line, stop. Example: *"Building `<HintCard>` — `sys.layout.inline.xs` (4) reads too tight for the leading icon ↔ body gap, `inline.sm` (8) too loose. Proposing a new `inline.2xs` (6) rung or accept the `inline.sm` reading. Not inlining `gap: 6`."* Then wait. **Never** inline as a workaround.
+
+### Mental check before shipping a custom surface
+
+> *"Scan every numeric literal in my style/className. For each: is it (a) a token call, (b) one of the three exceptions, or (c) a violation? If (c) — substitute the rung above, or file a Chorus gap. No fourth option."*
+
+Pair with the [§E pre-flight custom-primitive checkbox](LOVABLE.md) before declaring done.

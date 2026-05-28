@@ -1,6 +1,6 @@
 # anti-patterns.md — common Lovable / agent failure modes
 
-A catalogue of the wrong-shaped output Chorus consumers most often produce, paired with the right-shaped fix. Each entry names the rule, the broken snippet, and the corrected one. **Read at least once before composing a new screen** — most agent violations come from these ~12 recurring shapes. Pair with [`compose.md`](compose.md) and [`tokens.usage.json`](tokens.usage.json).
+A catalogue of the wrong-shaped output Chorus consumers most often produce, paired with the right-shaped fix. Each entry names the rule, the broken snippet, and the corrected one. **Read at least once before composing a new screen** — most agent violations come from these ~14 recurring shapes. Pair with [`compose.md`](compose.md) and [`tokens.usage.json`](tokens.usage.json).
 
 When in doubt: if your output matches a "❌ wrong" snippet below, discard and regenerate.
 
@@ -331,6 +331,53 @@ cp node_modules/@blind-dsai/ui/placeholder.png public/
 ```
 
 Do NOT work around with an invented stock URL, inline SVG wordmark, `display: none` on the `<img>`, or pointing every `src` at the CDN-hosted PNG — those break the §A.0 contract and the AGENTS.md "one universal placeholder" rule. The fix is the one-line `cp`; scaffolds stay as-shipped.
+
+---
+
+## 14. Custom primitive built with raw numeric literals
+
+**Rule violated**: [LOVABLE.md](LOVABLE.md) §B.3 *New surfaces stay token-true* + §C *Token strictness*. This is the **most common token-axis drift** and the only one where the component decision is correct — going off-Chorus is allowed, going off-tokens is not.
+
+The cognitive trap: *"No Chorus family fits a hint card / inline annotation / small aside → I'll build a custom div. Since I'm off-Chorus anyway, a few raw values (`fontSize: 13`, `padding: '10px 12px'`, `gap: 6`) are fine."* They are not. Composition went custom; values stayed bound. **Component flexible, tokens never** — with no Chorus spec denying you, every literal is a deliberate choice that's either a token resolution or a violation.
+
+```jsx
+// ❌ Wrong — correct call to go custom, but every value is a raw literal
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: 6,
+    padding: "10px 12px",
+    borderRadius: 6,
+    background: "var(--sys-color-surfaceContainerLow)", // color happens to be a token…
+  }}
+>
+  <span style={{ fontSize: 13, lineHeight: 1.4 }}>익명 힌트</span>
+  <span style={{ fontSize: 14, fontWeight: 600 }}>제목</span>
+</div>
+// gap 6, padding 10/12, radius 6, fontSize 13/14, lineHeight 1.4 — five literals,
+// five violations. "I used the color token" is not a partial pass.
+
+// ✅ Right — composition still custom; every axis resolves through a token
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "var(--sys-layout-inline-xs)",          // 4 — was `gap: 6`
+    padding: "var(--sys-layout-container-xs) var(--sys-layout-container-sm)", // 8 12 — was `10px 12px`
+    borderRadius: "var(--sys-radius-sm)",        // 4 — was `borderRadius: 6`
+    background: "var(--sys-color-surfaceContainerLow)",
+  }}
+>
+  <span style={{ font: "var(--sys-typo-body-md)" }}>익명 힌트</span>
+  {/* font shorthand bundles size + line-height + weight — never set lineHeight separately */}
+  <span style={{ font: "var(--sys-typo-label-lg)" }}>제목</span>
+</div>
+```
+
+**Off-scale = pick the next ladder rung, NOT halfway.** 13px is forbidden; 12 or 14 are tokens. 6px gap is forbidden; 4 or 8 are tokens. If no token feels right, that's a Chorus gap report ("`spacing.inline.xs` reads too tight, `inline.sm` too loose for this slot — proposing a new rung") — not a license to invent. See the full raw → token map in [compose.md § When you go custom](compose.md).
+
+Side note: this entry catches the values. Whether you should have gone custom at all is a separate question — the visual-reuse table in [LOVABLE.md §C](LOVABLE.md) covers 13 `"open"` families that you can borrow on visual-fit grounds (`<Feed>` as a generic article-card surface, `<Section>` as any labelled block). Reach for that first; #14 only fires after you've genuinely exhausted the LEGO ladder.
 
 ---
 
