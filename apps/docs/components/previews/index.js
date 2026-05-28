@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Accordion, Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, Header, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, Section, SideSheet, SideSheetGroup, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
+import { Accordion, Badge, BottomSheet, Button, Banner, SuggestionList, AvatarRail, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, Header, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, ProfileHeader, Section, SideSheet, SideSheetGroup, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
 import { PlusIcon, PlusSquareFillIcon, ChevronLeftIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, XIcon, BuildingIcon, BuildingFillIcon, ArrowDownIcon, ChevronRightIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, EllipsisHorizontalIcon, BellIcon, BellFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, StarFillIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
@@ -1679,6 +1679,69 @@ export const PREVIEWS = {
             ]}
           />
         </Section>
+      </Frame>
+    ),
+  },
+
+  /* ProfileHeader — identity block at the top of a profile / channel
+     detail screen. Cover band + overlapping 80-rung Thumbnail avatar +
+     name (heading.lg) + visibility-icon · followers meta row + trailing
+     follow Toggle Button. Same "profile" contract as ProfileCarousel —
+     the carousel surfaces a card, the header surfaces the page rung. */
+  'profile-header/default': {
+    states: false,
+    render: () => (
+      <Frame>
+        <ProfileHeader
+          name="General Topic"
+          avatar={{ src: IMG.modAvatar, alt: 'General Topic' }}
+          visibility="public"
+          followers="999 followers"
+        />
+      </Frame>
+    ),
+  },
+
+  'profile-header/following': {
+    states: false,
+    render: () => (
+      <Frame>
+        <ProfileHeader
+          name="Plant People"
+          avatar={{ src: IMG.plantAvatar, alt: 'Plant People' }}
+          visibility="public"
+          followers="21.7K followers"
+          followed
+        />
+      </Frame>
+    ),
+  },
+
+  'profile-header/private': {
+    states: false,
+    render: () => (
+      <Frame>
+        <ProfileHeader
+          name="Compensation"
+          avatar={{ src: IMG.brandChat, alt: 'Compensation' }}
+          visibility="private"
+          followers="8.1K followers"
+        />
+      </Frame>
+    ),
+  },
+
+  'profile-header/with-cover': {
+    states: false,
+    render: () => (
+      <Frame>
+        <ProfileHeader
+          name="Sourdough Bakers"
+          avatar={{ src: IMG.breadAvatar, alt: 'Sourdough Bakers' }}
+          cover={{ src: IMG.breadCover, alt: 'Sliced loaf with open crumb' }}
+          visibility="public"
+          followers="12.4K followers"
+        />
       </Frame>
     ),
   },

@@ -79,7 +79,7 @@ import { Banner, Thumbnail } from '@blind-dsai/ui';
 
 ### With icon
 
-A 24 × 24 (`sys.icon.lg`) glyph at the top-left, painted in `currentColor` so the mark inherits the banner's foreground. Reach for it when the aside leads with a meaning-bearing glyph rather than a brand image.
+A 16 × 16 (`sys.icon.md`) glyph at the leading edge, painted in `currentColor` so the mark inherits the banner's foreground. The slot is sized to the body's first-line height so the glyph centres on the first line of body copy — multi-line bodies keep the icon anchored to the first-line cap, not the block centre. Reach for it when the aside leads with a meaning-bearing glyph rather than a brand image.
 
 ```preview
 banner/with-icon
@@ -89,7 +89,7 @@ import { StarIcon } from '@blind-dsai/ui/icons';
 
 <Banner
   appearance="accent"
-  icon={<StarIcon size={24} />}
+  icon={<StarIcon size={16} />}
   action={{ label: 'How levels work', href: '#level' }}
 >
   Stay active in the community to level up and unlock more of what the app offers.
@@ -102,13 +102,13 @@ Two appearances on the *emphasis* axis — pick by how much attention the aside 
 
 | Appearance | Container fill                  | Body / action color                                                 | When to use                                                                  |
 |------------|---------------------------------|---------------------------------------------------------------------|------------------------------------------------------------------------------|
-| `default`  | `sys.color.secondaryContainer`  | body in `onSecondaryContainer`, action steps to `sys.color.primary` | Supplementary asides the reader can pass over without missing the main flow. |
+| `default`  | `sys.color.scrimSubtle` (translucent inverse-tone scrim — ~8% black light / ~8% white dark) | body in `sys.color.onSurface`, action steps to `sys.color.primary` | Supplementary asides the reader can pass over without missing the main flow. |
 | `accent`   | `sys.color.primaryContainer`    | body in `onPrimaryContainer`, action inherits                       | Asides worth pulling the eye toward — new-feature explainers, capability nudges. |
 
 ## Slots
 
 - **container** — tinted block. Horizontal flex with `align-items: flex-start`. 12px inset on all sides; 8px gap between siblings. 8px corner radius.
-- **icon** *(optional)* — 24 × 24 glyph, top-aligned. Paints in `currentColor`, so the mark inherits the banner's foreground.
+- **icon** *(optional)* — 16 × 16 (`sys.icon.md`) glyph. Slot height equals the body.sm line box, centring the glyph on the body's first line. Paints in `currentColor`, inheriting the banner's foreground.
 - **thumbnail** *(optional)* — leading [Thumbnail](../thumbnail/thumbnail.md) instance for channel / author / sub-brand imagery; takes precedence over `icon`. Footprint and corner shape come from Thumbnail itself.
 - **content** — vertical column holding body and optional action. 8px stack gap; fills remaining inline space.
 - **body** — explanation copy. `body.sm` / Regular / inherits container foreground. Required.
@@ -119,7 +119,7 @@ Two appearances on the *emphasis* axis — pick by how much attention the aside 
 | Slot      | Token bindings |
 |-----------|----------------|
 | container | Fill + foreground per appearance, `sys.radius.md` (8), `sys.layout.container.sm` (12) padding, `sys.layout.stack.xs` (8) sibling gap, `align-items: flex-start` |
-| icon      | `sys.icon.lg` (24 × 24), `color: currentColor` |
+| icon      | `sys.icon.md` (16 × 16) glyph inside a slot whose height equals the body's first-line box (`calc(sys.typo.body.sm.size * sys.typo.body.sm.line)`), so the icon centres on the first text line; `color: currentColor` |
 | thumbnail | Delegated to [Thumbnail](../thumbnail/thumbnail.md); slot is footprint-preserving (`flex: 0 0 auto`) |
 | content   | Flex column, `flex: 1 1 auto`, `sys.layout.stack.xs` (8) body↔action gap |
 | body      | `sys.typo.body.sm` (14 / Regular), color inherits |

@@ -3,7 +3,7 @@
   "name": "Chip",
   "family": "chip",
   "subcomponent": "tag",
-  "description": "Informational chip. Square-cornered metadata label. Passive (or dismissable via trailing ×). No leading icon. Two appearances: `default` paints a translucent black/white overlay (light → `ref.palette.black.200`, dark → `ref.palette.white.200`) so the tag adopts whatever surface sits behind it; `accent` paints a tonal pale-primary container (`sys.color.primaryContainer`) with primary label for tags that need to pop against the surface.",
+  "description": "Informational chip. Square-cornered metadata label. Passive (or dismissable via trailing ×). No leading icon. Two appearances: `default` paints the translucent `sys.color.scrimSubtle` scrim (~8% inverse-tone overlay — black in light, white in dark) so the tag adopts whatever surface sits behind it; `accent` paints a tonal pale-primary container (`sys.color.primaryContainer`) with primary label for tags that need to pop against the surface.",
   "element": "span",
   "props": {
     "variant": {
@@ -37,19 +37,18 @@
     "paddingBlock": "sys.layout.container.2xs",
     "paddingInline": "sys.layout.container.xs",
     "labelInset": "sys.layout.container.2xs",
-    "slotGap": "0px",
+    "slotGap": "0",
     "radius": "sys.radius.sm",
     "labelTypo": "sys.typo.label.sm",
     "iconSize": "sys.icon.md"
   },
   "appearances": {
     "default": {
-      "background": "ref.palette.black.200",
-      "backgroundDark": "ref.palette.white.200",
+      "background": "sys.color.scrimSubtle",
       "label": "sys.color.onSurface",
       "border": null,
       "default": true,
-      "note": "Background is a translucent black/white overlay (`black.200` in light mode, `white.200` in dark) so the tag harmonises with whatever surface sits behind it — body, raised card, BottomSheet — instead of pinning to a fixed neutral step. Driven by CSS class (not inline `--chip-bg`) so the dark-theme override actually applies; inline emission from JSX would override the `[data-theme=\"dark\"]` rule."
+      "note": "Background is the translucent inverse-tone scrim (`sys.color.scrimSubtle` — black 8% in light mode, white 8% in dark) so the tag harmonises with whatever surface sits behind it — body, raised card, BottomSheet — instead of pinning to a fixed neutral step. Same Banner-style fill used by Progress track, StatusTag neutral, and Skeleton; sys-color is theme-aware so a single token resolves correctly in both modes."
     },
     "accent": {
       "background": "sys.color.primaryContainer",

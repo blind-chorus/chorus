@@ -264,6 +264,14 @@
         "$value": "{ref.palette.black.800}",
         "$type": "color"
       },
+      "scrimSubtle": {
+        "$value": "{ref.palette.black.200}",
+        "$theme": {
+          "dark": "{ref.palette.white.200}"
+        },
+        "$type": "color",
+        "$description": "Translucent inverse-tone surface tint at ~8% opacity — black overlay in light mode, white overlay in dark. Use as a surface-agnostic fill that stays visible on every host surface tier (surface, surfaceContainer, surfaceContainerHigh, hero, …) without colliding with a fixed neutral step. Lighter sibling to `sys.color.scrim` (the heavy 64% modal backdrop). Used by Chip / Tag default, Progress track, StatusTag neutral, and Skeleton."
+      },
       "elevation": {
         "$value": "{ref.palette.black.1000}",
         "$type": "color"

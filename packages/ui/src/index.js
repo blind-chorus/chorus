@@ -15,6 +15,7 @@ export { Feed, FeedGroup } from './Feed.jsx';
 export { FeedAd } from './FeedAd.jsx';
 export { PostCarousel } from './PostCarousel.jsx';
 export { ProfileCarousel } from './ProfileCarousel.jsx';
+export { ProfileHeader } from './ProfileHeader.jsx';
 export { FormField, FormFieldGroup, Input, SearchBar, Select, Textarea } from './FormField.jsx';
 export { Header } from './Header.jsx';
 export { List } from './List.jsx';

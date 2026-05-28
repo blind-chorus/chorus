@@ -435,12 +435,14 @@ textarea {
 }
 
 .chorus-chip--tag {
-  /* Translucent overlay rather than a tonal container role, so the tag
+  /* Translucent overlay (`sys.color.scrimSubtle` — black 8% in light,
+     white 8% in dark) rather than a tonal container role, so the tag
      adopts whatever surface sits behind it — body, raised card, sheet —
      by tinting one step darker (light mode) or lighter (dark mode)
      instead of pinning to a fixed neutral step that can collide with
-     the surface ladder. Mirrors the Banner default treatment. */
-  --chip-bg: var(--ref-palette-black-200);
+     the surface ladder. Same Banner-style scrim used by Progress
+     track, StatusTag neutral, and Skeleton. */
+  --chip-bg: var(--sys-color-scrimSubtle);
   --chip-label: var(--sys-color-onSurface);
   --chip-border-color: transparent;
   /* 24 capsule — Tag rung, anatomy via ref.space. */
@@ -448,10 +450,6 @@ textarea {
   --chip-padding-block: var(--sys-layout-container-2xs);
   --chip-padding-inline: var(--sys-layout-container-xs);
   --chip-radius: var(--sys-radius-sm);
-}
-
-[data-theme="dark"] .chorus-chip--tag {
-  --chip-bg: var(--ref-palette-white-200);
 }
 
 /* Accent — tonal pale-primary tag. Sys-color tokens are theme-aware,
@@ -1979,6 +1977,109 @@ span.chorus-chip {
 }
 
 /* ============================================================
+   ProfileHeader
+============================================================ */
+.chorus-profile-header {
+  display: flex;
+  flex-direction: column;
+  background: var(--sys-color-surface);
+  width: 100%;
+}
+
+/* Image-area fallback contract — same as .chorus-thumbnail /
+   .chorus-profile-carousel__cover. The placeholder PNG is the layer's
+   background so a missing or failed <img> still resolves to an image
+   rather than an empty surface tone. */
+.chorus-profile-header__cover {
+  width: 100%;
+  height: 200px;
+  background-color: var(--sys-color-surfaceContainerHigh);
+  background-image: var(--chorus-placeholder-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.chorus-profile-header__cover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.chorus-profile-header__identity {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sys-layout-stack-md);
+  padding-block: 0 var(--sys-layout-container-md);
+  padding-inline: var(--sys-layout-container-md);
+}
+
+/* Top row holds the avatar (leading, overlapping the cover) and the
+   trailing follow toggle. Negative top margin lifts the row by half the
+   avatar's diameter so the avatar's vertical centre sits on the cover's
+   bottom edge — the top half overlaps the cover, the bottom half sits on
+   the identity surface. Identity padding-block-start is zero so the
+   negative margin equals exactly half the avatar diameter. */
+.chorus-profile-header__action-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: -40px;
+  gap: var(--sys-layout-inline-md);
+}
+
+/* 2px surface halo separates the avatar from the cover band — same
+   contract as the profile-carousel avatar. */
+.chorus-profile-header__avatar-wrap {
+  box-shadow: 0 0 0 2px var(--sys-color-surface);
+  border-radius: var(--sys-radius-full);
+  flex: 0 0 auto;
+}
+
+.chorus-profile-header__name {
+  margin: 0;
+  font-size: var(--sys-typo-heading-lg-size);
+  line-height: var(--sys-typo-heading-lg-line);
+  font-weight: var(--sys-typo-heading-lg-weight);
+  letter-spacing: var(--sys-typo-heading-lg-tracking);
+  color: var(--sys-color-onSurface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.chorus-profile-header__meta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--sys-layout-inline-sm);
+  font-size: var(--sys-typo-body-sm-size);
+  line-height: var(--sys-typo-body-sm-line);
+  color: var(--sys-color-onSurfaceVariant);
+  min-width: 0;
+}
+
+.chorus-profile-header__meta-icon {
+  flex: 0 0 auto;
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.chorus-profile-header__meta-sep {
+  color: var(--sys-color-onSurfaceVariant);
+}
+
+.chorus-profile-header__meta-visibility,
+.chorus-profile-header__meta-followers {
+  white-space: nowrap;
+}
+
+/* ============================================================
    Thumbnail
 ============================================================ */
 .chorus-thumbnail {
@@ -2711,18 +2812,17 @@ span.chorus-chip {
   color: var(--sys-color-onErrorContainer);
 }
 
-/* Default uses an 8% black/white overlay rather than a tonal container
-   role, so the banner stays harmonious on any underlying surface —
-   body, raised card, BottomSheet, Dialog — by tinting one step darker
+/* Default uses `sys.color.scrimSubtle` (~8% inverse-tone overlay —
+   black in light, white in dark) rather than a tonal container role,
+   so the banner stays harmonious on any underlying surface — body,
+   raised card, BottomSheet, Dialog — by tinting one step darker
    (light mode) or lighter (dark mode) instead of pinning to a fixed
-   neutral step that can collide with the surface ladder. */
+   neutral step that can collide with the surface ladder. Same scrim
+   used by Chip / Tag default, Progress track, StatusTag neutral, and
+   Skeleton. */
 .chorus-banner--default {
-  background: var(--ref-palette-black-200);
+  background: var(--sys-color-scrimSubtle);
   color: var(--sys-color-onSurface);
-}
-
-[data-theme="dark"] .chorus-banner--default {
-  background: var(--ref-palette-white-200);
 }
 
 /* Leading icon slot — a 16 × 16 glyph (`sys.icon.md`) that paints in
@@ -4486,12 +4586,12 @@ span.chorus-chip {
 /* ============================================================
    Progress — linear progress bar (determinate + indeterminate)
 ============================================================ */
-/* Single visual rung — 8px tall, radius.full. Track paints with the
-   same Banner-style scrim recipe (black.200 in light, white.200 in
-   dark) so the bar reads cleanly on any host surface tier rather than
-   colliding with a fixed surface-container step. Indicator paints in
-   `inverseSurface` so the filled segment always contrasts against the
-   bare-track scrim regardless of theme.
+/* Single visual rung — 8px tall, radius.full. Track paints with
+   `sys.color.scrimSubtle` (the Banner-style inverse-tone scrim — black
+   8% in light, white 8% in dark) so the bar reads cleanly on any host
+   surface tier rather than colliding with a fixed surface-container
+   step. Indicator paints in `inverseSurface` so the filled segment
+   always contrasts against the bare-track scrim regardless of theme.
    Determinate mode parks the indicator's `translateX` at `-100 +
    percent`% so the trailing edge sits at the value's ratio;
    transitions over 200ms so jumps animate. Indeterminate mode loops a
@@ -4507,13 +4607,9 @@ span.chorus-chip {
   width: 100%;
   height: var(--sys-layout-container-xs);
   overflow: hidden;
-  background: var(--ref-palette-black-200);
+  background: var(--sys-color-scrimSubtle);
   border-radius: var(--sys-radius-full);
   flex: 1 1 auto;
-}
-
-[data-theme="dark"] .chorus-progress {
-  background: var(--ref-palette-white-200);
 }
 
 .chorus-progress__indicator {
@@ -4569,21 +4665,17 @@ span.chorus-chip {
   flex: 0 0 auto;
 }
 
-/* Neutral — the quiet informational default. Background steps with the
-   active theme so the pill stays a faint scrim on the host surface
-   rather than picking up the same tone as a surface-* container:
-     - light: `ref.palette.black.200` (≈8% black) — visible scrim over
-       any light surface tier.
-     - dark : `ref.palette.white.200` (≈8% white) — same role inverted.
-   Foreground stays bound to `onSurfaceVariant` so legibility tracks
-   the active palette automatically. */
+/* Neutral — the quiet informational default. Background paints with
+   `sys.color.scrimSubtle` — a translucent inverse-tone scrim (~8%
+   black light, ~8% white dark) so the pill stays a faint overlay on
+   the host surface rather than picking up the same tone as a
+   surface-* container. Same Banner-style fill used by Chip / Tag
+   default, Progress track, and Skeleton. Foreground stays bound to
+   `onSurfaceVariant` so legibility tracks the active palette
+   automatically. */
 .chorus-status-tag--neutral {
-  background: var(--ref-palette-black-200);
+  background: var(--sys-color-scrimSubtle);
   color: var(--sys-color-onSurfaceVariant);
-}
-
-[data-theme="dark"] .chorus-status-tag--neutral {
-  background: var(--ref-palette-white-200);
 }
 
 .chorus-status-tag--error {
@@ -4594,11 +4686,15 @@ span.chorus-chip {
 /* ============================================================
    Skeleton — tonal loading placeholder with opacity pulse
 ============================================================ */
-/* `surfaceContainerHighest` block painted with a slow opacity pulse
-   (0.5 → 1 → 0.5, 1.6s `ease-in-out`). Three shapes select the default
-   footprint and corner radius. The pulse animates `opacity` only — no
-   gradient sweep — so the placeholder reads as anonymous chrome and
-   degrades cleanly under `prefers-reduced-motion: reduce`. */
+/* Translucent inverse-tone scrim (`sys.color.scrimSubtle` — black 8%
+   in light mode, white 8% in dark) painted with a slow opacity pulse
+   (0.5 → 1 → 0.5, 1.6s `ease-in-out`). The same Banner-style fill used
+   by Chip / Tag default, Progress track, and StatusTag neutral — stays
+   visible on every host surface tier without colliding with a fixed
+   neutral step. Three shapes select the default footprint and corner
+   radius. The pulse animates `opacity` only — no gradient sweep — so
+   the placeholder reads as anonymous chrome and degrades cleanly under
+   `prefers-reduced-motion: reduce`. */
 @keyframes chorus-skeleton-pulse {
   0%, 100% { opacity: 0.5; }
   50% { opacity: 1; }
@@ -4606,7 +4702,7 @@ span.chorus-chip {
 
 .chorus-skeleton {
   display: block;
-  background: var(--sys-color-surfaceContainerHighest);
+  background: var(--sys-color-scrimSubtle);
   animation: chorus-skeleton-pulse 1.6s ease-in-out infinite;
 }
 

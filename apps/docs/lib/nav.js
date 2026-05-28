@@ -264,6 +264,10 @@ export const NAV = [
         ],
       },
       {
+        href: '/components/profile-header',
+        label: 'Profile header',
+      },
+      {
         href: '/components/progress',
         label: 'Progress',
       },

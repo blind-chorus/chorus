@@ -2,7 +2,7 @@
   "$schema": "../../spec.schema.json",
   "name": "Progress",
   "family": "progress",
-  "description": "Linear progress bar. A single visual rung — 8px tall, fully rounded — that previews how far a long-running task has advanced. The track paints with the same Banner-style scrim recipe (`ref.palette.black.200` in light, `ref.palette.white.200` in dark) so the bar reads cleanly on any host surface tier without colliding with a fixed surface-container step. The indicator paints in `sys.color.inverseSurface` so the filled segment always contrasts against the scrim track regardless of theme. The track owns no width of its own — it stretches to fill its host column. `role='progressbar'` with `aria-valuemin / max / now` reflects the determinate value; indeterminate omits `aria-valuenow` so screen readers announce 'busy'.",
+  "description": "Linear progress bar. A single visual rung — 8px tall, fully rounded — that previews how far a long-running task has advanced. The track paints with `sys.color.scrimSubtle` (the Banner-style inverse-tone scrim — ~8% black in light, ~8% white in dark) so the bar reads cleanly on any host surface tier without colliding with a fixed surface-container step. The indicator paints in `sys.color.inverseSurface` so the filled segment always contrasts against the scrim track regardless of theme. The track owns no width of its own — it stretches to fill its host column. `role='progressbar'` with `aria-valuemin / max / now` reflects the determinate value; indeterminate omits `aria-valuenow` so screen readers announce 'busy'.",
   "element": "div",
   "props": {
     "value": {
@@ -29,7 +29,7 @@
   "slots": {
     "track": {
       "required": true,
-      "description": "Fully-rounded background block. 8px tall, mode-aware scrim fill (`ref.palette.black.200` light / `ref.palette.white.200` dark), no stroke. Carries `role='progressbar'` and the aria-value attributes.",
+      "description": "Fully-rounded background block. 8px tall, `sys.color.scrimSubtle` fill (translucent inverse-tone scrim — black 8% light / white 8% dark), no stroke. Carries `role='progressbar'` and the aria-value attributes.",
       "intrinsic": true
     },
     "indicator": {
@@ -40,8 +40,7 @@
   },
   "sizing": {
     "height": "sys.layout.container.xs",
-    "trackBackgroundLight": "ref.palette.black.200",
-    "trackBackgroundDark": "ref.palette.white.200",
+    "trackBackground": "sys.color.scrimSubtle",
     "trackRadius": "sys.radius.full",
     "indicatorBackground": "sys.color.inverseSurface",
     "indicatorRadius": "inherit",
@@ -52,12 +51,9 @@
   },
   "appearances": {
     "default": {
-      "track": {
-        "light": "ref.palette.black.200",
-        "dark": "ref.palette.white.200"
-      },
+      "track": "sys.color.scrimSubtle",
       "indicator": "sys.color.inverseSurface",
-      "note": "The only appearance. Track is a faint scrim of the inverse tone — visible against every surface tier in either theme. Indicator paints in `inverseSurface` so the filled segment always contrasts against the bare track regardless of theme. Progress has no emphasis axis; if a screen needs a higher-attention progress mark, it belongs as a Banner copy nearby, not as a chromatic indicator tone."
+      "note": "The only appearance. Track paints `sys.color.scrimSubtle` — a faint inverse-tone scrim (~8% black light / ~8% white dark) visible against every surface tier in either theme. Indicator paints in `inverseSurface` so the filled segment always contrasts against the bare track regardless of theme. Progress has no emphasis axis; if a screen needs a higher-attention progress mark, it belongs as a Banner copy nearby, not as a chromatic indicator tone."
     }
   },
   "states": {

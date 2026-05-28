@@ -783,6 +783,10 @@
     "$value": "#000000a3",
     "$type": "color"
   },
+  "sys.color.scrimSubtle": {
+    "$value": "#ffffff14",
+    "$type": "color"
+  },
   "sys.color.elevation": {
     "$value": "#000000",
     "$type": "color"

@@ -6,7 +6,7 @@ Reverse index from natural-language intent to family + sub-component. Read *befo
 
 Each family declares `visualReuse: "open" | "locked"` in its `<family>.family.json`. The catalog respects that flag.
 
-- **Open (default, 13 families)** — `badge`, `banner`, `button`, `suggestion-list`, `avatar-rail`, `chip`, `feed`, `list`, `navigation-bar`, `section`, `tab-bar`, `tabs`, `thumbnail`. The intent table is the *first* suggestion, but the agent MAY reach for these on visual-fit grounds even when the brief's intent does not match the row verbatim — e.g. `<Feed>` as a generic article-card surface, `<Banner>` as a tonal aside outside a literal "notice", `<Section>` as any labelled editorial block. Anatomy invariants (slot grammar, token bindings, intrinsic geometry) still apply.
+- **Open (default, 14 families)** — `badge`, `banner`, `button`, `suggestion-list`, `avatar-rail`, `chip`, `feed`, `list`, `navigation-bar`, `profile-header`, `section`, `tab-bar`, `tabs`, `thumbnail`. The intent table is the *first* suggestion, but the agent MAY reach for these on visual-fit grounds even when the brief's intent does not match the row verbatim — e.g. `<Feed>` as a generic article-card surface, `<Banner>` as a tonal aside outside a literal "notice", `<Section>` as any labelled editorial block. Anatomy invariants (slot grammar, token bindings, intrinsic geometry) still apply.
 - **Locked (5 families)** — `dialog`, `bottom-sheet`, `toast`, `tooltip`, `form-field`. MUST only be used when the brief's intent matches a row. Their contract IS the interaction — focus trap, auto-dismiss, ARIA live region, form semantics, hover/focus trigger. Borrowing the visual shape without the role breaks behavior. Marked *(locked)* below.
 
 When in doubt: open families are recipes, locked families are rules.
@@ -20,8 +20,9 @@ When in doubt: open families are recipes, locked families are rules.
 | landing screen header, title bar      | `navigation-bar / home`            |
 | drill-in screen header, back + title  | `navigation-bar / page`            |
 | search screen header, input fills bar | `navigation-bar / search`          |
+| profile / channel detail page identity (cover + avatar + name + follow) | `profile-header` |
 
-**Disambiguate**: never stack two NavigationBars. Pick by *screen kind*, not *content kind*.
+**Disambiguate**: never stack two NavigationBars. Pick by *screen kind*, not *content kind*. `profile-header` is not a bar — it's the page-level identity block (cover, avatar, name, follow) at the top of a profile detail route; pair it with a transparent overlay `navigation-bar / page` when the route is a drill-in.
 
 ## Action commits
 

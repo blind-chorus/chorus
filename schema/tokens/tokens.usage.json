@@ -465,6 +465,23 @@
       "darkValue": "#000000a3",
       "unit": "hex"
     },
+    "sys.color.scrimSubtle": {
+      "role": "Translucent inverse-tone surface tint (~8% — black light / white dark). Surface-agnostic fill that stays visible on every host surface tier.",
+      "usedFor": [
+        "Banner default background",
+        "Chip / Tag default background",
+        "Progress track background",
+        "StatusTag neutral background",
+        "Skeleton placeholder fill"
+      ],
+      "notFor": [
+        "modal backdrop (use scrim)",
+        "opaque container surfaces (use surface* ladder)"
+      ],
+      "value": "#00000014",
+      "darkValue": "#ffffff14",
+      "unit": "hex"
+    },
     "sys.color.secondary": {
       "role": "Neutral-dark accent — secondary text, neutral active state, supporting metric.",
       "usedFor": [

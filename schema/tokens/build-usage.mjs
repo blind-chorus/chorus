@@ -421,6 +421,11 @@ const META = {
     usedFor: ["dialog scrim", "bottom-sheet scrim"],
     notFor: ["any visible surface"],
   },
+  "sys.color.scrimSubtle": {
+    role: "Translucent inverse-tone surface tint (~8% — black light / white dark). Surface-agnostic fill that stays visible on every host surface tier.",
+    usedFor: ["Banner default background", "Chip / Tag default background", "Progress track background", "StatusTag neutral background", "Skeleton placeholder fill"],
+    notFor: ["modal backdrop (use scrim)", "opaque container surfaces (use surface* ladder)"],
+  },
   "sys.color.elevation": {
     role: "Elevation shadow color (compose into box-shadow).",
     usedFor: ["box-shadow color in raised/floating/overlay elevations"],

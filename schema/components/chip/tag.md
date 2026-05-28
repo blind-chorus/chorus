@@ -1,6 +1,6 @@
 # Tag
 
-The informational chip — square-cornered label naming attached metadata. Use for taxonomy on rows, cards, or profiles — categories, statuses, content labels; prefer [Badge](../badge/badge.md) when the marker signals unread / new activity on a host rather than describing it. Shorter than Filter (24 vs 32 min-height) with `sys.radius.sm` corners. Two appearances: `default` paints a translucent black/white overlay (light → `ref.palette.black.200`, dark → `ref.palette.white.200`) so the tag adopts whatever surface sits behind it; `accent` paints a tonal pale-primary container with primary label for tags that need to pop.
+The informational chip — square-cornered label naming attached metadata. Use for taxonomy on rows, cards, or profiles — categories, statuses, content labels; prefer [Badge](../badge/badge.md) when the marker signals unread / new activity on a host rather than describing it. Shorter than Filter (24 vs 32 min-height) with `sys.radius.sm` corners. Two appearances: `default` paints the translucent `sys.color.scrimSubtle` scrim (~8% inverse-tone overlay — black in light, white in dark) so the tag adopts whatever surface sits behind it; `accent` paints a tonal pale-primary container with primary label for tags that need to pop.
 
 **Layout inset.** `inline` — Tag ships no padding outside its own pill chrome. It sits inside whichever host row holds it (list-row label cluster, profile-card meta strip, feed-post header) with the host paying the surrounding gap and column padding. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
@@ -126,8 +126,7 @@ Two appearances; Tag never toggles.
 
 | Property              | Token                                                         |
 |-----------------------|---------------------------------------------------------------|
-| Background (light)    | `ref.palette.black.200` (translucent black overlay)           |
-| Background (dark)     | `ref.palette.white.200` (translucent white overlay)           |
+| Background            | `sys.color.scrimSubtle` (translucent inverse-tone overlay — black 8% light / white 8% dark) |
 | Label / icon color    | `sys.color.onSurface`                                         |
 
 ### Accent

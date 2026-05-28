@@ -1,6 +1,6 @@
 # Skeleton
 
-A tonal placeholder block that previews where real content will render. Paints in `surfaceContainerHighest` with a slow opacity pulse. Three shapes — `text` (default 16-line block), `block` (image / card body), `circle` (avatar). Compose multiple Skeletons inside `SkeletonGroup` to mirror the loading content's rhythm.
+A tonal placeholder block that previews where real content will render. Paints with a translucent `scrimSubtle` overlay (~8% black in light mode, ~8% white in dark) and a slow opacity pulse — visible on every host surface tier without colliding with a fixed neutral step. Three shapes — `text` (default 16-line block), `block` (image / card body), `circle` (avatar). Compose multiple Skeletons inside `SkeletonGroup` to mirror the loading content's rhythm.
 
 **Reach for this when** a list row, feed post, card cover, or avatar is being fetched and the host would otherwise paint empty. **Skip when** the wait is sub-300ms, the data is unavailable rather than loading (use an empty-state illustration), or the loading scope is the whole screen (use a centered progress indicator at page level).
 
@@ -79,7 +79,7 @@ import { Skeleton, SkeletonGroup } from '@blind-dsai/ui';
       <Skeleton width="25%" />
     </SkeletonGroup>
   </div>
-  <Skeleton width="85%" height={20} />
+  <Skeleton width="85%" />
   <Skeleton />
   <Skeleton width="70%" />
   <Skeleton shape="block" height={180} />
@@ -88,25 +88,25 @@ import { Skeleton, SkeletonGroup } from '@blind-dsai/ui';
 
 ## Slots
 
-- **container** — the tonal block. `surfaceContainerHighest` fill, shape-dependent radius. Carries the pulse animation. `role='status'` + `aria-live='polite'` so screen readers announce the loading state without yanking focus.
+- **container** — the tonal block. `sys.color.scrimSubtle` fill (translucent inverse-tone overlay — black in light, white in dark), shape-dependent radius. Carries the pulse animation. `role='status'` + `aria-live='polite'` so screen readers announce the loading state without yanking focus.
 
 ## Anatomy
 
 | Slot       | Token bindings |
 |------------|----------------|
-| container  | `sys.color.surfaceContainerHighest` fill, `sys.radius.xs` corners (`text` / `block`) or full round (`circle`), no stroke |
-| text       | Default 16px height × 100% width |
-| block      | Default 80px height × 100% width |
-| circle     | Default 40 × 40 round |
+| container  | `sys.color.scrimSubtle` fill, `sys.radius.xs` corners (`text` / `block`) or `sys.radius.full` (`circle`), no stroke |
+| text       | Default `ref.space.200` (16px) height × 100% width |
+| block      | Default `ref.space.1000` (80px) height × 100% width |
+| circle     | Default `ref.space.500` × `ref.space.500` (40 × 40) round |
 | group gap  | `SkeletonGroup` flex column, `sys.layout.stack.xs` (8px) between stacked Skeletons |
 
 ## Shapes
 
 | Shape    | Default footprint | Corners            | When to reach                                                            |
 |----------|-------------------|--------------------|-------------------------------------------------------------------------|
-| `text`   | 16 × 100%         | `sys.radius.xs`    | Single line of body copy — the canonical default.                       |
-| `block`  | 80 × 100%         | `sys.radius.xs`    | Image area, card cover, multi-line body block. Override `height` to fit. |
-| `circle` | 40 × 40           | fully round        | Avatar placeholder — matches a 40-rung [Thumbnail](../thumbnail/thumbnail.md). |
+| `text`   | `ref.space.200` × 100%       | `sys.radius.xs`    | Single line of body copy — the canonical default.                       |
+| `block`  | `ref.space.1000` × 100%      | `sys.radius.xs`    | Image area, card cover, multi-line body block. Override `height` to fit. |
+| `circle` | `ref.space.500` × `ref.space.500` | `sys.radius.full` | Avatar placeholder — matches a 40-rung [Thumbnail](../thumbnail/thumbnail.md). |
 
 ## States
 

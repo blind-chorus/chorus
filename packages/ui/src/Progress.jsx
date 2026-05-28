@@ -9,8 +9,8 @@ import { joinClasses } from './spec-utils.js';
      segment animates left-to-right; reduced-motion suppresses the
      animation and shows a steady half-filled track instead.
    Single visual rung — 8px tall, radius.full, `inverseSurface`
-   indicator on a Banner-style track scrim (black.200 light /
-   white.200 dark) so the bar reads on any host surface.
+   indicator on a `sys.color.scrimSubtle` track scrim (~8% black
+   light / ~8% white dark) so the bar reads on any host surface.
    See schema/components/progress/progress.md. */
 
 export function Progress({

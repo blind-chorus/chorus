@@ -2,26 +2,26 @@
   "$schema": "../../spec.schema.json",
   "name": "Skeleton",
   "family": "skeleton",
-  "description": "Single tonal placeholder block painted on `sys.color.surfaceContainerHighest` with a slow opacity pulse (`0.5 → 1 → 0.5` over 1.6s). Three shapes select the default footprint and corner radius: `text` (16px high, full-width — single line of body copy), `block` (80px high, full-width — image / card body) and `circle` (40 × 40, fully rounded — avatar). Consumer-supplied `width` / `height` props override the default footprint. Compose multiple Skeletons inside `SkeletonGroup` to mirror the rhythm of the content being loaded.",
+  "description": "Single tonal placeholder block painted on `sys.color.scrimSubtle` (~8% inverse-tone overlay — black scrim in light mode, white scrim in dark) with a slow opacity pulse (`0.5 → 1 → 0.5` over 1.6s). The translucent fill stays visible on every host surface tier, so the placeholder reads cleanly whether it sits on a plain page surface, an elevated container, a hero band, or a coloured card. Three shapes select the default footprint and corner radius: `text` (`ref.space.200` / 16px high, full-width — single line of body copy), `block` (`ref.space.1000` / 80px high, full-width — image / card body) and `circle` (`ref.space.500` × `ref.space.500` / 40 × 40, fully rounded — avatar). Consumer-supplied `width` / `height` props override the default footprint. Compose multiple Skeletons inside `SkeletonGroup` to mirror the rhythm of the content being loaded.",
   "element": "span",
   "props": {
     "shape": {
       "type": "enum",
       "values": ["text", "block", "circle"],
       "default": "text",
-      "description": "Selects the default footprint and corner radius. `text` and `block` paint as a `sys.radius.xs` corner; `circle` ignores radius and renders as a perfect round."
+      "description": "Selects the default footprint and corner radius. `text` and `block` paint at `sys.radius.xs`; `circle` paints at `sys.radius.full`."
     },
     "width": {
       "type": "union",
       "members": ["number", "string"],
       "optional": true,
-      "description": "Overrides the default inline footprint. Numbers are coerced to `px`; strings pass through (`100%`, `'12rem'`, …). When omitted, `text` and `block` stretch to 100% of the host; `circle` keeps a 40 × 40 footprint."
+      "description": "Overrides the default inline footprint. Numbers are coerced to `px`; strings pass through (`100%`, `'12rem'`, …). When omitted, `text` and `block` stretch to 100% of the host; `circle` keeps a `ref.space.500` (40 × 40) footprint."
     },
     "height": {
       "type": "union",
       "members": ["number", "string"],
       "optional": true,
-      "description": "Overrides the default block footprint. Numbers are coerced to `px`. When omitted, `text` is 16px, `block` is 80px, `circle` is 40px."
+      "description": "Overrides the default block footprint. Numbers are coerced to `px`. When omitted, `text` is `ref.space.200` (16px), `block` is `ref.space.1000` (80px), `circle` is `ref.space.500` (40px)."
     },
     "aria-label": {
       "type": "string",
@@ -32,24 +32,24 @@
   "slots": {
     "container": {
       "required": true,
-      "description": "Tonal block. `sys.color.surfaceContainerHighest` fill, shape-dependent radius, no stroke. Carries the pulse animation. `role='status'` + `aria-live='polite'` so screen readers announce the loading state without yanking focus.",
+      "description": "Tonal block. `sys.color.scrimSubtle` fill (translucent black/white inverse-tone overlay — visible on every host surface), shape-dependent radius, no stroke. Carries the pulse animation. `role='status'` + `aria-live='polite'` so screen readers announce the loading state without yanking focus.",
       "intrinsic": true
     }
   },
   "sizing": {
-    "background": "sys.color.surfaceContainerHighest",
+    "background": "sys.color.scrimSubtle",
     "radiusText": "sys.radius.xs",
     "radiusBlock": "sys.radius.xs",
-    "radiusCircle": "9999px",
-    "defaultTextHeight": "16px",
-    "defaultBlockHeight": "80px",
-    "defaultCircleSize": "40px",
+    "radiusCircle": "sys.radius.full",
+    "defaultTextHeight": "ref.space.200",
+    "defaultBlockHeight": "ref.space.1000",
+    "defaultCircleSize": "ref.space.500",
     "groupGap": "sys.layout.stack.xs"
   },
   "appearances": {
     "default": {
-      "background": "sys.color.surfaceContainerHighest",
-      "note": "The only fill tone — Skeleton has no emphasis axis. The pulse modulates opacity, not hue, so the placeholder stays anonymous against any host surface."
+      "background": "sys.color.scrimSubtle",
+      "note": "The only fill tone — Skeleton has no emphasis axis. Painted as a translucent ~8% inverse-tone overlay (black in light mode, white in dark) so the placeholder stays visible on every host surface tier (surface, surfaceContainer, surfaceContainerHigh, hero, …) without colliding with a fixed neutral step. The pulse modulates opacity, not hue, so the placeholder reads as anonymous chrome."
     }
   },
   "states": {

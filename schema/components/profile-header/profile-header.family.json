@@ -1,0 +1,25 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "profile-header",
+  "name": "ProfileHeader",
+  "description": "Identity block at the top of a profile detail screen — a full-bleed cover band, an overlapping circular [Thumbnail](../thumbnail/thumbnail.md) avatar, an entity name + visibility/follower meta row, and a trailing follow [Toggle Button](../button/toggle.md). Same 'profile' contract as [Profile carousel](../section/profile-carousel.md) (channel, user, company) — the carousel surfaces a fixed-shape card in a curated rail; the header is the page-level identity rung the rail's `See all` lands on. Composes under a transparent overlay [Navigation bar](../navigation-bar/page.md) when the screen is a drill-in route.",
+  "useCases": [
+    "channel detail header",
+    "profile detail header",
+    "company channel detail header",
+    "follow / following on a profile page",
+    "cover + avatar identity block"
+  ],
+  "visualReuse": "open",
+  "layoutInset": "full-bleed",
+  "wrapperGuidance": "Owns its inline padding internally on the meta row, and the cover band stretches edge-to-edge through the page-shell content box. Place as a direct child of the page-shell <main>. Do NOT wrap in a padding-inline div, className=\"px-*\", or style={{ padding }} — the page rail is paid once at the shell, never on the full-bleed child. Inside a bounded surface (Dialog / BottomSheet / SideSheet), apply the negative-margin opt-out — see AGENTS.md § Composition rules.",
+  "spec": "profile-header.md",
+  "subcomponents": [
+    {
+      "slug": "profile-header",
+      "spec": "profile-header.spec.json",
+      "md": "profile-header.md",
+      "default": true
+    }
+  ]
+}

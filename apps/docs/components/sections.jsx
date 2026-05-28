@@ -463,8 +463,9 @@ const UTILITY_GROUPS = [
   {
     title: 'Overlay',
     rows: [
-      { name: 'scrim',     role: 'Translucent black used to dim content behind a raised overlay. The backdrop behind modals, drawers, menus, and bottom sheets — focuses attention on the foreground and blocks interaction with the obscured layer. Resolves to `ref.palette.black.800`.' },
-      { name: 'elevation', role: 'Base color used to build elevation shadows (composited with opacity inside `elevation.*` definitions). Not for fills — reference only from elevation definitions. Resolves to `ref.palette.black.1000`.' },
+      { name: 'scrim',       role: 'Translucent black used to dim content behind a raised overlay. The backdrop behind modals, drawers, menus, and bottom sheets — focuses attention on the foreground and blocks interaction with the obscured layer. Resolves to `ref.palette.black.800`.' },
+      { name: 'scrimSubtle', role: 'Translucent inverse-tone surface tint at ~8% opacity — black overlay in light mode, white overlay in dark. Use as a surface-agnostic fill that stays visible on every host surface tier (surface, surfaceContainer, surfaceContainerHigh, hero, …) without colliding with a fixed neutral step. Lighter sibling to `scrim` (the heavy 64% modal backdrop). Used by Banner default, Chip / Tag default, Progress track, StatusTag neutral, and Skeleton. Resolves to `ref.palette.black.200` (light) / `ref.palette.white.200` (dark).' },
+      { name: 'elevation',   role: 'Base color used to build elevation shadows (composited with opacity inside `elevation.*` definitions). Not for fills — reference only from elevation definitions. Resolves to `ref.palette.black.1000`.' },
     ],
   },
 ];
@@ -529,12 +530,12 @@ function ColorUtilities({ tokens }) {
         <>Five small role-clusters that don&apos;t fit the accent quartet or the surface stack. Each cluster is paired or solo by intent, not by a shared scale.</>
       }
     >
-      <ProseSection title="Five role-clusters">
+      <ProseSection title="Role-clusters">
         <ul className="rule-list">
           <li><strong>Outline cluster</strong> (<code>outline</code> / <code>outlineVariant</code>) — high vs. low emphasis border pair.</li>
           <li><strong>Inverse cluster</strong> (<code>inverseSurface</code> / <code>inverseOnSurface</code>) — mini-stack for elements that must contrast with the page (snackbars, tooltips). <code>inverseSurface</code> is the canvas, <code>inverseOnSurface</code> is the foreground. Action accents inside inverted components fall back to the regular <code>primary</code> family.</li>
           <li><strong>Focus cluster</strong> (<code>focus</code> / <code>focusInset</code>) — outer ring + inner counter-ring pair. Always composed together.</li>
-          <li><strong>Scrim</strong> (solo) — translucent black for backdrop dimming.</li>
+          <li><strong>Scrim pair</strong> (<code>scrim</code> / <code>scrimSubtle</code>) — translucent black/inverse-tone overlays. <code>scrim</code> at 64% dims content behind raised modals; <code>scrimSubtle</code> at 8% is a surface-agnostic fill used by Banner default, Chip / Tag default, Progress track, StatusTag neutral, and Skeleton — visible on any host surface tier without colliding with the surface ladder.</li>
           <li><strong>Elevation ink</strong> (solo) — base shadow color, referenced only from <code>elevation.*</code> definitions, never as a fill.</li>
         </ul>
       </ProseSection>

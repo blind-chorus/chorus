@@ -8,7 +8,7 @@ A small inline status pill — a tonal mark sized for the trailing edge of a row
 
 ## Default
 
-The `neutral` appearance — a faint scrim of the inverse tone (`black.200` in light, `white.200` in dark) with `onSurfaceVariant` foreground. The quiet informational state.
+The `neutral` appearance — `sys.color.scrimSubtle` fill (the translucent inverse-tone scrim — ~8% black in light, ~8% white in dark) with `onSurfaceVariant` foreground. The quiet informational state.
 
 ```preview
 status-tag/default
@@ -99,7 +99,7 @@ import { StatusTag } from '@blind-dsai/ui';
 
 | Appearance | Container fill                                                              | Foreground                       | When to reach                                                                  |
 |------------|-----------------------------------------------------------------------------|----------------------------------|-------------------------------------------------------------------------------|
-| `neutral`  | `ref.palette.black.200` (light) / `ref.palette.white.200` (dark)            | `sys.color.onSurfaceVariant`     | Quiet informational default — visible on every surface tier. In-progress / awaiting states — "pending", "draft", "queued", "in review". |
+| `neutral`  | `sys.color.scrimSubtle` (translucent inverse-tone scrim — ~8% black light / ~8% white dark) | `sys.color.onSurfaceVariant`     | Quiet informational default — visible on every surface tier. In-progress / awaiting states — "pending", "draft", "queued", "in review". |
 | `error`    | `sys.color.errorContainer`                                                  | `sys.color.onErrorContainer`     | Rejection / blocked / failed state. Use sparingly. |
 
 ## States

@@ -199,6 +199,7 @@
   --sys-color-focus: #000000;
   --sys-color-focusInset: #ffffff;
   --sys-color-scrim: #000000a3;
+  --sys-color-scrimSubtle: #00000014;
   --sys-color-elevation: #000000;
   --sys-color-placeholderImage-start: #c8e0e1;
   --sys-color-placeholderImage-end: #2d6f72;
@@ -514,6 +515,7 @@
   --sys-color-focus: #000000;
   --sys-color-focusInset: #ffffff;
   --sys-color-scrim: #000000a3;
+  --sys-color-scrimSubtle: #00000014;
   --sys-color-elevation: #000000;
   --sys-color-placeholderImage-start: #c8e0e1;
   --sys-color-placeholderImage-end: #2d6f72;
@@ -663,6 +665,7 @@
   --sys-color-inverseOnSurface: #141414;
   --sys-color-focus: #ffffff;
   --sys-color-focusInset: #000000;
+  --sys-color-scrimSubtle: #ffffff14;
   --sys-color-placeholderImage-start: #3a4548;
   --sys-color-placeholderImage-end: #1a2226;
 }

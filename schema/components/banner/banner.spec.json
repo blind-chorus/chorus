@@ -18,7 +18,7 @@
     "icon": {
       "type": "node",
       "optional": true,
-      "description": "A 24 × 24 glyph at the container's leading edge. Inherits the banner's foreground (`currentColor`) so the mark reads as part of the body copy. Ignored when `thumbnail` is also passed."
+      "description": "A 16 × 16 (`sys.icon.md`) glyph at the container's leading edge. Inherits the banner's foreground (`currentColor`) so the mark reads as part of the body copy. The slot occupies the body.sm line-box height so the glyph centers on the **first line** of the body — multi-line bodies keep the icon anchored to the first-line cap, not the block center. Ignored when `thumbnail` is also passed."
     },
     "thumbnail": {
       "type": "node",
@@ -44,7 +44,7 @@
     },
     "icon": {
       "required": false,
-      "description": "24 × 24 glyph slot. Paints in `currentColor` so the icon inherits the banner's foreground.",
+      "description": "16 × 16 (`sys.icon.md`) glyph slot. Paints in `currentColor` so the icon inherits the banner's foreground. Slot height equals the body.sm line box, centring the glyph on the body's first line.",
       "accepts": [
         "icon"
       ]
@@ -80,7 +80,8 @@
     "radius": "sys.radius.md",
     "padding": "sys.layout.container.sm",
     "slotGap": "sys.layout.stack.xs",
-    "iconSize": "sys.icon.lg",
+    "iconSize": "sys.icon.md",
+    "iconSlotHeight": "calc(sys.typo.body.sm.size * sys.typo.body.sm.line)",
     "iconColor": "currentColor",
     "contentStackGap": "sys.layout.stack.xs",
     "bodyTypo": "sys.typo.body.sm",
@@ -89,23 +90,23 @@
   "safeZone": {
     "inline": {
       "token": "sys.layout.container.md",
-      "value": "16px",
+      "value": "ref.space.200",
       "paidBy": "page-shell-gutter",
       "note": "Horizontal 16 is paid once by the page shell's `layout.page.md` gutter — Banner stretches to its edges as a `full-bleed` child. Do not re-pay it on a wrapper."
     },
     "block": {
       "token": "sys.layout.stack.xs",
-      "value": "8px",
+      "value": "ref.space.100",
       "paidBy": "parent-gap",
       "note": "Vertical 8 between Banner and its siblings is paid by the parent column as `gap: var(--sys-layout-stack-xs)`. Banner itself owns no outer margin. Do not wrap in Section, do not paint `padding-block` on a wrapper, do not paint `margin-block` on Banner."
     }
   },
   "appearances": {
     "default": {
-      "background": "sys.color.secondaryContainer",
-      "foreground": "sys.color.onSecondaryContainer",
+      "background": "sys.color.scrimSubtle",
+      "foreground": "sys.color.onSurface",
       "actionColor": "sys.color.primary",
-      "note": "Body sits in muted onSecondaryContainer; the action link steps to primary so it carries the only chromatic emphasis. Bound to secondaryContainer (not surfaceVariant) to stay visible on raised surfaces in dark mode. The neutral information aside — the canonical Banner."
+      "note": "Body sits in `onSurface`; the action link steps to primary so it carries the only chromatic emphasis. Background is the translucent inverse-tone scrim (`sys.color.scrimSubtle` — ~8% black light / ~8% white dark) so the banner stays harmonious on any underlying surface — body, raised card, BottomSheet, Dialog — by tinting one step darker (light mode) or lighter (dark mode) instead of pinning to a fixed neutral step that can collide with the surface ladder. Same scrim used by Chip / Tag default, Progress track, StatusTag neutral, and Skeleton."
     },
     "accent": {
       "background": "sys.color.primaryContainer",
