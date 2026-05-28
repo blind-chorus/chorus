@@ -119,7 +119,7 @@ import { StarFillIcon } from '@blind-dsai/ui/icons';
 
 | Slot                       | Token bindings |
 |----------------------------|----------------|
-| row container              | `8px` block / `16px` inline padding (`layout.container.xs` / `layout.container.md`), `min-height: 48` (`ref.space.600`) |
+| row container              | Block / inline padding (`layout.container.md` inline rail across every rung). Block rung: `8px` (`layout.container.xs`) at `small` / `medium` / `large`, `12px` (`layout.container.sm`) at `xlarge` — the 56 rung's identity stack (label + secondary + description) reads denser, so block padding bumps a step. `min-height: 48` (`ref.space.600`). |
 | leading thumbnail          | 32 (`size="small"`) / 40 (`size="medium"`) / 48 (`size="large"`) / 56 (`size="xlarge"`) |
 | leading → text column      | `sys.layout.inline.lg` (12) — Entry-specific override of the family-wide `inline.md` (8) row gap |
 | label                      | `sys.typo.label.md` (14 / Semibold) / `onSurface`, single-line ellipsis |
@@ -141,6 +141,7 @@ No `selected` state. State overlays (hover / pressed / disabled) and the inward 
 
 - **Identity group is tight.** Label + (inline count) on the primary line, optional `secondary` stacked flush below — line-height-only spacing, no margin — so the entire identity group reads as one block.
 - **Divider inset switches at `xlarge`.** Default (`small` / `medium` / `large`): inter-row hairline is inset `16` from both edges so the rule reads as separating *content*, not the container. At `xlarge` the leading inset anchors to the text column (`16 + 56 + 12 = 84`) instead — the 56 avatar is large enough that a row-edge divider reads as a hard line under the avatar; anchoring it to the text column keeps the rule reading as separating identity columns.
+- **Block padding bumps at `xlarge`.** Default (`small` / `medium` / `large`): block padding is `container.xs` (8). At `xlarge` it bumps to `container.sm` (12) — the 56 rung's identity stack reads denser, so the row needs an extra step of breathing room top + bottom.
 - **Description is the supporting layer.** Sits below the identity group with `ref.space.25` (2) of separation. Always single-line; truncates with ellipsis. The row never grows to fit longer copy.
 - **Truncates, never wraps.** Label and description both truncate; trailing slot is never pushed off-row by long text.
 - **Trailing slot is its own hit target.** Clicks inside `trailingIcon` stop propagating before reaching the row — wire favorite / follow / overflow there without committing the row's primary action.

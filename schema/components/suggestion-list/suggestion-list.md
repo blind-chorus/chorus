@@ -63,7 +63,7 @@ import { SuggestionList } from '@blind-dsai/ui';
 | Slot           | Token bindings |
 |----------------|----------------|
 | container      | `surface` fill, 24px block / 16px inline padding, vertical stack |
-| header         | Flex row, items centred, `space-between`. Container stack (`sys.layout.stack.md` = 16px) separates from pager. |
+| header         | Flex row, items centred, `space-between`. Container stack (`sys.layout.stack.sm` = 12px) separates from pager. |
 | label          | `heading.md` / Semibold / `onSurface` |
 | headerAction   | `xsmall` [Text Button](../button/text.md), `accent` appearance |
 | pager          | Horizontal scroll, `scroll-snap-type: x mandatory`, scrollbar hidden; `sys.layout.inline.xl` (16/24px) gap. Bleeds outward on both sides via `margin-inline: -1 × sys.layout.container.md`; a matching `padding-left` (and `scroll-padding-left`) shifts the flex content area + snap-port back to the section's content rail so page positions don't move while the row's leftward tap-area extension stays visible inside the bled padding strip. |

@@ -82,7 +82,7 @@
     "containerFill": "sys.color.surface",
     "containerPaddingBlock": "sys.layout.container.lg",
     "containerPaddingInline": "sys.layout.container.md",
-    "headerToPagerGap": "sys.layout.stack.md",
+    "headerToPagerGap": "sys.layout.stack.sm",
     "labelTypo": "sys.typo.heading.md",
     "labelColor": "sys.color.onSurface",
     "headerActionRendersAs": "Button variant='text' size='xsmall' appearance='accent' — label paints in sys.color.primary via the Text Button accent token.",

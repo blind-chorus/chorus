@@ -2344,6 +2344,15 @@ a.chorus-metadata__name:focus-visible {
   gap: var(--sys-layout-inline-lg);
 }
 
+/* Entry xlarge block-padding override — at the 56 thumbnail rung the
+   row's identity stack (label + secondary + description) reads denser,
+   so the family-default `container.xs` (8) feels cramped. Bumps block
+   padding to `container.sm` (12) only at this rung; inline padding
+   stays on the family-default `container.md` rail. */
+.chorus-list--entry[data-size="xlarge"] .chorus-list__row {
+  padding-block: var(--sys-layout-container-sm);
+}
+
 .chorus-list--entry[data-size="xlarge"] .chorus-list__row:not(:last-child):not([data-divider="false"])::after {
   left: calc(var(--sys-layout-container-md) + var(--ref-space-700) + var(--sys-layout-inline-lg));
 }
@@ -2732,7 +2741,7 @@ a.chorus-metadata__name:focus-visible {
   padding: var(--sys-layout-container-lg) var(--sys-layout-container-md);
   display: flex;
   flex-direction: column;
-  gap: var(--sys-layout-stack-md);
+  gap: var(--sys-layout-stack-sm);
 }
 
 .chorus-suggestion-list__header {

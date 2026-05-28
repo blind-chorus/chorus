@@ -150,7 +150,7 @@
     }
   },
   "sizing": {
-    "rowPaddingBlock": "ref.space.100",
+    "rowPaddingBlock": "ref.space.100 (8) at small / medium / large; ref.space.150 (12) at xlarge — the 56 rung's identity stack reads denser so block padding bumps a step.",
     "rowPaddingInline": "ref.space.200",
     "rowMinHeight": "ref.space.600",
     "leadingLabelGap": "sys.layout.inline.lg",
