@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import Link from 'next/link';
 import { Badge } from '@blind-dsai/ui';
-import { BellIcon, ChatIcon, MentionIcon } from '@blind-dsai/ui/icons';
+import { BellIcon, ChatIcon, CheckCircleIcon, ExtractFillIcon, MentionIcon } from '@blind-dsai/ui/icons';
 import { asset } from '../lib/asset';
 import { groupByPrefix, toCssVarName } from '../lib/tokens';
 import { slugify as slugifyTitle } from '../lib/slugify';
@@ -1558,33 +1558,17 @@ const DONTS = [
   <><strong>Don&apos;t use <code>color.focus</code> alone.</strong> A single-layer ring fails contrast against same-toned backgrounds; the full composition is the contract.</>,
 ];
 
-function DoIcon() {
-  return (
-    <svg className="guidelines-marker" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M9.89303 15.8928C10.2836 16.2833 10.9167 16.2833 11.3072 15.8928L16.9501 10.2499C17.3367 9.86331 17.3367 9.23652 16.9501 8.84992C16.5635 8.46332 15.9367 8.46332 15.5501 8.84992L10.6001 13.7999L8.45014 11.6499C8.06354 11.2633 7.43674 11.2633 7.05014 11.6499C6.66354 12.0365 6.66354 12.6633 7.05014 13.0499L9.89303 15.8928ZM12 21.9999C6.47721 21.9999 1.99998 17.5228 1.99998 12C1.99998 6.47713 6.47723 1.99999 12.0001 2.00002C17.5228 2.00004 22 6.47712 22.0001 11.9999C22.0001 17.5227 17.5229 21.9999 12 21.9999Z" fill="currentColor"/>
-    </svg>
-  );
-}
-
-function DontIcon() {
-  return (
-    <svg className="guidelines-marker" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M1.9999 11.9999C1.99994 6.47711 6.47719 2 12 2C17.5229 2 22.0001 6.47715 22.0001 12C22.0001 17.5228 17.5229 22 12 22C6.47713 22 1.99986 17.5228 1.9999 11.9999ZM8.5001 11C7.94782 11 7.5001 11.4477 7.5001 12C7.5001 12.5523 7.94782 13 8.5001 13H15.5001C16.0524 13 16.5001 12.5523 16.5001 12C16.5001 11.4477 16.0524 11 15.5001 11H8.5001Z" fill="currentColor"/>
-    </svg>
-  );
-}
-
 export function Guidelines() {
   const pairCount = Math.max(DOS.length, DONTS.length);
   return (
     <Section id="guidelines">
       <div className="guidelines-grid">
         <h3 className="guidelines-col-title guidelines-col--do">
-          <DoIcon />
+          <CheckCircleIcon className="guidelines-marker" size={24} aria-hidden="true" />
           <span>Do</span>
         </h3>
         <h3 className="guidelines-col-title guidelines-col--dont">
-          <DontIcon />
+          <ExtractFillIcon className="guidelines-marker" size={24} aria-hidden="true" />
           <span>Don&apos;t</span>
         </h3>
         {Array.from({ length: pairCount }).map((_, i) => (
