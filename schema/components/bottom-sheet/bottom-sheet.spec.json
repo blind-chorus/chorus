@@ -2,7 +2,7 @@
   "$schema": "../../spec.schema.json",
   "name": "BottomSheet",
   "family": "bottom-sheet",
-  "exportAlias": "Sheet",
+  "exportAlias": ["Sheet", "Drawer"],
   "description": "Edge-anchored interruption — a panel that rises from the bottom of the viewport, sits over a scrim, and holds richer content than a Dialog: longer copy, tabular comparisons, multi-section explanations, or a primary commit at the foot. Reach for Bottom Sheet when the answer needs more vertical room than a centred card affords but the surface is still a single decision the user can dismiss to return to the host.",
   "element": "div",
   "props": {

@@ -3,6 +3,7 @@
   "name": "SideSheet",
   "family": "side-sheet",
   "subcomponent": "side-sheet",
+  "exportAlias": "SideDrawer",
   "description": "Off-canvas content column. Renders into a body portal when open, locks body scroll, returns focus to the trigger on close, dismisses on Escape / backdrop tap. The card is a fixed-width column flush against the leading or trailing edge of the viewport; the body owns its own surface padding so consumers compose primitives directly inside without paying padding twice. Lists inside the body negate the inline padding so row leading edges land flush.",
   "element": "aside",
   "props": {
