@@ -6,7 +6,7 @@ A trigger-anchored explanation bubble — a small contrast-toned surface with a 
 
 ## Default
 
-The brand-blue bubble — body text only. `primary` fill with `onPrimary` foreground (both theme-stable). 32 min-height, symmetric 12 inset (`sys.layout.container.sm` on every edge), `radius.lg` corners, overlay elevation. Caret renders on the edge facing the trigger.
+The brand-blue bubble — body text only. `primary` fill with `onPrimary` foreground (both theme-stable). 32 min-height, symmetric 12 inset (`sys.layout.container.sm` on every edge), `radius.lg` corners, overlay elevation. Caret renders on the edge facing the trigger. The bubble **always fills its channel up to a 240 cap** — short copy and wrapping copy render at the same footprint so the caret-to-edge rhythm stays predictable regardless of length.
 
 ```preview
 tooltip/default
@@ -98,17 +98,17 @@ Two appearances — `default` (the canonical brand-blue tooltip) and `inverse` (
 
 ## Slots
 
-- **container** — bubble surface with the caret. Inline flex; symmetric 12 inset on every edge; 32 min-height; content-driven width up to a 240 cap; `sys.radius.lg` corners; `sys.elevation.overlay` shadow. `role="tooltip"`.
+- **container** — bubble surface with the caret. Flex; symmetric 12 inset on every edge; 32 min-height; **always fills its channel up to a 240 cap** (`min(240px, parent channel width)`); `sys.radius.lg` corners; `sys.elevation.overlay` shadow. `role="tooltip"`.
 - **caret** — pointer tail on the edge facing the trigger. 8px footprint; inherits the container fill; flips per `placement` (top edge → caret on the bottom; bottom edge → caret on the top); the `-start` / `-end` aligners shift it along the parallel axis.
-- **body** — hint copy. `body.sm` / Regular / inherits container foreground. Wraps within the 240 cap.
+- **body** — hint copy. `body.sm` / Regular / inherits container foreground. Wraps within the bubble's fixed width — short copy and long copy share the same footprint.
 - **action** *(optional)* — a Button node. Canonical binding `<Button variant="text" size="small" appearance="onPrimary">` for the default tooltip, or `appearance="inverse"` for the inverse tooltip. Inline next to the body when the body is single-line; drops below the body once the body wraps.
 
 ## Anatomy
 
 | Slot      | Token bindings |
 |-----------|----------------|
-| container | Fill + foreground per appearance, `sys.radius.lg` (12) corners, `sys.layout.container.sm` (12) padding on every edge, 32 min-height, 240 max-width (content-driven up to the cap), `sys.elevation.overlay` shadow |
-| caret     | 8px footprint, inherits container fill, flipped to the edge facing the trigger per `placement`, `sys.layout.inline.sm` (4) offset between caret tip and trigger |
+| container | Fill + foreground per appearance, `sys.radius.lg` (12) corners, `sys.layout.container.sm` (12) padding on every edge, 32 min-height. **Always fills the channel up to `maxWidth: 240px`** — `width = min(240px, parentChannelWidth)`, never content-driven. `sys.elevation.overlay` shadow |
+| caret     | 8px footprint, inherits container fill, flipped to the edge facing the trigger per `placement`, `sys.layout.stack.xs` (8) offset between caret tip and trigger |
 | body      | `sys.typo.body.sm` (14 / Regular), color inherits, wraps within the max-width cap |
 | action    | Pass-through Button node. Canonical bindings: `Button variant="text" size="small" appearance="onPrimary"` (default appearance) or `appearance="inverse"` (inverse appearance). Inline gap from body = `ref.space.150` (12); block gap when the body wraps = `ref.space.75` (6). |
 
@@ -118,8 +118,9 @@ Two appearances — `default` (the canonical brand-blue tooltip) and `inverse` (
 
 Placement is driven by where the trigger sits on the viewport. The component does not own positioning; the owner positioner enforces these rules.
 
-- **Viewport safe area.** The bubble (chrome + caret) MUST keep at least `sys.layout.container.md` (16) clear of every viewport edge. When honouring the safe area would push the bubble off its preferred placement, flip to the opposite edge.
-- **Trigger offset.** Caret tip sits `sys.layout.inline.sm` (4) from the trigger's bounding box.
+- **Viewport safe area.** The bubble (chrome + caret) MUST keep at least `sys.layout.container.xs` (8) clear of every viewport edge — same horizontal safe margin Toast pays. When honouring the safe area would push the bubble off its preferred placement, flip to the opposite edge.
+- **Trigger offset.** Caret tip sits `sys.layout.stack.xs` (8) from the trigger's bounding box.
+- **Width fill.** The bubble's width is `min(240px, viewport width - 2 × sys.layout.container.xs)` — always full inside the safe channel, capped at 240. Short copy and long copy share the same footprint.
 - **Mirror the trigger's position.** Pick the `<align>` axis to match the trigger's horizontal position:
   - Trigger near the **leading** edge → `-start` (caret anchored to the leading edge).
   - Trigger **centred** → bare edge name (caret at the bubble's centre).

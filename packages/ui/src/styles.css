@@ -4653,13 +4653,21 @@ a.chorus-metadata__name:focus-visible {
    semantic alias" rule. */
 .chorus-tooltip {
   position: relative;
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
   align-items: center;
   row-gap: var(--ref-space-75);
   column-gap: var(--ref-space-150);
   min-height: var(--ref-space-400);
-  max-width: 240px;
+  /* Width contract — the bubble always fills its channel up to the cap,
+     never content-driven. `width: 100%` makes it stretch to the parent
+     content-box (the owner positioner exposes the safe channel as the
+     parent); `min(maxWidth, calc(100vw - 2 × viewportSafeArea))` enforces
+     both the 240 cap and the 8/8 viewport safe area when the bubble is
+     portal-mounted at the document root. Short body strings render at
+     the same footprint as long ones — the body just doesn't wrap. */
+  width: 100%;
+  max-width: min(240px, calc(100vw - 2 * var(--sys-layout-container-xs)));
   padding: var(--sys-layout-container-sm);
   border-radius: var(--sys-radius-lg);
   box-shadow: var(--sys-elevation-overlay);

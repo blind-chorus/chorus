@@ -3282,7 +3282,11 @@ export const PREVIEWS = {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(3, max-content)',
+          /* 240px fixed tracks so each bubble fills its cell to the full
+             maxWidth — the new "always fill" width contract reads as
+             intended in the demo. `max-content` would shrink each cell
+             back to the body's natural width and hide the contract. */
+          gridTemplateColumns: 'repeat(3, 240px)',
           gap: 'var(--sys-layout-container-xl)',
           justifyContent: 'center',
           alignItems: 'center',

@@ -51,7 +51,7 @@
     },
     "body": {
       "required": true,
-      "description": "The hint copy. `body.sm` / Regular / inherits container foreground. Wraps; soft cap at the max-width.",
+      "description": "The hint copy. `body.sm` / Regular / inherits container foreground. Wraps within the bubble's fixed width — the bubble is not content-driven (see `sizing.widthContract`), so short copy reads at the same footprint as wrapping copy.",
       "accepts": [
         "text"
       ]
@@ -67,13 +67,14 @@
   "sizing": {
     "minHeight": "ref.space.400",
     "maxWidth": "240px",
+    "widthContract": "The bubble always fills the available channel — never content-driven. Computed width = `min(maxWidth, parentChannelWidth)`, where `parentChannelWidth` is the host channel the owner positioner exposes (production: `viewport width - 2 × viewportSafeArea`; in-page demo: the parent block's content-box width). Short body strings get the same bubble footprint as long ones; the body just doesn't wrap. The cap stays at 240; below the cap the bubble stretches to the safe-area channel so the caret-to-edge geometry stays balanced on narrow viewports.",
     "radius": "sys.radius.lg",
     "paddingInline": "sys.layout.container.sm",
     "paddingBlock": "sys.layout.container.sm",
     "actionInlineGap": "ref.space.150",
     "actionBlockGap": "ref.space.75",
-    "triggerOffset": "sys.layout.inline.sm",
-    "viewportSafeArea": "sys.layout.container.md",
+    "triggerOffset": "sys.layout.stack.xs",
+    "viewportSafeArea": "sys.layout.container.xs",
     "caretSize": "ref.space.100",
     "bodyTypo": "sys.typo.body.sm"
   },
@@ -95,8 +96,9 @@
     "lifecycle": "Presentational. Owner code mounts the Tooltip while the trigger is hovered or focused, and unmounts it when the trigger loses both. Typical reveal delay is ~400ms on hover (immediate on focus); the component does not manage the timer.",
     "role": "Container carries role='tooltip'. The trigger MUST own `aria-describedby` pointing at the tooltip's id so screen readers associate the hint with the host element.",
     "placementSelection": "Pick `placement` so the bubble fits the trigger's position on the viewport: when the trigger sits near the leading edge of the viewport, use a `-start` aligner so the caret stays anchored to the trigger while the bubble extends inward; mirror for the trailing edge with `-end`. The `top` / `bottom` edge choice depends on which side has room — typically `top` when the trigger sits in the bottom half of the viewport, `bottom` when it sits in the top half. The owner positioner is responsible for collision-flipping (`top` → `bottom` when the bubble would clip).",
-    "viewportSafeArea": "The bubble (chrome + caret) MUST keep at least `sys.layout.container.md` (16) clear of the viewport edge on every side. The owner positioner enforces this; when honouring the safe area would push the bubble off its preferred placement, flip to the opposite edge before nudging within the safe area.",
-    "triggerOffset": "The caret tip sits `sys.layout.inline.sm` (4) away from the trigger's bounding box. The owner positioner applies this offset when placing the bubble."
+    "viewportSafeArea": "The bubble (chrome + caret) MUST keep at least `sys.layout.container.xs` (8) clear of the viewport edge on every side — same 8/8 horizontal safe area Toast pays. The owner positioner enforces this; when honouring the safe area would push the bubble off its preferred placement, flip to the opposite edge before nudging within the safe area. The bubble's own width is `min(maxWidth, viewport width - 2 × viewportSafeArea)` so the safe channel and the cap meet cleanly at narrow widths.",
+    "triggerOffset": "The caret tip sits `sys.layout.stack.xs` (8) away from the trigger's bounding box — same `stack.xs` rung the rest of the system uses for vertical breathing room between an anchor and a floating element. The owner positioner applies this offset when placing the bubble.",
+    "widthFill": "The bubble always fills the available channel up to `maxWidth`. Short body strings render at the same footprint as long ones; the body just doesn't wrap. This gives the caret-to-edge geometry a predictable rhythm regardless of copy length — a 'Got it' single-word tooltip lands at the same width as a wrapping multi-line hint."
   },
   "forbidden": [
     "Tooltip used as a non-blocking confirmation — that role is the `toast` family",
