@@ -80,6 +80,36 @@ import { Button, ChevronRightIcon } from '@blind-dsai/ui';
 <Button variant="text" trailingIcon={<ChevronRightIcon />}>Continue</Button>
 ```
 
+### Dropdown
+
+Disclosure-trigger pattern: the label reads as the **current value**, the trailing chevron flips to signal open / closed — `ChevronDownIcon` at rest, `ChevronUpIcon` while a menu is expanded. Pair `aria-haspopup="listbox"` (or `"menu"`) + `aria-expanded` on the trigger; render the menu in a portal so it can escape any clipping ancestor. The chevron is a **state signal**, not decoration — never freeze it on `ChevronDownIcon` when the menu is open.
+
+Default rung is `xsmall` for inline / toolbar dropdowns (preview-stage Size selector, filter chrome, header trailing). Step up to `small` or `medium` when the dropdown is the row's primary commit.
+
+```preview
+button/text/dropdown
+---
+import { useState } from 'react';
+import { Button } from '@blind-dsai/ui';
+import { ChevronDownIcon, ChevronUpIcon } from '@blind-dsai/ui/icons';
+
+function Example() {
+  const [open, setOpen] = useState(false);
+  return (
+    <Button
+      variant="text"
+      size="xsmall"
+      trailingIcon={open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+      aria-haspopup="listbox"
+      aria-expanded={open}
+      onClick={() => setOpen((v) => !v)}
+    >
+      Medium
+    </Button>
+  );
+}
+```
+
 ### Group
 
 Optical alignment means chrome-to-chrome gap **is** the visible label-to-label distance. Row gap: `medium`/`small` → 16px (`sys.layout.inline.xl`); `xsmall` → 12px (`sys.layout.inline.lg`).

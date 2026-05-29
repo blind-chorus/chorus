@@ -73,21 +73,21 @@ Two named appearances. `default` for regular page surfaces; `inverse` for Toast 
 
 ### Custom palette colours
 
-Outside the named appearances, the glyph colour is **not locked to `onSurface` / `inverseOnSurface`** — the icon inherits `currentColor`, so any Chorus palette token works. Reach for a custom colour when the glyph itself carries semantic weight (favorite star → `ref.palette.yellow.500`, success check → `sys.color.success`, warning bolt → `sys.color.warning`, channel-branded glyph in a brand-tinted host). Apply via inline `color` so state overlays still mix from the same token at the standard `sys.state.*` opacities — never override `background` or wrap in another element to recolour.
+Outside the named appearances, the glyph colour is **not locked to `onSurface` / `inverseOnSurface`** — the icon inherits `currentColor`, so any Chorus icon-paint token works. Reach for a custom colour when the glyph itself carries semantic weight (favorite star → `sys.color.icon.yellow`, success check → `sys.color.success`, warning bolt → `sys.color.icon.yellow`, channel-branded glyph in a brand-tinted host). Apply via inline `color` so state overlays still mix from the same token at the standard `sys.state.*` opacities — never override `background` or wrap in another element to recolour.
 
 ```preview
 button/icon/custom-color
 ---
 import { Button } from '@blind-dsai/ui';
-import { StarIcon } from '@blind-dsai/ui/icons';
+import { StarFillIcon } from '@blind-dsai/ui/icons';
 
 <div style={{ display: 'inline-flex', gap: 'var(--sys-layout-inline-xl)' }}>
-  <Button variant="icon" icon={<StarIcon />} aria-label="Favorite — inactive" style={{ color: 'var(--sys-color-onSurfaceVariant)' }} />
-  <Button variant="icon" icon={<StarIcon />} aria-label="Favorite — active"   style={{ color: 'var(--ref-palette-yellow-500)' }} />
+  <Button variant="icon" icon={<StarFillIcon />} aria-label="Favorite — inactive" style={{ color: 'var(--sys-color-icon-muted)' }} />
+  <Button variant="icon" icon={<StarFillIcon />} aria-label="Favorite — active"   style={{ color: 'var(--sys-color-icon-yellow)' }} />
 </div>
 ```
 
-**Constraints.** Pick from `sys.color.*` (theme-aware) or `ref.palette.*` (literal). Hardcoded hex / Tailwind colour utilities are forbidden — the same token strictness as the rest of Chorus. The destructive flavor (`sys.color.error`) is a named convenience for the same pattern.
+**Constraints.** Pick from `sys.color.*` (theme-aware) — semantic roles (`primary` / `success` / `error` / …) for status pairs that also carry a background, and the dedicated `sys.color.icon.*` palette (`muted` / `yellow` / `red` / `blue` / `green` / `purple`) for standalone semantic glyphs. Reaching past sys into `ref.palette.*` directly, hardcoded hex, and Tailwind colour utilities are all forbidden — the same token strictness as the rest of Chorus.
 
 ## Slots
 

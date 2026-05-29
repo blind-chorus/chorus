@@ -87,9 +87,9 @@
   },
   "customGlyphColor": {
     "allowed": true,
-    "description": "Outside the named `default` / `inverse` appearances, the glyph colour is open — the icon inherits `currentColor`, so any Chorus palette token can be applied via inline `color` (e.g. `style={{ color: 'var(--ref-palette-yellow-500)' }}` for an active favorite star, `var(--sys-color-success)` for a confirm check). State overlays still mix from the same token at the standard `hovered`/`pressed`/`focused` state opacities, so hover / pressed / focus carry over without per-host tuning.",
+    "description": "Outside the named `default` / `inverse` appearances, the glyph colour is open — the icon inherits `currentColor`, so any Chorus icon-paint token can be applied via inline `color` (e.g. `style={{ color: 'var(--sys-color-icon-yellow)' }}` for an active favorite star, `var(--sys-color-success)` for a confirm check, `var(--sys-color-icon-muted)` for the unpressed partner). State overlays still mix from the same token at the standard `hovered`/`pressed`/`focused` state opacities, so hover / pressed / focus carry over without per-host tuning.",
     "constraints": [
-      "Pick a theme-aware system color token (e.g. `sys.color.success`) or a literal palette ref (e.g. `ref.palette.yellow.500`); no raw hex, no Tailwind colour utilities.",
+      "Pick a Chorus colour token. Two valid sources: (a) a status-pair role (`sys.color.primary`, `sys.color.success`, `sys.color.error`, etc.) when the glyph travels with its own background; (b) the dedicated icon palette (`sys.color.icon.muted`, `sys.color.icon.yellow`, `sys.color.icon.red`, `sys.color.icon.blue`, `sys.color.icon.green`, `sys.color.icon.purple`) for standalone semantic glyphs. Reaching past sys into the raw palette (`ref.palette.yellow.500` etc.), raw hex, and Tailwind colour utilities are all forbidden.",
       "Override the icon's `color` only — never `background`, never wrap in another element to restyle.",
       "Reach for a custom colour when the glyph itself carries semantic weight (favorite, success, warning, brand-tinted host). Otherwise stick to `default` / `inverse`.",
       "The `destructive` flavor (`sys.color.error`) is a named convenience for the same pattern."
