@@ -90,19 +90,19 @@ import { NavigationBar } from '@blind-dsai/ui';
 
 ### Overlay (on hero / cover image)
 
-`appearance="overlay"` paints a transparent container with **fixed-white** icons and title — the bar floats over a hero / cover image (canonical host: [Profile header](../profile-header/profile-header.md)). The image beneath provides the contrast; theme tokens don't apply because the bar is no longer the surface tier. The bar still pays its own `env(safe-area-inset-top)` so the status-bar zone reads cleanly against the image.
+`appearance="overlay"` paints a transparent container with **fixed-white** icons and title — the bar floats over a hero / cover image (canonical host: [Profile header](../profile-header/profile-header.md)). The image beneath provides the contrast; theme tokens don't apply because the bar is no longer the surface tier. The bar still pays its own `env(safe-area-inset-top)` so the status-bar zone reads cleanly against the image. Staged here via [ProfileHeader](../profile-header/profile-header.md) — its canonical host — so the preview matches a real-world consumer rather than a manually painted dim strip.
 
 ```preview
 navigation-bar/page/overlay
 ---
-import { NavigationBar } from '@blind-dsai/ui';
+import { ProfileHeader } from '@blind-dsai/ui';
 
-<NavigationBar
-  variant="page"
-  appearance="overlay"
-  title=""
-  leading={{ icon: <ChevronLeftIcon />, 'aria-label': 'Back' }}
-  trailing={{ icon: <SearchIcon />, 'aria-label': 'Search' }}
+<ProfileHeader
+  name="General Topic"
+  avatar={{ src: '/avatar.png', alt: 'General Topic' }}
+  cover={{ src: '/cover.jpg', alt: 'Forest skyline at dusk' }}
+  visibility="public"
+  followers="999 followers"
 />
 ```
 

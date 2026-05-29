@@ -2958,34 +2958,23 @@ export const PREVIEWS = {
     ),
   },
 
-  /* Overlay appearance — transparent + fixed-white icons. Painted on a
-     dim placeholder strip so the white icons stay legible inside the
-     docs preview stage (production hosts paint the bar over a real
-     cover image — e.g. inside ProfileHeader). */
+  /* Overlay appearance — transparent + fixed-white icons. Staged via
+     <ProfileHeader>, the canonical host documented in
+     navigation-bar/page.spec.json#appearances.overlay: ProfileHeader
+     internally renders the page bar at appearance="overlay" over its
+     cover image. Same bare-Frame staging shape as the other
+     navigation-bar/page/* previews — no inline-styled wrapper divs. */
   'navigation-bar/page/overlay': {
     states: false,
     render: () => (
       <Frame>
-        <div
-          style={{
-            position: 'relative',
-            background: 'var(--sys-color-surfaceContainerHigh)',
-            backgroundImage: 'var(--chorus-placeholder-image)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            height: 120,
-          }}
-        >
-          <div style={{ position: 'absolute', inset: '0 0 auto 0' }}>
-            <NavigationBar
-              variant="page"
-              appearance="overlay"
-              title=""
-              leading={{ icon: <ChevronLeftIcon />, 'aria-label': 'Back' }}
-              trailing={{ icon: <SearchIcon />, 'aria-label': 'Search' }}
-            />
-          </div>
-        </div>
+        <ProfileHeader
+          name="General Topic"
+          avatar={{ src: IMG.modAvatar, alt: 'General Topic' }}
+          cover={{ src: IMG.topicCover, alt: 'Forest skyline at dusk' }}
+          visibility="public"
+          followers="999 followers"
+        />
       </Frame>
     ),
   },
