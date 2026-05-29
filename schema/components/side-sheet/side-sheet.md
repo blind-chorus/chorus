@@ -1,12 +1,12 @@
 # SideSheet
 
-Off-canvas content column anchored to the leading or trailing edge of the viewport. Pairs with [BottomSheet](../bottom-sheet/bottom-sheet.md) as the Sheet family's other anchor: BottomSheet for committed-sheet flows, SideSheet for off-canvas navigation columns, settings panes, channel directories, filter rails.
-
-Composition is free-form via `children` — canonical fill is a [Header](../header/header.md) (`size="medium"`) heading + an embedded [list/entry](../list/entry.md) directory stack (40 avatar + label + inline count Badge + optional trailing icon toggle), optionally followed by another Header + List(entry) pair and a pinned footer commit.
+Off-canvas content column anchored to the leading or trailing edge of the viewport. Pairs with [BottomSheet](../bottom-sheet/bottom-sheet.md) as the Sheet family's other anchor — BottomSheet for committed-sheet flows, SideSheet for off-canvas navigation columns, settings panes, channel directories, filter rails.
 
 **Reach for this when** an off-canvas column belongs next to the current page — a navigation drawer, a channel / topic / saved-item directory, a filter rail, a settings pane. **Skip when** the surface is a committed-sheet flow (use [BottomSheet](../bottom-sheet/bottom-sheet.md)), a confirmation prompt (use [Dialog](../dialog/dialog.md)), a labelled in-flow block (use [Section](../section/section.md)), or a permanent app-shell navigation (use [TabBar](../tab-bar/tab-bar.md) / [NavigationBar](../navigation-bar/navigation-bar.md)).
 
 **Layout inset.** `bounded-surface` — portal-rendered modal-like surface (same family as `BottomSheet` / `Dialog`). Paints its own off-canvas card, owns the body's gutter, and renders into a `document.body` portal. Compose primitives directly inside `children`; full-bleed children (List, Feed, Banner) negate the body's inline padding via the negative-margin opt-out — see [AGENTS.md § Composition rules](../../../AGENTS.md#composition-rules).
+
+Composition is free-form via `children` — canonical fill is a [Header](../header/header.md) (`size="medium"`) heading + an embedded [list/entry](../list/entry.md) directory stack (40 avatar + label + inline count Badge + optional trailing icon toggle), optionally followed by another Header + List(entry) pair and a pinned footer commit.
 
 ## Default
 

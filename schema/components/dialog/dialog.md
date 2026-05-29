@@ -1,6 +1,8 @@
 # Dialog
 
-A focused, opt-in interruption — a centred card over a scrim that asks the user to make a single decision before continuing. Reach for Dialog to *hold the flow until the user commits* — reserved for decisions that need a definitive response (destructive actions, conflicts, consent gates); prefer [Bottom sheet](../bottom-sheet/bottom-sheet.md) when the same nudge can be delivered without halting the flow.
+A focused, opt-in interruption — a centred card over a scrim that holds the flow until the user makes a single decision.
+
+**Reach for this when** the flow must pause for a definitive response — destructive actions, conflicts, consent gates, "Are you sure?". **Skip when** the same nudge can be delivered without halting the flow (use [Bottom sheet](../bottom-sheet/bottom-sheet.md)), the message is contextual to underlying content ([Banner](../banner/banner.md)), or the confirmation is post-action ([Toast](../toast/toast.md)).
 
 **Layout inset.** `bounded-surface` — its own modal shell. Owns its outer padding; not a sibling of `full-bleed` page rows. A `full-bleed` child placed inside (List / Feed / Chip group) MUST opt out via `marginInline: 'calc(-1 * var(--sys-layout-container-md))'` (matching `width`, `maxWidth: 'none'`) so its own row padding becomes the visual inset and the dialog title aligns with row leading content. See [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 

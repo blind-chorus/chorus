@@ -1,6 +1,8 @@
 # Toast
 
-A transient confirmation strip that floats above the page after a user action lands — saved, copied, sent, retried. Use to confirm a system outcome the user just triggered; prefer [Banner](../banner/banner.md) when the message is contextual to the content itself. Inverse-toned by default so the message contrasts with any underlying page tier. The strip grows with content up to a 400 max-width (capped to viewport-minus-safe-area on narrow screens). Owner code mounts the Toast and unmounts after a fixed beat; the component is presentational.
+A transient confirmation strip that floats above the page after a user action lands — saved, copied, sent, retried. Inverse-toned by default so the message contrasts with any underlying page tier; content-driven width up to a 400 cap.
+
+**Reach for this when** you need to confirm a system outcome the user just triggered — saved, copied, sent, retried. **Skip when** the message is contextual to the content itself (use [Banner](../banner/banner.md)), or the surface is a committed confirmation prompt (use [Dialog](../dialog/dialog.md)).
 
 **Layout inset.** `bounded-surface` — floating shell *above* the page. Anchored **bottom-center of the viewport** (`position: fixed; bottom: 0; left: 50%; transform: translateX(-50%)`) — never bottom-left, never bottom-right, never inline inside content flow. Pays its own `sys.layout.container.xs` (= **8px**) safe area on all four sides from the viewport edge; content-driven width grows up to `min(400px, 100vw - 16px)` (the `16 = 2 × 8` = the left/right safe-area margins together), so on a 320-wide viewport the strip caps at 304, and on a 600-wide viewport it caps at 400. Mount via a portal at the document root, not inside `<main>`; the page shell's `layout.page.*` gutter does NOT apply (the toast lives outside the gutter system, on its own viewport-anchored coordinate). See [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
@@ -76,7 +78,7 @@ import { Toast } from '@blind-dsai/ui';
 
 ### Truncation
 
-Body wraps up to two lines and truncates with an ellipsis past that. Pair with a trailing dismiss when the message is status the user may want to read at their own pace. Body, trailing button, and any leading glyph stay vertically centred on the container's cross axis.
+Body wraps up to two lines and truncates with an ellipsis past that — body, trailing button, and any leading glyph stay vertically centred. Pair with a trailing dismiss when the message is status the user may want to read at their own pace.
 
 ```preview
 toast/truncation

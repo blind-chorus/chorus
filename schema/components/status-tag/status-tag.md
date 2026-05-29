@@ -1,6 +1,6 @@
 # Status tag
 
-A small inline status pill — a tonal mark sized for the trailing edge of a row label. 10px text, 4px inline / 2px block padding, `sys.radius.xs` corners. Two appearances: `neutral` (quiet informational default) and `error` (rejection / blocked). Decorative — never interactive.
+A small inline status pill — a tonal mark sized for the trailing edge of a row label. Two **appearances**: `neutral` (quiet informational default) and `error` (rejection / blocked). Decorative — never interactive.
 
 **Reach for this when** a row label needs a short state annotation inline — "pending" next to a user channel, "rejected" next to a failed approval, "draft" next to an in-progress post. **Skip when** the state is the row's primary content (use [List/text](../list/text.md) with `supportingText`), when the mark must be tappable (host row owns the click target), or inside a chip row (use [chip/filter](../chip/filter.md) or [chip/tag](../chip/tag.md)).
 
@@ -34,7 +34,7 @@ import { StatusTag } from '@blind-dsai/ui';
 
 ### On a list row
 
-The canonical pairing — a `list/thumbnail` row whose label carries a trailing StatusTag. Tag sits next to the label text with `sys.layout.container.2xs` (4px) inline gap, vertically centred against the label's optical mid-line. The gap belongs to the label column; StatusTag carries no outer margin.
+The canonical pairing — a `list/thumbnail` row whose label carries a trailing StatusTag with a `sys.layout.container.2xs` (4px) inline gap. The gap belongs to the label column; StatusTag carries no outer margin.
 
 ```preview
 status-tag/list-row

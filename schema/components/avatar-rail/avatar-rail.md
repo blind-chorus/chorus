@@ -2,6 +2,8 @@
 
 A horizontal strip of channel entry points — each item routes to a channel or company page. Composes a [Thumbnail](../thumbnail/thumbnail.md) (optional `updateDot`) and a single-line label; an optional trailing action lives at the end.
 
+**Reach for this when** the row is a label-only nav strip of subscribed or saved entities — *Subscribed channels*, *Saved companies*, *My topics*. **Skip when** rows carry follower counts or descriptions (use [DirectoryList](../directory-list/directory-list.md) / [SuggestionList](../suggestion-list/suggestion-list.md)), the surface is fixed-width profile cards ([Profile carousel](../carousel/profile.md)), or rows commit in place rather than route ([Toggle Button](../button/toggle.md) cluster).
+
 **Layout inset.** `full-bleed` — sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge. The family owns its own internal row / header padding via `layout.container.*`; do **not** wrap in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default

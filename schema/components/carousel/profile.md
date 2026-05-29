@@ -1,6 +1,8 @@
 # Profile carousel
 
-Sub-component of the [Carousel](./carousel.md) family. Horizontally-scrolling rail of fixed-width (176px) profile cards — channels, user profiles, or company channels grouped under a single editorial heading. Each card carries a cover band, a 64-rung [Thumbnail](../thumbnail/thumbnail.md) avatar overlapping the cover, entity name + follower count, a metrics row or two-line description, and a trailing full-width follow [Toggle Button](../button/text.md). The section heading and `See all` link live on the [Carousel](./carousel.md) wrapper — ProfileCarousel is the *content* only.
+Sub-component of the [Carousel](./carousel.md) family. Horizontally-scrolling rail of fixed-width (176px) profile cards — channels, user profiles, or company channels grouped under a single editorial heading. Each card carries a cover band, an overlapping 64-rung avatar, entity name + follower count, a metrics row or two-line description, and a trailing follow [Toggle Button](../button/text.md).
+
+**Reach for this when** an editorial collection groups follow-able entities under a single heading — hot companies, recommended channels, suggested people. **Skip when** the rail carries content posts ([Post carousel](./post-carousel.md)), the surface needs the full list scanned vertically ([SuggestionList](../suggestion-list/suggestion-list.md) / [DirectoryList](../directory-list/directory-list.md)), or the rung is a label-only nav strip ([AvatarRail](../avatar-rail/avatar-rail.md)).
 
 **Layout inset.** `full-bleed` — sits as a direct child of the page shell so the rail can bleed off the trailing edge into the swipe zone. The rail pays its own `16px inline` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
