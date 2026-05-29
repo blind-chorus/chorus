@@ -38,6 +38,7 @@ export function Thumbnail({
   alt = '',
   updateDot = false,
   logoBadge,
+  outlined = false,
   className,
   style,
   ...rest
@@ -53,7 +54,12 @@ export function Thumbnail({
   const badgeSrc = logoBadge?.src && logoBadge.src !== failedBadgeSrc ? logoBadge.src : null;
   return (
     <span
-      className={joinClasses('chorus-thumbnail', `chorus-thumbnail--${px}`, className)}
+      className={joinClasses(
+        'chorus-thumbnail',
+        `chorus-thumbnail--${px}`,
+        outlined && 'chorus-thumbnail--outlined',
+        className,
+      )}
       style={{
         '--thumb-size': `${px}px`,
         ...style,

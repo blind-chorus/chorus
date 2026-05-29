@@ -2036,15 +2036,13 @@ a.chorus-metadata__name:focus-visible {
 
 .chorus-profile-header__avatar-wrap {
   /* Half-overlap of the 56-rung Thumbnail's diameter: -28px lifts the
-     avatar so its vertical center sits on the cover band's bottom edge. */
+     avatar so its vertical center sits on the cover band's bottom edge.
+     The 2-token surface halo that separates the avatar from the cover
+     comes from the Thumbnail itself via `outlined={true}` — see
+     schema/components/thumbnail/thumbnail.md#with-surface-outline.
+     Wrapper carries no halo of its own. */
   margin-top: -28px;
   border-radius: var(--sys-radius-full);
-  /* 2px outset border in the host's surface tone — separates the
-     avatar from the cover band. Expressed as box-shadow because a real
-     `border:` would shrink the avatar's footprint by 2px (and the
-     Thumbnail's diameter is consumer-fixed). Same idiom as the
-     profile-carousel avatar halo. */
-  box-shadow: 0 0 0 var(--sys-borderWidth-thin) var(--sys-color-surface);
   flex: 0 0 auto;
 }
 
@@ -2111,6 +2109,18 @@ a.chorus-metadata__name:focus-visible {
   height: var(--thumb-size);
   flex: 0 0 auto;
   vertical-align: middle;
+}
+
+/* `outlined` case — 2-token (`borderWidth.thin`) `surface`-color halo
+   painted as an outset `box-shadow` on the container. The halo blends
+   into a `surface*` host while separating the circular footprint from a
+   contrasting backdrop (cover image, brand tonal strip, gradient).
+   Painted as `box-shadow`, not `border:`, so the rung's diameter never
+   reflows — same no-layout-stroke contract every Chorus surface uses.
+   Canonical hosts: ProfileHeader's avatar (the 56-rung that half-
+   overlaps the cover) and any avatar Thumbnail that lives over imagery. */
+.chorus-thumbnail--outlined {
+  box-shadow: 0 0 0 var(--sys-borderWidth-thin) var(--sys-color-surface);
 }
 
 /* Same image-area fallback contract as `.chorus-feed-ad__media` — the

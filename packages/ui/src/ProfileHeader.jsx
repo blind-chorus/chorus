@@ -92,6 +92,7 @@ export function ProfileHeader({
           <div className="chorus-profile-header__avatar-wrap">
             <Thumbnail
               size={56}
+              outlined
               {...(avatar ?? { alt: name })}
             />
           </div>

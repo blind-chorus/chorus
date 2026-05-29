@@ -14,7 +14,7 @@
     "avatar": {
       "type": "object",
       "required": true,
-      "description": "Forwarded to [Thumbnail](../thumbnail/thumbnail.md) verbatim at `size={56}`. Object: `{ src, alt, updateDot?, logoBadge? }`. The avatar overlaps the cover band's bottom edge by half its height and paints a 2px surface halo so it reads as a separate plane from the cover."
+      "description": "Forwarded to [Thumbnail](../thumbnail/thumbnail.md) verbatim at `size={56}` with `outlined={true}`. Object: `{ src, alt, updateDot?, logoBadge? }`. The avatar overlaps the cover band's bottom edge by half its height; the 2-token `surface`-tone halo that separates the circle from the cover comes from Thumbnail's `outlined` case (see [Thumbnail § With surface outline](../thumbnail/thumbnail.md#with-surface-outline))."
     },
     "cover": {
       "type": "object",
@@ -100,7 +100,7 @@
     },
     "avatar": {
       "required": true,
-      "description": "Circular avatar overlapping the cover band's bottom edge by half its diameter. Rendered via the [Thumbnail](../thumbnail/thumbnail.md) component at `size={56}`. Every Thumbnail prop is forwarded verbatim; the header does not paint its own crop or image-area fallback. A 2px surface halo separates the avatar from the cover band.",
+      "description": "Circular avatar overlapping the cover band's bottom edge by half its diameter. Rendered via the [Thumbnail](../thumbnail/thumbnail.md) component at `size={56}` and `outlined={true}` — the 2-token `surface`-tone halo that separates the avatar from the cover band is owned by Thumbnail's outlined case (see [Thumbnail § With surface outline](../thumbnail/thumbnail.md#with-surface-outline)), not by the header's own wrapper. Every other Thumbnail prop is forwarded verbatim; the header does not paint its own crop or image-area fallback.",
       "accepts": ["thumbnail"],
       "rendersAs": "thumbnail:80"
     },
@@ -148,7 +148,7 @@
     "coverFill": "sys.color.surfaceContainerHigh (background underlay — the placeholder image paints on top via `object-fit: cover`)",
     "coverImageSource": "Same `/placeholder.png` asset every Chorus image-area slot falls back to. Decorative — `aria-hidden`. Consumers override via the `cover.src` prop.",
     "avatarSize": 56,
-    "avatarOverlap": "Avatar's vertical center sits on the cover band's bottom edge — the top half overlaps the cover, the bottom half sits on the identity surface (-28px margin-top). The avatar carries a 2-token (`sys.borderWidth.thin`) outset border in the host surface tone (`sys.color.surface`) so the circle reads as a separate plane from the cover. The border is painted as `box-shadow: 0 0 0 sys.borderWidth.thin sys.color.surface` rather than a CSS `border:` so the Thumbnail's intrinsic footprint isn't shrunk.",
+    "avatarOverlap": "Avatar's vertical center sits on the cover band's bottom edge — the top half overlaps the cover, the bottom half sits on the identity surface (-28px margin-top). The 2-token `surface`-tone halo that separates the circle from the cover is owned by Thumbnail's `outlined={true}` case — see [Thumbnail § With surface outline](../thumbnail/thumbnail.md#with-surface-outline). The header does not paint a halo of its own on the wrapper; the Thumbnail's outset `box-shadow` is the contract.",
     "identityPaddingBlock": "0 sys.layout.container.md",
     "identityPaddingInline": "sys.layout.container.md",
     "identityStackGap": "sys.layout.stack.xs",

@@ -39,6 +39,11 @@
       "type": "object",
       "optional": true,
       "description": "{ src, alt } — 16×16 circular badge at the bottom-right."
+    },
+    "outlined": {
+      "type": "boolean",
+      "default": false,
+      "description": "When `true`, paints a 2-token-wide `sys.color.surface` outline around the Thumbnail container as an outset halo. The outline reads as an isolation ring that separates the Thumbnail from a busy or contrasting backdrop (a hero / cover image, a brand-tone strip, a neutral pull-quote band) so the circular footprint stays legible even when the host's own tier reads close to the image's edge tones. Painted as `box-shadow: 0 0 0 sys.borderWidth.thin sys.color.surface` so it never reflows the slot's intrinsic diameter — same no-layout-stroke idiom the rest of the system uses. Pair with hosts whose container tier is `surface*` (so the halo blends into the host) and whose backdrop differs from that tier (so the halo actually separates). Canonical hosts: [ProfileHeader](../profile-header/profile-header.md) avatar (avatar half-overlaps cover image), Carousel/Profile card cover."
     }
   },
   "slots": {
@@ -68,6 +73,12 @@
   },
   "appearance": {
     "containerRadius": "sys.radius.full",
+    "containerOutline": {
+      "appliesWhen": "props.outlined === true",
+      "color": "sys.color.surface",
+      "width": "sys.borderWidth.thin",
+      "rendering": "box-shadow (outset, 0 0 0 width color) so the halo never reflows the slot's intrinsic diameter — same no-layout-stroke contract every other Chorus surface follows. Pairs the halo with the host's `surface*` tier so the ring blends into the chrome around it while separating the Thumbnail from a contrasting backdrop (cover image, brand tonal strip, gradient band)."
+    },
     "imageFallbackFill": "sys.color.surfaceContainerHigh",
     "imageFallbackImage": "/placeholder.png",
     "imageFallbackImageRendering": "background-image, cover, center — paints under the runtime <img>; visible only when the inline image is missing or fails to load, so the slot still resolves to an image rather than an empty surface tone.",
@@ -129,6 +140,7 @@
   "behavior": {
     "slotOmissionCollapses": "Both badges (updateDot, logoBadge) drop out of the layout entirely when absent — no reserved corner whitespace.",
     "badgesOverlay": "Both badges are absolutely positioned over the image; the container's overall footprint is the image's diameter regardless of whether the badges are present. The 1px surface halo is rendered as a box-shadow.",
+    "outlinedHalo": "When `outlined={true}`, the container paints a 2-token (`sys.borderWidth.thin`) `sys.color.surface` halo via `box-shadow` — outset of the diameter, never reflowing the slot. The corner badges' own 1-token halos are layered above it. Composes cleanly with `updateDot` and `logoBadge`.",
     "imageClip": "Container's radius.full plus overflow: hidden clips the image to a perfect circle even when the source is rectangular.",
     "noTextFallback": "Slot only renders <img> content — there is no text fallback. When `src` is omitted or the server fails to deliver the image, the slot's background paints the bundled `/placeholder.png` over a `surfaceContainerHigh` base. The placeholder is the image-area's runtime safety net for load failures; design-time scaffolds should pass the same URL through `src` explicitly so the contract is visible in the composition rather than hidden in the CSS layer.",
     "updateDotBreakpoint": "Dot drops from 8×8 (at and above rung 32, including 56) to 4×4 (rungs 24 / 20 / 16) so it reads as highlight, not occluder, on the smaller diameters.",

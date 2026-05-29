@@ -65,6 +65,18 @@ import { Thumbnail } from '@blind-dsai/ui';
 />
 ```
 
+### With surface outline
+
+`outlined` paints a 2-token (`sys.borderWidth.thin`) `sys.color.surface` halo as an outset box-shadow around the circular container. The ring blends into the host surface tier and separates the Thumbnail from a busy or contrasting backdrop — a hero / cover image, a brand tonal strip, a gradient band. Footprint never changes. Reach for it on any Thumbnail that half-overlaps or lives over imagery, especially [ProfileHeader](../profile-header/profile-header.md)'s avatar.
+
+```preview
+thumbnail/with-outline
+---
+import { Thumbnail } from '@blind-dsai/ui';
+
+<Thumbnail size={56} alt="Channel" src="/placeholder.png" outlined />
+```
+
 ### Size ladder
 
 The full ladder side-by-side; update-dot size breaks at the 32-rung boundary.
@@ -93,11 +105,13 @@ import { Thumbnail } from '@blind-dsai/ui';
 
 Both corner overlays sit *above* the image and carry a 1px (`borderWidth.hairline`) `surface`-color halo painted as a `box-shadow` — no change to the overlay's bounding footprint.
 
+When `outlined={true}` the container itself takes a 2px (`borderWidth.thin`) `surface`-color halo as an outset `box-shadow`. The halo paints outside the image clip and composes cleanly with the two badge halos above it; footprint stays at the rung's diameter.
+
 ## Anatomy
 
 | Slot         | Token bindings |
 |--------------|----------------|
-| container    | `radius.full`, no fill of its own |
+| container    | `radius.full`, no fill of its own. With `outlined={true}` adds a 2px (`borderWidth.thin`) `surface`-color outset halo via `box-shadow` |
 | image        | `surfaceContainerHigh` fallback, `onSurfaceVariant` fallback glyph |
 | updateDot    | Rendered by [Badge](../badge/badge.md) `dot-md` / `dot-sm` (`brand` fill, `radius.full`, 2px `surface`-color outline); top-right flush |
 | logoBadge    | 16×16, `radius.full`, `surface` halo at 1px, bottom-right flush |
