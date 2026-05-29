@@ -1,14 +1,14 @@
 # Input
 
-Single-line text field — a bordered, transparent-fill box for short values. Optional label + helper or `maxLength` count compose it into a labeled group; `error` appearance re-tones fill / text / stroke.
+Single-line text field — a bordered, transparent-fill box for short values. Optional `label`, `helper`, or `maxLength` compose it into a labeled group; `appearance="error"` re-tones fill, text, and stroke.
 
-**Reach for this when** capturing a short single-line value — name, email, search query, comment subject. **Skip when** the value is multi-line (use a textarea), a one-of-many selection (use a select), or a free-form search input with built-in results (use the [search](./search.md) sub-component).
+**Reach for this when** capturing a short single-line value — name, email, search query, comment subject. **Skip when** the value is multi-line (use a textarea), a one-of-many selection (use a select), or a free-form search with built-in results (use the [search](./search.md) sub).
 
-**Layout inset.** inline — content-sized inside its surface's padding; with `label` / `helper` / `maxLength` it wraps in a `.chorus-field-group` flex column.
+**Layout inset.** inline — content-sized inside its surface's padding. With `label` / `helper` / `maxLength` it wraps in a `.chorus-field-group` flex column.
 
 ## Default
 
-Transparent fill, hairline `outlineVariant` stroke, placeholder in faint `outline` colour. Type to see the lifecycle: placeholder → value, stroke steps up, trailing clear ("×") appears.
+Transparent fill, hairline `outlineVariant` stroke, placeholder in faint `outline`. Type to see the lifecycle: placeholder → value, stroke steps up, trailing clear (*×*) appears.
 
 ```preview
 form-field/input/default
@@ -22,7 +22,7 @@ import { FormField } from '@blind-dsai/ui';
 
 ### Error
 
-`errorContainer` wash, full-strength `error` stroke, `onErrorContainer` text. Assistive helper rung re-tones to `sys.color.error`.
+`errorContainer` wash, full-strength `error` stroke, `onErrorContainer` text. Optional helper rung re-tones to `sys.color.error`.
 
 ```preview
 form-field/input/error
@@ -38,7 +38,7 @@ import { FormField } from '@blind-dsai/ui';
 />
 ```
 
-The `helper` rung is optional — pass nothing and the error field still re-tones the box. Use the helper-less form when the surrounding row already carries the failure message.
+Omit `helper` when the surrounding row already carries the failure message — the box still re-tones.
 
 ```preview
 form-field/input/error-no-helper
@@ -55,14 +55,7 @@ import { FormField } from '@blind-dsai/ui';
 
 ### Label, assistive text & count
 
-When any of `label` / `helper` / `maxLength` is supplied, the box wraps in a `.chorus-field-group` flex column at `sys.layout.stack.xs` between rungs. Label above; helper or count below — helper left, count right. **Helper and count are mutually exclusive**; pass both and count wins.
-
-| Slot                | Token (typography)            | Token (colour)               | Notes |
-|---------------------|-------------------------------|------------------------------|-------|
-| `label`             | `sys.typo.label.md`           | `sys.color.onSurface`        | Bound to the input via `htmlFor`. |
-| `helper`            | `sys.typo.body.sm`            | `sys.color.onSurfaceVariant` | Referenced by `aria-describedby`; re-tones to `sys.color.error` on the error appearance. |
-| `count` (suffix)    | `sys.typo.body.sm`            | `sys.color.onSurfaceVariant` | Updates `aria-live="polite"`. |
-| `count` (current)   | `sys.typo.label.md` (weight)  | `sys.color.onSurface`        | Live digit, stepped to `label.md` weight. |
+When any of `label` / `helper` / `maxLength` is set, the box wraps in a `.chorus-field-group` flex column at `sys.layout.stack.xs` between rungs — label above, helper left or count right below. Helper and count are mutually exclusive; pass both and count wins.
 
 ```preview
 form-field/input/with-label
@@ -114,7 +107,7 @@ import { LocationIcon } from '@blind-dsai/ui/icons';
 
 ### Group
 
-Compose multiple Inputs into a column via `<FormFieldGroup>`. Each rung keeps its own label / helper / count; group inserts `sys.layout.stack.md` (16px) between rungs. For sign-up / profile forms.
+Compose multiple Inputs into a column via `<FormFieldGroup>`. Each rung keeps its own label / helper / count; group inserts `sys.layout.stack.md` (16px) between rungs — sign-up and profile forms.
 
 ```preview
 form-field/input/group
@@ -147,12 +140,12 @@ import { FormField } from '@blind-dsai/ui';
 ## Slots
 
 - **container** — the box. Owns transparent fill, the inset-`box-shadow` stroke, radius, padding, and focus ring.
-- **input** — editable text. Single line. Value-driven placeholder swap.
-- **clear** — trailing "×" button (`XCircleFillIcon`). Shown only while the box is active and holds a non-empty value.
+- **input** — editable text. Single line; value-driven placeholder swap.
+- **clear** — trailing *×* button (`XCircleFillIcon`). Shown only while the box is active and holds a non-empty value.
 - **group** *(optional)* — wrapper holding label / box / helper / count when any is supplied.
-- **label** *(optional)* — visible label above the box.
-- **helper** *(optional)* — assistive text below the box, left-aligned. Mutually exclusive with `count`.
-- **count** *(optional)* — `current/max` count below the box, right-aligned. Mutually exclusive with `helper`.
+- **label** *(optional)* — visible label above the box. `sys.typo.label.md` / `sys.color.onSurface`, bound via `htmlFor`.
+- **helper** *(optional)* — assistive text below the box, left-aligned. `sys.typo.body.sm` / `sys.color.onSurfaceVariant`, referenced by `aria-describedby`; re-tones to `error` on the error appearance. Mutually exclusive with `count`.
+- **count** *(optional)* — `current/max` count below the box, right-aligned. `sys.typo.body.sm` / `sys.color.onSurfaceVariant`; live digit steps to `label.md` weight. `aria-live="polite"`. Mutually exclusive with `helper`.
 
 ## Appearance
 

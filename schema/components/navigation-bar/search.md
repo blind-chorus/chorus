@@ -1,12 +1,14 @@
 # Search
 
-The search top bar — anchored to a dedicated search page reached from a [Home](./home.md) or [Page](./page.md) bar's search trigger. Owns the entire search affordance: leading back-arrow Icon Button, single bare-text input filling the row, conditional trailing clear (×). Drops the centred title — the input *is* the focus.
+The search top bar — anchored to a dedicated search page reached from a [Home](./home.md) or [Page](./page.md) bar's search trigger. Owns the entire search affordance: leading back-arrow Icon Button, single bare-text input filling the row, conditional trailing clear (*×*). Drops the centred title — the input *is* the focus.
 
-**Layout inset.** `full-bleed` — sits as a direct child of the page shell. The bar pays its own `16px inline` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Reach for this when** the entire screen exists to capture a query and show results. **Skip when** search is one affordance among several on a tab root (use [Home](./home.md) with a search trailing action) or when the field lives in-line with content (use the [search](../form-field/search.md) form-field).
+
+**Layout inset.** `full-bleed` — direct child of the page shell. The bar pays its own `16px inline` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface, apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-At rest with an empty field. Placeholder paints in `outline`; the clear (×) stays hidden until a value lands.
+At rest with an empty field. Placeholder paints in `outline`; the clear (*×*) stays hidden until a value lands.
 
 ```preview
 navigation-bar/search/default
@@ -20,7 +22,7 @@ import { NavigationBar } from '@blind-dsai/ui';
 
 ### With value (clear visible)
 
-A non-empty value swaps placeholder for `onSurface` text and reveals the trailing clear (×) at the medium 32 × 32 capsule — smaller than the leading back-arrow so it never out-shouts the input. Clicking clear wipes the value, returns focus to the input, and the trailing column collapses; the input's leading edge stays pixel-stable.
+A non-empty value swaps placeholder for `onSurface` text and reveals the trailing clear (*×*) at the medium 32 × 32 capsule — smaller than the leading back-arrow so it never out-shouts the input. Clicking clear wipes the value, returns focus, and the trailing column collapses; the input's leading edge stays pixel-stable.
 
 ```preview
 navigation-bar/search/with-value
@@ -37,13 +39,13 @@ import { NavigationBar } from '@blind-dsai/ui';
 
 ## Slots
 
-- **leading** — required. 24px back-arrow icon as the canonical [Icon Button](../button/icon.md) capsule (40 × 40 transparent, 24px glyph).
-- **input** — required. Single-line **bare** text input filling the leftover middle column. *Bare* means no border, no background, no inset stroke — not a [Search bar](../form-field/search.md) field. Renders value in `sys.color.onSurface`, placeholder in `sys.color.outline` (`typo.body.md`, 16/Regular). Caret follows the [system caret rule](../../DESIGN.md#caret).
-- **trailing** *(conditional)* — clear (×) [Icon Button](../button/icon.md) hosting `XCircleFillIcon`. **Always uses Icon Button's `medium` size** (32 × 32 capsule, 16px glyph) so it never over-claims weight against the bare input. Rendered only when value is non-empty; wipes value and returns focus to the input.
+- **leading** *(required)* — 24px back-arrow as the canonical [Icon Button](../button/icon.md) capsule (40 × 40 transparent, 24px glyph).
+- **input** *(required)* — single-line *bare* text input filling the leftover middle column. Bare means no border, no background, no inset stroke — not a [Search](../form-field/search.md) field. Value in `sys.color.onSurface`, placeholder in `sys.color.outline` (`typo.body.md`, 16/Regular). Caret follows the [system caret rule](../../DESIGN.md#caret).
+- **trailing** *(conditional)* — clear (*×*) [Icon Button](../button/icon.md) hosting `XCircleFillIcon`. Always Icon Button's `medium` size (32 × 32 capsule, 16px glyph) so it never over-claims weight against the bare input. Rendered only when value is non-empty; wipes value and returns focus.
 
 ## Anatomy
 
-Three-column grid (leading / input / trailing) — side columns size to content, input column takes `minmax(0, 1fr)`. When the trailing column collapses (clear hidden), the input column expands; the field never reflows its leading edge.
+Three-column grid (leading / input / trailing) — side columns size to content, input column takes `minmax(0, 1fr)`. When the trailing column collapses, the input column expands; the field never reflows its leading edge.
 
 | Slot                  | Container                                                                               | Color                                                                          |
 |-----------------------|------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
@@ -72,13 +74,13 @@ A single fixed rung. Same geometry as Page.
 
 ## States
 
-The bar has no interactive state of its own. Leading and trailing inherit [Icon Button](../button/icon.md)'s recipe. The input follows the **bare-text-field shape** — only the caret and placeholder ↔ value colour swap signal interaction; no overlay because the field has no chrome to tint.
+The bar has no interactive state of its own. Leading and trailing inherit [Icon Button](../button/icon.md)'s recipe. The input follows the bare-text-field shape — only the caret and placeholder ↔ value colour swap signal interaction; no overlay because the field has no chrome to tint.
 
 | State      | Overlay opacity            | Additional                                                                 |
 |------------|----------------------------|-----------------------------------------------------------------------------|
 | `default`  | —                          | Caret hidden. Empty → placeholder in `outline`; value → `onSurface`.        |
 
-**No `disabled` state.** The Search variant deliberately omits one. The only screen a `navigation-bar/search` ever lives on is the search results page itself, and a non-typable search bar on that page reduces the surface to a dead chrome strip with no escape affordance beyond the back-arrow. If search must be gated (offline, throttled, paused indexing), gate the *trigger* on the prior screen instead and never route into this bar.
+**No `disabled` state.** The only screen this bar ever lives on is the search results page itself; gating it there reduces the surface to a dead chrome strip with no escape beyond the back-arrow. If search must be gated (offline, throttled, paused indexing), gate the *trigger* on the prior screen instead.
 
 ## Focus indicator
 

@@ -1,12 +1,14 @@
 # Home
 
-The landing-screen top bar — anchored to the top of a tab root (a feed, an inbox, a profile). A leading menu glyph + left-aligned page name occupy the start; up to three action icons (search, chat, profile) sit at the trailing edge. The title carries the system's largest page-level type rung (`typo.heading.lg`, 24/Semibold).
+The landing-screen top bar — anchored to a tab root (feed, inbox, profile). A leading menu glyph plus left-aligned page name sit at the start; up to three trailing icon actions (search, chat, profile) sit at the end. Title carries the system's largest page-level rung (`typo.heading.lg`, 24/Semibold).
 
-**Layout inset.** `full-bleed` — sits as a direct child of the page shell at the top of the route. The bar pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Reach for this when** the screen is a tab root and needs the menu drawer plus a small set of global affordances. **Skip when** you're one step inside a flow (use [Page](./page.md)) or on a dedicated search page (use [Search](./search.md)).
+
+**Layout inset.** `full-bleed` — direct child of the page shell. The bar pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-Menu glyph, brand logotype at 24px tall, three trailing actions (search, chat, profile).
+Menu glyph, brand logotype at 24px tall, three trailing actions.
 
 ```preview
 navigation-bar/home/default
@@ -36,7 +38,7 @@ import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 
 ### With a text title in place of the logotype
 
-Names the screen in words. Plain text at `typo.heading.lg` (24/Semibold) `onSurface`; truncates with ellipsis. Same 24-tall rhythm as the logotype.
+Names the screen in words. Plain text at `typo.heading.lg` (24/Semibold) `onSurface`; same 24-tall rhythm as the logotype, ellipsis on narrow.
 
 ```preview
 navigation-bar/home/default--text-title
@@ -77,7 +79,7 @@ import { SearchIcon } from '@blind-dsai/ui/icons';
 
 ### Truncation (safety net)
 
-Long page name truncates with ellipsis. Author concise titles ("Home", "Inbox") so the bar never resorts to ellipsis.
+Long page name truncates with ellipsis. Author concise titles (*Home*, *Inbox*) so the bar never resorts to ellipsis.
 
 ```preview
 navigation-bar/home/truncation
@@ -99,9 +101,9 @@ import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 
 ## Slots
 
-- **leadingIcon** (fixed) — always the menu / hamburger icon ([`MenuIcon`](../../packages/ui/src/icons/svg/Menu.svg)); the single hook into the app's primary drawer.
-- **title** — screen's identity. Required. Default is the brand logotype at fixed 24px height (ratio preserved); a string may be passed instead — renders as `typo.heading.lg` (24/Semibold) `onSurface`, ellipsis on narrow.
-- **trailingActions** (optional) — up to three icon actions. Conventional set: Search, Chat, Profile. Laid left-to-right with no inter-icon gap — the capsules' 8px padding provides visible separation.
+- **leadingIcon** *(fixed)* — always the menu / hamburger ([`MenuIcon`](../../packages/ui/src/icons/svg/Menu.svg)); the single hook into the app's primary drawer.
+- **title** — screen identity. Required. Default is the brand logotype at fixed 24px height (ratio preserved); a string may be passed instead — renders as `typo.heading.lg` (24/Semibold) `onSurface`, ellipsis on narrow.
+- **trailingActions** *(optional)* — up to three icon actions. Conventional set: Search, Chat, Profile. Laid left-to-right with no inter-icon gap — the capsules' 8px padding provides visible separation.
 
 ## Anatomy
 
@@ -135,7 +137,7 @@ A single fixed rung.
 
 ## States
 
-The bar itself has no interactive state. Icon slots inherit [Icon Button](../button/icon.md) states. The title carries no states.
+The bar itself has no interactive state. Icon slots inherit [Icon Button](../button/icon.md) states. Title carries no states.
 
 ## Focus indicator
 
