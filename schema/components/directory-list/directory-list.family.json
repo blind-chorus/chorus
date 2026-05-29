@@ -2,7 +2,7 @@
   "$schema": "../../family.schema.json",
   "family": "directory-list",
   "name": "DirectoryList",
-  "description": "Vertical follow-list — labelled block where each row pairs a 48 thumbnail, identity column (name + followers + description), and a trailing Follow toggle. Sibling of SuggestionList: same entity-agnostic row anatomy, but no swipeable pager — the full set is scanned vertically. Reach for it on browse / 'new channels' / 'people you may know' surfaces.",
+  "description": "Vertical follow-list — labelled block where each row pairs a 48 thumbnail, identity column (name + followers + description), and a trailing Follow toggle. **Preset wrapper** over `<Header /> + <List variant=\"entry\" size=\"large\" divider={false}>` — no new tokens, no new selection model; reach for it when you want the canonical Follow-able directory shape with item-descriptor sugar (`name → label`, `followers → secondary`, `active/onToggle → trailingIcon`). If you need any divergence from that preset (different rung, different trailing affordance, mixed-thumbnail rows, custom divider behavior), drop down to `<Header /> + <List variant=\"entry\" />` and compose freely. Sibling of SuggestionList: same entity-agnostic row anatomy, but no swipeable pager — the full set is scanned vertically.",
   "useCases": [
     "follow-able directory of entities",
     "new / recommended channels (full list)",

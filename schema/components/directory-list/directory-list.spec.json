@@ -2,7 +2,7 @@
   "$schema": "../../spec.schema.json",
   "name": "DirectoryList",
   "family": "directory-list",
-  "description": "Vertical follow-list — labelled block of follow-able entries rendered at the [list/entry](../list/entry.md) `large` rung (48 Thumbnail + identity group of label + stacked `secondary` followers + `description` + trailing [Toggle Button](../button/toggle.md)). Sibling of SuggestionList: same entity-agnostic anatomy but no swipeable pager — the full set is scanned vertically. Reach for it on browse / 'new channels' / 'people you may know' surfaces.",
+  "description": "Vertical follow-list — labelled block of follow-able entries rendered at the [list/entry](../list/entry.md) `large` rung (48 Thumbnail + identity group of label + stacked `secondary` followers + `description` + trailing [Toggle Button](../button/toggle.md)). **Preset wrapper** — internally this is `<Header /> + <List variant=\"entry\" size=\"large\" divider={false}>`; the wrapper exists to map item descriptors (`name → label`, `followers → secondary`, `active/onToggle → trailingIcon`) and to lock the rung + divider preset for the canonical Follow-able directory shape. **When to reach for the primitive instead:** if you need a different size rung, mix label-only and thumbnail-bearing rows, swap the trailing Toggle for a different affordance (chevron / icon-button / star), or want per-row dividers — drop down to `<Header /> + <List variant=\"entry\" />` directly. Sibling of SuggestionList: same entity-agnostic anatomy but no swipeable pager — the full set is scanned vertically.",
   "element": "section",
   "props": {
     "embedded": {
