@@ -454,13 +454,6 @@ const UTILITY_GROUPS = [
     ],
   },
   {
-    title: 'Focus',
-    rows: [
-      { name: 'focus',      role: 'Outer focus-ring color. Intentionally inverse-toned — dark in light mode, light in dark mode — so the ring reads against any surface in the stack regardless of the control’s own fill. See [Focus ring composition](#focus-ring-composition) for the full three-layer rule. Resolves to `ref.palette.black.1000` (light) / `ref.palette.white.1000` (dark).' },
-      { name: 'focusInset', role: 'Inner counter-ring paired with `focus`. Mirrors `focus` in the opposite direction so even when the outer ring meets a similarly-toned background, the inset edge keeps the indicator legible. Resolves to `ref.palette.white.1000` (light) / `ref.palette.black.1000` (dark).' },
-    ],
-  },
-  {
     title: 'Overlay',
     rows: [
       { name: 'scrim',       role: 'Translucent black used to dim content behind a raised overlay. The backdrop behind modals, drawers, menus, and bottom sheets — focuses attention on the foreground and blocks interaction with the obscured layer. Resolves to `ref.palette.black.800`.' },
@@ -468,6 +461,22 @@ const UTILITY_GROUPS = [
       { name: 'elevation',   role: 'Base color used to build elevation shadows (composited with opacity inside `elevation.*` definitions). Not for fills — reference only from elevation definitions. Resolves to `ref.palette.black.1000`.' },
     ],
   },
+  {
+    title: 'Focus',
+    rows: [
+      { name: 'focus',      role: 'Outer focus-ring color. Intentionally inverse-toned — dark in light mode, light in dark mode — so the ring reads against any surface in the stack regardless of the control’s own fill. Applied globally to every focusable control, which is why it sits at the foot of the role-cluster stack rather than beside the per-component surfaces above. See [Focus ring composition](#focus-ring-composition) for the full three-layer rule. Resolves to `ref.palette.black.1000` (light) / `ref.palette.white.1000` (dark).' },
+      { name: 'focusInset', role: 'Inner counter-ring paired with `focus`. Mirrors `focus` in the opposite direction so even when the outer ring meets a similarly-toned background, the inset edge keeps the indicator legible. Resolves to `ref.palette.white.1000` (light) / `ref.palette.black.1000` (dark).' },
+    ],
+  },
+];
+
+const ICON_PAINT_ROWS = [
+  { name: 'icon.muted',  role: 'Quiet/inactive icon paint. Translucent inverse-tone (black 20% in light, white 24% in dark) so the glyph reads as recessive on every host surface tier. Unpressed favourite stars, off-state toggles, decorative glyphs that must not compete with adjacent text. Sibling to the saturated `icon.*` hues — pair them on the same affordance to flip state by colour alone. Resolves to `ref.palette.black.500` (light) / `ref.palette.white.600` (dark).' },
+  { name: 'icon.yellow', role: 'Accent paint for icons that signal warning, attention, or *favourited* meaning — active favourite star, highlighted item. Tuned one step lighter than `yellow.500` in light mode for small-glyph optical readability against `surface` tiers. Resolves to `ref.palette.yellow.400` (light) / `ref.palette.yellow.500` (dark).' },
+  { name: 'icon.red',    role: 'Accent paint for icons that signal critical, destructive, or alert meaning when a saturated red glyph is needed outside the `error` + `onError` fill pairing. Distinct from `sys.color.error` (tuned for filled surfaces and their on-tokens, not standalone glyphs). Resolves to `ref.palette.red.400` (light) / `ref.palette.red.700` (dark).' },
+  { name: 'icon.blue',   role: 'Accent paint for icons that signal informational, link, or primary-action meaning. Matches `ref.palette.blue.500` in both themes — same hue as `sys.color.primary`, but consumed at the icon role for standalone glyphs rather than paired with `onPrimary` fills.' },
+  { name: 'icon.green',  role: 'Accent paint for icons that signal success, positive, or live-status meaning when a saturated green glyph is needed outside the `success` + `onSuccess` fill pairing. Tuned lighter in light mode and deeper in dark for small-glyph readability. Resolves to `ref.palette.green.300` (light) / `ref.palette.green.600` (dark).' },
+  { name: 'icon.purple', role: 'Accent paint for icons that signal *special*, feature-flag, or discovery meaning — premium markers, AI / Lovable surfaces, distinct category glyphs. The system\'s only purple role; there is no `sys.color.purple` background/foreground pair. Resolves to `ref.palette.purple.400` (light) / `ref.palette.purple.700` (dark).' },
 ];
 
 function ColorAccentRoles({ tokens }) {
@@ -524,24 +533,42 @@ function ColorSurfaceStack({ tokens }) {
 function ColorUtilities({ tokens }) {
   return (
     <Section
-      title="Outline · Inverse · Focus · Scrim"
+      title="Outline · Inverse · Scrim · Focus"
       id="color-utility"
       description={
-        <>Five small role-clusters that don&apos;t fit the accent quartet or the surface stack. Each cluster is paired or solo by intent, not by a shared scale.</>
+        <>Five small role-clusters that don&apos;t fit the accent quartet or the surface stack. Each cluster is paired or solo by intent, not by a shared scale. <code>Focus</code> sits at the bottom because it applies globally — every focusable control consumes the same outer ring + inset pair, regardless of which surface or accent it lives on.</>
       }
     >
       <ProseSection title="Role-clusters">
         <ul className="rule-list">
           <li><strong>Outline cluster</strong> (<code>outline</code> / <code>outlineVariant</code>) — high vs. low emphasis border pair.</li>
           <li><strong>Inverse cluster</strong> (<code>inverseSurface</code> / <code>inverseOnSurface</code>) — mini-stack for elements that must contrast with the page (snackbars, tooltips). <code>inverseSurface</code> is the canvas, <code>inverseOnSurface</code> is the foreground. Action accents inside inverted components fall back to the regular <code>primary</code> family.</li>
-          <li><strong>Focus cluster</strong> (<code>focus</code> / <code>focusInset</code>) — outer ring + inner counter-ring pair. Always composed together.</li>
           <li><strong>Scrim pair</strong> (<code>scrim</code> / <code>scrimSubtle</code>) — translucent black/inverse-tone overlays. <code>scrim</code> at 64% dims content behind raised modals; <code>scrimSubtle</code> at 8% is a surface-agnostic fill used by Banner default, Chip / Tag default, Progress track, StatusTag neutral, and Skeleton — visible on any host surface tier without colliding with the surface ladder.</li>
           <li><strong>Elevation ink</strong> (solo) — base shadow color, referenced only from <code>elevation.*</code> definitions, never as a fill.</li>
+          <li><strong>Focus cluster</strong> (<code>focus</code> / <code>focusInset</code>) — outer ring + inner counter-ring pair, always composed together. Applied globally across every focusable control, so it reads as a system-wide signal rather than a per-surface choice — the reason it closes the cluster list.</li>
         </ul>
       </ProseSection>
       {UTILITY_GROUPS.map(g => (
         <SystemTable key={g.title} tokens={tokens} title={g.title} rows={g.rows} />
       ))}
+    </Section>
+  );
+}
+
+function ColorIconPaints({ tokens }) {
+  return (
+    <Section
+      title="Icon paints"
+      id="color-icon"
+      description={
+        <>Six standalone paints for icons that carry their <em>own</em> hue as inline decoration — a quiet/inactive paint plus five saturated accents. Use when an icon participates as inline decoration with its own meaning (status glyph, category marker, favourite star), <em>not</em> when an icon sits as the foreground of a control (in which case it inherits the surrounding <code>on*</code> token — see <Link href={asset("/iconography#icon-color")}>Iconography → Color &amp; State</Link>).</>
+      }
+    >
+      <ProseSection title="One muted + five accents">
+        <p>Saturation is the signal. <code>icon.muted</code> is a translucent inverse-tone (≈20% / 24% opacity) that recedes on any surface tier; the five accents (<code>yellow</code>, <code>red</code>, <code>blue</code>, <code>green</code>, <code>purple</code>) each carry one meaning at the glyph level. Pair <code>icon.muted</code> with a saturated sibling on the same affordance to flip state by colour alone — an off-state heart on <code>icon.muted</code>, an on-state heart on <code>icon.red</code> — without swapping the glyph itself.</p>
+        <p>These tokens exist because <code>sys.color.primary</code> / <code>success</code> / <code>error</code> are tuned for <em>filled surfaces</em> paired with an <code>on*</code> foreground; a standalone glyph painted directly with those fill colours reads at the wrong weight on a base surface. The icon paints are the matched single-paint hues for that case. <code>icon.purple</code> additionally fills a gap in the accent family — there is no <code>sys.color.purple</code> background pair, so the icon role is the only purple in the system.</p>
+      </ProseSection>
+      <SystemTable tokens={tokens} title="Icon" rows={ICON_PAINT_ROWS} />
     </Section>
   );
 }
@@ -614,6 +641,7 @@ export function Color({ tokens }) {
       <ColorAccentRoles       tokens={tokens} />
       <ColorSurfaceStack      tokens={tokens} />
       <ColorUtilities         tokens={tokens} />
+      <ColorIconPaints        tokens={tokens} />
       <ColorDarkMode />
       <ColorDataViz />
     </>
