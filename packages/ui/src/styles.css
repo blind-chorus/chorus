@@ -4668,15 +4668,16 @@ a.chorus-metadata__name:focus-visible {
   row-gap: var(--ref-space-75);
   column-gap: var(--ref-space-150);
   min-height: var(--ref-space-400);
-  /* Width contract — the bubble always fills its channel up to the cap,
-     never content-driven. `width: 100%` makes it stretch to the parent
-     content-box (the owner positioner exposes the safe channel as the
-     parent); `min(maxWidth, calc(100vw - 2 × viewportSafeArea))` enforces
-     both the 240 cap and the 8/8 viewport safe area when the bubble is
-     portal-mounted at the document root. Short body strings render at
-     the same footprint as long ones — the body just doesn't wrap. */
-  width: 100%;
-  max-width: min(240px, calc(100vw - 2 * var(--sys-layout-container-xs)));
+  /* Width contract — content-driven. The bubble hugs its body so a
+     one-word hint sits tight to the caret and a longer hint grows up
+     to the 300 cap before wrapping. `width: max-content` shrink-wraps
+     the body; `max-width: min(300px, calc(100vw - 2 × viewportSafeArea))`
+     enforces both the 300 cap and the 8/8 viewport safe area when the
+     bubble is portal-mounted at the document root. Copy should stay
+     intuitive at a glance — if the message routinely pushes the cap,
+     it likely belongs in a Banner or Dialog. */
+  width: max-content;
+  max-width: min(300px, calc(100vw - 2 * var(--sys-layout-container-xs)));
   padding: var(--sys-layout-container-sm);
   border-radius: var(--sys-radius-lg);
   box-shadow: var(--sys-elevation-overlay);

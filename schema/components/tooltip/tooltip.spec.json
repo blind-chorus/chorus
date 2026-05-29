@@ -8,7 +8,7 @@
     "children": {
       "type": "node",
       "required": true,
-      "description": "Body text — a short hint or label. Wraps within the max-width cap. Tooltip copy may run longer than a button label, but should stay intuitive at a glance."
+      "description": "Body text — a short, essential hint or label. The bubble's width is content-driven (it hugs the body) and capped at 300; copy should stay brief and intuitive at a glance — a fragment, a one-line hint, an action label. The 300 cap is a safety backstop, not a target; if the message routinely fills it, it likely belongs in a Banner or Dialog."
     },
     "appearance": {
       "type": "enum",
@@ -51,7 +51,7 @@
     },
     "body": {
       "required": true,
-      "description": "The hint copy. `body.sm` / Regular / inherits container foreground. Wraps within the bubble's fixed width — the bubble is not content-driven (see `sizing.widthContract`), so short copy reads at the same footprint as wrapping copy.",
+      "description": "The hint copy. `body.sm` / Regular / inherits container foreground. The bubble is content-driven (see `sizing.widthContract`) — short copy renders narrow with the caret tight to the bubble, long copy clamps at the 300 cap and wraps onto a second line.",
       "accepts": [
         "text"
       ]
@@ -66,8 +66,8 @@
   },
   "sizing": {
     "minHeight": "ref.space.400",
-    "maxWidth": "240px",
-    "widthContract": "The bubble always fills the available channel — never content-driven. Computed width = `min(maxWidth, parentChannelWidth)`, where `parentChannelWidth` is the host channel the owner positioner exposes (production: `viewport width - 2 × viewportSafeArea`; in-page demo: the parent block's content-box width). Short body strings get the same bubble footprint as long ones; the body just doesn't wrap. The cap stays at 240; below the cap the bubble stretches to the safe-area channel so the caret-to-edge geometry stays balanced on narrow viewports.",
+    "maxWidth": "300px",
+    "widthContract": "Content-driven — the bubble hugs its body. CSS: `width: max-content` (shrink-wraps the body); `max-width: min(300px, calc(100vw - 2 × viewportSafeArea))` (enforces both the 300 cap and the 8/8 viewport safe area when portal-mounted at the document root). Short body strings render narrow with the caret tight to the bubble; long copy clamps at the 300 cap and wraps onto a second line. The cap is a safety backstop, not a target — copy that routinely fills it belongs in a Banner or Dialog instead.",
     "radius": "sys.radius.lg",
     "paddingInline": "sys.layout.container.sm",
     "paddingBlock": "sys.layout.container.sm",
@@ -96,13 +96,15 @@
     "lifecycle": "Presentational. Owner code mounts the Tooltip while the trigger is hovered or focused, and unmounts it when the trigger loses both. Typical reveal delay is ~400ms on hover (immediate on focus); the component does not manage the timer.",
     "role": "Container carries role='tooltip'. The trigger MUST own `aria-describedby` pointing at the tooltip's id so screen readers associate the hint with the host element.",
     "placementSelection": "Pick `placement` so the bubble fits the trigger's position on the viewport: when the trigger sits near the leading edge of the viewport, use a `-start` aligner so the caret stays anchored to the trigger while the bubble extends inward; mirror for the trailing edge with `-end`. The `top` / `bottom` edge choice depends on which side has room — typically `top` when the trigger sits in the bottom half of the viewport, `bottom` when it sits in the top half. The owner positioner is responsible for collision-flipping (`top` → `bottom` when the bubble would clip).",
-    "viewportSafeArea": "The bubble (chrome + caret) MUST keep at least `sys.layout.container.xs` (8) clear of the viewport edge on every side — same 8/8 horizontal safe area Toast pays. The owner positioner enforces this; when honouring the safe area would push the bubble off its preferred placement, flip to the opposite edge before nudging within the safe area. The bubble's own width is `min(maxWidth, viewport width - 2 × viewportSafeArea)` so the safe channel and the cap meet cleanly at narrow widths.",
+    "viewportSafeArea": "The bubble (chrome + caret) MUST keep at least `sys.layout.container.xs` (8) clear of the viewport edge on every side — same 8/8 horizontal safe area Toast pays. The owner positioner enforces this; when honouring the safe area would push the bubble off its preferred placement, flip to the opposite edge before nudging within the safe area. The bubble's `max-width` is `min(300px, viewport width - 2 × viewportSafeArea)` so the safe channel and the cap meet cleanly at narrow widths.",
     "triggerOffset": "The caret tip sits `sys.layout.stack.xs` (8) away from the trigger's bounding box — same `stack.xs` rung the rest of the system uses for vertical breathing room between an anchor and a floating element. The owner positioner applies this offset when placing the bubble.",
-    "widthFill": "The bubble always fills the available channel up to `maxWidth`. Short body strings render at the same footprint as long ones; the body just doesn't wrap. This gives the caret-to-edge geometry a predictable rhythm regardless of copy length — a 'Got it' single-word tooltip lands at the same width as a wrapping multi-line hint."
+    "widthHug": "The bubble's width is driven by its body, not by the channel. A one-word label like 'Manage' sits tight to the caret; a longer hint grows until it hits the 300 cap, then wraps onto a second line. The visual length matches the semantic length — short hints don't pad out to a fixed footprint, long hints don't escape the cap. This replaces the previous always-fill contract (the bubble no longer stretches to a fixed 240 footprint regardless of copy)."
   },
   "forbidden": [
     "Tooltip used as a non-blocking confirmation — that role is the `toast` family",
     "Tooltip rendered without a trigger anchor — tooltip is always anchored to a specific element via the trigger contract",
-    "Tooltip persistent (no auto-dismiss on blur / pointer-leave)"
+    "Tooltip persistent (no auto-dismiss on blur / pointer-leave)",
+    "fixed `width` override on the Tooltip container — width is content-driven and capped at 300 by the component; consumers MUST NOT force a different footprint",
+    "copy that routinely fills the 300 cap — Tooltip copy is brief and intuitive at a glance; long-form messages belong in a Banner or Dialog"
   ]
 }

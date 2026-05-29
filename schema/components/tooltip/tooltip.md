@@ -6,7 +6,7 @@ A trigger-anchored explanation bubble — a small contrast-toned surface with a 
 
 ## Default
 
-The brand-blue bubble — body text only. `primary` fill with `onPrimary` foreground (both theme-stable). 32 min-height, symmetric 12 inset (`sys.layout.container.sm` on every edge), `radius.lg` corners, overlay elevation. Caret renders on the edge facing the trigger. The bubble **always fills its channel up to a 240 cap** — short copy and wrapping copy render at the same footprint so the caret-to-edge rhythm stays predictable regardless of length.
+The brand-blue bubble — body text only. `primary` fill with `onPrimary` foreground (both theme-stable). 32 min-height, symmetric 12 inset (`sys.layout.container.sm` on every edge), `radius.lg` corners, overlay elevation. Caret renders on the edge facing the trigger. The bubble's **width hugs its content** up to a 300 cap — a one-word label sits tight to the caret, a longer hint grows until it hits the cap and then wraps. Keep copy intuitive at a glance; if the message routinely pushes the cap, it likely belongs in a [Banner](../banner/banner.md) or [Dialog](../dialog/dialog.md).
 
 ```preview
 tooltip/default
@@ -50,7 +50,7 @@ import { Tooltip, Button } from '@blind-dsai/ui';
 
 ### Multi-line with action
 
-When the body wraps past one line, the action slot drops below the body. The body-to-action gap goes from 12 (inline) to 6 (block) so the stacked action reads as part of the same group.
+When the body grows past the 300 cap, the body wraps onto a second line and the action slot drops below the body. The body-to-action gap goes from 12 (inline) to 6 (block) so the stacked action reads as part of the same group.
 
 ```preview
 tooltip/multiline-action
@@ -62,7 +62,7 @@ import { Tooltip, Button } from '@blind-dsai/ui';
     Learn more
   </Button>
 }>
-  Tooltip text wraps onto a second line when it would push the bubble past the 240 cap.
+  Tooltip text wraps onto a second line when it would push the bubble past the 300 cap.
 </Tooltip>
 ```
 
@@ -98,18 +98,18 @@ Two appearances — `default` (the canonical brand-blue tooltip) and `inverse` (
 
 ## Slots
 
-- **container** — bubble surface with the caret. Flex; symmetric 12 inset on every edge; 32 min-height; **always fills its channel up to a 240 cap** (`min(240px, parent channel width)`); `sys.radius.lg` corners; `sys.elevation.overlay` shadow. `role="tooltip"`.
+- **container** — bubble surface with the caret. Flex; symmetric 12 inset on every edge; 32 min-height; **content-driven width capped at 300** (`min(300px, viewport safe channel)`); `sys.radius.lg` corners; `sys.elevation.overlay` shadow. `role="tooltip"`.
 - **caret** — pointer tail on the edge facing the trigger. 8px footprint; inherits the container fill; flips per `placement` (top edge → caret on the bottom; bottom edge → caret on the top); the `-start` / `-end` aligners shift it along the parallel axis.
-- **body** — hint copy. `body.sm` / Regular / inherits container foreground. Wraps within the bubble's fixed width — short copy and long copy share the same footprint.
+- **body** — hint copy. `body.sm` / Regular / inherits container foreground. Hugs its own width until the 300 cap is reached, then wraps — short copy renders narrow, long copy clamps at the cap and wraps onto a second line.
 - **action** *(optional)* — a Button node. Canonical binding `<Button variant="text" size="small" appearance="onPrimary">` for the default tooltip, or `appearance="inverse"` for the inverse tooltip. Inline next to the body when the body is single-line; drops below the body once the body wraps.
 
 ## Anatomy
 
 | Slot      | Token bindings |
 |-----------|----------------|
-| container | Fill + foreground per appearance, `sys.radius.lg` (12) corners, `sys.layout.container.sm` (12) padding on every edge, 32 min-height. **Always fills the channel up to `maxWidth: 240px`** — `width = min(240px, parentChannelWidth)`, never content-driven. `sys.elevation.overlay` shadow |
+| container | Fill + foreground per appearance, `sys.radius.lg` (12) corners, `sys.layout.container.sm` (12) padding on every edge, 32 min-height. **Content-driven width capped at 300** — `width: max-content`, `max-width: min(300px, viewport safe channel)`. Short copy renders narrow; long copy clamps at the cap and wraps. `sys.elevation.overlay` shadow |
 | caret     | 8px footprint, inherits container fill, flipped to the edge facing the trigger per `placement`, `sys.layout.stack.xs` (8) offset between caret tip and trigger |
-| body      | `sys.typo.body.sm` (14 / Regular), color inherits, wraps within the max-width cap |
+| body      | `sys.typo.body.sm` (14 / Regular), color inherits, hugs its own width until the 300 cap is reached, then wraps |
 | action    | Pass-through Button node. Canonical bindings: `Button variant="text" size="small" appearance="onPrimary"` (default appearance) or `appearance="inverse"` (inverse appearance). Inline gap from body = `ref.space.150` (12); block gap when the body wraps = `ref.space.75` (6). |
 
 `ref.space.150` (12) and `ref.space.75` (6) bind to the reference tier because `sys.layout.inline.*` and `sys.layout.stack.*` do not expose a 12-constant or 6-constant rung (per the system's "`sys.*` first, `ref.*` if no semantic alias" rule).
@@ -120,7 +120,7 @@ Placement is driven by where the trigger sits on the viewport. The component doe
 
 - **Viewport safe area.** The bubble (chrome + caret) MUST keep at least `sys.layout.container.xs` (8) clear of every viewport edge — same horizontal safe margin Toast pays. When honouring the safe area would push the bubble off its preferred placement, flip to the opposite edge.
 - **Trigger offset.** Caret tip sits `sys.layout.stack.xs` (8) from the trigger's bounding box.
-- **Width fill.** The bubble's width is `min(240px, viewport width - 2 × sys.layout.container.xs)` — always full inside the safe channel, capped at 240. Short copy and long copy share the same footprint.
+- **Width contract.** The bubble hugs its content: `width: max-content`, capped at `min(300px, viewport width - 2 × sys.layout.container.xs)`. Short copy renders narrow with the caret tight to the bubble; long copy clamps at the 300 cap and wraps onto a second line. Keep copy intuitive at a glance — the cap is a backstop, not a target.
 - **Mirror the trigger's position.** Pick the `<align>` axis to match the trigger's horizontal position:
   - Trigger near the **leading** edge → `-start` (caret anchored to the leading edge).
   - Trigger **centred** → bare edge name (caret at the bubble's centre).
@@ -135,5 +135,5 @@ Container carries no interactive state. The optional action button follows the s
 
 - **Lifecycle.** Presentational. Owner code mounts the Tooltip while the trigger is hovered or focused. Typical reveal delay is ~400ms on hover (immediate on focus); the component does not manage the timer.
 - **Role.** Container carries `role="tooltip"`. The trigger MUST own `aria-describedby` pointing at the tooltip's id so screen readers associate the hint with the host.
-- **Copy.** Tooltip text may run longer than a button label, but should stay intuitive at a glance. If the message needs more, it likely belongs in a [Banner](../banner/banner.md) or [Dialog](../dialog/dialog.md).
+- **Copy.** Tooltip text may run longer than a button label, but should stay **brief, essential, and intuitive at a glance** — a fragment, a one-line hint, an action label. The 300 cap is a safety backstop, not a target; if the message routinely fills it, it likely belongs in a [Banner](../banner/banner.md) or [Dialog](../dialog/dialog.md). The content-driven width means a one-word label like "Manage" sits tight to the caret rather than padding out to a fixed footprint — the visual length matches the semantic length.
 - **Reach for this when** the message describes a hovered or focused control. **Skip when** the message belongs in the reading flow (use [Banner](../banner/banner.md)) or confirms a recent action (use [Toast](../toast/toast.md)).
