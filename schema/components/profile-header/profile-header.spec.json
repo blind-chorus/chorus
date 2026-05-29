@@ -42,7 +42,7 @@
     "followed": {
       "type": "boolean",
       "default": false,
-      "description": "Whether the viewer is following this entity. Drives the trailing [Toggle Button](../button/toggle.md): false → 'Follow' (primary fill); true → 'Following' (surfaceContainerHigh + hairline outline)."
+      "description": "Whether the viewer is following this entity. Drives the trailing [Toggle Button](../button/toggle.md): false → 'Follow' (primary fill); true → 'Following' (transparent fill + hairline outline so the committed state recedes against any host surface tier)."
     },
     "onFollowChange": {
       "type": "function",
@@ -137,7 +137,7 @@
     },
     "followAction": {
       "required": true,
-      "description": "Trailing [Toggle Button](../button/toggle.md) (`variant={'toggle'}`). `Follow` (inactive — `primary` fill) ↔ `Following` (active — `surfaceContainerHigh` + hairline outline). Sits inside the action row, intrinsic width.",
+      "description": "Trailing [Toggle Button](../button/toggle.md) (`variant={'toggle'}`). `Follow` (inactive — `primary` fill) ↔ `Following` (active — `transparent` fill + hairline outline so the committed state reads as a ghost outline against any host surface tier). Sits inside the action row, intrinsic width.",
       "accepts": ["button"],
       "rendersAs": "button:toggle"
     }

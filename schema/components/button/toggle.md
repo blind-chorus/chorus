@@ -1,6 +1,6 @@
 # Toggle
 
-Commit-and-record action — a Toolbar-footprint button with two states. **Inactive** invites the commit (`primary` fill); **active** records it (`surfaceContainerHigh` + hairline `outlineVariant`). Use for reversible actions that persist across views — follows, subscriptions, joins.
+Commit-and-record action — a Toolbar-footprint button with two states. **Inactive** invites the commit (`primary` fill); **active** records it (`transparent` fill + hairline `outlineVariant` outline). Use for reversible actions that persist across views — follows, subscriptions, joins.
 
 **Layout inset.** `inline` — ships no padding outside its own chrome. Sits inside a host slot (profile card footer, channel header, list-row trailing slot) with the host paying surrounding rhythm. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
@@ -20,7 +20,7 @@ import { Button } from '@blind-dsai/ui';
 
 ## Active
 
-The committed form — `surfaceContainerHigh` fill with hairline `outlineVariant` stroke. Use the same element across both states and toggle the `active` flag; the consumer swaps the label text. Reports state via `aria-pressed`.
+The committed form — `transparent` fill with hairline `outlineVariant` stroke. The transparent fill lets the button sit on any host surface tier (page `surface`, card `surfaceContainer`, raised `surfaceContainerHigh`) without re-painting a background that would clash with the host. Use the same element across both states and toggle the `active` flag; the consumer swaps the label text. Reports state via `aria-pressed`.
 
 ```preview
 button/toggle/active
@@ -90,7 +90,7 @@ A single visual variant — inactive/active is expressed as a state on the same 
 | State        | Background                          | Border (always 1px `sys.borderWidth.hairline`)          | Label / icon color                | Notes                                                                |
 |--------------|-------------------------------------|---------------------------------------------------------|-----------------------------------|----------------------------------------------------------------------|
 | inactive     | `sys.color.primary`                 | `transparent`                                           | `sys.color.onPrimary`             | Brand-loud fill inviting commit. Border `transparent` but 1px width held so footprint never changes between states. |
-| active       | `sys.color.surfaceContainerHigh`    | `sys.color.outlineVariant`                              | `sys.color.onSurface`             | Committed form — Toolbar Button / Filter unselected chrome verbatim. Neutral fill records state without claiming attention. |
+| active       | `transparent`                       | `sys.color.outlineVariant`                              | `sys.color.onSurface`             | Committed form — hairline-outlined ghost over whatever host surface the button sits on. Transparent fill records state without claiming attention or clashing with the host tier. |
 
 ## States
 

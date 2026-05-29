@@ -72,7 +72,7 @@
     },
     "followAction": {
       "required": true,
-      "description": "Trailing full-width [Toggle Button](../button/text.md) at the foot of the card. `Follow` (inactive) → `Following` (active). The carousel does not paint its own follow chrome — every state binding lives on the Toggle Button (Chip-toggle) contract, which paints `sys.color.primary` while inactive and a `surfaceContainerHigh` fill with a hairline outline while active so the followed state recedes.",
+      "description": "Trailing full-width [Toggle Button](../button/text.md) at the foot of the card. `Follow` (inactive) → `Following` (active). The carousel does not paint its own follow chrome — every state binding lives on the Toggle Button (Chip-toggle) contract, which paints `sys.color.primary` while inactive and a `transparent` fill with a hairline outline while active so the followed state recedes against the card's own `surface` tier without re-painting a tone that would clash.",
       "accepts": [
         "button"
       ],
