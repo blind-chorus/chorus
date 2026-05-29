@@ -3032,6 +3032,33 @@ a.chorus-metadata__name:focus-visible {
 }
 
 /* ============================================================
+   Divider — section-break band between adjacent regions that
+   don't share an enclosing container. Single full-bleed block
+   painted with `sys.color.scrimSubtle` (~8% inverse-tone
+   overlay — black in light mode, white in dark) at a fixed
+   `sys.layout.stack.xs` (8) block thickness — the 1× rung of
+   the base-unit ladder. The translucent fill stays visible on
+   every host surface tier (surface, surfaceContainerHigh,
+   hero, …) without colliding with a fixed neutral step —
+   same scrim tier as Banner default, Chip / Tag default,
+   Progress track, StatusTag neutral, and Skeleton. Resets
+   every browser `<hr>` default (margin, border, background-
+   image) so only the scrimSubtle band paints.
+============================================================ */
+.chorus-divider {
+  display: block;
+  width: 100%;
+  height: var(--sys-layout-stack-xs);
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: var(--sys-color-scrimSubtle);
+  background-image: none;
+  flex-shrink: 0;
+}
+
+/* ============================================================
    SideSheet — off-canvas content column anchored to the leading
    or trailing edge. Pairs with BottomSheet (bottom anchor) as
    the Sheet family's other anchor. Used for navigation drawers,

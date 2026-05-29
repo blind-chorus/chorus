@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Accordion, Badge, BottomSheet, Button, Banner, Metadata, SuggestionList, DirectoryList, NavList, AvatarRail, Carousel, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, Header, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, ProfileHeader, SideSheet, SideSheetGroup, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
+import { Accordion, Badge, BottomSheet, Button, Banner, Metadata, SuggestionList, DirectoryList, Divider, NavList, AvatarRail, Carousel, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, Header, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, ProfileHeader, SideSheet, SideSheetGroup, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
 import { PlusIcon, PlusSquareFillIcon, ChevronLeftIcon, ChevronDownIcon, ChevronUpIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, XIcon, BuildingIcon, BuildingFillIcon, ArrowDownIcon, ChevronRightIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, EllipsisHorizontalIcon, BellIcon, BellFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, StarFillIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
@@ -2250,6 +2250,63 @@ export const PREVIEWS = {
           <Demo />
         </Frame>
       );
+    },
+  },
+
+  /* Divider — heavy region-separator band. `scrimSubtle` fill,
+     `sys.layout.stack.xs` (8) block thickness, full-bleed. Demo
+     wraps the band in a Frame so the surrounding column gives
+     it something to separate visually. */
+  'divider/default': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Divider />
+      </Frame>
+    ),
+  },
+
+  /* Divider — region break between two full-bleed lists. Above:
+     a DirectoryList of new channels (inert directory). Below: a
+     SuggestionList keyed to the visitor (pager-flavoured sibling).
+     Both lists own their own row-level hairline dividers via the
+     list's `divider` contract; the band between the two lists is
+     the region break — the role Divider plays. */
+  'divider/between-lists': {
+    states: false,
+    render: () => {
+      function Demo() {
+        const directorySeed = [
+          { value: 'breadclub', name: 'Sourdough Bakers', followers: '12.4K Followers', description: 'Open-crumb obsession and cold-proof timing.',         thumbnail: { src: IMG.breadAvatar,  alt: 'Sourdough Bakers' }, following: false },
+          { value: 'indiedevs', name: 'Indie Game Devs',  followers: '8,210 Followers', description: 'Shipping logs, postmortems, marketing on a budget.',  thumbnail: { src: IMG.gameAvatar,   alt: 'Indie Game Devs' },  following: true  },
+        ];
+        const suggestionSeed = [
+          { value: 'plants',    name: 'Plant People',     followers: '21.7K Followers', description: 'Houseplant troubleshooting and propagation threads.', thumbnail: { src: IMG.plantAvatar,  alt: 'Plant People' },     following: false },
+          { value: 'movies',    name: 'Movie Talk',       followers: '34.2K Followers', description: 'Festival coverage, director threads, link shares.',   thumbnail: { src: IMG.cinemaAvatar, alt: 'Movie Talk' },       following: false },
+        ];
+        const [dirRows, setDirRows] = useState(directorySeed);
+        const [sugRows, setSugRows] = useState(suggestionSeed);
+        const directoryItems = dirRows.map((r) => ({
+          ...r,
+          active: r.following,
+          onToggle: () => setDirRows((prev) => prev.map((p) => (p.value === r.value ? { ...p, following: !p.following } : p))),
+        }));
+        const suggestionItems = sugRows.map((r) => ({
+          ...r,
+          active: r.following,
+          onToggle: () => setSugRows((prev) => prev.map((p) => (p.value === r.value ? { ...p, following: !p.following } : p))),
+        }));
+        return (
+          <Frame>
+            <div style={{ background: 'var(--sys-color-surface)', display: 'flex', flexDirection: 'column' }}>
+              <DirectoryList label="New channels" items={directoryItems} />
+              <Divider />
+              <SuggestionList label="Recommended channels" items={suggestionItems} />
+            </div>
+          </Frame>
+        );
+      }
+      return <Demo />;
     },
   },
 

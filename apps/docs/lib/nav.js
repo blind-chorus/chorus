@@ -223,6 +223,10 @@ export const NAV = [
         label: 'Directory list',
       },
       {
+        href: '/components/divider',
+        label: 'Divider',
+      },
+      {
         href: '/components/feed',
         label: 'Feed',
         subs: [

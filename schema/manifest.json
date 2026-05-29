@@ -69,6 +69,7 @@
     { "family": "avatar-rail",    "root": "components/avatar-rail/avatar-rail.family.json" },
     { "family": "chip",           "root": "components/chip/chip.family.json" },
     { "family": "dialog",         "root": "components/dialog/dialog.family.json" },
+    { "family": "divider",        "root": "components/divider/divider.family.json" },
     { "family": "directory-list", "root": "components/directory-list/directory-list.family.json" },
     { "family": "feed",           "root": "components/feed/feed.family.json" },
     { "family": "form-field",     "root": "components/form-field/form-field.family.json" },

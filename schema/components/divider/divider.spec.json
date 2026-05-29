@@ -1,0 +1,51 @@
+{
+  "$schema": "../../spec.schema.json",
+  "name": "Divider",
+  "family": "divider",
+  "description": "Section-break band — a single full-bleed block painted with `sys.color.scrimSubtle` (~8% inverse-tone overlay — black scrim in light mode, white scrim in dark) at a fixed block thickness of `sys.layout.stack.xs` (8). The translucent fill stays visible on every host surface tier, so the band reads as a region boundary whether it sits on plain page surface, an elevated container, a hero band, or a coloured card — without retoning per-host. No appearance axis, no thickness prop, no orientation prop: Divider ships one canonical band. The host paints no margin / padding / gap around it — the 8 of scrimSubtle IS the breathing.",
+  "element": "hr",
+  "props": {
+    "aria-hidden": {
+      "type": "boolean",
+      "optional": true,
+      "description": "Defaults to `true`. The band is decorative chrome — screen readers should not announce it as a thematic break. Override to `false` only when the divider genuinely marks a semantic section change (rare; prefer a heading instead)."
+    },
+    "className": {
+      "type": "string",
+      "optional": true,
+      "description": "Composes with the component's own class. Use sparingly — Divider exposes no tokens to override and any sizing / colour override breaks the surface-agnostic contract."
+    }
+  },
+  "slots": {
+    "container": {
+      "required": true,
+      "description": "The tonal band itself. `sys.color.scrimSubtle` fill, `sys.layout.stack.xs` (8) block thickness, full inline width, no inline padding, no corner radius, no border. The native `<hr>` element with all browser defaults reset (no margin, no border, no background-image).",
+      "intrinsic": true
+    }
+  },
+  "sizing": {
+    "background": "sys.color.scrimSubtle",
+    "thickness": "sys.layout.stack.xs",
+    "inlineWidth": "100%",
+    "border": "none",
+    "radius": "0",
+    "margin": "0"
+  },
+  "appearance": {
+    "background": "sys.color.scrimSubtle",
+    "note": "The only fill tone — Divider has no emphasis axis. Painted as a translucent ~8% inverse-tone overlay (black in light, white in dark) so the band stays visible on every host surface tier without colliding with a fixed neutral step. Mirrors the `scrimSubtle` contract used by Banner default, Chip / Tag default, Progress track, StatusTag neutral, and Skeleton."
+  },
+  "behavior": {
+    "ariaHidden": "Defaults to `aria-hidden=\"true\"` because the band is decorative chrome — screen-reader users navigate by headings and landmarks, not visual breaks.",
+    "fullBleed": "Inline width is 100% of the host's content box. Divider claims the page rail in full and must not be wrapped in a padding-inline container — the band reading edge-to-edge IS what makes it a region boundary.",
+    "thicknessFixed": "Block thickness is fixed at `sys.layout.stack.xs` (8) and is not a prop. Heavier bands would compete with content; thinner bands collapse to a hairline (use the host's own `outlineVariant` border for row-level breaks, not Divider)."
+  },
+  "forbidden": [
+    "divider used as a row separator inside a List — the list's own `divider={true}` paints those as a hairline `outlineVariant` rule",
+    "divider painted with `outlineVariant` / a fixed neutral step instead of `sys.color.scrimSubtle` — fixed steps collide with the surface ladder and the divider stops reading on raised surfaces",
+    "divider wrapped in a padding-inline div or `style={{ marginInline }}` — Divider is full-bleed and must touch the page edge to read as a region boundary",
+    "divider given outer `margin-block` / surrounding `padding-block` to fake more breathing — the 8 thickness is the breathing, and the parent column never pays a gap around Divider",
+    "divider painted with a corner radius or stroke — the band is a paint, not a card",
+    "divider used inside a Banner / Section header to break up content — that role belongs to body copy structure, not a region break"
+  ]
+}

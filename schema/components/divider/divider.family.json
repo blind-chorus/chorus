@@ -1,0 +1,25 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "divider",
+  "name": "Divider",
+  "description": "Region separator — a heavy tonal band that splits adjacent regions whose vertical rhythm alone doesn't read as a boundary. Painted with `sys.color.scrimSubtle` (~8% inverse-tone overlay — black scrim in light mode, white scrim in dark) so the band stays visible on every host surface tier (`surface`, `surfaceContainer`, `surfaceContainerHigh`, hero, …) without colliding with a fixed neutral step. Same scrim used by Banner default, Chip / Tag default, Progress track, StatusTag neutral, and Skeleton — Divider is the section-level member of that family. Reserved for *region*-level separation between groups that don't share an enclosing container (a feed segment ending and a followed-channels list beginning, a recents block ending above a single anchored CTA). Not for row-level separators inside a List (the list's own `divider={true}` paints those as a hairline `outlineVariant` rule). Single-spec family.",
+  "useCases": [
+    "between page-level content groups",
+    "between a feed segment and the section below",
+    "between an in-page promo / banner and the list below",
+    "above a single anchored CTA at the bottom of a panel",
+    "wherever vertical rhythm alone doesn't separate two regions clearly"
+  ],
+  "visualReuse": "open",
+  "layoutInset": "full-bleed",
+  "wrapperGuidance": "Owns nothing but its own block thickness (`sys.layout.stack.xs`, 8) and full-bleed inline footprint. Drop as a direct child of the page-shell `<main>` (or any full-width host column) between two regions. Do NOT wrap in a `padding-inline` div, `className=\"px-*\"`, or `style={{ padding }}` — Divider must touch the page edge to read as a region boundary, and the page rail is already paid once at the shell. Do NOT paint outer `margin-block` or wrap to add vertical breathing — the 8 thickness is the breathing. Inside a bounded surface (Dialog / BottomSheet / SideSheet), apply the negative-margin opt-out — see AGENTS.md § Composition rules.",
+  "spec": "divider.md",
+  "subcomponents": [
+    {
+      "slug": "divider",
+      "spec": "divider.spec.json",
+      "md": "divider.md",
+      "default": true
+    }
+  ]
+}

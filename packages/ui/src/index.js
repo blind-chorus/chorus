@@ -11,6 +11,7 @@ export { SuggestionList as ChannelList } from './SuggestionList.jsx';
 export { AvatarRail as ChannelRail } from './AvatarRail.jsx';
 export { Chip } from './Chip.jsx';
 export { Dialog } from './Dialog.jsx';
+export { Divider } from './Divider.jsx';
 export { Tabs } from './Tabs.jsx';
 export { Tab } from './Tab.jsx';
 export { Metadata } from './Metadata.jsx';
