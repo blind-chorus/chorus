@@ -3024,24 +3024,6 @@ export const PREVIEWS = {
     ),
   },
 
-  /* Search bar disabled. Whole bar dims to `sys.state.disabled` opacity,
-     caret hides, clear (×) suppressed regardless of value. */
-  'navigation-bar/search/disabled': {
-    states: false,
-    render: () => (
-      <Frame>
-        <NavigationBar
-          variant="search"
-          placeholder="Search by keyword"
-          defaultValue="lighting"
-          disabled
-          autoFocus={false}
-          onBack={() => {}}
-        />
-      </Frame>
-    ),
-  },
-
   /* Tab Bar — bottom primary navigation. Each item stacks a 24-glyph
      over a 10-rank label; the active item swaps to the filled companion
      glyph and the `onSurface` colour. Items are distributed with

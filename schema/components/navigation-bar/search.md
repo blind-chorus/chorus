@@ -35,29 +35,11 @@ import { NavigationBar } from '@blind-dsai/ui';
 />
 ```
 
-### Disabled
-
-The bar dims to `sys.state.disabled` opacity, caret hides, clear (×) suppressed regardless of value. Reach for it when the search context is gated (offline, throttled, paused indexing).
-
-```preview
-navigation-bar/search/disabled
----
-import { NavigationBar } from '@blind-dsai/ui';
-
-<NavigationBar
-  variant="search"
-  placeholder="Search by keyword"
-  defaultValue="lighting"
-  disabled
-  onBack={() => {}}
-/>
-```
-
 ## Slots
 
 - **leading** — required. 24px back-arrow icon as the canonical [Icon Button](../button/icon.md) capsule (40 × 40 transparent, 24px glyph).
 - **input** — required. Single-line **bare** text input filling the leftover middle column. *Bare* means no border, no background, no inset stroke — not a [Search bar](../form-field/search.md) field. Renders value in `sys.color.onSurface`, placeholder in `sys.color.outline` (`typo.body.md`, 16/Regular). Caret follows the [system caret rule](../../DESIGN.md#caret).
-- **trailing** *(conditional)* — clear (×) [Icon Button](../button/icon.md) hosting `XCircleFillIcon`. **Always uses Icon Button's `medium` size** (32 × 32 capsule, 16px glyph) so it never over-claims weight against the bare input. Rendered only when value is non-empty and the bar isn't disabled; wipes value and returns focus to the input.
+- **trailing** *(conditional)* — clear (×) [Icon Button](../button/icon.md) hosting `XCircleFillIcon`. **Always uses Icon Button's `medium` size** (32 × 32 capsule, 16px glyph) so it never over-claims weight against the bare input. Rendered only when value is non-empty; wipes value and returns focus to the input.
 
 ## Anatomy
 
@@ -95,7 +77,8 @@ The bar has no interactive state of its own. Leading and trailing inherit [Icon 
 | State      | Overlay opacity            | Additional                                                                 |
 |------------|----------------------------|-----------------------------------------------------------------------------|
 | `default`  | —                          | Caret hidden. Empty → placeholder in `outline`; value → `onSurface`.        |
-| `disabled` | overlay suppressed         | Bar at `sys.state.disabled` (40%) opacity, clear suppressed, caret hidden.   |
+
+**No `disabled` state.** The Search variant deliberately omits one. The only screen a `navigation-bar/search` ever lives on is the search results page itself, and a non-typable search bar on that page reduces the surface to a dead chrome strip with no escape affordance beyond the back-arrow. If search must be gated (offline, throttled, paused indexing), gate the *trigger* on the prior screen instead and never route into this bar.
 
 ## Focus indicator
 

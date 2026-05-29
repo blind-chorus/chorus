@@ -53,10 +53,6 @@
       "type": "boolean",
       "default": true,
       "description": "Defaults to true because the bar is the search page's primary surface — the user arrived here to type. Set to false when the field receives a hydrated query that the user is reviewing rather than editing."
-    },
-    "disabled": {
-      "type": "boolean",
-      "default": false
     }
   },
   "slots": {
@@ -76,7 +72,7 @@
     },
     "trailing": {
       "required": false,
-      "description": "Clear (×) Icon Button hosting `XCircleFillIcon`. **Always uses Icon Button's `medium` size (32 × 32 capsule, 16px / `sys.icon.md` glyph)** — not the 40 × 40 / 24-glyph `large` size the leading back arrow uses. The clear is a secondary affordance (the user's primary act on this bar is typing); the smaller capsule keeps the clear from over-claiming weight against the bare input next to it. Rendered only when the value is non-empty and the field isn't disabled — wipes the value, keeps focus on the input, and disappears the moment the value goes back to empty. Differs from [Search bar](../form-field/search.md)'s clear which gates on focus too: this bar's host page is the search context, so a non-empty value is enough — there is no blurred state to hide it for.",
+      "description": "Clear (×) Icon Button hosting `XCircleFillIcon`. **Always uses Icon Button's `medium` size (32 × 32 capsule, 16px / `sys.icon.md` glyph)** — not the 40 × 40 / 24-glyph `large` size the leading back arrow uses. The clear is a secondary affordance (the user's primary act on this bar is typing); the smaller capsule keeps the clear from over-claiming weight against the bare input next to it. Rendered only when the value is non-empty — wipes the value, keeps focus on the input, and disappears the moment the value goes back to empty. Differs from [Search bar](../form-field/search.md)'s clear which gates on focus too: this bar's host page is the search context, so a non-empty value is enough — there is no blurred state to hide it for.",
       "accepts": [
         "button"
       ]
@@ -108,7 +104,7 @@
     "noTitleSlot": "There is no separate title slot; the input fills the role the Page bar would give the title. Adding a title above or beside the input would compete with the placeholder for the search affordance and break the bar's 56 footprint."
   },
   "states": {
-    "note": "The bar carries no interactive state of its own. The leading and trailing slots inherit Icon Button's recipe (default / hovered / pressed / disabled / focused — overlays + three-layer focus ring). The input slot follows the bare-text-field shape — no border, no fill, no rest-vs-active stroke; only the caret and the placeholder→value colour swap signal interaction. See `inputStates` for the input-only details.",
+    "note": "The bar carries no interactive state of its own. The leading and trailing slots inherit Icon Button's recipe (default / hovered / pressed / focused — overlays + three-layer focus ring). The Search bar deliberately omits a `disabled` state: the only screen a `navigation-bar/search` ever lives on is the search results page itself, and a non-typable search bar on that page reduces the surface to a dead chrome strip with no escape affordance beyond the back-arrow. If search must be gated (offline / throttled / paused indexing), gate the *trigger* on the prior screen instead and never route into this bar. The input slot follows the bare-text-field shape — no border, no fill, no rest-vs-active stroke; only the caret and the placeholder→value colour swap signal interaction. See `inputStates` for the input-only details.",
     "inputStates": {
       "default": {
         "caret": "hidden",
@@ -118,11 +114,6 @@
         "caret": "onSurface, per [DESIGN.md → Caret](../../DESIGN.md#caret) — same ink as the value text. The system rule binds caret colour only; intended 2px / 0.75× / rounded-ends geometry is design intent, browser-painted.",
         "ring": "Field has no focus-ring of its own — the bar is the page's focus. Browsers will still paint their default focus indicator if the user tabs into the input from outside; we keep that as the accessibility floor and do not suppress it.",
         "note": "Default state on this bar — `autoFocus` defaults to true so the user arrives in the focused state."
-      },
-      "disabled": {
-        "containerOpacity": "sys.state.disabled",
-        "suppressClear": true,
-        "caret": "hidden"
       }
     }
   },
@@ -145,6 +136,7 @@
     "title bar height different from 56px",
     "second top bar stacked above it — the search variant already owns the back affordance, no page bar above",
     "input rendered outside the embedded slot — the input fills the bar, not a separate region",
-    "brand color on the input chrome"
+    "brand color on the input chrome",
+    "`disabled` prop on the Search variant — gating belongs on the trigger that routes to this bar, not on the bar itself"
   ]
 }

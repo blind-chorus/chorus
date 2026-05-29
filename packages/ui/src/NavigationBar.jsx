@@ -82,7 +82,6 @@ export function NavigationBar({
   backLabel = 'Back',
   clearLabel = 'Clear search',
   autoFocus = true,
-  disabled = false,
   className,
   ...rest
 }) {
@@ -101,7 +100,6 @@ export function NavigationBar({
         backLabel={backLabel}
         clearLabel={clearLabel}
         autoFocus={autoFocus}
-        disabled={disabled}
         className={className}
         {...rest}
       />
@@ -162,9 +160,10 @@ export function NavigationBar({
    single-line input (no border, no fill — the bar carries the search
    affordance via the placeholder + page context, not via a pill chrome).
    The trailing column hosts a clear (×) Icon Button only when the value
-   is non-empty and the field isn't disabled; the input column expands
-   to fill the freed space when the clear collapses, but never reflows
-   its leading edge so the caret stays pixel-stable. */
+   is non-empty; the input column expands to fill the freed space when
+   the clear collapses, but never reflows its leading edge so the caret
+   stays pixel-stable. The variant has no `disabled` state — gating
+   belongs on the trigger that routes here, never on the bar itself. */
 function SearchBar({
   forwardRef,
   value,
@@ -176,7 +175,6 @@ function SearchBar({
   backLabel,
   clearLabel,
   autoFocus,
-  disabled,
   className,
   ...rest
 }) {
@@ -186,10 +184,10 @@ function SearchBar({
   const inputRef = useRef(null);
 
   useEffect(() => {
-    if (autoFocus && inputRef.current && !disabled) {
+    if (autoFocus && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [autoFocus, disabled]);
+  }, [autoFocus]);
 
   function commit(next) {
     if (!isControlled) setInternalValue(next);
@@ -218,7 +216,7 @@ function SearchBar({
     inputRef.current?.focus();
   }
 
-  const showClear = !disabled && current !== '';
+  const showClear = current !== '';
 
   return (
     <header
@@ -235,7 +233,6 @@ function SearchBar({
         className="chorus-navigation-bar__search-input"
         value={current}
         placeholder={placeholder}
-        disabled={disabled}
         onChange={(e) => commit(e.target.value)}
         onKeyDown={handleKeyDown}
       />
