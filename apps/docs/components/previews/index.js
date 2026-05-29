@@ -2534,23 +2534,22 @@ export const PREVIEWS = {
     ),
   },
 
+  /* `appearance="surface"` paints `sys.color.surface` as an opaque
+     fill so the card reads as its own tier on a non-surface host
+     (a tonal band, a hero, a BottomSheet content slot — see
+     nav-card.spec.json#appearances.surface). Bare staging matches
+     every other nav-card/* preview; the real-world demonstration of
+     contrast against a non-surface host belongs in the host's own
+     pattern recipe, not in a synthetic backdrop. */
   'nav-card/surface': {
     states: false,
     render: () => (
       <Frame>
-        <div
-          style={{
-            background: 'var(--sys-color-surfaceContainerLow)',
-            padding: 'var(--sys-layout-container-md)',
-            borderRadius: 'var(--sys-radius-lg)',
-          }}
-        >
-          <NavCardGroup aria-label="Account">
-            <NavCard variant="nav" appearance="surface" label="Profile"       supportingText="Display name, avatar, bio"     leading={<ProfileIcon size={16} />}  href="#" />
-            <NavCard variant="nav" appearance="surface" label="Saved posts"   supportingText="47 posts across 9 channels"    leading={<BookmarkIcon size={16} />} href="#" />
-            <NavCard variant="nav" appearance="surface" label="Notifications" leading={<BellIcon size={16} />} href="#" />
-          </NavCardGroup>
-        </div>
+        <NavCardGroup aria-label="Account">
+          <NavCard variant="nav" appearance="surface" label="Profile"       supportingText="Display name, avatar, bio"     leading={<ProfileIcon size={16} />}  href="#" />
+          <NavCard variant="nav" appearance="surface" label="Saved posts"   supportingText="47 posts across 9 channels"    leading={<BookmarkIcon size={16} />} href="#" />
+          <NavCard variant="nav" appearance="surface" label="Notifications" leading={<BellIcon size={16} />} href="#" />
+        </NavCardGroup>
       </Frame>
     ),
   },
