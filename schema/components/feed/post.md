@@ -128,7 +128,7 @@ import { Feed } from '@blind-dsai/ui';
 
 ### Group
 
-Three (or more) Post cards bundled inside `<FeedGroup>` for thread-grouped or topic-bundled feeds. Wrapper adds no chrome — inner Posts keep padding and divider; wrapper carries intent (`role="region"` + optional `aria-label`).
+Three (or more) Post cards bundled inside `<FeedGroup>` for thread-grouped or topic-bundled feeds. The wrapper adds no chrome — inner Posts keep their padding and divider; the wrapper carries intent (`role="region"` + optional `aria-label`).
 
 ```preview
 feed/post-group
@@ -195,7 +195,7 @@ import { Feed } from '@blind-dsai/ui';
 - **channel** + **timestamp** + **followAction** *(optional)* — header row.
 - **meta** — middot-separated author metadata links; single line, truncates.
 - **title** + **body** — title (single line, truncates) over a two-line clamped excerpt.
-- **thumbnail** *(optional at runtime, agent-required at scaffold time)* — 80×80 trailing image; overlays `SquareStackIcon` when `stacked`. Agents MUST always pass this slot — fill `src` with a real subject photo when implied, `/placeholder.png` otherwise. Runtime omission-collapse is a safety net, not a license to skip the slot at generation time.
+- **thumbnail** *(optional at runtime, agent-required at scaffold time)* — 80 × 80 trailing image; overlays `SquareStackIcon` when `stacked`. Agents MUST always pass this slot — fill `src` with a real subject photo when implied, `/placeholder.png` otherwise. Runtime omission-collapse is a safety net, not a license to skip the slot at generation time.
 - **poll** / **offer** *(optional)* — inline banners sharing chrome. Label constrained to `Poll` or `Offer`.
 - **citation** *(optional)* — inline link-share card with leading hero and source mark.
 - **mention** *(optional)* — tap-anywhere `@Mention` line under the body.
@@ -215,11 +215,11 @@ import { Feed } from '@blind-dsai/ui';
 | meta         | 12 / Regular, `onSurfaceVariant`. Each `<a>`; middot at `sys.layout.inline.sm` (4px), decorative |
 | title        | `heading.sm` (16 / Semibold), `onSurface`, single-line truncate. 8px to body |
 | body         | 14 / Regular, `onSurfaceVariant`, two-line clamp |
-| thumbnail    | 80×80, `radius.sm`, `surfaceContainerHigh` fallback. `stacked` overlays `SquareStackIcon` at `sys.icon.md`, `ref.palette.white.1000`, 4px top-right inset |
-| poll / offer | `surfaceVariant` fill, `radius.md`, 12×16 padding, 48px min-height, 14px body. Leading icon + label at 4px gap, 12px to divider, 12px to count. `poll` paints `brand`; `offer` paints `success` (`ref.palette.green.500`) |
-| citation     | Text-column `surfaceVariant`, `radius.md`, 120px-wide hero. 12px padding, 8px gap title↔source. All text 12px. Source mark 16×16 at 4px radius, 4px to source name |
+| thumbnail    | 80 × 80, `radius.sm`, `surfaceContainerHigh` fallback. `stacked` overlays `SquareStackIcon` at `sys.icon.md`, `ref.palette.white.1000`, 4px top-right inset |
+| poll / offer | `surfaceVariant` fill, `radius.md`, 12 × 16 padding, 48px min-height, 14px body. Leading icon + label at 4px gap, 12px to divider, 12px to count. `poll` paints `brand`; `offer` paints `success` (`ref.palette.green.500`) |
+| citation     | Text-column `surfaceVariant`, `radius.md`, 120px-wide hero. 12px padding, 8px gap title↔source. All text 12px. Source mark 16 × 16 at 4px radius, 4px to source name |
 | mention      | `body.sm`, `primary`, italic |
-| engagement   | `xsmall` [Text Buttons](../button/text.md) + static `<span>` (Views). 16px glyph + 12 / Regular label, 4×8 padding, 4px gap. Row gap 12px. Active Like retones label to `sys.color.brand` with `HeartFillIcon` |
+| engagement   | `xsmall` [Text Buttons](../button/text.md) + static `<span>` (Views). 16px glyph + 12 / Regular label, 4 × 8 padding, 4px gap. Row gap 12px. Active Like retones label to `sys.color.brand` with `HeartFillIcon` |
 | bottom divider | `sys.borderWidth.hairline` × `sys.color.outlineVariant` — `border-bottom` on the card |
 
 ## States
@@ -233,7 +233,7 @@ Feed itself is not a focus target; each focusable control paints its own ring pe
 ## Behavior
 
 - **Slot omission collapses without a gap.** Optional blocks drop out entirely.
-- **Truncation, not wrap.** `meta`/`title` truncate; `body` clamps to two lines; thumbnail is a flex sibling so the clamp computes against reduced inline width.
+- **Truncation, not wrap.** `meta` / `title` truncate; `body` clamps to two lines; thumbnail is a flex sibling so the clamp computes against reduced inline width.
 - **Like is a toggle.** Tapping swaps `HeartIcon` → `HeartFillIcon` in `sys.color.brand` via `--button-text-label` and increments the count. Controlled (`liked` + `onLikeChange`) or uncontrolled. Aligns via Text Button's [optical alignment](../button/text.md#optical-alignment).
 - **Comments commits; Views does not.** Views is a non-interactive `<span>`.
 - **Channel and meta are independent links.** Middot separators decorative (`aria-hidden`), outside link hit areas.

@@ -2,7 +2,9 @@
 
 Sub-component of the [Carousel](./carousel.md) family. Horizontally-scrolling pager of up to 5 compact post cards — surfaces curated popular posts or gives paid / verified accounts priority placement inside the [Post](../feed/post.md) feed column. The section heading and `See all` link live on the [Carousel](./carousel.md) wrapper — PostCarousel is the *content* only.
 
-**Layout inset.** `full-bleed` — sits as a direct child of the page shell (typically inside a [Carousel](./carousel.md)). The rail pays its own inline padding via `layout.container.*` and lets the first / last card flush to the page edge so the horizontal-scroll affordance reads cleanly; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Reach for this when** spotlighting a small set (≤5) of curated or sponsored posts inside a feed column. **Skip when** the surface is a single feed stream ([Feed · Post](../feed/post.md)) or an entity directory ([List/entry](../list/entry.md)).
+
+**Layout inset.** full-bleed — sits as a direct child of the page shell (typically inside a [Carousel](./carousel.md)). The rail pays its own inline padding via `layout.container.*` and lets the first / last card flush to the page edge so the horizontal-scroll affordance reads cleanly; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
@@ -75,7 +77,7 @@ import { Carousel, PostCarousel } from '@blind-dsai/ui';
 
 ### Editorial cards (no follow, no verified)
 
-Cards drop `verified` and `followAction` — each card's header collapses to avatar + channel name. Reach for it on editorial collections where the card is informational only (round-ups, archives, "what we're reading"); the surface should not invite a per-card commit.
+Cards drop `verified` and `followAction` — each card's header collapses to avatar + channel name. Reach for it on editorial collections where the card is informational only (round-ups, archives, *what we're reading*); the surface should not invite a per-card commit.
 
 ```preview
 carousel/post-editorial
@@ -99,9 +101,9 @@ import { Carousel, PostCarousel } from '@blind-dsai/ui';
 - **pager** — horizontal scroll-snap track. `scroll-snap-type: x mandatory`; native scrollbar hidden.
 - **card** — one compact post card per page; outline-only surface.
   - **avatar** — [Thumbnail](../thumbnail/thumbnail.md) `size={40}`, every prop (`src`, `alt`, `updateDot`, `logoBadge`) forwarded verbatim.
-  - **verified** *(optional)* — `VerifiedFillIcon` (`sys.icon.md`, `sys.color.primary`) **to the LEFT of the channel name** so the trust signal reads first.
+  - **verified** *(optional)* — `VerifiedFillIcon` (`sys.icon.md`, `sys.color.primary`) to the LEFT of the channel name so the trust signal reads first.
   - **channel** — channel / author name. `sys.typo.label.md` / Semibold / `sys.color.onSurface`.
-  - **followAction** *(optional)* — trailing [Text Button](../button/text.md) (`xsmall`). `accent` inactive (link-affordance) → `default` active (recedes). Carousel doesn't paint its own follow chrome.
+  - **followAction** *(optional)* — trailing [Text Button](../button/text.md) (`xsmall`). `accent` inactive (link-affordance) → `default` active (recedes).
   - **title** — `sys.typo.label.md` / Semibold / `sys.color.onSurface`. Single line, truncates.
   - **body** — `sys.typo.body.sm` / `sys.color.onSurfaceVariant`. Three-line clamp.
   - **mention** *(optional)* — `sys.typo.body.sm` / `sys.color.primary` (not italic).
@@ -112,7 +114,7 @@ import { Carousel, PostCarousel } from '@blind-dsai/ui';
 
 | Slot              | Token bindings |
 |-------------------|----------------|
-| container         | No fill / padding — surrounding [Carousel](../carousel/carousel.md) provides the chrome; `sys.layout.stack.md` pager→dots gap |
+| container         | No fill / padding — surrounding [Carousel](../carousel/carousel.md) provides chrome; `sys.layout.stack.md` pager→dots gap |
 | pager             | `gap: sys.layout.inline.md`, negative trailing margin = `sys.layout.container.md`, `scroll-snap-type: x mandatory`, `scrollbar-width: none` |
 | card              | `flex: 0 0 calc(100% - sys.layout.inline.md - ref.space.500)`; `sys.color.surface` fill, `sys.radius.md`, `sys.borderWidth.hairline sys.color.outlineVariant` outline (inset box-shadow), `sys.layout.container.md` padding, `sys.layout.stack.sm` between blocks, `scroll-snap-align: start` |
 | header            | Row: avatar + verified mark + name + spacer + follow action; `align-items: center`; `sys.layout.inline.md` gap |
@@ -121,7 +123,7 @@ import { Carousel, PostCarousel } from '@blind-dsai/ui';
 | body / mention    | `sys.typo.body.sm` / `sys.color.onSurfaceVariant` (three-line clamp) · mention in `sys.color.primary` |
 | followAction      | [Text Button](../button/text.md) `size={'xsmall'}`, `appearance={'accent'}` inactive → `appearance={'default'}` active; state tokens delegate to Text Button |
 | footer            | Row: leading 'See more' Text Button (`xsmall` / `secondary`) + trailing view count `<span>`; `justify-content: space-between` |
-| pagination dot    | 6×6, `sys.radius.full`; active `sys.color.onSurface`, inactive `sys.color.outlineVariant`; `sys.layout.inline.sm` row gap |
+| pagination dot    | 6 × 6, `sys.radius.full`; active `sys.color.onSurface`, inactive `sys.color.outlineVariant`; `sys.layout.inline.sm` row gap |
 
 ## Sizes
 
@@ -129,7 +131,7 @@ A single rung. The carousel stretches to its column width (`width: 100%`); on we
 
 ## States
 
-PostCarousel is not itself interactive — commit lives in the header action, each card's follow action / more link, and any card-level `onClick`. Each follows its own spec's state contract. The carousel surface has no hover / pressed / focused treatment.
+Not itself interactive — commit lives in the header action, each card's follow action / more link, and any card-level `onClick`. Each follows its own spec's state contract. The carousel surface has no hover / pressed / focused treatment.
 
 ## Focus indicator
 
