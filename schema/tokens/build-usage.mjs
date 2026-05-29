@@ -189,8 +189,8 @@ const META = {
       "tabs/underline (active indicator)",
       "chip/filter (selected outline + label tone)",
       "feed/post (poll icon, inline link/hashtag color)",
-      "section/post-carousel (verified glyph, mention link)",
-      "section/profile-carousel (thumb metric chip)",
+      "carousel/post (verified glyph, mention link)",
+      "carousel/profile (thumb metric chip)",
     ],
     forbiddenComponents: [
       "navigation-bar/* (header chrome — use onSurface for title, surface for bar fill)",
@@ -285,7 +285,7 @@ const META = {
     pairsWith: "sys.color.onSuccess",
     allowedComponents: [
       "toast (success-flavored toast accent / icon)",
-      "section/profile-carousel (pulse metric chip)",
+      "carousel/profile (pulse metric chip)",
       "feed/post (offer-flavored poll label — Offer banner uses success tone)",
       "form-field (success state stroke when applicable)",
     ],
