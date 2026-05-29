@@ -40,18 +40,58 @@ import { Header } from '@blind-dsai/ui';
 />
 ```
 
+### With dropdown
+
+`headerDropdown` mode — the trailing affordance is a [Text Button dropdown](../button/text.md#dropdown) (`size="xsmall"`, default appearance) whose **label is the current value** ("Top", "Newest", "All time") and whose trailing chevron flips with `open` as a state signal. Use when the heading row needs an inline sort / filter / range disclosure — "Recommended channels [Top ▾]", "Posts [Last 7 days ▾]". Consumer owns the menu surface (Menu, popover, ListBox) and the `open` state; Header only renders the trigger.
+
+`headerAction`, `trailingIcon`, and `headerDropdown` are mutually exclusive — priority is `trailingIcon` > `headerAction` > `headerDropdown` when more than one is set.
+
+```preview
+header/with-dropdown
+---
+import { useState } from 'react';
+import { Header } from '@blind-dsai/ui';
+
+function Example() {
+  const [open, setOpen] = useState(false);
+  return (
+    <Header
+      label="Recommended channels"
+      headerDropdown={{
+        label: 'Top',
+        open,
+        onClick: () => setOpen((v) => !v),
+      }}
+    />
+  );
+}
+```
+
+### Label only
+
+Set only `label` (omit `headerAction`, `trailingIcon`, and `headerDropdown`) for a labelled region that needs a heading without a trailing affordance. The row collapses to a single heading at the requested size — no spacer, no empty container.
+
+```preview
+header/label-only
+---
+import { Header } from '@blind-dsai/ui';
+
+<Header label="Recommended channels" />
+```
+
 ## Slots
 
-- **container** — outer row. Flex with `space-between`; label leads, action / icon trails, 8px (`layout.inline.md`) gap. Stays a non-interactive `<header>` / `<div>` — the trailing affordance owns its own hit target.
+- **container** — outer row. Flex with `space-between`; label leads, action / icon / dropdown trails, 8px (`layout.inline.md`) gap. Stays a non-interactive `<header>` / `<div>` — the trailing affordance owns its own hit target.
 - **label** *(optional)* — heading text. `<h3>` by default; override the wrapper with `as="div"` when the surrounding host already owns the heading semantics. Color `sys.color.onSurface`. Typo per size.
 - **action** *(optional, headerAction mode)* — trailing Text Button. Fixed at `size="xsmall"`, `appearance="accent"`.
 - **icon** *(optional, trailingIcon mode)* — trailing [Icon Button](../button/icon.md) (`variant="icon"` `size="medium"`) hosting a 16px glyph (canonical: chevron-right). Its own tap target — clicks land on the Icon Button, not the surrounding header. Supply `aria-label` for the icon-only button (defaults to `"Open <label>"` when `label` is a string).
+- **dropdown** *(optional, headerDropdown mode)* — trailing [Text Button dropdown](../button/text.md#dropdown) (`size="xsmall"`, default appearance). Label is the current value; trailing chevron flips between `ChevronDownIcon` (closed) and `ChevronUpIcon` (open) tied to `headerDropdown.open`. Owns its own tap target — clicks land on the dropdown trigger, not the surrounding header.
 
 ## Behavior
 
-- **Empty render** — when `label`, `headerAction`, and `trailingIcon` are all omitted, Header renders nothing.
+- **Empty render** — when `label`, `headerAction`, `trailingIcon`, and `headerDropdown` are all omitted, Header renders nothing.
 - **Alignment** — label and trailing affordance share the row's centre line. The label never wraps; the trailing keeps intrinsic width and never grows.
-- **Mode exclusivity** — `headerAction` and `trailingIcon` are mutually exclusive. When both are set, `trailingIcon` wins.
+- **Mode exclusivity** — `headerAction`, `trailingIcon`, and `headerDropdown` are mutually exclusive. Priority when more than one is set: `trailingIcon` > `headerAction` > `headerDropdown`.
 
 ## Composition
 

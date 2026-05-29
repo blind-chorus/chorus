@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from './Button.jsx';
-import { ChevronDownIcon } from './icons/index.js';
+import { ChevronDownIcon, ChevronUpIcon } from './icons/index.js';
 import { joinClasses } from './spec-utils.js';
 
 /* Header — labelled section heading + an optional trailing affordance.
@@ -12,7 +12,7 @@ import { joinClasses } from './spec-utils.js';
                          (in-sheet sub-section, bounded card, drawer
                          column heading)
 
-   Two trailing modes (mutually exclusive):
+   Three trailing modes (mutually exclusive):
      1. `headerAction`   → Text Button at `size="xsmall"`, `appearance="accent"`
                            ("See all" / "+ Create channel" / etc).
                            The label-affordance rule keeps navigational
@@ -26,14 +26,26 @@ import { joinClasses } from './spec-utils.js';
                            glyph, or as a node to override.
                            Supply `aria-label` (e.g. `"Open all"`) so
                            the icon-only button has a screen-reader name.
+     3. `headerDropdown` → trailing Text Button dropdown (size="xsmall",
+                           default appearance) whose label IS the current
+                           selected value and whose trailing chevron flips
+                           with `open` as a state signal — the canonical
+                           "Sort by", "Filter", "Range" disclosure pattern
+                           described in schema/components/button/text.md
+                           §Dropdown. Consumer owns the menu surface and
+                           the `open` state; Header only renders the
+                           trigger.
 
-   When neither label nor a trailing affordance is set the component
-   renders nothing (no empty container). */
+   When none of label / headerAction / trailingIcon / headerDropdown is
+   set the component renders nothing (no empty container). When only
+   `label` is set the row collapses to a single heading with no trailing
+   slot — the canonical "labelled region without affordance" case. */
 export function Header({
   size = 'large',
   label,
   headerAction,
   trailingIcon,
+  headerDropdown,
   onClick,
   href,
   as: Tag = 'header',
@@ -41,15 +53,17 @@ export function Header({
   'aria-label': ariaLabel,
   ...rest
 }) {
-  if (!label && !headerAction && !trailingIcon) return null;
+  if (!label && !headerAction && !trailingIcon && !headerDropdown) return null;
 
   const useIconMode = !!trailingIcon;
+  const useDropdownMode = !useIconMode && !headerAction && !!headerDropdown;
   const iconNode =
     trailingIcon === true || trailingIcon === undefined ? (
       <ChevronDownIcon size={16} />
     ) : (
       trailingIcon
     );
+  const dropdownOpen = !!headerDropdown?.open;
 
   return (
     <Tag
@@ -80,6 +94,19 @@ export function Header({
           trailingIcon={headerAction.trailingIcon}
         >
           {headerAction.label}
+        </Button>
+      ) : useDropdownMode ? (
+        <Button
+          variant="text"
+          size="xsmall"
+          className="chorus-header__dropdown"
+          trailingIcon={dropdownOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+          aria-haspopup={headerDropdown['aria-haspopup'] ?? 'listbox'}
+          aria-expanded={dropdownOpen}
+          aria-controls={headerDropdown['aria-controls']}
+          onClick={headerDropdown.onClick}
+        >
+          {headerDropdown.label}
         </Button>
       ) : null}
     </Tag>

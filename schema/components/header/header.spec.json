@@ -25,7 +25,12 @@
     "trailingIcon": {
       "type": "node",
       "optional": true,
-      "description": "Drill-in [Icon Button](../button/icon.md) mode. Pass `true` to render the canonical chevron-right glyph inside a Button `variant=\"icon\"` `size=\"medium\"` (32 × 32 capsule, 16-glyph), or pass any 16px icon node to override the glyph. The trailing Icon Button owns its own tap target via `onClick` / `href`; the surrounding `<header>` element stays non-interactive. Supply an `aria-label` for the icon-only button (defaults to `\"Open <label>\"` when `label` is a string). Mutually exclusive with `headerAction`."
+      "description": "Drill-in [Icon Button](../button/icon.md) mode. Pass `true` to render the canonical chevron-right glyph inside a Button `variant=\"icon\"` `size=\"medium\"` (32 × 32 capsule, 16-glyph), or pass any 16px icon node to override the glyph. The trailing Icon Button owns its own tap target via `onClick` / `href`; the surrounding `<header>` element stays non-interactive. Supply an `aria-label` for the icon-only button (defaults to `\"Open <label>\"` when `label` is a string). Mutually exclusive with `headerAction` and `headerDropdown`."
+    },
+    "headerDropdown": {
+      "type": "object",
+      "optional": true,
+      "description": "Trailing [Text Button dropdown](../button/text.md#dropdown) binding. Object: `{ label, onClick, open, 'aria-haspopup'?, 'aria-controls'? }`. Rendered as a Text Button at `size=\"xsmall\"` with the default appearance — label IS the current selected value ('Top', 'Last 7 days', 'All time'), and the trailing chevron flips between `ChevronDownIcon` (when `open` is falsy) and `ChevronUpIcon` (when `open` is true) as a state signal. Consumer owns the menu surface and the `open` state. Mutually exclusive with `headerAction` and `trailingIcon` — priority `trailingIcon` > `headerAction` > `headerDropdown` when more than one is set."
     },
     "onClick": {
       "type": "function",
@@ -59,9 +64,15 @@
     },
     "icon": {
       "required": false,
-      "description": "Trailing [Icon Button](../button/icon.md) (Button `variant=\"icon\"` `size=\"medium\"`) hosting a 16px glyph (canonical: chevron-right). Its own tap target — clicks land on the Icon Button, not the surrounding header. Mutually exclusive with the action slot above.",
+      "description": "Trailing [Icon Button](../button/icon.md) (Button `variant=\"icon\"` `size=\"medium\"`) hosting a 16px glyph (canonical: chevron-right). Its own tap target — clicks land on the Icon Button, not the surrounding header. Mutually exclusive with the action and dropdown slots.",
       "accepts": ["button"],
       "rendersAs": "button:icon"
+    },
+    "dropdown": {
+      "required": false,
+      "description": "Trailing [Text Button dropdown](../button/text.md#dropdown) (`size=\"xsmall\"`, default appearance) when `headerDropdown` is set. Label is `headerDropdown.label`; trailing chevron flips between `ChevronDownIcon` (closed) and `ChevronUpIcon` (open) tied to `headerDropdown.open`. Owns its own tap target — clicks land on the dropdown trigger, not the surrounding header. Mutually exclusive with the action and icon slots.",
+      "accepts": ["button"],
+      "rendersAs": "button:text (dropdown)"
     }
   },
   "sizing": {
@@ -83,16 +94,17 @@
     "description": "Header itself has no lifecycle states. The trailing action carries Text Button's hover / pressed / focus."
   },
   "behavior": {
-    "rendering": "When `label`, `headerAction`, and `trailingIcon` are all omitted, the component renders nothing (no empty container).",
+    "rendering": "When `label`, `headerAction`, `trailingIcon`, and `headerDropdown` are all omitted, the component renders nothing (no empty container). When only `label` is set the row collapses to a heading-only Header — the canonical 'labelled region without affordance' case.",
     "alignment": "Label and trailing affordance share the row's centre line; the label never wraps, the affordance keeps intrinsic width and never grows.",
-    "linkAffordance": "In `headerAction` mode, the trailing action is always a Text Button — never a Standard Button, never a raw `<a>`, never an icon. In `trailingIcon` mode, the chevron is rendered as a Button `variant=\"icon\"` `size=\"medium\"` that owns its own tap target — the surrounding `<header>` element is decorative and never interactive.",
-    "modeExclusivity": "`headerAction` and `trailingIcon` are mutually exclusive — when both are set, `trailingIcon` wins and `headerAction` is ignored. Pick one mode per host."
+    "linkAffordance": "In `headerAction` mode, the trailing action is always a Text Button — never a Standard Button, never a raw `<a>`, never an icon. In `trailingIcon` mode, the chevron is rendered as a Button `variant=\"icon\"` `size=\"medium\"` that owns its own tap target — the surrounding `<header>` element is decorative and never interactive. In `headerDropdown` mode, the trigger is rendered as a Text Button `size=\"xsmall\"` with a state-signalling chevron, and the consumer owns the menu surface and the `open` state.",
+    "modeExclusivity": "`headerAction`, `trailingIcon`, and `headerDropdown` are mutually exclusive — priority when more than one is set: `trailingIcon` > `headerAction` > `headerDropdown`. Pick one mode per host."
   },
   "forbidden": [
     "non-Text-Button trailing action in `headerAction` mode (Standard Button, Icon Button, raw <a>)",
     "label larger than heading-md or smaller than heading-sm — pick the size dial, do not custom-tune the typo",
     "headerAction without an href or onClick — the link affordance must commit somewhere",
     "trailingIcon without an onClick or href — an icon-only header that is non-interactive is decorative noise; reach for a labelled Section header instead",
-    "headerAction + trailingIcon together — pick one trailing mode"
+    "headerDropdown without `label` (the trigger's label IS the current value — empty label is meaningless) or without `onClick` (the trigger must commit somewhere)",
+    "multiple trailing modes together (headerAction + trailingIcon, headerAction + headerDropdown, trailingIcon + headerDropdown) — pick one"
   ]
 }
