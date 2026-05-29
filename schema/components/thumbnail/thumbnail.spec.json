@@ -43,7 +43,22 @@
     "outlined": {
       "type": "boolean",
       "default": false,
-      "description": "When `true`, paints a 2-token-wide `sys.color.surface` outline around the Thumbnail container as an outset halo. The outline reads as an isolation ring that separates the Thumbnail from a busy or contrasting backdrop (a hero / cover image, a brand-tone strip, a neutral pull-quote band) so the circular footprint stays legible even when the host's own tier reads close to the image's edge tones. Painted as `box-shadow: 0 0 0 sys.borderWidth.thin sys.color.surface` so it never reflows the slot's intrinsic diameter — same no-layout-stroke idiom the rest of the system uses. Pair with hosts whose container tier is `surface*` (so the halo blends into the host) and whose backdrop differs from that tier (so the halo actually separates). Canonical hosts: [ProfileHeader](../profile-header/profile-header.md) avatar (avatar half-overlaps cover image), Carousel/Profile card cover."
+      "description": "When `true`, paints a 2-token-wide `sys.color.surface` outline around the Thumbnail container as an outset halo. The outline reads as an isolation ring that separates the Thumbnail's circular edge from anything visually noisy underneath it. Painted as `box-shadow: 0 0 0 sys.borderWidth.thin sys.color.surface` so it never reflows the slot's intrinsic diameter — same no-layout-stroke idiom the rest of the system uses. Pair with hosts whose chrome reads as a `surface*` tier (so the halo blends in) and whose backdrop differs from that tier (so the halo actually separates).",
+      "whenToReachForIt": [
+        "The Thumbnail half-overlaps or sits over an image — [ProfileHeader](../profile-header/profile-header.md) avatar (56-rung on cover band), [Profile carousel](../carousel/profile.md) avatar (64-rung on card cover), any avatar pulled onto a Hero / Cover photo.",
+        "The backdrop is a brand-tonal strip, a `*Container` fill, or a gradient band ([Banner](../banner/banner.md) inside a colour-tinted host, a Section painted with a `successContainer` / `errorContainer` / `brandContainer` fill).",
+        "The Thumbnail sits over a dark photo / pattern / video frame where the image's own edge tones can collide with the avatar's edge tones.",
+        "Two adjacent Thumbnails partially overlap (avatar stack, cluster) and need a clean separator between them."
+      ],
+      "whenToSkipIt": [
+        "Plain `surface*` row hosts (List / Feed / SuggestionList / NavigationBar leading) with no imagery underneath — `surface`-on-`surface` halo is invisible and costs render work for zero gain.",
+        "The host's own chrome already provides the separator (outlined card, hairline divider directly under the avatar).",
+        "Tiny rungs (`size={16}` / `size={20}`) where the halo would dominate the visible glyph."
+      ],
+      "canonicalHosts": [
+        "ProfileHeader avatar (always `outlined={true}` — half-overlaps cover band)",
+        "ProfileCarousel avatar (always `outlined={true}` — half-overlaps card cover image)"
+      ]
     }
   },
   "slots": {
@@ -150,6 +165,8 @@
     "thumbnail rendered as a raw <img> outside the chorus-thumbnail wrapper — the wrapper owns the placeholder fallback and the surface halo",
     "border-radius override on a thumbnail — the radius comes from the variant (full for avatar, sys.radius.md for media) and is non-negotiable",
     "size override outside the declared rung — 16 / 20 / 24 / 32 / 40 / 48 / 56 are the canonical sizes",
-    "alt prop omitted or set to a generic 'thumbnail' string — alt names the subject of the image, not the slot role"
+    "alt prop omitted or set to a generic 'thumbnail' string — alt names the subject of the image, not the slot role",
+    "Thumbnail half-overlapping a cover image (ProfileHeader, ProfileCarousel, any Hero) WITHOUT `outlined={true}` — the avatar's edge tones can collide with the image's edge tones, costing the circle its perceived boundary. Forward `outlined` to the Thumbnail; don't paint a halo on the host's wrapper",
+    "hand-rolled `border:` or `outline:` on the Thumbnail container to fake the halo — reflows the slot's diameter and breaks the rung's intrinsic geometry. Use the `outlined` prop, which paints via outset `box-shadow`"
   ]
 }

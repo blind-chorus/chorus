@@ -67,7 +67,7 @@ import { Thumbnail } from '@blind-dsai/ui';
 
 ### With surface outline
 
-`outlined` paints a 2-token (`sys.borderWidth.thin`) `sys.color.surface` halo as an outset box-shadow around the circular container. The ring blends into the host surface tier and separates the Thumbnail from a busy or contrasting backdrop — a hero / cover image, a brand tonal strip, a gradient band. Footprint never changes. Reach for it on any Thumbnail that half-overlaps or lives over imagery, especially [ProfileHeader](../profile-header/profile-header.md)'s avatar.
+`outlined` paints a 2-token (`sys.borderWidth.thin`) `sys.color.surface` halo as an outset `box-shadow` around the circular container. The ring blends into the host's `surface*` tier and **separates the circle's edge from anything visually noisy underneath it** so the footprint stays legible. Painted as a shadow, not a `border:` — the rung's diameter never reflows.
 
 ```preview
 thumbnail/with-outline
@@ -76,6 +76,21 @@ import { Thumbnail } from '@blind-dsai/ui';
 
 <Thumbnail size={56} alt="Channel" src="/placeholder.png" outlined />
 ```
+
+**Reach for `outlined` whenever the Thumbnail sits on something other than a clean `surface*` tier:**
+
+- The Thumbnail **half-overlaps or sits over an image** — [ProfileHeader](../profile-header/profile-header.md) avatar (56 on cover band), [Profile carousel](../carousel/profile.md) avatar (64 on card cover), any avatar pulled onto a Hero / Cover photo.
+- The backdrop is a **brand-tonal strip, success / error tile, or gradient band** ([Banner](../banner/banner.md) inside a colour-tinted host, a Section painted with a `*Container` fill).
+- The Thumbnail sits over a **dark photo / pattern / video frame** where the image's own edge tones can collide with the avatar's edge tones.
+- Two adjacent Thumbnails **partially overlap** (avatar stack, cluster) and need a clean separator between them.
+
+**Skip `outlined` when:**
+
+- The host is a plain `surface*` row (List / Feed / SuggestionList / Navigation bar leading) with no imagery underneath — the halo would paint a `surface`-on-`surface` ring that no one can see, costing render work for zero gain.
+- The host's own chrome already provides the separator (an outlined card, a hairline divider directly under the avatar).
+- The Thumbnail is `size={16}` / `size={20}` and the halo would dominate the visible glyph.
+
+The two corner badges (`updateDot`, `logoBadge`) carry their own 1-token surface halos and compose cleanly over the outlined ring — order is image → outlined ring → badge halos → badge fills, all painted as `box-shadow` so footprint never changes.
 
 ### Size ladder
 

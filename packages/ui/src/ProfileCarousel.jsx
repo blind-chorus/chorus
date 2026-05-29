@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from './Button.jsx';
 import { Thumbnail } from './Thumbnail.jsx';
 import { joinClasses } from './spec-utils.js';
-import { PulseFillIcon, StarFillIcon, ThumbUpFillIcon } from './icons/index.js';
+import { HeartFillIcon, PulseFillIcon, StarFillIcon } from './icons/index.js';
 import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 
 /* ProfileCarousel — horizontally-scrolling rail of profile-style cards
@@ -18,9 +18,9 @@ import { useFullBleedGuard } from './internal/useFullBleedGuard.js';
 const MAX_CARDS = 5;
 
 const METRIC_KINDS = {
-  star: { Icon: StarFillIcon, tone: 'var(--ref-palette-yellow-500)' },
+  star: { Icon: StarFillIcon, tone: 'var(--sys-color-icon-yellow)' },
   pulse: { Icon: PulseFillIcon, tone: 'var(--sys-color-success)' },
-  thumb: { Icon: ThumbUpFillIcon, tone: 'var(--sys-color-primary)' },
+  heart: { Icon: HeartFillIcon, tone: 'var(--sys-color-icon-red)' },
 };
 
 // Universal Chorus image-area placeholder — shared across every empty
@@ -137,7 +137,10 @@ function Card({ item, innerRef, index }) {
       </div>
 
       <div className="chorus-profile-carousel__avatar-wrap">
-        <Thumbnail size={64} {...(avatar ?? { alt: name })} />
+        {/* outlined paints the 2-token surface halo that separates the
+            circle from the cover image underneath — same contract
+            ProfileHeader's avatar uses. See thumbnail.md#with-surface-outline. */}
+        <Thumbnail size={64} outlined {...(avatar ?? { alt: name })} />
       </div>
 
       <div className="chorus-profile-carousel__identity">

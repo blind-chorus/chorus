@@ -38,11 +38,11 @@
     },
     "avatar": {
       "required": true,
-      "description": "Centered circular avatar overlapping the cover band's bottom edge. Renders via the [Thumbnail](../thumbnail/thumbnail.md) component at `size={64}`. Every Thumbnail prop is forwarded verbatim; the carousel does not paint its own crop or image-area fallback.",
+      "description": "Centered circular avatar overlapping the cover band's bottom edge. Renders via the [Thumbnail](../thumbnail/thumbnail.md) component at `size={64}` with `outlined={true}` — the 2-token (`sys.borderWidth.thin`) `surface`-tone halo that separates the avatar from the cover image is owned by Thumbnail's outlined case (see [Thumbnail § With surface outline](../thumbnail/thumbnail.md#with-surface-outline)), not by the carousel's own wrapper. Every other Thumbnail prop is forwarded verbatim; the carousel does not paint its own crop or image-area fallback.",
       "accepts": [
         "thumbnail"
       ],
-      "rendersAs": "thumbnail:64"
+      "rendersAs": "thumbnail:64 (outlined)"
     },
     "name": {
       "required": true,
@@ -60,7 +60,7 @@
     },
     "metrics": {
       "required": false,
-      "description": "Row of metric chips below the name / followers stack. Each chip is `icon + value` painted in `sys.typo.label.sm` / `sys.color.onSurface`. Three default kinds: { icon: 'star', … } → `StarFillIcon` in `ref.palette.yellow.500`; { icon: 'pulse', … } → `PulseFillIcon` in `sys.color.success`; { icon: 'thumb', … } → `ThumbUpFillIcon` in `sys.color.primary`. Consumers may pass custom { icon: <ReactNode>, value, color? } entries for other shapes. Mutually exclusive with `description` — when both are present `description` wins.",
+      "description": "Row of metric chips below the name / followers stack. Each chip is `icon + value` painted in `sys.typo.label.sm` / `sys.color.onSurface`. Three default kinds: { icon: 'star', … } → `StarFillIcon` in `sys.color.icon.yellow`; { icon: 'pulse', … } → `PulseFillIcon` in `sys.color.success`; { icon: 'heart', … } → `HeartFillIcon` in `sys.color.icon.red`. Consumers may pass custom { icon: <ReactNode>, value, color? } entries for other shapes. Mutually exclusive with `description` — when both are present `description` wins.",
       "intrinsic": true
     },
     "description": {
@@ -102,7 +102,7 @@
     "coverFill": "sys.color.surfaceContainerHigh (background underlay — the placeholder image paints on top via `object-fit: cover`)",
     "coverImageSource": "Same `/placeholder.png` asset every Chorus image-area slot falls back to. Cropped to fill the 88px band via `object-fit: cover` — the placeholder's centered 'blind' wordmark stays visually centered. Decorative — `aria-hidden`. Consumers can override per-item via `items[i].cover.src` (any image URL preserving the same `object-fit: cover` crop).",
     "avatarSize": 64,
-    "avatarOverlap": "Avatar's vertical center sits on the cover band's bottom edge — the bottom half of the avatar bleeds onto the card surface. 2px surface halo separates the avatar from the cover band.",
+    "avatarOverlap": "Avatar's vertical center sits on the cover band's bottom edge — the bottom half of the avatar bleeds onto the card surface. The 2-token (`sys.borderWidth.thin`) `sys.color.surface` halo separating the avatar from the cover band is owned by Thumbnail's `outlined={true}` case (see [Thumbnail § With surface outline](../thumbnail/thumbnail.md#with-surface-outline)) — outset `box-shadow`, not a wrapper border. Same contract as ProfileHeader's avatar.",
     "nameTypo": "sys.typo.label.md",
     "nameColor": "sys.color.onSurface",
     "followersTypo": "sys.typo.caption.md",
@@ -111,9 +111,9 @@
     "metricChipTypo": "sys.typo.label.sm",
     "metricChipColor": "sys.color.onSurface",
     "metricIconSize": "sys.icon.md",
-    "metricIconStar": "StarFillIcon — ref.palette.yellow.500",
+    "metricIconStar": "StarFillIcon — sys.color.icon.yellow",
     "metricIconPulse": "PulseFillIcon — sys.color.success",
-    "metricIconThumb": "ThumbUpFillIcon — sys.color.primary",
+    "metricIconHeart": "HeartFillIcon — sys.color.icon.red",
     "midSlotHeight": "calc(sys.typo.caption.md.size * sys.typo.caption.md.line * 2)",
     "midSlotHeightNote": "Shared fixed height for the metrics row and the description slot — exactly two `caption.md` lines (12 × 1.5 × 2 ≈ 36px). Cards that carry metrics and cards that carry a description paint the same outer height.",
     "descriptionTypo": "sys.typo.caption.md",
@@ -154,7 +154,7 @@
     "metrics": {
       "type": "node",
       "optional": true,
-      "description": "Array of { icon, value, color? } where `icon` is one of 'star' | 'pulse' | 'thumb' or a custom ReactNode. Mutually exclusive with `description` — when both are passed, `description` wins."
+      "description": "Array of { icon, value, color? } where `icon` is one of 'star' | 'pulse' | 'heart' or a custom ReactNode. Mutually exclusive with `description` — when both are passed, `description` wins."
     },
     "description": {
       "type": "string",

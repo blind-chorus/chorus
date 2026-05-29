@@ -23,7 +23,7 @@ import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
         metrics: [
           { icon: 'star', value: '4.1' },
           { icon: 'pulse', value: '81.1' },
-          { icon: 'thumb', value: '81%' },
+          { icon: 'heart', value: '81%' },
         ],
       },
       {
@@ -33,7 +33,7 @@ import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
         metrics: [
           { icon: 'star', value: '4.7' },
           { icon: 'pulse', value: '86' },
-          { icon: 'thumb', value: '85.3%' },
+          { icon: 'heart', value: '85.3%' },
         ],
         followed: true,
       },
@@ -44,7 +44,7 @@ import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
         metrics: [
           { icon: 'star', value: '4.5' },
           { icon: 'pulse', value: '92.4' },
-          { icon: 'thumb', value: '88%' },
+          { icon: 'heart', value: '88%' },
         ],
       },
     ]}
@@ -73,7 +73,7 @@ import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
         metrics: [
           { icon: 'star', value: '4.1' },
           { icon: 'pulse', value: '81.1' },
-          { icon: 'thumb', value: '81%' },
+          { icon: 'heart', value: '81%' },
         ],
       },
       {
@@ -83,7 +83,7 @@ import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
         metrics: [
           { icon: 'star', value: '4.7' },
           { icon: 'pulse', value: '86' },
-          { icon: 'thumb', value: '85.3%' },
+          { icon: 'heart', value: '85.3%' },
         ],
         followed: true,
       },
@@ -94,7 +94,7 @@ import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
         metrics: [
           { icon: 'star', value: '4.5' },
           { icon: 'pulse', value: '92.4' },
-          { icon: 'thumb', value: '88%' },
+          { icon: 'heart', value: '88%' },
         ],
       },
     ]}
@@ -144,10 +144,10 @@ import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
 - **pager** — horizontal scroll-snap track. `scroll-snap-type: x mandatory`; native scrollbar hidden.
 - **card** — one profile card per page; fixed at **176px** wide.
   - **cover** — top band; 88px tall image-area slot. Renders an `<img>` defaulting to `/placeholder.png` (universal Chorus placeholder). `object-fit: cover` crops to fill the band; `sys.color.surfaceContainerHigh` underlies as the no-image fallback. Consumers override via `items[i].cover.src`.
-  - **avatar** — [Thumbnail](../thumbnail/thumbnail.md) `size={64}`, centered and overlapping the cover band's bottom edge.
+  - **avatar** — [Thumbnail](../thumbnail/thumbnail.md) `size={64}` with [`outlined={true}`](../thumbnail/thumbnail.md#with-surface-outline), centered and overlapping the cover band's bottom edge. The 2-token (`sys.borderWidth.thin`) `surface`-tone outset halo separating the circle from the cover image is owned by Thumbnail's outlined case — the carousel forwards the prop instead of painting a halo on its own wrapper.
   - **name** — entity name; `sys.typo.label.md` / Semibold / `sys.color.onSurface`; centered, single line truncate.
   - **followers** — follower count; `sys.typo.caption.md` / `sys.color.onSurfaceVariant`; centered.
-  - **metrics** *(optional)* — row of `icon + value` chips: `star → StarFillIcon (ref.palette.yellow.500)`, `pulse → PulseFillIcon (sys.color.success)`, `thumb → ThumbUpFillIcon (sys.color.primary)`. Mutually exclusive with `description`.
+  - **metrics** *(optional)* — row of `icon + value` chips: `star → StarFillIcon (sys.color.icon.yellow)`, `pulse → PulseFillIcon (sys.color.success)`, `heart → HeartFillIcon (sys.color.icon.red)`. Mutually exclusive with `description`.
   - **description** *(optional)* — two-line clamped paragraph that replaces the metrics row when present. Block height fixed to two lines of `sys.typo.caption.md` regardless of copy length, so card height stays consistent across metrics-carrying and copy-carrying cards.
   - **followAction** — full-width [Toggle Button](../button/text.md) (`variant={'toggle'}`); `Follow` (inactive) / `Following` (active).
 - **pagination** — one dot per card. Active dot paints `sys.color.onSurface`; rest paint `sys.color.outlineVariant`. Decorative.
@@ -159,11 +159,11 @@ import { Carousel, ProfileCarousel } from '@blind-dsai/ui';
 | pager          | `gap: sys.layout.inline.md`, negative trailing margin = `sys.layout.container.md`, `scroll-snap-type: x mandatory` |
 | card           | Fixed `width: 176px`, `sys.color.surface` fill, `sys.radius.md`, inset hairline outline, `scroll-snap-align: start` |
 | cover          | 88px tall image-area slot. Default `src` = `/placeholder.png` (universal image placeholder), `object-fit: cover`, `sys.color.surfaceContainerHigh` underlay |
-| avatar         | [Thumbnail](../thumbnail/thumbnail.md) `size={64}`, vertical center on cover's bottom edge |
+| avatar         | [Thumbnail](../thumbnail/thumbnail.md) `size={64}` `outlined`, vertical center on cover's bottom edge. The 2-token `surface`-tone halo separating the circle from the cover image is painted by Thumbnail's `outlined` case (outset `box-shadow: 0 0 0 sys.borderWidth.thin sys.color.surface`) — wrapper has no halo of its own |
 | name           | `sys.typo.label.md`, `sys.color.onSurface`, centered |
 | followers      | `sys.typo.caption.md`, `sys.color.onSurfaceVariant`, centered |
 | metrics row    | `sys.layout.inline.md` gap, centered. Fixed-height slot — `calc(sys.typo.caption.md.size * sys.typo.caption.md.line * 2)` so the row always reserves two lines of `caption.md` regardless of content. |
-| metric chip    | `sys.icon.md` glyph + `sys.typo.label.sm` value; star → `StarFillIcon` (`ref.palette.yellow.500`), pulse → `PulseFillIcon` (`sys.color.success`), thumb → `ThumbUpFillIcon` (`sys.color.primary`) |
+| metric chip    | `sys.icon.md` glyph + `sys.typo.label.sm` value; star → `StarFillIcon` (`sys.color.icon.yellow`), pulse → `PulseFillIcon` (`sys.color.success`), heart → `HeartFillIcon` (`sys.color.icon.red`) |
 | description    | `sys.typo.caption.md` / `sys.color.onSurfaceVariant`, centered, two-line clamp with trailing ellipsis. Two-layer DOM — outer container owns the same fixed-height slot as `metrics row` (min/max-height = 2 caption.md lines); inner `<p>` owns the `-webkit-line-clamp: 2` truncation. Split sidesteps a Chrome quirk where `display: -webkit-box` and explicit `height` on one element break the third-line clip. |
 | followAction   | [Toggle Button](../button/text.md) (Chip-toggle anatomy), stretched to full card width |
 | pagination dot | 6×6, `sys.radius.full`; active `sys.color.onSurface`, inactive `sys.color.outlineVariant` |
