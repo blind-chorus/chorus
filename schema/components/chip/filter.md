@@ -1,10 +1,10 @@
 # Filter
 
-The selectable chip — capsule-shaped toggle for refining a set. **Unselected** is a transparent hairline-outlined pill that adopts whatever surface sits behind it; **selected** swaps to an inverse fill. Optional leading and trailing icons compose without changing footprint.
+The selectable chip — a capsule-shaped toggle for refining a set. Unselected is a transparent hairline-outlined pill that adopts whatever surface sits behind it; selected swaps to an inverse fill. Optional leading/trailing icons compose without changing footprint.
 
 **Reach for this when** the user narrows a set by toggling one or more independent criteria — multiple chips can be on at once. **Skip when** the choices are mutually-exclusive view modes — use [Segmented](../tabs/segmented.md) instead.
 
-**Layout inset.** inline — the chip is content-sized and inherits its surface's padding; rails compose via gap, not chrome.
+**Layout inset.** inline — content-sized, inherits its surface's padding; rails compose via gap, not chrome.
 
 ## Default
 
@@ -41,7 +41,7 @@ import { Chip } from '@blind-dsai/ui';
 
 ### With icon
 
-Facet glyph before the label — tag for category, magnifying glass for search, check on selection.
+Facet glyph before the label — tag for category, magnifier for search, check on selection.
 
 ```preview
 chip/filter/leading-icon
@@ -59,7 +59,7 @@ import { CheckedIcon } from '@blind-dsai/ui/icons';
 
 ### With trailing icon
 
-Directional/dismiss glyph after the label — chevron-down to expand, "×" to clear.
+Directional/dismiss glyph after the label — chevron-down to expand, *×* to clear.
 
 ```preview
 chip/filter/trailing-icon
@@ -77,7 +77,7 @@ import { XIcon } from '@blind-dsai/ui/icons';
 
 ### Group
 
-Adjacent filter chips share a `4px` gap (`sys.layout.inline.sm`). Left-to-right; selection is independent per chip — Filter does not enforce single-select.
+Adjacent filter chips share a 4px gap (`sys.layout.inline.sm`), left-to-right; selection is independent per chip — Filter does not enforce single-select.
 
 ```preview
 chip/filter/group
@@ -102,7 +102,7 @@ import { Chip } from '@blind-dsai/ui';
 
 ### With trailing action
 
-Pair the chip rail with a trailing accent [Text Button](../button/text.md) (`size='small'`, `appearance='accent'`) for a destination outside the filter axis — managing the set, opening keyword settings. The button is **not** a filter toggle. The chip track scrolls horizontally with a trailing 48px `mask-image` fade painted only while overflowing; the button stays pinned outside the scroll viewport at `sys.layout.inline.xl` gap.
+Pair the chip rail with a trailing accent [Text Button](../button/text.md) (`size='small'`, `appearance='accent'`) for a destination outside the filter axis — managing the set, opening keyword settings. The button is *not* a filter toggle; the chip track scrolls horizontally with a trailing 48px `mask-image` fade painted only while overflowing, and the button stays pinned outside the scroll viewport at `sys.layout.inline.xl` gap.
 
 ```preview
 chip/filter/with-trailing-action
@@ -153,7 +153,7 @@ import { ArrowDownIcon } from '@blind-dsai/ui/icons';
 
 ### Focus indicator
 
-Both selection states take the same standard ring; case below shows unselected.
+Both selection states take the same standard ring; the case below shows unselected.
 
 ```preview
 chip/filter/focused
@@ -173,7 +173,7 @@ import { Chip } from '@blind-dsai/ui';
 
 ## Sizes
 
-Single fixed footprint; consistent across breakpoints.
+Single fixed footprint, consistent across breakpoints.
 
 | Property                          | Value                | Token                              |
 |-----------------------------------|----------------------|-------------------------------------|
@@ -191,14 +191,12 @@ Single fixed footprint; consistent across breakpoints.
 
 ## Variants
 
-Single visual variant; the selected/unselected toggle swaps the container/label pair wholesale.
+Single visual variant; the selected/unselected toggle swaps the container/label pair wholesale. On `selected`, the border colour goes transparent but its 1px width is held, so footprint never changes.
 
 | State        | Background                          | Border (1px `sys.borderWidth.hairline`)                 | Label / icon color                |
 |--------------|-------------------------------------|---------------------------------------------------------|-----------------------------------|
 | unselected   | `transparent`                       | `sys.color.outlineVariant`                              | `sys.color.onSurface`             |
 | selected     | `sys.color.inverseSurface`          | `transparent`                                           | `sys.color.inverseOnSurface`      |
-
-On `selected`, the border colour goes transparent but its 1px width is held, so footprint never changes.
 
 ## States
 
@@ -211,4 +209,4 @@ On `selected`, the border colour goes transparent but its 1px width is held, so 
 
 ## Focus indicator
 
-Standard outward ring on a `position: absolute` pseudo-element so it never affects layout. Inside a [Tabs](../tabs/segmented.md) row the same layer is re-anchored inward. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Standard outward ring on a `position: absolute` pseudo-element so it never affects layout; inside a [Tabs](../tabs/segmented.md) row the same layer is re-anchored inward. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).

@@ -1,8 +1,10 @@
 # Rounded
 
-Rounded-rectangle tab row — each tab a self-contained chip with a required leading icon and label. Shares chrome with [Segmented](./segmented.md) and [Filter chip](../chip/filter.md) verbatim — **single divergence is corner radius**, which steps from `sys.radius.full` (capsule) to `sys.radius.md` (8). Reads as a soft rounded rectangle, not a pill.
+Rounded-rectangle tab row — each tab a self-contained chip with a required leading icon and label. Shares chrome with [Segmented](./segmented.md) and [Filter chip](../chip/filter.md) verbatim; the single divergence is corner radius, which steps from `sys.radius.full` (capsule) to `sys.radius.md` (8) — reads as a soft rounded rectangle, not a pill.
 
-**Layout inset.** `full-bleed` — **edge-to-edge** family. Sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge. The row pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Reach for this when** the row is a sort/filter switcher inside content. **Skip when** the row anchors content sections — use [Underline](./underline.md) — or when it's an in-place mode change — use [Segmented](./segmented.md).
+
+**Layout inset.** full-bleed — edge-to-edge family. Sits as a direct child of the page shell and stretches edge-to-edge; the row pays its own `16px inline / 8px block` padding via `layout.container.*` — do **not** wrap it in another padding div, or the page rail double-pays. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
@@ -24,7 +26,7 @@ import { Tabs, Tab } from '@blind-dsai/ui';
 
 ### With icon
 
-Canonical sort / filter row — each tab pairs a leading glyph with its label. Icon at 16px (`sys.icon.md`). All glyphs drawn from `@blind-dsai/ui/icons` so the row carries no inline SVG.
+Canonical sort/filter row — each tab pairs a leading glyph (`sys.icon.md`, 16px) with its label. All glyphs draw from `@blind-dsai/ui/icons` so the row carries no inline SVG.
 
 ```preview
 tabs/rounded/leading-icon
@@ -59,7 +61,7 @@ import { StarIcon, BookmarkIcon, HeartIcon } from '@blind-dsai/ui/icons';
 
 ### Overflow
 
-When natural width exceeds the column, the row scrolls horizontally. Trailing **Edge fade** (48px / `ref.space.600`) paints via `mask-image` only while overflow is present.
+When natural width exceeds the column, the row scrolls horizontally. Trailing edge fade (48px / `ref.space.600`) paints via `mask-image` only while overflow is present.
 
 ```preview
 tabs/rounded/overflow
@@ -97,18 +99,18 @@ import { Tabs, Tab } from '@blind-dsai/ui';
 ## Slots
 
 - **label** — accessible name. Single line. Optional only when icon-only — requires `aria-label`.
-- **leadingIcon** — optional 16px (`sys.icon.md`) glyph. May carry its own brand/category color.
+- **leadingIcon** (optional) — 16px (`sys.icon.md`) glyph. May carry its own brand/category color.
 
 At least one of `label` / `leadingIcon` must be present.
 
 ## Anatomy
 
+Selected/unselected pairs are inherited verbatim from [Filter chip's variants](../chip/filter.md#variants).
+
 | Prop / state           | Container                          | Label color                       | Border (always 1px `sys.borderWidth.hairline`)                          |
 |------------------------|------------------------------------|-----------------------------------|-------------------------------------------------------------------------|
 | **Tab — unselected**   | `transparent`                      | `sys.color.onSurface`             | `sys.color.outlineVariant`                                              |
 | **Tab — selected**     | `sys.color.inverseSurface`         | `sys.color.inverseOnSurface`      | `transparent` — 1px width held so footprint never changes between states |
-
-Selected / unselected pairs are inherited verbatim from [Filter chip's selectionStates](../chip/filter.md#variants).
 
 ## Sizes
 
@@ -127,11 +129,11 @@ A single fixed rung. Every dimension other than the corner radius matches [Segme
 | Label                             | 12 / Semibold        | `sys.typo.label.sm`                |
 | Icon                              | 16px (fixed)         | `sys.icon.md`                      |
 
-‡ **min-height** binds to raw `ref.space.*` because `sys.*` does not currently expose a 32px step.
+‡ `min-height` binds raw `ref.space.*` — `sys.*` does not currently expose a 32px step.
 
-† **Slot gap is a literal `0`** — the visible label-to-glyph rhythm comes from the label-slot inset (`padding: 0 4px` on the label span), not from a sibling `gap`.
+† Slot gap is a literal `0` — visible label-to-glyph rhythm comes from the label-slot inset (`padding: 0 4px`), not a sibling `gap`.
 
-⁂ **Radius is the only divergence from Segmented.** Segmented uses `sys.radius.full`; Rounded uses `sys.radius.md` (8).
+⁂ Radius is the only divergence from Segmented (`sys.radius.full` → `sys.radius.md`).
 
 ## States
 

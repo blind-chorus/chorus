@@ -1,12 +1,14 @@
 # Tag
 
-The informational chip — square-cornered label naming attached metadata. Use for taxonomy on rows, cards, or profiles — categories, statuses, content labels; prefer [Badge](../badge/badge.md) when the marker signals unread / new activity on a host rather than describing it. Shorter than Filter (24 vs 32 min-height) with `sys.radius.sm` corners. Two appearances: `default` paints the translucent `sys.color.scrimSubtle` scrim (~8% inverse-tone overlay — black in light, white in dark) so the tag adopts whatever surface sits behind it; `accent` paints a tonal pale-primary container with primary label for tags that need to pop.
+The informational chip — square-cornered label naming attached metadata (categories, statuses, content labels). Shorter than Filter (24 vs 32 min-height) with `sys.radius.sm` corners. Two appearances: `default` paints a translucent `sys.color.scrimSubtle` overlay (~8% inverse-tone, adopts whatever surface sits behind it); `accent` paints a tonal pale-primary container with primary label.
 
-**Layout inset.** `inline` — Tag ships no padding outside its own pill chrome. It sits inside whichever host row holds it (list-row label cluster, profile-card meta strip, feed-post header) with the host paying the surrounding gap and column padding. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Reach for this when** you're naming attached metadata on rows, cards, or profiles. **Skip when** the marker signals unread / new activity on a host rather than describing it — use [Badge](../badge/badge.md) instead.
+
+**Layout inset.** inline — Tag ships no padding outside its own pill chrome; the host row pays the surrounding gap and column padding. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
 
-Translucent overlay fill, label-only. Reads as attached metadata — the overlay tints the surface one step darker (light) or lighter (dark) rather than locking to a single container tone. Omit `appearance` or pass `appearance="default"`.
+Translucent overlay fill, label-only — the overlay tints the surface one step darker (light) or lighter (dark) rather than locking to a single container tone. Omit `appearance` or pass `appearance="default"`.
 
 ```preview
 chip/tag/default
@@ -18,9 +20,11 @@ import { Chip } from '@blind-dsai/ui';
 </Chip>
 ```
 
-## Accent
+## Use cases
 
-Tonal pale-primary fill — `sys.color.primaryContainer` background with `sys.color.primary` label. Use when the tag should pop against the surface (Popular Tags in compose, highlighted hashtags); the default overlay is too quiet there.
+### Accent
+
+Tonal pale-primary fill — `sys.color.primaryContainer` background, `sys.color.primary` label. Use when the tag should pop against the surface (Popular Tags in compose, highlighted hashtags); the default overlay is too quiet there.
 
 ```preview
 chip/tag/accent
@@ -32,11 +36,9 @@ import { Chip } from '@blind-dsai/ui';
 </Chip>
 ```
 
-## Use cases
-
 ### Dismissable
 
-Opt-out — same chip with a trailing "×" to remove the tag. Trailing icon inherits label color via `currentColor`.
+Opt-out — same chip with a trailing *×* to remove the tag. Trailing icon inherits label color via `currentColor`.
 
 ```preview
 chip/tag/dismissable
@@ -54,13 +56,7 @@ import { XIcon } from '@blind-dsai/ui/icons';
 
 ### Group
 
-Adjacent tag chips share a `4px` gap on both axes — `sys.layout.inline.sm` between siblings, `sys.layout.stack.2xs` between rows on wrap.
-
-Mixing with Filter is allowed — Tag's square + sunken tone vs Filter's pill + raised tone keeps roles legible.
-
-#### Wrap on overflow
-
-Tags are passive metadata — collections exceeding the container's width **wrap** rather than scroll or truncate. Set `display: flex; flex-wrap: wrap; gap: var(--sys-layout-inline-sm)` on the container. Do not use `overflow-x: auto` — horizontal scrolling belongs to tappable affordances.
+Adjacent tag chips share a 4px gap on both axes — `sys.layout.inline.sm` between siblings, `sys.layout.stack.2xs` between rows on wrap. Mixing with Filter is allowed — Tag's square + sunken tone vs Filter's pill + raised tone keeps roles legible. Tags are passive metadata, so collections exceeding the container's width **wrap** rather than scroll or truncate (set `display: flex; flex-wrap: wrap` on the container; do not use `overflow-x: auto` — horizontal scrolling belongs to tappable affordances).
 
 ```preview
 chip/tag/group
@@ -80,7 +76,7 @@ import { Chip } from '@blind-dsai/ui';
 
 ### Focus indicator
 
-Only the **dismissable** tag is focusable; the case below shows that form. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Only the dismissable tag is focusable; the case below shows that form. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
 
 ```preview
 chip/tag/focused
@@ -96,11 +92,11 @@ import { XIcon } from '@blind-dsai/ui/icons';
 ## Slots
 
 - **label** — accessible name. Required, single line.
-- **trailingIcon** (optional) — dismiss/opt-out glyph after the label (typically "×"). Tag does not carry a leading icon.
+- **trailingIcon** (optional) — dismiss/opt-out glyph after the label (typically *×*). Tag does not carry a leading icon.
 
 ## Sizes
 
-Same min-height, vertical padding, label rung, and label-slot inset as Filter, but horizontal outer padding tightens from 12 to **8**.
+Same min-height, vertical padding, label rung, and label-slot inset as Filter, but horizontal outer padding tightens from 12 to 8 (label-only Tag clears 12px each side; dismissable Tag reads 4px label-to-glyph then 8px to edge).
 
 | Property                          | Value                | Token                              |
 |-----------------------------------|----------------------|-------------------------------------|
@@ -112,29 +108,18 @@ Same min-height, vertical padding, label rung, and label-slot inset as Filter, b
 | Label                             | 12 / Semibold        | `sys.typo.label.sm`                |
 | Icon                              | 16px                 | `sys.icon.md`                      |
 
-‡ **min-height** binds to raw `ref.space.*` — `sys.*` does not expose a 24px step.
+‡ `min-height` binds to raw `ref.space.*` — `sys.*` does not expose a 24px step.
 
-† **Slot gap is `0`** — see [Filter → Sizes](./filter.md#sizes).
+† Slot gap is `0` — see [Filter → Sizes](./filter.md#sizes).
 
-Label-only Tag clears 12px on each side (8 + 4); dismissable Tag reads with a 4px label-to-glyph rhythm followed by 8px to edge.
-
-## Variants
+## Appearance
 
 Two appearances; Tag never toggles.
 
-### Default
-
-| Property              | Token                                                         |
-|-----------------------|---------------------------------------------------------------|
-| Background            | `sys.color.scrimSubtle` (translucent inverse-tone overlay — black 8% light / white 8% dark) |
-| Label / icon color    | `sys.color.onSurface`                                         |
-
-### Accent
-
-| Property              | Token                                                         |
-|-----------------------|---------------------------------------------------------------|
-| Background            | `sys.color.primaryContainer` (theme-aware)                    |
-| Label / icon color    | `sys.color.primary`                                           |
+| Appearance | Background                                                                                  | Label / icon color           |
+|------------|---------------------------------------------------------------------------------------------|------------------------------|
+| `default`  | `sys.color.scrimSubtle` (translucent inverse-tone overlay — black 8% light / white 8% dark) | `sys.color.onSurface`        |
+| `accent`   | `sys.color.primaryContainer` (theme-aware)                                                  | `sys.color.primary`          |
 
 ## States
 
