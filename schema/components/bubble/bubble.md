@@ -1,17 +1,12 @@
 # Bubble
 
-Always-on annotation pill with a caret/tail pointing at an anchor UI element. Sibling of [Tooltip](../tooltip/tooltip.md): Tooltip is transient and overlays neighbours; Bubble is **persistent**, **lower visual priority**, and **never occludes neighbours**.
+A small persistent annotation pill with a caret/tail pointing at an anchor — a chat-icon "new messages" flag, a search-bar campaign nudge, a feature-flag callout. Sibling of [Tooltip](../tooltip/tooltip.md): Tooltip is transient and overlays neighbours on hover; Bubble stays in view at the resting state, sits lower in visual priority (no elevation, smaller padding, single line), and never occludes the surrounding chrome.
 
-**Reach for this when** the annotation must stay in view at the resting state — chat-icon "new messages" flag, search-bar campaign nudge, feature-flag callout. **Skip when** the hint is invoked on demand (Tooltip), carries a decision (Banner / Dialog), or is a numeric count (Badge).
+**Reach for this when** the annotation must remain readable as part of the resting UI. **Skip when** the hint is invoked on demand (use [Tooltip](../tooltip/tooltip.md)), carries a decision or blocking meaning (use [Banner](../banner/banner.md) / [Dialog](../dialog/dialog.md)), or is just a numeric count beside an icon (use [Badge](../badge/badge.md)).
 
-**Layout inset.** `inline`. Bubble owns its padding (4 / 6), pill radius, fill, tail, and a viewport-safe `max-width` cap. The host owns four coupled positioning decisions:
+**Layout inset.** `inline` — the host positions the bubble flush against the anchor (zero gap) with the tail tip on the anchor's horizontal centreline. The bubble caps its own `max-width` so it always keeps an 8-token margin from every viewport edge; position-clamping is the host's job. When the anchor sits near a viewport edge, the host shifts the bubble inward and picks `tailAlign` so the tail still points at it — `start` for left-edge anchors, `end` for right-edge anchors, `center` when the anchor has room on both sides.
 
-| # | Contract |
-|---|---|
-| 1 | Every bubble edge ≥ 8 (`sys.layout.container.xs`) from the viewport edge — width-clamping baked into CSS; position-clamping is on the host. |
-| 2 | **Zero gap** between the bubble's tail-bearing edge and the anchor — the bubble sits flush; the tail's `ref.space.25` protrusion connects them. |
-| 3 | **Tail tip on the anchor's centreX** (≤ 2px) — the host's inline offset must cancel the tail's `container.xs + half-tail` inset inside the bubble. |
-| 4 | `tailAlign` follows the anchor: `start` (anchor near left edge), `center` (anchor centred), `end` (anchor near right edge). |
+**Colour tuning.** Default fill `sys.color.primary` / label `sys.color.onPrimary` — both theme-stable. Operations re-tint per campaign by setting `--bubble-fill` and `--bubble-ink` on inline style; the tail's `background: inherit` follows automatically.
 
 ## Default
 
@@ -27,7 +22,7 @@ import { Bubble } from '@blind-dsai/ui';
 
 ### Anchored to a top-bar icon
 
-[Navigation bar (home)](../navigation-bar/home.md) + bubble below the chat icon. Anchor near the right edge → `tailAlign="end"`. `top: 56px` (zero gap to bar) + `right: 58px` (tail tip on chat centreX: 68 − 10 tail-internal-offset).
+A [Navigation bar (home)](../navigation-bar/home.md) with three trailing actions, bubble parked below the chat icon. The chat capsule sits near the bar's right edge, so the bubble extends leftward with `tailAlign="end"` — `top: 56px` for zero gap to the bar, `right: 58px` to land the tail tip on the chat icon's centre.
 
 ```preview
 bubble/anchored-icon
@@ -58,9 +53,9 @@ import { SearchIcon, ChatIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 </div>
 ```
 
-### Tail alignment matrix
+### Tail alignment
 
-`align-items: flex-start` shrink-wraps each bubble to its content so the start / center / end tail offsets read at a glance.
+Three tail positions stacked so the offset reads at a glance — pick by where the anchor sits.
 
 ```preview
 bubble/tail-positions
@@ -76,7 +71,7 @@ import { Bubble } from '@blind-dsai/ui';
 
 ### Long copy
 
-Copy that overflows the host width truncates with an ellipsis. Wrap requirements signal the message belongs in a Banner.
+Copy that exceeds the host width truncates with an ellipsis. If the message can't fit on one line, it belongs in a [Banner](../banner/banner.md) instead.
 
 ```preview
 bubble/long-copy
@@ -90,41 +85,35 @@ import { Bubble } from '@blind-dsai/ui';
 
 ### Operations re-tint
 
-`--bubble-fill` and `--bubble-ink` are the runtime override surface; the tail's `background: inherit` follows automatically.
+Brand red instead of primary blue — the tail inherits the fill, so a single declaration covers both surfaces.
 
 ```preview
 bubble/recoloured
 ---
 import { Bubble } from '@blind-dsai/ui';
 
-<Bubble
-  style={{
-    '--bubble-fill': 'var(--sys-color-brand)',
-    '--bubble-ink': 'var(--sys-color-onBrand)',
-  }}
->
+<Bubble style={{ '--bubble-fill': 'var(--sys-color-brand)', '--bubble-ink': 'var(--sys-color-onBrand)' }}>
   Free daily tarot
 </Bubble>
 ```
 
 ## Slots
 
-- **container** — pill body. `position: relative`, `display: inline-flex`. `role='note'`.
-- **body** — copy. `white-space: nowrap` + `text-overflow: ellipsis`. Colour inherits.
-- **tail** — 4 × 4 square rotated 45°, `background: inherit`. Position driven by `[data-tail-side]` + `[data-tail-align]`. `aria-hidden='true'`.
+- **container** — pill body. `role='note'`.
+- **body** — copy. Single line; overflow truncates with an ellipsis.
+- **tail** — 4 × 4 square rotated 45°, `background: inherit`. Position driven by `tailSide` + `tailAlign`. `aria-hidden`.
 
 ## Anatomy
 
 | Slot      | Token bindings |
 |-----------|----------------|
-| container | Fill `--bubble-fill` (default `sys.color.primary`), ink `--bubble-ink` (default `sys.color.onPrimary`), `sys.layout.container.2xs` (4) padding-block, `ref.space.75` (6) padding-inline, `sys.radius.full`, `max-width: min(100%, calc(100vw − 2 × sys.layout.container.xs))` |
-| body      | `sys.typo.caption.sm` (10) |
-| tail      | `ref.space.50` (4) square, rotated 45°, `background: inherit` |
+| container | Fill `--bubble-fill` (default `sys.color.primary`), ink `--bubble-ink` (default `sys.color.onPrimary`), `sys.layout.container.2xs` padding-block, `ref.space.75` padding-inline, `sys.radius.full`, viewport-safe `max-width` cap |
+| body      | `sys.typo.caption.sm` |
+| tail      | `ref.space.50` square, rotated 45° |
 
 ## Behavior
 
-- **Persistent.** No hover/focus trigger, no entry/exit animation, no dismissal — the host removes it.
-- **Single line.** Body never wraps; overflow truncates.
-- **Host positions.** Match the four contracts above or the tail reads as pointing at empty space.
-- **Never occludes.** No elevation shadow, not portal-mounted. If a parent clips, fix the parent.
-- **Colour tuning.** Set `--bubble-fill` / `--bubble-ink` on inline style; tail inherits the fill. Contrast ≥ WCAG AA (4.5:1) is the consumer's responsibility.
+- **Persistent.** No hover/focus trigger, no entry/exit animation, no dismissal — the host removes the bubble when the moment passes.
+- **Single line.** Body never wraps. Overflow truncates rather than reflows.
+- **Host positions.** Bubble is presentational. The four positioning rules — zero gap, tail tip on anchor centre, 8-token viewport safe margin, `tailAlign` follows anchor — are the host's contract.
+- **Never occludes.** No elevation shadow, not portal-mounted. If a parent clips the bubble, fix the parent.
