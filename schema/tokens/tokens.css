@@ -204,6 +204,12 @@
   --sys-color-elevation: #000000;
   --sys-color-placeholderImage-start: #c8e0e1;
   --sys-color-placeholderImage-end: #2d6f72;
+  --sys-color-icon-muted: #00000033;
+  --sys-color-icon-yellow: #f5c531;
+  --sys-color-icon-red: #df5656;
+  --sys-color-icon-blue: #2563eb;
+  --sys-color-icon-green: #66cf8e;
+  --sys-color-icon-purple: #ab57f0;
   --sys-typo-fontFamily-sans: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   --sys-typo-display-lg-size: 48px;
   --sys-typo-display-lg-weight: 700;
@@ -521,6 +527,12 @@
   --sys-color-elevation: #000000;
   --sys-color-placeholderImage-start: #c8e0e1;
   --sys-color-placeholderImage-end: #2d6f72;
+  --sys-color-icon-muted: #00000033;
+  --sys-color-icon-yellow: #f5c531;
+  --sys-color-icon-red: #df5656;
+  --sys-color-icon-blue: #2563eb;
+  --sys-color-icon-green: #66cf8e;
+  --sys-color-icon-purple: #ab57f0;
   --sys-typo-fontFamily-sans: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   --sys-typo-display-lg-size: 48px;
   --sys-typo-display-lg-weight: 700;
@@ -670,6 +682,11 @@
   --sys-color-scrimSubtle: #ffffff14;
   --sys-color-placeholderImage-start: #3a4548;
   --sys-color-placeholderImage-end: #1a2226;
+  --sys-color-icon-muted: #ffffff3d;
+  --sys-color-icon-yellow: #eab308;
+  --sys-color-icon-red: #931a1a;
+  --sys-color-icon-green: #006d2c;
+  --sys-color-icon-purple: #631aa0;
 }
 
 @media (min-width: 800px) {

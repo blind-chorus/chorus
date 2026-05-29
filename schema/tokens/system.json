@@ -291,6 +291,53 @@
           },
           "$type": "color"
         }
+      },
+      "icon": {
+        "muted": {
+          "$value": "{ref.palette.black.500}",
+          "$theme": {
+            "dark": "{ref.palette.white.600}"
+          },
+          "$type": "color",
+          "$description": "Quiet/inactive icon paint. Translucent inverse-tone (black 20% in light, white 24% in dark) so the glyph reads as recessive on every host surface tier. Use for unpressed favourite stars, off-state toggles, decorative glyphs that must not compete with adjacent text. Sibling to the saturated `sys.color.icon.*` hues — pair them on the same affordance to flip state by colour alone."
+        },
+        "yellow": {
+          "$value": "{ref.palette.yellow.400}",
+          "$theme": {
+            "dark": "{ref.palette.yellow.500}"
+          },
+          "$type": "color",
+          "$description": "Accent paint for icons that carry warning, attention, or favourited meaning (active favourite star, highlighted item). Tuned one step lighter than `yellow.500` in light mode for small-glyph optical readability on `surface` tiers."
+        },
+        "red": {
+          "$value": "{ref.palette.red.400}",
+          "$theme": {
+            "dark": "{ref.palette.red.700}"
+          },
+          "$type": "color",
+          "$description": "Accent paint for icons that carry critical, destructive, or alert meaning when a saturated red glyph is needed outside the `sys.color.error` text/background pairing. Distinct from `sys.color.error` (which is tuned for filled surfaces + their on-tokens)."
+        },
+        "blue": {
+          "$value": "{ref.palette.blue.500}",
+          "$type": "color",
+          "$description": "Accent paint for icons that carry informational, link, or primary-action meaning. Matches `ref.palette.blue.500` in both themes — same hue as `sys.color.primary` but consumed at the icon role for stand-alone glyphs, not paired with `onPrimary` fills."
+        },
+        "green": {
+          "$value": "{ref.palette.green.300}",
+          "$theme": {
+            "dark": "{ref.palette.green.600}"
+          },
+          "$type": "color",
+          "$description": "Accent paint for icons that carry success, positive, or live-status meaning when a saturated green glyph is needed outside the `sys.color.success` text/background pairing. Tuned lighter in light mode and deeper in dark for small-glyph readability."
+        },
+        "purple": {
+          "$value": "{ref.palette.purple.400}",
+          "$theme": {
+            "dark": "{ref.palette.purple.700}"
+          },
+          "$type": "color",
+          "$description": "Accent paint for icons that carry special, feature-flag, or discovery meaning (premium markers, AI/Lovable surfaces, distinct category glyphs). The system's only purple role — no `sys.color.purple` background/foreground pair exists."
+        }
       }
     },
     "typo": {

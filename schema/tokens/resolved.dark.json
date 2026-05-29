@@ -803,6 +803,30 @@
     "$value": "#1a2226",
     "$type": "color"
   },
+  "sys.color.icon.muted": {
+    "$value": "#ffffff3d",
+    "$type": "color"
+  },
+  "sys.color.icon.yellow": {
+    "$value": "#eab308",
+    "$type": "color"
+  },
+  "sys.color.icon.red": {
+    "$value": "#931a1a",
+    "$type": "color"
+  },
+  "sys.color.icon.blue": {
+    "$value": "#2563eb",
+    "$type": "color"
+  },
+  "sys.color.icon.green": {
+    "$value": "#006d2c",
+    "$type": "color"
+  },
+  "sys.color.icon.purple": {
+    "$value": "#631aa0",
+    "$type": "color"
+  },
   "sys.typo.fontFamily.sans": {
     "$value": "Pretendard, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", sans-serif",
     "$type": "fontFamily"
