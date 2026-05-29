@@ -133,8 +133,8 @@ Not yet automated:
 
 ## Not covered (yet)
 
-- **Layout primitives** (Stack / Inset / Divider / SafeArea) — not componentized. Use `sys.layout.*` / `sys.space.*` on a `<div>`. Do not invent.
-- **Motion tokens** — partial; specs reference `sys.motion.*` where defined, CSS defaults otherwise.
+- **Layout primitives** (Stack / Inset / SafeArea) — not componentized. Use `sys.layout.*` on a `<div>`. Atomic spacing values live at `ref.space.*`; semantic spacing roles live at `sys.layout.{container,stack,inline,page}.*`. There is no `sys.space.*` tier. Do not invent. (`Divider` IS componentized — see `schema/components/divider`.)
+- **Motion tokens** — not in system. Specs use CSS defaults (timing functions and durations) directly; there is no `sys.motion.*` tier. Do not invent.
 - **Form validation, toasts, snackbars, tooltips, menus (non-bottom-sheet), date pickers** — not in system. Do not synthesize. Ask the user.
 - **`comp.*` token tier is intentionally empty.** Do not write to it.
 
