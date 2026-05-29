@@ -130,6 +130,8 @@ The four slots:
 
 **The Container pair is the tint.** When a surface needs to read as a soft accent — info callouts, selected list rows, success banners, error tiles, "subtle" highlight blocks — reach for `XContainer` + `onXContainer`, **never** a `color-mix(<accent> N%, <surface>)` overlay. `XContainer` already resolves to the soft tone (`blue.50` light / `blue.900` dark for primary, `red.50` / `green.50` light and `red.900` / `green.900` dark for brand / success, `red.100`/`red.900` for error), tuned to clear AA against its paired `on*` foreground; an alpha mix bypasses that contract and lands on the neutral `surface*` family. If the canonical pair gives a poor visual, retune the token value in [`system.json`](schema/tokens/system.json) — never break the pair at the call site.
 
+**Contrast refusal contract (for agents and humans).** The quartet exists so contrast is *never* a per-call-site decision — the pair already clears AA. When a surface composition strays outside the shipped quartets (a new tinted hero, a custom-coloured banner, a brand glyph on a non-`surface*` host), the call site MUST clear WCAG **AA at 4.5 : 1 for normal text, 3 : 1 for ≥18pt or Semibold ≥14pt text, and 3 : 1 for non-text glyphs and graphic boundaries** against the actual rendered fill in BOTH light and dark mode. If the proposed foreground fails, **change the host fill to a surface that already pairs** — pick the nearest `sys.color` quartet — rather than hand-tuning the foreground. The agent-facing zero-tolerance failure modes (black-on-black, white-on-yellow, translucent `sys.color.icon.*` on a colour-tinted host, `onPrimary` text on a neutral `surface*` fill) are enumerated in [`AGENTS.md` § Hard rules § 11](../AGENTS.md#hard-rules) and trigger a regenerate, not a tweak.
+
 **Allowed `color-mix` exceptions** — two and only two:
 
 1. **State-overlay formula** — `color-mix(<onContainer> 8%, <container>)` for hover/focus/pressed layered over a Container surface, per [State overlays](#state-overlays).
@@ -382,7 +384,7 @@ Hyphenated compounds inside a segment (`line-height`, `top-level`) do **not** st
 
 ### Iconography
 
-A single icon family aligned to the typographic grid: sizes ride a four-step `icon.*` scale mirroring the type ladder, and color always inherits from the same `on*` foreground as the surrounding text.
+A single icon family aligned to the typographic grid: sizes ride a four-step `icon.*` scale mirroring the type ladder, and color inherits from the same `on*` foreground as the surrounding text by default — with a small, dedicated `sys.color.icon.*` accent palette reserved for glyphs that carry their own semantic colour (favourite stars, status pulses, category markers).
 
 #### Family & style
 
@@ -405,12 +407,22 @@ The grid is **drawing-area, not bounding-box**. A 16px icon should occupy ~13px 
 
 #### Color & state
 
-Icons consume the same `on*` foreground tokens as the text they sit with — never a dedicated icon color.
+Icons inherit the same `on*` foreground tokens as the text they sit with by default. The dedicated `sys.color.icon.*` palette is the only other place a glyph may pick a colour from — components must never reach into `ref.palette.*` to paint an icon.
 
 - **Solo icon (icon-only button)** — color is the parent control's foreground role (`color.onSurface` for a ghost button, `color.onPrimary` inside a primary fill).
 - **Icon + label** — both use the same foreground; never paint the icon a different hue for emphasis. Hierarchy belongs to the label.
 - **Inactive / disabled** — inherit from the surrounding `state.disabled` opacity; do not pre-darken the icon SVG.
 - **Status icons** (success/error checks, alert glyphs) follow the accent role they signal: `color.success`, `color.error`, paired with their `on*` foreground when on a filled accent surface.
+- **Semantic-glyph paint** — when the glyph itself carries meaning that is *not* a backgrounded status pair (an unpressed vs. starred favourite, a "live" pulse next to text, a premium/AI badge glyph), pick from `sys.color.icon.*` (`muted`, `yellow`, `red`, `blue`, `green`, `purple`). These hues are tuned one step lighter than their `sys.color.*` background analogues for small-glyph optical readability and pair with `icon.muted` (translucent inverse-tone) for the inactive state on the same affordance — flip state by colour, not by shape.
+
+| Token                  | Light                   | Dark                    | Typical use                                                                              |
+|------------------------|-------------------------|-------------------------|------------------------------------------------------------------------------------------|
+| `color.icon.muted`     | `ref.palette.black.500` | `ref.palette.white.600` | Unpressed favourite / off-state toggle / decorative recessive glyph. The inactive partner for every other `icon.*` hue. |
+| `color.icon.yellow`    | `ref.palette.yellow.400`| `ref.palette.yellow.500`| Active favourite star, attention/warning glyph, highlighted item.                        |
+| `color.icon.red`       | `ref.palette.red.400`   | `ref.palette.red.700`   | Critical / destructive glyph when no `error` background pair is in play.                 |
+| `color.icon.blue`      | `ref.palette.blue.500`  | `ref.palette.blue.500`  | Informational / link / primary-action glyph standalone.                                  |
+| `color.icon.green`     | `ref.palette.green.300` | `ref.palette.green.600` | Live/positive pulse glyph standalone (Profile carousel pulse metric, "online" dots).     |
+| `color.icon.purple`    | `ref.palette.purple.400`| `ref.palette.purple.700`| Premium / AI / discovery glyph — the system's only purple role.                          |
 
 #### Alignment & layout participation
 
