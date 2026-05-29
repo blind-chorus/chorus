@@ -2107,14 +2107,23 @@ a.chorus-metadata__name:focus-visible {
   display: inline-block;
   width: var(--thumb-size);
   height: var(--thumb-size);
+  /* Container carries `sys.radius.full` per the spec's appearance.containerRadius
+     binding. The inner `.chorus-thumbnail__image` clips the image to a circle
+     at the same radius; setting it here too means any container-level effect
+     (the `outlined` case's box-shadow halo, plus future container-level
+     decorations) follows the same circular geometry rather than rendering
+     against the bounding-box rectangle. */
+  border-radius: var(--sys-radius-full);
   flex: 0 0 auto;
   vertical-align: middle;
 }
 
 /* `outlined` case — 2-token (`borderWidth.thin`) `surface`-color halo
-   painted as an outset `box-shadow` on the container. The halo blends
-   into a `surface*` host while separating the circular footprint from a
-   contrasting backdrop (cover image, brand tonal strip, gradient).
+   painted as an outset `box-shadow` on the container. Because the base
+   `.chorus-thumbnail` carries `radius.full`, the halo automatically follows
+   the circular shape rather than the bounding-box rectangle. The halo
+   blends into a `surface*` host while separating the circular footprint
+   from a contrasting backdrop (cover image, brand tonal strip, gradient).
    Painted as `box-shadow`, not `border:`, so the rung's diameter never
    reflows — same no-layout-stroke contract every Chorus surface uses.
    Canonical hosts: ProfileHeader's avatar (the 56-rung that half-

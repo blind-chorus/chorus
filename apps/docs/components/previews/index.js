@@ -1258,25 +1258,16 @@ export const PREVIEWS = {
     ),
   },
   /* With surface outline — 2-token (`borderWidth.thin`) `surface`-color
-     halo painted as an outset `box-shadow` on the container. Staged on
-     a `surfaceContainerHighest` strip so the halo is visible against a
-     non-surface backdrop (mirrors the cover-image scenario from
-     ProfileHeader, the canonical host of this case). */
+     halo painted as an outset `box-shadow` that follows the container's
+     `radius.full`. The halo blends with a `surface*` host and separates
+     the circle from a contrasting backdrop in real composition (cover
+     image, brand tonal strip, gradient — see ProfileHeader, the
+     canonical host). Bare staging matches every other thumbnail/* case;
+     no wrapper. */
   'thumbnail/with-outline': {
     states: false,
     render: () => (
-      <div
-        style={{
-          background: 'var(--sys-color-surfaceContainerHighest)',
-          padding: 'var(--sys-layout-container-md)',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderRadius: 'var(--sys-radius-md)',
-        }}
-      >
-        <Thumbnail size={56} src={asset("/placeholder.png")} alt="Channel" outlined />
-      </div>
+      <Thumbnail size={56} src={asset("/placeholder.png")} alt="Channel" outlined />
     ),
   },
   'thumbnail/size-ladder': {
