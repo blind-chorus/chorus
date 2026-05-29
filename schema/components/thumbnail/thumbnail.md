@@ -2,6 +2,8 @@
 
 A circular image — the unit that identifies a channel, a feed author, or any small-rung image. Two optional badges ride without changing footprint: an **update dot** top-right and a **logo badge** bottom-right. A pure visual primitive — no label of its own.
 
+**Reach for this when** the host needs to identify an entity at a glance — channel avatar in a list row, feed author block, AvatarRail item, NavigationBar leading. **Skip when** the surface is a labelled icon glyph (use [Icon Button](../button/icon.md)) or a sub-brand identity at fixed inline scale ([NavCard](../nav-card/nav-card.md)'s logo slot).
+
 **Layout inset.** inline — slot atom. Lives inside another component's leading slot (List row leading, Feed author block, AvatarRail item, SuggestionList row, NavigationBar leading); the host picks the rung (16 / 20 / 24 / 32 / 40 / 48 / 56) and places it. Never a sibling of `full-bleed` page rows.
 
 ## Default
