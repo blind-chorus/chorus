@@ -18,6 +18,18 @@ import { Progress } from '@blind-dsai/ui';
 <Progress value={0.4} aria-label="Uploading file" />
 ```
 
+## Indeterminate
+
+When the task duration is unknown (initial sync, opaque background work). The 40%-wide indicator animates left-to-right on a 1.6s loop; `aria-valuenow` is omitted.
+
+```preview
+progress/indeterminate
+---
+import { Progress } from '@blind-dsai/ui';
+
+<Progress indeterminate aria-label="Syncing in the background" />
+```
+
 ## Slots
 
 - **track** — fully-rounded background block. 8px tall, `sys.color.scrimSubtle` fill (translucent inverse-tone scrim — black 8% light, white 8% dark), no stroke. Carries `role="progressbar"` and the aria-value attributes.

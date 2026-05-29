@@ -125,6 +125,14 @@ Same recipe as [Text Button](./text.md#states): rest, hovered, pressed, disabled
 
 Standard `:focus-visible` ring. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
 
+```preview
+button/check/focused
+---
+import { Button } from '@blind-dsai/ui';
+
+<Button variant="check" state="focused">Invisible to Coworkers</Button>
+```
+
 ## Accessibility
 
 Toggle button — sets `aria-pressed={checked}` automatically. Do NOT model as a checkbox input (no form value, no name/value pair). For a form-bound checkbox, reach for `<input type="checkbox">` (out-of-system at present).
