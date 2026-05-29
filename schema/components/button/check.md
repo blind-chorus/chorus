@@ -1,6 +1,8 @@
 # Check
 
-Option-toggle commit — a [Text Button](./text.md) with a required leading checkbox glyph that flips outline → fill on `checked`, plus an optional middle icon. Use when an option is committed alongside the surface's main action (canonical Blind use: in-app item-use affordance, "Use this perk?"). Two sizes (`medium` / `small`) where the **checkbox footprint** is the visual differentiator: medium pairs a 24px checkbox with 12-rank text; small drops the checkbox to 16px. Appearances and state behavior mirror Text Button; the optional middle icon stays at 16px on both rungs.
+Option-toggle commit — a [Text Button](./text.md) with a required leading checkbox glyph that flips outline → fill on `checked`, plus an optional middle icon. Two sizes (`medium` / `small`) where the checkbox footprint is the differentiator.
+
+**Reach for this when** an option is committed alongside the surface's main action — *Use this perk?*, *Apply offer*, *Keep me signed in*. **Skip when** the row is a form-bound checkbox input (out-of-system), the commit is a one-shot action ([Text Button](./text.md)), or the row needs a radio's single-select contract ([Radio list](../list/radio.md)).
 
 **Layout inset.** `inline` — ships no padding outside its own chrome. Sits inside a host slot (Dialog confirmation row, BottomSheet option strip, perk-card footer) with the host paying surrounding rhythm. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 

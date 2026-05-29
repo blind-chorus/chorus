@@ -2,6 +2,8 @@
 
 Input-shaped picker — same box, label, helper, and error re-tone as [Input](./input.md), but read-only and ending in an `ArrowDownIcon` chevron. Clicking opens a Bottom Sheet with the option list; chosen value is echoed back through `value`.
 
+**Reach for this when** the user picks one value from a known set that's too long for inline chips — country, currency, sort order, equity tier. **Skip when** the value is free text ([Input](./input.md)), the user searches an open set ([Search bar](./search.md)), or the list is short enough to surface inline as a [Radio list](../list/radio.md).
+
 **Layout inset.** `inline` — ships no padding outside its own box chrome. Sits inside the host form column (settings page, Dialog body, BottomSheet form group) with the host paying surrounding stack rhythm and inline padding. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default

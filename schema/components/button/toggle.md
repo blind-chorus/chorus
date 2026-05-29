@@ -1,6 +1,8 @@
 # Toggle
 
-Commit-and-record action — a Toolbar-footprint button with two states. **Inactive** invites the commit (`primary` fill); **active** records it (`transparent` fill + hairline `outlineVariant` outline). Use for reversible actions that persist across views — follows, subscriptions, joins.
+Commit-and-record action — a Toolbar-footprint button with two states. **Inactive** invites the commit (`primary` fill); **active** records it (`transparent` fill + hairline `outlineVariant` outline).
+
+**Reach for this when** you need a reversible commit that persists across views — *Follow / Following*, *Subscribe / Subscribed*, *Join / Joined*. **Skip when** the action is one-shot ([Standard Button](./standard.md)), the row is a dense toolbar ([Toolbar Button](./toolbar.md)), or the toggle belongs to a filter set ([Filter Chip](../chip/filter.md)).
 
 **Layout inset.** `inline` — ships no padding outside its own chrome. Sits inside a host slot (profile card footer, channel header, list-row trailing slot) with the host paying surrounding rhythm. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 

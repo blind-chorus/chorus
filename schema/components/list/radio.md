@@ -2,6 +2,8 @@
 
 Single-select picker List sub-component. Each row carries a leading 16px radio indicator; clicking commits that row's value via `onChange(value)`. Exactly one row is selected at a time. Row geometry, typography, divider, state overlays, and inward focus ring all delegate to the [family-wide rules](./list.md); this sub documents the Radio-specific leading indicator and selection contract.
 
+**Reach for this when** the user picks exactly one value from a short, fully-visible set — sort order, range filter, equity tier. **Skip when** multiple values may be selected ([Checkbox list](./checkbox.md)), the set is long enough to demand a sheet-driven picker ([Select](../form-field/select.md)), or the row navigates to a detail page ([Navigation list](./navigation.md)).
+
 **Layout inset.** `full-bleed` — sits as a direct child of the page shell. Each row pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap the list in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the radio indicator lands at a different inset than the section headings around it. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default
@@ -34,7 +36,7 @@ const [value, setValue] = useState('week');
 
 ### With supporting text
 
-Pairs each label with a secondary line. Reach for it when labels alone don't carry enough context — sort orders explained in copy, equity types with one-line definitions.
+Pairs each label with a secondary line — for when the label alone doesn't carry enough context (*sort orders explained in copy*, *equity types with one-line definitions*).
 
 ```preview
 list/radio-with-supporting
@@ -60,7 +62,7 @@ const [value, setValue] = useState('trending');
 
 ### Disabled item
 
-A row pinned to `disabled: true` — pointer-events suppressed, indicator dims with the row at `sys.state.disabled` opacity. Reach for it when an option is contextually unavailable but still belongs in the set (paywalled tier, region-locked option).
+A row pinned to `disabled: true` — pointer-events suppressed, indicator dims with the row at `sys.state.disabled` opacity. For options contextually unavailable but still belonging in the set (*paywalled tier*, *region-locked option*).
 
 ```preview
 list/radio-disabled-item

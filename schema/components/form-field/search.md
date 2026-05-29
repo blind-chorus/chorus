@@ -2,6 +2,8 @@
 
 Search-shaped single-line field — sibling of [Input](./input.md) with a leading `SearchIcon` and `sys.radius.full` pill corner. Box, stroke, placeholder rule, clear button, and focus ring inherited from Input unchanged. **Bare box only — no `label`, `helper`, `maxLength`, or `error` appearance.** Error reporting belongs to a labelled Input.
 
+**Reach for this when** the rung is a query against an open set — directory search, post filter, command palette entry. **Skip when** the value is a labelled form field ([Input](./input.md)), the user picks from a known closed set ([Select](./select.md)), or the surface needs error reporting (a bare search rung has nowhere to host it — use a labelled [Input](./input.md)).
+
 **Layout inset.** `inline` — ships no padding outside its own pill chrome. Sits inside a host slot (NavigationBar search row, filter sheet header, page-body search row) with the host paying surrounding inline padding. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
 ## Default

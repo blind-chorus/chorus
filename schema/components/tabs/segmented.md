@@ -1,6 +1,8 @@
 # Segmented
 
-The inline view-mode toggle — a row of mutually-exclusive selectors for in-place mode changes (List ↔ Grid, Day ↔ Week ↔ Month). Use [Underline](./underline.md) for panel-switching navigation; [Filter](../chip/filter.md) for multi-select.
+The inline view-mode toggle — a row of mutually-exclusive selectors for in-place mode changes (List ↔ Grid, Day ↔ Week ↔ Month).
+
+**Reach for this when** the segments swap the *same* content's view or range in place — List ↔ Grid, Day ↔ Week ↔ Month. **Skip when** segments switch between *different* panels ([Underline](./underline.md)), multiple values can co-select ([Filter chip](../chip/filter.md)), or the rung is a single-select picker over a long list ([Radio list](../list/radio.md)).
 
 **Layout inset.** `full-bleed` — **edge-to-edge** family. Sits as a direct child of the page shell (or any surface that pays the gutter) and stretches edge-to-edge. The row pays its own `16px inline / 8px block` padding via `layout.container.*`; do **not** wrap it in another `padding-inline` / `px-*` / `style={{ padding: … }}` div, or the page rail double-pays. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
