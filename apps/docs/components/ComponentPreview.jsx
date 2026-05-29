@@ -11,6 +11,7 @@ import {
   CheckboxFillIcon,
   DuplicateIcon,
   ChevronDownIcon,
+  ChevronUpIcon,
 } from '@blind-dsai/ui/icons';
 import { PREVIEWS } from './previews';
 
@@ -215,12 +216,14 @@ function ToolbarSelect({ value, onChange, options }) {
 
   return (
     <span className="component-preview-dropdown">
+      {/* Canonical Text Button dropdown pattern — chevron flips with `open`
+          as a state signal (see schema/components/button/text.md §Dropdown).
+          xsmall rung for inline toolbar density; label is the current value. */}
       <Button
         ref={triggerRef}
         variant="text"
         size="xsmall"
-        appearance="secondary"
-        trailingIcon={<ChevronDownIcon />}
+        trailingIcon={open ? <ChevronUpIcon /> : <ChevronDownIcon />}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={open ? listboxId : undefined}

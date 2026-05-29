@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
 import { Accordion, Badge, BottomSheet, Button, Banner, Metadata, SuggestionList, DirectoryList, NavList, AvatarRail, Carousel, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, Header, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, ProfileHeader, SideSheet, SideSheetGroup, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
-import { PlusIcon, PlusSquareFillIcon, ChevronLeftIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, XIcon, BuildingIcon, BuildingFillIcon, ArrowDownIcon, ChevronRightIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, EllipsisHorizontalIcon, BellIcon, BellFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, StarFillIcon, TagIcon } from '@blind-dsai/ui/icons';
+import { PlusIcon, PlusSquareFillIcon, ChevronLeftIcon, ChevronDownIcon, ChevronUpIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, XIcon, BuildingIcon, BuildingFillIcon, ArrowDownIcon, ChevronRightIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, EllipsisHorizontalIcon, BellIcon, BellFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, StarFillIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
    (clean license for docs reuse). Helper builds query params for size +
@@ -540,8 +540,8 @@ export const PREVIEWS = {
     states: false,
     render: () => (
       <div style={{ display: 'inline-flex', gap: 'var(--sys-layout-inline-xl)' }}>
-        <Button variant="icon" icon={<StarIcon />} aria-label="Favorite — inactive" style={{ color: 'var(--sys-color-onSurfaceVariant)' }} />
-        <Button variant="icon" icon={<StarIcon />} aria-label="Favorite — active"   style={{ color: 'var(--ref-palette-yellow-500)' }} />
+        <Button variant="icon" icon={<StarFillIcon />} aria-label="Favorite — inactive" style={{ color: 'var(--sys-color-icon-muted)' }} />
+        <Button variant="icon" icon={<StarFillIcon />} aria-label="Favorite — active"   style={{ color: 'var(--sys-color-icon-yellow)' }} />
       </div>
     ),
   },
@@ -590,6 +590,31 @@ export const PREVIEWS = {
     render: ({ size = 'medium', state }) => (
       <Button variant="text" size={size} state={state} trailingIcon={<ChevronRightIcon />}>Continue</Button>
     ),
+  },
+  'button/text/dropdown': {
+    sizes: ['medium', 'small', 'xsmall'],
+    states: false,
+    render: ({ size = 'xsmall' }) => {
+      /* Local toggle so the preview demonstrates the chevron state-signal
+         contract (ChevronDownIcon at rest → ChevronUpIcon while expanded).
+         The actual menu surface is the consumer's responsibility — this
+         preview only renders the trigger. `states: false` so the toggle
+         stays interactive instead of being multiplied across the state
+         matrix. */
+      const [open, setOpen] = useState(false);
+      return (
+        <Button
+          variant="text"
+          size={size}
+          trailingIcon={open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+        >
+          Medium
+        </Button>
+      );
+    },
   },
   'button/text/group': {
     sizes: ['medium', 'small', 'xsmall'],
@@ -1750,12 +1775,12 @@ export const PREVIEWS = {
                 metrics: [
                   { icon: 'star', value: '4.1' },
                   { icon: 'pulse', value: '81.1' },
-                  { icon: 'thumb', value: '81%' },
+                  { icon: 'heart', value: '81%' },
                 ],
               },
-              /* Default metric set: star → yellow.500, pulse →
-                 success/green.500 (filled), thumb → primary tone via
-                 ThumbUpFillIcon. */
+              /* Default metric set: star → icon.yellow (StarFillIcon),
+                 pulse → success/green.500 (PulseFillIcon),
+                 heart → icon.red (HeartFillIcon). */
               {
                 avatar: { src: IMG.brandAuto, alt: 'Tesla' },
                 cover: { src: IMG.startupCover, alt: 'Modern workspace interior' },
@@ -1764,7 +1789,7 @@ export const PREVIEWS = {
                 metrics: [
                   { icon: 'star', value: '4.7' },
                   { icon: 'pulse', value: '86' },
-                  { icon: 'thumb', value: '85.3%' },
+                  { icon: 'heart', value: '85.3%' },
                 ],
                 followed: true,
               },
@@ -1776,7 +1801,7 @@ export const PREVIEWS = {
                 metrics: [
                   { icon: 'star', value: '4.5' },
                   { icon: 'pulse', value: '92.4' },
-                  { icon: 'thumb', value: '88%' },
+                  { icon: 'heart', value: '88%' },
                 ],
               },
             ]}
@@ -1805,7 +1830,7 @@ export const PREVIEWS = {
                 metrics: [
                   { icon: 'star', value: '4.1' },
                   { icon: 'pulse', value: '81.1' },
-                  { icon: 'thumb', value: '81%' },
+                  { icon: 'heart', value: '81%' },
                 ],
               },
               {
@@ -1816,7 +1841,7 @@ export const PREVIEWS = {
                 metrics: [
                   { icon: 'star', value: '4.7' },
                   { icon: 'pulse', value: '86' },
-                  { icon: 'thumb', value: '85.3%' },
+                  { icon: 'heart', value: '85.3%' },
                 ],
                 followed: true,
               },
@@ -1828,7 +1853,7 @@ export const PREVIEWS = {
                 metrics: [
                   { icon: 'star', value: '4.5' },
                   { icon: 'pulse', value: '92.4' },
-                  { icon: 'thumb', value: '88%' },
+                  { icon: 'heart', value: '88%' },
                 ],
               },
             ]}
@@ -2712,7 +2737,7 @@ export const PREVIEWS = {
                   variant="icon" size="medium"
                   aria-label="Favorited" aria-pressed="true"
                   icon={<StarFillIcon />}
-                  style={{ color: 'var(--ref-palette-yellow-500)' }}
+                  style={{ color: 'var(--sys-color-icon-yellow)' }}
                   onClick={() => {}}
                 />
               ),
@@ -2733,9 +2758,103 @@ export const PREVIEWS = {
                   variant="icon" size="medium"
                   aria-label="Favorite" aria-pressed="false"
                   icon={<StarFillIcon />}
-                  style={{ color: 'var(--sys-color-onSurfaceVariant)' }}
+                  style={{ color: 'var(--sys-color-icon-muted)' }}
                   onClick={() => {}}
                 />
+              ),
+            },
+          ]}
+        />
+      </Frame>
+    ),
+  },
+
+  /* Entry as nav option — trailing slot carries a default Icon Button
+     (`variant="icon"`, `size="medium"`) filled with a right-pointing
+     chevron. The canonical drill-in affordance for identity-bearing
+     rows that route to a sub-page. Pair with `thumbnail` for entity
+     drill-ins; omit `thumbnail` (see the label-only case below) for
+     pure label-only nav stacks. */
+  'list/entry-as-nav-option': {
+    states: false,
+    render: () => (
+      <Frame>
+        <List
+          variant="entry"
+          size="medium"
+          items={[
+            {
+              value: 'sourdough',
+              label: 'Sourdough Bakers',
+              secondary: '12.4K Followers',
+              thumbnail: { src: IMG.breadAvatar, alt: 'Sourdough Bakers' },
+              trailingIcon: (
+                <Button
+                  variant="icon" size="medium"
+                  aria-label="Open Sourdough Bakers"
+                  icon={<ChevronRightIcon />}
+                  onClick={() => {}}
+                />
+              ),
+            },
+            {
+              value: 'indiedev',
+              label: 'Indie Game Devs',
+              secondary: '8,210 Followers',
+              thumbnail: { src: IMG.gameAvatar, alt: 'Indie Game Devs' },
+              trailingIcon: (
+                <Button
+                  variant="icon" size="medium"
+                  aria-label="Open Indie Game Devs"
+                  icon={<ChevronRightIcon />}
+                  onClick={() => {}}
+                />
+              ),
+            },
+          ]}
+        />
+      </Frame>
+    ),
+  },
+
+  /* Entry label-only — drop `thumbnail` from a row descriptor to
+     collapse the leading column. Label sits flush at the 16 inline
+     rail; pair with a trailing chevron Icon Button to assemble the
+     canonical nav-option row (this is the shape NavList bundles
+     under its header). */
+  'list/entry-label-only': {
+    states: false,
+    render: () => (
+      <Frame>
+        <List
+          variant="entry"
+          items={[
+            {
+              value: 'location',
+              label: 'Location',
+              trailingIcon: (
+                <Button variant="icon" size="medium" aria-label="Open Location" icon={<ChevronRightIcon />} onClick={() => {}} />
+              ),
+            },
+            {
+              value: 'job',
+              label: 'Job Function',
+              trailingIcon: (
+                <Button variant="icon" size="medium" aria-label="Open Job Function" icon={<ChevronRightIcon />} onClick={() => {}} />
+              ),
+            },
+            {
+              value: 'learning',
+              label: 'Learning & Advising',
+              trailingIcon: (
+                <Button variant="icon" size="medium" aria-label="Open Learning & Advising" icon={<ChevronRightIcon />} onClick={() => {}} />
+              ),
+            },
+            {
+              value: 'money',
+              label: 'Money',
+              trailingIcon: (
+                <Button variant="icon" size="medium" aria-label="Open Money" icon={<ChevronRightIcon />} onClick={() => {}} />
               ),
             },
           ]}
@@ -3261,7 +3380,7 @@ export const PREVIEWS = {
           Learn more
         </Button>
       }>
-        Tooltip text wraps onto a second line when it would push the bubble past the 240 cap.
+        Tooltip text wraps onto a second line when it would push the bubble past the 300 cap.
       </Tooltip>
     ),
   },
@@ -3272,11 +3391,11 @@ export const PREVIEWS = {
       <div
         style={{
           display: 'grid',
-          /* 240px fixed tracks so each bubble fills its cell to the full
-             maxWidth — the new "always fill" width contract reads as
-             intended in the demo. `max-content` would shrink each cell
-             back to the body's natural width and hide the contract. */
-          gridTemplateColumns: 'repeat(3, 240px)',
+          /* `max-content` tracks so each cell hugs its tooltip's natural
+             width — the bubble is content-driven now, capped at 300 by
+             the component. Fixed tracks would over-pad the bubble and
+             hide the content-hug contract. */
+          gridTemplateColumns: 'repeat(3, max-content)',
           gap: 'var(--sys-layout-container-xl)',
           justifyContent: 'center',
           alignItems: 'center',
@@ -3724,6 +3843,45 @@ export const PREVIEWS = {
     ),
   },
 
+  /* Header `headerDropdown` mode — trailing Text Button dropdown whose
+     label is the current value and whose chevron flips with `open`. The
+     consumer owns the menu surface and the open state; Header only
+     renders the trigger. Demo keeps the menu local to the toggle so the
+     state-signal contract is observable inside the docs frame. */
+  'header/with-dropdown': {
+    sizes: ['large', 'medium'],
+    states: false,
+    render: ({ size = 'large' }) => {
+      const [open, setOpen] = useState(false);
+      return (
+        <Frame>
+          <Header
+            size={size}
+            label="Recommended channels"
+            headerDropdown={{
+              label: 'Top',
+              open,
+              onClick: () => setOpen((v) => !v),
+            }}
+          />
+        </Frame>
+      );
+    },
+  },
+
+  /* Header label-only — set just `label` and the row collapses to a
+     single heading at the requested size. The canonical "labelled
+     region without affordance" case. */
+  'header/label-only': {
+    sizes: ['large', 'medium'],
+    states: false,
+    render: ({ size = 'large' }) => (
+      <Frame>
+        <Header size={size} label="Recommended channels" />
+      </Frame>
+    ),
+  },
+
   /* SideSheet — off-canvas content column anchored to the leading edge.
      Canonical fill: Header (size="medium") + List(entry) directory
      stacks replicating the navigation-drawer pattern (My channels →
@@ -3777,21 +3935,21 @@ export const PREVIEWS = {
                   label: 'Sourdough Bakers',
                   count: <Badge size="small" count={12} />,
                   thumbnail: { src: IMG.breadAvatar, alt: 'Sourdough Bakers' },
-                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--ref-palette-yellow-500)' }} onClick={() => {}} />,
+                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-icon-yellow)' }} onClick={() => {}} />,
                 },
                 {
                   value: 'stocks',
                   label: 'Stocks & Investing',
                   count: <Badge size="small" count={142} />,
                   thumbnail: { src: IMG.brandChip, alt: 'Stocks & Investing' },
-                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--ref-palette-yellow-500)' }} onClick={() => {}} />,
+                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-icon-yellow)' }} onClick={() => {}} />,
                 },
                 {
                   value: 'movie-talk',
                   label: 'Movie Talk',
                   count: <Badge size="small" count={24} />,
                   thumbnail: { src: IMG.cinemaAvatar, alt: 'Movie Talk' },
-                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--ref-palette-yellow-500)' }} onClick={() => {}} />,
+                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-icon-yellow)' }} onClick={() => {}} />,
                 },
               ]}
             />
@@ -3810,20 +3968,20 @@ export const PREVIEWS = {
                   label: 'Career & Jobs',
                   count: <Badge size="small" count={24} />,
                   thumbnail: { src: IMG.brandChat, alt: 'Career & Jobs' },
-                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-onSurfaceVariant)' }} onClick={() => {}} />,
+                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-icon-muted)' }} onClick={() => {}} />,
                 },
                 {
                   value: 'marketplace',
                   label: 'Marketplace',
                   count: <Badge size="small" count={12} />,
                   thumbnail: { src: IMG.brandAppliance, alt: 'Marketplace' },
-                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-onSurfaceVariant)' }} onClick={() => {}} />,
+                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-icon-muted)' }} onClick={() => {}} />,
                 },
                 {
                   value: 'fashion',
                   label: 'Fashion & Beauty',
                   thumbnail: { src: IMG.brandPhone, alt: 'Fashion & Beauty' },
-                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-onSurfaceVariant)' }} onClick={() => {}} />,
+                  trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-icon-muted)' }} onClick={() => {}} />,
                 },
               ]}
             />
