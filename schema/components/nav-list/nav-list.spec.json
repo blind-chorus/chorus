@@ -2,7 +2,7 @@
   "$schema": "../../spec.schema.json",
   "name": "NavList",
   "family": "nav-list",
-  "description": "Vertical label-only nav list — labelled block where each row carries a label and trailing chevron, and routes via `href` / `onClick`. Bundles a [Header](../header/header.md) over a [List](../list/nav.md). Reach for it on category indexes, settings menus, and 'pick a sub-page' surfaces.",
+  "description": "Vertical label-only nav list — labelled block where each row carries a label and a trailing chevron [Icon Button](../button/icon.md), and routes via `href` / `onClick`. Bundles a [Header](../header/header.md) over a label-only [List](../list/entry.md) `variant=\"entry\"` (every row drops `thumbnail` so the leading column collapses). Reach for it on category indexes, settings menus, and 'pick a sub-page' surfaces.",
   "element": "section",
   "props": {
     "embedded": {
@@ -23,7 +23,7 @@
     "items": {
       "type": "node",
       "required": true,
-      "description": "Array of nav row descriptors forwarded to [List](../list/nav.md) `variant=\"nav\"`: { value, label, supportingText?, href?, onClick?, trailingIcon? }."
+      "description": "Array of nav row descriptors forwarded to [List](../list/entry.md) `variant=\"entry\"` as label-only rows: { value, label, supportingText?, href?, onClick?, trailingIcon? }. `supportingText` is mapped to the entry sub's `description` slot (caption-tone supporting line under the label). `thumbnail` is intentionally NOT exposed — the leading column is always collapsed."
     }
   },
   "slots": {
@@ -39,14 +39,19 @@
     },
     "list": {
       "required": true,
-      "description": "[List](../list/nav.md) `variant=\"nav\"`. Embedded so the wrapper section owns the rail. Each row is the interactive route target; the trailing chevron is supplied by the nav variant.",
+      "description": "[List](../list/entry.md) `variant=\"entry\"`. Embedded so the wrapper section owns the rail. Every row drops `thumbnail` so the leading column collapses (label-only). Each row is the interactive route target; the row's `trailingIcon` slot is filled with a default chevron [Icon Button](../button/icon.md).",
       "intrinsic": true
     },
     "row": {
       "required": true,
       "intrinsic": true,
-      "description": "Single nav row rendered by [List](../list/nav.md). The label is the primary content; the trailing chevron (`ChevronDownIcon` rotated to `right` by the nav variant) signals drill-in. Each row routes via `href` or `onClick`.",
+      "description": "Single nav row rendered by [List](../list/entry.md) as a label-only entry. The label is the primary content; the trailing chevron Icon Button (`variant=\"icon\"`, `size=\"medium\"`, `icon={<ChevronRightIcon />}`) signals drill-in. Each row routes via `href` or `onClick`.",
       "accepts": ["row"]
+    },
+    "trailingChevron": {
+      "required": true,
+      "intrinsic": true,
+      "description": "Default [Icon Button](../button/icon.md) (`variant=\"icon\"`, `size=\"medium\"`) filled with `<ChevronRightIcon />`. Wired to the row's `href` / `onClick`. Clicks stop propagating before reaching the row's primary handler — the trailing slot is its own hit target with its own Outward focus ring."
     }
   },
   "sizing": {
@@ -57,40 +62,46 @@
     "labelTypo": "sys.typo.heading.md",
     "labelColor": "sys.color.onSurface",
     "headerActionRendersAs": "Button variant='text' size='xsmall' appearance='accent' — link-affordance accent rule.",
-    "rowComposition": "list/nav row — label.md primary, optional caption.md supporting line, family-default min-height (ref.space.600 = 48), inline.md gap, trailing chevron at sys.icon.md / onSurfaceVariant.",
-    "rowInlinePaddingNote": "Each row keeps the list/nav native sys.layout.container.md inline padding (the tap target reaches the surface edge) and adds margin-inline: calc(-1 * sys.layout.container.md) so the visible label lines up with the section's content rail (aligned with the header label at 16 from the surface).",
+    "rowComposition": "list/entry label-only row (no thumbnail) — label.md primary, optional caption.md description line, family-default min-height (ref.space.600 = 48), leading column collapsed (0 leading-to-text gap), trailing slot filled with a default Icon Button (variant='icon', size='medium', icon=<ChevronRightIcon />).",
+    "rowInlinePaddingNote": "Each row keeps the list/entry native sys.layout.container.md inline padding (the tap target reaches the surface edge) and adds margin-inline: calc(-1 * sys.layout.container.md) so the visible label lines up with the section's content rail (aligned with the header label at 16 from the surface).",
     "dividerWidth": "sys.borderWidth.hairline",
     "dividerColor": "sys.color.outlineVariant",
-    "dividerInset": "sys.layout.container.md from the row's leading edge — anchors at the row's text column start."
+    "dividerInset": "list/entry default — 16 / 16 inset from both row edges. Label-only rows always take the default inset regardless of `size` (no avatar column to anchor against)."
   },
   "rowProps": {
     "value": { "type": "string", "required": true },
     "label": { "type": "string", "required": true },
-    "supportingText": { "type": "string", "optional": true },
+    "supportingText": {
+      "type": "string",
+      "optional": true,
+      "description": "Caption-tone supporting line under the label. Mapped to the entry sub's `description` slot — single-line, truncated with ellipsis."
+    },
     "href": { "type": "string", "optional": true },
     "onClick": { "type": "function", "optional": true },
     "trailingIcon": {
       "type": "node",
       "optional": true,
-      "description": "Override the default trailing chevron with a custom glyph (e.g. external-link)."
+      "description": "Override the default trailing chevron Icon Button with a custom node (e.g. an external-link Icon Button). Should remain a `<Button variant=\"icon\">` so the trailing slot keeps its own Outward focus ring."
     }
   },
   "states": {
-    "note": "Each row is the interactive target — hover / pressed / focused / disabled tokens delegate to [List](../list/nav.md). The headerAction is an accent Text Button (its own state contract). Container has no interactive state."
+    "note": "Each row body is the interactive route target — hover / pressed / focused / disabled tokens delegate to [List](../list/entry.md). The trailing chevron Icon Button paints its own state per [Icon Button](../button/icon.md); its clicks stop propagating before reaching the row's primary handler. The headerAction is an accent Text Button (its own state contract). Container has no interactive state."
   },
   "focusIndicator": {
-    "description": "Rows take the family-wide Inward focus ring; headerAction paints its own Outward ring.",
+    "description": "Row body takes the family-wide Inward focus ring; the trailing chevron Icon Button paints its own Outward ring; headerAction paints its own Outward ring.",
     "composition": "inward",
-    "compositionReason": "Rows tile the column with a hairline divider; an outward ring would overlap divider and neighbour row.",
+    "compositionReason": "Rows tile the column with a hairline divider; an outward ring on the row body would overlap divider and neighbour row.",
     "trigger": ":focus-visible"
   },
   "behavior": {
     "headerRequired": "Every NavList carries a label; the optional headerAction extends the header with a trailing accent Text Button.",
     "verticalScroll": "No pager. The full list scrolls in normal document flow.",
-    "rowRoutes": "Each row routes via `href` (rendered as `<a>`) or `onClick`. Trailing chevron is decorative."
+    "rowRoutes": "Each row routes via `href` (rendered as `<a>`) or `onClick`. The trailing chevron Icon Button mirrors the same route — independent hit target, independent Outward focus ring.",
+    "labelOnly": "The wrapper does not expose a `thumbnail` prop on `items`; the underlying [list/entry](../list/entry.md) keeps the leading slot collapsed for every row."
   },
   "forbidden": [
-    "leading thumbnail or icon — NavList rows are intentionally label-only; reach for DirectoryList or List variant=\"image\" when a leading visual is needed",
+    "leading thumbnail or icon — NavList rows are intentionally label-only; reach for DirectoryList when a leading visual is needed",
+    "swapping the trailing chevron for a non-Button node — the trailing slot must stay a `<Button variant=\"icon\">` so it keeps its own Outward focus ring",
     "header omitted — every NavList carries a label"
   ]
 }

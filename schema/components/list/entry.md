@@ -1,8 +1,8 @@
 # Entry list
 
-Directory-entry List sub-component — edge-to-edge rows that pair a leading [Thumbnail](../thumbnail/thumbnail.md) (selectable rung 32 / 40 / 48 / 56 via `size="small|medium|large|xlarge"`) with an identity group (label + optional inline `count` Badge + optional stacked `secondary` line that tile flush) and an optional single-line `description`. Same click semantics as [Text sub](./text.md). Row geometry, state overlays, and inward focus ring delegate to the [family-wide rules](./list.md); this sub documents the leading image slot, the identity group, the description line, and the entry-specific divider rules.
+Directory-entry List sub-component — edge-to-edge rows that pair an **optional** leading [Thumbnail](../thumbnail/thumbnail.md) (selectable rung 32 / 40 / 48 / 56 via `size="small|medium|large|xlarge"`) with an identity group (label + optional inline `count` Badge + optional stacked `secondary` line that tile flush) and an optional single-line `description`. Same click semantics as [Text sub](./text.md). Row geometry, state overlays, and inward focus ring delegate to the [family-wide rules](./list.md); this sub documents the leading image slot, the identity group, the description line, and the entry-specific divider rules.
 
-Replaces the legacy `row/entity` atom — every entity-row case (follow suggestion, member directory, subscription / channel / topic / playlist directory, mention / recipient picker, entity search result) ships as a full-bleed list at this variant. For Feed Post / Feed Ad card heads, reach for [Metadata](../metadata/metadata.md) — that cluster is the Feed-specific attribution primitive, not an entity row.
+Replaces the legacy `row/entity` atom — every entity-row case (follow suggestion, member directory, subscription / channel / topic / playlist directory, mention / recipient picker, entity search result) ships as a full-bleed list at this variant. The optional leading slot also lets the same sub host **label-only** nav rows (settings menu, category index) without reaching for a separate variant. For Feed Post / Feed Ad card heads, reach for [Metadata](../metadata/metadata.md) — that cluster is the Feed-specific attribution primitive, not an entity row.
 
 **Layout inset.** `full-bleed` — sits as a direct child of the page shell. Each row pays its own `16px inline / 8px block` padding via `layout.container.md` / `layout.container.xs`; do **not** wrap the list in another `padding-inline` / `px-*` / `style={{ padding: … }}` div. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), apply the negative-margin opt-out — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
@@ -47,7 +47,7 @@ import { Button, List } from '@blind-dsai/ui';
 
 ### With trailing star toggle
 
-The trailing star uses the **single-shape fill-only contract**: always `<StarFillIcon>`, color flips by state (active = `var(--ref-palette-yellow-500)`, inactive = `var(--sys-color-onSurfaceVariant)`). Shape stays constant so the trailing rail keeps a stable hit-target footprint — never swap between outline (`StarIcon`) and fill (`StarFillIcon`) for the same affordance. Rows with a trailing affordance default to `size="small"` (32) — the smaller leading footprint keeps the trailing rail visually balanced.
+The trailing star uses the **single-shape fill-only contract**: always `<StarFillIcon>`, color flips by state (active = `var(--sys-color-icon-yellow)`, inactive = `var(--sys-color-icon-muted)`). Shape stays constant so the trailing rail keeps a stable hit-target footprint — never swap between outline (`StarIcon`) and fill (`StarFillIcon`) for the same affordance. Rows with a trailing affordance default to `size="small"` (32) — the smaller leading footprint keeps the trailing rail visually balanced.
 
 ```preview
 list/entry-with-star
@@ -71,7 +71,7 @@ import { StarFillIcon } from '@blind-dsai/ui/icons';
           aria-label="Favorited"
           aria-pressed="true"
           icon={<StarFillIcon />}
-          style={{ color: 'var(--ref-palette-yellow-500)' }}
+          style={{ color: 'var(--sys-color-icon-yellow)' }}
           onClick={() => {}}
         />
       ),
@@ -94,9 +94,102 @@ import { StarFillIcon } from '@blind-dsai/ui/icons';
           aria-label="Favorite"
           aria-pressed="false"
           icon={<StarFillIcon />}
-          style={{ color: 'var(--sys-color-onSurfaceVariant)' }}
+          style={{ color: 'var(--sys-color-icon-muted)' }}
           onClick={() => {}}
         />
+      ),
+    },
+  ]}
+/>
+```
+
+### As nav option (trailing chevron Icon Button)
+
+The trailing slot carries a default [Icon Button](../button/icon.md) (`variant="icon"`, `size="medium"`) filled with a right-pointing chevron — the canonical nav-option drill-in affordance. Reach for it when the row routes to a sub-page and you still want to expose an identity-bearing thumbnail (workspace switch, channel directory drill-in). For pure label-only nav stacks, omit `thumbnail` instead — see [the label-only case below](#label-only-no-thumbnail).
+
+```preview
+list/entry-as-nav-option
+---
+import { Button, List } from '@blind-dsai/ui';
+import { ChevronRightIcon } from '@blind-dsai/ui/icons';
+
+<List
+  variant="entry"
+  size="medium"
+  items={[
+    {
+      value: 'sourdough',
+      label: 'Sourdough Bakers',
+      secondary: '12.4K Followers',
+      thumbnail: { src: '/placeholder.png', alt: 'Sourdough Bakers' },
+      trailingIcon: (
+        <Button
+          variant="icon"
+          size="medium"
+          aria-label="Open Sourdough Bakers"
+          icon={<ChevronRightIcon />}
+          onClick={() => {}}
+        />
+      ),
+    },
+    {
+      value: 'indie-game-devs',
+      label: 'Indie Game Devs',
+      secondary: '8,210 Followers',
+      thumbnail: { src: '/placeholder.png', alt: 'Indie Game Devs' },
+      trailingIcon: (
+        <Button
+          variant="icon"
+          size="medium"
+          aria-label="Open Indie Game Devs"
+          icon={<ChevronRightIcon />}
+          onClick={() => {}}
+        />
+      ),
+    },
+  ]}
+/>
+```
+
+### Label only (no thumbnail)
+
+Omit `thumbnail` on a row to collapse the leading column — the label sits flush at the 16 inline rail and the row reads as a label-only entry. Reach for it on settings menus, category indexes, and "pick a sub-page" stacks. Pair with a trailing chevron Icon Button to assemble the canonical nav-option row; this is the shape [NavList](../nav-list/nav-list.md) bundles under its header.
+
+```preview
+list/entry-label-only
+---
+import { Button, List } from '@blind-dsai/ui';
+import { ChevronRightIcon } from '@blind-dsai/ui/icons';
+
+<List
+  variant="entry"
+  items={[
+    {
+      value: 'location',
+      label: 'Location',
+      trailingIcon: (
+        <Button variant="icon" size="medium" aria-label="Open Location" icon={<ChevronRightIcon />} onClick={() => {}} />
+      ),
+    },
+    {
+      value: 'job',
+      label: 'Job Function',
+      trailingIcon: (
+        <Button variant="icon" size="medium" aria-label="Open Job Function" icon={<ChevronRightIcon />} onClick={() => {}} />
+      ),
+    },
+    {
+      value: 'learning',
+      label: 'Learning & Advising',
+      trailingIcon: (
+        <Button variant="icon" size="medium" aria-label="Open Learning & Advising" icon={<ChevronRightIcon />} onClick={() => {}} />
+      ),
+    },
+    {
+      value: 'money',
+      label: 'Money',
+      trailingIcon: (
+        <Button variant="icon" size="medium" aria-label="Open Money" icon={<ChevronRightIcon />} onClick={() => {}} />
       ),
     },
   ]}
@@ -107,7 +200,7 @@ import { StarFillIcon } from '@blind-dsai/ui/icons';
 
 - **container** — outer vertical stack (delegates to family).
 - **row** — single list item; whole row is the click target.
-- **leading** — required. [Thumbnail](../thumbnail/thumbnail.md) at the list's `size` rung (32 / 40 / 48 / 56). `thumbnail` props forward verbatim.
+- **leading** *(optional)* — [Thumbnail](../thumbnail/thumbnail.md) at the list's `size` rung (32 / 40 / 48 / 56). `thumbnail` props forward verbatim. Omit (drop `thumbnail` from the row descriptor) to collapse the leading column entirely — the leading→text gap (12) also drops, and the label sits flush at the 16 inline rail. Mix-and-match per row is supported; the list does not require every row to carry — or every row to omit — the thumbnail.
 - **label** — primary row text. `sys.typo.label.md` (14 / Semibold) / `sys.color.onSurface`. Pairs flush with `count` on the primary line.
 - **count** *(optional)* — inline node painted to the right of the label on the same line (canonical: `<Badge count={n} />`). Separated from the label by `sys.layout.inline.sm` (4). Label shrinks first so a long name truncates against the count.
 - **secondary** *(optional)* — stacked meta line painted below the label inside the identity group (e.g. follower count, location). `sys.typo.caption.md` (12 / Regular) / `sys.color.onSurface`. Tiles flush with the label — line-height-only spacing, no margin — so the two lines read as one tight identity block.
@@ -120,8 +213,8 @@ import { StarFillIcon } from '@blind-dsai/ui/icons';
 | Slot                       | Token bindings |
 |----------------------------|----------------|
 | row container              | Block / inline padding (`layout.container.md` inline rail across every rung). Block rung: `8px` (`layout.container.xs`) at `small` / `medium` / `large`, `12px` (`layout.container.sm`) at `xlarge` — the 56 rung's identity stack (label + secondary + description) reads denser, so block padding bumps a step. `min-height: 48` (`ref.space.600`). |
-| leading thumbnail          | 32 (`size="small"`) / 40 (`size="medium"`) / 48 (`size="large"`) / 56 (`size="xlarge"`) |
-| leading → text column      | `sys.layout.inline.lg` (12) — Entry-specific override of the family-wide `inline.md` (8) row gap |
+| leading thumbnail *(optional)* | 32 (`size="small"`) / 40 (`size="medium"`) / 48 (`size="large"`) / 56 (`size="xlarge"`). Omit per row to collapse the leading column. |
+| leading → text column      | `sys.layout.inline.lg` (12) when the leading column is present — Entry-specific override of the family-wide `inline.md` (8) row gap. Drops to `0` when `thumbnail` is omitted. |
 | label                      | `sys.typo.label.md` (14 / Semibold) / `onSurface`, single-line ellipsis |
 | label → count              | `sys.layout.inline.sm` (4) |
 | count                      | inline node — canonical `<Badge>` |
@@ -131,7 +224,7 @@ import { StarFillIcon } from '@blind-dsai/ui/icons';
 | description                | `sys.typo.caption.md` (12 / Regular) / `onSurfaceVariant`, single-line ellipsis |
 | text column → trailing     | `sys.layout.inline.sm` (4) |
 | trailingIcon               | `<Button variant="icon">`, `<Button variant="toggle">`, `<Button variant="text" appearance="accent">`, or `<Badge>` |
-| inter-row divider          | `1px` `outlineVariant`. Default (`small` / `medium` / `large`): `16` inset from **both** the leading and trailing edges. `xlarge`: leading inset anchors to the text column (`16 + 56 + 12 = 84`) so the rule reads as separating identity columns; trailing inset stays at `16`. |
+| inter-row divider          | `1px` `outlineVariant`. Default (`small` / `medium` / `large`): `16` inset from **both** the leading and trailing edges. `xlarge`: leading inset anchors to the text column (`16 + 56 + 12 = 84`) so the rule reads as separating identity columns; trailing inset stays at `16`. **Label-only rows** (no thumbnail): leading inset falls back to the default `16` regardless of `size`, because there is no avatar column to anchor against. |
 
 ## States
 
@@ -139,6 +232,7 @@ No `selected` state. State overlays (hover / pressed / disabled) and the inward 
 
 ## Behavior
 
+- **Thumbnail is optional, per row.** Drop `thumbnail` from a row descriptor to collapse the leading column and the `leading → text` (12) gap; the label sits flush at the 16 inline rail. Mix-and-match per row is supported. For pure label-only nav stacks, [NavList](../nav-list/nav-list.md) bundles this shape under a header.
 - **Identity group is tight.** Label + (inline count) on the primary line, optional `secondary` stacked flush below — line-height-only spacing, no margin — so the entire identity group reads as one block.
 - **Divider inset switches at `xlarge`.** Default (`small` / `medium` / `large`): inter-row hairline is inset `16` from both edges so the rule reads as separating *content*, not the container. At `xlarge` the leading inset anchors to the text column (`16 + 56 + 12 = 84`) instead — the 56 avatar is large enough that a row-edge divider reads as a hard line under the avatar; anchoring it to the text column keeps the rule reading as separating identity columns.
 - **Block padding bumps at `xlarge`.** Default (`small` / `medium` / `large`): block padding is `container.xs` (8). At `xlarge` it bumps to `container.sm` (12) — the 56 rung's identity stack reads denser, so the row needs an extra step of breathing room top + bottom.

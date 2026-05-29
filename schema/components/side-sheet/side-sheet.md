@@ -57,21 +57,21 @@ import { StarFillIcon } from '@blind-dsai/ui/icons';
           label: 'Sourdough Bakers',
           count: <Badge size="small" count={12} />,
           thumbnail: { alt: 'Sourdough Bakers' },
-          trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--ref-palette-yellow-500)' }} onClick={() => {}} />,
+          trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-icon-yellow)' }} onClick={() => {}} />,
         },
         {
           value: 'stocks',
           label: 'Stocks & Investing',
           count: <Badge size="small" count={142} />,
           thumbnail: { alt: 'Stocks & Investing' },
-          trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--ref-palette-yellow-500)' }} onClick={() => {}} />,
+          trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-icon-yellow)' }} onClick={() => {}} />,
         },
         {
           value: 'movie-talk',
           label: 'Movie Talk',
           count: <Badge size="small" count={24} />,
           thumbnail: { alt: 'Movie Talk' },
-          trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--ref-palette-yellow-500)' }} onClick={() => {}} />,
+          trailingIcon: <Button variant="icon" size="medium" aria-label="Favorited" aria-pressed="true" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-icon-yellow)' }} onClick={() => {}} />,
         },
       ]}
     />
@@ -88,20 +88,20 @@ import { StarFillIcon } from '@blind-dsai/ui/icons';
           label: 'Career & Jobs',
           count: <Badge size="small" count={24} />,
           thumbnail: { alt: 'Career & Jobs' },
-          trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-onSurfaceVariant)' }} onClick={() => {}} />,
+          trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-icon-muted)' }} onClick={() => {}} />,
         },
         {
           value: 'marketplace',
           label: 'Marketplace',
           count: <Badge size="small" count={12} />,
           thumbnail: { alt: 'Marketplace' },
-          trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-onSurfaceVariant)' }} onClick={() => {}} />,
+          trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-icon-muted)' }} onClick={() => {}} />,
         },
         {
           value: 'fashion',
           label: 'Fashion & Beauty',
           thumbnail: { alt: 'Fashion & Beauty' },
-          trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-onSurfaceVariant)' }} onClick={() => {}} />,
+          trailingIcon: <Button variant="icon" size="medium" aria-label="Favorite" aria-pressed="false" icon={<StarFillIcon />} style={{ color: 'var(--sys-color-icon-muted)' }} onClick={() => {}} />,
         },
       ]}
     />
@@ -131,10 +131,10 @@ Set the `footer` prop with a Text Button to pin a primary commit at the bottom (
 
 When a channel / directory row carries a favorite toggle on its trailing edge, use a single fill-only glyph (`StarFillIcon`) whose **colour** communicates the pressed state — never swap between outline (`StarIcon`) and fill (`StarFillIcon`) for the same affordance:
 
-| State    | Icon            | Colour                                     | aria-pressed |
-|----------|-----------------|--------------------------------------------|--------------|
-| Active   | `StarFillIcon`  | `var(--ref-palette-yellow-500)`            | `true`       |
-| Inactive | `StarFillIcon`  | `var(--sys-color-onSurfaceVariant)` (gray) | `false`      |
+| State    | Icon            | Colour                          | aria-pressed |
+|----------|-----------------|---------------------------------|--------------|
+| Active   | `StarFillIcon`  | `var(--sys-color-icon-yellow)`  | `true`       |
+| Inactive | `StarFillIcon`  | `var(--sys-color-icon-muted)`   | `false`      |
 
 The shape stays constant so the trailing edge has a stable hit-target footprint; only the colour token flips. This is the canonical pattern across Side Sheet, channel lists, directory rows.
 

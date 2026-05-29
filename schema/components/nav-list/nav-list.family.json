@@ -2,7 +2,7 @@
   "$schema": "../../family.schema.json",
   "family": "nav-list",
   "name": "NavList",
-  "description": "Vertical label-only nav list — labelled block where each row carries a label (and optional secondary line) plus a trailing chevron, and routes via `href` / `onClick`. Wraps a [Header](../header/header.md) over a [List](../list/nav.md) so the section title and the route group come bundled. Reach for it on category indexes, settings menus, and 'pick a sub-page' surfaces where no leading thumbnail belongs.",
+  "description": "Vertical label-only nav list — labelled block where each row carries a label (and optional secondary line) plus a trailing chevron Icon Button, and routes via `href` / `onClick`. **Preset wrapper** over `<Header /> + <List variant=\"entry\">` rendered label-only (no thumbnail) with a default chevron Icon Button in the trailing slot — no new tokens, no new selection model. If you need any divergence (mixing label-only and thumbnail-bearing rows, swapping the trailing affordance, omitting the header), drop down to `<Header /> + <List variant=\"entry\" />` and compose freely. Reach for `<NavList />` on category indexes, settings menus, and 'pick a sub-page' surfaces where the preset matches verbatim.",
   "useCases": [
     "category index",
     "settings menu",

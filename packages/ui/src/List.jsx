@@ -121,9 +121,9 @@ export function List({
               <span className="chorus-list__leading">
                 <Thumbnail size={40} {...(item.thumbnail ?? { alt: item.label })} />
               </span>
-            ) : isEntry ? (
+            ) : isEntry && item.thumbnail ? (
               <span className="chorus-list__leading">
-                <Thumbnail size={entryThumbSize} {...(item.thumbnail ?? { alt: item.label })} />
+                <Thumbnail size={entryThumbSize} {...item.thumbnail} />
               </span>
             ) : null}
             {isEntry ? (

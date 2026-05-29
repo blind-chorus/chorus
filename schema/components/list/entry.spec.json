@@ -3,7 +3,7 @@
   "name": "List",
   "family": "list",
   "subcomponent": "entry",
-  "description": "Directory-entry List variant — edge-to-edge rows that pair a leading [Thumbnail](../thumbnail/thumbnail.md) (selectable rung 32 / 40 / 48 / 56 via `size=\"small|medium|large|xlarge\"`) with an identity group (label + optional inline `count` Badge + optional stacked `secondary` line — e.g. follower count — that tile flush with line-height-only spacing) and an optional single-line `description` separated from the identity group by `ref.space.25` (2). Optional trailing affordance per row. Same click semantics as the text variant — no selection model. Replaces the legacy `row/entity` atom — every entity-row case (follow suggestion, member directory, subscription / channel / topic / playlist directory) now ships as a full-bleed list at this variant.",
+  "description": "Directory-entry List variant — edge-to-edge rows that pair an *optional* leading [Thumbnail](../thumbnail/thumbnail.md) (selectable rung 32 / 40 / 48 / 56 via `size=\"small|medium|large|xlarge\"`) with an identity group (label + optional inline `count` Badge + optional stacked `secondary` line — e.g. follower count — that tile flush with line-height-only spacing) and an optional single-line `description` separated from the identity group by `ref.space.25` (2). Optional trailing affordance per row. Same click semantics as the text variant — no selection model. Replaces the legacy `row/entity` atom — every entity-row case (follow suggestion, member directory, subscription / channel / topic / playlist directory) now ships as a full-bleed list at this variant. The optional leading slot also lets the same sub host **label-only** nav rows (settings menu, category index) — drop `thumbnail` from the row descriptor to collapse the leading column and tile the label flush at the 16 inline rail.",
   "element": "ul",
   "props": {
     "embedded": {
@@ -38,11 +38,10 @@
       "description": "Single list item. Whole row is the interactive target."
     },
     "leading": {
-      "required": true,
-      "agentRequired": true,
-      "omittedBehavior": "error",
+      "required": false,
+      "omittedBehavior": "collapsed",
       "fallbackOnMissingSrc": "sys.color.surfaceContainerHigh",
-      "description": "Thumbnail at the leading edge at the list's `size` rung (32 / 40 / 48 / 56), vertically centred against the text column. Forwarded verbatim from item.thumbnail. `omittedBehavior: error` because every row in this variant MUST carry a thumbnail (use list/text or list/nav when no leading image is needed). `fallbackOnMissingSrc` is the dim-tone fill the Thumbnail paints when `src` is empty / fails to load — at scaffold time, agents fill `src` with `/placeholder.png` rather than relying on the fallback.",
+      "description": "Optional Thumbnail at the leading edge at the list's `size` rung (32 / 40 / 48 / 56), vertically centred against the text column. Forwarded verbatim from item.thumbnail. When `thumbnail` is omitted on a row descriptor the leading column collapses, the `leading → text` (12) gap drops to 0, and the label sits flush at the 16 inline rail — reach for it on label-only nav rows (settings menu, category index) and mix-and-match identity rows. `fallbackOnMissingSrc` is the dim-tone fill the Thumbnail paints when `src` is present but empty / fails to load — at scaffold time, agents fill `src` with `/placeholder.png` rather than relying on the fallback. To intentionally render a label-only row, omit `thumbnail` entirely rather than passing an empty `src`.",
       "accepts": [
         "thumbnail"
       ]
@@ -112,8 +111,8 @@
     },
     "thumbnail": {
       "type": "object",
-      "required": true,
-      "description": "Forwarded to Thumbnail verbatim (`src`, `alt`, optional `shape`, optional `updateDot`, optional `logoBadge`)."
+      "optional": true,
+      "description": "Optional. Forwarded to Thumbnail verbatim (`src`, `alt`, optional `shape`, optional `updateDot`, optional `logoBadge`). Omit to render a label-only row — the leading column collapses, the `leading → text` (12) gap drops to 0, and the label sits flush at the 16 inline rail."
     },
     "trailingIcon": {
       "type": "node",
@@ -153,7 +152,7 @@
     "rowPaddingBlock": "ref.space.100 (8) at small / medium / large; ref.space.150 (12) at xlarge — the 56 rung's identity stack reads denser so block padding bumps a step.",
     "rowPaddingInline": "ref.space.200",
     "rowMinHeight": "ref.space.600",
-    "leadingLabelGap": "sys.layout.inline.lg",
+    "leadingLabelGap": "sys.layout.inline.lg when the leading column is present; 0 when `thumbnail` is omitted (the column collapses).",
     "dividerWidth": "sys.borderWidth.hairline",
     "dividerColor": "sys.color.outlineVariant",
     "dividerPerRowOptOut": "Pass `divider: false` on a row to suppress its bottom divider.",
@@ -173,7 +172,7 @@
       "large": 48,
       "xlarge": 56
     },
-    "dividerInset": "left 16 + right 16 from the row's edges (overrides the family-wide `right: 0` rule). At `size=\"xlarge\"`, the divider's left edge anchors to the text column instead (16 + 56 + 12 = 84 from the row's leading edge) so the rule reads as separating the text columns of two suggestion rows.",
+    "dividerInset": "left 16 + right 16 from the row's edges (overrides the family-wide `right: 0` rule). At `size=\"xlarge\"`, the divider's left edge anchors to the text column instead (16 + 56 + 12 = 84 from the row's leading edge) so the rule reads as separating the text columns of two suggestion rows. Label-only rows (no thumbnail) always fall back to the default 16 inset regardless of `size` — there is no avatar column to anchor against.",
     "trailingIconSize": "16 × 16",
     "trailingIconColor": "sys.color.onSurfaceVariant"
   },
@@ -225,9 +224,9 @@
     "trailingSlotIndependent": "Clicks inside `trailingIcon` stop propagating before they reach the row's `onClick`. Wire a favorite / follow / overflow action there without it committing the row's primary action."
   },
   "forbidden": [
-    "thumbnail slot omitted — the variant requires a thumbnail leading slot",
     "thumbnail rendered as a raw <img> outside the chorus-thumbnail slot wrapper",
-    "thumbnail size different from the list's `size` rung (32 / 40 / 48 / 56)",
+    "thumbnail size different from the list's `size` rung (32 / 40 / 48 / 56) — the thumbnail is optional, but when present it MUST match the rung",
+    "passing `thumbnail: { src: '' }` to fake a label-only row — omit the `thumbnail` key entirely instead so the leading column actually collapses",
     "description rendered as a multi-line block — the spec is single-line, truncated",
     "extra gap between label and count — they tile flush on the primary line",
     "wrapping the list in another `padding-inline` / `px-*` div — the list owns its 16px inline rail at the row level"
