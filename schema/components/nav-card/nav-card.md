@@ -1,10 +1,10 @@
 # Nav card
 
-A bounded single-row card — an outlined rounded surface with a label, an optional supporting line, and an optional trailing affordance. Two variants select the trailing shape: `default` ships no trailing icon (bare labelled tile), `nav` auto-renders the right-pointing chevron (the explicit drill-in form). The whole card is the tap target.
+A bounded single-row card — outlined rounded surface with a label, optional supporting line, and optional trailing affordance. Two variants pick the trailing shape: `default` ships no trailing icon (bare labelled tile), `nav` auto-renders the right-pointing chevron (explicit drill-in). The whole card is the tap target.
 
-**Reach for this when** one row needs to read as its own discrete affordance — a labelled scope tile (`default`), a standalone settings drill-in (`nav`), a picker trigger, or a channel / sub-brand entry card. **Skip when** rows are stacked into a vertical column (use [List/nav](../list/nav.md)), the action is a commit (use [Button](../button/button.md)), or the surface is purely informational (use [Banner](../banner/banner.md)).
+**Reach for this when** one row needs to read as its own discrete affordance — a labelled scope tile (`default`), a standalone settings drill-in (`nav`), a picker trigger, or a channel / sub-brand entry card. **Skip when** rows stack into a vertical column (use [List/nav](../list/nav.md)), the action is a commit (use [Button](../button/button.md)), or the surface is purely informational (use [Banner](../banner/banner.md)).
 
-**Layout inset.** `inline` — NavCard is an inline card. It carries its own internal `16px inline / 8px block` padding (`layout.container.md` / `layout.container.xs`), `radius.md` corners, hairline outline, 48px min-height, and `width: 100%` so it fills the host column. It ships **no outer margin** and does NOT claim the page rail. The host owns the surrounding inset: at the page-shell level the shell's `layout.page.md` (16) gutter provides the horizontal safe zone; inside another host (`<Section>` body, `<BottomSheet>` content slot, `<SideSheet>` column, `<NavCardGroup>` stack) the host's container padding governs the inset. Vertical spacing between NavCards comes from `NavCardGroup`'s `gap: var(--sys-layout-stack-xs)` (8) — never paint per-child `margin-block` on NavCard.
+**Layout inset.** `inline` — carries its own internal `16px inline / 8px block` padding (`layout.container.md` / `layout.container.xs`), `radius.md` corners, hairline outline, 48px min-height, and `width: 100%` so it fills the host column. Ships no outer margin and does not claim the page rail. The host owns the surrounding inset — page shell gutter at the route level, container padding inside a `<Section>` / `<BottomSheet>` / `<SideSheet>` / `<NavCardGroup>`. Vertical spacing between cards comes from `NavCardGroup`'s `gap: var(--sys-layout-stack-xs)` (8) — never paint per-child `margin-block` on NavCard.
 
 ## Default
 
@@ -34,7 +34,7 @@ import { NavCard } from '@blind-dsai/ui';
 
 ### With supporting text
 
-A two-line variant — primary label on top, supporting metadata below at `onSurfaceVariant`. Works with either variant; pair with `nav` when the drill-in is metadata-bearing.
+Two-line variant — primary label on top, supporting metadata below at `onSurfaceVariant`. Works with either variant; pair with `nav` when the drill-in is metadata-bearing.
 
 ```preview
 nav-card/supporting
@@ -51,7 +51,7 @@ import { NavCard } from '@blind-dsai/ui';
 
 ### With leading icon
 
-A leading 16 × 16 glyph at the inline padding edge. **The icon vertically centres on the row's parent block** — it shares the row's `align-items: center` axis with the label-col and the trailing slot, so the glyph sits on the same midline as the label (one-line) or the label + supportingText block (two-line).
+A leading 16 × 16 glyph at the inline padding edge. The icon vertically centres on the row's parent block — same `align-items: center` axis as the label column and trailing slot, so the glyph sits on the same midline as the label (one-line) or label + supportingText block (two-line).
 
 ```preview
 nav-card/leading-icon
@@ -104,7 +104,7 @@ import { BellIcon, BookmarkIcon, ProfileIcon } from '@blind-dsai/ui/icons';
 
 ### Surface (opaque tier on a non-`surface` host)
 
-`appearance="surface"` paints the card with its own `sys.color.surface` fill so it reads as an opaque tier. Reach for it when the card sits on a transparent / non-`surface` host (a coloured hero, a tonal band, a BottomSheet's content slot) and the default transparent fill would let the card blend into the background.
+`appearance="surface"` paints the card with its own `sys.color.surface` fill so it reads as an opaque tier. Reach for it when the card sits on a transparent / non-`surface` host (coloured hero, tonal band, BottomSheet content slot) and the default transparent fill would let the card blend in.
 
 ```preview
 nav-card/surface
@@ -170,7 +170,7 @@ A single rung. Min-height 48 (touch-target floor); consumers cannot shrink or gr
 
 ## Focus indicator
 
-Outward 3-layer ring painted on the container's outer edge via an `::after` overlay (rest stroke sits on `::before`). Trigger: `:focus-visible`. Composition: NavCard sits as its own bounded surface with margin to siblings, so an outward ring reads cleanly — see [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Outward 3-layer ring painted on the container's outer edge via an `::after` overlay (rest stroke sits on `::before`). Trigger: `:focus-visible`. NavCard sits as its own bounded surface with margin to siblings, so an outward ring reads cleanly — see [Focus ring composition](../../DESIGN.md#focus-ring-composition).
 
 ## Behavior
 
