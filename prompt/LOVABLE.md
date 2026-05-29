@@ -331,6 +331,9 @@ See the **★ Layout-Type & Padding Contract** at the top of this doc for the fu
 
 * **`NavigationBar` (`variant="page"`) trailing.** Prefer `trailing={{ icon, 'aria-label' }}` — component renders the 24px Icon Button internally and `sys.icon.lg` is guaranteed. If you pass a raw `<Button variant="icon" />`, it MUST carry `size="large"` (= 24); `size="medium"` resolves to 16 and the bar reads asymmetric against the 24px leading back-arrow.
 * **`Toast` position + color.** Bottom-center only — `position: fixed; bottom: 0; left: 50%; transform: translateX(-50%)`. Horizontal safe area 8px (`sys.layout.container.xs`); max-width `min(400px, 100vw - 16px)`. Trailing Button MUST carry `appearance="inverse"` for both action (`text` / `small`) and dismiss (`icon` / `medium`) — default `primary` reads as unreadable primary-on-inverseSurface against the dark toast.
+* **`Tooltip` width is content-driven, capped at 300.** The bubble hugs its body (`width: max-content`) up to `min(300px, viewport - 16px)`; short copy renders narrow with the caret tight to the bubble, long copy wraps at the cap. **Tooltip copy is brief and intuitive at a glance** — a fragment, a one-line hint, an action label. Copy that routinely fills the 300 cap belongs in a Banner or Dialog. Never override `width` on the container.
+* **`Thumbnail` `outlined` for image / tonal hosts.** Reach for `outlined={true}` whenever the Thumbnail sits on something other than a clean `surface*` tier: half-overlaps a cover image (ProfileHeader avatar, ProfileCarousel avatar, any Hero), sits on a brand-tonal or `*Container` fill, sits on a dark photo / pattern / video, or overlaps an adjacent avatar. **Skip** on plain `surface*` rows (List / Feed / SuggestionList leading) — the halo paints `surface`-on-`surface` and is invisible. Painted as outset `box-shadow`, never `border:`; the rung's diameter never changes.
+* **`List variant="entry"` thumbnail is optional per row.** Drop `thumbnail` from a row descriptor and the leading column collapses — label sits flush at the 16 inline rail. Mix-and-match per row is supported. The same sub now hosts entity rows (with avatar), nav-option rows (with trailing chevron Icon Button), and label-only rows. For pure label-only nav stacks, `NavList` bundles this shape under a header.
 * **Image-area placeholder.** `/placeholder.png` is the canonical served-path contract. The dataURL inlined in `styles.css` is a runtime `<img>` safety net for `<img>` load failures only — external renderers that don't load `styles.css` resolve via the served path. Never rename to `placeholder_thumbnail.png` or any variant. See `AGENTS.md` rule #9 for the full contract.
 
 ### Token strictness (no literals)
@@ -344,6 +347,7 @@ See the **★ Layout-Type & Padding Contract** at the top of this doc for the fu
   * **Border:** `border: 1px solid #...` — width is `sys.borderWidth.hairline` (1) / `thin` (2), color is `sys.color.outlineVariant` / `outline`. And on surfaces, prefer inset shadow over `border:`.
 * **Three authorized exceptions** (per `DESIGN.md § Adapting Chorus`): (1) **intrinsic geometry** naming component anatomy — Thumbnail `48px`, Tooltip `min-height: 32px`, icon `16px`; (2) **computed compositions** combining tokens in `calc()` — e.g. `calc(48px + var(--sys-layout-inline-lg))`; (3) **structural `0` / `100%` / `auto`**. Anything else is a token call. No-token value? Flag a "Chorus gap" rather than inlining.
 * **No fallbacks:** No `var(--sys-*, 16px)`. Surface gaps explicitly.
+* **Semantic glyph colour — use `sys.color.icon.*`, not `ref.palette.*`.** Standalone semantic glyphs (favourite star, alert mark, live-status dot, AI / feature flag) MUST resolve through the dedicated icon palette: `sys.color.icon.muted` (quiet / inactive), `sys.color.icon.yellow` (favourited / warning), `sys.color.icon.red` (alert / critical outside `sys.color.error`), `sys.color.icon.blue` (informational / link), `sys.color.icon.green` (success / live outside `sys.color.success`), `sys.color.icon.purple` (AI / feature flag — the system's only purple role). The palette is tuned for **neutral `surface*` hosts only** — never on a colour-tinted host (`primary` / `error` / `brand` / `*Container`); on those, the host's `on*` pair is the only valid foreground. Reaching past sys into `ref.palette.yellow.500` etc. is forbidden (the previous Star/heart bindings have all moved off `ref.palette.*`).
 
 ### Component selection by intent
 
@@ -352,15 +356,15 @@ First-pass intent → component map. Binding for `visualReuse: "locked"` familie
 | User intent / phrase | Target Chorus component | Configuration / variants |
 | :--- | :--- | :--- |
 | "top bar / app bar / title bar" | `NavigationBar` | `variant="home" \| "page" \| "search"` |
-| "section heading / labelled block" | `Header` | `size="large" \| "medium"` + `headerAction` (Text Button) or `trailingIcon` (drill-in chevron). Used automatically inside Carousel. |
+| "section heading / labelled block" | `Header` | `size="large" \| "medium"` + one trailing mode: `headerAction` (Text Button) / `trailingIcon` (drill-in chevron Icon Button) / `headerDropdown` (Text Button dropdown — label IS the current value, chevron flips on `open`). Or `label` alone for a heading-only row. Used automatically inside Carousel. |
 | "header card / summary card / labelled editorial collection" | `Carousel` | Includes `label` + optional `headerAction` (forwarded to Header internally) |
 | "article card / post card / feed" | `Feed` | Uses `channel`, `title`, `body`, `thumbnail`, `engagement` slots |
 | "ad card / sponsored card" | `FeedAd` | - |
-| "company / settings / picker / menu row" | `List` | `Thumbnail` leading where appropriate |
-| "drill-in row" | `List` | `variant="nav"` (forces trailing chevron) |
+| "company / settings / picker / menu row" | `List` | `variant="entry"` — Thumbnail leading where appropriate; **drop `thumbnail` per row** to collapse the leading column for label-only rows. |
+| "drill-in row" | `List` | `variant="entry"` (drop `thumbnail` if label-only) + trailing chevron `<Button variant="icon" icon={<ChevronRightIcon />} />` per row. The older `variant="nav"` still ships for inline drill-in rails (settings, BottomSheet) — both are valid; pick by whether you need a leading thumbnail option (entry) or a fixed chevron-only rail (nav). |
 | "single-select picker" | `List` | `variant="radio"` |
-| "vertical follow-roster / 'people you may know' / browse channels" | `DirectoryList` | Header + `List variant="entry" size="large"`. Sibling of SuggestionList. |
-| "vertical label-only nav block / category index / settings menu" | `NavList` | Header + `List variant="nav"`. No leading thumbnail. |
+| "vertical follow-roster / 'people you may know' / browse channels" | `DirectoryList` | **Preset over `<Header /> + <List variant="entry" size="large" divider={false} />`** that maps `name → label`, `followers → secondary`, `active/onToggle → trailingIcon`. Reach for it when the canonical Follow-able shape matches verbatim; **drop down to the primitives** for any divergence (different rung, mixed label-only + thumbnail rows, swapped trailing affordance). |
+| "vertical label-only nav block / category index / settings menu" | `NavList` | **Preset over `<Header /> + <List variant="entry" />`** rendered label-only (no thumbnail) with a default chevron Icon Button trailing. `supportingText → description`. Drop down to the primitives for any divergence (mixing label-only and thumbnail rows, swapped trailing affordance). |
 | "follow-suggestion block (swipeable)" | `SuggestionList` | - |
 | "horizontal avatar quick-nav" | `AvatarRail` | - |
 | "sticky stage tabs" | `Tabs` | `variant="underline"` |
@@ -381,6 +385,7 @@ First-pass intent → component map. Binding for `visualReuse: "locked"` familie
 
 * **Primary commit:** `<Button>` (standard, filled).
 * **"See all" / inline links:** `<Button variant="text" appearance="accent">`.
+* **Inline / toolbar dropdown (sort / filter / range trigger):** `<Button variant="text" size="xsmall" trailingIcon={open ? <ChevronUpIcon /> : <ChevronDownIcon />} aria-haspopup="listbox" aria-expanded={open} aria-controls={menuId} onClick={…}>{currentValue}</Button>`. The label IS the current selected value ("Top", "Last 7 days") — never a static verb. Chevron flips between `ChevronDownIcon` (rest) and `ChevronUpIcon` (open) as a state signal, never frozen on Down when expanded. Consumer owns the menu surface (portal). Header surfaces this as the `headerDropdown` mode for in-Header trailing dropdowns.
 * **Icon-only:** `<Button variant="icon">`.
 * **Floating canonical commit:** `<Button variant="fab">`.
 * **Prohibited:** Never raw `<button>`, raw `<a>`, or styled `<div>` for actions.
