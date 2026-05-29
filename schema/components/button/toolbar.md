@@ -8,7 +8,7 @@ Dense inline action — a 32-tall capsule for toolbars, table-row actions, and i
 
 ## Default
 
-Base shape — label-only on Filter-chip chrome.
+Base shape — label-only on Filter-chip chrome. The quiet inline action.
 
 ```preview
 button/toolbar/default
@@ -52,7 +52,7 @@ import { Button } from '@blind-dsai/ui';
 
 ### With icon
 
-Context glyph before the label — tag for "Filters", calendar for "Pick date".
+Context glyph before the label — tag for *Filters*, calendar for *Pick date*.
 
 ```preview
 button/toolbar/leading-icon

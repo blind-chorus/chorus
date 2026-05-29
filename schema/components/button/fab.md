@@ -1,12 +1,14 @@
 # FAB
 
-Floating action button — surface-elevated commit anchored to the canvas, reachable while content scrolls. Use as the *single* headline action of a scrollable canvas; prefer [Standard Button](./standard.md) when the action lives inline with content. Independent contract: single fixed rung, label and icon both optional (at least one present), pill geometry (`sys.radius.full`), floating elevation (`sys.elevation.floating`).
+Floating action button — surface-elevated commit anchored to the canvas, reachable while content scrolls. Single fixed rung with a pill geometry (`sys.radius.full`) and floating elevation (`sys.elevation.floating`); label and icon both optional, at least one present.
 
-**Layout inset.** `inline` — ships no padding outside its own pill chrome. Sits inside an overlay container anchoring it to the canvas (fixed positioner, bottom-right docked layer) with the host paying the offset to the page rail and safe-area inset. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
+**Reach for this when** the canvas needs a single headline action that survives scroll — Compose, Add, Create. **Skip when** the action lives inline with content (use [Standard Button](./standard.md)) or the row is a dense toolbar ([Toolbar Button](./toolbar.md)).
 
-## Primary
+**Layout inset.** inline — ships no padding outside its own pill chrome. Sits inside an overlay container anchoring it to the canvas (fixed positioner, bottom-right docked layer) with the host paying the offset to the page rail and safe-area inset. Inside a bounded surface (Card / Dialog / BottomSheet / Sheet), the host already owns the inset — see [`AGENTS.md` § Composition rules](../../../AGENTS.md#composition-rules).
 
-Brand-red fill anchoring the canvas's headline action.
+## Default
+
+Brand-red fill anchoring the canvas's headline action — `appearance="primary"`. One per scrollable canvas.
 
 ```preview
 button/fab/primary
@@ -23,9 +25,11 @@ import { PlusIcon } from '@blind-dsai/ui/icons';
 </Button>
 ```
 
-## Secondary
+## Use cases
 
-Theme-toned FAB that defers to the canvas's surface tones. Reach for it when a brand-red FAB would over-claim the page hierarchy.
+### Secondary
+
+Theme-toned FAB that defers to the canvas's surface tones. Reach for it when a brand-red FAB would over-claim the page hierarchy (filtered map, image-rich feed).
 
 ```preview
 button/fab/secondary
@@ -41,8 +45,6 @@ import { PlusIcon } from '@blind-dsai/ui/icons';
   Compose
 </Button>
 ```
-
-## Use cases
 
 ### Icon
 
@@ -110,21 +112,21 @@ import { PlusIcon } from '@blind-dsai/ui/icons';
 </Button>
 ```
 
-## Appearance
-
-Two appearances on the standard [Button](./button.md) emphasis ladder — `primary` for the canvas headline commit, `secondary` for the quieter alternative.
-
-| Appearance  | Background                       | Label / icon color   | When to reach for it                                                                              |
-|-------------|----------------------------------|----------------------|---------------------------------------------------------------------------------------------------|
-| `primary`   | `sys.color.brand`                | `sys.color.onBrand`  | Brand-red commit anchoring the canvas's next step (Compose, Add, Create). FAB wears `brand` (red) rather than `color.primary` (blue) — the screen's single high-attention moment. |
-| `secondary` | `sys.color.surfaceContainerHigh` | `sys.color.onSurface` | Theme-toned alternative on dense/chromatic canvases (filtered map, image-rich feed) where brand-red would over-claim. |
-
 ## Slots
 
 - **icon** (optional) — 24px glyph. Inherits foreground via `currentColor` per the [family rule](./button.md#icon-colour-inheritance-family-wide).
 - **label** (optional) — short verb phrase. Internally padded so the glyph never crowds the rounded ends.
 
 At least one must be present — combinations: [Icon](#icon), [Text](#text), [Extended](#extended).
+
+## Appearance
+
+Two appearances on the standard [Button](./button.md) emphasis ladder — `primary` for the canvas headline commit, `secondary` for the quieter alternative. FAB wears `brand` (red) rather than `color.primary` (blue) — the screen's single high-attention moment.
+
+| Appearance  | Background                       | Label / icon color   | When to reach for it                                                                              |
+|-------------|----------------------------------|----------------------|---------------------------------------------------------------------------------------------------|
+| `primary`   | `sys.color.brand`                | `sys.color.onBrand`  | Brand-red commit anchoring the canvas's next step (Compose, Add, Create). |
+| `secondary` | `sys.color.surfaceContainerHigh` | `sys.color.onSurface` | Theme-toned alternative on dense/chromatic canvases where brand-red would over-claim. |
 
 ## Sizes
 
@@ -156,4 +158,4 @@ The focus ring is a `position: absolute` pseudo-element stacked above the FAB's 
 
 ## Focus indicator
 
-**Composition: Outward** — standard ring on a `::after` overlay above the FAB's `box-shadow`. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).
+Standard outward ring on a `::after` overlay above the FAB's `box-shadow`. Trigger: `:focus-visible`. See [Focus ring composition](../../DESIGN.md#focus-ring-composition).

@@ -1,14 +1,14 @@
 # Text
 
-The link-shaped commit surface — reads as text at rest, paints a button-like hover overlay and focus ring on interaction.
+The link-shaped commit surface — reads as text at rest, paints a button-like hover overlay and focus ring on interaction. Two axes: **appearance** (`default` / `accent` / `onPrimary` / `inverse`), **size** (`medium` / `small` / `xsmall`).
 
-**Reach for this when** the action is inline next to typographic content and commits — "Skip", "Edit", "Resend", a section's trailing "See all". **Skip when** the affordance navigates — use [Text link](../../DESIGN.md#text-links).
+**Reach for this when** the action is inline next to typographic content and commits — *Skip*, *Edit*, *Resend*, a section's trailing *See all*. **Skip when** the affordance navigates — use [Text link](../../DESIGN.md#text-links).
 
 **Layout inset.** inline — optical alignment is on by default, so the visible label box *is* the layout box; chrome bleeds outward only on hover.
 
 ## Default
 
-Neutral label (`onSurfaceVariant`) in a transparent capsule.
+Neutral label (`onSurfaceVariant`) in a transparent capsule — the base inline action ("Not now", trailing dismissals).
 
 ```preview
 button/text/default
@@ -18,9 +18,11 @@ import { Button } from '@blind-dsai/ui';
 <Button variant="text">Not now</Button>
 ```
 
-## Accent
+## Use cases
 
-Brand-blue label (`primary`) — the inline commit. Reach for `accent` when the button reads as a navigational link (`See all`, `Follow`, `View details`).
+### Accent
+
+Brand-blue label (`primary`) — the inline commit. Reach for `accent` when the button reads as a navigational link (*See all*, *Follow*, *View details*).
 
 ```preview
 button/text/accent
@@ -29,8 +31,6 @@ import { Button } from '@blind-dsai/ui';
 
 <Button variant="text" appearance="accent">Skip</Button>
 ```
-
-## Use cases
 
 ### On primary
 
@@ -70,7 +70,7 @@ import { Button, ChevronLeftIcon } from '@blind-dsai/ui';
 
 ### With trailing icon
 
-Destination glyph after the label — chevron-right "Continue", external-link "Open in new tab".
+Destination glyph after the label — chevron-right *Continue*, external-link *Open in new tab*.
 
 ```preview
 button/text/trailing-icon
@@ -82,9 +82,9 @@ import { Button, ChevronRightIcon } from '@blind-dsai/ui';
 
 ### Dropdown
 
-Disclosure-trigger pattern: the label reads as the **current value**, the trailing chevron flips to signal open / closed — `ChevronDownIcon` at rest, `ChevronUpIcon` while a menu is expanded. Pair `aria-haspopup="listbox"` (or `"menu"`) + `aria-expanded` on the trigger; render the menu in a portal so it can escape any clipping ancestor. The chevron is a **state signal**, not decoration — never freeze it on `ChevronDownIcon` when the menu is open.
+Disclosure trigger: the label reads as the **current value**, the trailing chevron flips with state — `ChevronDownIcon` at rest, `ChevronUpIcon` while the menu is open. Pair `aria-haspopup` + `aria-expanded` on the trigger and portal the menu so it escapes any clipping ancestor; never freeze the chevron when the menu is open.
 
-Default rung is `xsmall` for inline / toolbar dropdowns (preview-stage Size selector, filter chrome, header trailing). Step up to `small` or `medium` when the dropdown is the row's primary commit.
+Default rung is `xsmall` for inline / toolbar dropdowns (Size selectors, filter chrome, header trailing). Step up to `small` or `medium` when the dropdown is the row's primary commit.
 
 ```preview
 button/text/dropdown
