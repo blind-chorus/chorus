@@ -174,6 +174,10 @@ export const NAV = [
        component or sub. */
     items: [
       {
+        href: '/components/avatar-rail',
+        label: 'Avatar rail',
+      },
+      {
         href: '/components/badge',
         label: 'Badge',
       },
@@ -203,12 +207,12 @@ export const NAV = [
         ],
       },
       {
-        href: '/components/suggestion-list',
-        label: 'Suggestion list',
-      },
-      {
-        href: '/components/avatar-rail',
-        label: 'Avatar rail',
+        href: '/components/carousel',
+        label: 'Carousel',
+        subs: [
+          { href: '/components/carousel/post',    label: 'Post' },
+          { href: '/components/carousel/profile', label: 'Profile' },
+        ],
       },
       {
         href: '/components/chip',
@@ -243,9 +247,9 @@ export const NAV = [
         label: 'Form field',
         subs: [
           { href: '/components/form-field/input', label: 'Input' },
-          { href: '/components/form-field/textarea', label: 'Textarea' },
           { href: '/components/form-field/search', label: 'Search bar' },
           { href: '/components/form-field/select', label: 'Select' },
+          { href: '/components/form-field/textarea', label: 'Textarea' },
         ],
       },
       {
@@ -294,14 +298,6 @@ export const NAV = [
         label: 'Progress',
       },
       {
-        href: '/components/carousel',
-        label: 'Carousel',
-        subs: [
-          { href: '/components/carousel/post',    label: 'Post' },
-          { href: '/components/carousel/profile', label: 'Profile' },
-        ],
-      },
-      {
         href: '/components/side-sheet',
         label: 'Side sheet',
       },
@@ -312,6 +308,10 @@ export const NAV = [
       {
         href: '/components/status-tag',
         label: 'Status tag',
+      },
+      {
+        href: '/components/suggestion-list',
+        label: 'Suggestion list',
       },
       {
         href: '/components/switch',
