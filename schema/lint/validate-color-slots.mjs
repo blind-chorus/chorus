@@ -28,21 +28,21 @@ const STRICT = process.argv.includes("--strict");
 
 // Family slug → list of CSS-class prefixes that match this family's
 // children. Used to map "I see `.chorus-foo__bar`" back to "family is
-// `foo`". When a family ships multiple class roots (e.g. section also
-// renders into post-carousel / profile-carousel) the list covers all.
+// `foo`". When a family ships multiple class roots (carousel hosts both
+// post and profile subs under their own class roots), the list covers all.
 const FAMILY_CLASS_PREFIXES = {
   "avatar-rail": [".chorus-avatar-rail"],
   badge: [".chorus-badge"],
   banner: [".chorus-banner"],
   "bottom-sheet": [".chorus-bottom-sheet"],
   button: [".chorus-button"],
+  carousel: [".chorus-section", ".chorus-carousel", ".chorus-post-carousel", ".chorus-profile-carousel"],
   chip: [".chorus-chip"],
   dialog: [".chorus-dialog"],
   feed: [".chorus-feed", ".chorus-feed-ad", ".chorus-feed-group"],
   "form-field": [".chorus-form-field", ".chorus-field"],
   list: [".chorus-list"],
   "navigation-bar": [".chorus-navigation-bar"],
-  section: [".chorus-section", ".chorus-post-carousel", ".chorus-profile-carousel"],
   "suggestion-list": [".chorus-suggestion-list"],
   "tab-bar": [".chorus-tab-bar"],
   tabs: [".chorus-tabs", ".chorus-tab"],

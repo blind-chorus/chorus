@@ -53,7 +53,7 @@
         "leading": "info",
         "tone": "muted"
       },
-      "note": "Persistent informational notice strip at the bottom of the scroll. Non-modal — do not model as a `toast`."
+      "note": "Persistent informational notice pinned at the bottom of the scroll. Non-modal — do not model as a `toast`."
     }
   },
   "rules": [

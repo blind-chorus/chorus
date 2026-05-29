@@ -57,7 +57,7 @@
         "leading": "warning",
         "tone": "muted"
       },
-      "note": "Inline coaching banner — soft surface, secondary text color. Not modal."
+      "note": "Inline coaching banner sitting in the form stack, soft surface, secondary text color. Not modal."
     },
     "options": {
       "family": "button",
@@ -67,7 +67,7 @@
         "size": "medium",
         "checked": false
       },
-      "note": "Option-toggle on the sunken surface band. Paired with the right-aligned `hideCompanyName` region — the two rows intentionally differ in alignment ('Invisible to Coworkers' leads with a soft band; 'Hide company name' is right-aligned for de-emphasis). Do not normalize."
+      "note": "Option-toggle row on the sunken surface band. Paired with the right-aligned `hideCompanyName` region — the two rows intentionally differ in alignment ('Invisible to Coworkers' leads with a soft band; 'Hide company name' is right-aligned for de-emphasis). Do not normalize."
     },
     "hideCompanyName": {
       "family": "button",

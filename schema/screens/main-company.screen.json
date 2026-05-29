@@ -47,7 +47,7 @@
         "body": "Company-wide updates, reviews, and pulse data live here. Tap to collapse.",
         "collapsible": true
       },
-      "note": "Collapsible Overview banner. Soft surface, not modal. Trailing chevron-down collapses the body."
+      "note": "Collapsible Overview banner stacked beneath the scope chip row. Soft surface, not modal. Trailing chevron-down collapses the body."
     },
     "body": {
       "family": "feed",

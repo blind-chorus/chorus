@@ -22,7 +22,7 @@
         "body": "An item that lets you post URL-containing posts to specific channels. A special label appears in front of the post title so it stands out in the feed.",
         "tone": "primary"
       },
-      "note": "Description banner on pale-primary surface with primary foreground. Three-line body explaining what the item does and the resulting feed treatment. Preview illustration above this region is decorative chrome (a mock post card with promotion eyebrow + link card) — modeled in `description.note` rather than as a separate region because it carries no live data."
+      "note": "Description banner sitting in the sheet's content stack on pale-primary surface with primary foreground. Three-line body explaining what the item does and the resulting feed treatment. Preview illustration above this region is decorative chrome (a mock post card with promotion eyebrow + link card) — modeled in `description.note` rather than as a separate region because it carries no live data."
     },
     "products": {
       "family": "list",
@@ -49,7 +49,7 @@
         "body": "Suited for sole proprietors, meetup organizers, and others who want to amplify a post to a wider audience effectively.",
         "tone": "muted"
       },
-      "note": "Pre-purchase disclosure block. Title + secondary body on a muted surface."
+      "note": "Pre-purchase disclosure banner in the sheet's content stack, beneath the pricing row group. Title + secondary body on a muted surface."
     },
     "ctaPrimary": {
       "family": "button",

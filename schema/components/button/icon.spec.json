@@ -87,9 +87,9 @@
   },
   "customGlyphColor": {
     "allowed": true,
-    "description": "Outside the named `default` / `inverse` appearances, the glyph colour is open — the icon inherits `currentColor`, so any Chorus palette token can be applied via inline `color` (e.g. `style={{ color: 'var(--ref-palette-yellow-500)' }}` for an active favorite star, `var(--sys-color-success)` for a confirm check). State overlays still mix from the same token at the standard `sys.state.*` opacities, so hover / pressed / focus carry over without per-host tuning.",
+    "description": "Outside the named `default` / `inverse` appearances, the glyph colour is open — the icon inherits `currentColor`, so any Chorus palette token can be applied via inline `color` (e.g. `style={{ color: 'var(--ref-palette-yellow-500)' }}` for an active favorite star, `var(--sys-color-success)` for a confirm check). State overlays still mix from the same token at the standard `hovered`/`pressed`/`focused` state opacities, so hover / pressed / focus carry over without per-host tuning.",
     "constraints": [
-      "Pick from `sys.color.*` (theme-aware) or `ref.palette.*` (literal); no raw hex, no Tailwind colour utilities.",
+      "Pick a theme-aware system color token (e.g. `sys.color.success`) or a literal palette ref (e.g. `ref.palette.yellow.500`); no raw hex, no Tailwind colour utilities.",
       "Override the icon's `color` only — never `background`, never wrap in another element to restyle.",
       "Reach for a custom colour when the glyph itself carries semantic weight (favorite, success, warning, brand-tinted host). Otherwise stick to `default` / `inverse`.",
       "The `destructive` flavor (`sys.color.error`) is a named convenience for the same pattern."

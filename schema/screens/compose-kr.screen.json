@@ -48,7 +48,7 @@
         "input": "",
         "placeholder": "Please enter a title"
       },
-      "note": "Title input — `sys.typo.heading.md` bold, no chrome."
+      "note": "Title input row — `sys.typo.heading.md` bold, no chrome. First member of the form stack."
     },
     "body": {
       "family": "form-field",
@@ -58,7 +58,7 @@
         "placeholder": "Posts judged off-topic by other users and reported may be auto-hidden. Posts containing illegal uploads or distribution may be permanently restricted.",
         "multiline": true
       },
-      "note": "Body input — placeholder doubles as policy guidance."
+      "note": "Body input row in the form stack — placeholder doubles as policy guidance."
     },
     "mentionHelper": {
       "family": "list",

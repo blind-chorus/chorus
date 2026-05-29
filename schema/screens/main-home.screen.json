@@ -37,7 +37,7 @@
         "body": "Open roles on the Chorus team — read the brief.",
         "dismissible": true
       },
-      "note": "Recruiter promo banner. Soft surface, not modal."
+      "note": "Recruiter promo banner — first member of the page-top banner stack above the feed. Soft surface, not modal."
     },
     "keyword": {
       "family": "banner",
@@ -46,7 +46,7 @@
         "dismissible": true,
         "leading": "bell"
       },
-      "note": "Keyword-subscription banner variant: bell leading, X trailing. Sits directly under the promo banner — keep them as two discrete banners, do not fuse."
+      "note": "Keyword-subscription banner variant in the page-top banner stack: bell leading, X trailing. Sits directly under the promo banner — keep them as two discrete banners, do not fuse."
     },
     "body": {
       "family": "feed",

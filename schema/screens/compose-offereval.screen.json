@@ -48,7 +48,7 @@
         "input": "",
         "placeholder": "Write a specific title"
       },
-      "note": "Title input — `sys.typo.heading.md` bold, no chrome."
+      "note": "Title input row — `sys.typo.heading.md` bold, no chrome. First member of the form stack."
     },
     "body": {
       "family": "form-field",
@@ -58,7 +58,7 @@
         "placeholder": "Keep it relevant. If the community flags your post for going off topic it will be invisible to the community.",
         "multiline": true
       },
-      "note": "Body input, separated from title by a hairline divider. Multiline. Placeholder is also coaching copy."
+      "note": "Body input row in the form stack, separated from title by a hairline divider. Multiline. Placeholder is also coaching copy."
     },
     "mentionHelper": {
       "family": "list",
@@ -102,7 +102,7 @@
         "size": "medium",
         "checked": false
       },
-      "note": "Option-toggle on the sunken surface band. Uses `button/check` medium (24px checkbox, 12-rank label) — same component as [[compose]] and [[compose-kr]]."
+      "note": "Option-toggle row on the sunken surface band. Uses `button/check` medium (24px checkbox, 12-rank label) — same component as [[compose]] and [[compose-kr]]."
     },
     "toolbar": {
       "family": "button",
