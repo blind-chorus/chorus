@@ -372,6 +372,8 @@ First-pass intent → component map. Binding for `visualReuse: "locked"` familie
 | "filter chip row" | `Chip` | `variant="filter"` |
 | "tag pill" | `Chip` | `variant="tag"` |
 | "insight / aside / banner" | `Banner` | `variant="default" \| "accent"` |
+| "always-on annotation bubble pointing at an icon" | `Bubble` | Persistent pill + caret. Distinct from Tooltip: never overlays neighbours. Host owns positioning (zero gap to anchor, tail tip on anchor centreX, ≥ 8 from viewport edges, `tailAlign` follows anchor side). |
+| "heavy section-break band between regions" | `Divider` | Full-bleed `scrimSubtle` band, 8 tall. For row-level separators inside a List use the list's own `divider={true}` hairline. |
 | "confirmation prompt" | `Dialog` *(locked)* | - |
 | "one-thumb action sheet" | `BottomSheet` *(locked)* | - |
 | "off-canvas drawer / side panel" | `SideSheet` *(locked)* | Compose with `Header` (medium) + `List` (thumbnail, compact) inside `SideSheetGroup`; `anchor="left" \| "right"` |
