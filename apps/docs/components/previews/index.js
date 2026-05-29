@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { asset } from '../../lib/asset';
-import { Accordion, Badge, BottomSheet, Button, Banner, Metadata, SuggestionList, DirectoryList, Divider, NavList, AvatarRail, Carousel, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, Header, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, ProfileHeader, SideSheet, SideSheetGroup, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
+import { Accordion, Badge, BottomSheet, Bubble, Button, Banner, Metadata, SuggestionList, DirectoryList, Divider, NavList, AvatarRail, Carousel, Chip, Dialog, Tabs, Tab, Feed, FeedAd, FeedGroup, FormField, FormFieldGroup, Header, List, NavCard, NavCardGroup, NavigationBar, PostCarousel, Progress, ProfileCarousel, ProfileHeader, SideSheet, SideSheetGroup, Skeleton, SkeletonGroup, StatusTag, Switch, TabBar, Thumbnail, Toast, Tooltip } from '@blind-dsai/ui';
 import { PlusIcon, PlusSquareFillIcon, ChevronLeftIcon, ChevronDownIcon, ChevronUpIcon, BookmarkIcon, BookmarkFillIcon, BriefcaseIcon, BriefcaseFillIcon, ChatIcon, ChatFillIcon, CheckedIcon, XIcon, BuildingIcon, BuildingFillIcon, ArrowDownIcon, ChevronRightIcon, HeartIcon, HomeIcon, HomeFillIcon, LocationIcon, MentionIcon, EllipsisHorizontalIcon, BellIcon, BellFillIcon, ProfileIcon, ProfileFillIcon, PulseIcon, SearchIcon, SearchFillIcon, StarIcon, StarFillIcon, TagIcon } from '@blind-dsai/ui/icons';
 
 /* Imagery for the community-feed previews. URLs point at Unsplash's CDN
@@ -344,6 +344,114 @@ function buttonPreview(appearance, label) {
 }
 
 export const PREVIEWS = {
+  /* Bubble — always-on annotation pill with a caret/tail. The default
+     preview shows the canonical body alone; the anchored, long-copy,
+     and re-tint previews exercise the host-positioning, truncation,
+     and `--bubble-fill` / `--bubble-ink` runtime overrides. */
+  'bubble/default': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Bubble>5 new messages + gift</Bubble>
+      </Frame>
+    ),
+  },
+
+  /* Anchored to a top-bar icon — composes the canonical Home navigation
+     bar with three trailing actions (Search / Chat / Profile) and parks
+     the bubble below the Chat icon column. Both anchoring contracts in
+     action — top: 56px (NavigationBar home's min-height) for ZERO GAP
+     to the bar; right: 58px so the tail tip lands on the chat icon's
+     centreX (68 from bar right − 10 tail-internal-offset). */
+  'bubble/anchored-icon': {
+    states: false,
+    render: () => (
+      <Frame>
+        {/* `paddingBottom` extends the wrapper's box so the bubble (which
+            sits absolute below the bar) lives INSIDE the wrapper's height
+            — the `.component-preview-stage` has `overflow: hidden`, so a
+            bubble that overflowed the wrapper would get clipped at the
+            stage edge. */}
+        <div style={{ position: 'relative', paddingBottom: 'var(--sys-layout-stack-2xl)' }}>
+          <NavigationBar
+            variant="home"
+            title={
+              <img
+                src={asset("/blind_logotype_black.svg")}
+                alt="Chorus"
+                className="chorus-brand-logotype"
+                style={{ height: 24, width: 'auto', display: 'block' }}
+              />
+            }
+            trailingActions={[
+              { icon: <SearchIcon />,  'aria-label': 'Search' },
+              { icon: <ChatIcon />,    'aria-label': 'Messages' },
+              { icon: <ProfileIcon />, 'aria-label': 'Profile' },
+            ]}
+          />
+          {/* `display: flex` on the wrapper kills the default inline-flex
+              baseline alignment so the bubble starts at the wrapper's
+              content top, not 2px below it from line-box leading. */}
+          <div style={{
+            position: 'absolute',
+            top: '56px',
+            right: '58px',
+            display: 'flex',
+          }}>
+            <Bubble tailSide="top" tailAlign="end">5 new messages + gift</Bubble>
+          </div>
+        </div>
+      </Frame>
+    ),
+  },
+
+  /* Tail-alignment matrix — three bubbles in a column, each carrying a
+     short marketing nudge. `alignItems: 'flex-start'` keeps the bubbles
+     shrink-wrapped to their content (the default flex `stretch` would
+     pull them to the column's full width). The CSS-level viewport-safe
+     max-width remains in force so the bubbles still respect the 8 / 8
+     safe margin if the surrounding column ever pushes flush to the
+     viewport edge. */
+  'bubble/tail-positions': {
+    states: false,
+    render: () => (
+      <Frame>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 'var(--sys-layout-stack-md)' }}>
+          <Bubble tailSide="top" tailAlign="start">New here?</Bubble>
+          <Bubble tailSide="top" tailAlign="center">Try free</Bubble>
+          <Bubble tailSide="top" tailAlign="end">Today only</Bubble>
+        </div>
+      </Frame>
+    ),
+  },
+
+  'bubble/long-copy': {
+    states: false,
+    render: () => (
+      <Frame>
+        <div style={{ maxWidth: 220 }}>
+          <Bubble>A long campaign label that exceeds the bubble width and truncates with an ellipsis</Bubble>
+        </div>
+      </Frame>
+    ),
+  },
+
+  'bubble/recoloured': {
+    states: false,
+    render: () => (
+      <Frame>
+        <Bubble
+          style={{
+            '--bubble-fill': 'var(--sys-color-brand)',
+            '--bubble-ink': 'var(--sys-color-onBrand)',
+          }}
+        >
+          Free daily tarot
+        </Bubble>
+      </Frame>
+    ),
+  },
+
   /* Standard Button — headline appearance previews. */
   'button/standard/default':   buttonPreview('primary',   'Primary action'),
   'button/standard/secondary': buttonPreview('secondary', 'Secondary action'),

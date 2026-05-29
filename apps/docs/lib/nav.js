@@ -186,6 +186,10 @@ export const NAV = [
         label: 'Bottom sheet',
       },
       {
+        href: '/components/bubble',
+        label: 'Bubble',
+      },
+      {
         href: '/components/button',
         label: 'Button',
         subs: [

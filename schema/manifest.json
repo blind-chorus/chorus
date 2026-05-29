@@ -64,6 +64,7 @@
     { "family": "badge",          "root": "components/badge/badge.family.json" },
     { "family": "banner",         "root": "components/banner/banner.family.json" },
     { "family": "bottom-sheet",   "root": "components/bottom-sheet/bottom-sheet.family.json" },
+    { "family": "bubble",         "root": "components/bubble/bubble.family.json" },
     { "family": "button",         "root": "components/button/button.family.json" },
     { "family": "suggestion-list", "root": "components/suggestion-list/suggestion-list.family.json" },
     { "family": "avatar-rail",    "root": "components/avatar-rail/avatar-rail.family.json" },

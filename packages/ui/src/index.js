@@ -1,6 +1,7 @@
 export { Badge } from './Badge.jsx';
 export { Banner } from './Banner.jsx';
 export { BottomSheet } from './BottomSheet.jsx';
+export { Bubble } from './Bubble.jsx';
 export { Button } from './Button.jsx';
 export { SuggestionList } from './SuggestionList.jsx';
 export { DirectoryList } from './DirectoryList.jsx';

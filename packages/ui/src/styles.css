@@ -4794,6 +4794,105 @@ a.chorus-metadata__name:focus-visible {
 }
 
 /* ============================================================
+   Bubble — always-on annotation pill with a caret/tail pointing
+   at an anchor UI element. Sibling of Tooltip on the annotation
+   axis: Tooltip is the transient, high-priority, portal-mounted
+   explanation; Bubble is the persistent, lower-priority, inline-
+   positioned hint that never occludes neighbours. Distinct from
+   Tooltip on five visual axes — no elevation shadow, smaller
+   padding (4 / 6 vs 12 / 12), smaller font (caption.sm vs
+   caption.md), pill radius (vs rounded card), single-line
+   truncation (vs multi-line wrap with width cap). Two CSS custom
+   properties — `--bubble-fill` and `--bubble-ink` — are the
+   supported runtime override surface; the tail's `background:
+   inherit` follows automatically, so a single declaration
+   covers body and tail.
+============================================================ */
+.chorus-bubble {
+  --bubble-fill: var(--sys-color-primary);
+  --bubble-ink: var(--sys-color-onPrimary);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  /* Width cap is the lesser of two ceilings: (a) the host column's
+     own width (`100%`), and (b) the viewport minus the 8/8 safe
+     area (`sys.layout.container.xs` on each side). The second
+     ceiling is the hard-baked safety net — even if the host
+     mis-positions the bubble flush to the viewport edge, the bubble
+     can never grow wide enough to break the 8-token safe margin.
+     Position-clamping (preventing the *left* or *right* edge from
+     drifting into the safe area) remains a host responsibility,
+     spelled out in schema/components/bubble/bubble.md. */
+  max-width: min(100%, calc(100vw - 2 * var(--sys-layout-container-xs)));
+  padding-block: var(--sys-layout-container-2xs);
+  padding-inline: var(--ref-space-75);
+  border-radius: var(--sys-radius-full);
+  background: var(--bubble-fill);
+  color: var(--bubble-ink);
+  font-size: var(--sys-typo-caption-sm-size);
+  font-weight: var(--sys-typo-caption-sm-weight);
+  line-height: var(--sys-typo-caption-sm-line);
+  letter-spacing: var(--sys-typo-caption-sm-tracking);
+}
+
+/* Single-line body. `min-width: 0` is the standard flex-truncation
+   prerequisite — without it the ellipsis never engages because the
+   inline-flex parent grows to fit the body's intrinsic width. */
+.chorus-bubble__body {
+  display: block;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tail — 4 × 4 square rotated 45° so a diamond corner protrudes
+   from the bubble's edge. `background: inherit` so the tail
+   tracks `--bubble-fill` (including operations tints) without a
+   second declaration. Position matrix follows: tail-side (top /
+   bottom) sets which edge it sticks out of; tail-align (start /
+   center / end) shifts it along that edge. The `-2px` offset
+   (= -1 × ref.space.25) parks the rotated square so its diamond
+   tip ends up flush with the bubble edge. */
+.chorus-bubble__tail {
+  position: absolute;
+  width: var(--ref-space-50);
+  height: var(--ref-space-50);
+  background: inherit;
+}
+
+.chorus-bubble[data-tail-side="top"] .chorus-bubble__tail {
+  top: calc(-1 * var(--ref-space-25));
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+.chorus-bubble[data-tail-side="top"][data-tail-align="start"] .chorus-bubble__tail {
+  left: var(--ref-space-100);
+  transform: rotate(45deg);
+}
+.chorus-bubble[data-tail-side="top"][data-tail-align="end"] .chorus-bubble__tail {
+  left: auto;
+  right: var(--ref-space-100);
+  transform: rotate(45deg);
+}
+
+.chorus-bubble[data-tail-side="bottom"] .chorus-bubble__tail {
+  bottom: calc(-1 * var(--ref-space-25));
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+.chorus-bubble[data-tail-side="bottom"][data-tail-align="start"] .chorus-bubble__tail {
+  left: var(--ref-space-100);
+  transform: rotate(45deg);
+}
+.chorus-bubble[data-tail-side="bottom"][data-tail-align="end"] .chorus-bubble__tail {
+  left: auto;
+  right: var(--ref-space-100);
+  transform: rotate(45deg);
+}
+
+/* ============================================================
    Progress — linear progress bar (determinate + indeterminate)
 ============================================================ */
 /* Single visual rung — 8px tall, radius.full. Track paints with

@@ -1,0 +1,25 @@
+{
+  "$schema": "../../family.schema.json",
+  "family": "bubble",
+  "name": "Bubble",
+  "description": "Always-on annotation bubble — a small pill-shaped label with a tail that points at a specific UI element to flag attention (a chat icon with new messages, a search bar with a fresh keyword promotion, a tab with a campaign). Distinct from Tooltip on visual-priority and persistence: Tooltip is a *transient, high-priority* explanation that can overlay surrounding chrome on hover/focus; Bubble is *persistent, lower-priority* annotation that sits inline next to its anchor and never occludes neighbour elements. Reach for Bubble when a hint should remain in view as part of the UI's resting state (an editorial nudge, a feature-flag callout, a count summary tied to an icon); reach for Tooltip when the hint is an on-demand explanation invoked by interaction. Single-spec family.",
+  "useCases": [
+    "always-on label next to a top-bar icon",
+    "feature-flag / new-feature nudge anchored to a UI element",
+    "editorial copy promoted next to a search bar",
+    "count or status summary that needs more presence than a Badge dot",
+    "campaign / event flag that should read at rest, not on hover"
+  ],
+  "visualReuse": "open",
+  "layoutInset": "inline",
+  "wrapperGuidance": "Inline atom — Bubble owns its own padding, fill, tail, and a viewport-safe width cap (`max-width: min(100%, calc(100vw - 2 × sys.layout.container.xs))`), but ships no positioning. The host places the bubble (absolute / fixed / inline-flex next to the anchor) and owns four coupled decisions: (a) keep every bubble edge ≥8 (`sys.layout.container.xs`) from the viewport edge — visibility of the bubble is the contract; (b) **zero gap to the anchor** — the bubble's tail-bearing edge sits flush against the anchor's opposite edge; (c) **tail tip on the anchor's centreX** — the host computes the bubble's inline offset so that, after accounting for the tail's own `container.xs + half-tail` offset inside the bubble, the tail tip lands on the anchor's horizontal centreline; (d) pick `tailSide` (`top` if the bubble sits below the anchor, `bottom` if above) and `tailAlign` (`center` when the bubble centres under the anchor, `end` when it shifts left, `start` when it shifts right) so the tail-tip math agrees with (c). Do NOT wrap Bubble in a portal / fixed-position scrim — that would defeat the 'never occludes neighbours' contract that separates Bubble from Tooltip. Do NOT wrap Bubble in an `overflow: hidden` ancestor that clips it — fix the ancestor, not the bubble. Inside a bounded surface (Dialog / BottomSheet / SideSheet), apply the negative-margin opt-out only when the bubble needs to escape the host's content box.",
+  "spec": "bubble.md",
+  "subcomponents": [
+    {
+      "slug": "bubble",
+      "spec": "bubble.spec.json",
+      "md": "bubble.md",
+      "default": true
+    }
+  ]
+}
